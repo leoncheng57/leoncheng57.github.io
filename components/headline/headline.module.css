@@ -1,11 +1,24 @@
-@value colors: "../styles/colors.css";
+@value colors: "../../styles/colors.css";
 @value blueEmphasis from colors;
 
 .container {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1.5rem 0;
+}
+
+.container * {
+  text-align: center;
+}
+
+.imageWrapper {
+  width: 16rem;
+  height: 16rem;
+  border-radius: 100%;
+  position: relative;
+  margin: 1rem;
 }
 
 .container p {
