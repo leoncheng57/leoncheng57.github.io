@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import Headline from "../components/headline";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -13,13 +13,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Image alt="profile picture" src="/" width="100px" height="100px" />
-
-        <p>Hi, I'm Leon</p>
-
-        <p>I am a Fullstack Software Engineer.</p>
-
-        <p> I also enjoy UX design and rapid prototyping.</p>
+        <Headline />
       </main>
     </div>
   );
