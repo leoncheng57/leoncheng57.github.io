@@ -8,6 +8,14 @@
   align-items: center;
 }
 
+.imageWrapper {
+  width: 20rem;
+  height: 20rem;
+  border: 2px solid green;
+  border-radius: 100%;
+  position: relative;
+}
+
 .container p {
   margin: 0.6rem;
 }

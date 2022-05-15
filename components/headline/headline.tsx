@@ -5,7 +5,14 @@ import styles from "./headline.module.css";
 const Headline: NextPage = () => {
   return (
     <div className={styles.container}>
-      <Image alt="profile picture" src="/" width="100px" height="100px" />
+      <div className={styles.imageWrapper}>
+        <Image
+          alt="profile picture"
+          src="/profile-image.png"
+          layout="fill"
+          objectFit="contain"
+        />
+      </div>
 
       <p className={styles.hi}>Hi, I'm Leon</p>
 
