@@ -4,3 +4,19 @@
   flex-direction: column;
   align-items: center;
 }
+
+.hi {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.summary {
+}
+
+.summaryHighlight {
+  color: blue;
+  font-weight: 500;
+}
+
+.extra {
+}

@@ -7,11 +7,20 @@ const Headline: NextPage = () => {
     <div className={styles.container}>
       <Image alt="profile picture" src="/" width="100px" height="100px" />
 
-      <p>Hi, I'm Leon</p>
+      <p className={styles.hi}>Hi, I'm Leon</p>
 
-      <p>I am a Fullstack Software Engineer.</p>
+      <p className={styles.summary}>
+        I am a{" "}
+        <span className={styles.summaryHighlight}>
+          Fullstack Software Engineer
+        </span>
+        .
+      </p>
 
-      <p> I also enjoy UX design and rapid prototyping.</p>
+      <p className={styles.extra}>
+        {" "}
+        I also enjoy UX design and rapid prototyping.
+      </p>
     </div>
   );
 };
