@@ -8,6 +8,10 @@
   align-items: center;
 }
 
+.container * {
+  text-align: center;
+}
+
 .imageWrapper {
   width: 16rem;
   height: 16rem;
