@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main>
         <Image alt="profile picture" src="/" width="100px" height="100px" />
 
         <p>Hi, I'm Leon</p>
