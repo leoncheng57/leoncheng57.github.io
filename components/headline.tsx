@@ -17,7 +17,7 @@ const Headline: NextPage = () => {
         .
       </p>
 
-      <p className={styles.extra}>
+      <p className={styles.extraText}>
         {" "}
         I also enjoy UX design and rapid prototyping.
       </p>

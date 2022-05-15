@@ -1,3 +1,6 @@
+@value colors: "../styles/colors.css";
+@value blueEmphasis from colors;
+
 .container {
   border: 1px solid black;
   display: flex;
@@ -5,18 +8,23 @@
   align-items: center;
 }
 
+.container p {
+  margin: 0.6rem;
+}
+
 .hi {
-  font-size: 2rem;
+  font-size: 3.5rem;
   font-weight: 600;
 }
 
 .summary {
+  font-size: 1.5rem;
 }
 
 .summaryHighlight {
-  color: blue;
+  color: blueEmphasis;
   font-weight: 500;
 }
 
-.extra {
+.extraText {
 }
