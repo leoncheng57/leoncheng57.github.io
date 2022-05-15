@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Headline from "../components/headline/headline";
+import Social from "../components/social/social";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -14,6 +15,7 @@ const Home: NextPage = () => {
 
       <main>
         <Headline />
+        <Social />
       </main>
     </div>
   );
