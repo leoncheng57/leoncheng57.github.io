@@ -15,6 +15,11 @@ const Experiences = () => {
         <div className={styles.card}>
           <p>Fullstack Developer Intern @ Uplift</p>
           <p>Jun 2019 - Aug 2019 @ Menlo Park, CA</p>
+          <p>
+            text text text text text text text text text text text text text
+            text text text text text text text text text text text text text
+            text text text text text text text{" "}
+          </p>
         </div>
       </div>
     </div>
