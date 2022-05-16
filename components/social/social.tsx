@@ -6,14 +6,40 @@ const Social: NextPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.innerContainer}>
-        <p>hello hello, social here</p>
-        <div className={styles.iconImageWrapper}>
-          <Image
-            alt="github icon"
-            src="/icons/github-icon.svg"
-            height="50rem"
-            width="50rem"
-          />
+        <div className={styles.handle}>
+          <div className={styles.iconImageWrapper}>
+            <Image
+              alt="github icon"
+              src="/icons/github-icon.svg"
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
+          <p>https://github.com/leoncheng57/</p>
+        </div>
+
+        <div className={styles.handle}>
+          <div className={styles.iconImageWrapper}>
+            <Image
+              alt="linkedin icon"
+              src="/icons/linkedin-icon.svg"
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
+          <p>https://github.com/leoncheng57/</p>
+        </div>
+
+        <div className={styles.handle}>
+          <div className={styles.iconImageWrapper}>
+            <Image
+              alt="email icon"
+              src="/icons/email-icon.svg"
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
+          <p>https://github.com/leoncheng57/</p>
         </div>
       </div>
     </div>
