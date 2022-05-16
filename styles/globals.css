@@ -9,3 +9,8 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.GLOBALS-section {
+  padding: 1.5rem 0;
+  border: 1px solid green;
+}
