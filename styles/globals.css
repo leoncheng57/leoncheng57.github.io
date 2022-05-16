@@ -10,6 +10,7 @@ body {
   box-sizing: border-box;
 }
 
+/* This "GLOBAL" classname is used across multiple files */
 .GLOBALS-section {
   padding: 1.5rem 0;
 }
