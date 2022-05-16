@@ -15,6 +15,7 @@ const Home: NextPage = () => {
 
       <main>
         <Headline />
+        <hr />
         <Social />
       </main>
     </div>

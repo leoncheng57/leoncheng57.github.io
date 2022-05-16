@@ -1,17 +1,14 @@
 .container {
-  border: 1px solid gray;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .container .innerContainer {
-  border: 1px solid gray;
   max-width: 600px;
 }
 
 .handle {
-  border: 1px solid green;
   padding: 0.5rem 0;
   display: flex;
   flex-direction: row;
@@ -19,7 +16,7 @@
 }
 
 .handle p {
-  padding: 1rem;
+  padding: 0 10px;
 }
 
 .handle .iconImageWrapper {
