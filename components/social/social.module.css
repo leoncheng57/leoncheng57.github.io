@@ -17,10 +17,11 @@
 
 .handle p {
   padding: 0 10px;
+  margin: 0;
 }
 
 .handle .iconImageWrapper {
   position: relative;
-  width: 2rem;
-  height: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
