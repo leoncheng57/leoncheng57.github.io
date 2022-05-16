@@ -21,9 +21,21 @@
   border: 1px solid #d2d2d2;
   border-radius: 10px;
   padding: 1rem;
-
   flex-grow: 1;
-  width: 40%;
-  min-width: 200px;
+  /* 2 columns  */
+  width: calc(100% / 2 - 5%);
 }
+
+@media only screen and (max-width: 600px) {
+  .card {
+    /* 1 column */
+    width: 100%;
+  }
+}
+
 /* Grid styling (end) */
+
+.summaryText {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
