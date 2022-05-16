@@ -25,6 +25,20 @@ const Experiences = () => {
             text text text text text text text{" "}
           </p>
         </div>
+
+        <div className={styles.card}>
+          <p className={styles.summaryText}>
+            Fullstack Developer Intern @ Yext
+          </p>
+          <p>Jun 2020 - Aug 2020 @ New York, NY</p>
+        </div>
+
+        <div className={styles.card}>
+          <p className={styles.summaryText}>
+            Fullstack Developer Intern @ Yext
+          </p>
+          <p>Jun 2020 - Aug 2020 @ New York, NY</p>
+        </div>
       </div>
     </div>
   );
