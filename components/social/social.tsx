@@ -16,7 +16,9 @@ const Social: NextPage = () => {
               objectFit="contain"
             />
           </div>
-          <p>https://github.com/leoncheng57/</p>
+          <p>
+            <a href="https://github.com/leoncheng57/">leoncheng57 </a>
+          </p>
         </div>
 
         <div className={styles.handle}>
@@ -28,7 +30,9 @@ const Social: NextPage = () => {
               objectFit="contain"
             />
           </div>
-          <p>https://github.com/leoncheng57/</p>
+          <p>
+            <a href="https://www.linkedin.com/in/leoncheng57/">leoncheng57 </a>
+          </p>
         </div>
 
         <div className={styles.handle}>
@@ -40,7 +44,9 @@ const Social: NextPage = () => {
               objectFit="contain"
             />
           </div>
-          <p>https://github.com/leoncheng57/</p>
+          <p>
+            <a href="#">leonc@mit.edu</a>
+          </p>
         </div>
       </div>
     </div>
