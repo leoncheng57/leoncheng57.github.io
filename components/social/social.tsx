@@ -45,7 +45,7 @@ const Social: NextPage = () => {
             />
           </div>
           <p>
-            <a href="#">leonc@mit.edu</a>
+            <a href="mailto:leon@mit.edu">leonc@mit.edu</a>
           </p>
         </div>
       </div>
