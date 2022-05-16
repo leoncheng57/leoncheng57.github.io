@@ -1,3 +1,6 @@
+@value colors: "../../styles/colors.css";
+@value blueEmphasis from colors;
+
 .container {
   /* border: 1px solid black; */
   width: 80%;
@@ -21,9 +24,8 @@
 }
 
 .card {
-  border: 1px solid #d2d2d2;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
+  border: 1px dotted #d2d2d2;
+  border-radius: 10px;
   padding: 1rem;
 }
 
