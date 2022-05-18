@@ -1,11 +1,15 @@
-.sectionTitle {
+.sectionContainer {
+  padding: 1.5rem 0;
+}
+
+.sectionContainer > .sectionTitle {
   font-weight: 600;
   font-size: 2rem;
   margin: 1rem 0;
 }
 
 /* Grid styling (start) */
-.cardsWrapper {
+.sectionContainer > .cardsWrapper {
   display: grid;
   /* 2 columns  */
   grid-template-columns: repeat(2, 1fr);
@@ -15,14 +19,14 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .cardsWrapper {
+  .sectionContainer > .cardsWrapper {
     /* 2 columns  */
     grid-template-columns: repeat(1, 1fr);
   }
 }
 /* Grid styling (end) */
 
-.cardsWrapperSingleColumnOnly {
+.sectionContainer > .cardsWrapperSingleColumnOnly {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-auto-rows: 1fr;

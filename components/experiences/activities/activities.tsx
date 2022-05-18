@@ -3,7 +3,7 @@ import Card from "../_shared/card/card";
 
 const Activities = () => {
   return (
-    <div>
+    <div className={sharedStyles.sectionContainer}>
       <p className={sharedStyles.sectionTitle}>Activities</p>
 
       <div className={sharedStyles.cardsWrapper}>

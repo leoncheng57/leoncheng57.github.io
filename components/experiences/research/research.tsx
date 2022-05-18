@@ -3,7 +3,7 @@ import Card from "../_shared/card/card";
 
 const Research = () => {
   return (
-    <div>
+    <div className={sharedStyles.sectionContainer}>
       <p className={sharedStyles.sectionTitle}>Research</p>
 
       <div className={sharedStyles.cardsWrapperSingleColumnOnly}>

@@ -4,7 +4,7 @@ import Card from "../_shared/card/card";
 
 const Industry = () => {
   return (
-    <div>
+    <div className={sharedStyles.sectionContainer}>
       <p className={sharedStyles.sectionTitle}>Industry</p>
 
       <div className={sharedStyles.cardsWrapper}>
