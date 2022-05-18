@@ -1,13 +1,13 @@
 import styles from "./industry.module.css";
-import experiencesSharedStyles from "../experiencesShared.module.css";
-import Card from "../card";
+import sharedStyles from "../_shared/shared.module.css";
+import Card from "../_shared/card";
 
 const Industry = () => {
   return (
     <div>
-      <p className={experiencesSharedStyles.sectionTitle}>Industry</p>
+      <p className={sharedStyles.sectionTitle}>Industry</p>
 
-      <div className={experiencesSharedStyles.cardsWrapper}>
+      <div className={sharedStyles.cardsWrapper}>
         <Card
           summaryText={`Fullstack Software Engineer II @ Zoom`}
           details={`Aug 2021 - Present @ Remote `}
