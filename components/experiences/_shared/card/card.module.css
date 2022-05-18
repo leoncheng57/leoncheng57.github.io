@@ -1,0 +1,10 @@
+.card {
+  border: 1px dotted #d2d2d2;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.card > .summaryText {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
