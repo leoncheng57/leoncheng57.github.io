@@ -1,5 +1,6 @@
 import styles from "./industry.module.css";
 import experiencesSharedStyles from "../experiencesShared.module.css";
+import Card from "../card";
 
 const Industry = () => {
   return (
@@ -42,15 +43,6 @@ const Industry = () => {
           details={`??? - ??? @ New York, NY`}
         />
       </div>
-    </div>
-  );
-};
-
-const Card = (props: { summaryText: string; details: string }) => {
-  return (
-    <div className={experiencesSharedStyles.card}>
-      <p className={experiencesSharedStyles.summaryText}>{props.summaryText}</p>
-      <p>{props.details}</p>
     </div>
   );
 };

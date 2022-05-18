@@ -14,12 +14,6 @@
   grid-row-gap: 1rem;
 }
 
-.cardsWrapper > .card {
-  border: 1px dotted #d2d2d2;
-  border-radius: 10px;
-  padding: 1rem;
-}
-
 @media only screen and (max-width: 600px) {
   .cardsWrapper {
     /* 2 columns  */
@@ -27,8 +21,3 @@
   }
 }
 /* Grid styling (end) */
-
-.summaryText {
-  font-size: 1.2rem;
-  font-weight: 500;
-}
