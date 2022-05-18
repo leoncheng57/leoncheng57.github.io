@@ -7,56 +7,50 @@ const Industry = () => {
       <p className={experiencesSharedStyles.sectionTitle}>Industry</p>
 
       <div className={experiencesSharedStyles.cardsWrapper}>
-        <div className={experiencesSharedStyles.card}>
-          <p className={experiencesSharedStyles.summaryText}>
-            Fullstack Software Engineer II @ Zoom
-          </p>
-          <p>Aug 2021 - Present @ Remote </p>
-        </div>
+        <Card
+          summaryText={`Fullstack Software Engineer II @ Zoom`}
+          details={`Aug 2021 - Present @ Remote `}
+        />
 
-        <div className={experiencesSharedStyles.card}>
-          <p className={experiencesSharedStyles.summaryText}>
-            Primary Designer and Frontend Developer @ Stealth Startup in Cloud
-            Analytics
-          </p>
-          <p> ??? - ??? @ Cambridge, MA</p>
-        </div>
+        <Card
+          summaryText={`Primary Designer and Frontend Developer @ Stealth Startup in Cloud Analytics`}
+          details={`??? - ??? @ Cambridge, MA`}
+        />
 
-        <div className={experiencesSharedStyles.card}>
-          <p className={experiencesSharedStyles.summaryText}>
-            Fullstack Developer Intern @ Yext
-          </p>
-          <p>Jun 2020 - Aug 2020 @ New York, NY</p>
-        </div>
+        <Card
+          summaryText={`Fullstack Developer Intern @ Yext`}
+          details={`Jun 2020 - Aug 2020 @ New York, NY`}
+        />
 
-        <div className={experiencesSharedStyles.card}>
-          <p className={experiencesSharedStyles.summaryText}>
-            Fullstack Developer Intern @ Uplift
-          </p>
-          <p>Jun 2019 - Aug 2019 @ Menlo Park, CA</p>
-        </div>
+        <Card
+          summaryText={`Fullstack Developer Intern @ Uplift`}
+          details={`Jun 2019 - Aug 2019 @ Menlo Park, CA`}
+        />
 
-        <div className={experiencesSharedStyles.card}>
-          <p className={experiencesSharedStyles.summaryText}>
-            Backend Developer Intern @ Hosta Labs
-          </p>
-          <p>Jun 2020 - Aug 2020 @ Cambridge, MA</p>
-        </div>
+        <Card
+          summaryText={`Backend Developer Intern @ Hosta Labs`}
+          details={`Jun 2020 - Aug 2020 @ Cambridge, MA`}
+        />
 
-        <div className={experiencesSharedStyles.card}>
-          <p className={experiencesSharedStyles.summaryText}>
-            Web Developer Intern @ New York Life
-          </p>
-          <p>Jun 2016 - Aug 2016 @ New York, NY</p>
-        </div>
+        <Card
+          summaryText={`Web Developer Intern @ New York Life`}
+          details={`Jun 2016 - Aug 2016 @ New York, NY`}
+        />
 
-        <div className={experiencesSharedStyles.card}>
-          <p className={experiencesSharedStyles.summaryText}>
-            Civil Engineering Intern @ NYC Department of Design and Construction
-          </p>
-          <p>??? - ??? @ New York, NY</p>
-        </div>
+        <Card
+          summaryText={`Civil Engineering Intern @ NYC Department of Design and Construction`}
+          details={`??? - ??? @ New York, NY`}
+        />
       </div>
+    </div>
+  );
+};
+
+const Card = (props: { summaryText: string; details: string }) => {
+  return (
+    <div className={experiencesSharedStyles.card}>
+      <p className={experiencesSharedStyles.summaryText}>{props.summaryText}</p>
+      <p>{props.details}</p>
     </div>
   );
 };
