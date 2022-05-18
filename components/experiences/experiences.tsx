@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import styles from "./experiences.module.css";
+import Research from "./research/research";
 
 const Experiences = () => {
   return (
@@ -57,6 +58,8 @@ const Experiences = () => {
           <p>??? - ??? @ New York, NY</p>
         </div>
       </div>
+
+      <Research />
     </div>
   );
 };
