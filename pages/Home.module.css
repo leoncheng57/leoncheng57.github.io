@@ -1,11 +1,33 @@
+@value colors: "../styles/colors.css";
+@value blueEmphasis from colors;
+
 .container {
   padding: 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+.container main {
+  max-width: 1200px;
+}
+
+/* Styling for all hr elemnts */
 .container hr {
   border-top: 1px dashed rgb(190, 190, 190);
   border-bottom: none;
   border-left: none;
   border-right: none;
   width: 60%;
+}
+
+/* Styling for all a elements (clickable links) */
+.container a {
+  text-decoration: none;
+  border-bottom: 2px dotted blueEmphasis;
+  color: black;
+}
+.container a:hover {
+  color: blueEmphasis;
+  opacity: 0.8;
 }

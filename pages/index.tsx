@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Experiences from "../components/experiences/experiences";
 import Headline from "../components/headline/headline";
 import Social from "../components/social/social";
 import styles from "./Home.module.css";
@@ -17,6 +18,8 @@ const Home: NextPage = () => {
         <Headline />
         <hr />
         <Social />
+        <hr />
+        <Experiences />
       </main>
     </div>
   );
