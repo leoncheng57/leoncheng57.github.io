@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Headline from "../components/headline/headline";
-import styles from "../styles/Home.module.css";
+import Social from "../components/social/social";
+import styles from "./Home.module.css";
 
 const Home: NextPage = () => {
   return (
@@ -14,6 +15,8 @@ const Home: NextPage = () => {
 
       <main>
         <Headline />
+        <hr />
+        <Social />
       </main>
     </div>
   );
