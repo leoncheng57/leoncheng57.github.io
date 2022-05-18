@@ -5,7 +5,7 @@ import Card from "../_shared/card/card";
 const Industry = () => {
   return (
     <div className={sharedStyles.sectionContainer}>
-      <p className={sharedStyles.sectionTitle}>Industry</p>
+      <p className={sharedStyles.sectionTitle}>Recent Industry</p>
 
       <div className={sharedStyles.cardsWrapper}>
         <Card
@@ -26,21 +26,6 @@ const Industry = () => {
         <Card
           summaryText={`Fullstack Intern @ Uplift`}
           details={`Jun 2019 - Aug 2019 @ Menlo Park, CA`}
-        />
-
-        <Card
-          summaryText={`Backend Intern @ Hosta Labs`}
-          details={`Jun 2020 - Aug 2020 @ Cambridge, MA`}
-        />
-
-        <Card
-          summaryText={`Web Intern @ New York Life`}
-          details={`Jun 2016 - Aug 2016 @ New York, NY`}
-        />
-
-        <Card
-          summaryText={`Civil Engineering Intern @ NYC Department of Design and Construction`}
-          details={`??? - ??? @ New York, NY`}
         />
       </div>
     </div>
