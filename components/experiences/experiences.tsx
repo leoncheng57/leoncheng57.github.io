@@ -4,7 +4,7 @@ import styles from "./experiences.module.css";
 const Experiences = () => {
   return (
     <div className={classNames(styles.container, "GLOBALS-section")}>
-      <p className={styles.sectionTitle}>Company</p>
+      <p className={styles.sectionTitle}>Industry</p>
 
       <div className={styles.cardsWrapper}>
         <div className={styles.card}>

@@ -5,10 +5,8 @@
 ### Core
 
 - fonts
-- next component (contact, sections, cards)
-- style all the a href links to something more minimalistic
+- next component (research, activities, languages)
 
 ### Advanced
 
 - dark mode
-- mobile friendly
