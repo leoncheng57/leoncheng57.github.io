@@ -19,22 +19,22 @@ const Industry = () => {
         />
 
         <Card
-          summaryText={`Fullstack Developer Intern @ Yext`}
+          summaryText={`Fullstack Intern @ Yext`}
           details={`Jun 2020 - Aug 2020 @ New York, NY`}
         />
 
         <Card
-          summaryText={`Fullstack Developer Intern @ Uplift`}
+          summaryText={`Fullstack Intern @ Uplift`}
           details={`Jun 2019 - Aug 2019 @ Menlo Park, CA`}
         />
 
         <Card
-          summaryText={`Backend Developer Intern @ Hosta Labs`}
+          summaryText={`Backend Intern @ Hosta Labs`}
           details={`Jun 2020 - Aug 2020 @ Cambridge, MA`}
         />
 
         <Card
-          summaryText={`Web Developer Intern @ New York Life`}
+          summaryText={`Web Intern @ New York Life`}
           details={`Jun 2016 - Aug 2016 @ New York, NY`}
         />
 
