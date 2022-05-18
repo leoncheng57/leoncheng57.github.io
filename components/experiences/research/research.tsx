@@ -6,10 +6,10 @@ const Research = () => {
     <div>
       <p className={sharedStyles.sectionTitle}>Research</p>
 
-      <div className={sharedStyles.cardsWrapper}>
+      <div className={sharedStyles.cardsWrapperSingleColumnOnly}>
         <Card
           summaryText={`Researcher at MIT HCIE Group`}
-          details={`Jan 2019 - Aug 2021 @ Cambridge, MA`}
+          details={`Jan 2019 - Aug 2021 @ Cambridge, MA. text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text `}
         />
       </div>
     </div>
