@@ -9,7 +9,17 @@ const Research = () => {
       <div className={sharedStyles.cardsWrapperSingleColumnOnly}>
         <Card
           summaryText={`Researcher at MIT HCIE Group`}
-          details={`Jan 2019 - Aug 2021 @ Cambridge, MA. text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text `}
+          details={
+            <>
+              Jan 2019 - Aug 2021 @ Cambridge, MA. text text text text text text
+              text text text text text text text text text text text text text
+              text text text text text text text text text text text text text
+              text
+              <br />
+              <br />
+              <a href="https://hcie.csail.mit.edu/">Link to hcie lab</a>
+            </>
+          }
         />
       </div>
     </div>
