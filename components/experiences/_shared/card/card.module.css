@@ -10,9 +10,10 @@
 
 .card > .completeImageContainer > .imageWrapperBlurryBackground {
   position: relative;
-  height: 5rem;
+  height: 6rem;
   width: 100%;
-  filter: blur(0.8rem);
+  filter: blur(0.5rem);
+  opacity: 0.5;
 }
 
 .card > .completeImageContainer > .imageWrapper {
@@ -20,7 +21,7 @@
   height: 5rem;
   width: 10rem;
   left: calc(50% - (10rem / 2));
-  z-index: 2;
+  top: calc((6rem - 5rem) / 2);
 }
 
 .card > .summaryText {

@@ -16,10 +16,10 @@ const Card = (props: {
 
       {props.image && (
         <div className={styles.completeImageContainer}>
-          <div className={styles.imageWrapper}>{props.image}</div>
           <div className={styles.imageWrapperBlurryBackground}>
             {props.image}
           </div>
+          <div className={styles.imageWrapper}>{props.image}</div>
         </div>
       )}
 
