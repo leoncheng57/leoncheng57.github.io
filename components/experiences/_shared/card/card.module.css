@@ -12,7 +12,8 @@
   position: relative;
   height: 6rem;
   width: 100%;
-  opacity: 0.25;
+  filter: blur(0.1rem);
+  opacity: 0.35;
 }
 
 .card > .completeImageContainer > .imageWrapper {

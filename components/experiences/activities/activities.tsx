@@ -44,6 +44,14 @@ const Activities = () => {
         <Card
           summaryText={`MIT CETI`}
           details={`blah blah blah blah blah blah blah blah blah`}
+          image={
+            <Image
+              alt="ceti project image"
+              src="/imagesActivities/ceti.jpg"
+              layout="fill"
+              objectFit="cover"
+            />
+          }
         />
 
         <Card
