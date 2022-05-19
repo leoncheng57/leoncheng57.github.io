@@ -1,6 +1,7 @@
+import { ReactNode } from "react";
 import styles from "./card.module.css";
 
-const Card = (props: { summaryText: string; details: string }) => {
+const Card = (props: { summaryText: string; details: ReactNode }) => {
   return (
     <div className={styles.card}>
       <p className={styles.summaryText}>
