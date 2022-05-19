@@ -4,6 +4,25 @@
   padding: 1rem;
 }
 
+.card > .completeImageContainer {
+  position: relative;
+}
+
+.card > .completeImageContainer > .imageWrapperBlurryBackground {
+  position: relative;
+  height: 5rem;
+  width: 100%;
+  filter: blur(0.8rem);
+}
+
+.card > .completeImageContainer > .imageWrapper {
+  position: absolute;
+  height: 5rem;
+  width: 10rem;
+  left: calc(50% - (10rem / 2));
+  z-index: 2;
+}
+
 .card > .summaryText {
   font-size: 1.2rem;
   font-weight: 500;
