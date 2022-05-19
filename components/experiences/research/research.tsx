@@ -3,13 +3,23 @@ import Card from "../_shared/card/card";
 
 const Research = () => {
   return (
-    <div>
+    <div className={sharedStyles.sectionContainer}>
       <p className={sharedStyles.sectionTitle}>Research</p>
 
-      <div className={sharedStyles.cardsWrapper}>
+      <div className={sharedStyles.cardsWrapperSingleColumnOnly}>
         <Card
-          summaryText={`Researcher at MIT HCIE Group`}
-          details={`Jan 2019 - Aug 2021 @ Cambridge, MA`}
+          summaryText={`Researcher @ MIT HCIE Group`}
+          details={
+            <>
+              Jan 2019 - Aug 2021 @ Cambridge, MA. text text text text text text
+              text text text text text text text text text text text text text
+              text text text text text text text text text text text text text
+              text
+              <br />
+              <br />
+              <a href="https://hcie.csail.mit.edu/">Link to hcie lab</a>
+            </>
+          }
         />
       </div>
     </div>

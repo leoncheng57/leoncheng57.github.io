@@ -5,9 +5,10 @@
 ### Core
 
 - fonts
-- next component (research, activities, languages)
-- add correct info for experiences section details
+- add images (especially to the activities sections)
+- next component (skills)
 
 ### Advanced
 
+- top nav bar
 - dark mode
