@@ -13,4 +13,6 @@
   margin: 0;
   font-size: 0.9rem;
   color: gray;
+  text-align: center;
+  word-wrap: break-word;
 }
