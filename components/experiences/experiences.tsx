@@ -11,6 +11,7 @@ const Experiences = () => {
       <Education />
       <Industry />
       <Research />
+      <hr />
       <Activities />
     </div>
   );
