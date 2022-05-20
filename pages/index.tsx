@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Copyright from "../components/copyright/copyright";
 import Experiences from "../components/experiences/experiences";
 import Headline from "../components/headline/headline";
 import Social from "../components/social/social";
@@ -20,6 +21,8 @@ const Home: NextPage = () => {
         <Social />
         <hr />
         <Experiences />
+
+        <Copyright />
       </main>
     </div>
   );

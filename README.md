@@ -6,6 +6,7 @@
 
 - fonts
 - next component (education, skills)
+- fill in details for projects
 
 ### Advanced
 
