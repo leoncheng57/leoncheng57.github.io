@@ -5,8 +5,7 @@
 ### Core
 
 - fonts
-- add images (especially to the activities sections)
-- next component (skills)
+- next component (education, skills)
 
 ### Advanced
 

@@ -1,5 +1,6 @@
 import sharedStyles from "../_shared/shared.module.css";
 import Card from "../_shared/card/card";
+import Image from "next/image";
 
 const Research = () => {
   return (
@@ -19,6 +20,14 @@ const Research = () => {
               <br />
               <a href="https://hcie.csail.mit.edu/">Link to hcie lab</a>
             </>
+          }
+          image={
+            <Image
+              alt="transformers project image"
+              src="/imagesActivities/transformers-cubes.png"
+              layout="fill"
+              objectFit="cover"
+            />
           }
         />
       </div>
