@@ -32,11 +32,6 @@ const Activities = () => {
         />
 
         <Card
-          summaryText={`Maynooth Practice Mockup `}
-          details={`blah blah blah blah blah blah blah blah blah`}
-        />
-
-        <Card
           summaryText={`Adapty Floaty Prototype Device`}
           details={`blah blah blah blah blah blah blah blah blah`}
         />
@@ -56,6 +51,11 @@ const Activities = () => {
 
         <Card
           summaryText={`MIT-SUTD GLP`}
+          details={`blah blah blah blah blah blah blah blah blah`}
+        />
+
+        <Card
+          summaryText={`StuyHacks Hackathon`}
           details={`blah blah blah blah blah blah blah blah blah`}
         />
       </div>
