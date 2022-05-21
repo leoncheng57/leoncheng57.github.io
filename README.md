@@ -5,10 +5,10 @@
 ### Core
 
 - fonts
-- next component (education, skills)
 - fill in details for projects
+- deploy the website on github pages
 
-### Advanced
+### Future
 
-- top nav bar
+- top nav / footer
 - dark mode
