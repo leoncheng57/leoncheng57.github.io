@@ -1,18 +1,12 @@
 import classNames from "classnames";
 import type { NextPage } from "next";
-import Image from "next/image";
 import styles from "./headline.module.css";
 
 const Headline: NextPage = () => {
   return (
     <div className={classNames(styles.container, "GLOBALS-section")}>
       <div className={styles.imageWrapper}>
-        <Image
-          alt="profile picture"
-          src="/profile-image.png"
-          layout="fill"
-          objectFit="contain"
-        />
+        <img alt="profile picture" src="/profile-image.png" />
       </div>
 
       <p className={styles.hi}>Hi, I&#39;m Leon</p>
