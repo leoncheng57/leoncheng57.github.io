@@ -15,7 +15,7 @@ const Headline: NextPage = () => {
         />
       </div>
 
-      <p className={styles.hi}>Hi, I'm Leon</p>
+      <p className={styles.hi}>Hi, I&#39;m Leon</p>
 
       <p className={styles.summary}>
         I am a{" "}
