@@ -21,7 +21,6 @@ const Home: NextPage = () => {
         <Social />
         <hr />
         <Experiences />
-
         <Copyright />
       </main>
     </div>
