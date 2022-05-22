@@ -8,6 +8,11 @@ const Activities = () => {
 
       <div className={sharedStyles.cardsWrapper}>
         <Card
+          summaryText={`Stuyvesant Mentoring Program`}
+          details={`blah blah blah blah blah blah blah blah blah`}
+        />
+
+        <Card
           summaryText={`Upstyling Nonprofit Design & Website `}
           details={`blah blah blah blah blah blah blah blah blah`}
           image={
@@ -19,7 +24,7 @@ const Activities = () => {
         />
 
         <Card
-          summaryText={`Solstice Fayemz Website Design `}
+          summaryText={`Solstice Fayemz Design Mockup`}
           details={`blah blah blah blah blah blah blah blah blah`}
           image={
             <img
@@ -30,17 +35,22 @@ const Activities = () => {
         />
 
         <Card
-          summaryText={`Maynooth Practice Mockup `}
+          summaryText={`MIT Teaching Assistant`}
           details={`blah blah blah blah blah blah blah blah blah`}
         />
 
         <Card
-          summaryText={`Adapty Floaty Prototype Device`}
+          summaryText={`StartLabs Club Website`}
           details={`blah blah blah blah blah blah blah blah blah`}
         />
 
         <Card
-          summaryText={`MIT CETI`}
+          summaryText={`Adapty Floaty Prototype Assistive Floatation Device Project`}
+          details={`blah blah blah blah blah blah blah blah blah`}
+        />
+
+        <Card
+          summaryText={`CETI Teaching & Leadership Program`}
           details={`blah blah blah blah blah blah blah blah blah`}
           image={
             <img alt="ceti project image" src="./imagesActivities/ceti.jpg" />
@@ -48,12 +58,7 @@ const Activities = () => {
         />
 
         <Card
-          summaryText={`MIT-SUTD GLP`}
-          details={`blah blah blah blah blah blah blah blah blah`}
-        />
-
-        <Card
-          summaryText={`StuyHacks Hackathon`}
+          summaryText={`Organizer for StuyHacks Hackathon`}
           details={`blah blah blah blah blah blah blah blah blah`}
         />
       </div>
