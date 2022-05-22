@@ -5,7 +5,10 @@ const Copyright: NextPage = () => {
   return (
     <div className={styles.container}>
       <p>© Copyright 2022 Leon Cheng</p>
-      <p>Designed and Built using Figma, React, NextJS</p>
+      <p>
+        Designed with Figma. Built with TypeScript, React, NextJS. No design
+        template used.
+      </p>
     </div>
   );
 };
