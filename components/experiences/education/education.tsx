@@ -9,13 +9,13 @@ const Education = () => {
       <div className={sharedStyles.cardsWrapper}>
         <Card
           summaryText={`Master's in Computer Science @ MIT`}
-          details={`2021 - 2021 (Concentration in Human Computer Interaction)`}
+          details={`2021 (Concentration in Human Computer Interaction)`}
         />
         <Card
           summaryText={`Bachelor's in Computer Science @ MIT`}
-          details={`2016 - 2020`}
+          details={`2020`}
         />
-        <Card summaryText={`Stuyvesant High School`} details={`2012 - 2016`} />
+        <Card summaryText={`Stuyvesant High School`} details={`2016`} />
       </div>
     </div>
   );

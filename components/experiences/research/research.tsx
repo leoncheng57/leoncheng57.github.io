@@ -24,12 +24,9 @@ const Research = () => {
           }
           details={
             <>
-              Jan 2019 - Aug 2021
-              <br />
-              <br />
-              Honed skills for rapid prototyping and UX. Technologies used
-              include React, TypeScript, Netlify, ThreeJS, Arduino, Rhino,
-              Grasshopper, Python. .
+              Honed skills for programming, rapid prototyping, and UX research.
+              Technologies used include React, TypeScript, Netlify, ThreeJS,
+              Arduino, Rhino, Grasshopper, Python, Figma.
               <br />
               <br />
               <a href="https://hcie.csail.mit.edu/research/Electrovoxel/electrovoxel.html">
