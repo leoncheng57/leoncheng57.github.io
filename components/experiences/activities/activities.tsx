@@ -9,15 +9,40 @@ const Activities = () => {
       <div className={sharedStyles.cardsWrapper}>
         <Card
           summaryText={`Stuyvesant Mentoring Program`}
-          details={`blah blah blah blah blah blah blah blah blah`}
+          details={
+            <>
+              Remotely mentor high school students. Focus on advising for
+              long-term career success and personal happiness.
+            </>
+          }
+          image={
+            <img
+              alt="stuyvesant mentoring project image"
+              src="./imagesActivities/stuyvesant.jpg"
+            />
+          }
         />
 
         <Card
           summaryText={`Upstyling Nonprofit Design & Website `}
-          details={`blah blah blah blah blah blah blah blah blah`}
+          details={
+            <>
+              Collaborated with nonprofit to develop a brand website. See Adobe
+              XD mockups for{" "}
+              <a href="https://xd.adobe.com/view/ccdb2cc6-62bd-4255-9323-0965bdc5663a-9988/">
+                Mobile
+              </a>{" "}
+              and{" "}
+              <a href="https://xd.adobe.com/view/39493f1d-21c8-403f-a85d-62ea41079bb4-6c1a/">
+                Desktop
+              </a>
+              , as well as public website at{" "}
+              <a href="https://upstyling.github.io/">upstyling.github.io</a>.
+            </>
+          }
           image={
             <img
-              alt="upstlying project image"
+              alt="upstyling project image"
               src="./imagesActivities/upstyling.png"
             />
           }
@@ -25,10 +50,20 @@ const Activities = () => {
 
         <Card
           summaryText={`Solstice Fayemz Design Mockup`}
-          details={`blah blah blah blah blah blah blah blah blah`}
+          details={
+            <>
+              Collaborated with artist Solstice Fayemz to develop a website
+              design that conveyed their taste and passion. You can view the
+              Adobe XD mockup{" "}
+              <a href="https://xd.adobe.com/view/7dc95ca3-6a53-40a6-b813-4c7250d6e2e9-289a/screen/52df4fba-9a19-47a6-bc26-5fb9a2f1a725/">
+                here
+              </a>
+              .
+            </>
+          }
           image={
             <img
-              alt="upstlying project image"
+              alt="solstice project image"
               src="https://leoncheng.dev/images/solstice.png"
             />
           }
