@@ -1,14 +1,5 @@
-# new-website-prototype
+# Leon's Website
 
-## Next TODOs
+Designed with Figma.
 
-### Core
-
-- fill in details for projects
-- add google analytics
-
-### Future
-
-- add a blog section
-- dark mode
-- top nav / footer
+Built with TypeScript, React, NextJS. No design template used.
