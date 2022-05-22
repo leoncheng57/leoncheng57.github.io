@@ -13,7 +13,7 @@ const Activities = () => {
           image={
             <img
               alt="upstlying project image"
-              src="/imagesActivities/upstyling.png"
+              src="./imagesActivities/upstyling.png"
             />
           }
         />
@@ -21,6 +21,12 @@ const Activities = () => {
         <Card
           summaryText={`Solstice Fayemz Website Design `}
           details={`blah blah blah blah blah blah blah blah blah`}
+          image={
+            <img
+              alt="upstlying project image"
+              src="https://leoncheng.dev/images/solstice.png"
+            />
+          }
         />
 
         <Card
@@ -37,7 +43,7 @@ const Activities = () => {
           summaryText={`MIT CETI`}
           details={`blah blah blah blah blah blah blah blah blah`}
           image={
-            <img alt="ceti project image" src="/imagesActivities/ceti.jpg" />
+            <img alt="ceti project image" src="./imagesActivities/ceti.jpg" />
           }
         />
 

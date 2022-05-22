@@ -6,7 +6,7 @@ const Headline: NextPage = () => {
   return (
     <div className={classNames(styles.container, "GLOBALS-section")}>
       <div className={styles.imageWrapper}>
-        <img alt="profile picture" src="/profile-image.png" />
+        <img alt="profile picture" src="./profile-image.png" />
       </div>
 
       <p className={styles.hi}>Hi, I&#39;m Leon</p>
