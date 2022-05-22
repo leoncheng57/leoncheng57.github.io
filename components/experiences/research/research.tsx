@@ -8,7 +8,14 @@ const Research = () => {
 
       <div className={sharedStyles.cardsWrapperSingleColumnOnly}>
         <Card
-          summaryText={`Researcher @ MIT HCIE Group`}
+          summaryText={
+            <>
+              Researcher @{" "}
+              <a href="https://hcie.csail.mit.edu/">
+                MIT Human Computer Interaction Engineering Group
+              </a>
+            </>
+          }
           image={
             <img
               alt="electrovoxel project image"
@@ -20,10 +27,9 @@ const Research = () => {
               Jan 2019 - Aug 2021
               <br />
               <br />
-              Honed skills for rapid prototyping and UX. Technologies used:
-              React, TypeScript, Netlify, ThreeJS, Arduino, Rhino, Grasshopper,
-              Python. <a href="https://hcie.csail.mit.edu/">Link to hcie lab</a>
-              .
+              Honed skills for rapid prototyping and UX. Technologies used
+              include React, TypeScript, Netlify, ThreeJS, Arduino, Rhino,
+              Grasshopper, Python. .
               <br />
               <br />
               <a href="https://hcie.csail.mit.edu/research/Electrovoxel/electrovoxel.html">
@@ -40,9 +46,9 @@ const Research = () => {
               <a href="https://hcie.csail.mit.edu/research/slicehub/slicehub.html">
                 SliceHub paper
               </a>
-              : Designed and developed showcase{" "}
+              : Designed and developed{" "}
               <a href="https://slicehub-sandbox.herokuapp.com/">website </a> for
-              3D printing time interpolation ML algorithms.
+              3D model printing time interpolation ML algorithms.
               <br />
               <br />
               <a href="https://hcie.csail.mit.edu/research/morphsensor/morphsensor.html">

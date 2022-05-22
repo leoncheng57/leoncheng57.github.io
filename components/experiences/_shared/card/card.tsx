@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import styles from "./card.module.css";
 
 const Card = (props: {
-  summaryText: string;
+  summaryText: ReactNode;
   details: ReactNode;
   image?: JSX.Element;
 }) => {
