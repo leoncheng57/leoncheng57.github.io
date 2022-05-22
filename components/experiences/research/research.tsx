@@ -9,6 +9,12 @@ const Research = () => {
       <div className={sharedStyles.cardsWrapperSingleColumnOnly}>
         <Card
           summaryText={`Researcher @ MIT HCIE Group`}
+          image={
+            <img
+              alt="electrovoxel project image"
+              src="./imagesActivities/electrovoxel.png"
+            />
+          }
           details={
             <>
               Jan 2019 - Aug 2021
@@ -20,42 +26,38 @@ const Research = () => {
               .
               <br />
               <br />
-              Designed and developed 3D interactive{" "}
+              <a href="https://hcie.csail.mit.edu/research/Electrovoxel/electrovoxel.html">
+                ElectroVoxel paper
+              </a>
+              : Designed and developed 3D interactive{" "}
               <a href="https://transformers-visualizations.netlify.app/">
                 simulation
               </a>{" "}
               for complex magnetic cube block configurations. Secondary writer
-              to the conference paper{" "}
-              <a href="https://hcie.csail.mit.edu/research/Electrovoxel/electrovoxel.html">
-                ElectroVoxel: Electromagnetically Actuated Pivoting for Scalable
-                Modular Self-Reconfigurable Robots
-              </a>
-              .
+              to the conference paper.
               <br />
               <br />
-              Designed and developed showcase{" "}
-              <a href="https://slicehub-sandbox.herokuapp.com/">website </a> for
-              3D printing time interpolation ML algorithms for{" "}
               <a href="https://hcie.csail.mit.edu/research/slicehub/slicehub.html">
-                SliceHub
+                SliceHub paper
               </a>
-              .
+              : Designed and developed showcase{" "}
+              <a href="https://slicehub-sandbox.herokuapp.com/">website </a> for
+              3D printing time interpolation ML algorithms.
               <br />
               <br />
-              Designed algorithms to automatically lay out electonic sensors on
-              variable shapes for{" "}
               <a href="https://hcie.csail.mit.edu/research/morphsensor/morphsensor.html">
-                MorphSensor
+                MorphSensor paper
               </a>
-              .
+              : Designed algorithms to automatically lay out electonic sensors
+              on variable shapes.
               <br />
               <br />
-              Built a refitted prototype coffeemaker for a novel 3D pattern ID
-              protocol{" "}
               <a href="https://hcie.csail.mit.edu/research/gid/gid.html">
-                G-ID
+                G-ID paper
               </a>
-              . <br />
+              : Built a refitted prototype coffeemaker for a novel 3D pattern ID
+              protocol.
+              <br />
               <br />
             </>
           }
