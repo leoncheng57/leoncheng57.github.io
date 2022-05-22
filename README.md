@@ -5,7 +5,6 @@
 ### Core
 
 - fill in details for projects
-- update favicon
 - add google analytics
 
 ### Future
