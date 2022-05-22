@@ -52,7 +52,7 @@ const Activities = () => {
           summaryText={`Solstice Fayemz Design Mockup`}
           details={
             <>
-              Collaborated with artist Solstice Fayemz to develop a website
+              Collaborated with the singer/songwriter to develop a website
               design that conveyed their taste and passion. You can view the
               Adobe XD mockup{" "}
               <a href="https://xd.adobe.com/view/7dc95ca3-6a53-40a6-b813-4c7250d6e2e9-289a/screen/52df4fba-9a19-47a6-bc26-5fb9a2f1a725/">
@@ -64,7 +64,7 @@ const Activities = () => {
           image={
             <img
               alt="solstice project image"
-              src="https://leoncheng.dev/images/solstice.png"
+              src="./imagesActivities/solstice.png"
             />
           }
         />
@@ -72,16 +72,34 @@ const Activities = () => {
         <Card
           summaryText={`MIT Teaching Assistant`}
           details={`blah blah blah blah blah blah blah blah blah`}
+          image={
+            <img
+              alt="mit teaching assistant image"
+              src="./imagesActivities/mit.png"
+            />
+          }
         />
 
         <Card
           summaryText={`StartLabs Club Website`}
           details={`blah blah blah blah blah blah blah blah blah`}
+          image={
+            <img
+              alt="startlabs club image"
+              src="./imagesActivities/startlabs.png"
+            />
+          }
         />
 
         <Card
           summaryText={`Adapty Floaty Prototype Assistive Floatation Device Project`}
           details={`blah blah blah blah blah blah blah blah blah`}
+          image={
+            <img
+              alt="adapty floaty project image"
+              src="./imagesActivities/adaptyfloaty.png"
+            />
+          }
         />
 
         <Card
@@ -95,6 +113,9 @@ const Activities = () => {
         <Card
           summaryText={`Organizer for StuyHacks Hackathon`}
           details={`blah blah blah blah blah blah blah blah blah`}
+          image={
+            <img alt="stuyhacks image" src="./imagesActivities/stuyhacks.jpg" />
+          }
         />
       </div>
     </div>
