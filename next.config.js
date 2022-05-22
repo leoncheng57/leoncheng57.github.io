@@ -1,4 +1,8 @@
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.IS_PROD;
+console.log("*********************");
+console.log("inside next.config.js");
+console.log("isProd: ", isProd);
+console.log("*********************");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
