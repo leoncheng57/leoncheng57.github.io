@@ -25,3 +25,7 @@
   width: 1.5rem;
   height: 1.5rem;
 }
+.handle .iconImageWrapper > img {
+  width: 100%;
+  height: 100%;
+}

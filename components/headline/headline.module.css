@@ -16,8 +16,10 @@
   width: 16rem;
   height: 16rem;
   border-radius: 100%;
-  position: relative;
   margin: 1rem;
+}
+.imageWrapper > img {
+  width: 100%;
 }
 
 .container p {

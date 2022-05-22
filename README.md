@@ -4,9 +4,9 @@
 
 ### Core
 
-- fonts
 - fill in details for projects
 - deploy the website on github pages
+- update favicon
 
 ### Future
 

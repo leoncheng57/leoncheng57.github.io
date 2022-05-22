@@ -1,4 +1,3 @@
-import styles from "./industry.module.css";
 import sharedStyles from "../_shared/shared.module.css";
 import Card from "../_shared/card/card";
 

@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import type { NextPage } from "next";
-import Image from "next/image";
 import styles from "./social.module.css";
 
 const Social: NextPage = () => {
@@ -9,12 +8,7 @@ const Social: NextPage = () => {
       <div className={styles.innerContainer}>
         <div className={styles.handle}>
           <div className={styles.iconImageWrapper}>
-            <Image
-              alt="github icon"
-              src="/icons/github-icon.svg"
-              layout="fill"
-              objectFit="contain"
-            />
+            <img alt="github icon" src="/icons/github-icon.svg" />
           </div>
           <p>
             <a href="https://github.com/leoncheng57/">leoncheng57 </a>
@@ -23,12 +17,7 @@ const Social: NextPage = () => {
 
         <div className={styles.handle}>
           <div className={styles.iconImageWrapper}>
-            <Image
-              alt="linkedin icon"
-              src="/icons/linkedin-icon.svg"
-              layout="fill"
-              objectFit="contain"
-            />
+            <img alt="linkedin icon" src="/icons/linkedin-icon.svg" />
           </div>
           <p>
             <a href="https://www.linkedin.com/in/leoncheng57/">leoncheng57 </a>
@@ -37,12 +26,7 @@ const Social: NextPage = () => {
 
         <div className={styles.handle}>
           <div className={styles.iconImageWrapper}>
-            <Image
-              alt="email icon"
-              src="/icons/email-icon.svg"
-              layout="fill"
-              objectFit="contain"
-            />
+            <img alt="email icon" src="/icons/email-icon.svg" />
           </div>
           <p>
             <a href="mailto:leon@mit.edu">leonc@mit.edu</a>
