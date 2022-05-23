@@ -108,7 +108,7 @@ const Activities = () => {
           details={
             <>
               Worked in a team of 2 MIT students to build an interactive device
-              that can intelligently adapt to the user's needs. Device will
+              that can intelligently adapt to the user&#39;s needs. Device will
               inflate as you sink deeper and deflate as you float higher, to be
               used for swim training. See more{" "}
               <a href="https://leoncheng.dev/Adapty-Floaty/">here</a>.

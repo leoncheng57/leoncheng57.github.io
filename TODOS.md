@@ -2,8 +2,8 @@
 
 ### Core
 
-- fill in details for projects
 - add google analytics
+- replace old website with this website
 
 ### Future
 
