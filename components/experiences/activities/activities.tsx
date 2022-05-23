@@ -71,7 +71,12 @@ const Activities = () => {
 
         <Card
           summaryText={`MIT Teaching Assistant`}
-          details={`blah blah blah blah blah blah blah blah blah`}
+          details={
+            <>
+              TA for Interconnected Embedded Systems and Computation Structures
+              courses.
+            </>
+          }
           image={
             <img
               alt="mit teaching assistant image"
@@ -82,7 +87,14 @@ const Activities = () => {
 
         <Card
           summaryText={`StartLabs Club Website`}
-          details={`blah blah blah blah blah blah blah blah blah`}
+          details={
+            <>
+              Led the website development department to build a new site using
+              Flask, FastCGI, and JS. Designed by the design department. See
+              current site at{" "}
+              <a href="http://startup.mit.edu/">startup.mit.edu</a>
+            </>
+          }
           image={
             <img
               alt="startlabs club image"
