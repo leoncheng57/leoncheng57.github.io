@@ -105,7 +105,15 @@ const Activities = () => {
 
         <Card
           summaryText={`Adapty Floaty Prototype Assistive Floatation Device Project`}
-          details={`blah blah blah blah blah blah blah blah blah`}
+          details={
+            <>
+              Worked in a team of 2 MIT students to build an interactive device
+              that can intelligently adapt to the user's needs. Device will
+              inflate as you sink deeper and deflate as you float higher, to be
+              used for swim training. See more{" "}
+              <a href="https://leoncheng.dev/Adapty-Floaty/">here</a>.
+            </>
+          }
           image={
             <img
               alt="adapty floaty project image"
@@ -116,15 +124,43 @@ const Activities = () => {
 
         <Card
           summaryText={`CETI Teaching & Leadership Program`}
-          details={`blah blah blah blah blah blah blah blah blah`}
+          details={
+            <>
+              Created and taught lessons on web development and python
+              programming to local students in Asia. See some lessons{" "}
+              <a href="https://leoncheng.dev/MYCamp-Web-Dev-Lessons/">here</a>.
+            </>
+          }
           image={
             <img alt="ceti project image" src="./imagesActivities/ceti.jpg" />
           }
         />
 
         <Card
+          summaryText={`MIT-SUTD Global Leadership Program`}
+          details={
+            <>
+              Learned how to build a full electric boat using power tools,
+              computer aided design, and other fabrication materials in a team
+              with students from Singapore. Short video{" "}
+              <a href="https://www.youtube.com/watch?v=-eT_rZoE87s&ab_channel=JunWenLoo">
+                here
+              </a>
+            </>
+          }
+          image={
+            <img alt="glp project image" src="./imagesActivities/glp.png" />
+          }
+        />
+
+        <Card
           summaryText={`Organizer for StuyHacks Hackathon`}
-          details={`blah blah blah blah blah blah blah blah blah`}
+          details={
+            <>
+              Recruited company sponsors and organized prizes to help make the
+              fun high school hackathon possible.
+            </>
+          }
           image={
             <img alt="stuyhacks image" src="./imagesActivities/stuyhacks.jpg" />
           }
