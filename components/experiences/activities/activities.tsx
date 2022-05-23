@@ -92,7 +92,7 @@ const Activities = () => {
               Led the website development department to build a new site using
               Flask, FastCGI, and JS. Designed by the design department. See
               current site at{" "}
-              <a href="http://startup.mit.edu/">startup.mit.edu</a>
+              <a href="http://startup.mit.edu/">startup.mit.edu</a>.
             </>
           }
           image={
@@ -146,6 +146,7 @@ const Activities = () => {
               <a href="https://www.youtube.com/watch?v=-eT_rZoE87s&ab_channel=JunWenLoo">
                 here
               </a>
+              .
             </>
           }
           image={
