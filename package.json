@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build-export": "next build && next export -o docs && touch docs/.nojekyll",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build-export": "next build && next export -o docs",
+    "publish": "cp docs/CNAME CNAME_copy && npm run build-export && touch docs/.nojekyll && cp CNAME_copy docs/CNAME && rm CNAME_copy"
   },
   "dependencies": {
     "classnames": "^2.3.1",
