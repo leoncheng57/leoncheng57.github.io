@@ -16,3 +16,10 @@
   text-align: center;
   word-wrap: break-word;
 }
+
+.container .logoContainer {
+  width: 5rem;
+}
+.container .logoContainer img {
+  width: 100%;
+}
