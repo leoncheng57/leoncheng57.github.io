@@ -29,7 +29,7 @@ const Social: NextPage = () => {
             <img alt="email icon" src="./icons/email-icon.svg" />
           </div>
           <p>
-            <a href="mailto:leon@mit.edu">leonc@mit.edu</a>
+            <a href="mailto:leonc@alum.mit.edu">leonc@alum.mit.edu</a>
           </p>
         </div>
       </div>
