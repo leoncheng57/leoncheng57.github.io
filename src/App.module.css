@@ -5,13 +5,19 @@
   align-items: center;
 }
 
+.logo {
+  width: 5rem;
+  height: 5rem;
+  margin-top: 2rem;
+}
+
 .container main {
   max-width: 1200px;
 }
 
 /* Styling for all hr elements */
 .container hr {
-  border-top: 1px dashed rgb(190, 190, 190);
+  border-top: 1px dashed var(--hr-color);
   border-bottom: none;
   border-left: none;
   border-right: none;
@@ -22,7 +28,7 @@
 .container a {
   text-decoration: none;
   border-bottom: 2px dotted var(--blue-emphasis);
-  color: black;
+  color: var(--link-color);
 }
 .container a:hover {
   color: var(--blue-emphasis);
