@@ -8,7 +8,7 @@ import styles from './App.module.css'
 const App: React.FC = () => {
   return (
     <div className={styles.container}>
-      <img src="/lc-logo.png" alt="LC Logo" className={styles.logo} />
+      <img src="/lc-logo.svg" alt="LC Logo" className={styles.logo} />
       <main>
         <Headline />
         <hr />
