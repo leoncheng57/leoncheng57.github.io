@@ -1,6 +1,3 @@
-@value colors: "../../styles/colors.css";
-@value blueEmphasis from colors;
-
 .container {
   display: flex;
   flex-direction: column;
@@ -36,7 +33,7 @@
 }
 
 .summary > .summaryHighlight {
-  color: blueEmphasis;
+  color: var(--blue-emphasis);
   font-weight: 500;
 }
 

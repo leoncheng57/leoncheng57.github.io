@@ -1,1 +1,3 @@
-@value blueEmphasis: #0575c7;
+:root {
+  --blue-emphasis: #0575c7;
+}
