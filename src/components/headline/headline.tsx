@@ -14,14 +14,9 @@ const Headline: NextPage = () => {
       <p className={styles.summary}>
         I am a{" "}
         <span className={styles.summaryHighlight}>
-          Fullstack Software Engineer
+          Software Engineer
         </span>
         .
-      </p>
-
-      <p className={styles.extraText}>
-        {" "}
-        I also enjoy UX design and rapid prototyping.
       </p>
     </div>
   );

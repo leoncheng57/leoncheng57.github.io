@@ -13,8 +13,6 @@ const App: React.FC = () => {
         <hr />
         <Social />
         <hr />
-        <Experiences />
-        <Copyright />
       </main>
     </div>
   )

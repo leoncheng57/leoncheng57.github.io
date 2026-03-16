@@ -33,7 +33,7 @@
 }
 
 .summary > .summaryHighlight {
-  color: var(--blue-emphasis);
+  color: orange;
   font-weight: 500;
 }
 
