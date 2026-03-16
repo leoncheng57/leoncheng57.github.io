@@ -145,6 +145,39 @@ Updated `.eslintrc.json`:
 
 This requires adding `eslint-plugin-react` as a devDependency.
 
+## Manual Verification Checklist
+
+After migration, verify the following before deploying:
+
+**Dev server (`npm run dev`)**
+- [ ] Dev server starts without errors
+- [ ] Page loads at `http://localhost:5173`
+- [ ] All sections render: headline (photo + name + summary), social links, experiences, copyright
+- [ ] Blue highlight color (`.summaryHighlight`) appears correctly on the headline summary text
+- [ ] Links have the correct dotted blue underline style
+- [ ] `<hr>` dividers appear as dashed grey lines
+
+**Production build (`npm run build`)**
+- [ ] Build completes without errors or warnings
+- [ ] `docs/` folder is populated with `index.html`, `assets/`, and static files
+- [ ] `docs/CNAME` file is present after build (not deleted by Vite)
+- [ ] `docs/.nojekyll` file is present
+
+**Serve the production build locally**
+Run `npx serve docs` and open `http://localhost:3000`:
+- [ ] Page loads correctly from the static `docs/` output
+- [ ] Assets (images, CSS) load without 404s
+- [ ] No console errors
+
+**Visual spot-checks**
+- [ ] Profile photo loads
+- [ ] Blue emphasis color matches the original (`#0575c7`)
+- [ ] Page title in browser tab reads "Leon's Website"
+- [ ] Favicon loads
+
+**Google Analytics**
+- [ ] Browser DevTools Network tab shows a request to `googletagmanager.com` on page load
+
 ## Out of Scope
 
 - Adding a router (not needed for a single-page site)
