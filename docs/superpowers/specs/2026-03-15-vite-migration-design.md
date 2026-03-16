@@ -176,7 +176,11 @@ Run `npx serve docs` and open `http://localhost:3000`:
 - [ ] Favicon loads
 
 **Google Analytics**
-- [ ] Browser DevTools Network tab shows a request to `googletagmanager.com` on page load
+- [ ] Browser DevTools Network tab shows a request to `https://www.googletagmanager.com/gtag/js?id=G-5MLNJQ7789` on page load
+- [ ] `window.dataLayer` exists and is an array in the browser console
+- [ ] `window.dataLayer` contains at least one `config` event for `G-5MLNJQ7789` — verify with `console.log(window.dataLayer)` in DevTools
+- [ ] No `gtag is not defined` or `dataLayer is not defined` console errors
+- [ ] In Google Analytics dashboard (analytics.google.com), the Realtime report shows an active user when you load the page (requires a live deployed build, not local dev)
 
 ## Out of Scope
 
