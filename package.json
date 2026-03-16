@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext ts,tsx",
-    "publish": "cp docs/CNAME CNAME_copy && npm run build && touch docs/.nojekyll && cp CNAME_copy docs/CNAME && rm CNAME_copy"
+    "publish": "cp docs/CNAME CNAME_copy && npm run build && touch dist/.nojekyll && cp CNAME_copy dist/CNAME && rm CNAME_copy"
   },
   "dependencies": {
     "classnames": "^2.3.1",
