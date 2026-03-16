@@ -1,6 +1,4 @@
 {
-  "extends": "next/core-web-vitals",
-  "rules": {
-    "@next/next/no-img-element": "off"
-  }
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "rules": {}
 }
