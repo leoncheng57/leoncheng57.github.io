@@ -17,15 +17,16 @@ Clean-slate migration: remove Next.js entirely and set up a fresh Vite + React T
 ```
 /
 ├── src/
-│   ├── main.tsx          # entry point (replaces pages/_app.tsx)
-│   ├── App.tsx           # root component (replaces pages/index.tsx)
-│   ├── components/       # moved as-is from current components/
-│   └── styles/           # moved as-is from current styles/
-├── public/               # static assets (unchanged)
-├── index.html            # Vite HTML entry point
-├── vite.config.ts        # replaces next.config.js
-├── tsconfig.json         # updated for Vite
-└── package.json          # updated dependencies
+│   ├── main.tsx            # entry point (replaces pages/_app.tsx)
+│   ├── App.tsx             # root component (replaces pages/index.tsx)
+│   ├── App.module.css      # moved from pages/Home.module.css
+│   ├── components/         # moved as-is from current components/
+│   └── styles/             # moved as-is from current styles/
+├── public/                 # static assets (unchanged)
+├── index.html              # Vite HTML entry point (includes <head> meta + GA scripts)
+├── vite.config.ts          # replaces next.config.js
+├── tsconfig.json           # updated for Vite
+└── package.json            # updated dependencies
 ```
 
 ## Build & Deploy Pipeline
@@ -35,6 +36,8 @@ Clean-slate migration: remove Next.js entirely and set up a fresh Vite + React T
 | `dev` | `vite` |
 | `build` | `vite build` |
 | `publish` | `cp docs/CNAME CNAME_copy && npm run build && touch docs/.nojekyll && cp CNAME_copy docs/CNAME && rm CNAME_copy` |
+
+The `build-export` script (previously `next build && next export -o docs`) is deleted — its function is now handled directly by `vite build` via the `outDir: 'docs'` config.
 
 Vite is configured with `outDir: 'docs'` and `base: '/'` (custom domain means no subdirectory prefix needed).
 
@@ -52,30 +55,98 @@ Vite is configured with `outDir: 'docs'` and `base: '/'` (custom domain means no
 **Unchanged:**
 - `react`, `react-dom`, `classnames`
 - `typescript`, `@types/react`, `@types/react-dom`
+- `eslint` (kept, but config updated — see ESLint section)
 
 ## File Changes
 
 **Deleted:**
 - `next.config.js`
 - `next-env.d.ts`
-- `pages/` directory
+- `pages/` directory (contents migrated to `src/`)
 
 **Added:**
 - `index.html`
 - `vite.config.ts`
 - `src/main.tsx`
-- `src/App.tsx` (content from `pages/index.tsx`)
+- `src/App.tsx` (rewritten from `pages/index.tsx` — see App.tsx section)
+- `src/App.module.css` (moved from `pages/Home.module.css` — see CSS section)
 
 **Updated:**
-- `tsconfig.json` — swap Next.js lib/module settings for standard Vite/browser settings
+- `tsconfig.json` — updated for Vite (see tsconfig section)
 - `package.json` — update scripts and dependencies
+- `.eslintrc.json` — remove Next.js extends, use standard React rules
+- `styles/colors.css` — convert `@value` to CSS custom property
+
+## App.tsx Rewrite
+
+`pages/index.tsx` contains three Next.js-specific constructs that must be replaced:
+
+1. **`import type { NextPage } from "next"`** — removed. The component type becomes a plain `React.FC` (or untyped arrow function).
+
+2. **`import Head from "next/head"`** — removed. The `<title>`, `<meta name="description">`, and `<link rel="icon">` tags move into `index.html`'s `<head>` block.
+
+3. **`import Script from "next/script"`** — removed. The Google Analytics `<script>` tags move into `index.html` (see Google Analytics section).
+
+All other content (component imports, JSX structure) is unchanged.
+
+## Google Analytics
+
+The existing GA setup uses `next/script` with `strategy="afterInteractive"`. In Vite, this moves to `index.html` as standard `<script>` tags placed before `</body>`:
+
+```html
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5MLNJQ7789"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5MLNJQ7789');
+</script>
+```
+
+This is functionally equivalent to `strategy="afterInteractive"`.
 
 ## CSS & Styling
 
-No changes needed. Vite supports CSS Modules (`.module.css`) and global CSS imports natively with the same API as Next.js.
+**`@value` incompatibility:** Vite does not support the `@value` directive from `postcss-modules-values`. Three files use it:
+
+- `styles/colors.css` — defines `@value blueEmphasis: #0575c7`
+- `pages/Home.module.css` (→ `src/App.module.css`) — imports and uses `blueEmphasis`
+- `components/headline/headline.module.css` — imports and uses `blueEmphasis` (for `.summaryHighlight`)
+
+**Fix:** Convert to a CSS custom property:
+- `styles/colors.css` becomes: `--blue-emphasis: #0575c7;` defined on `:root` (standard CSS variable)
+- `src/App.module.css` replaces `blueEmphasis` references with `var(--blue-emphasis)` and removes the `@value` import lines
+- `components/headline/headline.module.css` replaces `blueEmphasis` with `var(--blue-emphasis)` and removes the `@value` import lines
+- `styles/globals.css` imports `colors.css` (or `colors.css` is merged into `globals.css`) so the variable is globally available
+
+## tsconfig.json Changes
+
+| Setting | Current | New |
+|---------|---------|-----|
+| `"jsx"` | `"preserve"` | `"react-jsx"` |
+| `"target"` | `"es5"` | `"ES2020"` |
+| `"moduleResolution"` | `"node"` | `"bundler"` |
+| `"noEmit"` | `true` | `true` (kept — Vite uses esbuild; tsc is type-check only) |
+| `"incremental"` | `true` | removed |
+| `"include"` | `["next-env.d.ts", "**/*.ts", "**/*.tsx"]` | `["src", "index.html", "vite.config.ts"]` |
+| `"types"` | (not set) | `["vite/client"]` added |
+
+## ESLint
+
+`eslint-config-next` is removed. `.eslintrc.json` currently extends `"next/core-web-vitals"` — this must be updated. Replace with `"eslint:recommended"` plus React-specific rules. The `@next/next/no-img-element` rule (currently disabled) is gone along with the Next.js config, so the `rules` block can be cleared.
+
+Updated `.eslintrc.json`:
+```json
+{
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "rules": {}
+}
+```
+
+This requires adding `eslint-plugin-react` as a devDependency.
 
 ## Out of Scope
 
 - Adding a router (not needed for a single-page site)
 - Changing component logic or visual design
-- Switching CSS tooling
+- Switching CSS tooling beyond the `@value` → CSS custom property conversion
