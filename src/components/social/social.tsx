@@ -17,15 +17,6 @@ const Social: NextPage = () => {
 
         <div className={styles.handle}>
           <div className={styles.iconImageWrapper}>
-            <img alt="linkedin icon" src="./icons/linkedin-icon.svg" />
-          </div>
-          <p>
-            <a href="https://www.linkedin.com/in/leoncheng57/">leoncheng57 </a>
-          </p>
-        </div>
-
-        <div className={styles.handle}>
-          <div className={styles.iconImageWrapper}>
             <img alt="email icon" src="./icons/email-icon.svg" />
           </div>
           <p>
