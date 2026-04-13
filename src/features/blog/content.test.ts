@@ -79,4 +79,27 @@ This post should parse in the browser runtime too.
       globalThis.Buffer = originalBuffer
     }
   })
+
+  it('preserves the draft flag when parsing markdown frontmatter', () => {
+    const posts = loadBlogPostsFromFiles({
+      '/src/content/blog/draft-post.md': `---
+title: "Draft Post"
+description: "Hidden from the index."
+publishedAt: "2026-04-13"
+draft: true
+---
+
+# Draft Post
+
+This post should remain directly accessible by slug.
+`,
+    })
+
+    expect(posts).toHaveLength(1)
+    expect(posts[0]).toMatchObject({
+      title: 'Draft Post',
+      slug: 'draft-post',
+      draft: true,
+    })
+  })
 })
