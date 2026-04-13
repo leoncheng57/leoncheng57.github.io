@@ -128,6 +128,7 @@ function parseBlogPost(path: string, rawContent: string): BlogPost {
     readingTimeMinutes: frontmatter.estimateTimeToRead ?? calculateReadingTime(normalizedContent),
     tags: frontmatter.tags ?? [],
     heroImage: frontmatter.heroImage,
+    draft: frontmatter.draft,
     content: normalizedContent,
   }
 }
@@ -138,10 +139,14 @@ export function loadBlogPostsFromFiles(files: Record<string, string>): BlogPost[
     .sort((left, right) => right.publishedAt.localeCompare(left.publishedAt))
 }
 
+function isPublished(post: BlogPost): boolean {
+  return !post.draft
+}
+
 export function getAllBlogPosts(): BlogPost[] {
-  return loadBlogPostsFromFiles(blogPostModules)
+  return loadBlogPostsFromFiles(blogPostModules).filter(isPublished)
 }
 
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
-  return getAllBlogPosts().find((post) => post.slug === slug)
+  return loadBlogPostsFromFiles(blogPostModules).find((post) => post.slug === slug)
 }

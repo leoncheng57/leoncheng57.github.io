@@ -8,6 +8,7 @@ export interface BlogPost {
   readingTimeMinutes: number
   tags: string[]
   heroImage?: string
+  draft?: boolean
   content: string
 }
 
