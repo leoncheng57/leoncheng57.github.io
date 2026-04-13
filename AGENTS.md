@@ -47,6 +47,12 @@ npm run build
 - Rebuild with `npm run build` when you need updated deployment artifacts in `docs/`.
 - Keep changes small and consistent with the existing simple site structure.
 
+## PR / MR Notes
+
+- When a change has a visible UI impact, include screenshots in the PR/MR description whenever possible.
+- Prefer fresh screenshots captured from the current local app state rather than reusing older assets.
+- If the screenshots need to be persisted for the PR/MR description, add only the minimal image assets required and link/embed those hosted GitHub URLs in the PR/MR body.
+
 ## Deployment Note
 
 Vite is configured to build into `docs/` in `vite.config.ts`.
