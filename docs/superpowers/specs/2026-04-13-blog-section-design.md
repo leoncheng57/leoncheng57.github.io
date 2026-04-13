@@ -73,6 +73,7 @@ tags:
   - personal-site
   - frontend
 heroImage: "/blog/why-i-built-this/hero.jpg"
+estimateTimeToRead: 6
 draft: false
 ---
 
@@ -91,6 +92,7 @@ draft: false
 - `updatedAt`
 - `tags`
 - `heroImage`
+- `estimateTimeToRead`
 - `draft`
 
 ### Derived Fields
@@ -98,7 +100,7 @@ draft: false
 The content layer should derive:
 
 - `slug` from filename
-- `readingTimeMinutes` from word count
+- `readingTimeMinutes` from `estimateTimeToRead` when provided, otherwise from word count
 - `headings` from rendered content when needed for anchors or future table-of-contents support
 
 ## Routing Design
@@ -162,7 +164,7 @@ For each file:
 1. Parse frontmatter with `gray-matter`
 2. Validate required fields
 3. Compute slug from filename
-4. Compute reading time from plain-text word count
+4. Compute reading time from `estimateTimeToRead` when present, otherwise from plain-text word count
 5. Return a typed `BlogPost` object
 
 ### Rendering
@@ -406,7 +408,7 @@ If the repo does not currently have a test runner configured, this work can begi
 - Keep the blog inside the existing Vite SPA
 - Support multiple articles from the start
 - Do not build a custom Markdown converter
-- Derive reading time from content source
+- Allow frontmatter to override derived reading time through `estimateTimeToRead`
 - Make headings deeplinkable in the rendered article
 - Make images clickable for zoom
 
