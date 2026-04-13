@@ -21,9 +21,13 @@
   justify-content: center;
 }
 
-.logoRow a {
+.nav a.logoLink,
+.nav a.logoLink:hover {
   display: inline-flex;
+  color: inherit;
   border-bottom: none;
+  text-decoration: none;
+  opacity: 1;
 }
 
 .logo {

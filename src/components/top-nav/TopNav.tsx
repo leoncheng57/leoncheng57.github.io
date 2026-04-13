@@ -6,7 +6,7 @@ export default function TopNav(): ReactElement {
   return (
     <nav aria-label="Primary" className={styles.nav}>
       <div className={styles.logoRow}>
-        <Link to="/">
+        <Link to="/" className={styles.logoLink}>
           <img src="/lc-logo.svg" alt="LC Logo" className={styles.logo} />
         </Link>
       </div>
