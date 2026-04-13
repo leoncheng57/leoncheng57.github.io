@@ -13,6 +13,8 @@ tags:
 
 This is the first sample blog post for the new blog section.
 
+![A collage of product design and styling work](/upstyling.png)
+
 ## Why this exists
 
 It gives the routes something real to render during phase 1.

@@ -27,6 +27,10 @@
   margin-bottom: 0.5rem;
 }
 
+.pageHeader > p {
+  margin-bottom: 1rem;
+}
+
 .backLink {
   margin-bottom: 1.5rem;
 }
@@ -63,9 +67,51 @@
   margin: 0;
 }
 
+.fontControls {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding: 0.35rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 90%, white 10%);
+}
+
+.fontControls button {
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-primary);
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+}
+
+.fontControls button:hover {
+  background: color-mix(in srgb, var(--bg) 60%, white 40%);
+}
+
 .articleBody {
-  font-size: 1.05rem;
+  font-size: var(--blog-font-size, 1.05rem);
   line-height: 1.8;
+}
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.heading {
+  margin: 0;
+}
+
+.headingAnchor {
+  opacity: 0.55;
+  font-size: 0.85em;
+}
+
+.headingRow:hover .headingAnchor {
+  opacity: 1;
 }
 
 .articleBody h2,
@@ -78,4 +124,69 @@
 .articleBody ul,
 .articleBody ol {
   margin: 1rem 0;
+}
+
+.figure {
+  margin: 1.5rem 0;
+}
+
+.figureBlock {
+  margin: 1.5rem 0;
+}
+
+.imageButton {
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.articleImage,
+.zoomedImage {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 1rem;
+}
+
+.articleImage {
+  border: 1px solid var(--hr-color);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+}
+
+.figureCaption {
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.imageOverlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgba(8, 8, 8, 0.82);
+  z-index: 20;
+}
+
+.imageOverlayInner {
+  width: min(100%, 70rem);
+}
+
+.imageClose {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 88%, white 12%);
+  color: var(--text-primary);
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+}
+
+.zoomedImage {
+  max-height: calc(100vh - 8rem);
+  object-fit: contain;
 }
