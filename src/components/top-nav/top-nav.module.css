@@ -1,0 +1,59 @@
+.nav {
+  display: grid;
+  justify-items: center;
+  gap: 0.65rem;
+  margin: 0 auto 1.5rem;
+}
+
+.nav a {
+  color: var(--link-color);
+  text-decoration: none;
+  border-bottom: 2px dotted var(--blue-emphasis);
+}
+
+.nav a:hover {
+  color: var(--link-hover-color);
+  opacity: 0.8;
+}
+
+.logoRow {
+  display: flex;
+  justify-content: center;
+}
+
+.nav a.logoLink,
+.nav a.logoLink:hover {
+  display: inline-flex;
+  color: inherit;
+  border-bottom: none;
+  text-decoration: none;
+  opacity: 1;
+}
+
+.logo {
+  display: block;
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.linksRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .nav {
+    gap: 0.55rem;
+  }
+
+  .logo {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+
+  .linksRow {
+    gap: 1rem;
+  }
+}

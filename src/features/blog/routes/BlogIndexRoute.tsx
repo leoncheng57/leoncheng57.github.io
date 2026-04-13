@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import TopNav from '../../../components/top-nav/TopNav'
 import TagList from '../components/TagList'
 import { getAllBlogPosts } from '../content'
 import styles from '../blog.module.css'
@@ -9,6 +10,7 @@ export default function BlogIndexRoute(): ReactElement {
 
   return (
     <div className={styles.page}>
+      <TopNav />
       <main className={styles.index}>
         <p className={styles.backLink}>
           <Link to="/">Back home</Link>
