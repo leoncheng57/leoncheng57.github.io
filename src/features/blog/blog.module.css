@@ -145,6 +145,25 @@
   margin: 1rem 0;
 }
 
+.calloutRow {
+  margin: 1.75rem 0 2rem;
+}
+
+.calloutBox {
+  padding: 1rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--hr-color) 88%, white 12%);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--surface) 92%, white 8%);
+}
+
+.calloutBox p:first-child {
+  margin-top: 0;
+}
+
+.calloutBox p:last-child {
+  margin-bottom: 0;
+}
+
 .figure {
   margin: 1.5rem 0;
 }
