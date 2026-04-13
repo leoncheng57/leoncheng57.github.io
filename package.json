@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp docs/index.html docs/404.html",
     "lint": "eslint src --ext ts,tsx",
     "test": "vitest",
     "test:run": "vitest run",
