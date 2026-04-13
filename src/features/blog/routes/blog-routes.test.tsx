@@ -4,6 +4,20 @@ import { describe, expect, it } from 'vitest'
 import App from '../../../App'
 
 describe('blog routes', () => {
+  it('renders the shared top navbar on the home route', () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'LC Logo' })).toBeInTheDocument()
+    expect(screen.getAllByRole('img', { name: 'LC Logo' })).toHaveLength(1)
+    expect(screen.getByRole('link', { name: 'Read the blog' })).toBeInTheDocument()
+  })
+
   it('renders the blog index route', () => {
     render(
       <MemoryRouter initialEntries={['/blog']}>
@@ -12,12 +26,15 @@ describe('blog routes', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Blog' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Hello Blog' })).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'AI Coding Agent Desktop App Comparison (April 2026)' })
     ).toBeInTheDocument()
     expect(screen.getByText('meta')).toBeInTheDocument()
     expect(screen.getByText('intro')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Back home' })).toBeInTheDocument()
   })
 
   it('renders the blog post route with metadata', () => {
@@ -28,6 +45,8 @@ describe('blog routes', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Hello Blog' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByText(/estimated reading time/i)).toBeInTheDocument()
     expect(screen.getByText('meta')).toBeInTheDocument()
     expect(screen.getByText('intro')).toBeInTheDocument()
@@ -36,6 +55,7 @@ describe('blog routes', () => {
     expect(screen.getByRole('button', { name: 'Increase font size' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Why this exists' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Link to section Why this exists' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Back to blog' })).toBeInTheDocument()
   })
 
   it('opens and closes the image zoom dialog', () => {

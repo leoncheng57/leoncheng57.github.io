@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { CSSProperties, ReactElement } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import TopNav from '../../../components/top-nav/TopNav'
 import BlogMeta from '../components/BlogMeta'
 import FontSizeControls from '../components/FontSizeControls'
 import MarkdownArticle from '../components/MarkdownArticle'
@@ -15,6 +16,7 @@ export default function BlogPostRoute(): ReactElement {
   if (!post) {
     return (
       <div className={styles.page}>
+        <TopNav />
         <main className={styles.article}>
           <p className={styles.backLink}>
             <Link to="/blog">Back to blog</Link>
@@ -32,6 +34,7 @@ export default function BlogPostRoute(): ReactElement {
 
   return (
     <div className={styles.page}>
+      <TopNav />
       <main className={styles.article} style={articleStyle}>
         <p className={styles.backLink}>
           <Link to="/blog">Back to blog</Link>
