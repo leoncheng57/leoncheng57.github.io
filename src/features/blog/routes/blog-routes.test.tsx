@@ -13,11 +13,11 @@ describe('blog routes', () => {
 
     expect(screen.getByRole('heading', { name: 'Blog' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Hello Blog' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'AI Coding Agent Desktop App Comparison (April 2026)' })
+    ).toBeInTheDocument()
     expect(screen.getByText('meta')).toBeInTheDocument()
     expect(screen.getByText('intro')).toBeInTheDocument()
-    expect(
-      screen.queryByRole('link', { name: 'AI Coding Agent Desktop App Comparison (April 2026)' })
-    ).not.toBeInTheDocument()
   })
 
   it('renders the blog post route with metadata', () => {
@@ -65,7 +65,7 @@ describe('blog routes', () => {
     expect(screen.getByRole('link', { name: 'Back to blog' })).toBeInTheDocument()
   })
 
-  it('renders a draft post when opened by direct slug', () => {
+  it('renders the AI coding agent post by direct slug', () => {
     render(
       <MemoryRouter initialEntries={['/blog/ai-coding-agent-desktop-app-comparison-april-2026']}>
         <App />

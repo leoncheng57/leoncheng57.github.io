@@ -9,10 +9,12 @@ interface BlogMetaProps {
 
 export default function BlogMeta({ post }: BlogMetaProps): ReactElement {
   return (
-    <div className={styles.meta}>
-      <p>Published: {post.publishedAt}</p>
-      {post.updatedAt ? <p>Last updated: {post.updatedAt}</p> : null}
-      <p>Estimated reading time: {post.readingTimeMinutes} min</p>
+    <div className={styles.metaSection}>
+      <div className={styles.meta}>
+        <p>Published: {post.publishedAt}</p>
+        {post.updatedAt ? <p>Last updated: {post.updatedAt}</p> : null}
+        <p>Estimated reading time: {post.readingTimeMinutes} min</p>
+      </div>
       <TagList tags={post.tags} />
     </div>
   )
