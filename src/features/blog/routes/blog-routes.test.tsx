@@ -14,8 +14,8 @@ describe('blog routes', () => {
     expect(screen.getByRole('heading', { name: 'Blog' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Hello Blog' })).toBeInTheDocument()
     expect(
-      screen.getByRole('link', { name: 'AI Coding Agent Desktop App Comparison (April 2026)' })
-    ).toBeInTheDocument()
+      screen.queryByRole('link', { name: 'AI Coding Agent Desktop App Comparison (April 2026)' })
+    ).not.toBeInTheDocument()
   })
 
   it('renders the blog post route with metadata', () => {

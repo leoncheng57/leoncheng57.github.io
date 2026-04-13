@@ -8,6 +8,7 @@ tags:
   - AI
   - coding-agents
   - developer-tools
+draft: true
 ---
 
 # AI Coding Agent Desktop App Comparison (April 2026)
