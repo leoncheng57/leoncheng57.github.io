@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import TagList from '../components/TagList'
 import { getAllBlogPosts } from '../content'
 import styles from '../blog.module.css'
 
@@ -26,6 +27,7 @@ export default function BlogIndexRoute(): ReactElement {
               <p className={styles.indexMeta}>
                 {post.publishedAt} · {post.readingTimeMinutes} min read
               </p>
+              <TagList tags={post.tags} />
             </article>
           ))}
         </div>

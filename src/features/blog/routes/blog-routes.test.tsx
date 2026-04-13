@@ -13,6 +13,8 @@ describe('blog routes', () => {
 
     expect(screen.getByRole('heading', { name: 'Blog' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Hello Blog' })).toBeInTheDocument()
+    expect(screen.getByText('meta')).toBeInTheDocument()
+    expect(screen.getByText('intro')).toBeInTheDocument()
     expect(
       screen.queryByRole('link', { name: 'AI Coding Agent Desktop App Comparison (April 2026)' })
     ).not.toBeInTheDocument()
@@ -27,6 +29,8 @@ describe('blog routes', () => {
 
     expect(screen.getByRole('heading', { name: 'Hello Blog' })).toBeInTheDocument()
     expect(screen.getByText(/estimated reading time/i)).toBeInTheDocument()
+    expect(screen.getByText('meta')).toBeInTheDocument()
+    expect(screen.getByText('intro')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Decrease font size' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Reset font size' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Increase font size' })).toBeInTheDocument()
