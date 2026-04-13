@@ -1,4 +1,3 @@
-import matter from 'gray-matter'
 import { calculateReadingTime } from './utils/readingTime'
 import type { BlogPost, BlogPostFrontmatter } from './types'
 
@@ -22,9 +21,98 @@ function assertRequiredFields(frontmatter: BlogPostFrontmatter, path: string): v
   }
 }
 
+function parseScalarValue(rawValue: string): string | number | boolean {
+  const trimmedValue = rawValue.trim()
+
+  if (
+    (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) ||
+    (trimmedValue.startsWith("'") && trimmedValue.endsWith("'"))
+  ) {
+    return trimmedValue.slice(1, -1)
+  }
+
+  if (trimmedValue === 'true') {
+    return true
+  }
+
+  if (trimmedValue === 'false') {
+    return false
+  }
+
+  const numericValue = Number(trimmedValue)
+  if (!Number.isNaN(numericValue) && trimmedValue !== '') {
+    return numericValue
+  }
+
+  return trimmedValue
+}
+
+function parseFrontmatter(rawContent: string): {
+  data: BlogPostFrontmatter
+  content: string
+} {
+  if (!rawContent.startsWith('---\n')) {
+    return {
+      data: {},
+      content: rawContent,
+    }
+  }
+
+  const frontmatterEnd = rawContent.indexOf('\n---\n')
+  if (frontmatterEnd === -1) {
+    return {
+      data: {},
+      content: rawContent,
+    }
+  }
+
+  const frontmatterBlock = rawContent.slice(4, frontmatterEnd)
+  const content = rawContent.slice(frontmatterEnd + 5)
+  const data: Record<string, unknown> = {}
+  const lines = frontmatterBlock.split('\n')
+
+  let currentArrayKey: string | null = null
+
+  for (const line of lines) {
+    if (!line.trim()) {
+      continue
+    }
+
+    const arrayItemMatch = line.match(/^\s*-\s+(.*)$/)
+    if (arrayItemMatch && currentArrayKey) {
+      const currentValue = data[currentArrayKey]
+      if (Array.isArray(currentValue)) {
+        currentValue.push(String(parseScalarValue(arrayItemMatch[1])))
+      }
+      continue
+    }
+
+    const keyValueMatch = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/)
+    if (!keyValueMatch) {
+      currentArrayKey = null
+      continue
+    }
+
+    const [, key, rawValue] = keyValueMatch
+
+    if (rawValue === '') {
+      data[key] = []
+      currentArrayKey = key
+      continue
+    }
+
+    data[key] = parseScalarValue(rawValue)
+    currentArrayKey = null
+  }
+
+  return {
+    data: data as BlogPostFrontmatter,
+    content,
+  }
+}
+
 function parseBlogPost(path: string, rawContent: string): BlogPost {
-  const { data, content } = matter(rawContent)
-  const frontmatter = data as BlogPostFrontmatter
+  const { data: frontmatter, content } = parseFrontmatter(rawContent)
 
   assertRequiredFields(frontmatter, path)
 

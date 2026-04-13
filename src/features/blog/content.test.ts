@@ -50,4 +50,33 @@ publishedAt: "2026-04-10"
       })
     ).toThrow(/description/i)
   })
+
+  it('does not depend on Buffer being available at runtime', () => {
+    const originalBuffer = globalThis.Buffer
+
+    // Simulate the browser runtime where Node's Buffer global is absent.
+    Reflect.deleteProperty(globalThis, 'Buffer')
+
+    try {
+      const posts = loadBlogPostsFromFiles({
+        '/src/content/blog/runtime-safe.md': `---
+title: "Runtime Safe"
+description: "Works without Buffer."
+publishedAt: "2026-04-13"
+tags:
+  - browser
+  - runtime
+---
+
+# Runtime Safe
+
+This post should parse in the browser runtime too.
+`,
+      })
+
+      expect(posts[0].tags).toEqual(['browser', 'runtime'])
+    } finally {
+      globalThis.Buffer = originalBuffer
+    }
+  })
 })
