@@ -1,0 +1,70 @@
+.page {
+  padding: 2rem 1rem 4rem;
+}
+
+.index,
+.article {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+}
+
+.pageHeader {
+  margin-bottom: 2rem;
+}
+
+.pageHeader h1 {
+  margin-bottom: 0.5rem;
+}
+
+.backLink {
+  margin-bottom: 1.5rem;
+}
+
+.postList {
+  display: grid;
+  gap: 1rem;
+}
+
+.postCard {
+  padding: 1.25rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--bg) 88%, white 12%);
+}
+
+.postCard h2 {
+  margin-top: 0;
+}
+
+.indexMeta,
+.meta {
+  color: var(--text-secondary, var(--text-primary));
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  font-size: 0.95rem;
+}
+
+.meta p {
+  margin: 0;
+}
+
+.articleBody {
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.articleBody h2,
+.articleBody h3,
+.articleBody h4 {
+  margin-top: 2rem;
+}
+
+.articleBody p,
+.articleBody ul,
+.articleBody ol {
+  margin: 1rem 0;
+}

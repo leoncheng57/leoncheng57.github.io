@@ -1,22 +1,15 @@
-import React from 'react'
-import Copyright from './components/copyright/copyright'
-import Experiences from './components/experiences/experiences'
-import Headline from './components/headline/headline'
-import Social from './components/social/social'
-import styles from './App.module.css'
+import type { ReactElement } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
+import BlogPostRoute from './features/blog/routes/BlogPostRoute'
+import HomeRoute from './routes/HomeRoute'
 
-const App: React.FC = () => {
+export default function App(): ReactElement {
   return (
-    <div className={styles.container}>
-      <img src="/lc-logo.svg" alt="LC Logo" className={styles.logo} />
-      <main>
-        <Headline />
-        <hr />
-        <Social />
-        <hr />
-      </main>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomeRoute />} />
+      <Route path="/blog" element={<BlogIndexRoute />} />
+      <Route path="/blog/:slug" element={<BlogPostRoute />} />
+    </Routes>
   )
 }
-
-export default App
