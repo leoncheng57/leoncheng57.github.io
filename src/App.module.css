@@ -40,6 +40,6 @@
 }
 .container a:hover,
 .main a:hover {
-  color: var(--blue-emphasis);
+  color: var(--link-hover-color);
   opacity: 0.8;
 }

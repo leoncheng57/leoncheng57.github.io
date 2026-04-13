@@ -2,6 +2,17 @@
   padding: 2rem 1rem 4rem;
 }
 
+.page a {
+  color: var(--link-color);
+  text-decoration: none;
+  border-bottom: 2px dotted var(--blue-emphasis);
+}
+
+.page a:hover {
+  color: var(--link-hover-color);
+  opacity: 0.85;
+}
+
 .index,
 .article {
   width: min(100%, 52rem);
