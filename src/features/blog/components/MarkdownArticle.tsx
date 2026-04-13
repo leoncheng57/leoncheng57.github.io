@@ -56,6 +56,11 @@ export default function MarkdownArticle({ content }: MarkdownArticleProps): Reac
             ) : (
               <p>{props.children}</p>
             ),
+          blockquote: ({ node: _node, ...props }) => (
+            <aside className={styles.calloutRow}>
+              <div className={styles.calloutBox}>{props.children}</div>
+            </aside>
+          ),
         }}
       >
         {content}

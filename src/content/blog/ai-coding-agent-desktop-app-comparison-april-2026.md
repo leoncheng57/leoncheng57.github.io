@@ -63,8 +63,8 @@ The comparison gets easier once you stop assuming they are all trying to win the
 - Craft Agents is aiming at structured, multi-tool agent workflows.
 - OpenCode Desktop is aiming at flexibility and openness.
 - Claude Desktop (Cowork) is stronger for broader delegated work, not just coding.
-- Cursor Agent is strongest when your center of gravity is already the Cursor IDE.
-- Codex App is strongest if you want an OpenAI-native, sandboxed local agent experience.
+- Cursor Agent currently looks most differentiated for integrated UI editing inside the Cursor workflow.
+- Codex App is strongest if you want an OpenAI-native agent experience with useful queuing and steering controls.
 
 That means "best" depends heavily on whether you optimize for workflow, openness, IDE integration, or ecosystem alignment.
 
@@ -86,17 +86,17 @@ Best for users delegating mixed knowledge-work tasks, especially if they are alr
 
 ### Cursor Agent
 
-Best for developers who already live inside Cursor and want cloud-hosted autonomous coding connected to that environment. Its strongest advantages come from sandboxed cloud execution and IDE-native review loops rather than from being a broad standalone desktop workspace.
+Best for developers who already live inside Cursor and want cloud-hosted autonomous coding connected to that environment. Right now, its clearest differentiator is that it is very good at integrated UI editing inside the Cursor workflow, more than being a broad standalone desktop workspace.
 
 ### Codex App
 
-Best for developers who want an OpenAI-native desktop agent with sandboxed execution and a simpler local setup. Its main appeal is safety and ecosystem alignment. Its weakness, at least in this snapshot, is that the desktop app surface feels narrower than the strongest competitors.
+Best for developers who want an OpenAI-native desktop agent with sandboxed execution and a simpler local setup. Its main appeal is safety, ecosystem alignment, and a workflow that already includes queuing and steering. Its weakness, at least in this snapshot, is that the desktop app surface still feels narrower than the strongest competitors.
 
 ## My takeaway
 
 If I had to summarize the current landscape in one sentence, it would be this: these products are converging on similar agent capabilities, but they are still meaningfully differentiated by workflow design and execution model.
 
-OpenCode Desktop is my preferred starting point because it has the best combination of flexibility, openness, and long-term optionality. Craft Agents looks strongest as a full agent workspace. Cursor Agent looks strongest for IDE-centered coding. Claude Desktop (Cowork) looks strongest for broader delegated work. Codex App is the most interesting if you specifically want an OpenAI-native sandboxed experience, but it currently feels more minimal as a standalone product.
+OpenCode Desktop is my preferred starting point because it has the best combination of flexibility, openness, and long-term optionality. Craft Agents looks strongest as a full agent workspace. Cursor Agent looks strongest where integrated UI editing inside the IDE matters most. Claude Desktop (Cowork) looks strongest for broader delegated work. Codex App is the most interesting if you specifically want an OpenAI-native sandboxed experience with queuing and steering, but it currently feels more minimal as a standalone product.
 
 That is why I do not think there is a single universal winner here, even if OpenCode is my current default recommendation. The right choice still depends on whether you want a better workflow product, a more open stack, deeper IDE integration, or tighter alignment with a specific model ecosystem.
 
@@ -105,6 +105,8 @@ It also still feels like there is room for another serious company to enter this
 My prediction is that within one to two months, this field will be mostly solved in practice. Not solved in the sense that innovation stops, but solved in the sense that the market converges around one or a few genuinely excellent DCAs that most serious users end up standardizing on.
 
 ## Appendix: Full comparison table
+
+This appendix is directionally useful, but it is not 100% accurate. Parts of it were AI-generated and I did not thoroughly fact-check every row.
 
 ### Overview
 
