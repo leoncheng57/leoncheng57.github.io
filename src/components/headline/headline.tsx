@@ -14,7 +14,7 @@ const Headline: NextPage = () => {
       <p className={styles.summary}>
         I am a{" "}
         <span className={styles.summaryHighlight}>
-          Software Engineer
+          Software Engineer / Learner at Heart
         </span>
         .
       </p>
