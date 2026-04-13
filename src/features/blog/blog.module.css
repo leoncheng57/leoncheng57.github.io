@@ -56,6 +56,12 @@
   color: var(--text-secondary, var(--text-primary));
 }
 
+.metaSection {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+}
+
 .meta {
   display: flex;
   flex-wrap: wrap;
@@ -71,9 +77,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-  margin: 0.75rem 0 0;
-  padding: 0;
+  margin: 0;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--hr-color) 85%, transparent 15%);
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--surface) 86%, white 14%);
   list-style: none;
+  justify-content: flex-start;
 }
 
 .tag {
