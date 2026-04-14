@@ -13,7 +13,7 @@ tags:
 
 If you have ever opened a merge request and winced at the commit history, you are not alone. Feature branches accumulate noise: fixup commits, formatting changes, lockfile updates, and interleaved concerns that make review harder than it needs to be.
 
-The good news is that reorganizing commits before review is straightforward. The technique is simple: soft-reset to the merge base, unstage everything, then selectively re-commit in a logical order. No interactive rebase gymnastics required.
+The good news is that AI coding agents can now make it much easier to reorganize commits before review, a task that was considered so unwieldy when done manually that people would rarely bother. Stacked diffs are one approach to this problem and they are genuinely cool, but they are not available to many teams and require specific tooling. The technique here is simpler and works anywhere: soft-reset to the merge base, unstage everything, then selectively re-commit in a logical order. No interactive rebase gymnastics or special tooling required.
 
 This guide walks through the full process step by step.
 
@@ -27,78 +27,7 @@ A clean commit history is not about vanity. It directly affects how reviewable y
 
 The goal is not perfection. It is making the reviewer's job easier, which gets your code merged faster.
 
-## The process
-
-### 1. Find the merge base
-
-First, identify where your branch diverged from `main`:
-
-```bash
-git merge-base <your-branch> origin/main
-```
-
-This gives you the commit SHA that is the common ancestor. Every commit after this point is what your MR contains.
-
-### 2. Review what you have
-
-Look at all the commits in your MR:
-
-```bash
-git log --oneline <merge-base>..HEAD
-```
-
-This is the list you are about to reorganize.
-
-### 3. Soft-reset and unstage
-
-Now collapse all those commits back into uncommitted changes:
-
-```bash
-git reset --soft <merge-base>
-git reset HEAD .
-```
-
-The first command moves HEAD back to the merge base but keeps all your changes staged. The second unstages everything so you have a clean working tree with all your modifications visible in `git status` and `git diff`.
-
-### 4. Review the full diff
-
-Before re-committing, understand the full scope of what changed:
-
-```bash
-git diff --stat
-git status
-```
-
-Read through each file's diff. Understand what each change does and which logical group it belongs to.
-
-### 5. Group and re-commit in order
-
-This is where the real work happens. Stage and commit files in this order:
-
-1. **Independent fixes** -- Small self-contained bugfixes, config changes, or infra updates that have no dependency on your feature.
-2. **Data and logic layer** -- New types, utilities, shared components, and hooks that your feature depends on.
-3. **Feature UI** -- The components and views that consume the above.
-4. **Tests** -- Unit and E2E tests covering all of the above.
-5. **Discard noise** -- Use `git checkout -- <file>` for unrelated diffs (formatting-only changes, lockfile churn) and `rm` for stray generated files.
-
-For each group:
-
-```bash
-git add <files-in-this-group>
-git commit -m "descriptive message for this group"
-```
-
-### 6. Verify and push
-
-Once you have re-committed everything:
-
-```bash
-git log --oneline <merge-base>..HEAD   # verify the new history
-git status                              # verify clean working tree
-git push --force-with-lease origin <your-branch>
-```
-
-Use `--force-with-lease` instead of `--force`. It will refuse to push if someone else has pushed to the branch since your last fetch, which prevents accidentally overwriting their work.
+One thing worth noting up front: this process does not modify your code at all. You are only changing how the same set of diffs is organized into commits. The final tree is identical. And if you are worried, you can always keep the old branch or MR around to compare afterward and confirm 100% equality.
 
 ## Quick reference checklist
 
@@ -131,9 +60,25 @@ Use `--force-with-lease` instead of `--force`. It will refuse to push if someone
 
 ## Drop-in instructions for AI coding agents
 
-If you use an AI coding agent (Claude Code, OpenCode, Cursor, Codex, or similar), you can paste the following paragraph into your repository's agent instructions file (such as `AGENTS.md`, `CLAUDE.md`, or `.cursorrules`). It teaches the agent how to reorganize commits when asked:
+If you use an AI coding agent (Claude Code, OpenCode, Cursor, Codex, or similar), you can paste the following checklist into your repository's agent instructions file (such as `AGENTS.md`, `CLAUDE.md`, or `.cursorrules`). It teaches the agent how to reorganize commits when asked, and the checklist format lets you watch progress as the agent works through each step:
 
-> When asked to reorganize, clean up, or restructure commits on a branch, follow this process. First, find the merge base with `git merge-base HEAD origin/main`. Then review the current commits with `git log --oneline <merge-base>..HEAD`. Soft-reset to the merge base with `git reset --soft <merge-base>`, then unstage everything with `git reset HEAD .`. Review all changes with `git diff --stat` and `git status`. Read through each file's diff and group changes into logical categories: (1) independent bugfixes and config changes, (2) new types, utilities, shared components, and hooks, (3) feature UI that depends on the above, (4) tests, and (5) noise to discard. Re-commit in that order with clear messages. Discard noise with `git checkout -- <file>` or `rm`. Verify the result with `git log --oneline <merge-base>..HEAD` and `git status`. Do not force-push unless explicitly asked to; instead, present the new commit list and ask for confirmation before pushing with `git push --force-with-lease`.
+> When asked to reorganize, clean up, or restructure commits on a branch, follow this checklist:
+>
+> - [ ] Find the merge base: `git merge-base HEAD origin/main`
+> - [ ] Review current commits: `git log --oneline <merge-base>..HEAD`
+> - [ ] Soft-reset to merge base: `git reset --soft <merge-base>`
+> - [ ] Unstage everything: `git reset HEAD .`
+> - [ ] Review all changes: `git diff --stat` and `git status`
+> - [ ] Read through each file's diff and group changes into logical categories
+> - [ ] Commit group 1: independent bugfixes and config changes
+> - [ ] Commit group 2: new types, utilities, shared components, and hooks
+> - [ ] Commit group 3: feature UI that depends on the above
+> - [ ] Commit group 4: tests
+> - [ ] Discard noise: `git checkout -- <file>` or `rm` for unrelated diffs
+> - [ ] Verify new history: `git log --oneline <merge-base>..HEAD`
+> - [ ] Verify clean tree: `git status`
+> - [ ] Present the new commit list and ask for confirmation before pushing
+> - [ ] Force push only when confirmed: `git push --force-with-lease`
 
 This gives the agent enough context to do the reorganization autonomously while still asking for confirmation before the destructive push step.
 
@@ -166,12 +111,6 @@ This gives you an easy escape hatch. If something goes wrong, your original bran
 One thing worth knowing: both GitHub and GitLab preserve the previous state of a branch after a force-push. GitHub shows a "force-pushed" event in the MR timeline with a link to the before-and-after comparison. GitLab does the same. So even if you rewrite in place, the old commits are not truly lost at the platform level. Reviewers can still see what changed between force-pushes.
 
 This means option A is less risky than it sounds. The platform is your backup. But it is worth being aware of because if you are reorganizing commits on a branch that already has review comments tied to specific commits, those comment anchors may break or become harder to find after a force-push.
-
-### Which one to use
-
-If you are the sole author and the MR has not been reviewed yet, rewrite in place. It is faster and there is nothing to lose.
-
-If the MR already has review threads you want to preserve context for, or if you are just not confident about the process yet, create a new branch first. You can always delete it after.
 
 ## When not to do this
 
