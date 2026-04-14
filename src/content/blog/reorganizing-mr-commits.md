@@ -29,6 +29,30 @@ The goal is not perfection. It is making the reviewer's job easier, which gets y
 
 One thing worth noting up front: this process does not modify your code at all. You are only changing how the same set of diffs is organized into commits. The final tree is identical. And if you are worried, you can always keep the old branch or MR around to compare afterward and confirm 100% equality.
 
+## Drop-in instructions for AI coding agents
+
+If you use an AI coding agent (Claude Code, OpenCode, Cursor, Codex, or similar), you can paste the following checklist into your repository's agent instructions file (such as `AGENTS.md`, `CLAUDE.md`, or `.cursorrules`). It teaches the agent how to reorganize commits when asked, and the checklist format lets you watch progress as the agent works through each step:
+
+> When asked to reorganize, clean up, or restructure commits on a branch, follow this checklist:
+>
+> - [ ] Find the merge base: `git merge-base HEAD origin/main`
+> - [ ] Review current commits: `git log --oneline <merge-base>..HEAD`
+> - [ ] Soft-reset to merge base: `git reset --soft <merge-base>`
+> - [ ] Unstage everything: `git reset HEAD .`
+> - [ ] Review all changes: `git diff --stat` and `git status`
+> - [ ] Read through each file's diff and group changes into logical categories
+> - [ ] Commit group 1: independent bugfixes and config changes
+> - [ ] Commit group 2: new types, utilities, shared components, and hooks
+> - [ ] Commit group 3: feature UI that depends on the above
+> - [ ] Commit group 4: tests
+> - [ ] Discard noise: `git checkout -- <file>` or `rm` for unrelated diffs
+> - [ ] Verify new history: `git log --oneline <merge-base>..HEAD`
+> - [ ] Verify clean tree: `git status`
+> - [ ] Present the new commit list and ask for confirmation before pushing
+> - [ ] Force push only when confirmed: `git push --force-with-lease`
+
+This gives the agent enough context to do the reorganization autonomously while still asking for confirmation before the destructive push step.
+
 ## Quick reference checklist
 
 **Prep:**
@@ -57,30 +81,6 @@ One thing worth noting up front: this process does not modify your code at all. 
 - Verify history: `git log --oneline <merge-base>..HEAD`
 - Verify clean tree: `git status`
 - Force push: `git push --force-with-lease origin <branch>`
-
-## Drop-in instructions for AI coding agents
-
-If you use an AI coding agent (Claude Code, OpenCode, Cursor, Codex, or similar), you can paste the following checklist into your repository's agent instructions file (such as `AGENTS.md`, `CLAUDE.md`, or `.cursorrules`). It teaches the agent how to reorganize commits when asked, and the checklist format lets you watch progress as the agent works through each step:
-
-> When asked to reorganize, clean up, or restructure commits on a branch, follow this checklist:
->
-> - [ ] Find the merge base: `git merge-base HEAD origin/main`
-> - [ ] Review current commits: `git log --oneline <merge-base>..HEAD`
-> - [ ] Soft-reset to merge base: `git reset --soft <merge-base>`
-> - [ ] Unstage everything: `git reset HEAD .`
-> - [ ] Review all changes: `git diff --stat` and `git status`
-> - [ ] Read through each file's diff and group changes into logical categories
-> - [ ] Commit group 1: independent bugfixes and config changes
-> - [ ] Commit group 2: new types, utilities, shared components, and hooks
-> - [ ] Commit group 3: feature UI that depends on the above
-> - [ ] Commit group 4: tests
-> - [ ] Discard noise: `git checkout -- <file>` or `rm` for unrelated diffs
-> - [ ] Verify new history: `git log --oneline <merge-base>..HEAD`
-> - [ ] Verify clean tree: `git status`
-> - [ ] Present the new commit list and ask for confirmation before pushing
-> - [ ] Force push only when confirmed: `git push --force-with-lease`
-
-This gives the agent enough context to do the reorganization autonomously while still asking for confirmation before the destructive push step.
 
 ## Rewrite in place or work on a new branch
 
