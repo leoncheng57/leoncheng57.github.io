@@ -51,7 +51,6 @@ At a glance, the whole thing looks like this:
                                  ▼
              ┌──────────────────────────────────────┐
              │ 5. Manual verification checklist     │
-             │    (screenshots, click-throughs)     │
              └───────────────────┬──────────────────┘
                                  │
                                  ▼
@@ -86,45 +85,15 @@ At a glance, the whole thing looks like this:
 
 6. **Done!**
 
-## Snippets as the unit of AI-assisted development
+## The design file
 
-This is the part of the workflow that changed the most, and it deserves its own section.
+The step that changed the most in this flow is the design file — the living document that captures what you're doing, why, and what the agent needs to know. With an agent in the loop, the context around a feature (plans, prompts, repros, screenshots, decisions, open questions) gets generated in volume as a side-effect of the work. That context needs a home, and chat history isn't it — chat is ephemeral and invisible to the next session.
 
-### The shift
+The format doesn't matter much. A GitLab snippet or GitHub gist, a Jira ticket, a Notion page, a Markdown file in the repo — any of these work. What matters is that the design file is **linkable** (one URL you can drop into the MR, a ticket, or another agent's prompt), **writable** (you, a teammate, or an agent can update it), and **durable** (it outlives the chat session it was born in).
 
-AI-assisted development has quietly changed what "doing the work" looks like. The artifact you produce during a feature is no longer just the final diff — it's the decision chain, the prompts, the rejected designs, the verification evidence, the things you almost did and backed out of. That context used to live in a developer's head and leak out gradually through commit messages and PR descriptions. With an agent in the loop, that context is now *generated* as a side-effect of doing the work, and it's generated in volume.
+Pick whichever one fits the task. Snippets and gists are cheapest for throwaway plans and repros. Jira or Notion fits when the design needs to live alongside product context. A Markdown file in the repo is right when the spec needs to be maintained in perpetuity with the code.
 
-The question becomes: where does it live?
-
-The wrong answer is "in chat history." Chat is ephemeral, unaddressable, and invisible to anyone — or any agent — not already in the conversation. The next session starts cold.
-
-The right answer is: **put it somewhere with a URL.**
-
-### Snippets are the breakthrough
-
-A gist or GitLab snippet is the smallest thing that solves this. It's:
-
-- **Linkable.** One URL. Drop it in a Jira ticket, an MR description, another agent's prompt. Done.
-- **Writable from anywhere.** You, a teammate, or an agent can paste into it.
-- **Durable.** It outlives the chat session it was born in.
-- **Cheap.** No repo, no branch, no review, no ceremony. Create it in ten seconds.
-- **Scoped.** One snippet per concern. A plan is one snippet. A bug repro is another. A transcript of a useful agent conversation is another.
-
-None of this is new technology. What's new is the *workflow pressure* that makes it load-bearing. When your agent can ingest a URL and be immediately productive, a snippet stops being a scratchpad and starts being the handoff format.
-
-### What belongs in a snippet
-
-- **Plans and design docs** before they're worth committing to a repo.
-- **Prompts that worked** — the exact wording that got the agent to do the thing.
-- **Repro steps, failing queries, log excerpts** that you'll want to paste back at the agent tomorrow.
-- **Screenshots** — before/after UI states, bug repros, verification evidence. The Playwright MCP server makes this nearly free: ask the agent to navigate the app, capture the relevant view, and attach the image to the snippet. Visual context that used to require a human in the loop can now be orchestrated end-to-end by the agent.
-- **Transcripts worth keeping** — the specific agent conversation that unlocked a tricky piece of the problem.
-- **Decision logs** — "we considered X, picked Y because Z."
-- **Open questions** you need to resolve before writing code.
-
-### Live-edit notes are fine
-
-These live-edit notes can be a running list and do not have to be perfect yet. The whole point of a snippet is that the cost of editing it later is zero, so there is no reason to stall on making the first version good. Paste, iterate, link.
+Don't overthink the first version. The whole point is that editing it later is free.
 
 ## Other tidbits
 
