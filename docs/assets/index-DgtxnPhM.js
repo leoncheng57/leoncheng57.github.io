@@ -120,29 +120,29 @@ At a glance, the whole thing looks like this:
 
 ## The flow
 
-1. **Create a new branch/worktree and push an empty MR.**
+### 1. Create a new branch/worktree and push an empty MR
 
-   The empty MR is the anchor. It gives me a place to drop links, screenshots, and notes as I go, and it gives reviewers (human or agent) a stable URL to watch.
+The empty MR is the anchor. It gives me a place to drop links, screenshots, and notes as I go, and it gives reviewers (human or agent) a stable URL to watch.
 
-2. **Notes.**
+### 2. Notes
 
-   1. Add notes in Jira or Notion.
-   2. Go through the implementation planning phase and push a **snippet/gist** to review on.
-   3. If you need this spec to maintain your project in perpetuity, then save it to the MR and save it in the repo itself.
+- Add notes in Jira or Notion.
+- Go through the implementation planning phase and push a **snippet/gist** to review on.
+- If you need this spec to maintain your project in perpetuity, then save it to the MR and save it in the repo itself.
 
-3. **Implement AI milestones/tasks and review the commits.**
+### 3. Implement AI milestones/tasks and review the commits
 
-   Run the plan with the agent, modifying it as needed as you go — plans are cheap now, so the point is to keep the spec and the code in sync, not to preserve the original plan as a trophy. Once the code is in, review the commits and reorganize them if needed. I wrote a separate piece on the cleanup step, because it is its own small skill: [How to Reorganize Merge Request Commits](https://leoncheng.dev/blog/reorganizing-mr-commits). A clean commit history makes review dramatically easier, and agents are now good enough at this step that it is worth doing every time.
+Run the plan with the agent, modifying it as needed as you go — plans are cheap now, so the point is to keep the spec and the code in sync, not to preserve the original plan as a trophy. Once the code is in, review the commits and reorganize them if needed. I wrote a separate piece on the cleanup step, because it is its own small skill: [How to Reorganize Merge Request Commits](https://leoncheng.dev/blog/reorganizing-mr-commits). A clean commit history makes review dramatically easier, and agents are now good enough at this step that it is worth doing every time.
 
-4. **Review flow using humans and AI review comments and CI/CD.**
+### 4. Review flow using humans and AI review comments and CI/CD
 
-   Let the pipelines and review bots do their first pass. Triage their comments before pulling a human in. By the time a teammate opens the MR, most of the obvious stuff is already addressed.
+Let the pipelines and review bots do their first pass. Triage their comments before pulling a human in. By the time a teammate opens the MR, most of the obvious stuff is already addressed.
 
-5. **Go through a checklist of manual verification steps.**
+### 5. Go through a checklist of manual verification steps
 
-   Screenshots, click-throughs, log checks — the things that automation still cannot fully close the loop on. Attach the evidence to the MR so future-me (and reviewers) do not have to take my word for it.
+Screenshots, click-throughs, log checks — the things that automation still cannot fully close the loop on. Attach the evidence to the MR so future-me (and reviewers) do not have to take my word for it.
 
-6. **Done!**
+### 6. Done!
 
 ## The design file
 
