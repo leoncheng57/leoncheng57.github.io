@@ -1,6 +1,6 @@
 ---
-title: "My New Development Workflow"
-description: "A per-task development flow built around AI agents, snippets as the handoff format, and clear review steps."
+title: "A New Development Workflow / AI Engineer Orchestration"
+description: "A per-task development flow built around AI agents, the design file as a single source of truth, and clear review steps."
 publishedAt: "2026-04-21"
 tags:
   - workflow
@@ -10,7 +10,7 @@ tags:
   - code-review
 ---
 
-# My New Development Workflow
+# A New Development Workflow / AI Engineer Orchestration
 
 Working with AI coding agents every day has quietly reshaped how I actually move through a piece of work. The old mental model — "open a ticket, write code, open a PR" — still exists, but the steps between those bookends look very different when an agent is in the loop.
 
