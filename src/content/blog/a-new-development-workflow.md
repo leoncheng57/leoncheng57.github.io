@@ -55,7 +55,7 @@ At a glance, the whole thing looks like this:
                                  │
                                  ▼
              ┌──────────────────────────────────────┐
-             │ 6. Done                              │
+             │ 6. Push and merge                    │
              └──────────────────────────────────────┘
 ```
 
@@ -83,7 +83,7 @@ Let the pipelines and review bots do their first pass. Triage their comments bef
 
 Screenshots, click-throughs, log checks — the things that automation still cannot fully close the loop on. Attach the evidence to the MR so future-me (and reviewers) do not have to take my word for it.
 
-### 6. Done!
+### 6. Push and merge
 
 ## The design file
 
