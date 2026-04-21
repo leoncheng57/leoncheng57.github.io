@@ -90,18 +90,14 @@
   <!-- ================================================================== -->
   <!-- Phase axis labels -->
   <!-- ================================================================== -->
-  <text x="440" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#3d4560">SHIP FAST &amp; RELEASE</text>
-  <text x="700" y="210" text-anchor="middle" font-size="11" font-weight="600" fill="#3d4560">USER ADOPTION</text>
-  <text x="700" y="223" text-anchor="middle" font-size="11" font-weight="600" fill="#3d4560">&amp; GROWTH</text>
-  <text x="720" y="560" text-anchor="middle" font-size="11" font-weight="600" fill="#3d4560">BUGS &amp;</text>
-  <text x="720" y="573" text-anchor="middle" font-size="11" font-weight="600" fill="#3d4560">REQUESTS</text>
-  <text x="440" y="648" text-anchor="middle" font-size="11" font-weight="600" fill="#3d4560">DEEP DIVE ANALYSIS</text>
-  <text x="140" y="560" text-anchor="middle" font-size="11" font-weight="600" fill="#3d4560">IMPLEMENTATIONS</text>
-  <text x="140" y="573" text-anchor="middle" font-size="11" font-weight="600" fill="#3d4560">&amp; QUALITY</text>
-
-  <!-- Center label -->
-  <text x="440" y="425" text-anchor="middle" font-size="10" font-weight="400" fill="#565f89">Leon's Tech</text>
-  <text x="440" y="438" text-anchor="middle" font-size="10" font-weight="400" fill="#565f89">Flywheel</text>
+  <text x="440" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#7a7f9a">SHIP FAST &amp; RELEASE</text>
+  <text x="770" y="175" text-anchor="middle" font-size="11" font-weight="600" fill="#7a7f9a">USER ADOPTION</text>
+  <text x="770" y="188" text-anchor="middle" font-size="11" font-weight="600" fill="#7a7f9a">&amp; GROWTH</text>
+  <text x="790" y="595" text-anchor="middle" font-size="11" font-weight="600" fill="#7a7f9a">BUGS &amp;</text>
+  <text x="790" y="608" text-anchor="middle" font-size="11" font-weight="600" fill="#7a7f9a">REQUESTS</text>
+  <text x="440" y="648" text-anchor="middle" font-size="11" font-weight="600" fill="#7a7f9a">DEEP DIVE ANALYSIS</text>
+  <text x="105" y="595" text-anchor="middle" font-size="11" font-weight="600" fill="#7a7f9a">IMPLEMENTATIONS</text>
+  <text x="105" y="608" text-anchor="middle" font-size="11" font-weight="600" fill="#7a7f9a">&amp; QUALITY</text>
 
   <!-- ================================================================== -->
   <!-- Right sidebar: Loop summaries -->
