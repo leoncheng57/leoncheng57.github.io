@@ -139,8 +139,6 @@ A minimal template looks like this:
 
 Sizing rule of thumb: start with a radius of 100 for the first ring and add 60 for each subsequent ring. Two loops fit comfortably in a `1100 × 700` viewBox; five or six loops need `1300 × 900` or taller.
 
-Full label positioning rules, axis labels, and sidebar layout are in the [how-to document in the gist](https://gist.github.com/leoncheng57/2d5bc526c53cb1f9364be83e80a12520). Once you have drawn one of these by hand, you will probably want to automate it — but I have found the hand-crafted version is worth doing at least once, because it forces you to stop and actually summarize each loop.
-
 ## When to use this
 
 I do not reach for this diagram on every project. It earns its keep in a few specific situations:
