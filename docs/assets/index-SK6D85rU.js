@@ -152,8 +152,6 @@ The format doesn't matter much. A GitLab snippet or GitHub gist, a Jira ticket, 
 
 Pick whichever one fits the task. Snippets and gists are cheapest for throwaway plans and repros. Jira or Notion fits when the design needs to live alongside product context. A Markdown file in the repo is right when the spec needs to be maintained in perpetuity with the code.
 
-Don't overthink the first version. The whole point is that editing it later is free.
-
 ## Other tidbits
 
 ### Images in GitLab MR comments
