@@ -376,10 +376,6 @@ In GitLab, when you post images as MR comments, they take up way too much space 
 
 In order to set up screenshots, you may need something like Playwright MCP. However, depending on your repository, it may be complicated to even run — for example if it has to be launched through Docker, or if the dev server has unusual startup requirements. So all of that needs to go into your agent instructions per repository in order to function reliably.
 
-An example snippet of what good agent instructions for screenshot capture can look like lives here: [git.deepl.dev/-/snippets/553](https://git.deepl.dev/-/snippets/553).
-
-The broader point is that your agent's reliability is only as good as the per-repo context you give it. Generic instructions produce generic results. A few paragraphs pinned into \`AGENTS.md\` (or the equivalent for your tool) is usually the difference between an agent that can take a screenshot and one that silently gives up.
-
 ## Closing thought
 
 None of the individual pieces here are revolutionary. Branches, MRs, snippets, checklists, screenshots — we have had all of these for years. What changed is that an AI agent in the loop makes the glue between them matter more than the pieces themselves. The workflow *is* the product now. Good agents plus a sloppy workflow still produce sloppy output. A clean workflow plus even mediocre agents produces surprisingly good work.
