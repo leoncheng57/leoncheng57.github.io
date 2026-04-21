@@ -23,44 +23,41 @@ One shift worth naming up front: **I now design and implement per task, not just
 At a glance, the whole thing looks like this:
 
 ```
-          ┌──────────────────────────────────────┐
-          │ 1. New branch/worktree + empty MR    │
-          └───────────────────┬──────────────────┘
-                              │
-                              ▼
-          ┌──────────────────────────────────────┐
-          │ 2. Notes                             │
-          │    • Jira/Notion notes               │
-          │    • Plan → push snippet/gist        │
-          │    • If long-lived: save to MR/repo  │
-          └───────────────────┬──────────────────┘
-                              │
-                              ▼
-          ┌──────────────────────────────────────┐
-          │ 3. Implement AI milestones/tasks     │◀─┐
-          │    (modify plan as you go)           │  │ iterate
-          └───────────────────┬──────────────────┘  │
-                              │                     │
-                              ▼                     │
-          ┌──────────────────────────────────────┐  │
-          │ 4. Review commits (reorganize)       │──┘
-          └───────────────────┬──────────────────┘
-                              │
-                              ▼
-          ┌──────────────────────────────────────┐
-          │ 5. Review flow: humans + AI + CI/CD  │
-          └───────────────────┬──────────────────┘
-                              │
-                              ▼
-          ┌──────────────────────────────────────┐
-          │ 6. Manual verification checklist     │
-          │    (screenshots, click-throughs)     │
-          └───────────────────┬──────────────────┘
-                              │
-                              ▼
-          ┌──────────────────────────────────────┐
-          │ 7. Done                              │
-          └──────────────────────────────────────┘
+             ┌──────────────────────────────────────┐
+             │ 1. New branch/worktree + empty MR    │
+             └───────────────────┬──────────────────┘
+                                 │
+                                 ▼
+             ┌──────────────────────────────────────┐
+             │ 2. Notes                             │◀─┐
+   ┌────────▶│    • Jira/Notion notes               │  │
+   │         │    • Plan → push snippet/gist        │  │
+   │         │    • If long-lived: save to MR/repo  │  │
+   │         └───────────────────┬──────────────────┘  │
+   │ revise                      │                     │
+   │ plan                        ▼                     │
+   │         ┌──────────────────────────────────────┐  │
+   └─────────│ 3. Implement + review commits        │  │
+             │    • AI milestones/tasks             │  │
+             │    • Modify plan as you go           │  │
+             │    • Reorganize commits              │  │
+             └───────────────────┬──────────────────┘  │
+                                 │                     │ iterate
+                                 ▼                     │
+             ┌──────────────────────────────────────┐  │
+             │ 4. Review flow: humans + AI + CI/CD  │──┘
+             └───────────────────┬──────────────────┘
+                                 │
+                                 ▼
+             ┌──────────────────────────────────────┐
+             │ 5. Manual verification checklist     │
+             │    (screenshots, click-throughs)     │
+             └───────────────────┬──────────────────┘
+                                 │
+                                 ▼
+             ┌──────────────────────────────────────┐
+             │ 6. Done                              │
+             └──────────────────────────────────────┘
 ```
 
 ## The flow
@@ -75,23 +72,19 @@ At a glance, the whole thing looks like this:
    2. Go through the implementation planning phase and push a **snippet/gist** to review on.
    3. If you need this spec to maintain your project in perpetuity, then save it to the MR and save it in the repo itself.
 
-3. **Go through AI milestones/tasks to implement.**
+3. **Implement AI milestones/tasks and review the commits.**
 
-   Modify the plan as needed as you go. Plans are cheap now — the point is to keep the spec and the code in sync, not to preserve the original plan as a trophy.
+   Run the plan with the agent, modifying it as needed as you go — plans are cheap now, so the point is to keep the spec and the code in sync, not to preserve the original plan as a trophy. Once the code is in, review the commits and reorganize them if needed. I wrote a separate piece on the cleanup step, because it is its own small skill: [How to Reorganize Merge Request Commits](https://leoncheng.dev/blog/reorganizing-mr-commits). A clean commit history makes review dramatically easier, and agents are now good enough at this step that it is worth doing every time.
 
-4. **Review the GitHub commits (reorganize if needed).**
-
-   I wrote a separate piece on this, because it is its own small skill: [How to Reorganize Merge Request Commits](https://leoncheng.dev/blog/reorganizing-mr-commits). A clean commit history makes review dramatically easier, and agents are now good enough at this step that it is worth doing every time.
-
-5. **Review flow using humans and AI review comments and CI/CD.**
+4. **Review flow using humans and AI review comments and CI/CD.**
 
    Let the pipelines and review bots do their first pass. Triage their comments before pulling a human in. By the time a teammate opens the MR, most of the obvious stuff is already addressed.
 
-6. **Go through a checklist of manual verification steps.**
+5. **Go through a checklist of manual verification steps.**
 
    Screenshots, click-throughs, log checks — the things that automation still cannot fully close the loop on. Attach the evidence to the MR so future-me (and reviewers) do not have to take my word for it.
 
-7. **Done!**
+6. **Done!**
 
 ## Snippets as the unit of AI-assisted development
 
