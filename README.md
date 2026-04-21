@@ -2,13 +2,13 @@
 
 My personal site, live at [leoncheng57.github.io](https://leoncheng57.github.io).
 
-Hi, I'm Leon — a software engineer and learner at heart. This site is a small home on the web for a short intro and the occasional blog post.
+A small home on the web for a short intro and the occasional blog post.
 
 ## Homepage
 
 The homepage is an intentionally minimal landing page:
 
-- A short "Hi, I'm Leon" intro and profile image
+- A short intro and profile image
 - Links to find me elsewhere:
   - GitHub: [leoncheng57](https://github.com/leoncheng57/)
   - Email: [leonc@alum.mit.edu](mailto:leonc@alum.mit.edu)
