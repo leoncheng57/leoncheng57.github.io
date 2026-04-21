@@ -378,7 +378,7 @@ In order to set up screenshots, you may need something like Playwright MCP. Howe
 
 ## Closing thought
 
-None of the individual pieces here are revolutionary. Branches, MRs, snippets, checklists, screenshots — we have had all of these for years. What changed is that an AI agent in the loop makes the glue between them matter more than the pieces themselves. The workflow *is* the product now. Good agents plus a sloppy workflow still produce sloppy output. A clean workflow plus even mediocre agents produces surprisingly good work.
+None of the individual pieces here are revolutionary. Branches, MRs, snippets, checklists, screenshots — we have had all of these for years. What changed is everything around them. Engineering as a whole is shifting: coding used to be the bottleneck, and now it isn't. The scarce skill is no longer producing code but orchestrating the work around it — deciding what to build, specifying it precisely enough for an agent to execute, reviewing the output critically, and keeping the whole loop tight. The workflow *is* the product now. Good agents plus a sloppy workflow still produce sloppy output. A clean workflow plus even mediocre agents produces surprisingly good work.
 
 So the investment is worth it. Figure out your version of this flow, pin it somewhere linkable, and keep editing it.
 `,tD=`---
