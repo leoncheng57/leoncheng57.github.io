@@ -1,49 +1,29 @@
 # Leon's Website
 
-A personal site built with [Vite](https://vitejs.dev/) and [React](https://react.dev/), deployed via GitHub Pages from the `docs/` directory.
+My personal site, live at [leoncheng57.github.io](https://leoncheng57.github.io).
 
-## Getting Started
+Hi, I'm Leon — a software engineer and learner at heart. This site is a small home on the web for a short intro and the occasional blog post.
 
-Install dependencies:
+## Homepage
 
-```bash
-npm install
-```
+The homepage is an intentionally minimal landing page:
 
-Start the local dev server:
+- A short "Hi, I'm Leon" intro and profile image
+- Links to find me elsewhere:
+  - GitHub: [leoncheng57](https://github.com/leoncheng57/)
+  - Email: [leonc@alum.mit.edu](mailto:leonc@alum.mit.edu)
+- A link into the blog
 
-```bash
-npm run dev
-```
+## Blog
 
-The site is served at http://localhost:5173.
+The blog lives at [`/blog`](https://leoncheng57.github.io/blog) and is where I write up things I've been thinking about — usually around software, developer tools, and how the craft of building software is changing.
 
-## Scripts
+Recent posts:
 
-- `npm run dev` — start the Vite dev server
-- `npm run build` — create the production build in `docs/`
-- `npm run lint` — run ESLint over `src/`
-- `npm test` — run the Vitest test suite in watch mode
-- `npm run test:run` — run the Vitest suite once
-- `npm run publish` — alias for `npm run build`
+- **AI Coding Agent Desktop App Comparison (April 2026)** — a practical snapshot comparing five desktop AI agent products (Craft Agents, OpenCode Desktop, Claude Desktop (Cowork), Cursor Agent, and Codex App), with a focus on workflow design, integrations, and automation rather than raw model quality.
 
-## Project Structure
+Posts are written in Markdown and kept in [`content/`](./content), one file per article.
 
-- `src/App.tsx` — top-level app composition
-- `src/components/headline/` — intro copy and profile section
-- `src/components/social/` — social links section
-- `src/styles/` — shared global and color styles
-- `content/` — markdown content rendered by the site
-- `public/` — static assets copied through Vite
-- `docs/` — generated build output used for deployment
+## Contact
 
-## Editing
-
-- Make content and component changes in `src/`, not in `docs/`.
-- Rebuild with `npm run build` when you need updated deployment artifacts in `docs/`.
-
-## Deployment
-
-Vite is configured to build into `docs/` (see `vite.config.ts`). GitHub Pages serves the site from that directory on the `main` branch.
-
-See [`AGENTS.md`](./AGENTS.md) for more detailed contributor notes, including the Playwright screenshot workflow for PRs.
+The best way to reach me is by email at [leonc@alum.mit.edu](mailto:leonc@alum.mit.edu) or via [GitHub](https://github.com/leoncheng57/).
