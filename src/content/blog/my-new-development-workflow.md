@@ -97,8 +97,6 @@ Don't overthink the first version. The whole point is that editing it later is f
 
 ## Other tidbits
 
-A couple of smaller lessons I have picked up while running this flow day to day.
-
 ### Images in GitLab MR comments
 
 In GitLab, when you post images as MR comments, they take up way too much space and make the MR hard to read. This is a UX problem. You can solve this, for example, by forcing images into tables in Markdown so that the images take up less space and can still be zoomed into. It is a small thing, but on a screenshot-heavy review it makes the difference between a readable thread and a scroll marathon.
