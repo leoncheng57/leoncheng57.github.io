@@ -83,7 +83,7 @@ Screenshots, click-throughs, log checks — the things that automation still can
 
 ### 6. Push and merge
 
-Once CI is green, reviews are in, and the manual checklist is done, push the final state and merge. Make sure the MR description reflects what actually shipped — titles, summary, linked design file, and any follow-up tickets — because the merged MR becomes the permanent record of why this change exists. If you rewrote history during the commit cleanup step, use `--force-with-lease` so you don't clobber anyone else's work. After merge, close out the linked ticket and archive or delete the branch.
+Once CI is green, reviews are in, and the manual checklist is done, push the final state and merge.
 
 ## The design file
 
