@@ -67,9 +67,7 @@ The empty MR is the anchor. It gives me a place to drop links, screenshots, and 
 
 ### 2. Notes
 
-- Add notes in Jira or Notion.
-- Go through the implementation planning phase and push a **snippet/gist** to review on.
-- If you need this spec to maintain your project in perpetuity, then save it to the MR and save it in the repo itself.
+Add notes in Jira or Notion, go through the implementation planning phase, and push a snippet/gist to review on. If you need this spec to maintain your project in perpetuity, then save it to the MR and save it in the repo itself.
 
 ### 3. Implement AI milestones/tasks and review the commits
 
@@ -84,6 +82,8 @@ Let the pipelines and review bots do their first pass. Triage their comments bef
 Screenshots, click-throughs, log checks — the things that automation still cannot fully close the loop on. Attach the evidence to the MR so future-me (and reviewers) do not have to take my word for it.
 
 ### 6. Push and merge
+
+Once CI is green, reviews are in, and the manual checklist is done, push the final state and merge. Make sure the MR description reflects what actually shipped — titles, summary, linked design file, and any follow-up tickets — because the merged MR becomes the permanent record of why this change exists. If you rewrote history during the commit cleanup step, use `--force-with-lease` so you don't clobber anyone else's work. After merge, close out the linked ticket and archive or delete the branch.
 
 ## The design file
 
