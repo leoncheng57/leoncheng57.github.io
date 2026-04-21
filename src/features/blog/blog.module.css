@@ -124,6 +124,36 @@
   line-height: 1.8;
 }
 
+.articleBody table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.articleBody table > thead,
+.articleBody table > tbody {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.articleBody th,
+.articleBody td {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color, #2a2b3d);
+  vertical-align: top;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.articleBody th {
+  text-align: left;
+  font-weight: 600;
+}
+
 .headingRow {
   display: flex;
   align-items: center;
