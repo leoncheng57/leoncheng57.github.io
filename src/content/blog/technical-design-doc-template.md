@@ -15,6 +15,7 @@ tags:
 
 ## Contents
 
+- [How to use this template](#how-to-use-this-template)
 - [Problem Statement](#problem-statement)
 - [Goals and Non-Goals](#goals-and-non-goals)
 - [Page Designs / UX References](#page-designs--ux-references)
@@ -26,7 +27,6 @@ tags:
 - [Dependencies](#dependencies)
 - [Risks and Mitigations](#risks-and-mitigations)
 - [Open Questions](#open-questions)
-- [How to use this template](#how-to-use-this-template)
 - [Appendix](#appendix)
 
 Most engineering teams eventually converge on some flavor of a technical design doc. The exact name varies — RFC, design review, tech spec, ADR — but the purpose is the same: write down the plan before writing the code, so that reviewers can poke holes in the plan while it is still cheap to change.
