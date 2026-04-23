@@ -694,7 +694,7 @@ A few notes on making the template actually useful in practice rather than a wal
 - **Keep it short.** If a section can be one sentence, make it one sentence. Reviewers read more carefully when there is less to read.
 - **Circulate early.** A half-finished doc with a clear problem statement and a rough technical plan gets better feedback than a polished doc that has already closed off the design space.
 
-The goal is to make it cheap to have a design conversation in writing, so that by the time anyone is writing code, the interesting disagreements are already resolved.
+The goal is to make it cheap to have a design conversation in writing, have a historical marker to look back on, centralize multi-stakeholder discussions, plan ahead like a senior engineer, and catch problems as early as possible to make deadlines predictable and bandwidth accurate.
 
 ## Problem Statement
 
