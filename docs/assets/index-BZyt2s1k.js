@@ -666,6 +666,10 @@ tags:
 
 > I have worked at many different tech companies. Amazon had the best writing culture. Here is an example of a technical design doc format that might have been used. Of course note that this is just one template and there are many valid templates. But it gives you an idea of what's important in the technical design phase.
 
+Most engineering teams eventually converge on some flavor of a technical design doc. The exact name varies — RFC, design review, tech spec, ADR — but the purpose is the same: write down the plan before writing the code, so that reviewers can poke holes in the plan while it is still cheap to change.
+
+This post is a reusable template. The headings below are the ones I keep reaching for. Each section includes a short prompt describing what belongs there, and a sample line or two in the tone you might actually write in. Steal it, rename it, remove sections that don't apply. The value is in the structure, not the exact wording.
+
 ## Contents
 
 - [How to use this template](#how-to-use-this-template)
@@ -682,10 +686,6 @@ tags:
   - [Risks and Mitigations](#risks-and-mitigations)
   - [Open Questions](#open-questions)
   - [Appendix](#appendix)
-
-Most engineering teams eventually converge on some flavor of a technical design doc. The exact name varies — RFC, design review, tech spec, ADR — but the purpose is the same: write down the plan before writing the code, so that reviewers can poke holes in the plan while it is still cheap to change.
-
-This post is a reusable template. The headings below are the ones I keep reaching for. Each section includes a short prompt describing what belongs there, and a sample line or two in the tone you might actually write in. Steal it, rename it, remove sections that don't apply. The value is in the structure, not the exact wording.
 
 ## How to use this template
 
