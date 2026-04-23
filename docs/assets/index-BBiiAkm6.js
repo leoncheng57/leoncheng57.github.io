@@ -679,12 +679,22 @@ tags:
 - [Dependencies](#dependencies)
 - [Risks and Mitigations](#risks-and-mitigations)
 - [Open Questions](#open-questions)
-- [Appendix](#appendix)
 - [How to use this template](#how-to-use-this-template)
+- [Appendix](#appendix)
 
 Most engineering teams eventually converge on some flavor of a technical design doc. The exact name varies — RFC, design review, tech spec, ADR — but the purpose is the same: write down the plan before writing the code, so that reviewers can poke holes in the plan while it is still cheap to change.
 
 This post is a reusable template. The headings below are the ones I keep reaching for. Each section includes a short prompt describing what belongs there, and a sample line or two in the tone you might actually write in. Steal it, rename it, remove sections that don't apply. The value is in the structure, not the exact wording.
+
+## How to use this template
+
+A few notes on making the template actually useful in practice rather than a wall of empty headings:
+
+- **Delete sections that don't apply.** A small backend-only change does not need a \`Page Designs\` section. A pure UX change may not need an \`Alternatives Considered\` section. The template is a checklist, not a contract.
+- **Keep it short.** If a section can be one sentence, make it one sentence. Reviewers read more carefully when there is less to read.
+- **Circulate early.** A half-finished doc with a clear problem statement and a rough technical plan gets better feedback than a polished doc that has already closed off the design space.
+
+The goal is to make it cheap to have a design conversation in writing, so that by the time anyone is writing code, the interesting disagreements are already resolved.
 
 ## Problem Statement
 
@@ -795,20 +805,6 @@ Repeat the same sub-structure for every surface the change touches.
 ## Appendix
 
 **Prompt:** Anything that would be useful to a reader but would bog down the main body. Old screenshots, raw data, detailed timelines, earlier proposals that were ruled out.
-
----
-
-## How to use this template
-
-A few notes on making the template actually useful in practice rather than a wall of empty headings:
-
-- **Delete sections that don't apply.** A small backend-only change does not need a \`Page Designs\` section. A pure UX change may not need an \`Alternatives Considered\` section. The template is a checklist, not a contract.
-- **Keep it short.** If a section can be one sentence, make it one sentence. Reviewers read more carefully when there is less to read.
-- **Write the Problem Statement last.** Counterintuitive, but the clearest problem statements usually emerge after you have written the rest of the doc and know what you are really proposing.
-- **Link out, don't copy in.** PRDs, customer research, analytics, and design files should be linked, not duplicated. Duplicated content goes stale faster than anything else.
-- **Circulate early.** A half-finished doc with a clear problem statement and a rough technical plan gets better feedback than a polished doc that has already closed off the design space.
-
-The goal is to make it cheap to have a design conversation in writing, so that by the time anyone is writing code, the interesting disagreements are already resolved.
 `,iD=200;function aD(n){const i=n.trim().split(/\s+/).filter(Boolean);return i.length===0?1:Math.max(1,Math.ceil(i.length/iD))}const ug=Object.assign({"../../content/blog/a-new-development-workflow.md":$v,"../../content/blog/ai-coding-agent-desktop-app-comparison-april-2026.md":Wv,"../../content/blog/hello-blog.md":eD,"../../content/blog/reorganizing-mr-commits.md":tD,"../../content/blog/rocketship-flywheel.md":nD,"../../content/blog/technical-design-doc-template.md":lD});function rD(n){var i;return((i=n.split("/").pop())==null?void 0:i.replace(/\.md$/,""))??""}function uD(n,i){const a=["title","description","publishedAt"];for(const u of a)if(!n[u])throw new Error(`Missing required frontmatter field "${u}" in ${i}`)}function Pp(n){const i=n.trim();if(i.startsWith('"')&&i.endsWith('"')||i.startsWith("'")&&i.endsWith("'"))return i.slice(1,-1);if(i==="true")return!0;if(i==="false")return!1;const a=Number(i);return!Number.isNaN(a)&&i!==""?a:i}function oD(n){if(!n.startsWith(`---
 `))return{data:{},content:n};const i=n.indexOf(`
 ---
