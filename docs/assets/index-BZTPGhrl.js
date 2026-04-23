@@ -669,18 +669,19 @@ tags:
 ## Contents
 
 - [How to use this template](#how-to-use-this-template)
-- [Problem Statement](#problem-statement)
-- [Goals and Non-Goals](#goals-and-non-goals)
-- [Page Designs / UX References](#page-designs--ux-references)
-- [Technical Plan](#technical-plan)
-- [Alternatives Considered](#alternatives-considered)
-- [Rollout Plan](#rollout-plan)
-- [Breaking Changes](#breaking-changes)
-- [Success Criteria](#success-criteria)
-- [Dependencies](#dependencies)
-- [Risks and Mitigations](#risks-and-mitigations)
-- [Open Questions](#open-questions)
-- [Appendix](#appendix)
+- [Template Sections](#template-sections)
+  - [Problem Statement](#problem-statement)
+  - [Goals and Non-Goals](#goals-and-non-goals)
+  - [Page Designs / UX References](#page-designs--ux-references)
+  - [Technical Plan](#technical-plan)
+  - [Alternatives Considered](#alternatives-considered)
+  - [Rollout Plan](#rollout-plan)
+  - [Breaking Changes](#breaking-changes)
+  - [Success Criteria](#success-criteria)
+  - [Dependencies](#dependencies)
+  - [Risks and Mitigations](#risks-and-mitigations)
+  - [Open Questions](#open-questions)
+  - [Appendix](#appendix)
 
 Most engineering teams eventually converge on some flavor of a technical design doc. The exact name varies — RFC, design review, tech spec, ADR — but the purpose is the same: write down the plan before writing the code, so that reviewers can poke holes in the plan while it is still cheap to change.
 
@@ -696,7 +697,9 @@ A few notes on making the template actually useful in practice rather than a wal
 
 The goal is to make it cheap to have a design conversation in writing, have a historical marker to look back on, centralize multi-stakeholder discussions, plan ahead like a senior engineer, and catch problems as early as possible to make deadlines predictable and bandwidth accurate.
 
-## Problem Statement
+## Template Sections
+
+### Problem Statement
 
 **Prompt:** What is broken today? Who feels it, how often, and how much does it cost? Quantify if you can. End with a one-sentence framing of what this doc proposes to change.
 
@@ -704,7 +707,7 @@ The goal is to make it cheap to have a design conversation in writing, have a hi
 
 Link out to supporting docs — the PRD, customer research, analytics dashboards — rather than recreating them here.
 
-## Goals and Non-Goals
+### Goals and Non-Goals
 
 **Prompt:** What is this doc actually trying to accomplish? What is explicitly out of scope? Non-goals are as important as goals; they prevent reviewers from pulling the discussion sideways.
 
@@ -718,18 +721,18 @@ Link out to supporting docs — the PRD, customer research, analytics dashboards
 - Changing the pricing model
 - Addressing known issues in the adjacent settings flow
 
-## Page Designs / UX References
+### Page Designs / UX References
 
 **Prompt:** Link to Figma, mockups, or user flow diagrams. If the design is load-bearing for the technical plan, embed a screenshot so readers don't have to context-switch.
 
 > Design reference: [link to Figma]
 > User flow diagram: [link to FigJam]
 
-## Technical Plan
+### Technical Plan
 
 This is the section reviewers will spend the most time on. Break it down by surface area — page, service, endpoint — rather than trying to describe the whole change in one long paragraph.
 
-### \`/some-page\` (or \`ServiceName\`)
+#### \`/some-page\` (or \`ServiceName\`)
 
 **Old behavior.** Describe how it works today, in one or two sentences. Be concrete enough that a new team member could follow it.
 
@@ -743,13 +746,13 @@ This is the section reviewers will spend the most time on. Break it down by surf
 
 Repeat the same sub-structure for every surface the change touches.
 
-### Backend change
+#### Backend change
 
 **Prompt:** If there are backend changes, describe the validation, storage, or API contract that moves. Call out the existing code path you are mirroring, if any — that is usually the cleanest signal that the change is low-risk.
 
 > Relax the check in \`SomeValidationService\` for the specific case. Route the new case through an existing branch that already handles a structurally similar scenario, rather than inventing a new one.
 
-## Alternatives Considered
+### Alternatives Considered
 
 **Prompt:** What did you rule out, and why? Reviewers often want to reopen an alternative you already evaluated — saving them the round-trip by writing it down here is cheap and respectful of their time.
 
@@ -757,7 +760,7 @@ Repeat the same sub-structure for every surface the change touches.
 >
 > **Alternative 2: a larger redesign.** Higher ceiling but much higher cost and risk. Better suited for a follow-up once this smaller change has been measured.
 
-## Rollout Plan
+### Rollout Plan
 
 **Prompt:** How does this ship? Flag-gated? Staged? What order do the changes land in, and what is the ramp schedule?
 
@@ -766,20 +769,20 @@ Repeat the same sub-structure for every surface the change touches.
 3. Flag is ramped to a small percentage of users for a short observation window.
 4. If guardrail metrics hold, ramp to 100%. Otherwise, flip the flag off and investigate.
 
-## Breaking Changes
+### Breaking Changes
 
 **Prompt:** Are there any? If not, say so explicitly — reviewers will ask either way. If yes, list each one and how it will be communicated.
 
 > None. The change is gated behind a feature flag and preserves behavior for every segment not in the experiment.
 
-## Success Criteria
+### Success Criteria
 
 **Prompt:** How will you know this worked? Name the primary metric, the direction you expect it to move, and the secondary metrics that act as guardrails.
 
 - **Primary:** drop-off rate on the affected flow decreases by at least X percentage points.
 - **Guardrails:** adjacent flow conversion rates remain within their historical ranges; support ticket volume for the affected area does not spike.
 
-## Dependencies
+### Dependencies
 
 **Prompt:** Who do you need, and for what? Name teams, not just people — on-call rotations change.
 
@@ -787,14 +790,14 @@ Repeat the same sub-structure for every surface the change touches.
 - Team B: owns the flag and experiment infrastructure.
 - Team C: owns the downstream pipeline that consumes the affected state.
 
-## Risks and Mitigations
+### Risks and Mitigations
 
 **Prompt:** For each meaningful risk, state the risk concretely, what you are doing to reduce its likelihood, and what you will do if it materializes.
 
 - **Risk:** guardrail metric moves against us during ramp. **Mitigation:** feature flag makes rollback instant; on-call rotation is briefed on the rollback procedure before ramp.
 - **Risk:** change accidentally affects an unrelated code path. **Mitigation:** change is isolated to a dedicated branch at the entry point; existing code paths are covered by the current test suite.
 
-## Open Questions
+### Open Questions
 
 **Prompt:** Write down what you don't yet know. This is where reviewers add the most value, because you are explicitly inviting them to.
 
@@ -802,7 +805,7 @@ Repeat the same sub-structure for every surface the change touches.
 - Is there an existing dashboard for the guardrail metric, or do we need to build one before ramp?
 - Who owns the follow-up cleanup if the experiment wins and ramps to 100%?
 
-## Appendix
+### Appendix
 
 **Prompt:** Anything that would be useful to a reader but would bog down the main body. Old screenshots, raw data, detailed timelines, earlier proposals that were ruled out.
 `,iD=200;function aD(n){const i=n.trim().split(/\s+/).filter(Boolean);return i.length===0?1:Math.max(1,Math.ceil(i.length/iD))}const ug=Object.assign({"../../content/blog/a-new-development-workflow.md":$v,"../../content/blog/ai-coding-agent-desktop-app-comparison-april-2026.md":Wv,"../../content/blog/hello-blog.md":eD,"../../content/blog/reorganizing-mr-commits.md":tD,"../../content/blog/rocketship-flywheel.md":nD,"../../content/blog/technical-design-doc-template.md":lD});function rD(n){var i;return((i=n.split("/").pop())==null?void 0:i.replace(/\.md$/,""))??""}function uD(n,i){const a=["title","description","publishedAt"];for(const u of a)if(!n[u])throw new Error(`Missing required frontmatter field "${u}" in ${i}`)}function Pp(n){const i=n.trim();if(i.startsWith('"')&&i.endsWith('"')||i.startsWith("'")&&i.endsWith("'"))return i.slice(1,-1);if(i==="true")return!0;if(i==="false")return!1;const a=Number(i);return!Number.isNaN(a)&&i!==""?a:i}function oD(n){if(!n.startsWith(`---
