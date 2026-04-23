@@ -13,6 +13,22 @@ tags:
 
 > I have worked at many different tech companies. Amazon had the best writing culture. Here is an example of a technical design doc format that might have been used. Of course note that this is just one template and there are many valid templates. But it gives you an idea of what's important in the technical design phase.
 
+## Contents
+
+- [Problem Statement](#problem-statement)
+- [Goals and Non-Goals](#goals-and-non-goals)
+- [Page Designs / UX References](#page-designs--ux-references)
+- [Technical Plan](#technical-plan)
+- [Alternatives Considered](#alternatives-considered)
+- [Rollout Plan](#rollout-plan)
+- [Breaking Changes](#breaking-changes)
+- [Success Criteria](#success-criteria)
+- [Dependencies](#dependencies)
+- [Risks and Mitigations](#risks-and-mitigations)
+- [Open Questions](#open-questions)
+- [Appendix](#appendix)
+- [How to use this template](#how-to-use-this-template)
+
 Most engineering teams eventually converge on some flavor of a technical design doc. The exact name varies — RFC, design review, tech spec, ADR — but the purpose is the same: write down the plan before writing the code, so that reviewers can poke holes in the plan while it is still cheap to change.
 
 This post is a reusable template. The headings below are the ones I keep reaching for. Each section includes a short prompt describing what belongs there, and a sample line or two in the tone you might actually write in. Steal it, rename it, remove sections that don't apply. The value is in the structure, not the exact wording.
@@ -21,7 +37,7 @@ This post is a reusable template. The headings below are the ones I keep reachin
 
 **Prompt:** What is broken today? Who feels it, how often, and how much does it cost? Quantify if you can. End with a one-sentence framing of what this doc proposes to change.
 
-> Our checkout flow has a drop-off rate well above industry norm. Customer interviews and funnel analytics both point to the same root cause: a required step that users perceive as unnecessary on this tier. This document proposes removing that step for the affected tier, behind a feature flag.
+> A long-running internal report has fallen behind its SLA for three consecutive quarters. Traces and team interviews point to the same root cause: a blocking step that runs on every request but is only needed for a small subset. This document proposes making that step conditional, behind a feature flag.
 
 Link out to supporting docs — the PRD, customer research, analytics dashboards — rather than recreating them here.
 
@@ -106,7 +122,7 @@ Repeat the same sub-structure for every surface the change touches.
 
 - Team A: owns the validation service the backend change touches.
 - Team B: owns the flag and experiment infrastructure.
-- Team C: owns the post-signup pipeline that consumes the affected state.
+- Team C: owns the downstream pipeline that consumes the affected state.
 
 ## Risks and Mitigations
 
