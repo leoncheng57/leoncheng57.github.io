@@ -11,7 +11,7 @@ tags:
 
 # A Template for Technical Design Documents
 
-> I have worked at many different tech companies. Amazon had the best writing culture. Here is an example of a technical design doc format that might have been used. Of course note that this is just one template and there are many valid templates. But it gives you an idea of what's important in the technical design phase.
+I have worked at many different tech companies. Amazon had the best writing culture. Here is an example of a technical design doc format that might have been used.
 
 Most engineering teams eventually converge on some flavor of a technical design doc. The exact name varies — RFC, design review, tech spec, ADR — but the purpose is the same: write down the plan before writing the code, so that reviewers can poke holes in the plan while it is still cheap to change.
 
