@@ -1,0 +1,90 @@
+.page {
+  padding: 2rem 1rem 4rem;
+}
+
+.page a {
+  color: var(--link-color);
+  text-decoration: none;
+  border-bottom: 2px dotted var(--blue-emphasis);
+}
+
+.page a:hover {
+  color: var(--link-hover-color);
+  opacity: 0.85;
+}
+
+.content {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+}
+
+.pageHeader {
+  margin-bottom: 2rem;
+}
+
+.pageHeader h1 {
+  margin-bottom: 0.5rem;
+}
+
+.pageHeader > p {
+  margin-bottom: 1rem;
+}
+
+.backLink {
+  margin-bottom: 1.5rem;
+}
+
+.lastUpdated {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.body {
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.body h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.body h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.body p,
+.body ul,
+.body ol {
+  margin: 1rem 0;
+}
+
+.body ul,
+.body ol {
+  padding-left: 1.5rem;
+}
+
+.body li {
+  margin: 0.35rem 0;
+}
+
+.body code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.35rem;
+  background: color-mix(in srgb, var(--surface) 80%, white 20%);
+  font-size: 0.95em;
+}
+
+.contactCard {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--surface) 92%, white 8%);
+}
+
+.contactCard p {
+  margin: 0.35rem 0;
+}
