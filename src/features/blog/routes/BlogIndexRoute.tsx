@@ -26,9 +26,10 @@ export default function BlogIndexRoute(): ReactElement {
                 <Link to={`/blog/${post.slug}`}>{post.title}</Link>
               </h2>
               <p>{post.description}</p>
-              <p className={styles.indexMeta}>
-                {post.publishedAt} · {post.readingTimeMinutes} min read
-              </p>
+              <div className={styles.indexMeta}>
+                <p>{post.publishedAt}</p>
+                <p>{post.readingTimeMinutes} min read</p>
+              </div>
               <TagList tags={post.tags} />
             </article>
           ))}

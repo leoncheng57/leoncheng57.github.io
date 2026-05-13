@@ -50,7 +50,19 @@
   margin-top: 0;
 }
 
-.indexMeta,
+.indexMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin-bottom: 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.indexMeta p {
+  margin: 0;
+}
+
 .meta {
   color: var(--text-secondary, var(--text-primary));
 }
@@ -85,8 +97,8 @@
 .tag {
   padding: 0.2rem 0.55rem;
   border-radius: 0.35rem;
-  background: color-mix(in srgb, var(--hr-color) 40%, transparent 60%);
-  color: var(--text-muted);
+  background: rgba(100, 130, 160, 0.18);
+  color: #8eaabe;
   font-size: 0.78rem;
   line-height: 1.3;
 }
