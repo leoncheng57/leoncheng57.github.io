@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import AppsIndexRoute from './features/apps/routes/AppsIndexRoute'
 import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
 import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
 import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
@@ -12,6 +13,7 @@ export default function App(): ReactElement {
       <Route path="/" element={<HomeRoute />} />
       <Route path="/blog" element={<BlogIndexRoute />} />
       <Route path="/blog/:slug" element={<BlogPostRoute />} />
+      <Route path="/apps" element={<AppsIndexRoute />} />
       <Route path="/apps/whoops-hoops/privacy" element={<PrivacyRoute />} />
       <Route path="/apps/whoops-hoops/support" element={<SupportRoute />} />
     </Routes>

@@ -1,0 +1,65 @@
+.page {
+  padding: 2rem 1rem 4rem;
+}
+
+.page a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.page a:hover {
+  color: var(--link-hover-color);
+  opacity: 0.85;
+}
+
+.index {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+}
+
+.pageHeader {
+  margin-bottom: 2rem;
+}
+
+.pageHeader h1 {
+  margin-bottom: 0.5rem;
+}
+
+.backLink {
+  margin-bottom: 1.5rem;
+}
+
+.appList {
+  display: grid;
+  gap: 1rem;
+}
+
+.appCard {
+  padding: 1.25rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--bg) 88%, white 12%);
+}
+
+.appCard h2 {
+  margin-top: 0;
+}
+
+.appCard p {
+  margin: 0.5rem 0;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.description {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.links {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+}

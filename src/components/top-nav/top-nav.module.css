@@ -8,7 +8,6 @@
 .nav a {
   color: var(--link-color);
   text-decoration: none;
-  border-bottom: 2px dotted var(--blue-emphasis);
 }
 
 .nav a:hover {
@@ -25,7 +24,6 @@
 .nav a.logoLink:hover {
   display: inline-flex;
   color: inherit;
-  border-bottom: none;
   text-decoration: none;
   opacity: 1;
 }

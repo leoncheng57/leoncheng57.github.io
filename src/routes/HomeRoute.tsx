@@ -11,13 +11,10 @@ export default function HomeRoute(): ReactElement {
       <TopNav />
       <main className={styles.main}>
         <Headline />
-        <hr />
         <Social />
-        <hr />
         <p className={styles.homeLinkRow}>
           <Link to="/blog">Read the blog</Link>
         </p>
-        <hr />
       </main>
     </div>
   )
