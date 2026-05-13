@@ -30,7 +30,7 @@ export default function AppsIndexRoute(): ReactElement {
             </p>
             <p className={styles.links}>
               <a href="https://apps.apple.com/us/app/whoops-hoops/id6763969713">
-                iOS / iPadOS / macOS
+                iOS
               </a>
               {' · '}
               <Link to="/apps/whoops-hoops/privacy">Privacy</Link>
