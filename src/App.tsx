@@ -1,19 +1,20 @@
 import React from 'react'
-import Copyright from './components/copyright/copyright'
-import Experiences from './components/experiences/experiences'
-import Headline from './components/headline/headline'
-import Social from './components/social/social'
+import { Routes, Route } from 'react-router-dom'
+import Nav from './components/nav/nav'
+import Home from './pages/Home'
+import Apps from './pages/Apps'
 import styles from './App.module.css'
 
 const App: React.FC = () => {
   return (
     <div className={styles.container}>
       <img src="/lc-logo.svg" alt="LC Logo" className={styles.logo} />
+      <Nav />
       <main>
-        <Headline />
-        <hr />
-        <Social />
-        <hr />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/apps" element={<Apps />} />
+        </Routes>
       </main>
     </div>
   )
