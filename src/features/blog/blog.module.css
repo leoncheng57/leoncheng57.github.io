@@ -85,8 +85,8 @@
 .tag {
   padding: 0.2rem 0.55rem;
   border-radius: 0.35rem;
-  background: color-mix(in srgb, var(--hr-color) 40%, transparent 60%);
-  color: var(--text-muted);
+  background: rgba(100, 130, 160, 0.18);
+  color: #8eaabe;
   font-size: 0.78rem;
   line-height: 1.3;
 }
