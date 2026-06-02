@@ -10,27 +10,23 @@ tags:
   - expo
 ---
 
-# Building Whoops Hoops: From Side Project to the App Store
+# 🏀 Building Whoops Hoops: From Side Project to the App Store
 
 Whoops Hoops is a daily basketball guessing game for iOS. Think Wordle, but instead of guessing a five-letter word, you're guessing an active basketball player. Each guess reveals color-coded clues across attributes like team, position, height, age, jersey number, conference, and division. You get one puzzle a day, and the game tracks your streak.
 
 This is the story of how it went from a blank Expo project to the App Store in about six weeks -- what worked, what surprised me, and what I'd do differently.
 
-## The idea
+## 💡 The idea
 
-I've always liked daily puzzle games. Wordle, Connections, the mini crossword -- there's something about having exactly one shot per day that makes each round feel meaningful. I wanted to bring that same format to basketball.
+Daily puzzle games are popular for good reason. Wordle, Connections, the mini crossword -- there's something about having exactly one shot per day that makes each round feel meaningful. I wanted to bring that same format to basketball.
 
 The concept is simple: a mystery player is selected each day, and you narrow it down by submitting guesses. Each guess fills a row in a grid, with cells turning green (exact match), yellow (close), or gray (miss) for each attribute. The hint system gives you progressively more information if you're stuck -- first a vague clue, then more specific ones.
 
-I started building it in late March 2026.
-
-## Getting started with Expo and React Native
+## 🚀 Getting started with Expo and React Native
 
 I chose Expo and React Native because I wanted to ship an iOS app without writing Swift, and because the Expo toolchain handles a lot of the painful parts of mobile development -- builds, signing, OTA updates, native module linking. TypeScript was the obvious language choice.
 
-The initial setup was the standard `create-expo-app` scaffold. The first real commits were about getting the player dataset in shape: scraping active rosters, cleaning the data, and writing a deterministic daily-player hash so every user gets the same puzzle on the same day. That hashing logic turned out to be trickier than expected -- I had an early bug where the hash used UTC dates instead of the user's local calendar date, meaning the puzzle would roll over at different times depending on your timezone.
-
-## The core gameplay loop
+## 🎮 The core gameplay loop
 
 The gameplay has three main parts: the search bar, the guess grid, and the hint system.
 
@@ -38,7 +34,9 @@ The search bar is a filtered dropdown over the full player roster. When you subm
 
 The hint system was designed to keep players from getting completely stuck. It reveals clues in stages: the first hint is vague ("This player is in the Western Conference"), and each subsequent one narrows it down further. The hints panel pins to the bottom of the screen alongside the search bar, which was a layout fix that took a couple of iterations to get right.
 
-## Making it feel right
+![The guess grid and hints panel in action](/blog/whoops-hoops/gameplay-hints.png)
+
+## ✨ Making it feel right
 
 One of the more satisfying parts of the project was tuning the haptics and animations. On iOS, haptic feedback is a first-class part of the user experience, and I wanted each guess to feel physical.
 
@@ -46,7 +44,7 @@ Each cell in the guess grid reveals with a staggered flip animation -- about 800
 
 The win state got special treatment. When you guess correctly, there's a fireworks-style haptic sequence -- a quick escalating burst followed by a lingering tail that lasts nearly a second. I went through several iterations on this, testing on a physical iPhone each time since the simulator doesn't support haptics. The difference between "feels right" and "feels annoying" was often just 50ms of timing adjustment.
 
-## On-device history and streaks
+## 🔥 On-device history and streaks
 
 A daily game needs streaks. If you play every day you want to see that reflected somewhere.
 
@@ -54,9 +52,11 @@ I built the history system around AsyncStorage with a reducer-based architecture
 
 The streak shows up as a pill badge in the header. Tapping it opens a history modal that shows your current streak, longest streak, and a scrollable list of past games. There's also a "clear history" option with a confirmation dialog.
 
+![The win popup after a correct guess](/blog/whoops-hoops/win-popup.png)
+
 One early user-reported bug was that streaks would reset every time the app was killed and relaunched. The root cause was that I wasn't hydrating the history store from AsyncStorage on cold start -- the store initialized empty and the rollover logic saw zero games, so it reset the streak. A straightforward fix, but the kind of thing that's hard to catch in development when you're constantly reloading.
 
-## Engineering quality
+## ⚙️ Engineering quality
 
 Even for a side project, I invested early in CI/CD and testing. The rationale was simple: I wanted to move fast without breaking things, and I knew I'd be shipping updates frequently.
 
@@ -66,7 +66,7 @@ Even for a side project, I invested early in CI/CD and testing. The rationale wa
 
 **Docusaurus docs site**: I set up a Docusaurus site that pulls in both top-level `docs/` content and co-located `__docs__/` folders from the source tree. This gave me a searchable, cross-linked documentation site for architecture decisions, analytics events, and feature specs -- all browsable locally.
 
-## Getting friends involved
+## 🤝 Getting friends involved
 
 Two friends got involved in the project. Friend I contributed code directly -- he added the conference and division columns to the guess grid, which was a meaningful gameplay improvement. Having a second pair of eyes on the codebase also helped me catch things I'd been blind to, and his PR was the first external contribution the project received.
 
@@ -74,7 +74,7 @@ Friend S was more of a playtester and sounding board. He gave feedback on the ga
 
 Having even two people involved changed the dynamic of the project. It stopped feeling like a solo exercise and started feeling like something people might actually use.
 
-## The rename and App Store push
+## 📦 The rename and App Store push
 
 The app was originally called something else. As I got serious about shipping it, I renamed it to Whoops Hoops -- a name that felt playful, was available as a bundle ID, and didn't reference any trademarks.
 
@@ -86,7 +86,7 @@ Getting App Store-ready involved more work than I expected:
 - **Privacy disclosures**: Apple requires detailed privacy nutrition labels. I documented exactly what data the app collects (Firebase Analytics events, none linked to identity) and created a source-of-truth doc to keep the App Store disclosures in sync with the code.
 - **EAS build profiles**: Separate `preview` and `production` profiles in EAS, with the production profile wired to auto-submit to App Store Connect.
 
-## The App Store review gauntlet
+## 🍎 The App Store review gauntlet
 
 If building the app took six weeks, getting through App Store review felt like it added another two.
 
@@ -100,7 +100,7 @@ One thing I underestimated was how much the manual nature of the process would s
 
 By the time the app was approved, I had been through several review rounds and had commits specifically addressing reviewer feedback -- removing league references, syncing version numbers between `app.json` and `package.json`, and tightening the privacy disclosures.
 
-## Notifications and polish
+## 🔔 Notifications and polish
 
 After the initial App Store approval, I kept iterating. The biggest post-launch feature was daily reminder notifications.
 
@@ -110,7 +110,7 @@ A nice detail: the app suppresses reminder notifications for the rest of the day
 
 Other polish work included fixing modal overlay z-index issues (where the search bar would peek through behind modals), combining the conference and division columns into a single cell, and adding an empty-state CTA to the history grid.
 
-## What I learned
+## 📝 What I learned
 
 **The 80/20 rule is real, but the last 20% is where the product lives.** The core game loop was working within the first week. The next five weeks were spent on everything that makes the difference between a prototype and something you'd actually want on your phone: haptics, streaks, notifications, App Store compliance, crash reporting, polish.
 
@@ -122,4 +122,4 @@ Other polish work included fixing modal overlay z-index issues (where the search
 
 **Side projects are a good place to try things you wouldn't try at work.** I used this project to experiment with AI coding agents, advanced haptics patterns, Maestro E2E testing, and a Docusaurus docs site for a mobile app. Not all of it was necessary, but all of it taught me something.
 
-Whoops Hoops is live on the App Store. If you like basketball and daily puzzles, give it a try.
+Whoops Hoops is live on the [App Store](https://apps.apple.com/us/app/whoops-hoops/id6763969713). If you like basketball and daily puzzles, give it a try.
