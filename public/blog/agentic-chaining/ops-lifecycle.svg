@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440" width="900" height="440" style="background:#1a1b26">
+  <defs>
+    <marker id="arrow-o" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#565f89" />
+    </marker>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap');
+      text { font-family: 'Inter', system-ui, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="600" fill="#a9b1d6">Agentic Chaining — Incident Response Lifecycle</text>
+
+  <!-- Subtitle -->
+  <text x="450" y="52" text-anchor="middle" font-size="12" fill="#565f89">Each node is as deterministic as the task allows. LLMs only where reasoning is required.</text>
+
+  <!-- ===== NODE 1: Detect ===== -->
+  <rect x="30" y="80" width="110" height="80" rx="10" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <text x="85" y="108" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Detect</text>
+  <text x="85" y="126" text-anchor="middle" font-size="10" fill="#93c5fd">deterministic</text>
+  <text x="85" y="148" text-anchor="middle" font-size="9" fill="#7982a9">Monitoring tools</text>
+  <text x="85" y="160" text-anchor="middle" font-size="9" fill="#7982a9">fire on thresholds</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="140" y1="120" x2="158" y2="120" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-o)" />
+
+  <!-- ===== NODE 2: Investigate ===== -->
+  <rect x="160" y="80" width="110" height="80" rx="10" fill="#3b1f6e" stroke="#a78bfa" stroke-width="2" />
+  <text x="215" y="108" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Investigate</text>
+  <text x="215" y="126" text-anchor="middle" font-size="10" fill="#c4b5fd">both</text>
+  <text x="215" y="148" text-anchor="middle" font-size="9" fill="#7982a9">Pull data + LLM</text>
+  <text x="215" y="160" text-anchor="middle" font-size="9" fill="#7982a9">synthesizes context</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="270" y1="120" x2="288" y2="120" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-o)" />
+
+  <!-- ===== NODE 3: Triage ===== -->
+  <rect x="290" y="80" width="110" height="80" rx="10" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <rect x="290" y="80" width="110" height="80" rx="10" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="4 2" />
+  <text x="345" y="105" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Triage</text>
+  <text x="345" y="121" text-anchor="middle" font-size="10" fill="#93c5fd">deterministic</text>
+  <text x="345" y="137" text-anchor="middle" font-size="9" fill="#86efac">human-in-the-loop</text>
+  <text x="345" y="153" text-anchor="middle" font-size="9" fill="#7982a9">Engineer reviews,</text>
+  <text x="345" y="163" text-anchor="middle" font-size="9" fill="#7982a9">decides severity</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="400" y1="120" x2="418" y2="120" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-o)" />
+
+  <!-- ===== NODE 4: Mitigate ===== -->
+  <rect x="420" y="80" width="110" height="80" rx="10" fill="#3b1f6e" stroke="#a78bfa" stroke-width="2" />
+  <text x="475" y="108" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Mitigate</text>
+  <text x="475" y="126" text-anchor="middle" font-size="10" fill="#c4b5fd">both</text>
+  <text x="475" y="148" text-anchor="middle" font-size="9" fill="#7982a9">Known fixes + AI</text>
+  <text x="475" y="160" text-anchor="middle" font-size="9" fill="#7982a9">chat for follow-up</text>
+
+  <!-- Arrow 4→5 -->
+  <line x1="530" y1="120" x2="548" y2="120" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-o)" />
+
+  <!-- ===== NODE 5: Review ===== -->
+  <rect x="550" y="80" width="110" height="80" rx="10" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <text x="605" y="108" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Review</text>
+  <text x="605" y="126" text-anchor="middle" font-size="10" fill="#93c5fd">deterministic</text>
+  <text x="605" y="148" text-anchor="middle" font-size="9" fill="#7982a9">Post-mortems,</text>
+  <text x="605" y="160" text-anchor="middle" font-size="9" fill="#7982a9">ops reviews</text>
+
+  <!-- Arrow 5→6 -->
+  <line x1="660" y1="120" x2="678" y2="120" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-o)" />
+
+  <!-- ===== NODE 6: Improve ===== -->
+  <rect x="680" y="80" width="110" height="80" rx="10" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <text x="735" y="108" text-anchor="middle" font-size="15" font-weight="600" fill="#fff">Improve</text>
+  <text x="735" y="126" text-anchor="middle" font-size="10" fill="#93c5fd">deterministic</text>
+  <text x="735" y="148" text-anchor="middle" font-size="9" fill="#7982a9">Tickets created,</text>
+  <text x="735" y="160" text-anchor="middle" font-size="9" fill="#7982a9">tracked to closure</text>
+
+  <!-- Loop-back arrow: Improve → Detect -->
+  <path d="M 790,120 C 830,120 850,100 850,80 C 850,45 830,35 800,35 L 80,35 C 50,35 30,45 30,65 L 30,80"
+        fill="none" stroke="#565f89" stroke-width="1.5" stroke-dasharray="6 3" marker-end="url(#arrow-o)" />
+  <text x="450" y="42" text-anchor="middle" font-size="10" font-weight="600" fill="#565f89">repeat — track metrics, close the loop</text>
+
+  <!-- ===== LEGEND ===== -->
+  <rect x="30" y="200" width="840" height="1" fill="#2a2d3d" />
+
+  <text x="450" y="230" text-anchor="middle" font-size="14" font-weight="600" fill="#a9b1d6">Node Types</text>
+
+  <!-- Legend: Deterministic -->
+  <rect x="120" y="250" width="180" height="50" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <text x="210" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Deterministic</text>
+  <text x="210" y="289" text-anchor="middle" font-size="9" fill="#93c5fd">Rule-based, no LLM needed</text>
+
+  <!-- Legend: Agentified / Both -->
+  <rect x="350" y="250" width="180" height="50" rx="8" fill="#3b1f6e" stroke="#a78bfa" stroke-width="2" />
+  <text x="440" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Agentified (Both)</text>
+  <text x="440" y="289" text-anchor="middle" font-size="9" fill="#c4b5fd">LLM for reasoning + data pulls</text>
+
+  <!-- Legend: Human-in-the-loop -->
+  <rect x="580" y="250" width="180" height="50" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <rect x="580" y="250" width="180" height="50" rx="8" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="4 2" />
+  <text x="670" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Human-in-the-loop</text>
+  <text x="670" y="289" text-anchor="middle" font-size="9" fill="#86efac">Human judgment at handoff</text>
+
+  <!-- Key insight callout -->
+  <text x="450" y="340" text-anchor="middle" font-size="11" fill="#7982a9">Five of seven nodes are fully deterministic. The LLM only appears where the task</text>
+  <text x="450" y="356" text-anchor="middle" font-size="11" fill="#7982a9">requires reasoning or synthesis — Investigate and Mitigate. Humans stay where</text>
+  <text x="450" y="372" text-anchor="middle" font-size="11" fill="#7982a9">judgment matters most — Triage.</text>
+
+  <!-- Bottom attribution -->
+  <text x="450" y="420" text-anchor="middle" font-size="10" fill="#3b3f54">leoncheng.dev</text>
+</svg>

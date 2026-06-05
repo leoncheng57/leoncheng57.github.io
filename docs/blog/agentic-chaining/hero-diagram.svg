@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 180" width="820" height="180" style="background:#1a1b26">
+  <defs>
+    <marker id="arrow-h" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#565f89" />
+    </marker>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap');
+      text { font-family: 'Inter', system-ui, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="410" y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#a9b1d6">Agentic Chaining — Small, opinionated agents in sequence</text>
+
+  <!-- Legend -->
+  <rect x="200" y="148" width="12" height="12" rx="2" fill="#1e3a5f" stroke="#60a5fa" stroke-width="1.5" />
+  <text x="218" y="159" font-size="11" fill="#7982a9">Deterministic</text>
+  <rect x="330" y="148" width="12" height="12" rx="2" fill="#7c2d12" stroke="#f97316" stroke-width="1.5" />
+  <text x="348" y="159" font-size="11" fill="#7982a9">Agentified</text>
+  <rect x="440" y="148" width="12" height="12" rx="2" fill="#3b1f6e" stroke="#a78bfa" stroke-width="1.5" />
+  <text x="458" y="159" font-size="11" fill="#7982a9">Both</text>
+  <rect x="520" y="148" width="12" height="12" rx="2" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4 2" />
+  <text x="538" y="159" font-size="11" fill="#7982a9">Human-in-the-loop</text>
+
+  <!-- Node 1: Detect — Deterministic -->
+  <rect x="20" y="60" width="96" height="56" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <text x="68" y="84" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Detect</text>
+  <text x="68" y="101" text-anchor="middle" font-size="9" fill="#93c5fd">deterministic</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="116" y1="88" x2="138" y2="88" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-h)" />
+
+  <!-- Node 2: Investigate — Both -->
+  <rect x="140" y="60" width="96" height="56" rx="8" fill="#3b1f6e" stroke="#a78bfa" stroke-width="2" />
+  <text x="188" y="84" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Investigate</text>
+  <text x="188" y="101" text-anchor="middle" font-size="9" fill="#c4b5fd">both</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="236" y1="88" x2="258" y2="88" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-h)" />
+
+  <!-- Node 3: Triage — Deterministic + Human -->
+  <rect x="260" y="60" width="96" height="56" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <rect x="260" y="60" width="96" height="56" rx="8" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="4 2" />
+  <text x="308" y="80" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Triage</text>
+  <text x="308" y="95" text-anchor="middle" font-size="9" fill="#93c5fd">deterministic</text>
+  <text x="308" y="108" text-anchor="middle" font-size="9" fill="#86efac">+ human</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="356" y1="88" x2="378" y2="88" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-h)" />
+
+  <!-- Node 4: Mitigate — Both -->
+  <rect x="380" y="60" width="96" height="56" rx="8" fill="#3b1f6e" stroke="#a78bfa" stroke-width="2" />
+  <text x="428" y="84" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Mitigate</text>
+  <text x="428" y="101" text-anchor="middle" font-size="9" fill="#c4b5fd">both</text>
+
+  <!-- Arrow 4→5 -->
+  <line x1="476" y1="88" x2="498" y2="88" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-h)" />
+
+  <!-- Node 5: Review — Deterministic -->
+  <rect x="500" y="60" width="96" height="56" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <text x="548" y="84" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Review</text>
+  <text x="548" y="101" text-anchor="middle" font-size="9" fill="#93c5fd">deterministic</text>
+
+  <!-- Arrow 5→6 -->
+  <line x1="596" y1="88" x2="618" y2="88" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-h)" />
+
+  <!-- Node 6: Improve — Deterministic -->
+  <rect x="620" y="60" width="96" height="56" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <text x="668" y="84" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">Improve</text>
+  <text x="668" y="101" text-anchor="middle" font-size="9" fill="#93c5fd">deterministic</text>
+
+  <!-- Arrow 6→loop back -->
+  <path d="M 716,88 L 738,88 C 760,88 770,70 770,55 C 770,40 760,30 738,30 L 46,30 C 24,30 14,40 14,55 L 14,60" fill="none" stroke="#565f89" stroke-width="1.5" stroke-dasharray="6 3" marker-end="url(#arrow-h)" />
+  <text x="410" y="24" text-anchor="middle" font-size="9" fill="#565f89">repeat</text>
+</svg>

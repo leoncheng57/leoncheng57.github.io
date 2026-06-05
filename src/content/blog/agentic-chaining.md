@@ -1,0 +1,113 @@
+---
+title: "Agentic Chaining: Small Opinionated Agents in a Line"
+description: "Why stringing together small, specialized agents — each as deterministic as the task allows — beats one large do-everything agent."
+publishedAt: "2026-06-05"
+tags:
+  - AI
+  - agents
+  - workflow
+  - mental-models
+  - engineering
+---
+
+# Agentic Chaining: Small Opinionated Agents in a Line
+
+![Agentic Chaining — small, opinionated agents in sequence](/blog/agentic-chaining/hero-diagram.svg)
+
+## The problem with one big agent
+
+The pitch for large general-purpose agents is seductive: give it all your tools, all your context, and let it figure things out. In practice, this falls apart in three predictable ways.
+
+**Cost.** A single agent session that touches five different systems burns through tokens like it is doing all five jobs at once — because it is. Every tool call carries the full conversation context. The bill compounds.
+
+**Hallucination.** The more responsibilities you give one agent, the more opportunities it has to confidently make things up. A general-purpose agent investigating an incident might fabricate a deployment timeline because it has too many things to track and not enough guardrails on any single one.
+
+**Debugging.** When the output is wrong, where do you look? The agent had access to everything and did everything in one long session. Good luck tracing which step went sideways.
+
+There is a better architecture. Instead of one agent that does everything, you chain together small agents that each do one thing well.
+
+## Why small agents work
+
+A single-purpose agent is a fundamentally different thing from a general-purpose one. It has a narrow scope, a small tool set, and a clear contract: given this input, produce that output.
+
+This makes it **cheap** — the context window stays small because the agent only sees what it needs. It makes it **reliable** — there are fewer ways for it to go wrong when it only has one job. And it makes it **replaceable** — if one agent is underperforming, you swap it out without touching the rest of the chain.
+
+Small agents are also easy to spin up. You can prototype one in an afternoon, wire it into an existing workflow, and see if it earns its keep. If it does not, you pull it out. The blast radius is tiny.
+
+The interesting thing is what happens when you start putting them together.
+
+## The deterministic–agentified spectrum
+
+Not every node in a chain needs a large language model. In fact, most should not have one.
+
+Every task in a workflow sits somewhere on a spectrum. On one end: **deterministic** — rule-based, threshold-driven, no reasoning required. A monitoring tool firing when a metric crosses a line. A ticket being created from a template. A deployment being rolled back. These are the tasks where an LLM adds cost and risk but no value.
+
+On the other end: **agentified** — the task requires reasoning, synthesis, or natural language understanding. Reading through a dozen log streams and producing a coherent diagnosis. Interpreting a runbook in the context of a novel failure. Answering an engineer's follow-up question in natural language during a firefight.
+
+Most tasks in most chains sit closer to the deterministic end. The discipline is simple: **default to deterministic. Use an LLM only where the task genuinely requires reasoning or synthesis.** The goal is to push each node as far toward deterministic as the problem allows.
+
+This is what makes agentic chaining different from "just microservices" or "just a pipeline." The chain is not a sequence of LLM calls. It is a sequence of specialized steps where the LLM only shows up at the nodes that earn it.
+
+## Agentic chaining in practice: incident response
+
+Here is what this looks like in a real system. Consider an observability platform where the goal is to handle the full incident lifecycle — from an alert firing to the system being healthier than it was before.
+
+![Agentic Chaining — Incident Response Lifecycle](/blog/agentic-chaining/ops-lifecycle.svg)
+
+Seven stages, chained in sequence. Each one is typed by where it falls on the deterministic–agentified spectrum.
+
+### 1. Detect — deterministic
+
+Detection is boring on purpose. A monitoring tool fires when a hard threshold is breached or a service degrades against its SLO. No LLM, no reasoning — just math. If CPU exceeds 95% for five minutes, fire the alert. This is a node where adding intelligence would be adding risk.
+
+### 2. Investigate — both
+
+Once the alert fires, the chain needs to figure out what is actually going on. This is where the first LLM appears. The node makes **deterministic** connections — pulling data from dashboards, logs, traces, and recent deployments — but uses **agentified** capabilities to synthesize that context into a coherent diagnostic report. It reads through runbooks, correlates timelines, and packages everything an engineer needs to make a decision.
+
+The data collection is mechanical. The synthesis is where the LLM earns its spot.
+
+### 3. Triage — deterministic, human-in-the-loop
+
+A human on-call engineer reviews the automated investigation package. The system's role here is purely structural: it presents the diagnosis and provides rigid parameters for the human to act on — escalate or not, assign a severity level, define responder roles, open a communication channel.
+
+This is the node where human judgment lives. The chain does not try to replace it. It sets the human up with everything they need and then gets out of the way.
+
+### 4. Mitigate — both
+
+The team acts on the triage decision. This phase combines **deterministic** execution — rolling back a deployment, toggling a feature flag, scaling a service — with **agentified** support. An AI chat is available for dynamic, natural-language follow-up troubleshooting during the firefight. The engineer can ask "what else changed in the last hour?" and get a synthesized answer instead of digging through three dashboards.
+
+Known fixes run mechanically. The LLM handles the unknown.
+
+### 5. Review — deterministic
+
+Once the immediate threat is contained, the learning phase is structured and rule-based. Post-mortems are generated from templates populated with incident data. Metrics are aggregated into weekly ops reviews. The system surfaces recurring issues, patterns across recent incidents, and SLO trends. No LLM needed — this is data aggregation and templating.
+
+### 6. Improve — deterministic
+
+Insights from the review are turned into concrete, trackable work. Tickets are created, assigned, and tracked through standard project management systems. This is pure workflow automation — structured data in, structured tickets out.
+
+### 7. Repeat — deterministic
+
+The loop closes. Dashboards track whether incident frequency is decreasing, whether improvement tickets are being completed, and whether the quality of automated investigations is getting better over time. Quantitative, rule-based metrics. When the next alert fires, the chain starts again — ideally a little smarter than last time.
+
+---
+
+Look at the distribution: five of seven nodes are fully deterministic. The LLM only appears at Investigate and Mitigate — the two places where the task genuinely requires reasoning. And the most critical decision point, Triage, is where a human sits.
+
+That is the pattern. Not "agents everywhere," but agents only where they belong, wired into a chain of deterministic steps that keep the whole system predictable and debuggable.
+
+## The pattern generalizes
+
+Incident response is one instance of this shape. The same architecture applies to document creation pipelines, coding workflows, database analysis, and anywhere else you can decompose a workflow into sequential, specialized steps. The specifics change. The structure — small opinionated nodes, each as deterministic as the task allows, chained in sequence — stays the same.
+
+## What about a name?
+
+I have been calling this "agentic chaining," which is descriptive but not exactly catchy. The pattern needs a better name. Here are some candidates I have been kicking around:
+
+- **Conga line** — fun, visual, captures the sequential handoff. Might not survive a serious engineering conversation.
+- **Agentic string theory** — clever, but probably too clever. Also the physics metaphor does not actually map to anything.
+- **Agentic chaining** — the current working name. Descriptive. Fine. Not exciting.
+- **SME assembly line** — captures the specialization angle ("subject matter expert" agents). A bit industrial.
+- **Stringy McStringFace** — obviously the correct answer.
+
+The workshop is open. If you have a better name, I would genuinely like to hear it.
