@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { CSSProperties, ReactElement } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import TopNav from '../../../components/top-nav/TopNav'
@@ -12,6 +12,15 @@ export default function BlogPostRoute(): ReactElement {
   const { slug = '' } = useParams()
   const post = getBlogPostBySlug(slug)
   const [fontScale, setFontScale] = useState(1)
+
+  useEffect(() => {
+    if (post) {
+      document.title = `${post.title} | Leon's Website`
+    }
+    return () => {
+      document.title = "Leon's Website"
+    }
+  }, [post])
 
   if (!post) {
     return (
