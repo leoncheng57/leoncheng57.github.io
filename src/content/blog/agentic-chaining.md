@@ -24,6 +24,12 @@ The pitch for large general-purpose agents is seductive: give it all your tools,
 
 **Debugging.** When the output is wrong, where do you look? The agent had access to everything and did everything in one long session. Good luck tracing which step went sideways.
 
+The natural objection here is the [bitter lesson](https://en.wikipedia.org/wiki/Bitter_lesson): historically, general methods that scale with compute have always beaten specialized, hand-crafted approaches. Chess, Go, vision, speech — every time researchers encoded domain knowledge, brute-force scaling eventually crushed it. So why not just give a general-purpose agent more compute and better models and let it figure things out?
+
+Because agent orchestration is not model training. The bitter lesson applies to what happens *inside* a model — how it learns representations, how it improves with scale. It does not apply to how you wire a production system together. Generalized AI is genuinely great at LLM-style reasoning and text generation. But being a full engineer replacement — managing incidents end-to-end, coordinating across systems, making judgment calls under pressure — is a different problem. The model is one component. The system around it is everything else: reliability, debuggability, cost control, human oversight, and the ability to trace what went wrong when something breaks.
+
+Assistive chaining is the current best of both worlds. You get the power of general-purpose models where reasoning is needed, and the predictability of deterministic systems everywhere else. My bet is that this pattern persists even as models improve, because the bottleneck is not model capability — it is system reliability. Better models make each node better, but they do not eliminate the need to decompose the workflow. AI is good at a lot, not everything.
+
 There is a better architecture. Instead of one agent that does everything, you chain together small agents that each do one thing well.
 
 ## Why small agents work
