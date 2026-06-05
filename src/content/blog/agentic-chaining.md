@@ -54,7 +54,7 @@ Here is what this looks like in a real system. Consider an observability platfor
 
 ![Agentic Chaining — Incident Response Lifecycle](/blog/agentic-chaining/ops-lifecycle.svg)
 
-Seven stages, chained in sequence. Each one is typed by where it falls on the deterministic–agentified spectrum.
+Six stages, chained in sequence. Each one is typed by where it falls on the deterministic–agentified spectrum.
 
 ### 1. Detect — deterministic
 
@@ -78,23 +78,19 @@ The team acts on the triage decision. This phase combines **deterministic** exec
 
 Known fixes run mechanically. The LLM handles the unknown. But a human is driving the whole time — choosing which remediation to apply, confirming before destructive actions, and making the call on whether the fix actually worked.
 
-### 5. Review — deterministic, human-in-the-loop
+### 5. Review — both, human-in-the-loop
 
-Once the immediate threat is contained, the learning phase is structured and rule-based. Post-mortems are generated from templates populated with incident data. Metrics are aggregated into weekly ops reviews. The system surfaces recurring issues, patterns across recent incidents, and SLO trends. No LLM needed — this is data aggregation and templating. But a human reviews the post-mortem, adds context the system cannot see, and signs off before it goes out.
+Once the immediate threat is contained, the learning phase kicks in. An agent drafts the post-mortem — pulling incident data, timelines, and resolution steps into a structured document. Metrics are aggregated into weekly ops reviews, surfacing recurring issues, patterns across recent incidents, and SLO trends. The **deterministic** side handles data aggregation and templating. The **agentified** side drafts the narrative — the "what happened and why" section that used to take an engineer an hour to write. But a human reviews every draft, adds context the system cannot see, and signs off before it goes out.
 
-### 6. Improve — deterministic, human-in-the-loop
+### 6. Improve — both, human-in-the-loop
 
-Insights from the review are turned into concrete, trackable work. Tickets are created, assigned, and tracked through standard project management systems. The automation handles the structured work — tickets in, tracking out — but a human prioritizes what gets worked on, assigns ownership, and decides what is actually worth fixing versus what is noise.
-
-### 7. Repeat — deterministic
-
-The loop closes. Dashboards track whether incident frequency is decreasing, whether improvement tickets are being completed, and whether the quality of automated investigations is getting better over time. Quantitative, rule-based metrics. When the next alert fires, the chain starts again — ideally a little smarter than last time.
+Insights from the review are turned into concrete, trackable work. Tickets are created and tracked through standard project management systems — that part is **deterministic**. But agents can also help with the fixes themselves: small, well-scoped code changes like adding a missing timeout, fixing a retry policy, or updating a config value. For larger structural fixes, agents are less reliable and the work stays with engineers. Either way, a human reviews every change before it merges. A human also prioritizes what gets worked on, assigns ownership, and decides what is actually worth fixing versus what is noise.
 
 ---
 
-Look at the distribution: five of seven nodes are deterministic. The LLM only appears at Investigate and Mitigate — the two places where the task genuinely requires reasoning. And only one node, Detect, runs fully autonomously. Every other stage has a human in the loop — reviewing, deciding, guiding, or signing off.
+Look at the distribution: only Detect runs fully autonomously. Every other stage has a human in the loop — reviewing, deciding, guiding, or signing off. And the LLM shows up at four of six nodes (Investigate, Mitigate, Review, Improve), but always alongside deterministic steps that keep the work grounded. The agent never acts alone on anything that matters.
 
-That is the pattern. Not "agents everywhere," but agents only where they belong, humans at every handoff that matters, and deterministic steps keeping the whole system predictable and debuggable.
+That is the pattern. Not "agents everywhere," but agents only where they belong, humans at every handoff that matters, and each node pushed as far toward deterministic as the task allows.
 
 ## The pattern generalizes
 
@@ -109,5 +105,3 @@ I have been calling this "agentic chaining," which is descriptive but not exactl
 - **Agentic chaining** — the current working name. Descriptive. Fine. Not exciting.
 - **SME assembly line** — captures the specialization angle ("subject matter expert" agents). A bit industrial.
 - **Stringy McStringFace** — obviously the correct answer.
-
-The workshop is open. If you have a better name, I would genuinely like to hear it.
