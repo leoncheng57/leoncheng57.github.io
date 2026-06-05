@@ -229,11 +229,11 @@ Seven stages, chained in sequence. Each one is typed by where it falls on the de
 
 Detection is boring on purpose. A monitoring tool fires when a hard threshold is breached or a service degrades against its SLO. No LLM, no reasoning — just math. If CPU exceeds 95% for five minutes, fire the alert. This is a node where adding intelligence would be adding risk.
 
-### 2. Investigate — both
+### 2. Investigate — both, human-in-the-loop
 
 Once the alert fires, the chain needs to figure out what is actually going on. This is where the first LLM appears. The node makes **deterministic** connections — pulling data from dashboards, logs, traces, and recent deployments — but uses **agentified** capabilities to synthesize that context into a coherent diagnostic report. It reads through runbooks, correlates timelines, and packages everything an engineer needs to make a decision.
 
-The data collection is mechanical. The synthesis is where the LLM earns its spot.
+The data collection is mechanical. The synthesis is where the LLM earns its spot. But the engineer is still in the loop — reviewing the investigation output, sanity-checking the timeline, and deciding whether the diagnosis makes sense before it moves downstream.
 
 ### 3. Triage — deterministic, human-in-the-loop
 
@@ -241,19 +241,19 @@ A human on-call engineer reviews the automated investigation package. The system
 
 This is the node where human judgment lives. The chain does not try to replace it. It sets the human up with everything they need and then gets out of the way.
 
-### 4. Mitigate — both
+### 4. Mitigate — both, human-in-the-loop
 
 The team acts on the triage decision. This phase combines **deterministic** execution — rolling back a deployment, toggling a feature flag, scaling a service — with **agentified** support. An AI chat is available for dynamic, natural-language follow-up troubleshooting during the firefight. The engineer can ask "what else changed in the last hour?" and get a synthesized answer instead of digging through three dashboards.
 
-Known fixes run mechanically. The LLM handles the unknown.
+Known fixes run mechanically. The LLM handles the unknown. But a human is driving the whole time — choosing which remediation to apply, confirming before destructive actions, and making the call on whether the fix actually worked.
 
-### 5. Review — deterministic
+### 5. Review — deterministic, human-in-the-loop
 
-Once the immediate threat is contained, the learning phase is structured and rule-based. Post-mortems are generated from templates populated with incident data. Metrics are aggregated into weekly ops reviews. The system surfaces recurring issues, patterns across recent incidents, and SLO trends. No LLM needed — this is data aggregation and templating.
+Once the immediate threat is contained, the learning phase is structured and rule-based. Post-mortems are generated from templates populated with incident data. Metrics are aggregated into weekly ops reviews. The system surfaces recurring issues, patterns across recent incidents, and SLO trends. No LLM needed — this is data aggregation and templating. But a human reviews the post-mortem, adds context the system cannot see, and signs off before it goes out.
 
-### 6. Improve — deterministic
+### 6. Improve — deterministic, human-in-the-loop
 
-Insights from the review are turned into concrete, trackable work. Tickets are created, assigned, and tracked through standard project management systems. This is pure workflow automation — structured data in, structured tickets out.
+Insights from the review are turned into concrete, trackable work. Tickets are created, assigned, and tracked through standard project management systems. The automation handles the structured work — tickets in, tracking out — but a human prioritizes what gets worked on, assigns ownership, and decides what is actually worth fixing versus what is noise.
 
 ### 7. Repeat — deterministic
 
@@ -261,9 +261,9 @@ The loop closes. Dashboards track whether incident frequency is decreasing, whet
 
 ---
 
-Look at the distribution: five of seven nodes are fully deterministic. The LLM only appears at Investigate and Mitigate — the two places where the task genuinely requires reasoning. And the most critical decision point, Triage, is where a human sits.
+Look at the distribution: five of seven nodes are deterministic. The LLM only appears at Investigate and Mitigate — the two places where the task genuinely requires reasoning. And only one node, Detect, runs fully autonomously. Every other stage has a human in the loop — reviewing, deciding, guiding, or signing off.
 
-That is the pattern. Not "agents everywhere," but agents only where they belong, wired into a chain of deterministic steps that keep the whole system predictable and debuggable.
+That is the pattern. Not "agents everywhere," but agents only where they belong, humans at every handoff that matters, and deterministic steps keeping the whole system predictable and debuggable.
 
 ## The pattern generalizes
 
