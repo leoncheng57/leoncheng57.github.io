@@ -193,6 +193,8 @@ The pitch for large general-purpose agents is seductive: give it all your tools,
 
 **Debugging.** When the output is wrong, where do you look? The agent had access to everything and did everything in one long session. Good luck tracing which step went sideways.
 
+## "But what about the bitter lesson?"
+
 The natural objection here is the [bitter lesson](https://en.wikipedia.org/wiki/Bitter_lesson): historically, general methods that scale with compute have always beaten specialized, hand-crafted approaches. Chess, Go, vision, speech — every time researchers encoded domain knowledge, brute-force scaling eventually crushed it. So why not just give a general-purpose agent more compute and better models and let it figure things out?
 
 Because agent orchestration is not model training. The bitter lesson applies to what happens *inside* a model — how it learns representations, how it improves with scale. It does not apply to how you wire a production system together. Generalized AI is genuinely great at LLM-style reasoning and text generation. But being a full engineer replacement — managing incidents end-to-end, coordinating across systems, making judgment calls under pressure — is a different problem. The model is one component. The system around it is everything else: reliability, debuggability, cost control, human oversight, and the ability to trace what went wrong when something breaks.
@@ -261,7 +263,7 @@ Once the immediate threat is contained, the learning phase kicks in. An agent dr
 
 Insights from the review are turned into concrete, trackable work. Tickets are created and tracked through standard project management systems — that part is **deterministic**. But agents can also help with the fixes themselves: small, well-scoped code changes like adding a missing timeout, fixing a retry policy, or updating a config value. For larger structural fixes, agents are less reliable and the work stays with engineers. Either way, a human reviews every change before it merges. A human also prioritizes what gets worked on, assigns ownership, and decides what is actually worth fixing versus what is noise.
 
----
+### The pattern
 
 Look at the distribution: only Detect runs fully autonomously. Every other stage has a human in the loop — reviewing, deciding, guiding, or signing off. And the LLM shows up at four of six nodes (Investigate, Mitigate, Review, Improve), but always alongside deterministic steps that keep the work grounded. The agent never acts alone on anything that matters.
 
