@@ -87,15 +87,15 @@
 
   <text x="390" y="230" text-anchor="middle" font-size="14" font-weight="600" fill="#a9b1d6">Node Types</text>
 
-  <!-- Legend: Deterministic -->
-  <rect x="50" y="250" width="180" height="50" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
-  <text x="140" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Deterministic</text>
-  <text x="140" y="289" text-anchor="middle" font-size="9" fill="#93c5fd">Rule-based, no LLM needed</text>
+  <!-- Legend: Deterministic (centered: 3 boxes × 180px + 2 gaps × 30px = 600px, start at 90) -->
+  <rect x="90" y="250" width="180" height="50" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <text x="180" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Deterministic</text>
+  <text x="180" y="289" text-anchor="middle" font-size="9" fill="#93c5fd">Rule-based, no LLM needed</text>
 
   <!-- Legend: Agentified / Both -->
-  <rect x="280" y="250" width="180" height="50" rx="8" fill="#3b1f6e" stroke="#a78bfa" stroke-width="2" />
-  <text x="370" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Agentified (Both)</text>
-  <text x="370" y="289" text-anchor="middle" font-size="9" fill="#c4b5fd">LLM for reasoning + data pulls</text>
+  <rect x="300" y="250" width="180" height="50" rx="8" fill="#3b1f6e" stroke="#a78bfa" stroke-width="2" />
+  <text x="390" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">Agentified (Both)</text>
+  <text x="390" y="289" text-anchor="middle" font-size="9" fill="#c4b5fd">LLM for reasoning + data pulls</text>
 
   <!-- Legend: Human-in-the-loop -->
   <rect x="510" y="250" width="180" height="50" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
