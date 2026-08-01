@@ -17,6 +17,26 @@ export default function AppsIndexRoute(): ReactElement {
         <div className={styles.appList}>
           <article className={styles.appCard}>
             <h2>
+              <a href="https://leoncheng.dev/vibe-photo-voting-house-game/">
+                House Party Photo Hunt
+              </a>
+            </h2>
+            <p className={styles.subtitle}>A mobile-first party photo challenge</p>
+            <p className={styles.description}>
+              Turn a room full of phones into a shared photo hunt. Guests tackle
+              prompts, submit their best shots, vote anonymously, and reveal the
+              winners together on the TV.
+            </p>
+            <p className={styles.links}>
+              <a href="https://leoncheng.dev/vibe-photo-voting-house-game/">Play</a>
+              {' · '}
+              <a href="https://github.com/leoncheng57/vibe-photo-voting-house-game">
+                GitHub
+              </a>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <h2>
               <a href="https://apps.apple.com/us/app/whoops-hoops/id6763969713">
                 Whoops Hoops
               </a>
