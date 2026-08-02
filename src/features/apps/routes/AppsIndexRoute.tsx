@@ -17,6 +17,29 @@ export default function AppsIndexRoute(): ReactElement {
         <div className={styles.appList}>
           <article className={styles.appCard}>
             <h2>
+              <a href="https://leoncheng.dev/vibe-photo-voting-house-game/">
+                House Party Photo Hunt
+              </a>
+            </h2>
+            <p className={styles.subtitle}>A photo game built for house parties</p>
+            <p className={styles.description}>
+              Guests play on their phones while the host runs the game from a
+              laptop and shares voting and results on a TV. The hosted game
+              requires a password; clone the repository and connect your own
+              Supabase database to run it yourself. Built with care and smarts.
+            </p>
+            <p className={styles.links}>
+              <a href="https://leoncheng.dev/vibe-photo-voting-house-game/">
+                Password-protected game
+              </a>
+              {' · '}
+              <a href="https://github.com/leoncheng57/vibe-photo-voting-house-game">
+                GitHub
+              </a>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <h2>
               <a href="https://apps.apple.com/us/app/whoops-hoops/id6763969713">
                 Whoops Hoops
               </a>
