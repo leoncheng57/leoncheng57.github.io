@@ -16,12 +16,26 @@ export default function AppsIndexRoute(): ReactElement {
         </header>
         <div className={styles.appList}>
           <article className={styles.appCard}>
-            <h2>
-              <a href="https://leoncheng.dev/vibe-photo-voting-house-game/">
-                House Party Photo Hunt
-              </a>
-            </h2>
-            <p className={styles.subtitle}>A photo game built for house parties</p>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
+                src="/app-icons/house-party-photo-hunt.svg"
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <a href="https://leoncheng.dev/vibe-photo-voting-house-game/">
+                    House Party Photo Hunt
+                  </a>
+                </h2>
+                <p className={styles.subtitle}>
+                  A photo game built for house parties
+                </p>
+              </div>
+            </div>
             <p className={styles.description}>
               Guests play on their phones while the host runs the game from a
               laptop and shares voting and results on a TV. The hosted game
@@ -39,12 +53,24 @@ export default function AppsIndexRoute(): ReactElement {
             </p>
           </article>
           <article className={styles.appCard}>
-            <h2>
-              <a href="https://apps.apple.com/us/app/whoops-hoops/id6763969713">
-                Whoops Hoops
-              </a>
-            </h2>
-            <p className={styles.subtitle}>A daily NBA player guess game</p>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
+                src="/app-icons/whoops-hoops.png"
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <a href="https://apps.apple.com/us/app/whoops-hoops/id6763969713">
+                    Whoops Hoops
+                  </a>
+                </h2>
+                <p className={styles.subtitle}>A daily NBA player guess game</p>
+              </div>
+            </div>
             <p className={styles.description}>
               Guess a mystery NBA player each day using color-coded clues across
               six attributes: team, conference, division, position, height, and
