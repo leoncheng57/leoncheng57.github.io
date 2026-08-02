@@ -49,6 +49,34 @@
   margin: 0.5rem 0;
 }
 
+.appCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.appIcon {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 22%;
+  object-fit: cover;
+  border: 1px solid var(--hr-color);
+}
+
+.appCardHeading {
+  min-width: 0;
+}
+
+.appCardHeading h2 {
+  margin-bottom: 0;
+}
+
+.appCardHeading .subtitle {
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
 .subtitle {
   color: var(--text-muted);
   font-size: 0.95rem;
