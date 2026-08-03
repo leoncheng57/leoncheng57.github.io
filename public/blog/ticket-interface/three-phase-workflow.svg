@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" role="img" aria-labelledby="title description">
+  <title id="title">Three phases of human and AI collaboration</title>
+  <desc id="description">A planning loop around a shared engineering ticket leads to parallel AI execution, then a human review loop and human-controlled release gates.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111827"/>
+      <stop offset="1" stop-color="#0a0f19"/>
+    </linearGradient>
+    <linearGradient id="ticket" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#233b55"/>
+      <stop offset="1" stop-color="#182b40"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#000" flood-opacity=".3"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0l10 5-10 5z" fill="#8fa6bd"/>
+    </marker>
+    <style>
+      .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .phase { fill: #f4f0e8; font-size: 24px; font-weight: 700; }
+      .eyebrow { fill: #7dd3b0; font-size: 14px; font-weight: 700; letter-spacing: 2px; }
+      .card-title { fill: #f4f0e8; font-size: 19px; font-weight: 700; }
+      .card-copy { fill: #abb8c7; font-size: 14px; }
+      .label { fill: #d7e0e9; font-size: 13px; font-weight: 600; }
+      .small { fill: #8999aa; font-size: 12px; }
+      .flow { fill: none; stroke: #8fa6bd; stroke-width: 2.5; marker-end: url(#arrow); }
+      .loop { fill: none; stroke: #7dd3b0; stroke-width: 2.5; stroke-dasharray: 7 7; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1400" height="900" rx="28" fill="url(#background)"/>
+  <text x="56" y="54" class="sans eyebrow">THE TICKET IS THE INTERFACE</text>
+  <text x="56" y="90" class="sans phase" font-size="30">A durable loop from intent to evidence</text>
+
+  <rect x="40" y="120" width="420" height="700" rx="22" fill="#131d2a" stroke="#2b3b4e"/>
+  <rect x="490" y="120" width="420" height="700" rx="22" fill="#131d2a" stroke="#2b3b4e"/>
+  <rect x="940" y="120" width="420" height="700" rx="22" fill="#131d2a" stroke="#2b3b4e"/>
+
+  <circle cx="78" cy="166" r="20" fill="#7dd3b0"/>
+  <text x="78" y="173" class="sans" fill="#10251e" font-size="20" font-weight="800" text-anchor="middle">1</text>
+  <text x="112" y="174" class="sans phase">Shape the work</text>
+  <text x="66" y="206" class="sans card-copy">Explore, challenge, and decompose before coding.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="76" y="248" width="156" height="90" rx="14" fill="#202c3a" stroke="#415165"/>
+    <circle cx="102" cy="276" r="10" fill="#f5b96b"/>
+    <text x="120" y="282" class="sans card-title">Human intent</text>
+    <text x="94" y="310" class="sans card-copy">Goals, risk, authority</text>
+
+    <rect x="268" y="248" width="156" height="90" rx="14" fill="#202c3a" stroke="#415165"/>
+    <circle cx="294" cy="276" r="10" fill="#8bb8f4"/>
+    <text x="312" y="282" class="sans card-title">AI explores</text>
+    <text x="286" y="310" class="sans card-copy">Code, docs, history</text>
+
+    <rect x="112" y="414" width="276" height="148" rx="18" fill="url(#ticket)" stroke="#4d7da4" stroke-width="2"/>
+    <rect x="134" y="438" width="84" height="22" rx="11" fill="#365d7b"/>
+    <text x="176" y="454" class="sans label" text-anchor="middle">WIP ISSUE</text>
+    <text x="134" y="491" class="sans card-title">Shared project state</text>
+    <text x="134" y="519" class="sans card-copy">Target state · gates · sequence</text>
+    <text x="134" y="542" class="sans card-copy">ownership · dependencies · evidence</text>
+  </g>
+
+  <path d="M232 293h36" class="loop"/>
+  <path d="M346 338c0 40 8 55-8 76" class="loop"/>
+  <path d="M194 414c-18-28-16-50-2-76" class="loop"/>
+  <text x="250" y="377" class="sans small" text-anchor="middle">refine until credible</text>
+
+  <rect x="88" y="628" width="324" height="118" rx="16" fill="#18232f" stroke="#35475a"/>
+  <text x="108" y="657" class="sans label">PLANNING OUTPUT</text>
+  <text x="108" y="687" class="sans card-copy">Bounded MRs with explicit dependencies</text>
+  <text x="108" y="713" class="sans card-copy">Manual gates and rollback assumptions</text>
+
+  <circle cx="528" cy="166" r="20" fill="#7dd3b0"/>
+  <text x="528" y="173" class="sans" fill="#10251e" font-size="20" font-weight="800" text-anchor="middle">2</text>
+  <text x="562" y="174" class="sans phase">Execute</text>
+  <text x="516" y="206" class="sans card-copy">Prepare reversible work in parallel.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="568" y="246" width="264" height="76" rx="16" fill="url(#ticket)" stroke="#4d7da4"/>
+    <text x="700" y="278" class="sans card-title" text-anchor="middle">WIP issue</text>
+    <text x="700" y="302" class="sans card-copy" text-anchor="middle">Tasks, ownership, current truth</text>
+
+    <rect x="526" y="402" width="164" height="102" rx="16" fill="#202c3a" stroke="#415165"/>
+    <text x="608" y="437" class="sans card-title" text-anchor="middle">Draft MR A</text>
+    <text x="608" y="465" class="sans card-copy" text-anchor="middle">Code + tests</text>
+    <text x="608" y="485" class="sans small" text-anchor="middle">reversible</text>
+
+    <rect x="710" y="402" width="164" height="102" rx="16" fill="#202c3a" stroke="#415165"/>
+    <text x="792" y="437" class="sans card-title" text-anchor="middle">Draft MR B</text>
+    <text x="792" y="465" class="sans card-copy" text-anchor="middle">Config + docs</text>
+    <text x="792" y="485" class="sans small" text-anchor="middle">reversible</text>
+
+    <rect x="568" y="588" width="264" height="110" rx="16" fill="#18232f" stroke="#35475a"/>
+    <text x="700" y="623" class="sans card-title" text-anchor="middle">Automated evidence</text>
+    <text x="700" y="651" class="sans card-copy" text-anchor="middle">Focused tests · full suite · CI</text>
+    <text x="700" y="675" class="sans card-copy" text-anchor="middle">Rendered plans · diff review</text>
+  </g>
+
+  <path d="M670 322l-52 80" class="flow"/>
+  <path d="M730 322l52 80" class="flow"/>
+  <path d="M608 504l62 84" class="flow"/>
+  <path d="M792 504l-62 84" class="flow"/>
+  <path d="M568 642c-44 0-56-124-20-140" class="loop"/>
+  <text x="530" y="555" class="sans small" transform="rotate(-90 530 555)" text-anchor="middle">update ticket</text>
+
+  <circle cx="978" cy="166" r="20" fill="#7dd3b0"/>
+  <text x="978" y="173" class="sans" fill="#10251e" font-size="20" font-weight="800" text-anchor="middle">3</text>
+  <text x="1012" y="174" class="sans phase">Review and steer</text>
+  <text x="966" y="206" class="sans card-copy">Improve the code and revisit the plan.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="980" y="248" width="154" height="92" rx="16" fill="#202c3a" stroke="#415165"/>
+    <circle cx="1005" cy="276" r="9" fill="#f5b96b"/>
+    <text x="1022" y="282" class="sans card-title">Human review</text>
+    <text x="998" y="312" class="sans card-copy">Questions + decisions</text>
+
+    <rect x="1168" y="248" width="154" height="92" rx="16" fill="#202c3a" stroke="#415165"/>
+    <circle cx="1193" cy="276" r="9" fill="#8bb8f4"/>
+    <text x="1210" y="282" class="sans card-title">AI edits</text>
+    <text x="1186" y="312" class="sans card-copy">Code + issue state</text>
+
+    <rect x="1010" y="424" width="280" height="82" rx="16" fill="#352a24" stroke="#8c6649"/>
+    <text x="1150" y="457" class="sans card-title" text-anchor="middle">Ready for human gates?</text>
+    <text x="1150" y="484" class="sans card-copy" text-anchor="middle">If not, review or reshape the plan</text>
+
+    <rect x="982" y="594" width="106" height="86" rx="14" fill="#2b2525" stroke="#6f5353"/>
+    <text x="1035" y="626" class="sans label" text-anchor="middle">MERGE</text>
+    <text x="1035" y="650" class="sans small" text-anchor="middle">human</text>
+    <text x="1035" y="667" class="sans small" text-anchor="middle">approval</text>
+
+    <rect x="1097" y="594" width="106" height="86" rx="14" fill="#2b2525" stroke="#6f5353"/>
+    <text x="1150" y="626" class="sans label" text-anchor="middle">DEPLOY</text>
+    <text x="1150" y="650" class="sans small" text-anchor="middle">secrets +</text>
+    <text x="1150" y="667" class="sans small" text-anchor="middle">cutover</text>
+
+    <rect x="1212" y="594" width="106" height="86" rx="14" fill="#2b2525" stroke="#6f5353"/>
+    <text x="1265" y="626" class="sans label" text-anchor="middle">VALIDATE</text>
+    <text x="1265" y="650" class="sans small" text-anchor="middle">real-world</text>
+    <text x="1265" y="667" class="sans small" text-anchor="middle">evidence</text>
+  </g>
+
+  <path d="M1134 294h34" class="loop"/>
+  <path d="M1245 340c0 50-128 52-160 0" class="loop"/>
+  <text x="1150" y="389" class="sans small" text-anchor="middle">review loop</text>
+  <path d="M1150 389v35" class="flow"/>
+  <path d="M1150 506v55" class="flow"/>
+  <path d="M1035 561v33" class="flow"/>
+  <path d="M1150 561v33" class="flow"/>
+  <path d="M1265 561v33" class="flow"/>
+
+  <path d="M460 468h30" class="flow"/>
+  <path d="M910 468h30" class="flow"/>
+  <path d="M1010 465c-48 0-66-214-536-214" class="loop"/>
+  <text x="713" y="238" class="sans small" text-anchor="middle">wrong decomposition? return to Phase 1</text>
+
+  <rect x="60" y="844" width="16" height="16" rx="4" fill="#7dd3b0"/>
+  <text x="88" y="857" class="sans small">feedback loop</text>
+  <path d="M205 852h42" class="flow"/>
+  <text x="260" y="857" class="sans small">work advances</text>
+  <rect x="380" y="844" width="16" height="16" rx="4" fill="#2b2525" stroke="#6f5353"/>
+  <text x="408" y="857" class="sans small">human-controlled transition</text>
+</svg>
