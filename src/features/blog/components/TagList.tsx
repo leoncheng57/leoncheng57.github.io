@@ -12,8 +12,8 @@ export default function TagList({ tags }: TagListProps): ReactElement | null {
 
   return (
     <ul className={styles.tagList} aria-label="Post tags">
-      {tags.map((tag) => (
-        <li key={tag} className={styles.tag}>
+      {tags.map((tag, index) => (
+        <li key={tag} className={index === 0 ? `${styles.tag} ${styles.primaryTag}` : styles.tag}>
           {tag}
         </li>
       ))}

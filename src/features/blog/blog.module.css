@@ -87,7 +87,7 @@
 .tagList {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.45rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -95,12 +95,20 @@
 }
 
 .tag {
-  padding: 0.2rem 0.55rem;
-  border-radius: 0.35rem;
-  background: rgba(100, 130, 160, 0.18);
-  color: #8eaabe;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 42%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
   font-size: 0.78rem;
-  line-height: 1.3;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.primaryTag {
+  border-color: rgba(255, 107, 61, 0.68);
+  background: rgba(255, 107, 61, 0.12);
+  color: #ff9a76;
 }
 
 .fontControls {
