@@ -6,8 +6,6 @@ tags:
   - AI
   - agents
   - workflow
-  - mental-models
-  - engineering
 ---
 
 # Agentic Chaining: Small Opinionated Agents in a Line

@@ -3,10 +3,9 @@ title: "A Template for Technical Design Documents"
 description: "A reusable skeleton for writing clear, reviewable technical design docs, with section-by-section prompts and sample text."
 publishedAt: "2026-04-23"
 tags:
-  - design-docs
-  - engineering
-  - process
   - writing
+  - engineering
+  - workflow
 ---
 
 # A Template for Technical Design Documents

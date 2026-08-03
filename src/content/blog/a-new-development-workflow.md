@@ -5,8 +5,6 @@ publishedAt: "2026-04-21"
 tags:
   - workflow
   - AI
-  - coding-agents
-  - developer-tools
   - code-review
 ---
 

@@ -5,9 +5,7 @@ publishedAt: "2026-08-03"
 tags:
   - workflow
   - AI
-  - coding-agents
-  - teamwork
-  - project-management
+  - collaboration
 ---
 
 # The Ticket Is the Interface: A Better Way to Work With AI

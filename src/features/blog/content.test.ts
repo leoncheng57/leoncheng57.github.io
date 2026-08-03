@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { loadBlogPostsFromFiles } from './content'
+import { getAllBlogPosts, loadBlogPostsFromFiles } from './content'
 
 describe('loadBlogPostsFromFiles', () => {
   it('parses markdown files into sorted posts and respects estimateTimeToRead', () => {
@@ -101,5 +101,30 @@ This post should remain directly accessible by slug.
       slug: 'draft-post',
       draft: true,
     })
+  })
+
+  it('uses the approved tag taxonomy with at most three tags per post', () => {
+    const approvedTags = new Set([
+      'AI',
+      'agents',
+      'workflow',
+      'engineering',
+      'developer-tools',
+      'code-review',
+      'product',
+      'mobile',
+      'side-project',
+      'writing',
+      'mental-models',
+      'collaboration',
+      'git',
+      'meta',
+      'future',
+    ])
+
+    for (const post of getAllBlogPosts()) {
+      expect(post.tags.length).toBeLessThanOrEqual(3)
+      expect(post.tags.every((tag) => approvedTags.has(tag))).toBe(true)
+    }
   })
 })

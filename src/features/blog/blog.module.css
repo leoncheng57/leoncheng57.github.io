@@ -39,6 +39,163 @@
   gap: 1rem;
 }
 
+.filterArea {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.filterControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.filterButton,
+.clearFilterButton {
+  min-height: 2.5rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 0.7rem;
+  background: color-mix(in srgb, var(--surface) 88%, white 12%);
+  color: var(--text-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.filterButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.06), 0 4px 14px rgba(0, 0, 0, 0.16);
+  font-weight: 600;
+}
+
+.filterButton svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 1.7;
+}
+
+.filterChevron {
+  margin-left: 0.15rem;
+  color: var(--text-muted);
+  line-height: 1;
+  transform: translateY(-0.08rem);
+}
+
+.filterButton:hover,
+.filterButton[aria-expanded='true'] {
+  border-color: rgba(125, 183, 218, 0.72);
+  background: rgba(104, 165, 201, 0.14);
+  color: #b9dcf2;
+}
+
+.clearFilterButton {
+  min-height: auto;
+  padding: 0.35rem 0.25rem;
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.clearFilterButton:hover {
+  color: var(--text-primary);
+}
+
+.filterPanel {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  left: 0;
+  z-index: 10;
+  width: min(100%, 46rem);
+  max-height: min(70vh, 30rem);
+  overflow-y: auto;
+  padding: 1rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--surface) 96%, white 4%);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
+}
+
+.filterPanel p {
+  margin: 0 0 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.filterOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filterOption {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 42%, transparent);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.filterOption:has(input:checked) {
+  border-color: rgba(125, 183, 218, 0.72);
+  background: rgba(104, 165, 201, 0.14);
+  color: #b9dcf2;
+}
+
+.filterOption input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.filterOption:has(input:focus-visible) {
+  outline: 2px solid #8fc5e5;
+  outline-offset: 2px;
+}
+
+.activeFilter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba(125, 183, 218, 0.62);
+  border-radius: 999px;
+  background: rgba(104, 165, 201, 0.14);
+  color: #b9dcf2;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.activeFilter span {
+  color: #d3edfc;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.filterSummary {
+  margin: -0.35rem 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.emptyState {
+  margin: 0;
+  padding: 1rem;
+  color: var(--text-muted);
+}
+
 .postCard {
   padding: 1.25rem;
   border: 1px solid var(--hr-color);
@@ -87,7 +244,7 @@
 .tagList {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.45rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -95,12 +252,27 @@
 }
 
 .tag {
-  padding: 0.2rem 0.55rem;
-  border-radius: 0.35rem;
-  background: rgba(100, 130, 160, 0.18);
-  color: #8eaabe;
+  display: inline-flex;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid rgba(125, 183, 218, 0.55);
+  border-radius: 999px;
+  background: rgba(104, 165, 201, 0.1);
+  color: #b9dcf2;
   font-size: 0.78rem;
-  line-height: 1.3;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.tagButton {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.tagButton:hover,
+.selectedTag {
+  border-color: rgba(162, 210, 238, 0.9);
+  background: rgba(104, 165, 201, 0.2);
+  color: #d3edfc;
 }
 
 .fontControls {
