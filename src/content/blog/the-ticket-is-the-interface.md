@@ -25,19 +25,17 @@ The chat can disappear. The ticket should still tell the whole story.
 - Let the agent prepare reversible work. Keep production actions human-controlled.
 - Put ownership at the start of every open task: `[MR !123]`, `[MANUAL]`, or `[BLOCKER]`.
 
-## Three phases of collaboration
+## Two phases of collaboration
 
-![A three-phase human and AI workflow showing a planning loop around a shared ticket, parallel AI execution, a review loop, and human-controlled release gates.](/blog/ticket-interface/three-phase-workflow.svg "The engineering ticket remains the shared source of truth through planning, execution, review, and release.")
+![A two-phase human and AI workflow showing a planning loop around a shared ticket, followed by execution, review, and human-controlled release gates.](/blog/ticket-interface/three-phase-workflow.svg "The engineering ticket remains the shared source of truth through planning, execution, review, and release.")
 
 ### 1. Shape the work
 
 I ask the agent to explore the repository before proposing changes. Then we go back and forth on scope, risk, MR boundaries, and manual gates. This usually takes more than one prompt, and that is the point. A bad decomposition can produce five valid MRs that add up to an unsafe rollout.
 
-### 2. Execute
+### 2. Execute, review, and steer
 
 Once the plan looks credible, the agent can implement, test, open draft MRs, and record evidence. Independent changes can run in parallel. The ticket keeps their dependencies and actual state visible.
-
-### 3. Review and steer
 
 Review is another loop, not a final stamp. I leave comments; the agent edits, reruns tests, and updates the ticket. If review exposes a bad plan, we go back to Phase 1 instead of cramming the discovery into the existing MRs.
 
@@ -97,61 +95,24 @@ A reviewer can scan the left edge and immediately see what is implemented, what 
 
 ## Three operating rules
 
-### 1. Put ownership before the task
+### 1. Put ownership first
 
-A reviewer should not have to read a whole sentence to learn who owns it.
+A prefix tells the reviewer who can act:
 
 | Prefix | Meaning |
 | --- | --- |
-| `[MR !123]` | Merging this draft should complete the item |
-| `[DEPLOYMENT MR !456]` | The implementation is in deployment configuration |
-| `[MANUAL VALIDATION]` | Evidence must come from a real environment |
-| `[MANUAL VAULT]` | A secret-store operation is required |
-| `[BLOCKER / MR NEEDED]` | No safe implementation exists yet |
-| `[MR !789] + [FOLLOW-UP]` | The draft handles only part of the outcome |
-
-The prefix is a tiny execution contract. It also stops the agent from treating every open checkbox as code work.
+| `[MR !123]` | The draft completes this item |
+| `[MANUAL]` | A person must act |
+| `[VALIDATION]` | Real-environment evidence is required |
+| `[BLOCKER]` | No safe implementation exists yet |
 
 ### 2. A checkbox represents truth, not effort
 
-Work moves through different states:
-
-```text
-planned -> drafted -> reviewed -> merged -> deployed -> validated -> observed
-```
-
-The wording of a checkbox determines when it becomes true. "Implement direct access" may close after merge. "Validate direct access in production" cannot.
-
-> Link an MR to a checkbox only when merging it will make the whole statement true. Otherwise label the remaining manual, validation, or follow-up work.
+An MR may complete "implement direct access." It cannot complete "validate direct access in production." Split mixed tasks and leave the unfinished part open.
 
 ### 3. Draft MRs are preparation boundaries
 
-Draft MRs let the agent finish a useful unit of work without crossing the line into activation. A deployment MR can prepare a cutover without performing it. A cleanup MR can wait until the rollback window closes.
-
-| AI can usually prepare | Human should usually control |
-| --- | --- |
-| Code, tests, docs, and draft MRs | Final merge and production deployment |
-| Issue updates and dependency mapping | Secret writes and admin actions |
-| Rendered manifests and verification plans | Cutover timing and rollback decisions |
-| Follow-up edits from review | Acceptance of real-world evidence |
-
-## The instruction I give the agent
-
-I make the authority boundary explicit:
-
-```text
-Prepare draft MRs and update the issue.
-Do not merge, deploy, modify production secrets, or perform admin actions.
-Run tests and include verification evidence.
-```
-
-Within that boundary, I expect it to work end to end: explore, implement, test, review its diff, commit, push, open drafts, and update the ticket.
-
-## Guardrails
-
-- **The AI updates comments but not the checklist.** Comments preserve history; the description must still reflect current state.
-- **Draft is mistaken for safe to merge.** A draft may contain activation values. Put warnings in the title and at the top of the MR.
-- **Tests are mistaken for environmental validation.** Unit tests, rendered manifests, staging evidence, and production observation are different claims.
+The agent prepares code, tests, config, docs, and draft MRs. A person controls merges, secrets, deployments, cutovers, and acceptance of real-world evidence.
 
 ## Conclusion
 
