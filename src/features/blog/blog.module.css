@@ -192,6 +192,21 @@
   margin: 1rem 0;
 }
 
+.articleBody pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 0.85rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--surface) 92%, black 8%);
+  font-size: 0.68em;
+  line-height: 1.45;
+}
+
+.articleBody pre code {
+  font-size: inherit;
+}
+
 .calloutRow {
   margin: 1.75rem 0 2rem;
 }
