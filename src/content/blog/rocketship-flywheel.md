@@ -6,8 +6,6 @@ tags:
   - product
   - engineering
   - mental-models
-  - visualization
-  - workflow
 ---
 
 # The Rocketship Flywheel: User Adoption vs Quality in Tech Projects

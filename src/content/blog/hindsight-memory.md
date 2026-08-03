@@ -5,9 +5,7 @@ publishedAt: "2026-07-07"
 tags:
   - AI
   - agents
-  - memory
-  - RAG
-  - engineering
+  - future
 ---
 
 # Hindsight Memory: Auto-Updating RAG for Agents

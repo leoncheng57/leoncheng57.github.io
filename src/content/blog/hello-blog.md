@@ -6,7 +6,6 @@ updatedAt: "2026-04-12"
 estimateTimeToRead: 3
 tags:
   - meta
-  - intro
 ---
 
 # Hello Blog

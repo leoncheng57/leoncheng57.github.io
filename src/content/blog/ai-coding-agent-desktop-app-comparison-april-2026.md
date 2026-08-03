@@ -3,10 +3,8 @@ title: "AI Coding Agent Desktop App Comparison (April 2026)"
 description: "A snapshot of the emerging Desktop Coding Agent landscape."
 publishedAt: "2026-04-13"
 tags:
-  - prediction
-  - IDE
+  - future
   - AI
-  - coding-agents
   - developer-tools
 draft: false
 ---

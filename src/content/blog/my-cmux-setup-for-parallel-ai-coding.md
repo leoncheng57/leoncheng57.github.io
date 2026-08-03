@@ -5,9 +5,7 @@ publishedAt: "2026-08-03"
 tags:
   - workflow
   - AI
-  - coding-agents
   - developer-tools
-  - cmux
 ---
 
 # My cmux Setup for Parallel AI Coding

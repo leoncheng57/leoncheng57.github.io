@@ -33,7 +33,6 @@ describe('blog routes', () => {
       screen.getByRole('link', { name: 'AI Coding Agent Desktop App Comparison (April 2026)' })
     ).toBeInTheDocument()
     expect(screen.getByText('meta')).toBeInTheDocument()
-    expect(screen.getByText('intro')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Back home' })).toBeInTheDocument()
   })
 
@@ -45,23 +44,58 @@ describe('blog routes', () => {
     )
 
     fireEvent.click(screen.getByRole('button', { name: 'Filter tags' }))
-    fireEvent.click(screen.getByRole('checkbox', { name: 'cmux' }))
+    fireEvent.click(screen.getByRole('checkbox', { name: 'collaboration' }))
 
-    expect(screen.getByRole('link', { name: 'My cmux Setup for Parallel AI Coding' })).toBeInTheDocument()
-    expect(
-      screen.queryByRole('link', { name: 'The Ticket Is the Interface: A Better Way to Work With AI' })
-    ).not.toBeInTheDocument()
-
-    fireEvent.click(screen.getByRole('checkbox', { name: 'teamwork' }))
-
-    expect(screen.getByRole('link', { name: 'My cmux Setup for Parallel AI Coding' })).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'The Ticket Is the Interface: A Better Way to Work With AI' })
+    ).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'My cmux Setup for Parallel AI Coding' })).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'side-project' }))
+
+    expect(
+      screen.getByRole('link', { name: 'The Ticket Is the Interface: A Better Way to Work With AI' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Building Whoops Hoops: From Side Project to the App Store' })
     ).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }))
 
     expect(screen.getByRole('link', { name: 'Hello Blog' })).toBeInTheDocument()
+  })
+
+  it('adds a blog card tag to the active filter when clicked', () => {
+    render(
+      <MemoryRouter initialEntries={['/blog']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'collaboration' }))
+
+    expect(screen.getByRole('button', { name: 'Filter tags' })).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByRole('checkbox', { name: 'collaboration' })).toBeChecked()
+    expect(screen.getByRole('button', { name: 'Remove collaboration filter' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'The Ticket Is the Interface: A Better Way to Work With AI' })
+    ).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'My cmux Setup for Parallel AI Coding' })).not.toBeInTheDocument()
+  })
+
+  it('closes the tag filter when clicking outside it', () => {
+    render(
+      <MemoryRouter initialEntries={['/blog']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Filter tags' }))
+    expect(screen.getByRole('region', { name: 'Filter posts by tag' })).toBeInTheDocument()
+
+    fireEvent.pointerDown(document.body)
+
+    expect(screen.queryByRole('region', { name: 'Filter posts by tag' })).not.toBeInTheDocument()
   })
 
   it('renders the blog post route with metadata', () => {
@@ -76,7 +110,6 @@ describe('blog routes', () => {
     expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByText(/estimated reading time/i)).toBeInTheDocument()
     expect(screen.getByText('meta')).toBeInTheDocument()
-    expect(screen.getByText('intro')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Decrease font size' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Reset font size' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Increase font size' })).toBeInTheDocument()

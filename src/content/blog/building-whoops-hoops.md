@@ -3,11 +3,9 @@ title: "Building Whoops Hoops: From Side Project to the App Store"
 description: "The journey of building a daily basketball guessing game for iOS with React Native and Expo -- from first commit to App Store approval."
 publishedAt: "2026-06-02"
 tags:
-  - ios
-  - react-native
+  - mobile
   - side-project
-  - app-store
-  - expo
+  - product
 ---
 
 # 🏀 Building Whoops Hoops: From Side Project to the App Store

@@ -6,7 +6,6 @@ tags:
   - git
   - workflow
   - code-review
-  - developer-tools
 ---
 
 # How to Reorganize Merge Request Commits
