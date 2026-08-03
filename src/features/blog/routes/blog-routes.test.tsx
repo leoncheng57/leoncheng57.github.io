@@ -37,6 +37,33 @@ describe('blog routes', () => {
     expect(screen.getByRole('link', { name: 'Back home' })).toBeInTheDocument()
   })
 
+  it('filters the blog index by multiple tags', () => {
+    render(
+      <MemoryRouter initialEntries={['/blog']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Filter tags' }))
+    fireEvent.click(screen.getByRole('checkbox', { name: 'cmux' }))
+
+    expect(screen.getByRole('link', { name: 'My cmux Setup for Parallel AI Coding' })).toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: 'The Ticket Is the Interface: A Better Way to Work With AI' })
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'teamwork' }))
+
+    expect(screen.getByRole('link', { name: 'My cmux Setup for Parallel AI Coding' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'The Ticket Is the Interface: A Better Way to Work With AI' })
+    ).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }))
+
+    expect(screen.getByRole('link', { name: 'Hello Blog' })).toBeInTheDocument()
+  })
+
   it('renders the blog post route with metadata', () => {
     render(
       <MemoryRouter initialEntries={['/blog/hello-blog']}>

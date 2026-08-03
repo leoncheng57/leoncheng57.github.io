@@ -39,6 +39,96 @@
   gap: 1rem;
 }
 
+.filterControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.filterButton,
+.clearFilterButton {
+  padding: 0.5rem 0.85rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 90%, white 10%);
+  color: var(--text-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.filterButton:hover,
+.filterButton[aria-expanded='true'] {
+  border-color: rgba(125, 183, 218, 0.72);
+  color: #b9dcf2;
+}
+
+.clearFilterButton {
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.clearFilterButton:hover {
+  color: var(--text-primary);
+}
+
+.filterPanel {
+  margin-bottom: 0.85rem;
+  padding: 0.9rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--surface) 92%, white 8%);
+}
+
+.filterPanel p {
+  margin: 0 0 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.filterOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filterOption {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 42%, transparent);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.filterOption:has(input:checked) {
+  border-color: rgba(125, 183, 218, 0.72);
+  background: rgba(104, 165, 201, 0.14);
+  color: #b9dcf2;
+}
+
+.filterOption input {
+  margin: 0;
+  accent-color: #8fc5e5;
+}
+
+.filterSummary {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.emptyState {
+  margin: 0;
+  padding: 1rem;
+  color: var(--text-muted);
+}
+
 .postCard {
   padding: 1.25rem;
   border: 1px solid var(--hr-color);
@@ -96,19 +186,13 @@
 
 .tag {
   padding: 0.28rem 0.65rem;
-  border: 1px solid color-mix(in srgb, var(--text-muted) 42%, transparent);
+  border: 1px solid rgba(125, 183, 218, 0.55);
   border-radius: 999px;
-  background: transparent;
-  color: var(--text-muted);
+  background: rgba(104, 165, 201, 0.1);
+  color: #b9dcf2;
   font-size: 0.78rem;
   font-weight: 500;
   line-height: 1.2;
-}
-
-.primaryTag {
-  border-color: rgba(255, 107, 61, 0.68);
-  background: rgba(255, 107, 61, 0.12);
-  color: #ff9a76;
 }
 
 .fontControls {
