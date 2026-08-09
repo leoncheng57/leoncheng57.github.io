@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap');
 
 .page {
-  --wl-paper: #f2ede2;
-  --wl-paper-raised: #faf7f0;
-  --wl-ink: #17130c;
-  --wl-red: #d9331f;
-  --wl-red-dark: #ad230f;
-  --wl-muted: #6e6553;
-  --wl-line: rgba(23, 19, 12, 0.25);
+  --wl-paper: #ebe9e4;
+  --wl-paper-raised: #f7f6f3;
+  --wl-ink: #101010;
+  --wl-accent: #4d7c0f;
+  --wl-accent-dark: #3a5f0b;
+  --wl-muted: #5e6158;
+  --wl-line: rgba(16, 16, 16, 0.25);
   --wl-display: 'Anton', 'Arial Narrow', 'Helvetica Neue', sans-serif;
   --wl-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
@@ -60,14 +60,14 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: var(--wl-red);
+  color: var(--wl-accent);
 }
 
 .kicker::before {
   content: '';
   width: 2.25rem;
   height: 3px;
-  background: var(--wl-red);
+  background: var(--wl-accent);
 }
 
 .sectionTitle {
@@ -96,7 +96,7 @@
 
 .displayAccent {
   font-style: normal;
-  color: var(--wl-red);
+  color: var(--wl-accent);
 }
 
 .lede {
@@ -121,7 +121,7 @@
 }
 
 .stat {
-  border-left: 3px solid var(--wl-red);
+  border-left: 3px solid var(--wl-accent);
   padding-left: 1rem;
 }
 
@@ -157,9 +157,9 @@
 }
 
 .primaryButton {
-  background: var(--wl-red);
+  background: var(--wl-accent);
   color: var(--wl-paper-raised);
-  border: 2px solid var(--wl-red);
+  border: 2px solid var(--wl-accent);
 }
 
 .primaryButton:hover {
@@ -185,7 +185,7 @@
 .primaryButton:focus-visible,
 .secondaryButton:focus-visible,
 .choiceInput:focus-visible {
-  outline: 3px solid var(--wl-red-dark);
+  outline: 3px solid var(--wl-accent-dark);
   outline-offset: 3px;
 }
 
@@ -249,8 +249,8 @@
 }
 
 .choiceSelected {
-  background: var(--wl-red);
-  border-color: var(--wl-red);
+  background: var(--wl-accent);
+  border-color: var(--wl-accent);
   color: var(--wl-paper-raised);
 }
 
@@ -327,7 +327,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: var(--wl-red);
+  color: var(--wl-accent);
 }
 
 .segmentTitle {
@@ -361,7 +361,7 @@
   font-family: var(--wl-display);
   font-size: clamp(2.6rem, 7vw, 4rem);
   line-height: 1;
-  color: var(--wl-red);
+  color: var(--wl-accent);
 }
 
 .blockTitle {
@@ -421,7 +421,7 @@
   font-family: var(--wl-display);
   font-size: 1.05rem;
   letter-spacing: 0.03em;
-  color: var(--wl-red-dark);
+  color: var(--wl-accent-dark);
   white-space: nowrap;
 }
 
