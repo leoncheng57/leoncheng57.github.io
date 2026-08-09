@@ -5,6 +5,7 @@ import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
 import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
 import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
 import BlogPostRoute from './features/blog/routes/BlogPostRoute'
+import WorkoutLabRoute from './features/workout-lab/routes/WorkoutLabRoute'
 import HomeRoute from './routes/HomeRoute'
 
 export default function App(): ReactElement {
@@ -16,6 +17,8 @@ export default function App(): ReactElement {
       <Route path="/apps" element={<AppsIndexRoute />} />
       <Route path="/apps/whoops-hoops/privacy" element={<PrivacyRoute />} />
       <Route path="/apps/whoops-hoops/support" element={<SupportRoute />} />
+      {/* Unlisted: reachable only by direct link. */}
+      <Route path="/workout-lab" element={<WorkoutLabRoute />} />
     </Routes>
   )
 }
