@@ -404,8 +404,27 @@
 }
 
 .exerciseName {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
   font-size: 1.05rem;
   font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.exerciseName:hover {
+  color: var(--wl-accent-dark);
+  border-bottom-color: var(--wl-accent);
+}
+
+.exerciseName:focus-visible {
+  outline: 3px solid var(--wl-accent-dark);
+  outline-offset: 3px;
 }
 
 .exerciseMain::after {
@@ -431,6 +450,202 @@
   color: var(--wl-muted);
   margin: 0;
   max-width: 34rem;
+}
+
+.exerciseMetaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.85rem;
+  color: var(--wl-muted);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+}
+
+.exerciseMetaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.exerciseMetaItem [aria-hidden='true'] {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+/* ── Exercise detail modal ────────────────────────────────────────────── */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(16, 16, 16, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  width: min(100%, 58rem);
+  max-height: min(90vh, 50rem);
+  overflow-y: auto;
+  background: var(--wl-paper-raised);
+  color: var(--wl-ink);
+  border: 3px solid var(--wl-ink);
+  box-shadow: 10px 10px 0 var(--wl-accent-dark);
+}
+
+.modalHeader {
+  position: relative;
+  padding: 1.5rem 4.5rem 1.5rem 1.5rem;
+  border-bottom: 3px solid var(--wl-ink);
+}
+
+.modalKicker {
+  margin: 0 0 0.5rem;
+  color: var(--wl-accent-dark);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.modalTitle {
+  margin: 0;
+  font-family: var(--wl-display);
+  font-size: clamp(2rem, 6vw, 3.75rem);
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.modalClose {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  padding: 0.45rem 0;
+  border: 0;
+  border-bottom: 2px solid var(--wl-ink);
+  background: transparent;
+  color: var(--wl-ink);
+  font-family: var(--wl-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.modalClose:hover {
+  color: var(--wl-accent-dark);
+  border-bottom-color: var(--wl-accent-dark);
+}
+
+.modalClose:focus-visible,
+.googleLink:focus-visible {
+  outline: 3px solid var(--wl-accent-dark);
+  outline-offset: 3px;
+}
+
+.modalBody {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.75fr) minmax(0, 1.5fr);
+}
+
+.illustrationPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 19rem;
+  margin: 0;
+  padding: 2rem;
+  background: var(--wl-accent);
+  color: var(--wl-paper-raised);
+  border-right: 3px solid var(--wl-ink);
+}
+
+.exerciseIllustration {
+  width: 100%;
+  max-width: 16rem;
+  margin: auto;
+}
+
+.illustrationPanel figcaption {
+  margin-top: 1.25rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.modalContent {
+  display: grid;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.exerciseDescription,
+.modalSection p,
+.detailStatus {
+  margin: 0;
+  color: var(--wl-muted);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.modalSection h3,
+.warningPanel h3 {
+  margin: 0 0 0.65rem;
+  font-family: var(--wl-display);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.stepList,
+.warningPanel ul {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding-left: 1.35rem;
+  color: var(--wl-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.stepList li::marker {
+  color: var(--wl-accent-dark);
+  font-family: var(--wl-display);
+  font-size: 1.05rem;
+}
+
+.warningPanel {
+  padding: 1.15rem;
+  border: 2px solid var(--wl-ink);
+  border-left: 6px solid var(--wl-accent);
+}
+
+.detailStatus {
+  padding: 1rem;
+  border-left: 4px solid var(--wl-accent);
+  background: var(--wl-paper);
+}
+
+.googleLink {
+  justify-self: start;
+  color: var(--wl-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 2px solid var(--wl-accent);
+}
+
+.googleLink:hover {
+  color: var(--wl-accent-dark);
 }
 
 .workoutActions {
@@ -520,6 +735,43 @@
 
   .exerciseMain::after {
     content: none;
+  }
+
+  .modalBackdrop {
+    padding: 0;
+    place-items: end stretch;
+  }
+
+  .modal {
+    width: 100%;
+    max-height: 94vh;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    box-shadow: none;
+  }
+
+  .modalBody {
+    grid-template-columns: 1fr;
+  }
+
+  .illustrationPanel {
+    min-height: 12rem;
+    padding: 1.25rem;
+    border-right: 0;
+    border-bottom: 3px solid var(--wl-ink);
+  }
+
+  .exerciseIllustration {
+    max-width: 10rem;
+  }
+
+  .illustrationPanel figcaption {
+    margin-top: 0.5rem;
+  }
+
+  .modalContent {
+    padding: 1.5rem;
   }
 
   .workoutActions .primaryButton,

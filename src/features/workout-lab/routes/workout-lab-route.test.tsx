@@ -37,7 +37,10 @@ const SELECTED_PREFERENCES: WorkoutPreferences = {
 function renderedExerciseNames(): string[] {
   return screen
     .getAllByRole('listitem')
-    .map((item) => item.querySelector('span')?.textContent ?? '')
+    .map(
+      (item) =>
+        item.querySelector<HTMLElement>('[data-exercise-name]')?.textContent ?? ''
+    )
 }
 
 function expectedExerciseNames(variant: number): string[] {
@@ -59,6 +62,7 @@ describe('workout lab route', () => {
     expect(
       screen.getByRole('button', { name: 'Build my workout' })
     ).toBeInTheDocument()
+    expect(screen.getByText('100+')).toBeInTheDocument()
   })
 
   it('is not linked from the homepage', () => {
@@ -97,6 +101,26 @@ describe('workout lab route', () => {
     expect(screen.getByRole('heading', { name: 'Cooldown' })).toBeInTheDocument()
 
     expect(renderedExerciseNames()).toEqual(expectedExerciseNames(0))
+    expect(screen.getAllByTestId('exercise-meta-icon')).toHaveLength(
+      expectedExerciseNames(0).length * 3
+    )
+    screen.getAllByTestId('exercise-meta-icon').forEach((icon) => {
+      expect(icon).toHaveAttribute('aria-hidden', 'true')
+    })
+  })
+
+  it('opens a fallback detail modal for an exercise without authored steps', async () => {
+    openBuilder()
+    selectPreferences()
+    fireEvent.click(screen.getByRole('button', { name: 'Generate workout' }))
+
+    const exerciseName = expectedExerciseNames(0)[0]
+    fireEvent.click(screen.getByRole('button', { name: exerciseName }))
+
+    expect(await screen.findByRole('dialog')).toBeInTheDocument()
+    expect(
+      await screen.findByText(/detailed steps for this movement are coming soon/i)
+    ).toBeInTheDocument()
   })
 
   it('produces the next variant when asked for another workout', () => {
