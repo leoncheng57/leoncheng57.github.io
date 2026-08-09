@@ -123,6 +123,26 @@ describe('workout lab route', () => {
     ).toBeInTheDocument()
   })
 
+  it('opens timers for timed exercises and block rest periods', () => {
+    openBuilder()
+    selectPreferences()
+    fireEvent.click(screen.getByRole('button', { name: 'Generate workout' }))
+
+    const intervalButton = screen.getAllByRole('button', {
+      name: /start \d+ second timer for/i,
+    })[0]
+    fireEvent.click(intervalButton)
+    expect(screen.getByRole('complementary', { name: /timer$/i })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Close timer' }))
+
+    fireEvent.click(
+      screen.getAllByRole('button', { name: 'Set 90s rest timer' })[0]
+    )
+    expect(
+      screen.getByRole('complementary', { name: 'Block 01 rest timer' })
+    ).toBeInTheDocument()
+  })
+
   it('produces the next variant when asked for another workout', () => {
     openBuilder()
     selectPreferences()

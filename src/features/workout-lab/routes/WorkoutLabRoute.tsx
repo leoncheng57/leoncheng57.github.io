@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react'
 import ExerciseModal from '../components/ExerciseModal'
+import WorkoutTimer, { type TimerSelection } from '../components/WorkoutTimer'
 import type { ExerciseDetail } from '../data/exercise-details'
 import { generateWorkout } from '../generator/generateWorkout'
 import type {
@@ -109,12 +110,15 @@ function ChoiceGroup<T extends string | number>({
 function ExerciseListItem({
   prescribed,
   onOpen,
+  onStartTimer,
 }: {
   prescribed: PrescribedExercise
   onOpen: (_exercise: Exercise, _trigger: HTMLButtonElement) => void
+  onStartTimer: (_selection: TimerSelection) => void
 }): ReactElement {
   const { exercise, prescription } = prescribed
   const meta = getExerciseMeta(exercise, prescription)
+  const timedSeconds = prescription.match(/^(\d+) sec/)?.[1]
 
   return (
     <li className={styles.exerciseRow}>
@@ -142,6 +146,23 @@ function ExerciseListItem({
             {item.label}
           </span>
         ))}
+        {timedSeconds ? (
+          <button
+            type="button"
+            className={styles.timerLaunch}
+            onClick={() =>
+              onStartTimer({
+                id: `exercise-${exercise.id}-${timedSeconds}`,
+                label: exercise.name,
+                seconds: Number(timedSeconds),
+                kind: 'exercise',
+              })
+            }
+            aria-label={`Start ${timedSeconds} second timer for ${exercise.name}`}
+          >
+            Set timer
+          </button>
+        ) : null}
       </div>
       <p className={styles.exerciseCue}>{exercise.formCue}</p>
     </li>
@@ -152,10 +173,12 @@ function SegmentSection({
   segment,
   kicker,
   onOpenExercise,
+  onStartTimer,
 }: {
   segment: WorkoutSegment
   kicker: string
   onOpenExercise: (_exercise: Exercise, _trigger: HTMLButtonElement) => void
+  onStartTimer: (_selection: TimerSelection) => void
 }): ReactElement {
   return (
     <section className={styles.segment} aria-label={segment.title}>
@@ -170,6 +193,7 @@ function SegmentSection({
             key={prescribed.exercise.id}
             prescribed={prescribed}
             onOpen={onOpenExercise}
+            onStartTimer={onStartTimer}
           />
         ))}
       </ul>
@@ -181,10 +205,12 @@ function BlockSection({
   block,
   index,
   onOpenExercise,
+  onStartTimer,
 }: {
   block: WorkoutBlock
   index: number
   onOpenExercise: (_exercise: Exercise, _trigger: HTMLButtonElement) => void
+  onStartTimer: (_selection: TimerSelection) => void
 }): ReactElement {
   return (
     <section className={styles.block} aria-label={block.title}>
@@ -197,6 +223,20 @@ function BlockSection({
           <p className={styles.blockMeta}>
             {block.rounds} rounds · rest {block.restSeconds} sec between rounds
           </p>
+          <button
+            type="button"
+            className={styles.restTimerButton}
+            onClick={() =>
+              onStartTimer({
+                id: `rest-${index}-${block.restSeconds}`,
+                label: `${block.title} rest`,
+                seconds: block.restSeconds,
+                kind: 'rest',
+              })
+            }
+          >
+            Set {block.restSeconds}s rest timer
+          </button>
         </div>
       </header>
       <ul className={styles.exerciseList}>
@@ -205,6 +245,7 @@ function BlockSection({
             key={prescribed.exercise.id}
             prescribed={prescribed}
             onOpen={onOpenExercise}
+            onStartTimer={onStartTimer}
           />
         ))}
       </ul>
@@ -223,6 +264,7 @@ export default function WorkoutLabRoute(): ReactElement {
   const [exerciseDetail, setExerciseDetail] = useState<
     ExerciseDetail | null | undefined
   >(undefined)
+  const [timerSelection, setTimerSelection] = useState<TimerSelection | null>(null)
   const modalTriggerRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
@@ -252,6 +294,7 @@ export default function WorkoutLabRoute(): ReactElement {
   }
 
   const buildWorkout = (nextVariant: number): void => {
+    setTimerSelection(null)
     setVariant(nextVariant)
     setWorkout(generateWorkout(preferences, nextVariant))
     setView('workout')
@@ -389,6 +432,7 @@ export default function WorkoutLabRoute(): ReactElement {
               segment={workout.warmup}
               kicker="Prepare"
               onOpenExercise={openExercise}
+              onStartTimer={setTimerSelection}
             />
             <div className={styles.blockList}>
               {workout.blocks.map((block, index) => (
@@ -397,6 +441,7 @@ export default function WorkoutLabRoute(): ReactElement {
                   block={block}
                   index={index}
                   onOpenExercise={openExercise}
+                  onStartTimer={setTimerSelection}
                 />
               ))}
             </div>
@@ -404,6 +449,7 @@ export default function WorkoutLabRoute(): ReactElement {
               segment={workout.cooldown}
               kicker="Recover"
               onOpenExercise={openExercise}
+              onStartTimer={setTimerSelection}
             />
 
             <div className={styles.workoutActions}>
@@ -417,7 +463,10 @@ export default function WorkoutLabRoute(): ReactElement {
               <button
                 type="button"
                 className={styles.secondaryButton}
-                onClick={() => setView('builder')}
+                onClick={() => {
+                  setTimerSelection(null)
+                  setView('builder')
+                }}
               >
                 Edit preferences
               </button>
@@ -440,6 +489,13 @@ export default function WorkoutLabRoute(): ReactElement {
           detail={exerciseDetail}
           returnFocusTo={modalTriggerRef.current}
           onClose={() => setSelectedExercise(null)}
+        />
+      ) : null}
+      {timerSelection ? (
+        <WorkoutTimer
+          key={timerSelection.id}
+          selection={timerSelection}
+          onClose={() => setTimerSelection(null)}
         />
       ) : null}
     </div>
