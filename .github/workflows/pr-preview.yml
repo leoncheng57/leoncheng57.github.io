@@ -42,6 +42,11 @@ jobs:
           rm -rf docs
           npx vite build --base="$PREVIEW_PATH"
           cp docs/index.html docs/404.html
+          # The deploy action never deletes files named CNAME or .nojekyll,
+          # so shipping them into a preview folder would make close-cleanup
+          # leave a permanent stale directory behind. They belong only at
+          # the gh-pages root, which the production deploy provides.
+          rm -f docs/CNAME docs/.nojekyll
 
       - name: Deploy preview
         uses: JamesIves/github-pages-deploy-action@v4
