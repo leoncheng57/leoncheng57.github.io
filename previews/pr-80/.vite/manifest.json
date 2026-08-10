@@ -1,0 +1,20 @@
+{
+  "index.html": {
+    "file": "assets/index-CWUCrAM0.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/features/workout-lab/data/exercise-details.ts"
+    ],
+    "css": [
+      "assets/index-CM28inyP.css"
+    ]
+  },
+  "src/features/workout-lab/data/exercise-details.ts": {
+    "file": "assets/exercise-details-ohhKLNok.js",
+    "name": "exercise-details",
+    "src": "src/features/workout-lab/data/exercise-details.ts",
+    "isDynamicEntry": true
+  }
+}
