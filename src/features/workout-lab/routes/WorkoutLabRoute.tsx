@@ -1,16 +1,21 @@
-import { useState, type ReactElement } from 'react'
+import { useEffect, useRef, useState, type ReactElement } from 'react'
+import ExerciseModal from '../components/ExerciseModal'
+import type { ExerciseDetail } from '../data/exercise-details'
 import { generateWorkout } from '../generator/generateWorkout'
 import type {
   DurationMinutes,
   EquipmentChoice,
+  Exercise,
   Focus,
   GeneratedWorkout,
   Goal,
   Level,
+  PrescribedExercise,
   WorkoutBlock,
   WorkoutPreferences,
   WorkoutSegment,
 } from '../types'
+import { getExerciseMeta } from '../utils/exerciseMeta'
 import styles from '../workout-lab.module.css'
 
 const GOAL_OPTIONS: Array<{ value: Goal; label: string }> = [
@@ -101,12 +106,56 @@ function ChoiceGroup<T extends string | number>({
   )
 }
 
+function ExerciseListItem({
+  prescribed,
+  onOpen,
+}: {
+  prescribed: PrescribedExercise
+  onOpen: (_exercise: Exercise, _trigger: HTMLButtonElement) => void
+}): ReactElement {
+  const { exercise, prescription } = prescribed
+  const meta = getExerciseMeta(exercise, prescription)
+
+  return (
+    <li className={styles.exerciseRow}>
+      <div className={styles.exerciseMain}>
+        <button
+          type="button"
+          className={styles.exerciseName}
+          data-exercise-name={exercise.name}
+          onClick={(event) => onOpen(exercise, event.currentTarget)}
+        >
+          {exercise.name}
+        </button>
+        <span className={styles.exercisePrescription}>{prescription}</span>
+      </div>
+      <div
+        className={styles.exerciseMetaRow}
+        role="group"
+        aria-label={`${meta.equipment.label}, ${meta.bodyPart.label}, ${meta.measurement.label}`}
+      >
+        {[meta.equipment, meta.bodyPart, meta.measurement].map((item) => (
+          <span className={styles.exerciseMetaItem} key={item.label}>
+            <span aria-hidden="true" data-testid="exercise-meta-icon">
+              {item.emoji}
+            </span>
+            {item.label}
+          </span>
+        ))}
+      </div>
+      <p className={styles.exerciseCue}>{exercise.formCue}</p>
+    </li>
+  )
+}
+
 function SegmentSection({
   segment,
   kicker,
+  onOpenExercise,
 }: {
   segment: WorkoutSegment
   kicker: string
+  onOpenExercise: (_exercise: Exercise, _trigger: HTMLButtonElement) => void
 }): ReactElement {
   return (
     <section className={styles.segment} aria-label={segment.title}>
@@ -116,14 +165,12 @@ function SegmentSection({
         <span className={styles.segmentMeta}>{segment.minutes} min</span>
       </header>
       <ul className={styles.exerciseList}>
-        {segment.exercises.map(({ exercise, prescription }) => (
-          <li key={exercise.id} className={styles.exerciseRow}>
-            <div className={styles.exerciseMain}>
-              <span className={styles.exerciseName}>{exercise.name}</span>
-              <span className={styles.exercisePrescription}>{prescription}</span>
-            </div>
-            <p className={styles.exerciseCue}>{exercise.formCue}</p>
-          </li>
+        {segment.exercises.map((prescribed) => (
+          <ExerciseListItem
+            key={prescribed.exercise.id}
+            prescribed={prescribed}
+            onOpen={onOpenExercise}
+          />
         ))}
       </ul>
     </section>
@@ -133,9 +180,11 @@ function SegmentSection({
 function BlockSection({
   block,
   index,
+  onOpenExercise,
 }: {
   block: WorkoutBlock
   index: number
+  onOpenExercise: (_exercise: Exercise, _trigger: HTMLButtonElement) => void
 }): ReactElement {
   return (
     <section className={styles.block} aria-label={block.title}>
@@ -151,14 +200,12 @@ function BlockSection({
         </div>
       </header>
       <ul className={styles.exerciseList}>
-        {block.exercises.map(({ exercise, prescription }) => (
-          <li key={exercise.id} className={styles.exerciseRow}>
-            <div className={styles.exerciseMain}>
-              <span className={styles.exerciseName}>{exercise.name}</span>
-              <span className={styles.exercisePrescription}>{prescription}</span>
-            </div>
-            <p className={styles.exerciseCue}>{exercise.formCue}</p>
-          </li>
+        {block.exercises.map((prescribed) => (
+          <ExerciseListItem
+            key={prescribed.exercise.id}
+            prescribed={prescribed}
+            onOpen={onOpenExercise}
+          />
         ))}
       </ul>
     </section>
@@ -172,6 +219,30 @@ export default function WorkoutLabRoute(): ReactElement {
   const [preferences, setPreferences] = useState<WorkoutPreferences>(DEFAULT_PREFERENCES)
   const [variant, setVariant] = useState(0)
   const [workout, setWorkout] = useState<GeneratedWorkout | null>(null)
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null)
+  const [exerciseDetail, setExerciseDetail] = useState<
+    ExerciseDetail | null | undefined
+  >(undefined)
+  const modalTriggerRef = useRef<HTMLButtonElement | null>(null)
+
+  useEffect(() => {
+    if (!selectedExercise) {
+      setExerciseDetail(undefined)
+      return undefined
+    }
+
+    let cancelled = false
+    setExerciseDetail(undefined)
+    import('../data/exercise-details').then(({ EXERCISE_DETAILS }) => {
+      if (!cancelled) {
+        setExerciseDetail(EXERCISE_DETAILS[selectedExercise.id] ?? null)
+      }
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [selectedExercise])
 
   const updatePreference = <K extends keyof WorkoutPreferences>(
     key: K,
@@ -184,6 +255,14 @@ export default function WorkoutLabRoute(): ReactElement {
     setVariant(nextVariant)
     setWorkout(generateWorkout(preferences, nextVariant))
     setView('workout')
+  }
+
+  const openExercise = (
+    exercise: Exercise,
+    trigger: HTMLButtonElement
+  ): void => {
+    modalTriggerRef.current = trigger
+    setSelectedExercise(exercise)
   }
 
   const summary = [
@@ -229,7 +308,7 @@ export default function WorkoutLabRoute(): ReactElement {
             <dl className={styles.statStrip}>
               <div className={styles.stat}>
                 <dt className={styles.statLabel}>Exercises</dt>
-                <dd className={styles.statValue}>80+</dd>
+                <dd className={styles.statValue}>100+</dd>
               </div>
               <div className={styles.stat}>
                 <dt className={styles.statLabel}>Equipment needed</dt>
@@ -309,13 +388,26 @@ export default function WorkoutLabRoute(): ReactElement {
               <p className={styles.workoutMeta}>{summary}</p>
             </header>
 
-            <SegmentSection segment={workout.warmup} kicker="Prepare" />
+            <SegmentSection
+              segment={workout.warmup}
+              kicker="Prepare"
+              onOpenExercise={openExercise}
+            />
             <div className={styles.blockList}>
               {workout.blocks.map((block, index) => (
-                <BlockSection key={block.title} block={block} index={index} />
+                <BlockSection
+                  key={block.title}
+                  block={block}
+                  index={index}
+                  onOpenExercise={openExercise}
+                />
               ))}
             </div>
-            <SegmentSection segment={workout.cooldown} kicker="Recover" />
+            <SegmentSection
+              segment={workout.cooldown}
+              kicker="Recover"
+              onOpenExercise={openExercise}
+            />
 
             <div className={styles.workoutActions}>
               <button
@@ -345,6 +437,14 @@ export default function WorkoutLabRoute(): ReactElement {
           <span>Deterministic sessions · Same inputs, same workout</span>
         </footer>
       </div>
+      {selectedExercise ? (
+        <ExerciseModal
+          exercise={selectedExercise}
+          detail={exerciseDetail}
+          returnFocusTo={modalTriggerRef.current}
+          onClose={() => setSelectedExercise(null)}
+        />
+      ) : null}
     </div>
   )
 }
