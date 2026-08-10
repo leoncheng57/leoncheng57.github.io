@@ -89,6 +89,18 @@
   border-bottom-color: var(--wl-accent-dark);
 }
 
+.mastheadLink[aria-current='page'] {
+  margin: -0.3rem -0.5rem -0.25rem;
+  padding: 0.3rem 0.5rem 0.25rem;
+  background: var(--wl-ink);
+  border-bottom-color: var(--wl-ink);
+  color: var(--wl-paper-raised);
+}
+
+.mastheadLink[aria-current='page']:hover {
+  color: var(--wl-paper-raised);
+}
+
 .mastheadLink:focus-visible,
 .statLink:focus-visible {
   outline: 3px solid var(--wl-accent-dark);
@@ -240,6 +252,173 @@
 .statLink:hover {
   color: var(--wl-accent-dark);
   border-bottom-color: var(--wl-accent-dark);
+}
+
+/* ── Landing sections ─────────────────────────────────────────────────── */
+
+.landingSection {
+  margin-top: clamp(3rem, 8vw, 5rem);
+  padding-top: 2rem;
+  border-top: 3px solid var(--wl-ink);
+}
+
+.landingSectionTitle {
+  font-family: var(--wl-display);
+  font-size: clamp(1.9rem, 5vw, 3rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  margin: 0 0 1rem;
+}
+
+.landingSectionLede {
+  max-width: 34rem;
+  margin: 0 0 2rem;
+  color: var(--wl-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.patternGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.85rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.patternTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.25rem 0.75rem 1rem;
+  border: 2px solid var(--wl-ink);
+  background: var(--wl-paper-raised);
+  color: var(--wl-ink);
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.patternTile:hover {
+  background: var(--wl-ink);
+  color: var(--wl-paper-raised);
+}
+
+.patternTile:focus-visible {
+  outline: 3px solid var(--wl-accent-dark);
+  outline-offset: 3px;
+}
+
+.patternTileArt {
+  width: 4.25rem;
+  height: 4.25rem;
+  color: var(--wl-accent-dark);
+}
+
+.patternTile:hover .patternTileArt {
+  color: var(--wl-paper-raised);
+}
+
+.patternTileLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.showcaseCard {
+  max-width: 58rem;
+  border: 3px solid var(--wl-ink);
+  background: var(--wl-paper-raised);
+  box-shadow: 10px 10px 0 var(--wl-accent-dark);
+}
+
+/* ── Guide ────────────────────────────────────────────────────────────── */
+
+.guide {
+  padding: clamp(2rem, 6vw, 3.5rem) 0 0;
+  animation: rise 0.5s ease-out both;
+}
+
+.guideSection {
+  margin-top: 1.75rem;
+  padding: 1.75rem 0;
+  border-top: 3px solid var(--wl-ink);
+}
+
+.guideSection + .guideSection {
+  margin-top: 0;
+}
+
+.guideSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.guideNumber {
+  font-family: var(--wl-display);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--wl-accent);
+}
+
+.guideSectionTitle {
+  margin: 0;
+  font-family: var(--wl-display);
+  font-size: 1.6rem;
+  text-transform: uppercase;
+}
+
+.guideBody {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 44rem;
+}
+
+.guideBody p {
+  margin: 0;
+  color: var(--wl-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.guideBody strong {
+  color: var(--wl-ink);
+  font-weight: 600;
+}
+
+.guideBody ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-left: 1.35rem;
+  color: var(--wl-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.guideBody li::marker {
+  color: var(--wl-accent-dark);
+}
+
+.guideLink {
+  color: var(--wl-ink);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid var(--wl-accent);
+}
+
+.guideLink:hover {
+  color: var(--wl-accent-dark);
+  border-bottom-color: var(--wl-accent-dark);
+}
+
+.guideLink:focus-visible {
+  outline: 3px solid var(--wl-accent-dark);
+  outline-offset: 3px;
 }
 
 /* ── Exercise library ─────────────────────────────────────────────────── */
@@ -841,7 +1020,9 @@
 }
 
 .modalSection h3,
-.warningPanel h3 {
+.modalSection h4,
+.warningPanel h3,
+.warningPanel h4 {
   margin: 0 0 0.65rem;
   font-family: var(--wl-display);
   font-size: 1.2rem;
@@ -1096,9 +1277,21 @@
 /* ── Responsive ───────────────────────────────────────────────────────── */
 
 @media (max-width: 640px) {
+  .masthead {
+    flex-wrap: wrap;
+  }
+
   .statStrip {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+  }
+
+  .patternGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .showcaseCard {
+    box-shadow: 6px 6px 0 var(--wl-accent-dark);
   }
 
   .installHint {

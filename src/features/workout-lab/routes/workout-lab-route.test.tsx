@@ -72,6 +72,74 @@ describe('workout lab route', () => {
     expect(screen.getByText('BETA')).toBeInTheDocument()
   })
 
+  it('shows all masthead navigation links', () => {
+    renderWorkoutLab()
+
+    expect(screen.getByRole('link', { name: 'Builder' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Exercises' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Guide' })).toBeInTheDocument()
+  })
+
+  it('showcases every movement pattern illustration on the landing page', () => {
+    renderWorkoutLab()
+
+    const patterns = [
+      'squat',
+      'hinge',
+      'lunge',
+      'push',
+      'pull',
+      'core',
+      'carry',
+      'cardio',
+      'mobility',
+      'stretch',
+    ]
+    patterns.forEach((pattern) => {
+      const tile = screen.getByRole('link', {
+        name: `Browse ${pattern} exercises`,
+      })
+      expect(tile.querySelector('svg[role="img"]')).not.toBeNull()
+    })
+  })
+
+  it('showcases a full exercise detail card lower on the landing page', async () => {
+    renderWorkoutLab()
+
+    const showcase = screen.getByRole('article', {
+      name: /sample exercise card/i,
+    })
+    expect(showcase).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Dumbbell Goblet Squat' })
+    ).toBeInTheDocument()
+    expect(
+      await screen.findByRole('heading', { level: 4, name: 'How to do it' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 4, name: 'Warnings' })
+    ).toBeInTheDocument()
+  })
+
+  it('renders the website guide at /workout-lab/guide', () => {
+    render(
+      <MemoryRouter initialEntries={['/workout-lab/guide']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Website guide' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Build a session' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Install it like an app' })
+    ).toBeInTheDocument()
+    expect(screen.getByText(new RegExp(`all ${EXERCISES.length} movements`))).toBeInTheDocument()
+  })
+
   it('updates the live summary as preferences change', () => {
     openBuilder()
     selectPreferences()
