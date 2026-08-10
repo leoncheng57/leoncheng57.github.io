@@ -12,7 +12,7 @@ describe('blog routes', () => {
     )
 
     expect(screen.queryByRole('link', { name: 'Home' })).not.toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Development' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Repo' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'LC Logo' })).toBeInTheDocument()
     expect(screen.getAllByRole('img', { name: 'LC Logo' })).toHaveLength(1)
@@ -27,7 +27,7 @@ describe('blog routes', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Blog' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Development' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Repo' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Hello Blog' })).toBeInTheDocument()
     expect(
@@ -107,7 +107,7 @@ describe('blog routes', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Hello Blog' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Development' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Repo' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByText(/estimated reading time/i)).toBeInTheDocument()
     expect(screen.getByText('meta')).toBeInTheDocument()

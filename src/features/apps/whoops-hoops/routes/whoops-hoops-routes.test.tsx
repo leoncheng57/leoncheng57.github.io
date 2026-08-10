@@ -59,7 +59,7 @@ describe('whoops hoops legal routes', () => {
       </MemoryRouter>
     )
 
-    expect(screen.queryByRole('link', { name: 'Development' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Repo' })).not.toBeInTheDocument()
     expect(screen.queryByRole('link', { name: 'Blogs' })).not.toBeInTheDocument()
     expect(screen.queryByRole('img', { name: 'LC Logo' })).not.toBeInTheDocument()
     expect(screen.queryByRole('link', { name: 'Back home' })).not.toBeInTheDocument()

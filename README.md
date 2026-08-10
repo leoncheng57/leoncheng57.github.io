@@ -22,8 +22,8 @@ Posts are written in Markdown and kept in [`src/content/blog/`](./src/content/bl
 
 ## Development
 
-The [`/development`](https://leoncheng.dev/development) page explains the CI,
-production deployment, and pull-request preview flows used by this repository.
+The [`/repo`](https://leoncheng.dev/repo) section explains the CI, production
+deployment, pull-request preview, and planning flows used by this repository.
 
 Install dependencies and start Vite locally:
 
