@@ -1,5 +1,5 @@
 .container {
-  padding: 1rem 1rem;
+  padding: 1.5rem 1rem 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,7 +13,7 @@
 }
 
 .main {
-  max-width: 1200px;
+  max-width: 1040px;
   width: 100%;
 }
 
@@ -21,10 +21,28 @@
   text-align: center;
 }
 
+.homeLinkRow a {
+  display: inline-flex;
+  padding: 0.75rem 1rem;
+  border: 3px solid var(--text-primary);
+  color: white;
+  background: var(--text-primary);
+  box-shadow: 5px 5px 0 var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.homeLinkRow a:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0 var(--accent-strong);
+}
+
 /* Styling for all hr elements */
 .container hr,
 .main hr {
-  border-top: 1px dashed var(--hr-color);
+  border-top: 3px solid var(--hr-color);
   border-bottom: none;
   border-left: none;
   border-right: none;
@@ -40,5 +58,5 @@
 .container a:hover,
 .main a:hover {
   color: var(--link-hover-color);
-  opacity: 0.8;
+  opacity: 1;
 }
