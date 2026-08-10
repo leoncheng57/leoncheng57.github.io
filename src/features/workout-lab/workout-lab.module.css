@@ -492,6 +492,39 @@
   line-height: 1;
 }
 
+.timerLaunch,
+.restTimerButton {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--wl-accent-dark);
+  background: transparent;
+  color: var(--wl-accent-dark);
+  font-family: var(--wl-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.timerLaunch:hover,
+.restTimerButton:hover {
+  color: var(--wl-ink);
+  border-bottom-color: var(--wl-ink);
+}
+
+.timerLaunch:focus-visible,
+.restTimerButton:focus-visible,
+.timerClose:focus-visible,
+.timerActions button:focus-visible {
+  outline: 3px solid var(--wl-accent-dark);
+  outline-offset: 3px;
+}
+
+.restTimerButton {
+  margin-top: 0.6rem;
+}
+
 /* ── Exercise detail modal ────────────────────────────────────────────── */
 
 .modalBackdrop {
@@ -666,6 +699,126 @@
   color: var(--wl-accent-dark);
 }
 
+/* ── Workout timer ────────────────────────────────────────────────────── */
+
+.timerDock {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 80;
+  width: min(25rem, calc(100vw - 2rem));
+  padding: 1.25rem;
+  border: 3px solid var(--wl-ink);
+  background: var(--wl-paper-raised);
+  color: var(--wl-ink);
+  box-shadow: 8px 8px 0 var(--wl-accent-dark);
+}
+
+.timerHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.timerHeading h2 {
+  margin: 0.2rem 0 0;
+  font-family: var(--wl-display);
+  font-size: 1.5rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.timerKind {
+  color: var(--wl-accent-dark);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+
+.timerClose {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--wl-ink);
+  background: transparent;
+  color: var(--wl-ink);
+  font-family: var(--wl-body);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.timerReadout {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.15rem 0 0.75rem;
+}
+
+.timerReadout time {
+  font-family: var(--wl-display);
+  font-size: 3.75rem;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+.timerStatus {
+  color: var(--wl-muted);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.timerTrack {
+  height: 0.45rem;
+  overflow: hidden;
+  background: rgba(16, 16, 16, 0.16);
+}
+
+.timerProgress {
+  display: block;
+  height: 100%;
+  background: var(--wl-accent);
+  transition: width 0.2s linear;
+}
+
+.timerActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.timerActions button {
+  padding: 0.7rem;
+  border: 2px solid var(--wl-ink);
+  background: var(--wl-ink);
+  color: var(--wl-paper-raised);
+  font-family: var(--wl-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.timerActions button:last-child {
+  background: transparent;
+  color: var(--wl-ink);
+}
+
+.timerActions button:hover {
+  border-color: var(--wl-accent-dark);
+  background: var(--wl-accent-dark);
+  color: var(--wl-paper-raised);
+}
+
 .workoutActions {
   display: flex;
   flex-wrap: wrap;
@@ -790,6 +943,16 @@
 
   .modalContent {
     padding: 1.5rem;
+  }
+
+  .timerDock {
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    box-shadow: none;
   }
 
   .workoutActions .primaryButton,
