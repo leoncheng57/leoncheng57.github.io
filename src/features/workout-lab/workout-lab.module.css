@@ -34,11 +34,29 @@
   border-bottom: 3px solid var(--wl-ink);
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
 .wordmark {
   font-family: var(--wl-display);
   font-size: 1.35rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.betaBadge {
+  padding: 0.25rem 0.45rem 0.2rem;
+  border-radius: 999px;
+  background: var(--wl-accent);
+  color: var(--wl-paper-raised);
+  font-family: var(--wl-body);
+  font-size: 0.58rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.1em;
 }
 
 .mastheadNote {
