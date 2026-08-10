@@ -271,11 +271,6 @@ function SessionBuilderPage({
             <br />
             <em className={styles.displayAccent}>built in seconds.</em>
           </h1>
-          <p className={styles.lede}>
-            Tell Workout Lab your goal, your time, and what gear you have. It
-            assembles a balanced session — warm-up, training blocks, and
-            cooldown — from a curated exercise library.
-          </p>
           <div className={styles.landingActions}>
             <button
               type="button"
