@@ -1,5 +1,5 @@
 .container {
-  padding: 1rem 1rem;
+  padding: 1.5rem 1rem 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,12 +13,22 @@
 }
 
 .main {
-  max-width: 1200px;
+  max-width: 960px;
   width: 100%;
 }
 
 .homeLinkRow {
   text-align: center;
+}
+
+.homeLinkRow a {
+  display: inline-flex;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--accent-border);
+  border-radius: 0.5rem;
+  background: var(--accent-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 /* Styling for all hr elements */
@@ -40,5 +50,5 @@
 .container a:hover,
 .main a:hover {
   color: var(--link-hover-color);
-  opacity: 0.8;
+  opacity: 1;
 }

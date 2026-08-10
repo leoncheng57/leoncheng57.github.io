@@ -89,9 +89,9 @@
 
 .filterButton:hover,
 .filterButton[aria-expanded='true'] {
-  border-color: rgba(125, 183, 218, 0.72);
-  background: rgba(104, 165, 201, 0.14);
-  color: #b9dcf2;
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
 }
 
 .clearFilterButton {
@@ -147,9 +147,9 @@
 }
 
 .filterOption:has(input:checked) {
-  border-color: rgba(125, 183, 218, 0.72);
-  background: rgba(104, 165, 201, 0.14);
-  color: #b9dcf2;
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
 }
 
 .filterOption input {
@@ -159,7 +159,7 @@
 }
 
 .filterOption:has(input:focus-visible) {
-  outline: 2px solid #8fc5e5;
+  outline: 2px solid var(--link-color);
   outline-offset: 2px;
 }
 
@@ -169,17 +169,17 @@
   gap: 0.4rem;
   min-height: 2.25rem;
   padding: 0.35rem 0.65rem;
-  border: 1px solid rgba(125, 183, 218, 0.62);
+  border: 1px solid var(--accent-border);
   border-radius: 999px;
-  background: rgba(104, 165, 201, 0.14);
-  color: #b9dcf2;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
   font: inherit;
   font-size: 0.82rem;
   cursor: pointer;
 }
 
 .activeFilter span {
-  color: #d3edfc;
+  color: var(--accent-strong);
   font-size: 1rem;
   line-height: 1;
 }
@@ -200,7 +200,8 @@
   padding: 1.25rem;
   border: 1px solid var(--hr-color);
   border-radius: 0.75rem;
-  background: color-mix(in srgb, var(--bg) 88%, white 12%);
+  background: linear-gradient(145deg, var(--surface-raised), var(--surface));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.04), 0 18px 45px rgba(0, 0, 0, 0.22);
 }
 
 .postCard h2 {
@@ -254,10 +255,10 @@
 .tag {
   display: inline-flex;
   padding: 0.28rem 0.65rem;
-  border: 1px solid rgba(125, 183, 218, 0.55);
+  border: 1px solid var(--accent-border);
   border-radius: 999px;
-  background: rgba(104, 165, 201, 0.1);
-  color: #b9dcf2;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
   font-size: 0.78rem;
   font-weight: 500;
   line-height: 1.2;
@@ -270,9 +271,9 @@
 
 .tagButton:hover,
 .selectedTag {
-  border-color: rgba(162, 210, 238, 0.9);
-  background: rgba(104, 165, 201, 0.2);
-  color: #d3edfc;
+  border-color: var(--link-color);
+  background: color-mix(in srgb, var(--link-color) 20%, transparent);
+  color: var(--accent-strong);
 }
 
 .fontControls {

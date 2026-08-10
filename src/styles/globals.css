@@ -4,11 +4,28 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   scroll-behavior: smooth;
   background-color: var(--bg);
   color: var(--text-primary);
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 50% -12rem, rgba(62, 207, 142, 0.18), transparent 32rem),
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}
+
+::selection {
+  color: #001b10;
+  background: var(--link-color);
+}
+
+:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 4px;
 }
 
 #root {
