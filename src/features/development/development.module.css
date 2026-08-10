@@ -1,0 +1,114 @@
+.page {
+  padding: 2rem 1rem 5rem;
+}
+
+.page a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.page a:hover {
+  color: var(--link-hover-color);
+  opacity: 0.85;
+}
+
+.content {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+}
+
+.backLink {
+  margin-bottom: 1.5rem;
+}
+
+.pageHeader {
+  max-width: 44rem;
+  margin-bottom: 3rem;
+}
+
+.pageHeader h1 {
+  margin: 0.2rem 0 0.75rem;
+  font-size: clamp(2.5rem, 8vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+
+.pageHeader > p:last-child,
+.section p {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--link-color);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.section {
+  padding: 2rem 0;
+  border-top: 1px solid var(--hr-color);
+}
+
+.section h2 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.35rem, 4vw, 1.8rem);
+}
+
+.section code,
+.command,
+.pipeline {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.section p code {
+  color: var(--text-primary);
+  font-size: 0.9em;
+}
+
+.command,
+.pipeline {
+  margin-top: 1.25rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--bg) 78%, white 22%);
+  color: var(--text-primary);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.command {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem 1.15rem;
+  font-size: 0.82rem;
+}
+
+.command span::first-letter {
+  color: var(--link-color);
+}
+
+.pipeline {
+  max-width: 30rem;
+  overflow-x: auto;
+  padding: 1.25rem;
+  font-size: clamp(0.7rem, 2.5vw, 0.84rem);
+  line-height: 1.55;
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding-top: 1.5rem;
+  }
+
+  .pageHeader {
+    margin-bottom: 2.25rem;
+  }
+
+  .section {
+    padding: 1.5rem 0;
+  }
+}
