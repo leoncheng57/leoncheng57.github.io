@@ -25,7 +25,7 @@
   justify-content: center;
   border-right: 3px solid var(--text-primary);
   padding: 0.7rem 1rem;
-  background: var(--accent-mid);
+  background: var(--text-primary);
 }
 
 .nav a.logoLink,

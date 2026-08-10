@@ -1,7 +1,7 @@
 .container {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(15rem, 0.75fr) 1.25fr;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: clamp(2rem, 6vw, 5rem);
   overflow: hidden;
@@ -17,15 +17,14 @@
 
 .imageWrapper {
   grid-row: 1 / 3;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 5;
+  width: clamp(9rem, 18vw, 11rem);
+  height: clamp(9rem, 18vw, 11rem);
   margin: 0;
   overflow: hidden;
   border: 3px solid var(--text-primary);
+  border-radius: 50%;
   background: var(--surface);
-  box-shadow: 8px 8px 0 rgba(16, 35, 61, 0.35);
-  transform: rotate(-3deg);
+  box-shadow: 8px 8px 0 rgba(11, 21, 38, 0.4);
 }
 .imageWrapper > img {
   width: 100%;
@@ -59,7 +58,7 @@
 }
 
 .summary > .summaryHighlight {
-  color: #075985;
+  color: var(--link-hover-color);
   font-weight: 700;
 }
 
@@ -71,7 +70,8 @@
 
   .imageWrapper {
     grid-row: auto;
-    width: min(78%, 18rem);
+    width: 9rem;
+    height: 9rem;
     justify-self: center;
   }
 

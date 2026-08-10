@@ -21,11 +21,11 @@
   text-align: center;
 }
 
-.homeLinkRow a {
+.main .homeLinkRow a {
   display: inline-flex;
   padding: 0.75rem 1rem;
   border: 3px solid var(--text-primary);
-  color: white;
+  color: var(--bg);
   background: var(--text-primary);
   box-shadow: 5px 5px 0 var(--accent-strong);
   font-size: 0.72rem;
@@ -34,7 +34,8 @@
   text-transform: uppercase;
 }
 
-.homeLinkRow a:hover {
+.main .homeLinkRow a:hover {
+  color: var(--bg);
   transform: translate(3px, 3px);
   box-shadow: 2px 2px 0 var(--accent-strong);
 }

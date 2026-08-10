@@ -12,7 +12,7 @@ body {
 }
 
 body {
-  background-image: radial-gradient(rgba(16, 35, 61, 0.1) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(234, 243, 251, 0.08) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -21,9 +21,9 @@ body {
 }
 
 :focus-visible {
-  outline: 3px solid white;
+  outline: 3px solid var(--link-color);
   outline-offset: 2px;
-  box-shadow: 0 0 0 6px var(--text-primary);
+  box-shadow: 0 0 0 6px var(--bg);
 }
 
 #root {
