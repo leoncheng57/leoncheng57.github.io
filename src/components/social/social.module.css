@@ -6,13 +6,19 @@
 
 .container .innerContainer {
   max-width: 600px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
 }
 
 .handle {
-  padding: 0.5rem 0;
+  padding: 0.8rem 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
+  border: 3px solid var(--text-primary);
+  background: var(--surface);
+  box-shadow: 5px 5px 0 var(--text-primary);
 }
 
 .handle p {
@@ -28,5 +34,11 @@
 .handle .iconImageWrapper > img {
   width: 100%;
   height: 100%;
-  filter: invert(1);
+  filter: invert(12%) sepia(23%) saturate(1776%) hue-rotate(173deg) brightness(92%);
+}
+
+@media (max-width: 560px) {
+  .container .innerContainer {
+    grid-template-columns: 1fr;
+  }
 }
