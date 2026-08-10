@@ -221,14 +221,6 @@
   color: var(--wl-accent);
 }
 
-.lede {
-  max-width: 34rem;
-  font-size: 1.08rem;
-  line-height: 1.65;
-  color: var(--wl-muted);
-  margin: 0 0 2.25rem;
-}
-
 .landingActions {
   margin-bottom: clamp(3rem, 8vw, 5rem);
 }
