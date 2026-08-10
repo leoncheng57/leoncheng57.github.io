@@ -222,6 +222,102 @@
   vertical-align: middle;
 }
 
+/* ── Home sections ────────────────────────────────────────────────────── */
+
+.homeSection {
+  margin: 0 0 1.75rem;
+}
+
+.homeSectionTitle {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+  color: var(--sw-accent-strong);
+}
+
+.searchInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 999px;
+  background: var(--sw-surface);
+  color: var(--sw-ink);
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.searchInput:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 1px;
+}
+
+.searchInput::placeholder {
+  color: var(--sw-muted);
+}
+
+.stationList[data-standalone] {
+  margin-top: 0.6rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.75rem;
+  background: var(--sw-surface);
+  overflow: hidden;
+}
+
+.stationRowText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.stationRowDetail {
+  color: var(--sw-muted);
+  font-size: 0.75rem;
+}
+
+.locateButton {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--sw-accent);
+  border-radius: 999px;
+  background: var(--sw-accent);
+  color: var(--sw-accent-contrast);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.locateButton:hover {
+  background: var(--sw-accent-strong);
+  border-color: var(--sw-accent-strong);
+}
+
+.locateButton:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 2px;
+}
+
+.favoriteButton {
+  border: none;
+  background: none;
+  padding: 0 0.2rem;
+  color: var(--sw-accent);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  vertical-align: 0.1em;
+}
+
+.favoriteButton:hover {
+  color: var(--sw-accent-strong);
+}
+
+.favoriteButton:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
 /* ── Station directory (home) ─────────────────────────────────────────── */
 
 .boroughGroup {
@@ -306,8 +402,16 @@
   padding: 0.5rem 0 1rem;
 }
 
-.stationTitle {
+.stationTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
   margin: 0 0 0.6rem;
+}
+
+.stationTitle {
+  margin: 0;
   font-size: 1.7rem;
   letter-spacing: -0.01em;
 }

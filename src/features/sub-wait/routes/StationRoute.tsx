@@ -5,6 +5,7 @@ import RouteBullet from '../components/RouteBullet'
 import type { Arrival } from '../data/arrivals'
 import { directionLabel, getStation } from '../data/stations'
 import useArrivals, { type ArrivalsState } from '../hooks/useArrivals'
+import useFavorites from '../hooks/useFavorites'
 import type { Direction, Station } from '../types'
 import styles from '../sub-wait.module.css'
 
@@ -71,6 +72,7 @@ export default function StationRoute(): ReactElement {
       ? (params.direction as Direction)
       : null
   const arrivalsState = useArrivals(station)
+  const { isFavorite, toggleFavorite } = useFavorites()
 
   if (!station || (params.direction !== undefined && direction === null)) {
     return (
@@ -98,7 +100,22 @@ export default function StationRoute(): ReactElement {
         )}
       </p>
       <header className={styles.stationHeader}>
-        <h1 className={styles.stationTitle}>{station.name}</h1>
+        <div className={styles.stationTitleRow}>
+          <h1 className={styles.stationTitle}>{station.name}</h1>
+          <button
+            type="button"
+            className={styles.favoriteButton}
+            onClick={() => toggleFavorite(station.id)}
+            aria-pressed={isFavorite(station.id)}
+            aria-label={
+              isFavorite(station.id)
+                ? `Remove ${station.name} from favorites`
+                : `Add ${station.name} to favorites`
+            }
+          >
+            {isFavorite(station.id) ? '★' : '☆'}
+          </button>
+        </div>
         <div className={styles.stationBullets}>
           {station.routes.map((route) => (
             <RouteBullet key={route} route={route} size="large" />
