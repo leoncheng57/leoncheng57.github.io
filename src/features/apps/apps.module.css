@@ -36,9 +36,10 @@
 
 .appCard {
   padding: 1.25rem;
-  border: 1px solid var(--hr-color);
-  border-radius: 0.75rem;
-  background: color-mix(in srgb, var(--bg) 88%, white 12%);
+  border: 3px solid var(--hr-color);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: 7px 7px 0 var(--text-primary);
 }
 
 .appCard h2 {
@@ -61,7 +62,7 @@
   height: 64px;
   border-radius: 22%;
   object-fit: cover;
-  border: 1px solid var(--hr-color);
+  border: 2px solid var(--hr-color);
 }
 
 .appCardHeading {

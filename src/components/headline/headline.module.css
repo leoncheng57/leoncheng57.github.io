@@ -1,8 +1,15 @@
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem 0;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  overflow: visible;
+  margin-bottom: 5rem;
+  padding: clamp(1.75rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3rem);
+  border: 3px solid var(--text-primary);
+  background: var(--surface-raised);
+  box-shadow: 10px 10px 0 var(--text-primary);
 }
 
 .container * {
@@ -10,32 +17,81 @@
 }
 
 .imageWrapper {
-  width: 16rem;
-  height: 16rem;
-  border-radius: 100%;
-  margin: 1rem;
+  width: clamp(8rem, 18vw, 10rem);
+  height: clamp(8rem, 18vw, 10rem);
+  aspect-ratio: 1;
+  margin: 0;
+  overflow: hidden;
+  border: 3px solid var(--text-primary);
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 8px 8px 0 rgba(16, 35, 61, 0.35);
 }
 .imageWrapper > img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .container p {
-  margin: 0.6rem;
+  margin: 0;
 }
 
 .hi {
-  font-size: 3.5rem;
-  font-weight: 600;
+  color: var(--text-primary);
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-weight: 900;
+  letter-spacing: -0.07em;
+  line-height: 0.85;
+  text-transform: uppercase;
 }
 
 .summary {
-  font-size: 1.5rem;
+  max-width: 34rem;
+  color: var(--blue-emphasis);
+  font-family: Georgia, serif;
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .summary > .summaryHighlight {
-  color: orange;
-  font-weight: 500;
+  color: inherit;
+  font-weight: inherit;
 }
 
-.extraText {
+.welcomeTab {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  min-width: clamp(9rem, 22vw, 14rem);
+  padding: 0.85rem 1.25rem;
+  border: 3px solid var(--text-primary);
+  background: var(--accent-strong);
+  box-shadow: 6px 6px 0 var(--text-primary);
+  color: var(--text-primary);
+  font-family: Georgia, serif;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-style: italic;
+  font-weight: 700;
+  white-space: nowrap;
+  transform: translate(-50%, calc(100% - 3px));
+}
+
+@media (max-width: 700px) {
+  .container {
+    margin-bottom: 4.5rem;
+    padding: 1.75rem 1.25rem 2rem;
+  }
+
+  .summary {
+    width: calc(100% - 1.5rem);
+  }
+
+  .welcomeTab {
+    min-width: 8rem;
+    padding: 0.65rem 1rem;
+  }
 }

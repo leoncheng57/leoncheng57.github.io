@@ -16,7 +16,15 @@ describe('blog routes', () => {
     expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'LC Logo' })).toBeInTheDocument()
     expect(screen.getAllByRole('img', { name: 'LC Logo' })).toHaveLength(1)
-    expect(screen.getByRole('link', { name: 'Read the blog' })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Read the blog' })).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('link', {
+        name: /Worktrees, Remote Coding Agents, and Choosing the Right Kind of Isolation/i,
+      })
+    ).toHaveAttribute('href', '/blog/worktrees-vs-remote-coding-agents')
+    expect(
+      screen.getByRole('link', { name: /My cmux Setup for Parallel AI Coding/i })
+    ).toHaveAttribute('href', '/blog/my-cmux-setup-for-parallel-ai-coding')
   })
 
   it('renders the blog index route', () => {
