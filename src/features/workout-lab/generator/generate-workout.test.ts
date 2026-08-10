@@ -14,14 +14,33 @@ import type {
 const GOALS: Goal[] = ['strength', 'muscle', 'conditioning', 'general-fitness']
 const LEVELS: Level[] = ['beginner', 'intermediate', 'advanced']
 const DURATIONS: DurationMinutes[] = [15, 20, 30, 45]
-const EQUIPMENT: EquipmentChoice[] = ['bodyweight', 'dumbbells', 'bands', 'kettlebell']
+const EQUIPMENT: EquipmentChoice[] = [
+  'bodyweight',
+  'dumbbells',
+  'bands',
+  'kettlebell',
+  'full-gym',
+]
 const FOCUSES: Focus[] = ['full-body', 'upper', 'lower', 'core']
+
+const GYM_EQUIPMENT: ExerciseEquipment[] = ['barbell', 'cable', 'machine', 'station']
 
 const ALLOWED_EQUIPMENT: Record<EquipmentChoice, ExerciseEquipment[]> = {
   bodyweight: ['bodyweight'],
   dumbbells: ['bodyweight', 'dumbbell'],
   bands: ['bodyweight', 'band'],
   kettlebell: ['bodyweight', 'kettlebell'],
+  'full-gym': [
+    'bodyweight',
+    'dumbbell',
+    'band',
+    'kettlebell',
+    'barbell',
+    'cable',
+    'machine',
+    'station',
+    'cardio-machine',
+  ],
 }
 
 const FOCUS_PATTERNS: Record<Focus, MovementPattern[]> = {
@@ -58,7 +77,7 @@ describe('generateWorkout', () => {
   const combos = allPreferenceCombinations()
 
   it('covers every input combination', () => {
-    expect(combos).toHaveLength(4 * 3 * 4 * 4 * 4)
+    expect(combos).toHaveLength(4 * 3 * 4 * 5 * 4)
   })
 
   it('produces a complete, valid workout for every combination', () => {
@@ -138,6 +157,54 @@ describe('generateWorkout', () => {
 
     expect(restFor('strength')).toBeGreaterThan(restFor('muscle'))
     expect(restFor('muscle')).toBeGreaterThan(restFor('conditioning'))
+  })
+
+  it('keeps warm-up and cooldown exercises within the allowed equipment', () => {
+    for (const preferences of combos) {
+      const workout = generateWorkout(preferences)
+      const segmentExercises = [
+        ...workout.warmup.exercises,
+        ...workout.cooldown.exercises,
+      ]
+      for (const { exercise } of segmentExercises) {
+        expect(
+          ALLOWED_EQUIPMENT[preferences.equipment],
+          `${exercise.id} for ${JSON.stringify(preferences)}`
+        ).toContain(exercise.equipment)
+      }
+    }
+  })
+
+  it('includes gym-specific equipment in every full-gym workout', () => {
+    for (const preferences of combos) {
+      if (preferences.equipment !== 'full-gym') continue
+
+      const equipmentUsed = generateWorkout(preferences).blocks.flatMap((block) =>
+        block.exercises.map(({ exercise }) => exercise.equipment)
+      )
+      expect(
+        equipmentUsed.some((equipment) => GYM_EQUIPMENT.includes(equipment)),
+        JSON.stringify(preferences)
+      ).toBe(true)
+    }
+  })
+
+  it('never uses gym-only equipment for other equipment choices', () => {
+    for (const preferences of combos) {
+      if (preferences.equipment === 'full-gym') continue
+
+      const workout = generateWorkout(preferences)
+      const exercises = [
+        ...workout.warmup.exercises,
+        ...workout.blocks.flatMap((block) => block.exercises),
+        ...workout.cooldown.exercises,
+      ]
+      for (const { exercise } of exercises) {
+        expect([...GYM_EQUIPMENT, 'cardio-machine']).not.toContain(
+          exercise.equipment
+        )
+      }
+    }
   })
 
   it('prescribes per-side work for unilateral exercises', () => {

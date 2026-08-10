@@ -4,7 +4,12 @@ export type Level = 'beginner' | 'intermediate' | 'advanced'
 
 export type DurationMinutes = 15 | 20 | 30 | 45
 
-export type EquipmentChoice = 'bodyweight' | 'dumbbells' | 'bands' | 'kettlebell'
+export type EquipmentChoice =
+  | 'bodyweight'
+  | 'dumbbells'
+  | 'bands'
+  | 'kettlebell'
+  | 'full-gym'
 
 export type Focus = 'full-body' | 'upper' | 'lower' | 'core'
 
@@ -16,7 +21,16 @@ export interface WorkoutPreferences {
   focus: Focus
 }
 
-export type ExerciseEquipment = 'bodyweight' | 'dumbbell' | 'band' | 'kettlebell'
+export type ExerciseEquipment =
+  | 'bodyweight'
+  | 'dumbbell'
+  | 'band'
+  | 'kettlebell'
+  | 'barbell'
+  | 'cable'
+  | 'machine'
+  | 'station'
+  | 'cardio-machine'
 
 export type MovementPattern =
   | 'squat'

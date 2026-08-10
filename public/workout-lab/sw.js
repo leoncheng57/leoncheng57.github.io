@@ -1,4 +1,4 @@
-const CACHE_NAME = 'workout-lab-v2'
+const CACHE_NAME = 'workout-lab-v3'
 const APP_SHELL = [
   '/index.html',
   '/workout-lab/manifest.webmanifest',

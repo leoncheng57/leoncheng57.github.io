@@ -150,4 +150,88 @@ export const EXERCISE_DETAILS: Partial<Record<string, ExerciseDetail>> = {
       'Use equal repetitions on both sides and stop if the offset load causes back pain.',
     ],
   },
+  'barbell-back-squat': {
+    description:
+      'The barbell back squat is the primary loaded squat in most gym programs, building strength and muscle through the quadriceps, glutes, and trunk. The bar rests across the upper back inside a squat rack, so setup, bracing, and safety equipment matter as much as the movement itself.',
+    steps: [
+      'Set the rack hooks at mid-chest height and the safety bars just below your bottom squat position.',
+      'Step under the bar, pin it across your upper traps, and grip just outside your shoulders.',
+      'Stand the bar out of the hooks and take two controlled steps back.',
+      'Brace your core, then bend your hips and knees together to a depth you can control.',
+      'Drive through your whole foot to stand, finishing tall before the next repetition.',
+      'Walk the bar forward and set it back onto the hooks when the set is complete.',
+    ],
+    warnings: [
+      'Always squat inside a rack with the safety bars set; never rely on bailing forward.',
+      'Start with an empty bar and add weight gradually as your positions stay solid.',
+      'Stop the set if your lower back rounds, your heels lift, or your knees cave inward.',
+      'Ask for a spotter when attempting heavy or near-maximal sets.',
+    ],
+  },
+  'barbell-front-squat': {
+    description:
+      'The barbell front squat places the bar across the front of the shoulders, shifting emphasis toward the quadriceps and demanding a strong, upright torso. It requires wrist, shoulder, and upper-back mobility for the front-rack position, making it an advanced barbell variation.',
+    steps: [
+      'Set the rack hooks at mid-chest height and the safety bars just below your bottom position.',
+      'Grip the bar just outside your shoulders, drive your elbows forward, and rest it on your front delts.',
+      'Stand the bar out of the hooks, step back, and set your feet shoulder-width apart.',
+      'Brace and squat down while keeping your elbows high and torso vertical.',
+      'Drive up through your whole foot without letting your chest drop.',
+      'Return the bar to the hooks with the same high-elbow position.',
+    ],
+    warnings: [
+      'Build comfortable front-rack mobility before loading this movement.',
+      'If the bar rolls forward, drop your elbows or lighten the load rather than fighting it.',
+      'Use the rack safeties and be ready to release the bar forward off your shoulders if you fail a rep.',
+    ],
+  },
+  'smith-machine-squat': {
+    description:
+      'The Smith machine squat guides the bar along a fixed vertical rail, removing much of the balance demand of a free-weight squat. That stability makes it a useful option for learning loaded squat mechanics or training the quadriceps and glutes close to fatigue with a built-in racking mechanism.',
+    steps: [
+      'Set the bar to upper-chest height and load it while the hooks are engaged.',
+      'Position the bar across your upper traps and place your feet slightly in front of your body.',
+      'Rotate the bar to release the hooks and brace your core.',
+      'Lower under control until your thighs approach parallel with the floor.',
+      'Press through your whole foot to stand, then rotate the bar back into the hooks to finish.',
+    ],
+    warnings: [
+      'Learn the racking rotation and the location of the safety stops before your first set.',
+      'Keep your feet slightly forward so your knees do not travel excessively past your toes.',
+      'The fixed path does not train balance; pair it with free-weight work when appropriate.',
+    ],
+  },
+  'leg-press': {
+    description:
+      'The leg press loads the squat pattern from a supported seat, letting you train the quadriceps and glutes hard without balancing a bar. The machine controls the movement path, so the main skills are choosing a safe depth and keeping the hips and lower back against the pad.',
+    steps: [
+      'Sit with your back and hips flat against the pads and your feet hip-width on the platform.',
+      'Press the platform slightly and release the safety handles.',
+      'Lower the platform under control until your knees approach your chest.',
+      'Stop before your hips curl or lift away from the seat.',
+      'Press through your whole foot to extend, stopping just short of locking your knees.',
+      'Re-engage the safety handles before climbing out of the machine.',
+    ],
+    warnings: [
+      'Never let your lower back round or your hips lift off the pad at the bottom.',
+      'Do not slam into a hard knee lockout at the top of the movement.',
+      'Keep your hands on the handles, not on your knees, while pressing.',
+    ],
+  },
+  'leg-extension': {
+    description:
+      'The leg extension isolates the quadriceps on a selectorized machine, extending the knees against a padded arm. Because it removes the hips from the movement, it is a simple way to add focused quadriceps volume once the seat and pad are adjusted correctly.',
+    steps: [
+      'Adjust the seat so your knees line up with the machine pivot point.',
+      'Set the ankle pad just above your feet and select a manageable weight.',
+      'Sit tall, hold the handles, and extend your knees smoothly to full lockout.',
+      'Pause briefly at the top with your thighs tight.',
+      'Lower the pad under control back to the starting position.',
+    ],
+    warnings: [
+      'Avoid kicking the weight up with momentum; move slowly in both directions.',
+      'Reduce the range or load if you feel pain in the front of your knees.',
+      'Do not let the weight stack slam down between repetitions.',
+    ],
+  },
 }
