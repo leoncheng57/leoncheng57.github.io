@@ -542,6 +542,59 @@
   text-align: center;
 }
 
+/* ── Architecture docs ────────────────────────────────────────────────── */
+
+.docsDiagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 1.75rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.75rem;
+  background: #ffffff;
+}
+
+.docsSection {
+  margin: 0 0 1.75rem;
+}
+
+.docsSectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.6rem;
+  font-size: 1.1rem;
+}
+
+.docsSectionNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  flex: none;
+  border-radius: 999px;
+  background: var(--sw-accent);
+  color: var(--sw-accent-contrast);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.docsSection p {
+  margin: 0 0 0.75rem;
+  color: var(--sw-ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.docsSection code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.3rem;
+  background: var(--sw-surface-raised);
+  border: 1px solid var(--sw-line);
+  font-size: 0.85em;
+}
+
 /* ── PWA install hint ─────────────────────────────────────────────────── */
 
 .installHint {
