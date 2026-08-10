@@ -18,7 +18,7 @@ describe('apps index route', () => {
     const container = renderAppsIndex()
 
     const cards = container.querySelectorAll('article')
-    expect(cards).toHaveLength(4)
+    expect(cards).toHaveLength(5)
 
     cards.forEach((card) => {
       const icon = card.querySelector('img')
@@ -39,6 +39,7 @@ describe('apps index route', () => {
       '/app-icons/house-party-photo-hunt.svg',
       '/app-icons/whoops-hoops.png',
       '/app-icons/sub-wait.svg',
+      '/app-icons/game-nights.svg',
       '/app-icons/workout-lab.svg',
     ])
   })
@@ -57,11 +58,22 @@ describe('apps index route', () => {
       screen.getByRole('heading', { level: 2, name: 'Whoops Hoops' })
     ).toBeInTheDocument()
     expect(
+      screen.getByRole('heading', { level: 2, name: "Georgie's Game Nights" })
+    ).toBeInTheDocument()
+    expect(
       screen.getByRole('heading', { level: 2, name: 'Workout Lab BETA' })
     ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 2, name: 'Sub-Wait BETA' })
     ).toBeInTheDocument()
+  })
+
+  it('links to the Game Nights page', () => {
+    renderAppsIndex()
+
+    expect(
+      screen.getByRole('link', { name: "Georgie's Game Nights" })
+    ).toHaveAttribute('href', '/georgies-board-game-nights')
   })
 
   it('links to Workout Lab', () => {

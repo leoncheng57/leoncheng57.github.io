@@ -5,7 +5,7 @@ import App from '../../../App'
 
 function renderGameNights(): void {
   render(
-    <MemoryRouter initialEntries={['/game-nights']}>
+    <MemoryRouter initialEntries={['/georgies-board-game-nights']}>
       <App />
     </MemoryRouter>
   )
@@ -29,6 +29,18 @@ describe('game nights route', () => {
       screen.getByRole('heading', { name: 'Show up, then join the chat.' })
     ).toBeInTheDocument()
     expect(screen.getByText(/ask a host to add you/i)).toBeInTheDocument()
+  })
+
+  it('redirects the old /game-nights URL to the new route', () => {
+    render(
+      <MemoryRouter initialEntries={['/game-nights']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', { name: /No pressure\./ })
+    ).toBeInTheDocument()
   })
 
   it('describes listed games as changing examples', () => {
