@@ -124,4 +124,10 @@ EOF
 ## Deployment Note
 
 Vite is configured to build into `docs/` in `vite.config.ts`.
-If this repository is deployed via GitHub Pages, the published site content comes from that generated directory.
+GitHub Actions publishes that generated directory to the `gh-pages` branch:
+
+- `.github/workflows/deploy-production.yml` publishes production at the branch root and preserves `previews/`.
+- `.github/workflows/pr-preview.yml` publishes each pull request under `previews/pr-<number>/` and removes it when the pull request closes.
+- Both workflows must keep the shared `gh-pages-deploy` concurrency group and non-force pushes because they write to the same branch.
+
+GitHub Pages must publish from the `gh-pages` branch root. During the initial cutover, seed and verify the branch with the manual production workflow before changing the Pages source from `main:/docs`.
