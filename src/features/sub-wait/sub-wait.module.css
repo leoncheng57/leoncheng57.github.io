@@ -357,6 +357,77 @@
   text-decoration: underline;
 }
 
+.updatedStamp {
+  margin: 0.6rem 0 0;
+  color: var(--sw-accent-strong);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.arrivalList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.arrivalRow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.5rem;
+}
+
+.arrivalRow:nth-child(odd) {
+  background: var(--sw-surface-raised);
+}
+
+.arrivalMinutes {
+  min-width: 3rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.arrivalDestination {
+  font-size: 0.95rem;
+}
+
+.showMoreButton,
+.retryButton {
+  display: block;
+  margin: 0.75rem auto 0;
+  padding: 0.3rem 0.75rem;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--sw-accent-strong);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.retryButton {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.showMoreButton:hover,
+.retryButton:hover {
+  text-decoration: underline;
+}
+
+.showMoreButton:focus-visible,
+.retryButton:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 2px;
+}
+
 .placeholderNote {
   margin: 0;
   padding: 1rem;
