@@ -48,6 +48,29 @@ afterEach(() => {
 })
 
 describe('Sub-Wait home', () => {
+  it('shows the logo hero with search and nearby only', () => {
+    renderHome()
+
+    expect(screen.getByRole('img', { name: 'Sub-Wait logo' })).toHaveAttribute(
+      'src',
+      '/sub-wait/icon.svg',
+    )
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Sub-Wait' }),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('searchbox')).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: 'Nearby stations' }),
+    ).toBeInTheDocument()
+
+    // The borough directory and favorites moved off the homepage.
+    expect(screen.queryByText('All stations')).not.toBeInTheDocument()
+    expect(screen.queryByText('Favorites')).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: /Browse all stations/ }),
+    ).toHaveAttribute('href', '/sub-wait/stations')
+  })
+
   it('finds stations through search', async () => {
     const user = userEvent.setup()
     renderHome()
@@ -59,21 +82,6 @@ describe('Sub-Wait home', () => {
     await user.clear(screen.getByRole('searchbox'))
     await user.type(screen.getByRole('searchbox'), 'zzzzz')
     expect(screen.getByText(/No stations match/)).toBeInTheDocument()
-  })
-
-  it('shows favorited stations in the favorites section', () => {
-    stubLocalStorage({ 'sub-wait-favorites': JSON.stringify(['F16']) })
-    renderHome()
-
-    const favorites = screen.getByRole('region', { name: 'Favorite stations' })
-    expect(favorites).toHaveTextContent('East Broadway')
-  })
-
-  it('hides the favorites section when nothing is favorited', () => {
-    renderHome()
-    expect(
-      screen.queryByRole('region', { name: 'Favorite stations' }),
-    ).not.toBeInTheDocument()
   })
 
   it('lists nearby stations after the user shares their location', async () => {
@@ -112,6 +120,30 @@ describe('Sub-Wait home', () => {
     await user.click(screen.getByRole('button', { name: 'Use my location' }))
     expect(
       screen.getByText(/Location permission was denied/),
+    ).toBeInTheDocument()
+  })
+})
+
+describe('Sub-Wait stations directory', () => {
+  it('lists boroughs and lazily reveals stations', async () => {
+    const user = userEvent.setup()
+    render(
+      <MemoryRouter initialEntries={['/sub-wait/stations']}>
+        <Routes>
+          <Route path="/sub-wait/*" element={<SubWaitRoute />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'All stations' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /East Broadway/ }),
+    ).not.toBeInTheDocument()
+    await user.click(screen.getByText('Manhattan'))
+    expect(
+      screen.getByRole('link', { name: /East Broadway/ }),
     ).toBeInTheDocument()
   })
 })

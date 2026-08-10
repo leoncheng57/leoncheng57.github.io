@@ -1,11 +1,10 @@
-import type { ReactElement } from 'react'
+import { useEffect, useState, type ReactElement } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ArrivalBoard from '../components/ArrivalBoard'
 import RouteBullet from '../components/RouteBullet'
 import type { Arrival } from '../data/arrivals'
 import { directionLabel, getStation } from '../data/stations'
 import useArrivals, { type ArrivalsState } from '../hooks/useArrivals'
-import useFavorites from '../hooks/useFavorites'
 import type { Direction, Station } from '../types'
 import styles from '../sub-wait.module.css'
 
@@ -50,16 +49,25 @@ function DirectionSection({
   )
 }
 
+export function formatElapsed(ms: number): string {
+  const seconds = Math.max(0, Math.round(ms / 1000))
+  if (seconds < 60) return `${seconds}s ago`
+  const minutes = Math.floor(seconds / 60)
+  return `${minutes}m ago`
+}
+
 function UpdatedStamp({ updatedAt }: { updatedAt: number | null }): ReactElement | null {
+  const [now, setNow] = useState(() => Date.now())
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000)
+    return () => clearInterval(timer)
+  }, [])
+
   if (updatedAt === null) return null
   return (
     <p className={styles.updatedStamp}>
-      Live · updated{' '}
-      {new Date(updatedAt).toLocaleTimeString([], {
-        hour: 'numeric',
-        minute: '2-digit',
-        second: '2-digit',
-      })}
+      Live · updated {formatElapsed(now - updatedAt)}
     </p>
   )
 }
@@ -72,13 +80,12 @@ export default function StationRoute(): ReactElement {
       ? (params.direction as Direction)
       : null
   const arrivalsState = useArrivals(station)
-  const { isFavorite, toggleFavorite } = useFavorites()
 
   if (!station || (params.direction !== undefined && direction === null)) {
     return (
       <main className={styles.main}>
         <p className={styles.backLink}>
-          <Link to="/sub-wait/">All stations</Link>
+          <Link to="/sub-wait/stations">All stations</Link>
         </p>
         <div className={styles.notFound}>
           <h1 className={styles.pageTitle}>Station not found</h1>
@@ -96,26 +103,11 @@ export default function StationRoute(): ReactElement {
         {direction ? (
           <Link to={`/sub-wait/station/${station.id}`}>Both directions</Link>
         ) : (
-          <Link to="/sub-wait/">All stations</Link>
+          <Link to="/sub-wait/stations">All stations</Link>
         )}
       </p>
       <header className={styles.stationHeader}>
-        <div className={styles.stationTitleRow}>
-          <h1 className={styles.stationTitle}>{station.name}</h1>
-          <button
-            type="button"
-            className={styles.favoriteButton}
-            onClick={() => toggleFavorite(station.id)}
-            aria-pressed={isFavorite(station.id)}
-            aria-label={
-              isFavorite(station.id)
-                ? `Remove ${station.name} from favorites`
-                : `Add ${station.name} to favorites`
-            }
-          >
-            {isFavorite(station.id) ? '★' : '☆'}
-          </button>
-        </div>
+        <h1 className={styles.stationTitle}>{station.name}</h1>
         <div className={styles.stationBullets}>
           {station.routes.map((route) => (
             <RouteBullet key={route} route={route} size="large" />

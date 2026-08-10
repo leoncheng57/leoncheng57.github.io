@@ -34,7 +34,7 @@ describe('SubWaitPwa', () => {
     ).toHaveAttribute('href', '/sub-wait/manifest.webmanifest')
     expect(
       document.head.querySelector('meta[data-sub-wait="theme-color"]'),
-    ).toHaveAttribute('content', '#0d5f58')
+    ).toHaveAttribute('content', '#111111')
     expect(
       document.head.querySelector('link[data-sub-wait="apple-icon"]'),
     ).toHaveAttribute('href', '/sub-wait/icon-192.png')

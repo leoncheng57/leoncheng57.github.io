@@ -43,7 +43,7 @@ export default function SubWaitPwa(): ReactElement | null {
 
     const themeColor = document.createElement('meta')
     themeColor.name = 'theme-color'
-    themeColor.content = '#0d5f58'
+    themeColor.content = '#111111'
     themeColor.dataset.subWait = 'theme-color'
 
     const appleCapable = document.createElement('meta')

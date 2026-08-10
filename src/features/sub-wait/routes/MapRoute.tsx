@@ -7,6 +7,7 @@ import {
   type WheelEvent as ReactWheelEvent,
 } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { RIVERS } from '../data/rivers'
 import { routeBulletStyle } from '../data/routeColors'
 import { STATIONS } from '../data/stations'
 import { buildProjection } from '../utils/mapProjection'
@@ -46,6 +47,20 @@ export default function MapRoute(): ReactElement {
         station,
         point: projection.project(station.lat, station.lon),
         color: routeBulletStyle(station.routes[0]).background,
+      })),
+    [projection],
+  )
+  const riverPaths = useMemo(
+    () =>
+      RIVERS.map((river) => ({
+        name: river.name,
+        width: river.width,
+        d: river.points
+          .map(([lat, lon], index) => {
+            const { x, y } = projection.project(lat, lon)
+            return `${index === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`
+          })
+          .join(' '),
       })),
     [projection],
   )
@@ -155,6 +170,15 @@ export default function MapRoute(): ReactElement {
           }}
           role="presentation"
         >
+          {riverPaths.map((river) => (
+            <path
+              key={river.name}
+              className={styles.mapRiver}
+              d={river.d}
+              strokeWidth={river.width}
+              data-river={river.name}
+            />
+          ))}
           {points.map(({ station, point, color }) => (
             <g key={station.id}>
               <circle

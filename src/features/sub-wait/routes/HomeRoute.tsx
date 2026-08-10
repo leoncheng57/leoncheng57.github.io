@@ -1,7 +1,7 @@
 import { useMemo, useState, type ReactElement } from 'react'
+import { Link } from 'react-router-dom'
 import StationRowLink from '../components/StationRowLink'
-import { BOROUGHS, STATIONS, getStation, stationsByBorough } from '../data/stations'
-import useFavorites from '../hooks/useFavorites'
+import { STATIONS } from '../data/stations'
 import useNearbyStations from '../hooks/useNearbyStations'
 import { walkMinutes } from '../utils/distance'
 import styles from '../sub-wait.module.css'
@@ -47,26 +47,6 @@ function SearchSection(): ReactElement {
   )
 }
 
-function FavoritesSection({ favorites }: { favorites: string[] }): ReactElement | null {
-  const stations = favorites
-    .map((id) => getStation(id))
-    .filter((station) => station !== undefined)
-  if (stations.length === 0) return null
-
-  return (
-    <section className={styles.homeSection} aria-label="Favorite stations">
-      <h2 className={styles.homeSectionTitle}>Favorites</h2>
-      <ul className={styles.stationList} data-standalone="true">
-        {stations.map((station) => (
-          <li key={station.id} className={styles.stationRow}>
-            <StationRowLink station={station} detail={station.borough} />
-          </li>
-        ))}
-      </ul>
-    </section>
-  )
-}
-
 function NearbySection(): ReactElement {
   const { status, nearby, locate } = useNearbyStations()
 
@@ -107,55 +87,28 @@ function NearbySection(): ReactElement {
   )
 }
 
-function BoroughGroup({ borough }: { borough: string }): ReactElement | null {
-  // Station rows are only rendered once the group is opened; rendering all
-  // 496 stations (and their route bullets) up front makes the page sluggish.
-  const [open, setOpen] = useState(false)
-  const stations = useMemo(() => stationsByBorough(borough), [borough])
-  if (stations.length === 0) return null
-
-  return (
-    <details
-      className={styles.boroughGroup}
-      open={open}
-      onToggle={(event) => setOpen((event.target as HTMLDetailsElement).open)}
-    >
-      <summary className={styles.boroughSummary}>
-        {borough}
-        <span className={styles.boroughCount}>{stations.length} stations</span>
-      </summary>
-      {open ? (
-        <ul className={styles.stationList}>
-          {stations.map((station) => (
-            <li key={station.id} className={styles.stationRow}>
-              <StationRowLink station={station} />
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </details>
-  )
-}
-
 export default function HomeRoute(): ReactElement {
-  const { favorites } = useFavorites()
-
   return (
     <main className={styles.main}>
-      <h1 className={styles.pageTitle}>How long until the train?</h1>
-      <p className={styles.pageLede}>
-        Live NYC subway arrivals. Star the stations you use and they will be
-        waiting here.
-      </p>
+      <header className={styles.hero}>
+        <img
+          className={styles.heroLogo}
+          src="/sub-wait/icon.svg"
+          alt="Sub-Wait logo"
+          width={84}
+          height={84}
+        />
+        <h1 className={styles.heroTitle}>Sub-Wait</h1>
+        <p className={styles.heroTagline}>
+          How long until the train? Live NYC subway arrivals, straight from
+          the MTA&apos;s real-time feeds.
+        </p>
+      </header>
       <SearchSection />
-      <FavoritesSection favorites={favorites} />
       <NearbySection />
-      <section className={styles.homeSection} aria-label="All stations">
-        <h2 className={styles.homeSectionTitle}>All stations</h2>
-        {BOROUGHS.map((borough) => (
-          <BoroughGroup key={borough} borough={borough} />
-        ))}
-      </section>
+      <p className={styles.allStationsLink}>
+        <Link to="/sub-wait/stations">Browse all stations →</Link>
+      </p>
     </main>
   )
 }
