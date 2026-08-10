@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import TopNav from '../../../components/top-nav/TopNav'
-import styles from '../development.module.css'
+import styles from '../repo.module.css'
 
 const DEPLOY_FLOW = `PR #N: opened / updated
     |
@@ -49,17 +49,17 @@ PR #87 deploy  --+    gh-pages-deploy
               push -> rebase -> push
     every deployment lands, none clobbered`
 
-export default function DevelopmentPreviewsRoute(): ReactElement {
+export default function PreviewsRoute(): ReactElement {
   return (
     <div className={styles.page}>
       <TopNav />
       <main className={styles.content}>
         <p className={styles.backLink}>
-          <Link to="/development">Back to Development</Link>
+          <Link to="/repo">Back to Repo</Link>
         </p>
 
         <header className={styles.pageHeader}>
-          <p className={styles.eyebrow}>Development / previews</p>
+          <p className={styles.eyebrow}>Repo / previews</p>
           <h1>Pull request previews</h1>
           <p>
             Every pull request gets a disposable copy of the site on the

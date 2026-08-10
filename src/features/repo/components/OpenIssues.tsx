@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { ReactElement } from 'react'
-import styles from '../development.module.css'
+import styles from '../repo.module.css'
 
 const ISSUES_API_URL =
   'https://api.github.com/repos/leoncheng57/leoncheng57.github.io/issues?state=open&per_page=30'

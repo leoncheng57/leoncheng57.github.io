@@ -33,7 +33,15 @@ function mockIssuesFetch(response: Partial<Response>): void {
   )
 }
 
-describe('development route', () => {
+function renderPlanning(): void {
+  render(
+    <MemoryRouter initialEntries={['/repo/planning']}>
+      <App />
+    </MemoryRouter>
+  )
+}
+
+describe('repo planning route', () => {
   beforeEach(() => {
     mockIssuesFetch({})
   })
@@ -42,41 +50,11 @@ describe('development route', () => {
     vi.unstubAllGlobals()
   })
 
-  it('documents production deploys and links to the previews subpage', async () => {
-    render(
-      <MemoryRouter initialEntries={['/development']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    expect(
-      screen.getByRole('heading', { level: 1, name: 'Development' })
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { name: 'Production' })
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { name: 'Pull request previews' })
-    ).toBeInTheDocument()
-    expect(
-      screen.getByLabelText('Production deployment flow')
-    ).toHaveTextContent('leoncheng.dev')
-    expect(
-      screen.getByRole('link', { name: 'How previews work, with diagrams →' })
-    ).toHaveAttribute('href', '/development/previews')
-
-    expect(await screen.findByLabelText('Open GitHub issues')).toBeInTheDocument()
-  })
-
   it('lists open issues from GitHub and filters out pull requests', async () => {
-    render(
-      <MemoryRouter initialEntries={['/development']}>
-        <App />
-      </MemoryRouter>
-    )
+    renderPlanning()
 
     expect(
-      screen.getByRole('heading', { name: 'Project planning' })
+      screen.getByRole('heading', { level: 1, name: 'Project planning' })
     ).toBeInTheDocument()
 
     const issueLink = await screen.findByRole('link', {
@@ -95,11 +73,7 @@ describe('development route', () => {
   it('falls back to the GitHub issue tracker link when the API fails', async () => {
     mockIssuesFetch({ ok: false, status: 403 })
 
-    render(
-      <MemoryRouter initialEntries={['/development']}>
-        <App />
-      </MemoryRouter>
-    )
+    renderPlanning()
 
     expect(
       await screen.findByRole('link', { name: 'issue tracker on GitHub' })
@@ -109,21 +83,12 @@ describe('development route', () => {
     )
   })
 
-  it('uses the logo as the home link and does not render redundant Home text', async () => {
-    render(
-      <MemoryRouter initialEntries={['/development']}>
-        <App />
-      </MemoryRouter>
-    )
+  it('links back to the Repo hub', async () => {
+    renderPlanning()
 
-    expect(screen.getByRole('link', { name: 'LC Logo' })).toHaveAttribute(
-      'href',
-      '/'
-    )
-    expect(screen.queryByRole('link', { name: 'Home' })).not.toBeInTheDocument()
     expect(
-      screen.getByRole('link', { name: 'Development' })
-    ).toHaveAttribute('href', '/development')
+      screen.getByRole('link', { name: 'Back to Repo' })
+    ).toHaveAttribute('href', '/repo')
 
     await screen.findByLabelText('Open GitHub issues')
   })

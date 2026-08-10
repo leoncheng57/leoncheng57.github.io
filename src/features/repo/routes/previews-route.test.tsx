@@ -3,10 +3,10 @@ import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import App from '../../../App'
 
-describe('development previews route', () => {
+describe('repo previews route', () => {
   it('documents the preview lifecycle with diagrams', () => {
     render(
-      <MemoryRouter initialEntries={['/development/previews']}>
+      <MemoryRouter initialEntries={['/repo/previews']}>
         <App />
       </MemoryRouter>
     )
@@ -28,7 +28,19 @@ describe('development previews route', () => {
     ).toHaveTextContent('gh-pages-deploy')
   })
 
-  it('links back to the Development overview', () => {
+  it('links back to the Repo hub', () => {
+    render(
+      <MemoryRouter initialEntries={['/repo/previews']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('link', { name: 'Back to Repo' })
+    ).toHaveAttribute('href', '/repo')
+  })
+
+  it('redirects the old /development/previews URL', () => {
     render(
       <MemoryRouter initialEntries={['/development/previews']}>
         <App />
@@ -36,7 +48,7 @@ describe('development previews route', () => {
     )
 
     expect(
-      screen.getByRole('link', { name: 'Back to Development' })
-    ).toHaveAttribute('href', '/development')
+      screen.getByRole('heading', { level: 1, name: 'Pull request previews' })
+    ).toBeInTheDocument()
   })
 })
