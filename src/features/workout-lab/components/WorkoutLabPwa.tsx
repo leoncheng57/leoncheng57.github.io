@@ -60,7 +60,11 @@ export default function WorkoutLabPwa(): ReactElement | null {
     const elements = [manifest, themeColor, appleCapable, appleTitle, appleIcon]
     elements.forEach((element) => document.head.appendChild(element))
 
-    if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+    if (
+      import.meta.env.PROD &&
+      import.meta.env.BASE_URL === '/' &&
+      'serviceWorker' in navigator
+    ) {
       void navigator.serviceWorker.register('/workout-lab/sw.js', {
         scope: '/workout-lab/',
       })
