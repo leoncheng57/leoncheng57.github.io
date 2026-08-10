@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 560" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#33504e"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: #ffffff; stroke: #17857b; stroke-width: 2; rx: 10; }
+    .extbox { fill: #eef7f6; stroke: #5c7674; stroke-width: 2; stroke-dasharray: 6 4; }
+    .title { font-size: 15px; font-weight: 700; fill: #10201f; }
+    .detail { font-size: 12px; fill: #5c7674; }
+    .lane { font-size: 12px; font-weight: 700; fill: #17857b; letter-spacing: 1px; }
+    .edge { stroke: #33504e; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .edgeLabel { font-size: 11.5px; fill: #33504e; font-weight: 600; }
+  </style>
+
+  <!-- Lanes -->
+  <text class="lane" x="20" y="30">BUILD TIME</text>
+  <line x1="20" y1="40" x2="840" y2="40" stroke="#c9dedb" stroke-width="1"/>
+  <text class="lane" x="20" y="200">RUNTIME (BROWSER)</text>
+  <line x1="20" y1="210" x2="840" y2="210" stroke="#c9dedb" stroke-width="1"/>
+
+  <!-- Build time -->
+  <rect class="extbox" x="30" y="60" width="220" height="70" rx="10"/>
+  <text class="title" x="45" y="88">MTA Stations.csv</text>
+  <text class="detail" x="45" y="108">names · coords · routes · direction labels</text>
+
+  <rect class="box" x="320" y="60" width="230" height="70"/>
+  <text class="title" x="335" y="88">generate-subway-stations.mjs</text>
+  <text class="detail" x="335" y="108">manual script, run when MTA changes</text>
+
+  <rect class="box" x="620" y="60" width="210" height="70"/>
+  <text class="title" x="635" y="88">stations.json (checked in)</text>
+  <text class="detail" x="635" y="108">496 stations, bundled with the app</text>
+
+  <path class="edge" d="M 250 95 L 315 95"/>
+  <path class="edge" d="M 550 95 L 615 95"/>
+
+  <!-- Runtime: external feeds -->
+  <rect class="extbox" x="30" y="240" width="240" height="90" rx="10"/>
+  <text class="title" x="45" y="268">MTA GTFS-Realtime feeds</text>
+  <text class="detail" x="45" y="288">8 line-group protobuf feeds</text>
+  <text class="detail" x="45" y="306">keyless · CORS-open · 1–45 KB gz</text>
+
+  <!-- useArrivals -->
+  <rect class="box" x="340" y="240" width="230" height="90"/>
+  <text class="title" x="355" y="268">useArrivals hook</text>
+  <text class="detail" x="355" y="288">fetch only the station's feeds</text>
+  <text class="detail" x="355" y="306">poll 25s · pause when hidden</text>
+
+  <!-- decode -->
+  <rect class="box" x="640" y="240" width="190" height="90"/>
+  <text class="title" x="655" y="268">Protobuf decode</text>
+  <text class="detail" x="655" y="288">gtfs-realtime-bindings</text>
+  <text class="detail" x="655" y="306">filter by stop ID + N/S</text>
+
+  <path class="edge" d="M 270 285 L 335 285"/>
+  <text class="edgeLabel" x="278" y="277">GET</text>
+  <path class="edge" d="M 570 285 L 635 285"/>
+  <text class="edgeLabel" x="580" y="277">bytes</text>
+
+  <!-- Pages -->
+  <rect class="box" x="340" y="380" width="230" height="100"/>
+  <text class="title" x="355" y="408">Station pages</text>
+  <text class="detail" x="355" y="428">/sub-wait/station/:id</text>
+  <text class="detail" x="355" y="446">/sub-wait/station/:id/:direction</text>
+  <text class="detail" x="355" y="464">minutes · bullets · destinations</text>
+
+  <rect class="box" x="60" y="380" width="210" height="100"/>
+  <text class="title" x="75" y="408">Home</text>
+  <text class="detail" x="75" y="428">search · favorites (localStorage)</text>
+  <text class="detail" x="75" y="446">nearby via Geolocation</text>
+  <text class="detail" x="75" y="464">haversine over stations.json</text>
+
+  <rect class="box" x="640" y="380" width="190" height="100"/>
+  <text class="title" x="655" y="408">Service worker</text>
+  <text class="detail" x="655" y="428">cache-first app shell</text>
+  <text class="detail" x="655" y="446">network-only MTA feeds</text>
+  <text class="detail" x="655" y="464">scope /sub-wait/</text>
+
+  <path class="edge" d="M 725 135 C 725 180 455 190 455 235"/>
+  <text class="edgeLabel" x="600" y="185">station metadata</text>
+  <path class="edge" d="M 455 335 L 455 375"/>
+  <text class="edgeLabel" x="465" y="358">arrivals</text>
+  <path class="edge" d="M 270 430 L 335 430"/>
+  <text class="edgeLabel" x="285" y="422">links</text>
+</svg>

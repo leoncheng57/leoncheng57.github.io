@@ -3,6 +3,7 @@ import { Link, NavLink, Route, Routes } from 'react-router-dom'
 import SubWaitPwa from '../components/SubWaitPwa'
 import useTheme from '../hooks/useTheme'
 import styles from '../sub-wait.module.css'
+import ArchitectureRoute from './ArchitectureRoute'
 import HomeRoute from './HomeRoute'
 import StationRoute from './StationRoute'
 
@@ -28,6 +29,12 @@ export default function SubWaitRoute(): ReactElement {
               <NavLink end className={styles.mastheadLink} to="/sub-wait/">
                 Stations
               </NavLink>
+              <NavLink
+                className={styles.mastheadLink}
+                to="/sub-wait/architecture"
+              >
+                Architecture
+              </NavLink>
             </nav>
             <button
               type="button"
@@ -48,10 +55,13 @@ export default function SubWaitRoute(): ReactElement {
             path="station/:stationId/:direction"
             element={<StationRoute />}
           />
+          <Route path="architecture" element={<ArchitectureRoute />} />
         </Routes>
 
         <footer className={styles.footer}>
-          <span>Sub-Wait</span>
+          <span>
+            Sub-Wait · <Link to="/sub-wait/architecture">How it works</Link>
+          </span>
           <span>
             Real-time data from the{' '}
             <a href="https://api.mta.info/">MTA GTFS-Realtime feeds</a>
