@@ -59,7 +59,7 @@
 }
 
 .summary > .summaryHighlight {
-  color: var(--text-primary);
+  color: #7c470c;
   font-weight: 700;
 }
 
