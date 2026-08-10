@@ -1,10 +1,12 @@
-const CACHE_NAME = 'sub-wait-v1'
+// Bump whenever a same-URL static asset changes. Activation deletes older
+// Sub-Wait caches, preventing replaced icons/diagrams from remaining stale.
+const CACHE_NAME = 'sub-wait-v2'
 const APP_SHELL = [
   '/index.html',
   '/sub-wait/manifest.webmanifest',
-  '/sub-wait/icon-192.png',
-  '/sub-wait/icon-512.png',
-  '/sub-wait/icon-maskable-512.png',
+  '/sub-wait/icon-v2-192.png',
+  '/sub-wait/icon-v2-512.png',
+  '/sub-wait/icon-v2-maskable-512.png',
 ]
 
 // Real-time train data must never be served from cache.

@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactElement } from 'react'
+import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
 
 const DISMISS_KEY = 'sub-wait-install-hint-dismissed'
@@ -38,7 +39,7 @@ export default function SubWaitPwa(): ReactElement | null {
   useEffect(() => {
     const manifest = document.createElement('link')
     manifest.rel = 'manifest'
-    manifest.href = '/sub-wait/manifest.webmanifest'
+    manifest.href = assetUrl('sub-wait/manifest.webmanifest')
     manifest.dataset.subWait = 'manifest'
 
     const themeColor = document.createElement('meta')
@@ -58,7 +59,7 @@ export default function SubWaitPwa(): ReactElement | null {
 
     const appleIcon = document.createElement('link')
     appleIcon.rel = 'apple-touch-icon'
-    appleIcon.href = '/sub-wait/icon-192.png'
+    appleIcon.href = assetUrl('sub-wait/icon-v2-192.png')
     appleIcon.dataset.subWait = 'apple-icon'
 
     const elements = [manifest, themeColor, appleCapable, appleTitle, appleIcon]

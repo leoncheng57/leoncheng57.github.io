@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import StationRowLink from '../components/StationRowLink'
 import { STATIONS } from '../data/stations'
 import useNearbyStations from '../hooks/useNearbyStations'
+import { assetUrl } from '../utils/assetUrl'
 import { walkMinutes } from '../utils/distance'
 import styles from '../sub-wait.module.css'
 
@@ -88,12 +89,14 @@ function NearbySection(): ReactElement {
 }
 
 export default function HomeRoute(): ReactElement {
+  const logoUrl = assetUrl('sub-wait/icon-v2.svg')
+
   return (
     <main className={styles.main}>
       <header className={styles.hero}>
         <img
           className={styles.heroLogo}
-          src="/sub-wait/icon.svg"
+          src={logoUrl}
           alt="Sub-Wait logo"
           width={84}
           height={84}

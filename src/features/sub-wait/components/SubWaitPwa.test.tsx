@@ -37,7 +37,7 @@ describe('SubWaitPwa', () => {
     ).toHaveAttribute('content', '#111111')
     expect(
       document.head.querySelector('link[data-sub-wait="apple-icon"]'),
-    ).toHaveAttribute('href', '/sub-wait/icon-192.png')
+    ).toHaveAttribute('href', '/sub-wait/icon-v2-192.png')
 
     unmount()
     expect(
