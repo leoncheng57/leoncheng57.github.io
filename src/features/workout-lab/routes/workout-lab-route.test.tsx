@@ -109,6 +109,12 @@ describe('workout lab route', () => {
     expect(
       await screen.findByText(/detailed steps for this movement are coming soon/i)
     ).toBeInTheDocument()
+    expect(
+      await screen.findByRole('link', { name: 'Watch YouTube Short' })
+    ).toHaveAttribute(
+      'href',
+      expect.stringMatching(/^https:\/\/www\.youtube\.com\/shorts\//)
+    )
   })
 
   it('opens timers for timed exercises and block rest periods', () => {

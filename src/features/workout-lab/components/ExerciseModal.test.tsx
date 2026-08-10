@@ -2,12 +2,21 @@ import { useRef, useState, type ReactElement } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { EXERCISE_DETAILS } from '../data/exercise-details'
+import {
+  getExerciseVideo,
+  shortsSearchVideo,
+  type ExerciseVideo,
+} from '../data/exercise-videos'
 import { getExerciseById } from '../data/exercises'
 import ExerciseModal from './ExerciseModal'
 
 const exercise = getExerciseById('bodyweight-squat')!
 
-function ModalHarness(): ReactElement {
+function ModalHarness({
+  video = getExerciseVideo(exercise.id),
+}: {
+  video?: ExerciseVideo
+}): ReactElement {
   const [isOpen, setIsOpen] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
 
@@ -20,6 +29,7 @@ function ModalHarness(): ReactElement {
         <ExerciseModal
           exercise={exercise}
           detail={EXERCISE_DETAILS[exercise.id]}
+          video={video}
           returnFocusTo={triggerRef.current}
           onClose={() => setIsOpen(false)}
         />
@@ -49,6 +59,36 @@ describe('ExerciseModal', () => {
     )
     expect(googleLink).toHaveAttribute('target', '_blank')
     expect(googleLink).toHaveAttribute('rel', 'noopener noreferrer')
+  })
+
+  it('links to the reviewed YouTube Short with channel attribution', () => {
+    render(<ModalHarness />)
+    fireEvent.click(screen.getByRole('button', { name: 'Open exercise' }))
+
+    const videoLink = screen.getByRole('link', { name: 'Watch YouTube Short' })
+    expect(videoLink).toHaveAttribute(
+      'href',
+      getExerciseVideo(exercise.id).url
+    )
+    expect(videoLink).toHaveAttribute('target', '_blank')
+    expect(videoLink).toHaveAttribute('rel', 'noopener noreferrer')
+    expect(
+      screen.getByText(`by ${getExerciseVideo(exercise.id).channel}`)
+    ).toBeInTheDocument()
+  })
+
+  it('labels search fallbacks differently and omits attribution', () => {
+    render(<ModalHarness video={shortsSearchVideo(exercise.name)} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Open exercise' }))
+
+    const searchLink = screen.getByRole('link', {
+      name: 'Find Shorts on YouTube',
+    })
+    expect(searchLink).toHaveAttribute(
+      'href',
+      expect.stringContaining('youtube.com/results?search_query=')
+    )
+    expect(screen.queryByText(/^by /)).not.toBeInTheDocument()
   })
 
   it('closes with Escape and restores focus to its trigger', () => {
