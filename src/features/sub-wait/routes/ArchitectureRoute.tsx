@@ -1,5 +1,6 @@
 import type { ReactElement, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
 
 function DocsSection({
@@ -23,6 +24,8 @@ function DocsSection({
 }
 
 export default function ArchitectureRoute(): ReactElement {
+  const diagramUrl = assetUrl('sub-wait/architecture-diagram-v2.svg')
+
   return (
     <main className={styles.main}>
       <p className={styles.backLink}>
@@ -38,7 +41,7 @@ export default function ArchitectureRoute(): ReactElement {
 
       <img
         className={styles.docsDiagram}
-        src="/sub-wait/architecture-diagram.svg"
+        src={diagramUrl}
         alt="Architecture diagram: at build time the MTA Stations.csv is turned into a bundled stations.json by a generator script; at runtime the browser polls the MTA GTFS-Realtime feeds, decodes protobuf with gtfs-realtime-bindings, and renders station pages, while a service worker caches the app shell and never caches feed data."
         width={860}
         height={560}

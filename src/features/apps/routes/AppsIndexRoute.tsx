@@ -4,6 +4,8 @@ import TopNav from '../../../components/top-nav/TopNav'
 import styles from '../apps.module.css'
 
 export default function AppsIndexRoute(): ReactElement {
+  const subWaitIconUrl = `${import.meta.env.BASE_URL}app-icons/sub-wait-v2.svg`
+
   return (
     <div className={styles.page}>
       <TopNav />
@@ -91,7 +93,7 @@ export default function AppsIndexRoute(): ReactElement {
             <div className={styles.appCardHeader}>
               <img
                 className={styles.appIcon}
-                src="/app-icons/sub-wait.svg"
+                src={subWaitIconUrl}
                 alt=""
                 width={64}
                 height={64}

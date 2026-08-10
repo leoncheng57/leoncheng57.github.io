@@ -11,19 +11,19 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/sub-wait/icon-192.png",
+      "src": "icon-v2-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/sub-wait/icon-512.png",
+      "src": "icon-v2-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/sub-wait/icon-maskable-512.png",
+      "src": "icon-v2-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

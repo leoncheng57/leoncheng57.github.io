@@ -53,7 +53,7 @@ describe('Sub-Wait home', () => {
 
     expect(screen.getByRole('img', { name: 'Sub-Wait logo' })).toHaveAttribute(
       'src',
-      '/sub-wait/icon.svg',
+      '/sub-wait/icon-v2.svg',
     )
     expect(
       screen.getByRole('heading', { level: 1, name: 'Sub-Wait' }),

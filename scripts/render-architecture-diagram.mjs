@@ -16,7 +16,13 @@ import { fileURLToPath } from 'node:url'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const source = path.join(here, 'architecture-diagram.mmd')
-const output = path.join(here, '..', 'public', 'sub-wait', 'architecture-diagram.svg')
+const output = path.join(
+  here,
+  '..',
+  'public',
+  'sub-wait',
+  'architecture-diagram-v2.svg',
+)
 
 execFileSync(
   'npx',

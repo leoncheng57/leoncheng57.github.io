@@ -38,7 +38,7 @@ describe('apps index route', () => {
     expect(iconSources).toEqual([
       '/app-icons/house-party-photo-hunt.svg',
       '/app-icons/whoops-hoops.png',
-      '/app-icons/sub-wait.svg',
+      '/app-icons/sub-wait-v2.svg',
       '/app-icons/game-nights.svg',
       '/app-icons/workout-lab.svg',
     ])
