@@ -23,7 +23,15 @@ export default function App(): ReactElement {
         <Route path="/" element={<HomeRoute />} />
         <Route path="/blog" element={<BlogIndexRoute />} />
         <Route path="/blog/:slug" element={<BlogPostRoute />} />
-        <Route path="/game-nights" element={<GameNightsRoute />} />
+        <Route
+          path="/georgies-board-game-nights"
+          element={<GameNightsRoute />}
+        />
+        {/* The page shipped briefly at /game-nights; keep old links working. */}
+        <Route
+          path="/game-nights"
+          element={<Navigate to="/georgies-board-game-nights" replace />}
+        />
         <Route path="/apps" element={<AppsIndexRoute />} />
         <Route path="/repo" element={<RepoRoute />} />
         <Route path="/repo/ci" element={<CiRoute />} />

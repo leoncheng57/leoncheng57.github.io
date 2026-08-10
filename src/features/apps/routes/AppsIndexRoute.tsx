@@ -91,6 +91,36 @@ export default function AppsIndexRoute(): ReactElement {
             <div className={styles.appCardHeader}>
               <img
                 className={styles.appIcon}
+                src="/app-icons/game-nights.svg"
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <Link to="/georgies-board-game-nights">
+                    Georgie&apos;s Game Nights
+                  </Link>
+                </h2>
+                <p className={styles.subtitle}>
+                  Casual Friday board game nights on the Lower East Side
+                </p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              A welcome page for a casual weekly board game night. Covers when
+              and where to show up, what newcomers can expect, sample games,
+              and how to join the group chat.
+            </p>
+            <p className={styles.links}>
+              <Link to="/georgies-board-game-nights">Visit the page</Link>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
                 src="/app-icons/workout-lab.svg"
                 alt=""
                 width={64}
