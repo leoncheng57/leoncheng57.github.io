@@ -17,7 +17,7 @@ export default function App(): ReactElement {
       <Route path="/apps" element={<AppsIndexRoute />} />
       <Route path="/apps/whoops-hoops/privacy" element={<PrivacyRoute />} />
       <Route path="/apps/whoops-hoops/support" element={<SupportRoute />} />
-      <Route path="/workout-lab" element={<WorkoutLabRoute />} />
+      <Route path="/workout-lab/*" element={<WorkoutLabRoute />} />
     </Routes>
   )
 }
