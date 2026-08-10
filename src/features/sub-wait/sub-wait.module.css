@@ -542,6 +542,69 @@
   text-align: center;
 }
 
+/* ── System map ───────────────────────────────────────────────────────── */
+
+.mapViewport {
+  position: relative;
+  height: min(70vh, 34rem);
+  border: 1px solid var(--sw-line);
+  border-radius: 0.75rem;
+  background: var(--sw-surface);
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+}
+
+.mapViewport:active {
+  cursor: grabbing;
+}
+
+.mapSvg {
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+}
+
+.mapStation {
+  cursor: pointer;
+}
+
+.mapStation:hover {
+  stroke: var(--sw-accent-strong);
+  stroke-width: 1px;
+}
+
+.mapLabel {
+  fill: var(--sw-ink-soft);
+  pointer-events: none;
+}
+
+.mapControls {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.mapControls button {
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.5rem;
+  background: var(--sw-surface);
+  color: var(--sw-ink);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mapControls button:hover {
+  border-color: var(--sw-accent);
+  color: var(--sw-accent-strong);
+}
+
 /* ── Architecture docs ────────────────────────────────────────────────── */
 
 .docsDiagram {
