@@ -59,19 +59,7 @@ describe('workout lab route', () => {
     expect(
       screen.getByRole('button', { name: 'Build my workout' })
     ).toBeInTheDocument()
-  })
-
-  it('is not linked from the homepage', () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const links = Array.from(document.querySelectorAll('a')).map((anchor) =>
-      anchor.getAttribute('href')
-    )
-    expect(links).not.toContain('/workout-lab')
+    expect(screen.getByText('BETA')).toBeInTheDocument()
   })
 
   it('updates the live summary as preferences change', () => {
