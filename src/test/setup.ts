@@ -8,6 +8,8 @@ if (!window.HTMLElement.prototype.scrollIntoView) {
   window.HTMLElement.prototype.scrollIntoView = () => {}
 }
 
+window.scrollTo = () => {}
+
 afterEach(() => {
   cleanup()
 })
