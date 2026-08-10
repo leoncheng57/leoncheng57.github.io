@@ -1,5 +1,6 @@
 import { useEffect, useRef, type ReactElement } from 'react'
 import type { ExerciseDetail } from '../data/exercise-details'
+import type { ExerciseVideo } from '../data/exercise-videos'
 import type { Exercise } from '../types'
 import ExerciseIllustration from './ExerciseIllustration'
 import styles from '../workout-lab.module.css'
@@ -7,6 +8,7 @@ import styles from '../workout-lab.module.css'
 interface ExerciseModalProps {
   exercise: Exercise
   detail: ExerciseDetail | null | undefined
+  video: ExerciseVideo | undefined
   onClose: () => void
   returnFocusTo: HTMLElement | null
 }
@@ -20,6 +22,7 @@ const FOCUSABLE_SELECTOR = [
 export default function ExerciseModal({
   exercise,
   detail,
+  video,
   onClose,
   returnFocusTo,
 }: ExerciseModalProps): ReactElement {
@@ -153,14 +156,35 @@ export default function ExerciseModal({
               </p>
             )}
 
-            <a
-              className={styles.googleLink}
-              href={googleUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Search Google for a demonstration
-            </a>
+            <div className={styles.externalLinks}>
+              {video ? (
+                <span className={styles.videoAction}>
+                  <a
+                    className={styles.googleLink}
+                    href={video.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {video.type === 'short'
+                      ? 'Watch YouTube Short'
+                      : 'Find Shorts on YouTube'}
+                  </a>
+                  {video.type === 'short' ? (
+                    <span className={styles.videoChannel}>
+                      by {video.channel}
+                    </span>
+                  ) : null}
+                </span>
+              ) : null}
+              <a
+                className={styles.googleLink}
+                href={googleUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Search Google for a demonstration
+              </a>
+            </div>
           </div>
         </div>
       </div>

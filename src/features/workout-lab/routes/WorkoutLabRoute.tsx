@@ -9,6 +9,7 @@ import ExerciseModal from '../components/ExerciseModal'
 import WorkoutLabPwa from '../components/WorkoutLabPwa'
 import WorkoutTimer, { type TimerSelection } from '../components/WorkoutTimer'
 import type { ExerciseDetail } from '../data/exercise-details'
+import type { ExerciseVideo } from '../data/exercise-videos'
 import { generateWorkout } from '../generator/generateWorkout'
 import type {
   DurationMinutes,
@@ -272,6 +273,9 @@ export default function WorkoutLabRoute(): ReactElement {
   const [exerciseDetail, setExerciseDetail] = useState<
     ExerciseDetail | null | undefined
   >(undefined)
+  const [exerciseVideo, setExerciseVideo] = useState<ExerciseVideo | undefined>(
+    undefined
+  )
   const [timerSelection, setTimerSelection] = useState<TimerSelection | null>(null)
   const modalTriggerRef = useRef<HTMLButtonElement | null>(null)
 
@@ -289,9 +293,14 @@ export default function WorkoutLabRoute(): ReactElement {
 
     let cancelled = false
     setExerciseDetail(undefined)
-    import('../data/exercise-details').then(({ EXERCISE_DETAILS }) => {
+    setExerciseVideo(undefined)
+    void Promise.all([
+      import('../data/exercise-details'),
+      import('../data/exercise-videos'),
+    ]).then(([{ EXERCISE_DETAILS }, { getExerciseVideo }]) => {
       if (!cancelled) {
         setExerciseDetail(EXERCISE_DETAILS[selectedExercise.id] ?? null)
+        setExerciseVideo(getExerciseVideo(selectedExercise.id))
       }
     })
 
@@ -505,6 +514,7 @@ export default function WorkoutLabRoute(): ReactElement {
         <ExerciseModal
           exercise={selectedExercise}
           detail={exerciseDetail}
+          video={exerciseVideo}
           returnFocusTo={modalTriggerRef.current}
           onClose={() => setSelectedExercise(null)}
         />
