@@ -18,7 +18,7 @@ describe('apps index route', () => {
     const container = renderAppsIndex()
 
     const cards = container.querySelectorAll('article')
-    expect(cards).toHaveLength(3)
+    expect(cards).toHaveLength(4)
 
     cards.forEach((card) => {
       const icon = card.querySelector('img')
@@ -38,6 +38,7 @@ describe('apps index route', () => {
     expect(iconSources).toEqual([
       '/app-icons/house-party-photo-hunt.svg',
       '/app-icons/whoops-hoops.png',
+      '/app-icons/sub-wait.svg',
       '/app-icons/workout-lab.svg',
     ])
   })
@@ -58,6 +59,9 @@ describe('apps index route', () => {
     expect(
       screen.getByRole('heading', { level: 2, name: 'Workout Lab BETA' })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Sub-Wait BETA' })
+    ).toBeInTheDocument()
   })
 
   it('links to Workout Lab', () => {
@@ -67,6 +71,15 @@ describe('apps index route', () => {
       'href',
       '/workout-lab'
     )
-    expect(screen.getByText('BETA')).toBeInTheDocument()
+    expect(screen.getAllByText('BETA').length).toBeGreaterThan(0)
+  })
+
+  it('links to Sub-Wait', () => {
+    renderAppsIndex()
+
+    expect(screen.getByRole('link', { name: 'Sub-Wait' })).toHaveAttribute(
+      'href',
+      '/sub-wait'
+    )
   })
 })
