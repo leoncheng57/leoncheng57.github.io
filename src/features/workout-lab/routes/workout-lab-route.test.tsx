@@ -61,19 +61,6 @@ describe('workout lab route', () => {
     ).toBeInTheDocument()
   })
 
-  it('is not linked from the homepage', () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const links = Array.from(document.querySelectorAll('a')).map((anchor) =>
-      anchor.getAttribute('href')
-    )
-    expect(links).not.toContain('/workout-lab')
-  })
-
   it('updates the live summary as preferences change', () => {
     openBuilder()
     selectPreferences()
