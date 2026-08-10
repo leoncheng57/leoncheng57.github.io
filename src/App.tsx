@@ -12,6 +12,7 @@ import PlanningRoute from './features/repo/routes/PlanningRoute'
 import PreviewsRoute from './features/repo/routes/PreviewsRoute'
 import ProductionRoute from './features/repo/routes/ProductionRoute'
 import RepoRoute from './features/repo/routes/RepoRoute'
+import SubWaitRoute from './features/sub-wait/routes/SubWaitRoute'
 import WorkoutLabRoute from './features/workout-lab/routes/WorkoutLabRoute'
 import HomeRoute from './routes/HomeRoute'
 
@@ -47,6 +48,7 @@ export default function App(): ReactElement {
         <Route path="/apps/whoops-hoops/privacy" element={<PrivacyRoute />} />
         <Route path="/apps/whoops-hoops/support" element={<SupportRoute />} />
         <Route path="/workout-lab/*" element={<WorkoutLabRoute />} />
+        <Route path="/sub-wait/*" element={<SubWaitRoute />} />
       </Routes>
     </>
   )

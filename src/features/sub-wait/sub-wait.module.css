@@ -1,0 +1,704 @@
+.page {
+  /* Light theme (default). */
+  --sw-bg: #eef7f6;
+  --sw-surface: #ffffff;
+  --sw-surface-raised: #f2fbfa;
+  --sw-ink: #10201f;
+  --sw-ink-soft: #33504e;
+  --sw-muted: #5c7674;
+  --sw-accent: #17857b;
+  --sw-accent-strong: #0d5f58;
+  --sw-accent-contrast: #ffffff;
+  --sw-line: rgba(16, 32, 31, 0.16);
+  --sw-focus: #0d5f58;
+  --sw-body:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
+    sans-serif;
+
+  min-height: 100vh;
+  background: var(--sw-bg);
+  color: var(--sw-ink);
+  font-family: var(--sw-body);
+  padding: 1.25rem 1rem 3rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.page[data-theme='dark'] {
+  --sw-bg: #0d1211;
+  --sw-surface: #161d1c;
+  --sw-surface-raised: #1e2726;
+  --sw-ink: #e8efee;
+  --sw-ink-soft: #c2d2d0;
+  --sw-muted: #8aa19f;
+  --sw-accent: #2fbfb2;
+  --sw-accent-strong: #63d8cd;
+  --sw-accent-contrast: #06211e;
+  --sw-line: rgba(232, 239, 238, 0.16);
+  --sw-focus: #63d8cd;
+}
+
+.frame {
+  max-width: 44rem;
+  margin: 0 auto;
+}
+
+/* ── Masthead ─────────────────────────────────────────────────────────── */
+
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid var(--sw-accent);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.wordmark {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.betaBadge {
+  padding: 0.25rem 0.45rem 0.2rem;
+  border-radius: 999px;
+  background: var(--sw-accent);
+  color: var(--sw-accent-contrast);
+  font-size: 0.58rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.1em;
+}
+
+.mastheadActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mastheadNav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mastheadLink {
+  color: var(--sw-ink-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mastheadLink:hover,
+.mastheadLink:global(.active) {
+  color: var(--sw-accent-strong);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.themeToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 999px;
+  background: var(--sw-surface);
+  color: var(--sw-ink-soft);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.themeToggle:hover {
+  border-color: var(--sw-accent);
+  color: var(--sw-accent-strong);
+}
+
+.themeToggle:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 2px;
+}
+
+/* ── Shared page elements ─────────────────────────────────────────────── */
+
+.main {
+  padding-top: 1.25rem;
+}
+
+.pageTitle {
+  margin: 0 0 0.35rem;
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+}
+
+.pageLede {
+  margin: 0 0 1.5rem;
+  color: var(--sw-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.backLink {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+}
+
+.backLink a {
+  color: var(--sw-accent-strong);
+  text-decoration: none;
+}
+
+.backLink a:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--sw-line);
+  color: var(--sw-muted);
+  font-size: 0.75rem;
+}
+
+.footer a {
+  color: inherit;
+}
+
+/* ── Route bullets ────────────────────────────────────────────────────── */
+
+.routeBullet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-weight: 700;
+  line-height: 1;
+  flex: none;
+}
+
+.routeBullet[data-size='small'] {
+  width: 1.15rem;
+  height: 1.15rem;
+  font-size: 0.7rem;
+}
+
+.routeBullet[data-size='medium'] {
+  width: 1.55rem;
+  height: 1.55rem;
+  font-size: 0.95rem;
+}
+
+.routeBullet[data-size='large'] {
+  width: 2.4rem;
+  height: 2.4rem;
+  font-size: 1.45rem;
+}
+
+.routeBullet[data-long] {
+  border-radius: 999px;
+  width: auto;
+  padding: 0 0.5em;
+  font-size: 0.62em;
+}
+
+.bulletRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  vertical-align: middle;
+}
+
+/* ── Home sections ────────────────────────────────────────────────────── */
+
+.homeSection {
+  margin: 0 0 1.75rem;
+}
+
+.homeSectionTitle {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+  color: var(--sw-accent-strong);
+}
+
+.searchInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 999px;
+  background: var(--sw-surface);
+  color: var(--sw-ink);
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.searchInput:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 1px;
+}
+
+.searchInput::placeholder {
+  color: var(--sw-muted);
+}
+
+.stationList[data-standalone] {
+  margin-top: 0.6rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.75rem;
+  background: var(--sw-surface);
+  overflow: hidden;
+}
+
+.stationRowText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.stationRowDetail {
+  color: var(--sw-muted);
+  font-size: 0.75rem;
+}
+
+.locateButton {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--sw-accent);
+  border-radius: 999px;
+  background: var(--sw-accent);
+  color: var(--sw-accent-contrast);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.locateButton:hover {
+  background: var(--sw-accent-strong);
+  border-color: var(--sw-accent-strong);
+}
+
+.locateButton:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 2px;
+}
+
+.favoriteButton {
+  border: none;
+  background: none;
+  padding: 0 0.2rem;
+  color: var(--sw-accent);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  vertical-align: 0.1em;
+}
+
+.favoriteButton:hover {
+  color: var(--sw-accent-strong);
+}
+
+.favoriteButton:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* ── Station directory (home) ─────────────────────────────────────────── */
+
+.boroughGroup {
+  margin: 0 0 1rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.75rem;
+  background: var(--sw-surface);
+  overflow: hidden;
+}
+
+.boroughSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.boroughSummary::-webkit-details-marker {
+  display: none;
+}
+
+.boroughSummary::after {
+  content: '▾';
+  color: var(--sw-muted);
+  transition: transform 0.15s ease;
+}
+
+.boroughGroup[open] .boroughSummary::after {
+  transform: rotate(180deg);
+}
+
+.boroughCount {
+  margin-left: auto;
+  color: var(--sw-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.stationList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--sw-line);
+}
+
+.stationRow {
+  border-bottom: 1px solid var(--sw-line);
+}
+
+.stationRow:last-child {
+  border-bottom: none;
+}
+
+.stationRowLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.stationRowLink:hover {
+  background: var(--sw-surface-raised);
+}
+
+.stationRowName {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+/* ── Station page ─────────────────────────────────────────────────────── */
+
+.stationHeader {
+  text-align: center;
+  padding: 0.5rem 0 1rem;
+}
+
+.stationTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0 0 0.6rem;
+}
+
+.stationTitle {
+  margin: 0;
+  font-size: 1.7rem;
+  letter-spacing: -0.01em;
+}
+
+.stationBullets {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.stationMeta {
+  margin: 0.6rem 0 0;
+  color: var(--sw-muted);
+  font-size: 0.85rem;
+}
+
+.directionSection {
+  margin: 0 0 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.75rem;
+  background: var(--sw-surface);
+}
+
+.directionHeading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0 0 0.75rem;
+}
+
+.directionHeading h2 {
+  margin: 0;
+  color: var(--sw-accent-strong);
+  font-size: 1.15rem;
+}
+
+.directionDeepLink {
+  color: var(--sw-muted);
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.directionDeepLink:hover {
+  color: var(--sw-accent-strong);
+  text-decoration: underline;
+}
+
+.updatedStamp {
+  margin: 0.6rem 0 0;
+  color: var(--sw-accent-strong);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.arrivalList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.arrivalRow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.5rem;
+}
+
+.arrivalRow:nth-child(odd) {
+  background: var(--sw-surface-raised);
+}
+
+.arrivalMinutes {
+  min-width: 3rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.arrivalDestination {
+  font-size: 0.95rem;
+}
+
+.showMoreButton,
+.retryButton {
+  display: block;
+  margin: 0.75rem auto 0;
+  padding: 0.3rem 0.75rem;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--sw-accent-strong);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.retryButton {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.showMoreButton:hover,
+.retryButton:hover {
+  text-decoration: underline;
+}
+
+.showMoreButton:focus-visible,
+.retryButton:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 2px;
+}
+
+.placeholderNote {
+  margin: 0;
+  padding: 1rem;
+  border: 1px dashed var(--sw-line);
+  border-radius: 0.5rem;
+  color: var(--sw-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ── System map ───────────────────────────────────────────────────────── */
+
+.mapViewport {
+  position: relative;
+  height: min(70vh, 34rem);
+  border: 1px solid var(--sw-line);
+  border-radius: 0.75rem;
+  background: var(--sw-surface);
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+}
+
+.mapViewport:active {
+  cursor: grabbing;
+}
+
+.mapSvg {
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+}
+
+.mapStation {
+  cursor: pointer;
+}
+
+.mapStation:hover {
+  stroke: var(--sw-accent-strong);
+  stroke-width: 1px;
+}
+
+.mapLabel {
+  fill: var(--sw-ink-soft);
+  pointer-events: none;
+}
+
+.mapControls {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.mapControls button {
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.5rem;
+  background: var(--sw-surface);
+  color: var(--sw-ink);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mapControls button:hover {
+  border-color: var(--sw-accent);
+  color: var(--sw-accent-strong);
+}
+
+/* ── Architecture docs ────────────────────────────────────────────────── */
+
+.docsDiagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 1.75rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.75rem;
+  background: #ffffff;
+}
+
+.docsSection {
+  margin: 0 0 1.75rem;
+}
+
+.docsSectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.6rem;
+  font-size: 1.1rem;
+}
+
+.docsSectionNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  flex: none;
+  border-radius: 999px;
+  background: var(--sw-accent);
+  color: var(--sw-accent-contrast);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.docsSection p {
+  margin: 0 0 0.75rem;
+  color: var(--sw-ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.docsSection code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.3rem;
+  background: var(--sw-surface-raised);
+  border: 1px solid var(--sw-line);
+  font-size: 0.85em;
+}
+
+/* ── PWA install hint ─────────────────────────────────────────────────── */
+
+.installHint {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.75rem;
+  background: var(--sw-surface);
+  font-size: 0.85rem;
+}
+
+.installHint p {
+  margin: 0.25rem 0 0;
+  color: var(--sw-muted);
+  line-height: 1.45;
+}
+
+.installHint button {
+  flex: none;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 999px;
+  background: none;
+  color: var(--sw-ink-soft);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.installHint button:hover {
+  border-color: var(--sw-accent);
+  color: var(--sw-accent-strong);
+}
+
+.notFound {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--sw-muted);
+}
