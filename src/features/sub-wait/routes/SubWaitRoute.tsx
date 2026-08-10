@@ -5,6 +5,7 @@ import useTheme from '../hooks/useTheme'
 import styles from '../sub-wait.module.css'
 import ArchitectureRoute from './ArchitectureRoute'
 import HomeRoute from './HomeRoute'
+import InstallRoute from './InstallRoute'
 import MapRoute from './MapRoute'
 import StationRoute from './StationRoute'
 import StationsRoute from './StationsRoute'
@@ -64,13 +65,15 @@ export default function SubWaitRoute(): ReactElement {
             element={<StationRoute />}
           />
           <Route path="stations" element={<StationsRoute />} />
+          <Route path="install" element={<InstallRoute />} />
           <Route path="map" element={<MapRoute />} />
           <Route path="architecture" element={<ArchitectureRoute />} />
         </Routes>
 
         <footer className={styles.footer}>
           <span>
-            Sub-Wait · <Link to="/sub-wait/architecture">How it works</Link>
+            Sub-Wait · <Link to="/sub-wait/install">Install</Link> ·{' '}
+            <Link to="/sub-wait/architecture">How it works</Link>
           </span>
           <span>
             Real-time data from the{' '}
