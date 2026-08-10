@@ -1,16 +1,12 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type ReactElement,
-} from 'react'
-import ExerciseModal from '../components/ExerciseModal'
+import { useLayoutEffect, useState, type ReactElement } from 'react'
+import { Link, Route, Routes, useLocation } from 'react-router-dom'
+import ChoiceGroup from '../components/ChoiceGroup'
+import ExerciseNameButton from '../components/ExerciseNameButton'
+import { EXERCISES } from '../data/exercises'
 import WorkoutLabPwa from '../components/WorkoutLabPwa'
 import WorkoutTimer, { type TimerSelection } from '../components/WorkoutTimer'
-import type { ExerciseDetail } from '../data/exercise-details'
-import type { ExerciseVideo } from '../data/exercise-videos'
 import { generateWorkout } from '../generator/generateWorkout'
+import useExerciseModal from '../hooks/useExerciseModal'
 import type {
   DurationMinutes,
   EquipmentChoice,
@@ -26,6 +22,7 @@ import type {
 } from '../types'
 import { getExerciseMeta } from '../utils/exerciseMeta'
 import styles from '../workout-lab.module.css'
+import ExerciseLibraryRoute from './ExerciseLibraryRoute'
 
 const GOAL_OPTIONS: Array<{ value: Goal; label: string }> = [
   { value: 'strength', label: 'Build strength' },
@@ -74,48 +71,6 @@ function optionLabel<T>(options: Array<{ value: T; label: string }>, value: T): 
   return options.find((option) => option.value === value)?.label ?? String(value)
 }
 
-interface ChoiceGroupProps<T extends string | number> {
-  legend: string
-  name: string
-  options: Array<{ value: T; label: string }>
-  value: T
-  onChange: (_value: T) => void
-}
-
-function ChoiceGroup<T extends string | number>({
-  legend,
-  name,
-  options,
-  value,
-  onChange,
-}: ChoiceGroupProps<T>): ReactElement {
-  return (
-    <fieldset className={styles.choiceGroup}>
-      <legend className={styles.choiceLegend}>{legend}</legend>
-      <div className={styles.choiceOptions} role="presentation">
-        {options.map((option) => (
-          <label
-            key={String(option.value)}
-            className={
-              option.value === value ? styles.choiceSelected : styles.choice
-            }
-          >
-            <input
-              className={styles.choiceInput}
-              type="radio"
-              name={name}
-              value={String(option.value)}
-              checked={option.value === value}
-              onChange={() => onChange(option.value)}
-            />
-            {option.label}
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  )
-}
-
 function ExerciseListItem({
   prescribed,
   onOpen,
@@ -132,14 +87,7 @@ function ExerciseListItem({
   return (
     <li className={styles.exerciseRow}>
       <div className={styles.exerciseMain}>
-        <button
-          type="button"
-          className={styles.exerciseName}
-          data-exercise-name={exercise.name}
-          onClick={(event) => onOpen(exercise, event.currentTarget)}
-        >
-          {exercise.name}
-        </button>
+        <ExerciseNameButton exercise={exercise} onOpen={onOpen} />
         <span className={styles.exercisePrescription}>{prescription}</span>
       </div>
       <div
@@ -264,50 +212,16 @@ function BlockSection({
 
 type View = 'landing' | 'builder' | 'workout'
 
-export default function WorkoutLabRoute(): ReactElement {
+function SessionBuilderPage({
+  onOpenExercise,
+}: {
+  onOpenExercise: (_exercise: Exercise, _trigger: HTMLButtonElement) => void
+}): ReactElement {
   const [view, setView] = useState<View>('landing')
   const [preferences, setPreferences] = useState<WorkoutPreferences>(DEFAULT_PREFERENCES)
   const [variant, setVariant] = useState(0)
   const [workout, setWorkout] = useState<GeneratedWorkout | null>(null)
-  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null)
-  const [exerciseDetail, setExerciseDetail] = useState<
-    ExerciseDetail | null | undefined
-  >(undefined)
-  const [exerciseVideo, setExerciseVideo] = useState<ExerciseVideo | undefined>(
-    undefined
-  )
   const [timerSelection, setTimerSelection] = useState<TimerSelection | null>(null)
-  const modalTriggerRef = useRef<HTMLButtonElement | null>(null)
-
-  useLayoutEffect(() => {
-    if (window.location.pathname === '/workout-lab') {
-      window.history.replaceState(window.history.state, '', '/workout-lab/')
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!selectedExercise) {
-      setExerciseDetail(undefined)
-      return undefined
-    }
-
-    let cancelled = false
-    setExerciseDetail(undefined)
-    setExerciseVideo(undefined)
-    void Promise.all([
-      import('../data/exercise-details'),
-      import('../data/exercise-videos'),
-    ]).then(([{ EXERCISE_DETAILS }, { getExerciseVideo }]) => {
-      if (!cancelled) {
-        setExerciseDetail(EXERCISE_DETAILS[selectedExercise.id] ?? null)
-        setExerciseVideo(getExerciseVideo(selectedExercise.id))
-      }
-    })
-
-    return () => {
-      cancelled = true
-    }
-  }, [selectedExercise])
 
   const updatePreference = <K extends keyof WorkoutPreferences>(
     key: K,
@@ -323,20 +237,199 @@ export default function WorkoutLabRoute(): ReactElement {
     setView('workout')
   }
 
-  const openExercise = (
-    exercise: Exercise,
-    trigger: HTMLButtonElement
-  ): void => {
-    modalTriggerRef.current = trigger
-    setSelectedExercise(exercise)
-  }
-
   const summary = [
     optionLabel(DURATION_OPTIONS, preferences.duration),
     optionLabel(LEVEL_OPTIONS, preferences.level),
     optionLabel(FOCUS_OPTIONS, preferences.focus),
     optionLabel(EQUIPMENT_OPTIONS, preferences.equipment),
   ].join(' · ')
+
+  return (
+    <>
+      {view === 'landing' && (
+        <main className={styles.landing}>
+          <p className={styles.kicker}>Train anywhere</p>
+          <h1 className={styles.displayTitle}>
+            Your next workout,
+            <br />
+            <em className={styles.displayAccent}>built in seconds.</em>
+          </h1>
+          <p className={styles.lede}>
+            Tell Workout Lab your goal, your time, and what gear you have. It
+            assembles a balanced session — warm-up, training blocks, and
+            cooldown — from a curated exercise library.
+          </p>
+          <div className={styles.landingActions}>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              onClick={() => setView('builder')}
+            >
+              Build my workout
+            </button>
+          </div>
+          <dl className={styles.statStrip}>
+            <div className={styles.stat}>
+              <dt className={styles.statLabel}>Exercises</dt>
+              <dd className={styles.statValue}>
+                <Link
+                  className={styles.statLink}
+                  to="/workout-lab/exercises"
+                  aria-label="Browse all exercises"
+                >
+                  {Math.floor(EXERCISES.length / 10) * 10}+
+                </Link>
+              </dd>
+            </div>
+            <div className={styles.stat}>
+              <dt className={styles.statLabel}>Equipment needed</dt>
+              <dd className={styles.statValue}>None</dd>
+            </div>
+            <div className={styles.stat}>
+              <dt className={styles.statLabel}>Session length</dt>
+              <dd className={styles.statValue}>15–45 min</dd>
+            </div>
+          </dl>
+        </main>
+      )}
+
+      {view === 'builder' && (
+        <main className={styles.builder}>
+          <p className={styles.kicker}>Step 01 — Preferences</p>
+          <h1 className={styles.sectionTitle}>Shape your session</h1>
+          <form
+            className={styles.builderForm}
+            onSubmit={(event) => {
+              event.preventDefault()
+              buildWorkout(0)
+            }}
+          >
+            <ChoiceGroup
+              legend="Goal"
+              name="goal"
+              options={GOAL_OPTIONS}
+              value={preferences.goal}
+              onChange={(value) => updatePreference('goal', value)}
+            />
+            <ChoiceGroup
+              legend="Experience"
+              name="level"
+              options={LEVEL_OPTIONS}
+              value={preferences.level}
+              onChange={(value) => updatePreference('level', value)}
+            />
+            <ChoiceGroup
+              legend="Duration"
+              name="duration"
+              options={DURATION_OPTIONS}
+              value={preferences.duration}
+              onChange={(value) => updatePreference('duration', value)}
+            />
+            <ChoiceGroup
+              legend="Equipment"
+              name="equipment"
+              options={EQUIPMENT_OPTIONS}
+              value={preferences.equipment}
+              onChange={(value) => updatePreference('equipment', value)}
+            />
+            <ChoiceGroup
+              legend="Focus"
+              name="focus"
+              options={FOCUS_OPTIONS}
+              value={preferences.focus}
+              onChange={(value) => updatePreference('focus', value)}
+            />
+            <div className={styles.builderFooter}>
+              <p className={styles.summaryLine} data-testid="preference-summary">
+                {summary}
+              </p>
+              <button type="submit" className={styles.primaryButton}>
+                Generate workout
+              </button>
+            </div>
+          </form>
+        </main>
+      )}
+
+      {view === 'workout' && workout && (
+        <main className={styles.workout}>
+          <header className={styles.workoutHeader}>
+            <p className={styles.kicker}>Your session</p>
+            <h1 className={styles.workoutTitle}>{workout.title}</h1>
+            <p className={styles.workoutMeta}>{summary}</p>
+          </header>
+
+          <SegmentSection
+            segment={workout.warmup}
+            kicker="Prepare"
+            onOpenExercise={onOpenExercise}
+            onStartTimer={setTimerSelection}
+          />
+          <div className={styles.blockList}>
+            {workout.blocks.map((block, index) => (
+              <BlockSection
+                key={block.title}
+                block={block}
+                index={index}
+                onOpenExercise={onOpenExercise}
+                onStartTimer={setTimerSelection}
+              />
+            ))}
+          </div>
+          <SegmentSection
+            segment={workout.cooldown}
+            kicker="Recover"
+            onOpenExercise={onOpenExercise}
+            onStartTimer={setTimerSelection}
+          />
+
+          <div className={styles.workoutActions}>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              onClick={() => buildWorkout(variant + 1)}
+            >
+              Give me another
+            </button>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              onClick={() => {
+                setTimerSelection(null)
+                setView('builder')
+              }}
+            >
+              Edit preferences
+            </button>
+          </div>
+          <p className={styles.disclaimer}>
+            Workout Lab offers general fitness suggestions, not medical
+            advice. Stop any movement that causes pain.
+          </p>
+        </main>
+      )}
+
+      {timerSelection ? (
+        <WorkoutTimer
+          key={timerSelection.id}
+          selection={timerSelection}
+          onClose={() => setTimerSelection(null)}
+        />
+      ) : null}
+    </>
+  )
+}
+
+export default function WorkoutLabRoute(): ReactElement {
+  const { openExercise, modal } = useExerciseModal()
+  const location = useLocation()
+  const onLibraryPage = location.pathname.endsWith('/exercises')
+
+  useLayoutEffect(() => {
+    if (window.location.pathname === '/workout-lab') {
+      window.history.replaceState(window.history.state, '', '/workout-lab/')
+    }
+  }, [])
 
   return (
     <div className={styles.page}>
@@ -346,186 +439,34 @@ export default function WorkoutLabRoute(): ReactElement {
             <span className={styles.wordmark}>Workout Lab</span>
             <span className={styles.betaBadge}>BETA</span>
           </div>
-          <span className={styles.mastheadNote}>Session builder · No.01</span>
+          <nav className={styles.mastheadNav} aria-label="Workout Lab">
+            {onLibraryPage ? (
+              <Link className={styles.mastheadLink} to="/workout-lab/">
+                Session builder
+              </Link>
+            ) : (
+              <Link className={styles.mastheadLink} to="/workout-lab/exercises">
+                Exercise index
+              </Link>
+            )}
+          </nav>
         </header>
         <WorkoutLabPwa />
 
-        {view === 'landing' && (
-          <main className={styles.landing}>
-            <p className={styles.kicker}>Train anywhere</p>
-            <h1 className={styles.displayTitle}>
-              Your next workout,
-              <br />
-              <em className={styles.displayAccent}>built in seconds.</em>
-            </h1>
-            <p className={styles.lede}>
-              Tell Workout Lab your goal, your time, and what gear you have. It
-              assembles a balanced session — warm-up, training blocks, and
-              cooldown — from a curated exercise library.
-            </p>
-            <div className={styles.landingActions}>
-              <button
-                type="button"
-                className={styles.primaryButton}
-                onClick={() => setView('builder')}
-              >
-                Build my workout
-              </button>
-            </div>
-            <dl className={styles.statStrip}>
-              <div className={styles.stat}>
-                <dt className={styles.statLabel}>Exercises</dt>
-                <dd className={styles.statValue}>100+</dd>
-              </div>
-              <div className={styles.stat}>
-                <dt className={styles.statLabel}>Equipment needed</dt>
-                <dd className={styles.statValue}>None</dd>
-              </div>
-              <div className={styles.stat}>
-                <dt className={styles.statLabel}>Session length</dt>
-                <dd className={styles.statValue}>15–45 min</dd>
-              </div>
-            </dl>
-          </main>
-        )}
-
-        {view === 'builder' && (
-          <main className={styles.builder}>
-            <p className={styles.kicker}>Step 01 — Preferences</p>
-            <h1 className={styles.sectionTitle}>Shape your session</h1>
-            <form
-              className={styles.builderForm}
-              onSubmit={(event) => {
-                event.preventDefault()
-                buildWorkout(0)
-              }}
-            >
-              <ChoiceGroup
-                legend="Goal"
-                name="goal"
-                options={GOAL_OPTIONS}
-                value={preferences.goal}
-                onChange={(value) => updatePreference('goal', value)}
-              />
-              <ChoiceGroup
-                legend="Experience"
-                name="level"
-                options={LEVEL_OPTIONS}
-                value={preferences.level}
-                onChange={(value) => updatePreference('level', value)}
-              />
-              <ChoiceGroup
-                legend="Duration"
-                name="duration"
-                options={DURATION_OPTIONS}
-                value={preferences.duration}
-                onChange={(value) => updatePreference('duration', value)}
-              />
-              <ChoiceGroup
-                legend="Equipment"
-                name="equipment"
-                options={EQUIPMENT_OPTIONS}
-                value={preferences.equipment}
-                onChange={(value) => updatePreference('equipment', value)}
-              />
-              <ChoiceGroup
-                legend="Focus"
-                name="focus"
-                options={FOCUS_OPTIONS}
-                value={preferences.focus}
-                onChange={(value) => updatePreference('focus', value)}
-              />
-              <div className={styles.builderFooter}>
-                <p className={styles.summaryLine} data-testid="preference-summary">
-                  {summary}
-                </p>
-                <button type="submit" className={styles.primaryButton}>
-                  Generate workout
-                </button>
-              </div>
-            </form>
-          </main>
-        )}
-
-        {view === 'workout' && workout && (
-          <main className={styles.workout}>
-            <header className={styles.workoutHeader}>
-              <p className={styles.kicker}>Your session</p>
-              <h1 className={styles.workoutTitle}>{workout.title}</h1>
-              <p className={styles.workoutMeta}>{summary}</p>
-            </header>
-
-            <SegmentSection
-              segment={workout.warmup}
-              kicker="Prepare"
-              onOpenExercise={openExercise}
-              onStartTimer={setTimerSelection}
-            />
-            <div className={styles.blockList}>
-              {workout.blocks.map((block, index) => (
-                <BlockSection
-                  key={block.title}
-                  block={block}
-                  index={index}
-                  onOpenExercise={openExercise}
-                  onStartTimer={setTimerSelection}
-                />
-              ))}
-            </div>
-            <SegmentSection
-              segment={workout.cooldown}
-              kicker="Recover"
-              onOpenExercise={openExercise}
-              onStartTimer={setTimerSelection}
-            />
-
-            <div className={styles.workoutActions}>
-              <button
-                type="button"
-                className={styles.primaryButton}
-                onClick={() => buildWorkout(variant + 1)}
-              >
-                Give me another
-              </button>
-              <button
-                type="button"
-                className={styles.secondaryButton}
-                onClick={() => {
-                  setTimerSelection(null)
-                  setView('builder')
-                }}
-              >
-                Edit preferences
-              </button>
-            </div>
-            <p className={styles.disclaimer}>
-              Workout Lab offers general fitness suggestions, not medical
-              advice. Stop any movement that causes pain.
-            </p>
-          </main>
-        )}
+        <Routes>
+          <Route index element={<SessionBuilderPage onOpenExercise={openExercise} />} />
+          <Route
+            path="exercises"
+            element={<ExerciseLibraryRoute onOpenExercise={openExercise} />}
+          />
+        </Routes>
 
         <footer className={styles.footer}>
           <span>Workout Lab</span>
           <span>Deterministic sessions · Same inputs, same workout</span>
         </footer>
       </div>
-      {selectedExercise ? (
-        <ExerciseModal
-          exercise={selectedExercise}
-          detail={exerciseDetail}
-          video={exerciseVideo}
-          returnFocusTo={modalTriggerRef.current}
-          onClose={() => setSelectedExercise(null)}
-        />
-      ) : null}
-      {timerSelection ? (
-        <WorkoutTimer
-          key={timerSelection.id}
-          selection={timerSelection}
-          onClose={() => setTimerSelection(null)}
-        />
-      ) : null}
+      {modal}
     </div>
   )
 }

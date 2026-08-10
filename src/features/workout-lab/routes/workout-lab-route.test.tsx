@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import App from '../../../App'
+import { EXERCISES } from '../data/exercises'
 import { generateWorkout } from '../generator/generateWorkout'
 import type { WorkoutPreferences } from '../types'
 
@@ -65,7 +66,9 @@ describe('workout lab route', () => {
     expect(
       screen.getByRole('button', { name: 'Build my workout' })
     ).toBeInTheDocument()
-    expect(screen.getByText('100+')).toBeInTheDocument()
+    expect(
+      screen.getByText(`${Math.floor(EXERCISES.length / 10) * 10}+`)
+    ).toBeInTheDocument()
     expect(screen.getByText('BETA')).toBeInTheDocument()
   })
 
@@ -106,7 +109,9 @@ describe('workout lab route', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Generate workout' }))
 
     const exerciseName = expectedExerciseNames(0)[0]
-    fireEvent.click(screen.getByRole('button', { name: exerciseName }))
+    fireEvent.click(
+      screen.getByRole('button', { name: `${exerciseName} — view details` })
+    )
 
     expect(await screen.findByRole('dialog')).toBeInTheDocument()
     expect(

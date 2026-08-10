@@ -1,9 +1,14 @@
 import type { Exercise, ExerciseEquipment } from '../types'
 
+export interface MetaBadge {
+  emoji: string
+  label: string
+}
+
 interface ExerciseMeta {
-  equipment: { emoji: string; label: string }
-  bodyPart: { emoji: string; label: string }
-  measurement: { emoji: string; label: string }
+  equipment: MetaBadge
+  bodyPart: MetaBadge
+  measurement: MetaBadge
 }
 
 const EQUIPMENT_META: Record<
@@ -23,7 +28,7 @@ const EQUIPMENT_META: Record<
 
 const MUSCLE_REGIONS: Record<string, ExerciseMeta['bodyPart']> = {
   abs: { emoji: '🌀', label: 'Core' },
-  adductors: { emoji: '🦵', label: 'Legs' },
+  adductors: { emoji: '🦵', label: 'Lower body' },
   back: { emoji: '🦴', label: 'Back' },
   biceps: { emoji: '💪', label: 'Arms' },
   chest: { emoji: '🫁', label: 'Chest' },
@@ -36,7 +41,7 @@ const MUSCLE_REGIONS: Record<string, ExerciseMeta['bodyPart']> = {
   'hip flexors': { emoji: '🦵', label: 'Lower body' },
   hips: { emoji: '🦵', label: 'Lower body' },
   lats: { emoji: '🦴', label: 'Back' },
-  legs: { emoji: '🦵', label: 'Legs' },
+  legs: { emoji: '🦵', label: 'Lower body' },
   'lower back': { emoji: '🦴', label: 'Back' },
   obliques: { emoji: '🌀', label: 'Core' },
   quads: { emoji: '🦵', label: 'Lower body' },
@@ -51,13 +56,32 @@ const MUSCLE_REGIONS: Record<string, ExerciseMeta['bodyPart']> = {
 
 const FALLBACK_BODY_PART = { emoji: '🧍', label: 'Full body' }
 
+/** Body-part filter options in display order. */
+export const BODY_PART_LABELS = [
+  'Lower body',
+  'Core',
+  'Back',
+  'Arms',
+  'Chest',
+  'Shoulders',
+  'Full body',
+] as const
+
+export function equipmentMeta(equipment: ExerciseEquipment): MetaBadge {
+  return EQUIPMENT_META[equipment]
+}
+
+export function bodyPartMeta(exercise: Exercise): MetaBadge {
+  return MUSCLE_REGIONS[exercise.primaryMuscles[0]] ?? FALLBACK_BODY_PART
+}
+
 export function getExerciseMeta(
   exercise: Exercise,
   prescription: string
 ): ExerciseMeta {
   return {
-    equipment: EQUIPMENT_META[exercise.equipment],
-    bodyPart: MUSCLE_REGIONS[exercise.primaryMuscles[0]] ?? FALLBACK_BODY_PART,
+    equipment: equipmentMeta(exercise.equipment),
+    bodyPart: bodyPartMeta(exercise),
     measurement: prescription.includes('sec')
       ? { emoji: '⏱️', label: 'Timed exercise' }
       : { emoji: '🔁', label: 'Repetitions' },
