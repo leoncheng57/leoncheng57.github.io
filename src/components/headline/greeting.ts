@@ -9,10 +9,10 @@ export interface Greeting {
  */
 export function getGreeting(hour: number): Greeting {
   if (hour >= 5 && hour < 12) {
-    return { label: 'good morning', emoji: '🌅' }
+    return { label: 'Good Morning', emoji: '☀️' }
   }
   if (hour >= 12 && hour < 18) {
-    return { label: 'good afternoon', emoji: '☀️' }
+    return { label: 'Good Afternoon', emoji: '☁️' }
   }
-  return { label: 'good evening', emoji: '🌙' }
+  return { label: 'Good Evening', emoji: '🌙' }
 }
