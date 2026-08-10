@@ -1,41 +1,90 @@
 .container {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  padding: 1.5rem 0;
+  gap: clamp(2rem, 6vw, 5rem);
+  overflow: hidden;
+  padding: clamp(2rem, 6vw, 5rem);
+  border: 3px solid var(--text-primary);
+  background: var(--accent-strong);
+  box-shadow: 10px 10px 0 var(--text-primary);
 }
 
 .container * {
-  text-align: center;
+  text-align: left;
 }
 
 .imageWrapper {
-  width: 16rem;
-  height: 16rem;
-  border-radius: 100%;
-  margin: 1rem;
+  grid-row: 1 / 3;
+  width: clamp(9rem, 18vw, 11rem);
+  height: clamp(9rem, 18vw, 11rem);
+  margin: 0;
+  overflow: hidden;
+  border: 3px solid var(--text-primary);
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 8px 8px 0 rgba(11, 21, 38, 0.4);
 }
 .imageWrapper > img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .container p {
-  margin: 0.6rem;
+  margin: 0;
 }
 
 .hi {
-  font-size: 3.5rem;
-  font-weight: 600;
+  align-self: end;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(3.8rem, 9vw, 7.5rem);
+  font-weight: 900;
+  letter-spacing: -0.085em;
+  line-height: 0.78;
+  text-transform: uppercase;
 }
 
 .summary {
-  font-size: 1.5rem;
+  align-self: start;
+  max-width: 34rem;
+  padding-left: 1rem;
+  border-left: 8px solid var(--text-primary);
+  font-family: Georgia, serif;
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .summary > .summaryHighlight {
-  color: orange;
-  font-weight: 500;
+  color: var(--link-hover-color);
+  font-weight: 700;
 }
 
-.extraText {
+@media (max-width: 700px) {
+  .container {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.25rem 2.5rem;
+  }
+
+  .imageWrapper {
+    grid-row: auto;
+    width: 9rem;
+    height: 9rem;
+    justify-self: center;
+  }
+
+  .hi,
+  .summary {
+    text-align: center;
+  }
+
+  .summary {
+    width: calc(100% - 1.5rem);
+    justify-self: center;
+    padding: 1rem 0 0;
+    border-top: 6px solid var(--text-primary);
+    border-left: 0;
+  }
 }
