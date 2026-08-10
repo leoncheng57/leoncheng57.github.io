@@ -112,3 +112,53 @@
     padding: 1.5rem 0;
   }
 }
+
+.subpageLink {
+  font-weight: 600;
+}
+
+.issuesStatus {
+  margin-top: 1rem;
+}
+
+.issueList {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.issueItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.85rem 1.05rem;
+  border: 1px solid var(--hr-color);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--bg) 88%, white 12%);
+  line-height: 1.5;
+}
+
+.issueNumber {
+  color: var(--text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+}
+
+.issueLabels {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.issueLabel {
+  display: inline-flex;
+  padding: 0.18rem 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 42%, transparent);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.3;
+}

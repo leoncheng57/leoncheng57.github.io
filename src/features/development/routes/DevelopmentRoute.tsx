@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import TopNav from '../../../components/top-nav/TopNav'
+import OpenIssues from '../components/OpenIssues'
 import styles from '../development.module.css'
 
 const PRODUCTION_FLOW = `push to main
@@ -13,20 +14,6 @@ gh-pages branch (root)
     |
     v
 leoncheng.dev`
-
-const PREVIEW_FLOW = `open or update PR #N
-    |
-    v
-lint + tests + preview build
-    |
-    v
-gh-pages/previews/pr-N/
-    |
-    v
-leoncheng.dev/previews/pr-N/
-    |
-    v
-close PR -> remove preview`
 
 export default function DevelopmentRoute(): ReactElement {
   return (
@@ -78,14 +65,25 @@ export default function DevelopmentRoute(): ReactElement {
         <section className={styles.section} aria-labelledby="preview-heading">
           <h2 id="preview-heading">Pull request previews</h2>
           <p>
-            Each pull request is built with its own base path and published
-            under <code>/previews/pr-&lt;number&gt;/</code>. A bot comments the URL
-            on the pull request and removes the preview when the pull request
-            closes.
+            Each pull request is built with its own base path and published to a
+            disposable environment at <code>/previews/pr-&lt;number&gt;/</code>.
+            A bot comments the URL on the pull request and the preview is
+            removed when the pull request closes.
           </p>
-          <pre className={styles.pipeline} aria-label="Pull request preview flow">
-            <code>{PREVIEW_FLOW}</code>
-          </pre>
+          <p>
+            <Link className={styles.subpageLink} to="/development/previews">
+              How previews work, with diagrams →
+            </Link>
+          </p>
+        </section>
+
+        <section className={styles.section} aria-labelledby="planning-heading">
+          <h2 id="planning-heading">Project planning</h2>
+          <p>
+            Work on this site is planned in the open. These are the GitHub
+            issues currently on the backlog.
+          </p>
+          <OpenIssues />
         </section>
 
         <section className={styles.section} aria-labelledby="shared-branch-heading">
