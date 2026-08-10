@@ -1,13 +1,14 @@
 :root {
-  /* accent */
-  --blue-emphasis: #f3c78b;
-  --link-hover-color: #ffd8a6;
-
-  /* theme */
-  --bg:           #121212;
-  --surface:      #1e1e1e;
-  --text-primary: #e0e0e0;
-  --text-muted:   #9e9e9e;
-  --hr-color:     #3a3a3a;
-  --link-color:   #f6e6c8;
+  --blue-emphasis: #0e9256;
+  --link-hover-color: #076b3e;
+  --bg: #f4f0e8;
+  --surface: #f4f8f5;
+  --surface-raised: #ffffff;
+  --text-primary: #10233d;
+  --text-muted: #47617e;
+  --hr-color: #10233d;
+  --link-color: #0e9256;
+  --accent-soft: #d8f2e0;
+  --accent-mid: #b5e7c8;
+  --accent-strong: #8bdcab;
 }
