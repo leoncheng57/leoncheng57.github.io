@@ -43,11 +43,18 @@ describe('ArchitectureRoute', () => {
       /PWA and caching strategy/,
       /Theming/,
       /Licensing and IP notes/,
+      /Analytics/,
     ]) {
       expect(
         screen.getByRole('heading', { level: 2, name: section }),
       ).toBeInTheDocument()
     }
+
+    expect(screen.getByText('G-5MLNJQ7789')).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Open Google Analytics' }),
+    ).toHaveAttribute('href', 'https://analytics.google.com/analytics/web/')
+    expect(screen.getByText(/Note to future Leon/)).toBeInTheDocument()
   })
 
   it('is reachable from the masthead and footer', () => {

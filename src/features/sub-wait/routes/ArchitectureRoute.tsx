@@ -189,6 +189,48 @@ export default function ArchitectureRoute(): ReactElement {
           data terms.
         </p>
       </DocsSection>
+
+      <DocsSection number={10} title="Analytics">
+        <p>
+          Google Analytics 4 is already loaded globally in{' '}
+          <code>index.html</code> with measurement ID{' '}
+          <code>G-5MLNJQ7789</code>. Sub-Wait shares that site-wide property;
+          there is no separate analytics SDK inside this feature.
+        </p>
+        <p>
+          <a
+            href="https://analytics.google.com/analytics/web/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open Google Analytics
+          </a>{' '}
+          and choose the GA4 property connected to that measurement ID. To
+          check that Sub-Wait is reporting:
+        </p>
+        <ol className={styles.analyticsSteps}>
+          <li>
+            Open <strong>Reports → Realtime</strong> in Google Analytics.
+          </li>
+          <li>
+            Visit a Sub-Wait page in another tab or private window.
+          </li>
+          <li>
+            Confirm a <code>page_view</code> appears with a{' '}
+            <code>/sub-wait/…</code> page path, then inspect device and traffic
+            source as needed.
+          </li>
+        </ol>
+        <p>
+          <strong>Note to future Leon:</strong> verify that GA4 Enhanced
+          Measurement has browser-history page views enabled. React Router
+          changes routes without a full document reload; if those navigation
+          events do not appear, add explicit <code>page_view</code> events on
+          route changes before relying on the reports. PR previews also load
+          the global tag, so filter or disable <code>/previews/</code> traffic
+          before treating the data as production-only.
+        </p>
+      </DocsSection>
     </main>
   )
 }

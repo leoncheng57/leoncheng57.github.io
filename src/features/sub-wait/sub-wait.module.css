@@ -695,6 +695,18 @@
   font-size: 0.85em;
 }
 
+.analyticsSteps {
+  margin: 0 0 0.85rem;
+  padding-left: 1.35rem;
+  color: var(--sw-ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.analyticsSteps li + li {
+  margin-top: 0.25rem;
+}
+
 /* ── PWA install hint ─────────────────────────────────────────────────── */
 
 .installHint {
