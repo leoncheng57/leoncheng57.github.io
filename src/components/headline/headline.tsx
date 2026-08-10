@@ -18,6 +18,8 @@ const Headline: NextPage = () => {
         </span>
         .
       </p>
+
+      <div className={styles.welcomeTab}>welcome</div>
     </div>
   );
 };

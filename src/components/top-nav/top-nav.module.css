@@ -18,6 +18,8 @@
 .nav a:hover {
   color: var(--link-hover-color);
   opacity: 0.8;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .logoRow {
@@ -65,6 +67,7 @@
 .linksRow a:hover {
   color: var(--text-primary);
   background: var(--accent-strong);
+  text-decoration: underline;
 }
 
 @media (max-width: 480px) {
