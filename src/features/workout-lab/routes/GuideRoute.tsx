@@ -3,13 +3,21 @@ import { Link } from 'react-router-dom'
 import { EXERCISES } from '../data/exercises'
 import styles from '../workout-lab.module.css'
 
+interface GuideImage {
+  src: string
+  alt: string
+  caption: string
+}
+
 function GuideSection({
   number,
   title,
+  image,
   children,
 }: {
   number: string
   title: string
+  image?: GuideImage
   children: ReactNode
 }): ReactElement {
   return (
@@ -21,6 +29,17 @@ function GuideSection({
         <h2 className={styles.guideSectionTitle}>{title}</h2>
       </header>
       <div className={styles.guideBody}>{children}</div>
+      {image ? (
+        <figure className={styles.guideFigure}>
+          <img
+            src={image.src}
+            alt={image.alt}
+            loading="lazy"
+            data-testid="guide-screenshot"
+          />
+          <figcaption>{image.caption}</figcaption>
+        </figure>
+      ) : null}
     </section>
   )
 }
@@ -42,7 +61,15 @@ export default function GuideRoute(): ReactElement {
         </p>
       </header>
 
-      <GuideSection number="01" title="Build a session">
+      <GuideSection
+        number="01"
+        title="Build a session"
+        image={{
+          src: '/workout-lab/guide/builder.png',
+          alt: 'The session builder form with goal, experience, duration, equipment, and focus choices',
+          caption: 'The builder: five quick questions shape your session.',
+        }}
+      >
         <p>
           The <Link className={styles.guideLink} to="/workout-lab/">builder</Link>{' '}
           is the heart of Workout Lab. Press <strong>Build my workout</strong>,
@@ -76,7 +103,15 @@ export default function GuideRoute(): ReactElement {
         </p>
       </GuideSection>
 
-      <GuideSection number="02" title="Read your workout">
+      <GuideSection
+        number="02"
+        title="Read your workout"
+        image={{
+          src: '/workout-lab/guide/workout.png',
+          alt: 'A generated workout showing the warm-up segment and a numbered training block',
+          caption: 'A generated session: warm-up, numbered blocks, cooldown.',
+        }}
+      >
         <p>Every generated session has the same three-part shape:</p>
         <ul>
           <li>
@@ -98,17 +133,35 @@ export default function GuideRoute(): ReactElement {
         </p>
       </GuideSection>
 
-      <GuideSection number="03" title="Open an exercise card">
+      <GuideSection
+        number="03"
+        title="Open an exercise card"
+        image={{
+          src: '/workout-lab/guide/exercise-card.png',
+          alt: 'The exercise detail card with illustration, steps, warnings, and video links',
+          caption: 'The exercise card: everything you need to do the movement well.',
+        }}
+      >
         <p>
           Any underlined exercise name — in a session or in the index — opens a
           detail card with a hand-drawn movement illustration, the key form
-          cue, step-by-step instructions, safety warnings, and a link to a
-          short video demonstration. A sample card is showcased on the{' '}
+          cue, step-by-step instructions, and safety warnings. Best of all,
+          every card links to a <strong>hand-picked YouTube Short</strong> — a
+          reviewed, seconds-long demo of the exact movement — plus a Google
+          search fallback. A sample card is showcased on the{' '}
           <Link className={styles.guideLink} to="/workout-lab/">home page</Link>.
         </p>
       </GuideSection>
 
-      <GuideSection number="04" title="Browse the exercise index">
+      <GuideSection
+        number="04"
+        title="Browse the exercise index"
+        image={{
+          src: '/workout-lab/guide/exercise-index.png',
+          alt: 'The exercise index with equipment and body part filters above pattern sections',
+          caption: 'The exercise index: filter by equipment or body part.',
+        }}
+      >
         <p>
           The{' '}
           <Link className={styles.guideLink} to="/workout-lab/exercises">
@@ -121,7 +174,15 @@ export default function GuideRoute(): ReactElement {
         </p>
       </GuideSection>
 
-      <GuideSection number="05" title="Use the timers">
+      <GuideSection
+        number="05"
+        title="Use the timers"
+        image={{
+          src: '/workout-lab/guide/timer.png',
+          alt: 'The countdown timer docked to the corner of a generated workout',
+          caption: 'The timer docks to the corner while you train.',
+        }}
+      >
         <p>
           Timed exercises show a <strong>Set timer</strong> button that counts
           down the prescribed work, and every block has a one-tap rest timer.
@@ -130,7 +191,15 @@ export default function GuideRoute(): ReactElement {
         </p>
       </GuideSection>
 
-      <GuideSection number="06" title="Install it like an app">
+      <GuideSection
+        number="06"
+        title="Install it like an app"
+        image={{
+          src: '/workout-lab/guide/install.png',
+          alt: 'Workout Lab on a phone-sized screen with the add to home screen hint',
+          caption: 'Installed, Workout Lab runs full-screen and offline.',
+        }}
+      >
         <p>
           Workout Lab works offline once installed. On iOS, open the site in
           Safari, tap <strong>Share</strong>, then <strong>Add to Home

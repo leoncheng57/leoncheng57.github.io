@@ -100,7 +100,25 @@ describe('workout lab route', () => {
         name: `Browse ${pattern} exercises`,
       })
       expect(tile.querySelector('svg[role="img"]')).not.toBeNull()
+      expect(tile).toHaveAttribute('href', `/workout-lab/exercises#${pattern}`)
     })
+  })
+
+  it('highlights key features including timers on the landing page', () => {
+    renderWorkoutLab()
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Built for the gym floor' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'One-tap timers' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Video demos' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Works offline' })
+    ).toBeInTheDocument()
   })
 
   it('showcases a full exercise detail card lower on the landing page', async () => {
@@ -119,6 +137,18 @@ describe('workout lab route', () => {
     expect(
       screen.getByRole('heading', { level: 4, name: 'Warnings' })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 4, name: 'See it done' })
+    ).toBeInTheDocument()
+    expect(
+      await screen.findByRole('link', { name: /watch youtube short/i })
+    ).toHaveAttribute(
+      'href',
+      expect.stringMatching(/^https:\/\/www\.youtube\.com\/shorts\//)
+    )
+    expect(
+      screen.getByRole('link', { name: 'Search Google for a demonstration' })
+    ).toHaveAttribute('href', expect.stringContaining('google.com/search'))
   })
 
   it('renders the website guide at /workout-lab/guide', () => {
@@ -138,6 +168,14 @@ describe('workout lab route', () => {
       screen.getByRole('heading', { level: 2, name: 'Install it like an app' })
     ).toBeInTheDocument()
     expect(screen.getByText(new RegExp(`all ${EXERCISES.length} movements`))).toBeInTheDocument()
+
+    const screenshots = screen.getAllByTestId('guide-screenshot')
+    expect(screenshots).toHaveLength(6)
+    screenshots.forEach((image) => {
+      expect(image).toHaveAttribute('src', expect.stringMatching(/^\/workout-lab\/guide\/.+\.png$/))
+      expect(image.getAttribute('alt')).toBeTruthy()
+      expect(image).toHaveAttribute('loading', 'lazy')
+    })
   })
 
   it('updates the live summary as preferences change', () => {

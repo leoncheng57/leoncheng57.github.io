@@ -7,7 +7,10 @@
   --wl-accent: #4d7c0f;
   --wl-accent-dark: #3a5f0b;
   --wl-muted: #5e6158;
+  --wl-accent-light: #b5d36f;
+  --wl-muted-light: #b3b6ab;
   --wl-line: rgba(16, 16, 16, 0.25);
+  --wl-line-light: rgba(247, 246, 243, 0.3);
   --wl-display: 'Anton', 'Arial Narrow', 'Helvetica Neue', sans-serif;
   --wl-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
@@ -98,6 +101,21 @@
 }
 
 .mastheadLink[aria-current='page']:hover {
+  color: var(--wl-paper-raised);
+}
+
+/* The builder is the main user flow, so its link is always a filled chip. */
+.mastheadLinkPrimary {
+  margin: -0.3rem -0.5rem -0.25rem;
+  padding: 0.3rem 0.5rem 0.25rem;
+  background: var(--wl-accent);
+  border-bottom-color: var(--wl-accent);
+  color: var(--wl-paper-raised);
+}
+
+.mastheadLinkPrimary:hover {
+  background: var(--wl-accent-dark);
+  border-bottom-color: var(--wl-accent-dark);
   color: var(--wl-paper-raised);
 }
 
@@ -256,6 +274,40 @@
 
 /* ── Landing sections ─────────────────────────────────────────────────── */
 
+/*
+ * Everything below the hero lives on a full-bleed ink band so the on-load
+ * view and the scrolled content read as two distinct worlds.
+ */
+.landingLower {
+  margin-top: clamp(3rem, 8vw, 5rem);
+  margin-inline: calc(50% - 50vw);
+  padding: 0 calc(50vw - 50%) clamp(3rem, 7vw, 4.5rem);
+  background: var(--wl-ink);
+  color: var(--wl-paper);
+}
+
+.landingLower .kicker {
+  color: var(--wl-accent-light);
+}
+
+.landingLower .kicker::before {
+  background: var(--wl-accent-light);
+}
+
+.landingLower .landingSectionLede {
+  color: var(--wl-muted-light);
+}
+
+.landingLower .landingSection {
+  border-top-color: var(--wl-line-light);
+}
+
+.landingLower .landingSection:first-child {
+  margin-top: 0;
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+  border-top: none;
+}
+
 .landingSection {
   margin-top: clamp(3rem, 8vw, 5rem);
   padding-top: 2rem;
@@ -331,7 +383,103 @@
   max-width: 58rem;
   border: 3px solid var(--wl-ink);
   background: var(--wl-paper-raised);
+  color: var(--wl-ink);
   box-shadow: 10px 10px 0 var(--wl-accent-dark);
+}
+
+/* Dark-band adjustments so tiles and the card pop against the ink. */
+.landingLower .patternTile:hover {
+  background: var(--wl-accent);
+  color: var(--wl-paper-raised);
+}
+
+.landingLower .showcaseCard {
+  box-shadow: 10px 10px 0 var(--wl-accent);
+}
+
+.featureStrip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.featureItem {
+  border-left: 3px solid var(--wl-accent-light);
+  padding-left: 1.1rem;
+}
+
+.featureItem h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--wl-display);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.featureItem p {
+  margin: 0;
+  color: var(--wl-muted-light);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* ── Video demo panel (showcase card) ─────────────────────────────────── */
+
+.videoPanel {
+  padding: 1.15rem;
+  border: 2px solid var(--wl-ink);
+  border-left: 6px solid var(--wl-accent);
+  background: var(--wl-paper);
+}
+
+.videoPanel h4 {
+  margin: 0 0 0.65rem;
+  font-family: var(--wl-display);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.videoPanel p {
+  margin: 0 0 1rem;
+  color: var(--wl-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.videoButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.15rem;
+  border: 2px solid var(--wl-accent);
+  background: var(--wl-accent);
+  color: var(--wl-paper-raised);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.videoButton:hover {
+  background: var(--wl-ink);
+  border-color: var(--wl-ink);
+}
+
+.videoButton:focus-visible {
+  outline: 3px solid var(--wl-accent-dark);
+  outline-offset: 3px;
+}
+
+.videoButtonIcon {
+  flex: none;
+  width: 0.85em;
+  height: 0.85em;
 }
 
 /* ── Guide ────────────────────────────────────────────────────────────── */
@@ -419,6 +567,29 @@
 .guideLink:focus-visible {
   outline: 3px solid var(--wl-accent-dark);
   outline-offset: 3px;
+}
+
+.guideFigure {
+  max-width: 44rem;
+  margin: 1.5rem 0 0;
+}
+
+.guideFigure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 3px solid var(--wl-ink);
+  background: var(--wl-paper-raised);
+  box-shadow: 8px 8px 0 var(--wl-accent);
+}
+
+.guideFigure figcaption {
+  margin-top: 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--wl-muted);
 }
 
 /* ── Exercise library ─────────────────────────────────────────────────── */
@@ -1290,8 +1461,20 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .featureStrip {
+    grid-template-columns: 1fr;
+  }
+
   .showcaseCard {
     box-shadow: 6px 6px 0 var(--wl-accent-dark);
+  }
+
+  .landingLower .showcaseCard {
+    box-shadow: 6px 6px 0 var(--wl-accent);
+  }
+
+  .guideFigure img {
+    box-shadow: 5px 5px 0 var(--wl-accent);
   }
 
   .installHint {

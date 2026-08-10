@@ -308,56 +308,95 @@ function SessionBuilderPage({
             </div>
           </dl>
 
-          <section
-            className={styles.landingSection}
-            aria-labelledby="pattern-gallery-title"
-          >
-            <p className={styles.kicker}>The movement library</p>
-            <h2 id="pattern-gallery-title" className={styles.landingSectionTitle}>
-              Ten patterns, hand-drawn
-            </h2>
-            <p className={styles.landingSectionLede}>
-              Every session blends exercises from these movement patterns, so
-              nothing gets overworked and nothing gets skipped. Pick a figure
-              to browse its exercises.
-            </p>
-            <ul className={styles.patternGrid}>
-              {PATTERN_GALLERY.map(({ pattern, label }) => (
-                <li key={pattern}>
-                  <Link
-                    className={styles.patternTile}
-                    to="/workout-lab/exercises"
-                    aria-label={`Browse ${label.toLowerCase()} exercises`}
-                  >
-                    <ExerciseIllustration
-                      pattern={pattern}
-                      className={styles.patternTileArt}
-                    />
-                    <span className={styles.patternTileLabel}>{label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section
-            className={styles.landingSection}
-            aria-labelledby="exercise-showcase-title"
-          >
-            <p className={styles.kicker}>Built-in coaching</p>
-            <h2
-              id="exercise-showcase-title"
-              className={styles.landingSectionTitle}
+          <div className={styles.landingLower}>
+            <section
+              className={styles.landingSection}
+              aria-labelledby="pattern-gallery-title"
             >
-              Every exercise, fully explained
-            </h2>
-            <p className={styles.landingSectionLede}>
-              Tap any underlined exercise name in a session or the exercise
-              index and a card like this opens — illustration, key form cue,
-              step-by-step instructions, and safety warnings.
-            </p>
-            <ExerciseShowcase />
-          </section>
+              <p className={styles.kicker}>The movement library</p>
+              <h2
+                id="pattern-gallery-title"
+                className={styles.landingSectionTitle}
+              >
+                Ten patterns, hand-drawn
+              </h2>
+              <p className={styles.landingSectionLede}>
+                Every session blends exercises from these movement patterns, so
+                nothing gets overworked and nothing gets skipped. Pick a figure
+                to browse its exercises.
+              </p>
+              <ul className={styles.patternGrid}>
+                {PATTERN_GALLERY.map(({ pattern, label }) => (
+                  <li key={pattern}>
+                    <Link
+                      className={styles.patternTile}
+                      to={`/workout-lab/exercises#${pattern}`}
+                      aria-label={`Browse ${label.toLowerCase()} exercises`}
+                    >
+                      <ExerciseIllustration
+                        pattern={pattern}
+                        className={styles.patternTileArt}
+                      />
+                      <span className={styles.patternTileLabel}>{label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section
+              className={styles.landingSection}
+              aria-labelledby="exercise-showcase-title"
+            >
+              <p className={styles.kicker}>Built-in coaching</p>
+              <h2
+                id="exercise-showcase-title"
+                className={styles.landingSectionTitle}
+              >
+                Every exercise, fully explained
+              </h2>
+              <p className={styles.landingSectionLede}>
+                Tap any underlined exercise name in a session or the exercise
+                index and a card like this opens — illustration, key form cue,
+                step-by-step instructions, safety warnings, and a hand-picked
+                YouTube Short.
+              </p>
+              <ExerciseShowcase />
+            </section>
+
+            <section
+              className={styles.landingSection}
+              aria-labelledby="key-features-title"
+            >
+              <p className={styles.kicker}>Why it works</p>
+              <h2 id="key-features-title" className={styles.landingSectionTitle}>
+                Built for the gym floor
+              </h2>
+              <ul className={styles.featureStrip}>
+                <li className={styles.featureItem}>
+                  <h3>Video demos</h3>
+                  <p>
+                    Every exercise links to a hand-picked YouTube Short — see
+                    the movement done right in seconds, mid-workout.
+                  </p>
+                </li>
+                <li className={styles.featureItem}>
+                  <h3>One-tap timers</h3>
+                  <p>
+                    Timed work and block rest get a built-in countdown that
+                    docks to the corner of your screen while you train.
+                  </p>
+                </li>
+                <li className={styles.featureItem}>
+                  <h3>Works offline</h3>
+                  <p>
+                    Install Workout Lab like an app and build sessions
+                    anywhere — no connection needed.
+                  </p>
+                </li>
+              </ul>
+            </section>
+          </div>
         </main>
       )}
 
@@ -506,7 +545,11 @@ export default function WorkoutLabRoute(): ReactElement {
             <span className={styles.betaBadge}>BETA</span>
           </div>
           <nav className={styles.mastheadNav} aria-label="Workout Lab">
-            <NavLink end className={styles.mastheadLink} to="/workout-lab/">
+            <NavLink
+              end
+              className={`${styles.mastheadLink} ${styles.mastheadLinkPrimary}`}
+              to="/workout-lab/"
+            >
               Builder
             </NavLink>
             <NavLink className={styles.mastheadLink} to="/workout-lab/exercises">
