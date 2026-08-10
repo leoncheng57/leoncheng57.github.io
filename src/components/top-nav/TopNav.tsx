@@ -13,6 +13,7 @@ export default function TopNav(): ReactElement {
       <div className={styles.linksRow}>
         <Link to="/apps">Apps</Link>
         <Link to="/blog">Blogs</Link>
+        <Link to="/game-nights">Game Nights</Link>
         <Link to="/repo">Repo</Link>
       </div>
     </nav>
