@@ -79,21 +79,15 @@ afterEach(() => {
 })
 
 describe('SubWaitRoute', () => {
-  it('renders the station directory on the home page', async () => {
-    const user = userEvent.setup()
+  it('renders the logo hero on the home page', () => {
     renderAt('/sub-wait/')
     expect(
-      screen.getByRole('heading', { name: 'How long until the train?' }),
+      screen.getByRole('heading', { level: 1, name: 'Sub-Wait' }),
     ).toBeInTheDocument()
-
-    // Borough groups render their stations lazily on open.
     expect(
-      screen.queryByRole('link', { name: /East Broadway/ }),
-    ).not.toBeInTheDocument()
-    await user.click(screen.getByText('Manhattan'))
-    expect(
-      screen.getByRole('link', { name: /East Broadway/ }),
+      screen.getByRole('img', { name: 'Sub-Wait logo' }),
     ).toBeInTheDocument()
+    expect(screen.getByRole('searchbox')).toBeInTheDocument()
   })
 
   it('renders a station page with live arrivals in both directions', async () => {
@@ -112,6 +106,12 @@ describe('SubWaitRoute', () => {
     expect(screen.getByText('Jamaica-179 St')).toBeInTheDocument()
     expect(screen.getByText('2m')).toBeInTheDocument()
     expect(screen.getByText('8m')).toBeInTheDocument()
+    // Updated stamp shows relative elapsed time, not wall-clock time.
+    expect(screen.getByText(/Live · updated \d+s ago/)).toBeInTheDocument()
+    // No favoriting functionality.
+    expect(
+      screen.queryByRole('button', { name: /favorites/i }),
+    ).not.toBeInTheDocument()
     expect(fetch).toHaveBeenCalledWith(
       'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm',
       expect.anything(),
@@ -175,5 +175,16 @@ describe('SubWaitRoute', () => {
     expect(window.localStorage.getItem('sub-wait-theme')).toBe(
       page.dataset.theme,
     )
+  })
+})
+
+describe('formatElapsed', () => {
+  it('formats seconds then minutes', async () => {
+    const { formatElapsed } = await import('./StationRoute')
+    expect(formatElapsed(0)).toBe('0s ago')
+    expect(formatElapsed(12_000)).toBe('12s ago')
+    expect(formatElapsed(59_400)).toBe('59s ago')
+    expect(formatElapsed(60_000)).toBe('1m ago')
+    expect(formatElapsed(150_000)).toBe('2m ago')
   })
 })

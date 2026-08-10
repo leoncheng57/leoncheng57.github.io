@@ -34,13 +34,15 @@ describe('ArchitectureRoute', () => {
     ).toBeInTheDocument()
 
     for (const section of [
+      /A quick GTFS primer/,
       /Static station data/,
-      /Live arrivals from the MTA GTFS-Realtime feeds/,
+      /Live arrivals from the GTFS-Realtime feeds/,
       /Polling lifecycle/,
       /Routing and deep links/,
-      /Nearby, search, and favorites/,
+      /Nearby and search/,
       /PWA and caching strategy/,
       /Theming/,
+      /Licensing and IP notes/,
     ]) {
       expect(
         screen.getByRole('heading', { level: 2, name: section }),

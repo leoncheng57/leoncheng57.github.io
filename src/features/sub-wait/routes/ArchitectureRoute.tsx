@@ -26,7 +26,7 @@ export default function ArchitectureRoute(): ReactElement {
   return (
     <main className={styles.main}>
       <p className={styles.backLink}>
-        <Link to="/sub-wait/">Back to stations</Link>
+        <Link to="/sub-wait/">Home</Link>
       </p>
       <h1 className={styles.pageTitle}>How Sub-Wait works</h1>
       <p className={styles.pageLede}>
@@ -43,12 +43,53 @@ export default function ArchitectureRoute(): ReactElement {
         width={860}
         height={560}
       />
+      <p className={styles.docsDiagramCaption}>
+        Diagram source lives in{' '}
+        <code>scripts/architecture-diagram.mmd</code> (Mermaid) and is rendered
+        to a checked-in SVG by <code>scripts/render-architecture-diagram.mjs</code>,
+        so the site ships no diagramming code.
+      </p>
 
-      <DocsSection number={1} title="Static station data, generated at build time">
+      <DocsSection number={1} title="A quick GTFS primer">
         <p>
-          The real-time feeds only carry GTFS stop IDs like <code>F16</code>,
-          so the app bundles a station dataset generated from the MTA&apos;s
-          official <code>Stations.csv</code> by{' '}
+          <strong>GTFS</strong> (General Transit Feed Specification) is the
+          industry standard for describing a transit system. It comes in two
+          halves. <em>Static GTFS</em> is a zip of CSV-like tables —{' '}
+          <code>stops.txt</code>, <code>routes.txt</code>, <code>trips.txt</code>,
+          scheduled timetables — that changes only when the system itself
+          changes. <em>GTFS-Realtime</em> is a live companion feed of what is
+          actually happening right now: trip updates (predictions), vehicle
+          positions, and service alerts.
+        </p>
+        <p>
+          GTFS-Realtime is served as <strong>Protocol Buffers</strong>{' '}
+          (protobuf), a compact binary format — a full line-group feed is a
+          few tens of kilobytes instead of megabytes of JSON, which matters
+          when every rider&apos;s phone polls it repeatedly. Each feed is one{' '}
+          <code>FeedMessage</code> containing a header (with the feed&apos;s
+          generation timestamp) and a list of entities. Each entity we care
+          about holds a <code>TripUpdate</code>: one train&apos;s trip (trip
+          ID, route ID) plus its list of <code>StopTimeUpdate</code>s — the
+          predicted arrival/departure time at each stop it has yet to make.
+        </p>
+        <p>
+          Stops are identified by GTFS stop IDs. The NYCT convention is a
+          station ID like <code>F16</code> (East Broadway) plus a directional
+          suffix: <code>F16N</code> is the railroad-north platform,{' '}
+          <code>F16S</code> the railroad-south one. That suffix is how
+          Sub-Wait splits arrivals into the two direction boards, and it maps
+          one-to-one onto the <code>/station/:id/:direction</code> deep links.
+          A train&apos;s destination is read from the last{' '}
+          <code>StopTimeUpdate</code> in its trip — more reliable than trying
+          to match NYCT&apos;s irregular trip IDs against static timetables.
+        </p>
+      </DocsSection>
+
+      <DocsSection number={2} title="Static station data, generated at build time">
+        <p>
+          The real-time feeds only carry stop IDs, so the app bundles a
+          station dataset generated from the MTA&apos;s official{' '}
+          <code>Stations.csv</code> by{' '}
           <code>scripts/generate-subway-stations.mjs</code>. The output —{' '}
           <code>stations.json</code>, 496 stations — is checked into the repo
           so builds are deterministic and offline. Each record has the stop
@@ -60,63 +101,55 @@ export default function ArchitectureRoute(): ReactElement {
         </p>
       </DocsSection>
 
-      <DocsSection number={2} title="Live arrivals from the MTA GTFS-Realtime feeds">
+      <DocsSection number={3} title="Live arrivals from the GTFS-Realtime feeds">
         <p>
-          The MTA publishes eight protobuf feeds, one per line group
-          (1–7/S, A/C/E, B/D/F/M, G, J/Z, L, N/Q/R/W, SIR). They are keyless
-          and CORS-open, so the browser fetches them directly —{' '}
+          The MTA publishes eight subway feeds, one per line group (1–7/S,
+          A/C/E, B/D/F/M, G, J/Z, L, N/Q/R/W, SIR). They are keyless and
+          CORS-open, so the browser fetches them directly —{' '}
           <code>data/feeds.ts</code> maps a station&apos;s routes to the
           smallest set of feeds needed. The three shuttles all appear as
           &ldquo;S&rdquo; in the station data but live in different feeds, so
           &ldquo;S&rdquo; fans out to every shuttle feed and the results are
-          filtered by stop ID.
-        </p>
-        <p>
-          Each feed is decoded in the browser with{' '}
-          <code>gtfs-realtime-bindings</code>. For every trip update the app
-          keeps stop-time updates matching the station&apos;s stop ID plus an{' '}
-          <code>N</code>/<code>S</code> suffix, which is also how arrivals are
-          split into the two direction boards. A train&apos;s destination is
-          the name of the last stop in its trip update — more reliable than
-          matching NYCT trip IDs to static timetables.
+          filtered by stop ID. Each feed is decoded in the browser with{' '}
+          <code>gtfs-realtime-bindings</code>.
         </p>
       </DocsSection>
 
-      <DocsSection number={3} title="Polling lifecycle">
+      <DocsSection number={4} title="Polling lifecycle">
         <p>
           <code>useArrivals</code> refreshes every 25 seconds — the feeds
-          themselves update roughly every 15–30 seconds, so polling faster
-          buys nothing. When the tab is hidden the timer stops and in-flight
-          requests are aborted; when you come back it refreshes immediately
-          and resumes. Previous arrivals stay on screen during background
-          refreshes, and the &ldquo;Live · updated&rdquo; stamp shows the feed
-          header timestamp so stale data is visible.
+          themselves regenerate roughly every 15–30 seconds, so polling
+          faster buys nothing. When the tab is hidden the timer stops and
+          in-flight requests are aborted; when you come back it refreshes
+          immediately and resumes. Previous arrivals stay on screen during
+          background refreshes, and the &ldquo;Live · updated&rdquo; stamp
+          counts up from the feed header timestamp so stale data is obvious.
         </p>
       </DocsSection>
 
-      <DocsSection number={4} title="Routing and deep links">
+      <DocsSection number={5} title="Routing and deep links">
         <p>
           Every station has a shareable page at{' '}
           <code>/sub-wait/station/:id</code>, and each direction has its own
           page at <code>/sub-wait/station/:id/:direction</code> (
           <code>N</code> or <code>S</code>) — bookmark the platform you stand
-          on every morning. GitHub Pages serves a copied{' '}
+          on every morning. The full borough-grouped directory lives at{' '}
+          <code>/sub-wait/stations</code>. GitHub Pages serves a copied{' '}
           <code>404.html</code> so deep links resolve on a static host.
         </p>
       </DocsSection>
 
-      <DocsSection number={5} title="Nearby, search, and favorites">
+      <DocsSection number={6} title="Nearby and search">
         <p>
-          Everything personal stays on the device. Favorites are station IDs
-          in <code>localStorage</code>. Nearby stations come from the
-          Geolocation API — requested only after you tap &ldquo;Use my
+          Everything personal stays on the device. Nearby stations come from
+          the Geolocation API — requested only after you tap &ldquo;Use my
           location&rdquo; — with distances computed by the haversine formula
           over the bundled coordinates and shown as walk-time estimates. No
           location data ever leaves the browser.
         </p>
       </DocsSection>
 
-      <DocsSection number={6} title="PWA and caching strategy">
+      <DocsSection number={7} title="PWA and caching strategy">
         <p>
           A service worker scoped to <code>/sub-wait/</code> precaches the app
           shell (reading the Vite build manifest for hashed assets) and serves
@@ -128,13 +161,29 @@ export default function ArchitectureRoute(): ReactElement {
         </p>
       </DocsSection>
 
-      <DocsSection number={7} title="Theming">
+      <DocsSection number={8} title="Theming">
         <p>
-          Light and dark palettes are CSS custom properties switched by a{' '}
-          <code>data-theme</code> attribute. The default follows{' '}
-          <code>prefers-color-scheme</code>; the masthead toggle stores an
-          explicit override in <code>localStorage</code> and wins until
-          cleared.
+          The palette is deliberately neutral black/white/gray for now, with
+          light and dark variants switched by a <code>data-theme</code>{' '}
+          attribute. The default follows <code>prefers-color-scheme</code>;
+          the masthead toggle stores an explicit override in{' '}
+          <code>localStorage</code>. Everything is CSS custom properties, so a
+          future color scheme is a drop-in. Route bullets keep the official
+          MTA line colors.
+        </p>
+      </DocsSection>
+
+      <DocsSection number={9} title="Licensing and IP notes">
+        <p>
+          Sub-Wait is an independent project, <strong>not affiliated with or
+          endorsed by the MTA</strong>. The real-time and static data are used
+          under the MTA&apos;s open data terms. The colored route bullets and
+          the official subway map are MTA trademarks/copyrighted works; this
+          app renders its own generic bullets to identify actual train lines
+          and draws its map page from raw coordinates rather than the official
+          map artwork. Any future commercial use would need a review of the
+          MTA&apos;s licensing program (route symbols in particular) and its
+          data terms.
         </p>
       </DocsSection>
     </main>

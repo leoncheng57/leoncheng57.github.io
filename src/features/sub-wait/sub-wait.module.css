@@ -1,16 +1,18 @@
 .page {
-  /* Light theme (default). */
-  --sw-bg: #eef7f6;
+  /* Light theme (default). Neutral monochrome palette for now — the accent
+     hooks stay as custom properties so a future color scheme is a drop-in. */
+  --sw-bg: #f6f6f6;
   --sw-surface: #ffffff;
-  --sw-surface-raised: #f2fbfa;
-  --sw-ink: #10201f;
-  --sw-ink-soft: #33504e;
-  --sw-muted: #5c7674;
-  --sw-accent: #17857b;
-  --sw-accent-strong: #0d5f58;
+  --sw-surface-raised: #efefef;
+  --sw-ink: #111111;
+  --sw-ink-soft: #333333;
+  --sw-muted: #6b6b6b;
+  --sw-accent: #1a1a1a;
+  --sw-accent-strong: #000000;
   --sw-accent-contrast: #ffffff;
-  --sw-line: rgba(16, 32, 31, 0.16);
-  --sw-focus: #0d5f58;
+  --sw-line: rgba(0, 0, 0, 0.14);
+  --sw-focus: #111111;
+  --sw-water: #c8d4dc;
   --sw-body:
     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
     sans-serif;
@@ -24,17 +26,18 @@
 }
 
 .page[data-theme='dark'] {
-  --sw-bg: #0d1211;
-  --sw-surface: #161d1c;
-  --sw-surface-raised: #1e2726;
-  --sw-ink: #e8efee;
-  --sw-ink-soft: #c2d2d0;
-  --sw-muted: #8aa19f;
-  --sw-accent: #2fbfb2;
-  --sw-accent-strong: #63d8cd;
-  --sw-accent-contrast: #06211e;
-  --sw-line: rgba(232, 239, 238, 0.16);
-  --sw-focus: #63d8cd;
+  --sw-bg: #101010;
+  --sw-surface: #1b1b1b;
+  --sw-surface-raised: #262626;
+  --sw-ink: #ececec;
+  --sw-ink-soft: #c9c9c9;
+  --sw-muted: #8f8f8f;
+  --sw-accent: #e6e6e6;
+  --sw-accent-strong: #ffffff;
+  --sw-accent-contrast: #111111;
+  --sw-line: rgba(255, 255, 255, 0.16);
+  --sw-focus: #ffffff;
+  --sw-water: #2c3a44;
 }
 
 .frame {
@@ -297,28 +300,51 @@
   outline-offset: 2px;
 }
 
-.favoriteButton {
-  border: none;
-  background: none;
-  padding: 0 0.2rem;
-  color: var(--sw-accent);
-  font-size: 1.4rem;
-  line-height: 1;
-  cursor: pointer;
-  vertical-align: 0.1em;
+/* ── Home hero ────────────────────────────────────────────────────────── */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 0 1.75rem;
+  text-align: center;
 }
 
-.favoriteButton:hover {
+.heroLogo {
+  width: 84px;
+  height: 84px;
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.heroTagline {
+  margin: 0;
+  max-width: 26rem;
+  color: var(--sw-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.allStationsLink {
+  margin: 0.5rem 0 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.allStationsLink a {
   color: var(--sw-accent-strong);
+  font-weight: 600;
 }
 
-.favoriteButton:focus-visible {
-  outline: 2px solid var(--sw-focus);
-  outline-offset: 2px;
-  border-radius: 0.25rem;
-}
-
-/* ── Station directory (home) ─────────────────────────────────────────── */
+/* ── Station directory ────────────────────────────────────────────────── */
 
 .boroughGroup {
   margin: 0 0 1rem;
@@ -402,16 +428,8 @@
   padding: 0.5rem 0 1rem;
 }
 
-.stationTitleRow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  margin: 0 0 0.6rem;
-}
-
 .stationTitle {
-  margin: 0;
+  margin: 0 0 0.6rem;
   font-size: 1.7rem;
   letter-spacing: -0.01em;
 }
@@ -569,6 +587,14 @@
   cursor: pointer;
 }
 
+.mapRiver {
+  fill: none;
+  stroke: var(--sw-water);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
 .mapStation:hover {
   stroke: var(--sw-accent-strong);
   stroke-width: 1px;
@@ -615,6 +641,17 @@
   border: 1px solid var(--sw-line);
   border-radius: 0.75rem;
   background: #ffffff;
+}
+
+.docsDiagramCaption {
+  margin: -1rem 0 1.75rem;
+  color: var(--sw-muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.docsDiagramCaption code {
+  font-size: 0.95em;
 }
 
 .docsSection {

@@ -1,0 +1,28 @@
+---
+config:
+  theme: neutral
+---
+flowchart TB
+  subgraph BUILD["Build time"]
+    CSV["MTA Stations.csv<br/><i>names · coords · routes · direction labels</i>"]
+    GEN["generate-subway-stations.mjs<br/><i>manual script</i>"]
+    JSON["stations.json<br/><i>496 stations, checked in</i>"]
+    CSV --> GEN --> JSON
+  end
+
+  subgraph RUNTIME["Runtime (browser)"]
+    FEEDS["MTA GTFS-Realtime feeds<br/><i>8 protobuf feeds · keyless · CORS-open</i>"]
+    HOOK["useArrivals hook<br/><i>poll 25s · pause when hidden</i>"]
+    DECODE["Protobuf decode<br/><i>gtfs-realtime-bindings · filter stop ID + N/S</i>"]
+    STATION["Station pages<br/><i>/sub-wait/station/:id[/:direction]</i>"]
+    HOME["Home<br/><i>search · nearby via Geolocation</i>"]
+    SW["Service worker<br/><i>cache-first shell · network-only feeds</i>"]
+    FEEDS -- "GET" --> HOOK
+    HOOK -- "bytes" --> DECODE
+    DECODE -- "arrivals" --> STATION
+    HOME -- "links" --> STATION
+  end
+
+  JSON -- "station metadata" --> HOME
+  JSON -- "station metadata" --> STATION
+  SW -.-> HOME

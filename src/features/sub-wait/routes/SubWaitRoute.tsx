@@ -7,6 +7,7 @@ import ArchitectureRoute from './ArchitectureRoute'
 import HomeRoute from './HomeRoute'
 import MapRoute from './MapRoute'
 import StationRoute from './StationRoute'
+import StationsRoute from './StationsRoute'
 
 export default function SubWaitRoute(): ReactElement {
   const { theme, toggleTheme } = useTheme()
@@ -27,7 +28,10 @@ export default function SubWaitRoute(): ReactElement {
           </Link>
           <div className={styles.mastheadActions}>
             <nav className={styles.mastheadNav} aria-label="Sub-Wait">
-              <NavLink end className={styles.mastheadLink} to="/sub-wait/">
+              <NavLink
+                className={styles.mastheadLink}
+                to="/sub-wait/stations"
+              >
                 Stations
               </NavLink>
               <NavLink className={styles.mastheadLink} to="/sub-wait/map">
@@ -59,6 +63,7 @@ export default function SubWaitRoute(): ReactElement {
             path="station/:stationId/:direction"
             element={<StationRoute />}
           />
+          <Route path="stations" element={<StationsRoute />} />
           <Route path="map" element={<MapRoute />} />
           <Route path="architecture" element={<ArchitectureRoute />} />
         </Routes>
