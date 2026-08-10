@@ -5,6 +5,7 @@ import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
 import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
 import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
 import BlogPostRoute from './features/blog/routes/BlogPostRoute'
+import DevelopmentRoute from './features/development/routes/DevelopmentRoute'
 import WorkoutLabRoute from './features/workout-lab/routes/WorkoutLabRoute'
 import HomeRoute from './routes/HomeRoute'
 
@@ -15,6 +16,7 @@ export default function App(): ReactElement {
       <Route path="/blog" element={<BlogIndexRoute />} />
       <Route path="/blog/:slug" element={<BlogPostRoute />} />
       <Route path="/apps" element={<AppsIndexRoute />} />
+      <Route path="/development" element={<DevelopmentRoute />} />
       <Route path="/apps/whoops-hoops/privacy" element={<PrivacyRoute />} />
       <Route path="/apps/whoops-hoops/support" element={<SupportRoute />} />
       <Route path="/workout-lab/*" element={<WorkoutLabRoute />} />
