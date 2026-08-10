@@ -3,16 +3,16 @@ import styles from '../game-nights.module.css'
 
 const sampleGames = [
   'Mahjong',
-  'Exploding Kittens',
   'Unstable Unicorns',
-  'Dominion',
-  'Magic',
+  'The Mind',
+  'Sushi Go',
   'Puzzles',
   'The Crew',
+  'Slapjack',
   'Coup',
-  'Anomia',
+  'Fire Storm',
+  'Sequence',
   'Monopoly Deal',
-  'Cranium',
 ]
 
 const photos = [
@@ -158,8 +158,8 @@ export default function GameNightsRoute(): ReactElement {
               <h2 id="games-title">What might hit the table</h2>
             </div>
             <p>
-              The selection changes every week. These are examples of games we&apos;ve
-              played or sometimes have around, not a guaranteed inventory.
+              These are examples of games we&apos;ve played or sometimes have
+              around, not a guaranteed inventory.
             </p>
           </div>
           <ul className={styles.gameList} aria-label="Sample games">
