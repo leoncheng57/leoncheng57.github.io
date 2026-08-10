@@ -1,5 +1,6 @@
 import { useLayoutEffect, type ReactElement } from 'react'
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
+import SubWaitPwa from '../components/SubWaitPwa'
 import useTheme from '../hooks/useTheme'
 import styles from '../sub-wait.module.css'
 import HomeRoute from './HomeRoute'
@@ -38,6 +39,7 @@ export default function SubWaitRoute(): ReactElement {
             </button>
           </div>
         </header>
+        <SubWaitPwa />
 
         <Routes>
           <Route index element={<HomeRoute />} />

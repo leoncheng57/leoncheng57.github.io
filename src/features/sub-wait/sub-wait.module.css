@@ -542,6 +542,45 @@
   text-align: center;
 }
 
+/* ── PWA install hint ─────────────────────────────────────────────────── */
+
+.installHint {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.75rem;
+  background: var(--sw-surface);
+  font-size: 0.85rem;
+}
+
+.installHint p {
+  margin: 0.25rem 0 0;
+  color: var(--sw-muted);
+  line-height: 1.45;
+}
+
+.installHint button {
+  flex: none;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 999px;
+  background: none;
+  color: var(--sw-ink-soft);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.installHint button:hover {
+  border-color: var(--sw-accent);
+  color: var(--sw-accent-strong);
+}
+
 .notFound {
   padding: 2rem 1rem;
   text-align: center;
