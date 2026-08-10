@@ -43,11 +43,20 @@ describe('game nights route', () => {
     ).toBeInTheDocument()
   })
 
-  it('describes listed games as changing examples', () => {
+  it('describes listed games as examples, not inventory', () => {
     renderGameNights()
 
     expect(screen.getByText('Unstable Unicorns')).toBeInTheDocument()
-    expect(screen.getByText('The Crew')).toBeInTheDocument()
+    expect(screen.getByText('The Mind')).toBeInTheDocument()
+    expect(screen.getByText('Sushi Go')).toBeInTheDocument()
+    expect(screen.getByText('Slapjack')).toBeInTheDocument()
+    expect(screen.getByText('Fire Storm')).toBeInTheDocument()
+    expect(screen.getByText('Sequence')).toBeInTheDocument()
     expect(screen.getByText(/not a guaranteed inventory/i)).toBeInTheDocument()
+    expect(
+      screen.queryByText(/the selection changes every week/i)
+    ).not.toBeInTheDocument()
+    expect(screen.queryByText('Cranium')).not.toBeInTheDocument()
+    expect(screen.queryByText('Anomia')).not.toBeInTheDocument()
   })
 })
