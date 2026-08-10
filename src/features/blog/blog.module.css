@@ -91,7 +91,7 @@
 .filterButton[aria-expanded='true'] {
   border-color: var(--text-primary);
   background: var(--accent-strong);
-  color: var(--text-primary);
+  color: var(--accent-contrast);
 }
 
 .clearFilterButton {
@@ -149,7 +149,7 @@
 .filterOption:has(input:checked) {
   border-color: var(--text-primary);
   background: var(--accent-strong);
-  color: var(--text-primary);
+  color: var(--accent-contrast);
 }
 
 .filterOption input {
@@ -172,14 +172,14 @@
   border: 2px solid var(--text-primary);
   border-radius: 999px;
   background: var(--accent-strong);
-  color: var(--text-primary);
+  color: var(--accent-contrast);
   font: inherit;
   font-size: 0.82rem;
   cursor: pointer;
 }
 
 .activeFilter span {
-  color: var(--text-primary);
+  color: var(--accent-contrast);
   font-size: 1rem;
   line-height: 1;
 }
@@ -273,7 +273,7 @@
 .selectedTag {
   border-color: var(--text-primary);
   background: var(--accent-strong);
-  color: var(--text-primary);
+  color: var(--accent-contrast);
 }
 
 .fontControls {

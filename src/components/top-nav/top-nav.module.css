@@ -63,7 +63,7 @@
 }
 
 .linksRow a:hover {
-  color: var(--text-primary);
+  color: var(--accent-contrast);
   background: var(--accent-strong);
 }
 

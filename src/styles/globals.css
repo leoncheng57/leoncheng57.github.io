@@ -18,6 +18,7 @@ body {
 
 ::selection {
   background: var(--accent-strong);
+  color: var(--accent-contrast);
 }
 
 :focus-visible {
