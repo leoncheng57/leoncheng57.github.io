@@ -48,8 +48,8 @@
 /* ── Masthead ─────────────────────────────────────────────────────────── */
 
 .masthead {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1rem;
   padding-bottom: 0.75rem;
@@ -81,15 +81,10 @@
   letter-spacing: 0.1em;
 }
 
-.mastheadActions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
 .mastheadNav {
   display: flex;
   align-items: center;
+  justify-self: end;
   gap: 0.75rem;
 }
 
@@ -110,16 +105,25 @@
 .themeToggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.65rem;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.15rem;
+  padding: 0;
   border: 1px solid var(--sw-line);
   border-radius: 999px;
   background: var(--sw-surface);
   color: var(--sw-ink-soft);
-  font: inherit;
-  font-size: 0.78rem;
-  font-weight: 600;
   cursor: pointer;
+}
+
+.themeToggle svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .themeToggle:hover {
@@ -710,33 +714,48 @@
 /* ── PWA install hint ─────────────────────────────────────────────────── */
 
 .installHint {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 0.65rem;
-  width: fit-content;
+  width: min(100%, 22rem);
   max-width: 100%;
   margin: 0.6rem 0 0 auto;
-  padding: 0.5rem 0.55rem 0.5rem 0.75rem;
+  padding: 0.6rem;
   border: 1px solid var(--sw-line);
-  border-radius: 999px;
+  border-radius: 0.85rem;
   background: var(--sw-surface);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   font-size: 0.78rem;
+}
+
+.installHintLogo {
+  border-radius: 9px;
 }
 
 .installHintCopy {
   display: flex;
-  align-items: baseline;
-  gap: 0.45rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.installHintCopy strong {
+  color: var(--sw-ink);
+  font-size: 0.82rem;
 }
 
 .installHintCopy span {
   color: var(--sw-muted);
+  font-size: 0.7rem;
 }
 
 .installHintCopy a {
   color: var(--sw-accent-strong);
+  font-size: 0.74rem;
   font-weight: 700;
+  text-underline-offset: 0.15em;
 }
 
 .installHint button {
@@ -755,6 +774,16 @@
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+.installHint button svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .installHint button:hover {
@@ -782,14 +811,36 @@
   cursor: pointer;
 }
 
-.installHintCollapsed svg {
-  width: 1.2rem;
-  height: 1.2rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.installHintLogoWrap {
+  position: relative;
+  display: block;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.installHintLogoWrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+}
+
+.installHintPlus {
+  position: absolute;
+  right: -0.25rem;
+  bottom: -0.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 2px solid var(--sw-surface);
+  border-radius: 999px;
+  background: var(--sw-ink);
+  color: var(--sw-bg);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .installHintCollapsed button:hover {
@@ -888,8 +939,34 @@
 }
 
 @media (max-width: 640px) {
-  .installHintCopy span {
-    display: none;
+  .masthead {
+    grid-template-columns: 1fr auto;
+    column-gap: 0.75rem;
+    row-gap: 0.65rem;
+  }
+
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .themeToggle {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .mastheadNav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: stretch;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--sw-line);
+  }
+
+  .mastheadLink {
+    font-size: 0.8rem;
   }
 
   .installSteps {

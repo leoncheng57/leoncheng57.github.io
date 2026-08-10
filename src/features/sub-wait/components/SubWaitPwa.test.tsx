@@ -53,8 +53,8 @@ describe('SubWaitPwa', () => {
     })
 
     render(<SubWaitPwa />)
-    expect(screen.getByText('Install Sub-Wait')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /iPhone & Android steps/ })).toHaveAttribute(
+    expect(screen.getByText('Add Sub-Wait to your phone')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Open installation guide/ })).toHaveAttribute(
       'href',
       '/sub-wait/install',
     )
@@ -62,7 +62,7 @@ describe('SubWaitPwa', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'Collapse install instructions' }),
     )
-    expect(screen.queryByText('Install Sub-Wait')).not.toBeInTheDocument()
+    expect(screen.queryByText('Add Sub-Wait to your phone')).not.toBeInTheDocument()
     expect(
       screen.getByRole('button', { name: 'Open install instructions' }),
     ).toBeInTheDocument()
@@ -73,7 +73,7 @@ describe('SubWaitPwa', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'Open install instructions' }),
     )
-    expect(screen.getByText('Install Sub-Wait')).toBeInTheDocument()
+    expect(screen.getByText('Add Sub-Wait to your phone')).toBeInTheDocument()
     expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
       'false',
     )

@@ -69,11 +69,11 @@ const images = {
     <rect x="42" y="68" width="306" height="44" rx="14" fill="#e5e5e5"/>
     ${text(195, 96, 'leoncheng.dev/sub-wait', { size: 14, anchor: 'middle' })}
     ${appPage()}
-    <rect x="25" y="626" width="340" height="76" fill="#fff"/>
-    <path d="M195 679V647M195 647l-10 10M195 647l10 10" fill="none" stroke="#1769aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <rect x="179" y="660" width="32" height="24" rx="4" fill="none" stroke="#1769aa" stroke-width="3"/>
-    <circle cx="195" cy="669" r="30" fill="none" stroke="#111" stroke-width="4"/>
-    ${callout(332, 622, 1)}
+    <rect x="38" y="615" width="314" height="70" rx="22" fill="#fff" stroke="#d0d0d0"/>
+    <rect x="164" y="623" width="62" height="54" rx="17" fill="#eef4f8" stroke="#111" stroke-width="4"/>
+    <path d="M195 658V635M195 635l-9 9M195 635l9 9" fill="none" stroke="#1769aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="181" y="650" width="28" height="20" rx="4" fill="none" stroke="#1769aa" stroke-width="3"/>
+    ${callout(329, 599, 1)}
   `, 'iphone'),
 
   'iphone-2-add': phone(`

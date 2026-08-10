@@ -94,11 +94,10 @@ export default function SubWaitPwa(): ReactElement | null {
           onClick={() => setHintCollapsed(false)}
           aria-label="Open install instructions"
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 3.5h10a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z" />
-            <path d="M12 7v7m0 0-3-3m3 3 3-3" />
-            <path d="M10 17.5h4" />
-          </svg>
+          <span className={styles.installHintLogoWrap} aria-hidden="true">
+            <img src={assetUrl('sub-wait/icon-v2.svg')} alt="" />
+            <span className={styles.installHintPlus}>+</span>
+          </span>
         </button>
       </aside>
     )
@@ -106,17 +105,26 @@ export default function SubWaitPwa(): ReactElement | null {
 
   return (
     <aside className={styles.installHint} aria-label="Install Sub-Wait">
+      <img
+        className={styles.installHintLogo}
+        src={assetUrl('sub-wait/icon-v2.svg')}
+        alt=""
+        width={36}
+        height={36}
+      />
       <div className={styles.installHintCopy}>
-        <strong>Install Sub-Wait</strong>
-        <span>Keep train times one tap away.</span>
-        <a href={assetUrl('sub-wait/install')}>iPhone &amp; Android steps</a>
+        <strong>Add Sub-Wait to your phone</strong>
+        <span>Full-screen train times, no app store.</span>
+        <a href={assetUrl('sub-wait/install')}>Open installation guide →</a>
       </div>
       <button
         type="button"
         onClick={() => setHintCollapsed(true)}
         aria-label="Collapse install instructions"
       >
-        <span aria-hidden="true">−</span>
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path d="m6 12 4-4 4 4" />
+        </svg>
       </button>
     </aside>
   )
