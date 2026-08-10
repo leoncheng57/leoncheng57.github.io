@@ -1,7 +1,10 @@
 import type { ReactElement } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import ArrivalBoard from '../components/ArrivalBoard'
 import RouteBullet from '../components/RouteBullet'
+import type { Arrival } from '../data/arrivals'
 import { directionLabel, getStation } from '../data/stations'
+import useArrivals, { type ArrivalsState } from '../hooks/useArrivals'
 import type { Direction, Station } from '../types'
 import styles from '../sub-wait.module.css'
 
@@ -9,10 +12,14 @@ function DirectionSection({
   station,
   direction,
   standalone,
+  arrivals,
+  state,
 }: {
   station: Station
   direction: Direction
   standalone: boolean
+  arrivals: Arrival[]
+  state: ArrivalsState
 }): ReactElement | null {
   const label = directionLabel(station, direction)
   if (label === null) return null
@@ -33,10 +40,26 @@ function DirectionSection({
           </Link>
         )}
       </div>
-      <p className={styles.placeholderNote}>
-        Live arrivals are coming in the next update.
-      </p>
+      <ArrivalBoard
+        arrivals={arrivals}
+        status={state.status}
+        onRetry={state.refresh}
+      />
     </section>
+  )
+}
+
+function UpdatedStamp({ updatedAt }: { updatedAt: number | null }): ReactElement | null {
+  if (updatedAt === null) return null
+  return (
+    <p className={styles.updatedStamp}>
+      Live · updated{' '}
+      {new Date(updatedAt).toLocaleTimeString([], {
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+      })}
+    </p>
   )
 }
 
@@ -47,6 +70,7 @@ export default function StationRoute(): ReactElement {
     params.direction === 'N' || params.direction === 'S'
       ? (params.direction as Direction)
       : null
+  const arrivalsState = useArrivals(station)
 
   if (!station || (params.direction !== undefined && direction === null)) {
     return (
@@ -81,6 +105,7 @@ export default function StationRoute(): ReactElement {
           ))}
         </div>
         <p className={styles.stationMeta}>{station.borough}</p>
+        <UpdatedStamp updatedAt={arrivalsState.updatedAt} />
       </header>
       {directions.map((dir) => (
         <DirectionSection
@@ -88,6 +113,10 @@ export default function StationRoute(): ReactElement {
           station={station}
           direction={dir}
           standalone={direction !== null}
+          arrivals={arrivalsState.arrivals.filter(
+            (arrival) => arrival.direction === dir,
+          )}
+          state={arrivalsState}
         />
       ))}
     </main>

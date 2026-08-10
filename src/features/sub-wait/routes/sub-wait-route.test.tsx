@@ -1,8 +1,44 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import GtfsRealtimeBindings from 'gtfs-realtime-bindings'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import SubWaitRoute from './SubWaitRoute'
+
+const { transit_realtime: rt } = GtfsRealtimeBindings
+
+function buildFeedBuffer(nowEpochSeconds: number): ArrayBuffer {
+  const message = rt.FeedMessage.create({
+    header: { gtfsRealtimeVersion: '2.0', timestamp: nowEpochSeconds },
+    entity: [
+      {
+        id: '1',
+        tripUpdate: {
+          trip: { tripId: 'trip-f-south', routeId: 'F' },
+          stopTimeUpdate: [
+            { stopId: 'F16S', arrival: { time: nowEpochSeconds + 120 } },
+            { stopId: 'D43S', arrival: { time: nowEpochSeconds + 2400 } },
+          ],
+        },
+      },
+      {
+        id: '2',
+        tripUpdate: {
+          trip: { tripId: 'trip-f-north', routeId: 'F' },
+          stopTimeUpdate: [
+            { stopId: 'F16N', arrival: { time: nowEpochSeconds + 480 } },
+            { stopId: 'F01N', arrival: { time: nowEpochSeconds + 3600 } },
+          ],
+        },
+      },
+    ],
+  })
+  const bytes = rt.FeedMessage.encode(message).finish()
+  return bytes.buffer.slice(
+    bytes.byteOffset,
+    bytes.byteOffset + bytes.byteLength,
+  ) as ArrayBuffer
+}
 
 function renderAt(path: string) {
   return render(
@@ -27,6 +63,19 @@ beforeEach(() => {
       setItem: (key: string, value: string) => values.set(key, value),
     },
   })
+
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async () => ({
+      ok: true,
+      status: 200,
+      arrayBuffer: async () => buildFeedBuffer(Date.now() / 1000),
+    })),
+  )
+})
+
+afterEach(() => {
+  vi.unstubAllGlobals()
 })
 
 describe('SubWaitRoute', () => {
@@ -47,7 +96,7 @@ describe('SubWaitRoute', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders a station page with both direction sections', () => {
+  it('renders a station page with live arrivals in both directions', async () => {
     renderAt('/sub-wait/station/F16')
     expect(
       screen.getByRole('heading', { name: 'East Broadway' }),
@@ -56,9 +105,20 @@ describe('SubWaitRoute', () => {
       screen.getByRole('heading', { name: 'Uptown & Queens' }),
     ).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Brooklyn' })).toBeInTheDocument()
+
+    expect(
+      await screen.findByText('Coney Island-Stillwell Av'),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Jamaica-179 St')).toBeInTheDocument()
+    expect(screen.getByText('2m')).toBeInTheDocument()
+    expect(screen.getByText('8m')).toBeInTheDocument()
+    expect(fetch).toHaveBeenCalledWith(
+      'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm',
+      expect.anything(),
+    )
   })
 
-  it('renders a single-direction deep link page', () => {
+  it('renders only one direction on a deep link page', async () => {
     renderAt('/sub-wait/station/F16/N')
     expect(
       screen.getByRole('heading', { name: 'Uptown & Queens' }),
@@ -66,9 +126,32 @@ describe('SubWaitRoute', () => {
     expect(
       screen.queryByRole('heading', { name: 'Brooklyn' }),
     ).not.toBeInTheDocument()
+
+    expect(await screen.findByText('Jamaica-179 St')).toBeInTheDocument()
+    expect(
+      screen.queryByText('Coney Island-Stillwell Av'),
+    ).not.toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'Both directions' }),
     ).toBeInTheDocument()
+  })
+
+  it('shows an error state with retry when the feed request fails', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: false,
+        status: 500,
+        arrayBuffer: async () => new ArrayBuffer(0),
+      })),
+    )
+    renderAt('/sub-wait/station/F16')
+    expect(
+      (await screen.findAllByText(/Could not reach the MTA feed/)).length,
+    ).toBeGreaterThan(0)
+    expect(
+      screen.getAllByRole('button', { name: 'Try again' }).length,
+    ).toBeGreaterThan(0)
   })
 
   it('shows a not-found message for unknown stations', () => {
