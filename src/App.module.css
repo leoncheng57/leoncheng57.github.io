@@ -1,5 +1,5 @@
 .container {
-  padding: 1rem 1rem;
+  padding: 1.5rem 1rem 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,18 +13,152 @@
 }
 
 .main {
-  max-width: 1200px;
+  max-width: 1040px;
   width: 100%;
 }
 
-.homeLinkRow {
-  text-align: center;
+.homeMain {
+  display: flex;
+  flex-direction: column;
+}
+
+.recentWriting {
+  margin-top: clamp(2.5rem, 7vw, 5rem);
+}
+
+.recentHeading {
+  margin-bottom: 1.25rem;
+}
+
+.recentHeading p {
+  margin: 0 0 0.35rem;
+  color: var(--link-color);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.recentHeading h2 {
+  margin: 0;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.recentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.recentCard {
+  position: relative;
+  display: flex;
+  min-height: 17rem;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: 1.5rem;
+  border: 3px solid var(--text-primary);
+  background-color: var(--accent-strong);
+  background-image: radial-gradient(rgba(16, 35, 61, 0.16) 1px, transparent 1px);
+  background-size: 18px 18px;
+  box-shadow: 9px 9px 0 var(--text-primary);
+  color: var(--text-primary);
+}
+
+.recentCard:nth-child(2) {
+  background-color: var(--accent-mid);
+}
+
+.recentNumber {
+  position: absolute;
+  top: -0.75rem;
+  right: 0.5rem;
+  color: var(--text-primary);
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(5rem, 10vw, 7.5rem);
+  letter-spacing: -0.1em;
+  line-height: 1;
+  opacity: 0.12;
+}
+
+.posterFrames {
+  position: relative;
+  z-index: 1;
+  display: block;
+  height: 7.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.posterFrameBack,
+.posterFrameFront {
+  position: absolute;
+  width: 36%;
+  height: 5.75rem;
+  border: 3px solid var(--text-primary);
+  background: linear-gradient(140deg, var(--accent-soft) 0 38%, #f4ad9c 38% 52%, var(--surface-raised) 52%);
+  box-shadow: 6px 6px 0 rgba(16, 35, 61, 0.35);
+}
+
+.posterFrameBack {
+  top: 0.5rem;
+  left: 10%;
+  transform: rotate(-8deg);
+}
+
+.posterFrameFront {
+  right: 8%;
+  bottom: 0;
+  background: linear-gradient(35deg, var(--surface-raised) 0 42%, #f7df71 42% 56%, var(--accent-soft) 56%);
+  transform: rotate(7deg);
+}
+
+.recentTitle {
+  position: relative;
+  z-index: 2;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.recentCta {
+  position: relative;
+  z-index: 2;
+  margin-top: 1rem;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.main .recentCard {
+  color: var(--text-primary);
+}
+
+.main .recentCard:hover {
+  color: var(--text-primary);
+  text-decoration: none;
+  transform: translate(4px, 4px);
+  box-shadow: 5px 5px 0 var(--text-primary);
+}
+
+.main .recentCard:hover .recentTitle,
+.main .recentCard:hover .recentCta {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 /* Styling for all hr elements */
 .container hr,
 .main hr {
-  border-top: 1px dashed var(--hr-color);
+  border-top: 3px solid var(--hr-color);
   border-bottom: none;
   border-left: none;
   border-right: none;
@@ -40,5 +174,25 @@
 .container a:hover,
 .main a:hover {
   color: var(--link-hover-color);
-  opacity: 0.8;
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+@media (max-width: 700px) {
+  .container {
+    padding: 1rem 1rem 3rem;
+  }
+
+  .recentWriting {
+    margin-top: 3rem;
+  }
+
+  .recentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .recentCard {
+    min-height: 15rem;
+  }
 }
