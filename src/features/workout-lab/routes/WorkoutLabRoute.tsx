@@ -52,6 +52,7 @@ const EQUIPMENT_OPTIONS: Array<{ value: EquipmentChoice; label: string }> = [
   { value: 'dumbbells', label: 'Dumbbells' },
   { value: 'bands', label: 'Resistance bands' },
   { value: 'kettlebell', label: 'Kettlebell' },
+  { value: 'full-gym', label: 'Full gym' },
 ]
 
 const FOCUS_OPTIONS: Array<{ value: Focus; label: string }> = [

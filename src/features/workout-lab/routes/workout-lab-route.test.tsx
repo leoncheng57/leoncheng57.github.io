@@ -43,8 +43,11 @@ function renderedExerciseNames(): string[] {
     )
 }
 
-function expectedExerciseNames(variant: number): string[] {
-  const workout = generateWorkout(SELECTED_PREFERENCES, variant)
+function expectedExerciseNames(
+  variant: number,
+  preferences: WorkoutPreferences = SELECTED_PREFERENCES
+): string[] {
+  const workout = generateWorkout(preferences, variant)
   return [
     ...workout.warmup.exercises,
     ...workout.blocks.flatMap((block) => block.exercises),
@@ -144,6 +147,41 @@ describe('workout lab route', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Give me another' }))
 
     expect(renderedExerciseNames()).toEqual(expectedExerciseNames(1))
+  })
+
+  it('generates a gym-equipment workout for the full gym option', () => {
+    openBuilder()
+    fireEvent.click(screen.getByRole('radio', { name: 'Build strength' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'Intermediate' }))
+    fireEvent.click(screen.getByRole('radio', { name: '20 min' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'Full gym' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'Upper body' }))
+
+    expect(screen.getByTestId('preference-summary')).toHaveTextContent(
+      '20 min · Intermediate · Upper body · Full gym'
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Generate workout' }))
+
+    const fullGymPreferences: WorkoutPreferences = {
+      ...SELECTED_PREFERENCES,
+      equipment: 'full-gym',
+    }
+    expect(renderedExerciseNames()).toEqual(
+      expectedExerciseNames(0, fullGymPreferences)
+    )
+
+    const blockEquipment = generateWorkout(fullGymPreferences, 0).blocks.flatMap(
+      (block) => block.exercises.map(({ exercise }) => exercise.equipment)
+    )
+    expect(
+      blockEquipment.some((equipment) =>
+        ['barbell', 'cable', 'machine', 'station'].includes(equipment)
+      )
+    ).toBe(true)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Edit preferences' }))
+    expect(screen.getByRole('radio', { name: 'Full gym' })).toBeChecked()
   })
 
   it('returns to the builder with selections preserved', () => {
