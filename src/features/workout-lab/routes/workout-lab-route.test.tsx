@@ -103,7 +103,9 @@ describe('workout lab route', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Generate workout' }))
 
     const exerciseName = expectedExerciseNames(0)[0]
-    fireEvent.click(screen.getByRole('button', { name: exerciseName }))
+    fireEvent.click(
+      screen.getByRole('button', { name: `${exerciseName} — view details` })
+    )
 
     expect(await screen.findByRole('dialog')).toBeInTheDocument()
     expect(
