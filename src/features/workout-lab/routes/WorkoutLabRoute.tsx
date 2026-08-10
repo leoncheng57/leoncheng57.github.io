@@ -1,7 +1,9 @@
 import { useLayoutEffect, useState, type ReactElement } from 'react'
-import { Link, Route, Routes, useLocation } from 'react-router-dom'
+import { Link, NavLink, Route, Routes } from 'react-router-dom'
 import ChoiceGroup from '../components/ChoiceGroup'
+import ExerciseIllustration from '../components/ExerciseIllustration'
 import ExerciseNameButton from '../components/ExerciseNameButton'
+import ExerciseShowcase from '../components/ExerciseShowcase'
 import { EXERCISES } from '../data/exercises'
 import WorkoutLabPwa from '../components/WorkoutLabPwa'
 import WorkoutTimer, { type TimerSelection } from '../components/WorkoutTimer'
@@ -15,6 +17,7 @@ import type {
   GeneratedWorkout,
   Goal,
   Level,
+  MovementPattern,
   PrescribedExercise,
   WorkoutBlock,
   WorkoutPreferences,
@@ -23,6 +26,7 @@ import type {
 import { getExerciseMeta } from '../utils/exerciseMeta'
 import styles from '../workout-lab.module.css'
 import ExerciseLibraryRoute from './ExerciseLibraryRoute'
+import GuideRoute from './GuideRoute'
 
 const GOAL_OPTIONS: Array<{ value: Goal; label: string }> = [
   { value: 'strength', label: 'Build strength' },
@@ -57,6 +61,19 @@ const FOCUS_OPTIONS: Array<{ value: Focus; label: string }> = [
   { value: 'upper', label: 'Upper body' },
   { value: 'lower', label: 'Lower body' },
   { value: 'core', label: 'Core' },
+]
+
+const PATTERN_GALLERY: Array<{ pattern: MovementPattern; label: string }> = [
+  { pattern: 'squat', label: 'Squat' },
+  { pattern: 'hinge', label: 'Hinge' },
+  { pattern: 'lunge', label: 'Lunge' },
+  { pattern: 'push', label: 'Push' },
+  { pattern: 'pull', label: 'Pull' },
+  { pattern: 'core', label: 'Core' },
+  { pattern: 'carry', label: 'Carry' },
+  { pattern: 'cardio', label: 'Cardio' },
+  { pattern: 'mobility', label: 'Mobility' },
+  { pattern: 'stretch', label: 'Stretch' },
 ]
 
 const DEFAULT_PREFERENCES: WorkoutPreferences = {
@@ -290,6 +307,57 @@ function SessionBuilderPage({
               <dd className={styles.statValue}>15–45 min</dd>
             </div>
           </dl>
+
+          <section
+            className={styles.landingSection}
+            aria-labelledby="pattern-gallery-title"
+          >
+            <p className={styles.kicker}>The movement library</p>
+            <h2 id="pattern-gallery-title" className={styles.landingSectionTitle}>
+              Ten patterns, hand-drawn
+            </h2>
+            <p className={styles.landingSectionLede}>
+              Every session blends exercises from these movement patterns, so
+              nothing gets overworked and nothing gets skipped. Pick a figure
+              to browse its exercises.
+            </p>
+            <ul className={styles.patternGrid}>
+              {PATTERN_GALLERY.map(({ pattern, label }) => (
+                <li key={pattern}>
+                  <Link
+                    className={styles.patternTile}
+                    to="/workout-lab/exercises"
+                    aria-label={`Browse ${label.toLowerCase()} exercises`}
+                  >
+                    <ExerciseIllustration
+                      pattern={pattern}
+                      className={styles.patternTileArt}
+                    />
+                    <span className={styles.patternTileLabel}>{label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section
+            className={styles.landingSection}
+            aria-labelledby="exercise-showcase-title"
+          >
+            <p className={styles.kicker}>Built-in coaching</p>
+            <h2
+              id="exercise-showcase-title"
+              className={styles.landingSectionTitle}
+            >
+              Every exercise, fully explained
+            </h2>
+            <p className={styles.landingSectionLede}>
+              Tap any underlined exercise name in a session or the exercise
+              index and a card like this opens — illustration, key form cue,
+              step-by-step instructions, and safety warnings.
+            </p>
+            <ExerciseShowcase />
+          </section>
         </main>
       )}
 
@@ -422,8 +490,6 @@ function SessionBuilderPage({
 
 export default function WorkoutLabRoute(): ReactElement {
   const { openExercise, modal } = useExerciseModal()
-  const location = useLocation()
-  const onLibraryPage = location.pathname.endsWith('/exercises')
 
   useLayoutEffect(() => {
     if (window.location.pathname === '/workout-lab') {
@@ -440,15 +506,15 @@ export default function WorkoutLabRoute(): ReactElement {
             <span className={styles.betaBadge}>BETA</span>
           </div>
           <nav className={styles.mastheadNav} aria-label="Workout Lab">
-            {onLibraryPage ? (
-              <Link className={styles.mastheadLink} to="/workout-lab/">
-                Session builder
-              </Link>
-            ) : (
-              <Link className={styles.mastheadLink} to="/workout-lab/exercises">
-                Exercise index
-              </Link>
-            )}
+            <NavLink end className={styles.mastheadLink} to="/workout-lab/">
+              Builder
+            </NavLink>
+            <NavLink className={styles.mastheadLink} to="/workout-lab/exercises">
+              Exercises
+            </NavLink>
+            <NavLink className={styles.mastheadLink} to="/workout-lab/guide">
+              Guide
+            </NavLink>
           </nav>
         </header>
         <WorkoutLabPwa />
@@ -459,6 +525,7 @@ export default function WorkoutLabRoute(): ReactElement {
             path="exercises"
             element={<ExerciseLibraryRoute onOpenExercise={openExercise} />}
           />
+          <Route path="guide" element={<GuideRoute />} />
         </Routes>
 
         <footer className={styles.footer}>
