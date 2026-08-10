@@ -91,6 +91,35 @@ export default function AppsIndexRoute(): ReactElement {
             <div className={styles.appCardHeader}>
               <img
                 className={styles.appIcon}
+                src="/app-icons/sub-wait.svg"
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <Link to="/sub-wait">Sub-Wait</Link>
+                  <span className={styles.betaBadge}>BETA</span>
+                </h2>
+                <p className={styles.subtitle}>
+                  How long until your subway train?
+                </p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              Live NYC subway arrival times straight from the MTA real-time
+              feeds. Every station and direction gets its own page you can
+              bookmark, in light or dark mode.
+            </p>
+            <p className={styles.links}>
+              <Link to="/sub-wait">Check train times</Link>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
                 src="/app-icons/workout-lab.svg"
                 alt=""
                 width={64}
