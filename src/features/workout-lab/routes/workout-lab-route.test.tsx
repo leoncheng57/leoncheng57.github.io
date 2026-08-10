@@ -59,6 +59,7 @@ describe('workout lab route', () => {
     expect(
       screen.getByRole('button', { name: 'Build my workout' })
     ).toBeInTheDocument()
+    expect(screen.getByText('BETA')).toBeInTheDocument()
   })
 
   it('updates the live summary as preferences change', () => {

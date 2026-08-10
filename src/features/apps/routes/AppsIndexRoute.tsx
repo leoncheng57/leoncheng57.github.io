@@ -100,6 +100,7 @@ export default function AppsIndexRoute(): ReactElement {
               <div className={styles.appCardHeading}>
                 <h2>
                   <Link to="/workout-lab">Workout Lab</Link>
+                  <span className={styles.betaBadge}>BETA</span>
                 </h2>
                 <p className={styles.subtitle}>
                   A workout generator built around you

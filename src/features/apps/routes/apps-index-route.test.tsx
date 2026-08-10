@@ -56,7 +56,7 @@ describe('apps index route', () => {
       screen.getByRole('heading', { level: 2, name: 'Whoops Hoops' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Workout Lab' })
+      screen.getByRole('heading', { level: 2, name: 'Workout Lab BETA' })
     ).toBeInTheDocument()
   })
 
@@ -67,5 +67,6 @@ describe('apps index route', () => {
       'href',
       '/workout-lab'
     )
+    expect(screen.getByText('BETA')).toBeInTheDocument()
   })
 })
