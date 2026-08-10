@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import SubWaitPwa, { shouldShowIosInstallHint } from './SubWaitPwa'
+import SubWaitPwa, { shouldShowInstallHint } from './SubWaitPwa'
 
 const originalUserAgent = navigator.userAgent
 
@@ -45,7 +45,7 @@ describe('SubWaitPwa', () => {
     ).toBeNull()
   })
 
-  it('shows the iOS install hint on iPhones and dismisses persistently', () => {
+  it('collapses to a persistent icon and can be reopened', () => {
     Object.defineProperty(navigator, 'userAgent', {
       configurable: true,
       value:
@@ -53,37 +53,45 @@ describe('SubWaitPwa', () => {
     })
 
     render(<SubWaitPwa />)
-    expect(
-      screen.getByText('Put Sub-Wait on your home screen'),
-    ).toBeInTheDocument()
+    expect(screen.getByText('Install Sub-Wait')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /iPhone & Android steps/ })).toHaveAttribute(
+      'href',
+      '/sub-wait/install',
+    )
 
     fireEvent.click(
-      screen.getByRole('button', { name: 'Dismiss install instructions' }),
+      screen.getByRole('button', { name: 'Collapse install instructions' }),
     )
+    expect(screen.queryByText('Install Sub-Wait')).not.toBeInTheDocument()
     expect(
-      screen.queryByText('Put Sub-Wait on your home screen'),
-    ).not.toBeInTheDocument()
-    expect(
-      window.localStorage.getItem('sub-wait-install-hint-dismissed'),
-    ).toBe('true')
+      screen.getByRole('button', { name: 'Open install instructions' }),
+    ).toBeInTheDocument()
+    expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
+      'true',
+    )
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Open install instructions' }),
+    )
+    expect(screen.getByText('Install Sub-Wait')).toBeInTheDocument()
+    expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
+      'false',
+    )
   })
 
-  it('does not show the hint outside iOS Safari', () => {
-    render(<SubWaitPwa />)
-    expect(
-      screen.queryByText('Put Sub-Wait on your home screen'),
-    ).not.toBeInTheDocument()
+  it('shows on Android but not on desktop browsers', () => {
+    expect(shouldShowInstallHint('Mozilla/5.0 (Linux; Android 14)', false)).toBe(
+      true,
+    )
+    expect(shouldShowInstallHint('Mozilla/5.0 (Macintosh)', false)).toBe(false)
   })
 
-  describe('shouldShowIosInstallHint', () => {
-    it('requires an iOS device, browser mode, and no prior dismissal', () => {
-      const iphone = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)'
-      expect(shouldShowIosInstallHint(iphone, false, false)).toBe(true)
-      expect(shouldShowIosInstallHint(iphone, true, false)).toBe(false)
-      expect(shouldShowIosInstallHint(iphone, false, true)).toBe(false)
-      expect(shouldShowIosInstallHint('Mozilla/5.0 (Macintosh)', false, false)).toBe(
-        false,
-      )
-    })
+  it('does not show in standalone mode', () => {
+    expect(
+      shouldShowInstallHint(
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)',
+        true,
+      ),
+    ).toBe(false)
   })
 })

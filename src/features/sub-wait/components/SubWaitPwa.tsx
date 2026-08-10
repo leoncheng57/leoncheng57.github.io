@@ -2,23 +2,22 @@ import { useEffect, useState, type ReactElement } from 'react'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
 
-const DISMISS_KEY = 'sub-wait-install-hint-dismissed'
+const COLLAPSED_KEY = 'sub-wait-install-hint-collapsed'
 
 interface StandaloneNavigator extends Navigator {
   standalone?: boolean
 }
 
-export function shouldShowIosInstallHint(
+export function shouldShowInstallHint(
   userAgent: string,
   standalone: boolean,
-  dismissed: boolean,
 ): boolean {
-  return /iphone|ipad|ipod/i.test(userAgent) && !standalone && !dismissed
+  return /iphone|ipad|ipod|android/i.test(userAgent) && !standalone
 }
 
-function hasDismissedHint(): boolean {
+function hasCollapsedHint(): boolean {
   try {
-    return window.localStorage.getItem(DISMISS_KEY) === 'true'
+    return window.localStorage.getItem(COLLAPSED_KEY) === 'true'
   } catch {
     return false
   }
@@ -28,13 +27,11 @@ export default function SubWaitPwa(): ReactElement | null {
   const isStandalone =
     window.matchMedia?.('(display-mode: standalone)').matches ||
     Boolean((navigator as StandaloneNavigator).standalone)
-  const [showInstallHint, setShowInstallHint] = useState(() =>
-    shouldShowIosInstallHint(
-      navigator.userAgent,
-      isStandalone,
-      hasDismissedHint(),
-    ),
+  const showInstallHint = shouldShowInstallHint(
+    navigator.userAgent,
+    isStandalone,
   )
+  const [collapsed, setCollapsed] = useState(hasCollapsedHint)
 
   useEffect(() => {
     const manifest = document.createElement('link')
@@ -80,28 +77,46 @@ export default function SubWaitPwa(): ReactElement | null {
 
   if (!showInstallHint) return null
 
+  const setHintCollapsed = (nextCollapsed: boolean) => {
+    try {
+      window.localStorage.setItem(COLLAPSED_KEY, String(nextCollapsed))
+    } catch {
+      // Collapse still works for this session when storage is blocked.
+    }
+    setCollapsed(nextCollapsed)
+  }
+
+  if (collapsed) {
+    return (
+      <aside className={styles.installHintCollapsed} aria-label="Install Sub-Wait">
+        <button
+          type="button"
+          onClick={() => setHintCollapsed(false)}
+          aria-label="Open install instructions"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 3.5h10a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z" />
+            <path d="M12 7v7m0 0-3-3m3 3 3-3" />
+            <path d="M10 17.5h4" />
+          </svg>
+        </button>
+      </aside>
+    )
+  }
+
   return (
     <aside className={styles.installHint} aria-label="Install Sub-Wait">
-      <div>
-        <strong>Put Sub-Wait on your home screen</strong>
-        <p>
-          Tap the Share button in Safari, then choose Add to Home Screen for a
-          fullscreen app that is one tap from your train times.
-        </p>
+      <div className={styles.installHintCopy}>
+        <strong>Install Sub-Wait</strong>
+        <span>Keep train times one tap away.</span>
+        <a href={assetUrl('sub-wait/install')}>iPhone &amp; Android steps</a>
       </div>
       <button
         type="button"
-        onClick={() => {
-          try {
-            window.localStorage.setItem(DISMISS_KEY, 'true')
-          } catch {
-            // The hint can still be dismissed for this session.
-          }
-          setShowInstallHint(false)
-        }}
-        aria-label="Dismiss install instructions"
+        onClick={() => setHintCollapsed(true)}
+        aria-label="Collapse install instructions"
       >
-        Dismiss
+        <span aria-hidden="true">−</span>
       </button>
     </aside>
   )
