@@ -18,7 +18,7 @@ export default function App(): ReactElement {
       <Route path="/apps/whoops-hoops/privacy" element={<PrivacyRoute />} />
       <Route path="/apps/whoops-hoops/support" element={<SupportRoute />} />
       {/* Unlisted: reachable only by direct link. */}
-      <Route path="/workout-lab" element={<WorkoutLabRoute />} />
+      <Route path="/workout-lab/*" element={<WorkoutLabRoute />} />
     </Routes>
   )
 }

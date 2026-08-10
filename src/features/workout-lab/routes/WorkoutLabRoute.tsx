@@ -1,5 +1,12 @@
-import { useEffect, useRef, useState, type ReactElement } from 'react'
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactElement,
+} from 'react'
 import ExerciseModal from '../components/ExerciseModal'
+import WorkoutLabPwa from '../components/WorkoutLabPwa'
 import WorkoutTimer, { type TimerSelection } from '../components/WorkoutTimer'
 import type { ExerciseDetail } from '../data/exercise-details'
 import { generateWorkout } from '../generator/generateWorkout'
@@ -267,6 +274,12 @@ export default function WorkoutLabRoute(): ReactElement {
   const [timerSelection, setTimerSelection] = useState<TimerSelection | null>(null)
   const modalTriggerRef = useRef<HTMLButtonElement | null>(null)
 
+  useLayoutEffect(() => {
+    if (window.location.pathname === '/workout-lab') {
+      window.history.replaceState(window.history.state, '', '/workout-lab/')
+    }
+  }, [])
+
   useEffect(() => {
     if (!selectedExercise) {
       setExerciseDetail(undefined)
@@ -322,6 +335,7 @@ export default function WorkoutLabRoute(): ReactElement {
           <span className={styles.wordmark}>Workout Lab</span>
           <span className={styles.mastheadNote}>Session builder · No.01</span>
         </header>
+        <WorkoutLabPwa />
 
         {view === 'landing' && (
           <main className={styles.landing}>

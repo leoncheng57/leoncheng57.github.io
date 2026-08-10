@@ -49,6 +49,51 @@
   color: var(--wl-muted);
 }
 
+.installHint {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 2px solid var(--wl-ink);
+  border-left: 6px solid var(--wl-accent);
+  background: var(--wl-paper-raised);
+}
+
+.installHint strong {
+  font-family: var(--wl-display);
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.installHint p {
+  max-width: 36rem;
+  margin: 0.3rem 0 0;
+  color: var(--wl-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.installHint button {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--wl-ink);
+  background: transparent;
+  color: var(--wl-ink);
+  font-family: var(--wl-body);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.installHint button:focus-visible {
+  outline: 3px solid var(--wl-accent-dark);
+  outline-offset: 3px;
+}
+
 /* ── Shared type ──────────────────────────────────────────────────────── */
 
 .kicker {
@@ -867,6 +912,10 @@
   .statStrip {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+  }
+
+  .installHint {
+    align-items: flex-start;
   }
 
   .builderFooter {

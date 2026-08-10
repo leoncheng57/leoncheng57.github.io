@@ -6,6 +6,7 @@ export default defineConfig({
   build: {
     outDir: 'docs',
     emptyOutDir: false,
+    manifest: true,
   },
   base: '/',
 })
