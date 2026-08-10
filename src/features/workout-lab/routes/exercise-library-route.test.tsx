@@ -116,12 +116,12 @@ describe('exercise library route', () => {
   it('navigates between the builder and the library via the masthead', () => {
     renderLibrary('/workout-lab')
 
-    fireEvent.click(screen.getByRole('link', { name: 'Exercise index' }))
+    fireEvent.click(screen.getByRole('link', { name: 'Exercises' }))
     expect(
       screen.getByRole('heading', { level: 1, name: 'Every exercise' })
     ).toBeInTheDocument()
 
-    fireEvent.click(screen.getByRole('link', { name: 'Session builder' }))
+    fireEvent.click(screen.getByRole('link', { name: 'Builder' }))
     expect(
       screen.getByRole('heading', { level: 1, name: /your next workout/i })
     ).toBeInTheDocument()
