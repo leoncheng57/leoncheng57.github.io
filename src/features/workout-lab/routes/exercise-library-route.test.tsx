@@ -127,6 +127,21 @@ describe('exercise library route', () => {
     ).toBeInTheDocument()
   })
 
+  it('deep links landing pattern tiles to their library section', () => {
+    renderLibrary('/workout-lab')
+
+    fireEvent.click(screen.getByRole('link', { name: 'Browse push exercises' }))
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Every exercise' })
+    ).toBeInTheDocument()
+
+    const pushSection = document.getElementById('push')
+    expect(pushSection).not.toBeNull()
+    expect(
+      within(pushSection as HTMLElement).getByRole('heading', { name: 'Push' })
+    ).toBeInTheDocument()
+  })
+
   it('links the landing exercise stat to the library', () => {
     renderLibrary('/workout-lab')
 

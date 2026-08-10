@@ -1,4 +1,5 @@
-import { useState, type ReactElement } from 'react'
+import { useEffect, useState, type ReactElement } from 'react'
+import { useLocation } from 'react-router-dom'
 import ChoiceGroup from '../components/ChoiceGroup'
 import ExerciseIllustration from '../components/ExerciseIllustration'
 import ExerciseNameButton from '../components/ExerciseNameButton'
@@ -96,6 +97,14 @@ export default function ExerciseLibraryRoute({
 }): ReactElement {
   const [equipmentFilter, setEquipmentFilter] = useState<EquipmentFilter>('all')
   const [bodyPartFilter, setBodyPartFilter] = useState<BodyPartFilter>('all')
+  const { hash } = useLocation()
+
+  // Landing-page pattern tiles deep-link to /workout-lab/exercises#<pattern>.
+  // SPA navigations do not scroll to hashes on their own, so do it manually.
+  useEffect(() => {
+    if (!hash) return
+    document.getElementById(hash.slice(1))?.scrollIntoView()
+  }, [hash])
 
   const matches = (exercise: Exercise): boolean =>
     (equipmentFilter === 'all' || exercise.equipment === equipmentFilter) &&
@@ -150,6 +159,7 @@ export default function ExerciseLibraryRoute({
           return (
             <section
               key={pattern}
+              id={pattern}
               className={styles.patternSection}
               aria-label={title}
             >
