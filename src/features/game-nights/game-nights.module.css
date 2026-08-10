@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap');
 
 .page {
-  --ink: #17352f;
-  --cream: #f6f0df;
-  --paper: #fffdf5;
-  --orange: #f36c3d;
-  --yellow: #f4c74d;
-  --mint: #b8d9bf;
+  --ink: #2e3a2f;
+  --cream: #f0f1e9;
+  --paper: #fbfcf5;
+  --orange: #7a6fb8;
+  --yellow: #c9bee8;
+  --mint: #c4cfb8;
   min-height: 100vh;
   overflow: hidden;
   background: var(--cream);
