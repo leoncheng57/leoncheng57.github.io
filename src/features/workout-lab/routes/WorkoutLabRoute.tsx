@@ -2,6 +2,7 @@ import { useLayoutEffect, useState, type ReactElement } from 'react'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import ChoiceGroup from '../components/ChoiceGroup'
 import ExerciseNameButton from '../components/ExerciseNameButton'
+import { EXERCISES } from '../data/exercises'
 import WorkoutLabPwa from '../components/WorkoutLabPwa'
 import WorkoutTimer, { type TimerSelection } from '../components/WorkoutTimer'
 import { generateWorkout } from '../generator/generateWorkout'
@@ -48,6 +49,7 @@ const EQUIPMENT_OPTIONS: Array<{ value: EquipmentChoice; label: string }> = [
   { value: 'dumbbells', label: 'Dumbbells' },
   { value: 'bands', label: 'Resistance bands' },
   { value: 'kettlebell', label: 'Kettlebell' },
+  { value: 'full-gym', label: 'Full gym' },
 ]
 
 const FOCUS_OPTIONS: Array<{ value: Focus; label: string }> = [
@@ -275,7 +277,7 @@ function SessionBuilderPage({
                   to="/workout-lab/exercises"
                   aria-label="Browse all exercises"
                 >
-                  100+
+                  {Math.floor(EXERCISES.length / 10) * 10}+
                 </Link>
               </dd>
             </div>

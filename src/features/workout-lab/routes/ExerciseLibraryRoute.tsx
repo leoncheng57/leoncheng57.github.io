@@ -14,12 +14,27 @@ import styles from '../workout-lab.module.css'
 type EquipmentFilter = ExerciseEquipment | 'all'
 type BodyPartFilter = (typeof BODY_PART_LABELS)[number] | 'all'
 
+const EQUIPMENT_ORDER: ExerciseEquipment[] = [
+  'bodyweight',
+  'dumbbell',
+  'band',
+  'kettlebell',
+  'barbell',
+  'cable',
+  'machine',
+  'station',
+  'cardio-machine',
+]
+
+// Derived from the library so new equipment types appear automatically.
 const EQUIPMENT_FILTERS: Array<{ value: EquipmentFilter; label: string }> = [
   { value: 'all', label: 'All equipment' },
-  { value: 'bodyweight', label: 'Bodyweight' },
-  { value: 'dumbbell', label: 'Dumbbells' },
-  { value: 'band', label: 'Resistance bands' },
-  { value: 'kettlebell', label: 'Kettlebell' },
+  ...EQUIPMENT_ORDER.filter((equipment) =>
+    EXERCISES.some((exercise) => exercise.equipment === equipment)
+  ).map((equipment) => ({
+    value: equipment,
+    label: equipmentMeta(equipment).label,
+  })),
 ]
 
 const BODY_PART_FILTERS: Array<{ value: BodyPartFilter; label: string }> = [

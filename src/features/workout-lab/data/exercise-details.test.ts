@@ -8,7 +8,7 @@ describe('exercise details', () => {
       (exercise) => exercise.movementPattern === 'squat'
     )
 
-    expect(squatExercises).toHaveLength(9)
+    expect(squatExercises).toHaveLength(14)
     expect(Object.keys(EXERCISE_DETAILS).sort()).toEqual(
       squatExercises.map((exercise) => exercise.id).sort()
     )

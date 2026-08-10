@@ -19,6 +19,11 @@ const EQUIPMENT_META: Record<
   dumbbell: { emoji: '🏋️', label: 'Dumbbell' },
   band: { emoji: '🎗️', label: 'Resistance band' },
   kettlebell: { emoji: '🔔', label: 'Kettlebell' },
+  barbell: { emoji: '🏋️‍♂️', label: 'Barbell' },
+  cable: { emoji: '🪢', label: 'Cable machine' },
+  machine: { emoji: '⚙️', label: 'Machine' },
+  station: { emoji: '🧗', label: 'Pull-up / dip station' },
+  'cardio-machine': { emoji: '🏃', label: 'Cardio machine' },
 }
 
 const MUSCLE_REGIONS: Record<string, ExerciseMeta['bodyPart']> = {

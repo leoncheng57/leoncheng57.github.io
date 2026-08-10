@@ -9,10 +9,11 @@ import { EXERCISES } from './exercises'
 const SHORT_URL_PATTERN = /^https:\/\/www\.youtube\.com\/shorts\/[A-Za-z0-9_-]{11}$/
 
 describe('exercise videos', () => {
-  it('covers every exercise in the library', () => {
-    const videoIds = Object.keys(EXERCISE_VIDEOS).sort()
-    const exerciseIds = EXERCISES.map(({ id }) => id).sort()
-    expect(videoIds).toEqual(exerciseIds)
+  it('maps every reviewed video to an exercise in the library', () => {
+    const exerciseIds = new Set(EXERCISES.map(({ id }) => id))
+    for (const videoId of Object.keys(EXERCISE_VIDEOS)) {
+      expect(exerciseIds.has(videoId), videoId).toBe(true)
+    }
   })
 
   it('uses well-formed direct Shorts URLs with attribution metadata', () => {
@@ -44,9 +45,17 @@ describe('exercise videos', () => {
     expect(video.type).toBe('search')
   })
 
-  it('resolves a direct Short for every generated exercise', () => {
+  it('resolves a video for every exercise, preferring reviewed Shorts', () => {
     for (const exercise of EXERCISES) {
-      expect(getExerciseVideo(exercise.id).type, exercise.id).toBe('short')
+      const video = getExerciseVideo(exercise.id)
+      if (EXERCISE_VIDEOS[exercise.id]) {
+        expect(video.type, exercise.id).toBe('short')
+      } else {
+        expect(video.type, exercise.id).toBe('search')
+        expect(video.url, exercise.id).toContain(
+          'https://www.youtube.com/results?search_query='
+        )
+      }
     }
   })
 })

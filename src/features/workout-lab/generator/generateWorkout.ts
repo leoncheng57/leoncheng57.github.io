@@ -18,7 +18,21 @@ const EQUIPMENT_MAP: Record<WorkoutPreferences['equipment'], ExerciseEquipment[]
   dumbbells: ['bodyweight', 'dumbbell'],
   bands: ['bodyweight', 'band'],
   kettlebell: ['bodyweight', 'kettlebell'],
+  'full-gym': [
+    'bodyweight',
+    'dumbbell',
+    'band',
+    'kettlebell',
+    'barbell',
+    'cable',
+    'machine',
+    'station',
+    'cardio-machine',
+  ],
 }
+
+/** Equipment only found in a gym; prioritized when the user picks Full gym. */
+const GYM_EQUIPMENT: ExerciseEquipment[] = ['barbell', 'cable', 'machine', 'station']
 
 const FOCUS_PATTERNS: Record<Focus, MovementPattern[]> = {
   'full-body': ['squat', 'hinge', 'lunge', 'push', 'pull', 'core'],
@@ -177,6 +191,22 @@ function pickForSlot(
   return shuffled[0]
 }
 
+/**
+ * For Full gym sessions, keep the shuffled order but list gym-specific
+ * exercises first so racks, cables, and machines are actually used instead of
+ * defaulting to the shared bodyweight pool.
+ */
+function prioritizeGymEquipment(
+  shuffled: Exercise[],
+  preferences: WorkoutPreferences
+): Exercise[] {
+  if (preferences.equipment !== 'full-gym') return shuffled
+  return [
+    ...shuffled.filter((exercise) => GYM_EQUIPMENT.includes(exercise.equipment)),
+    ...shuffled.filter((exercise) => !GYM_EQUIPMENT.includes(exercise.equipment)),
+  ]
+}
+
 function buildBlocks(
   preferences: WorkoutPreferences,
   plan: DurationPlan,
@@ -187,7 +217,7 @@ function buildBlocks(
   const blocks: WorkoutBlock[] = []
 
   for (let blockIndex = 0; blockIndex < plan.blockCount; blockIndex += 1) {
-    const shuffled = shuffle(pool, rng)
+    const shuffled = prioritizeGymEquipment(shuffle(pool, rng), preferences)
     const usedInBlock = new Set<string>()
     const exercises: PrescribedExercise[] = []
     const slots = FOCUS_SLOTS[preferences.focus]
@@ -221,7 +251,10 @@ function buildSegment(
   rng: Rng
 ): GeneratedWorkout['warmup'] {
   const pool = EXERCISES.filter(
-    (exercise) => exercise.category === category && matchesLevel(exercise, preferences.level)
+    (exercise) =>
+      exercise.category === category &&
+      matchesEquipment(exercise, preferences) &&
+      matchesLevel(exercise, preferences.level)
   )
   const picked = shuffle(pool, rng).slice(0, count)
   return {
