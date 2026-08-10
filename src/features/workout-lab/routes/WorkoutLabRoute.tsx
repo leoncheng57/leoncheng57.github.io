@@ -276,7 +276,10 @@ export default function WorkoutLabRoute(): ReactElement {
     <div className={styles.page}>
       <div className={styles.frame}>
         <header className={styles.masthead}>
-          <span className={styles.wordmark}>Workout Lab</span>
+          <div className={styles.brand}>
+            <span className={styles.wordmark}>Workout Lab</span>
+            <span className={styles.betaBadge}>BETA</span>
+          </div>
           <span className={styles.mastheadNote}>Session builder · No.01</span>
         </header>
 
