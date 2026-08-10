@@ -11,9 +11,9 @@ export default function TopNav(): ReactElement {
         </Link>
       </div>
       <div className={styles.linksRow}>
-        <Link to="/">Home</Link>
         <Link to="/apps">Apps</Link>
         <Link to="/blog">Blogs</Link>
+        <Link to="/development">Development</Link>
       </div>
     </nav>
   )
