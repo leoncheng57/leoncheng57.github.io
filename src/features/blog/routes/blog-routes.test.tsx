@@ -16,7 +16,7 @@ describe('blog routes', () => {
     expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'LC Logo' })).toBeInTheDocument()
     expect(screen.getAllByRole('img', { name: 'LC Logo' })).toHaveLength(1)
-    expect(screen.getByRole('link', { name: 'Read the blog' })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Read the blog' })).not.toBeInTheDocument()
   })
 
   it('renders the blog index route', () => {

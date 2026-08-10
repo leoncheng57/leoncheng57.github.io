@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import { Link } from 'react-router-dom'
+import classNames from 'classnames'
 import Headline from '../components/headline/headline'
 import Social from '../components/social/social'
 import TopNav from '../components/top-nav/TopNav'
@@ -9,12 +9,9 @@ export default function HomeRoute(): ReactElement {
   return (
     <div className={styles.container}>
       <TopNav />
-      <main className={styles.main}>
+      <main className={classNames(styles.main, styles.homeMain)}>
         <Headline />
         <Social />
-        <p className={styles.homeLinkRow}>
-          <Link to="/blog">Read the blog</Link>
-        </p>
       </main>
     </div>
   )

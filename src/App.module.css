@@ -17,26 +17,11 @@
   width: 100%;
 }
 
-.homeLinkRow {
-  text-align: center;
-}
-
-.homeLinkRow a {
-  display: inline-flex;
-  padding: 0.75rem 1rem;
-  border: 3px solid var(--text-primary);
-  color: white;
-  background: var(--text-primary);
-  box-shadow: 5px 5px 0 var(--accent-strong);
-  font-size: 0.72rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.homeLinkRow a:hover {
-  transform: translate(3px, 3px);
-  box-shadow: 2px 2px 0 var(--accent-strong);
+.homeMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Styling for all hr elements */
