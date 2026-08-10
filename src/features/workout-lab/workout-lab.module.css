@@ -726,6 +726,26 @@
   color: var(--wl-accent-dark);
 }
 
+.externalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6rem 1.5rem;
+}
+
+.videoAction {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.videoChannel {
+  color: var(--wl-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+}
+
 /* ── Workout timer ────────────────────────────────────────────────────── */
 
 .timerDock {
