@@ -18,7 +18,7 @@ describe('apps index route', () => {
     const container = renderAppsIndex()
 
     const cards = container.querySelectorAll('article')
-    expect(cards).toHaveLength(2)
+    expect(cards).toHaveLength(3)
 
     cards.forEach((card) => {
       const icon = card.querySelector('img')
@@ -38,6 +38,7 @@ describe('apps index route', () => {
     expect(iconSources).toEqual([
       '/app-icons/house-party-photo-hunt.svg',
       '/app-icons/whoops-hoops.png',
+      '/app-icons/workout-lab.svg',
     ])
   })
 
@@ -54,5 +55,18 @@ describe('apps index route', () => {
     expect(
       screen.getByRole('heading', { level: 2, name: 'Whoops Hoops' })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Workout Lab BETA' })
+    ).toBeInTheDocument()
+  })
+
+  it('links to Workout Lab', () => {
+    renderAppsIndex()
+
+    expect(screen.getByRole('link', { name: 'Workout Lab' })).toHaveAttribute(
+      'href',
+      '/workout-lab'
+    )
+    expect(screen.getByText('BETA')).toBeInTheDocument()
   })
 })
