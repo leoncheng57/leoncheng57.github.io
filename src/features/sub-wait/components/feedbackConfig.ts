@@ -1,9 +1,11 @@
+// TODO(#152): Swap in the rebuilt Google Form URL once its fields (category,
+// message, current page, optional contact email) are published.
 export const FEEDBACK_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSdximC28ET_wPA3gpIyu6iYeS2NDPftJj8RuW_jfw2pUVOy4Q/viewform'
 
-// TODO(#152): Replace with the entry ID of the "Current page" question once
-// the form fields are built out. Google Forms ignores unknown entry params,
-// so the prefill is a harmless no-op until then.
+// TODO(#152): Replace with the entry ID of the "Current page" question from
+// the rebuilt form. Google Forms ignores unknown entry params, so the prefill
+// is a harmless no-op until then.
 export const FEEDBACK_PAGE_URL_ENTRY_ID = 'entry.0000000'
 
 export function buildFeedbackUrl(
