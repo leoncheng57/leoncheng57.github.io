@@ -90,6 +90,14 @@ describe('SubWaitRoute', () => {
     expect(screen.getByRole('searchbox')).toBeInTheDocument()
   })
 
+  it('links back to LeonCheng.dev from the footer', () => {
+    renderAt('/sub-wait/')
+
+    expect(
+      screen.getByRole('link', { name: '← LeonCheng.dev' }),
+    ).toHaveAttribute('href', 'https://leoncheng.dev/')
+  })
+
   it('renders a station page with live arrivals in both directions', async () => {
     renderAt('/sub-wait/station/F16')
     expect(

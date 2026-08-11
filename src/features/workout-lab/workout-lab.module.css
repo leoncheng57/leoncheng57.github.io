@@ -1410,6 +1410,10 @@
   color: var(--wl-muted);
 }
 
+.footer a {
+  color: inherit;
+}
+
 /* ── Motion ───────────────────────────────────────────────────────────── */
 
 @keyframes rise {

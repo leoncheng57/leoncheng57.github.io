@@ -69,7 +69,7 @@ describe('InstallHelpModal', () => {
     const { unmount } = renderModal(vi.fn(), returnButton)
     const closeButton = screen.getByRole('button', { name: 'Close installation help' })
     const guideLink = screen.getByRole('link', {
-      name: 'View the full installation guide →',
+      name: 'Need help? See full guide ->',
     })
 
     expect(document.body.style.overflow).toBe('hidden')
@@ -92,7 +92,7 @@ describe('InstallHelpModal', () => {
     renderModal()
 
     expect(
-      screen.getByRole('link', { name: 'View the full installation guide →' }),
+      screen.getByRole('link', { name: 'Need help? See full guide ->' }),
     ).toHaveAttribute('href', '/sub-wait/install')
   })
 })

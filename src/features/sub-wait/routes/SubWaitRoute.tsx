@@ -76,6 +76,9 @@ export default function SubWaitRoute(): ReactElement {
 
         <footer className={styles.footer}>
           <span>
+            <a href="https://leoncheng.dev/">← LeonCheng.dev</a>
+          </span>
+          <span>
             Sub-Wait · <Link to="/sub-wait/install">Install</Link> ·{' '}
             <Link to="/sub-wait/architecture">How it works</Link>
           </span>

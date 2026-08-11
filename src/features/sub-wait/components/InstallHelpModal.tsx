@@ -85,8 +85,8 @@ export default function InstallHelpModal({
   const titleId = 'install-help-title'
   const platforms = detectedPlatforms(navigator.userAgent)
   const title = stationName
-    ? `Add ${stationName} station to your phone homescreen`
-    : 'Add Sub-Wait to your phone homescreen'
+    ? `Add ${stationName} to homescreen`
+    : 'Add Sub-Wait to homescreen'
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow
@@ -171,7 +171,7 @@ export default function InstallHelpModal({
           to="/sub-wait/install"
           onClick={onClose}
         >
-          View the full installation guide →
+          Need help? See full guide -&gt;
         </Link>
       </div>
     </div>
