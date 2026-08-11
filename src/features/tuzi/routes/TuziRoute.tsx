@@ -136,6 +136,9 @@ function RankingHome(): ReactElement {
           <span className={styles.betaLabel}>Beta</span>
           <p className={styles.eyebrow}>Rank books. Get better picks.</p>
           <h1>Pick your next.</h1>
+          <p className={styles.prototypeCopy}>
+            Demonstration prototype. Tuzi is not fully functional yet, and rankings reset when you reload.
+          </p>
           <div className={styles.progressRow}>
             <span><strong>{comparisons}</strong> comparisons</span>
             <span><strong>{comparisonsUntilPicks}</strong> more to unlock picks</span>
@@ -304,6 +307,7 @@ export default function TuziRoute(): ReactElement {
         <Link className={styles.brand} to="/tuzi/" aria-label="Tuzi home">
           <span className={styles.mark}>T</span>
           <span>tuzi</span>
+          <small className={styles.prototypeBadge}>Beta prototype</small>
         </Link>
         <nav aria-label="Tuzi navigation">
           <Link to="/tuzi/">Rank</Link>

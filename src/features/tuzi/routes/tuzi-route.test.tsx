@@ -23,6 +23,8 @@ describe('Tuzi route', () => {
     expect(screen.getByText(/profiles and activity are public/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /pachinko/i })).toBeInTheDocument()
     expect(screen.getByText('Beta')).toBeInTheDocument()
+    expect(screen.getByText('Beta prototype')).toBeInTheDocument()
+    expect(screen.getByText(/demonstration prototype.*rankings reset/i)).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'All books' })).toBeInTheDocument()
     expect(books.length).toBeGreaterThan(100)
     expect(screen.getAllByRole('listitem')).toHaveLength(books.length + 3)
