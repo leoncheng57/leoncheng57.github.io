@@ -68,7 +68,7 @@ describe('SubWaitPwa', () => {
     ).toHaveAttribute('content', 'East Broadway')
   })
 
-  it('collapses to a persistent icon and can be reopened', () => {
+  it('collapses persistently and opens install help without expanding', () => {
     Object.defineProperty(navigator, 'userAgent', {
       configurable: true,
       value:
@@ -109,11 +109,33 @@ describe('SubWaitPwa', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'Open install instructions' }),
     )
+    expect(screen.getByRole('dialog')).toHaveAccessibleName(
+      'Add Sub-Wait to homescreen',
+    )
+    expect(screen.getByText('Tap Share in Safari')).toBeInTheDocument()
     expect(
-      screen.getByText('Add Sub-Wait to homescreen'),
-    ).toBeInTheDocument()
+      screen.getByRole('link', { name: 'Need help? See full guide ->' }),
+    ).toHaveAttribute('href', '/sub-wait/install')
     expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
-      'false',
+      'true',
+    )
+
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Add Sub-Wait to homescreen'),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Open install instructions' }),
+    ).toHaveFocus()
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Open install instructions' }),
+    )
+    fireEvent.mouseDown(screen.getByRole('dialog').parentElement!)
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
+      'true',
     )
   })
 
@@ -137,6 +159,28 @@ describe('SubWaitPwa', () => {
       ),
     ).toBeInTheDocument()
     expect(screen.getByText('East Broadway').tagName).toBe('EM')
+  })
+
+  it('uses the station name in collapsed install help', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      configurable: true,
+      value: 'Mozilla/5.0 (Linux; Android 14)',
+    })
+    window.localStorage.setItem('sub-wait-install-hint-collapsed', 'true')
+
+    render(
+      <MemoryRouter initialEntries={['/sub-wait/station/F16/S']}>
+        <SubWaitPwa />
+      </MemoryRouter>,
+    )
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Open install instructions' }),
+    )
+
+    expect(screen.getByRole('dialog')).toHaveAccessibleName(
+      'Add East Broadway to homescreen',
+    )
+    expect(screen.getByText('Open the Chrome menu')).toBeInTheDocument()
   })
 
   it('shows on Android but not on desktop browsers', () => {
