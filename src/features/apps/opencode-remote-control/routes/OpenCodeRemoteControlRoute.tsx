@@ -148,7 +148,119 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
           <span>NTFY</span>
         </section>
 
-        <div className={styles.workspace} id="builder">
+        <section className={styles.architecture} id="builder">
+          <div className={styles.architectureIntro}>
+            <p className={styles.eyebrow}>SYSTEM ARCHITECTURE</p>
+            <h2>Two private loops. One local agent.</h2>
+            <p>
+              Commands travel directly to your workstation over WireGuard.
+              Agent events travel outward as small ntfy messages. The repository,
+              shell, credentials, and full transcript never move to the phone.
+            </p>
+          </div>
+
+          <div className={styles.diagramGrid}>
+            <article className={styles.diagram}>
+              <div className={styles.diagramHeader}>
+                <span>CONTROL PLANE</span>
+                <small>interactive / private</small>
+              </div>
+              <div className={styles.diagramFlow}>
+                <div className={styles.node}>
+                  <strong>Phone browser</strong>
+                  <span>OpenCode Web UI</span>
+                </div>
+                <div className={styles.connection}>
+                  <b>→</b>
+                  <span>WireGuard</span>
+                </div>
+                <div className={`${styles.node} ${styles.nodeAccent}`}>
+                  <strong>Tailscale IP</strong>
+                  <span>100.x.y.z:4096</span>
+                </div>
+                <div className={styles.connection}>
+                  <b>→</b>
+                  <span>HTTP</span>
+                </div>
+                <div className={styles.node}>
+                  <strong>Host Mac</strong>
+                  <span>opencode web + repo</span>
+                </div>
+              </div>
+              <p className={styles.diagramNote}>
+                No Funnel, port forwarding, or LAN bind. The launcher exits if it
+                cannot resolve a Tailscale address.
+              </p>
+            </article>
+
+            <article className={styles.diagram}>
+              <div className={styles.diagramHeader}>
+                <span>NOTIFICATION PLANE</span>
+                <small>event-driven / outbound</small>
+              </div>
+              <div className={styles.diagramFlow}>
+                <div className={styles.node}>
+                  <strong>Event bus</strong>
+                  <span>idle · permission · question</span>
+                </div>
+                <div className={styles.connection}>
+                  <b>→</b>
+                  <span>plugin</span>
+                </div>
+                <div className={`${styles.node} ${styles.nodeAccent}`}>
+                  <strong>ntfy server</strong>
+                  <span>small push payload</span>
+                </div>
+                <div className={styles.connection}>
+                  <b>→</b>
+                  <span>push</span>
+                </div>
+                <div className={styles.node}>
+                  <strong>Exact session</strong>
+                  <span>tap deep link to respond</span>
+                </div>
+              </div>
+              <p className={styles.diagramNote}>
+                Only the notification title, response snippet, and session link
+                leave the host. Point the plugin at a self-hosted ntfy server if
+                that metadata must remain inside the tailnet.
+              </p>
+            </article>
+          </div>
+
+          <ol className={styles.sequence}>
+            <li>
+              <span>01</span>
+              <p>
+                <strong>Launch.</strong> <code>oc-remote web</code> resolves the
+                tailnet IP and binds only there.
+              </p>
+            </li>
+            <li>
+              <span>02</span>
+              <p>
+                <strong>Control.</strong> The phone loads the official Web UI
+                through the encrypted tailnet.
+              </p>
+            </li>
+            <li>
+              <span>03</span>
+              <p>
+                <strong>Observe.</strong> The plugin tracks every project
+                instance and useful session event.
+              </p>
+            </li>
+            <li>
+              <span>04</span>
+              <p>
+                <strong>Return.</strong> Tapping a push opens the exact session
+                that needs attention.
+              </p>
+            </li>
+          </ol>
+        </section>
+
+        <div className={styles.workspace}>
           <section className={styles.controls}>
             <div className={styles.sectionHeading}>
               <span>01</span>

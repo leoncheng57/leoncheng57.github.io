@@ -34,6 +34,11 @@ describe('OpenCode remote control app', () => {
       screen.getByRole('heading', { name: 'OpenCode, from anywhere.' })
     ).toBeInTheDocument()
     expect(screen.getByText('TAILNET ONLY')).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Two private loops. One local agent.' })
+    ).toBeInTheDocument()
+    expect(screen.getByText('CONTROL PLANE')).toBeInTheDocument()
+    expect(screen.getByText('NOTIFICATION PLANE')).toBeInTheDocument()
     expect(screen.getByText('oc-remote topic --qr')).toBeInTheDocument()
   })
 
