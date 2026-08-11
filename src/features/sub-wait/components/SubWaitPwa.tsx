@@ -124,14 +124,14 @@ export default function SubWaitPwa(): ReactElement | null {
         <strong>
           {station ? (
             <>
-              Add <em>{station.name}</em> station to your phone homescreen
+              Add <em>{station.name}</em> to homescreen
             </>
           ) : (
-            'Add Sub-Wait to your phone homescreen'
+            'Add Sub-Wait to homescreen'
           )}
         </strong>
         <span>1-click from immediate subway times, no app store required.</span>
-        <a href={assetUrl('sub-wait/install')}>Open installation guide →</a>
+        <a href={assetUrl('sub-wait/install')}>More details</a>
       </div>
       <button
         type="button"
