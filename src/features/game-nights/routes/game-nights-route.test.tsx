@@ -31,6 +31,14 @@ describe('game nights route', () => {
     expect(screen.getByText(/ask a host to add you/i)).toBeInTheDocument()
   })
 
+  it('links back to LeonCheng.dev from the footer', () => {
+    renderGameNights()
+
+    expect(
+      screen.getByRole('link', { name: '← LeonCheng.dev' })
+    ).toHaveAttribute('href', 'https://leoncheng.dev/')
+  })
+
   it('redirects the old /game-nights URL to the new route', () => {
     render(
       <MemoryRouter initialEntries={['/game-nights']}>

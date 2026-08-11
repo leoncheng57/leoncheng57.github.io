@@ -81,6 +81,9 @@ export default function SupportRoute(): ReactElement {
           </p>
         </section>
       </main>
+      <footer className={styles.footer}>
+        <a href="https://leoncheng.dev/">← LeonCheng.dev</a>
+      </footer>
     </div>
   )
 }
