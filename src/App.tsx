@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import FeedbackButton from './components/feedback/FeedbackButton'
 import ScrollToTop from './components/scroll-to-top/ScrollToTop'
 import AppsIndexRoute from './features/apps/routes/AppsIndexRoute'
 import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
@@ -20,6 +21,7 @@ export default function App(): ReactElement {
   return (
     <>
       <ScrollToTop />
+      <FeedbackButton />
       <Routes>
         <Route path="/" element={<HomeRoute />} />
         <Route path="/blog" element={<BlogIndexRoute />} />
