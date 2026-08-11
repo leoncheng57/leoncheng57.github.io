@@ -29,7 +29,6 @@ export default function InstallVideo({
         src={assetUrl(`${assetPrefix}.vtt`)}
         srcLang="en"
         label="English"
-        default
       />
       Your browser does not support embedded videos.
     </video>

@@ -1023,6 +1023,16 @@
   line-height: 1.5;
 }
 
+.installVideo {
+  display: block;
+  width: min(100%, 320px);
+  aspect-ratio: 13 / 24;
+  margin: 0 auto 1.25rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.8rem;
+  background: #111;
+}
+
 .installSteps {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

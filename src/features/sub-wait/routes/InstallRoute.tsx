@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import InstallVideo from '../components/InstallVideo'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
 
@@ -53,10 +54,12 @@ const ANDROID_STEPS: InstallStep[] = [
 ]
 
 function PlatformSteps({
+  platform,
   title,
   note,
   steps,
 }: {
+  platform: 'iphone' | 'android'
   title: string
   note: string
   steps: InstallStep[]
@@ -65,6 +68,10 @@ function PlatformSteps({
     <section className={styles.installPlatform} aria-labelledby={`${title}-steps`}>
       <h2 id={`${title}-steps`}>{title}</h2>
       <p>{note}</p>
+      <InstallVideo
+        platform={platform}
+        label={`${title} installation walkthrough`}
+      />
       <ol className={styles.installSteps}>
         {steps.map((step, index) => (
           <li key={step.image} className={styles.installStep}>
@@ -117,11 +124,13 @@ export default function InstallRoute(): ReactElement {
       </section>
 
       <PlatformSteps
+        platform="iphone"
         title="iPhone"
         note="Use Safari. The exact toolbar position can vary slightly by iOS version."
         steps={IPHONE_STEPS}
       />
       <PlatformSteps
+        platform="android"
         title="Android"
         note="Use Chrome. Depending on your device, the menu may say Install app or Add to Home screen."
         steps={ANDROID_STEPS}
@@ -156,8 +165,9 @@ export default function InstallRoute(): ReactElement {
         </ul>
       </section>
       <p className={styles.installIllustrationNote}>
-        These are original illustrations. Labels and menu placement can vary
-        slightly by phone and operating-system version.
+        These walkthroughs are animated illustrations, not operating-system
+        recordings. Labels and menu placement can vary slightly by phone and
+        operating-system version.
       </p>
     </main>
   )
