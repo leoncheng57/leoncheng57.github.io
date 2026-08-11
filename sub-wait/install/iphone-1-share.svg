@@ -24,11 +24,11 @@
     <rect x="48" y="440" width="294" height="92" rx="12" fill="#fff" stroke="#bbb" stroke-dasharray="5 4"/>
     <rect x="78" y="471" width="132" height="36" rx="18" fill="#111"/>
     <text x="144" y="494" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">Use my location</text>
-    <rect x="25" y="626" width="340" height="76" fill="#fff"/>
-    <path d="M195 679V647M195 647l-10 10M195 647l10 10" fill="none" stroke="#1769aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <rect x="179" y="660" width="32" height="24" rx="4" fill="none" stroke="#1769aa" stroke-width="3"/>
-    <circle cx="195" cy="669" r="30" fill="none" stroke="#111" stroke-width="4"/>
-    <circle cx="332" cy="622" r="27" fill="#111" stroke="#fff" stroke-width="4"/>
-    <text x="332" y="629" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800" fill="#fff" text-anchor="middle">1</text>
+    <rect x="38" y="615" width="314" height="70" rx="22" fill="#fff" stroke="#d0d0d0"/>
+    <rect x="164" y="623" width="62" height="54" rx="17" fill="#eef4f8" stroke="#111" stroke-width="4"/>
+    <path d="M195 658V635M195 635l-9 9M195 635l9 9" fill="none" stroke="#1769aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="181" y="650" width="28" height="20" rx="4" fill="none" stroke="#1769aa" stroke-width="3"/>
+    <circle cx="329" cy="599" r="27" fill="#111" stroke="#fff" stroke-width="4"/>
+    <text x="329" y="606" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800" fill="#fff" text-anchor="middle">1</text>
   
   </svg>
