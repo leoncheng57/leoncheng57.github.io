@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && cp docs/index.html docs/404.html",
+    "generate:install-videos": "node scripts/generate-install-guide-videos.mjs",
     "lint": "eslint src --ext ts,tsx",
     "test": "vitest",
     "test:run": "vitest run",
@@ -30,7 +31,9 @@
     "@vitejs/plugin-react": "^4.0.0",
     "eslint": "8.15.0",
     "eslint-plugin-react": "^7.37.4",
+    "ffmpeg-static": "^5.3.0",
     "jsdom": "^29.0.2",
+    "playwright": "^1.62.1",
     "typescript": "^5.8.2",
     "vite": "^6.0.0",
     "vitest": "^4.1.4"
