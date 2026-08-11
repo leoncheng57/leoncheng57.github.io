@@ -24,6 +24,9 @@ describe('whoops hoops legal routes', () => {
     expect(
       screen.getByRole('link', { name: 'leon.cheng.work@gmail.com' })
     ).toHaveAttribute('href', 'mailto:leon.cheng.work@gmail.com')
+    expect(
+      screen.getByRole('link', { name: '← LeonCheng.dev' })
+    ).toHaveAttribute('href', 'https://leoncheng.dev/')
   })
 
   it('renders the support page', () => {
@@ -50,6 +53,9 @@ describe('whoops hoops legal routes', () => {
     expect(
       screen.getByRole('link', { name: 'Whoops Hoops Privacy Policy' })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: '← LeonCheng.dev' })
+    ).toHaveAttribute('href', 'https://leoncheng.dev/')
   })
 
   it('does not render the site top nav on whoops hoops legal pages', () => {
