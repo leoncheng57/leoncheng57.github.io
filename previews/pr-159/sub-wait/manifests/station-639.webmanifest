@@ -1,0 +1,32 @@
+{
+  "name": "Canal St",
+  "short_name": "Canal St",
+  "description": "Live NYC subway arrival times for Canal St.",
+  "id": "/previews/pr-159/sub-wait/pwa/station/639",
+  "start_url": "/previews/pr-159/sub-wait/station/639",
+  "scope": "/previews/pr-159/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-159/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-159/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-159/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
