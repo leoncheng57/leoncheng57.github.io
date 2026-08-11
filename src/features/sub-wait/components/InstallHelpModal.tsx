@@ -84,6 +84,9 @@ export default function InstallHelpModal({
   onCloseRef.current = onClose
   const titleId = 'install-help-title'
   const platforms = detectedPlatforms(navigator.userAgent)
+  const title = stationName
+    ? `Add ${stationName} station to your phone homescreen`
+    : 'Add Sub-Wait to your phone homescreen'
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow
@@ -145,9 +148,7 @@ export default function InstallHelpModal({
             width={42}
             height={42}
           />
-          <h2 id={titleId}>
-            Add {stationName ?? 'Sub-Wait'} to your phone
-          </h2>
+          <h2 id={titleId}>{title}</h2>
           <button
             ref={closeButtonRef}
             type="button"
