@@ -1,12 +1,12 @@
-// TODO(#152): Swap in the rebuilt Google Form URL once its fields (category,
-// message, current page, optional contact email) are published.
+// "SubWait Feedback form" (see #152). Fields: Category (dropdown,
+// entry.1233029295), Current page (short answer, entry.201088765),
+// "Describe your comment" (paragraph, entry.1675638029), and Rating
+// (1-5 linear scale, entry.1796631476).
 export const FEEDBACK_FORM_URL =
-  'https://docs.google.com/forms/d/e/1FAIpQLSdximC28ET_wPA3gpIyu6iYeS2NDPftJj8RuW_jfw2pUVOy4Q/viewform'
+  'https://docs.google.com/forms/d/e/1FAIpQLSe3vmUWVzBh74mpxOz9TXMkqoyAiTeP2B7h9FIzYx19oAtTUA/viewform'
 
-// TODO(#152): Replace with the entry ID of the "Current page" question from
-// the rebuilt form. Google Forms ignores unknown entry params, so the prefill
-// is a harmless no-op until then.
-export const FEEDBACK_PAGE_URL_ENTRY_ID = 'entry.0000000'
+// Entry ID of the "Current page" question, prefilled with the visitor's path.
+export const FEEDBACK_PAGE_URL_ENTRY_ID = 'entry.201088765'
 
 export function buildFeedbackUrl(
   pagePath: string,

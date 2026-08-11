@@ -3,6 +3,7 @@ import {
   buildEmbeddedFeedbackUrl,
   buildFeedbackUrl,
   FEEDBACK_FORM_URL,
+  FEEDBACK_PAGE_URL_ENTRY_ID,
 } from './feedbackConfig'
 
 describe('buildFeedbackUrl', () => {
@@ -10,10 +11,15 @@ describe('buildFeedbackUrl', () => {
     expect(buildFeedbackUrl('/sub-wait/', '')).toBeNull()
   })
 
-  it('uses the configured Sub-Wait form by default', () => {
+  it('uses the configured Sub-Wait form and entry ID by default', () => {
     const result = buildFeedbackUrl('/sub-wait/map')
     expect(result).not.toBeNull()
     expect(result).toContain(FEEDBACK_FORM_URL)
+
+    const url = new URL(result ?? '')
+    expect(url.searchParams.get(FEEDBACK_PAGE_URL_ENTRY_ID)).toBe(
+      '/sub-wait/map'
+    )
   })
 
   it('prefills the page path in a configured Google Form URL', () => {
