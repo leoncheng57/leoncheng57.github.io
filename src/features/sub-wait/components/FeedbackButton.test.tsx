@@ -2,19 +2,27 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import FeedbackButton from './FeedbackButton'
-import { buildFeedbackUrl } from './feedbackConfig'
+import {
+  buildEmbeddedFeedbackUrl,
+  buildFeedbackUrl,
+} from './feedbackConfig'
 
 vi.mock('./feedbackConfig', () => ({
   buildFeedbackUrl: vi.fn(),
+  buildEmbeddedFeedbackUrl: vi.fn(),
 }))
 
 const mockedBuildFeedbackUrl = vi.mocked(buildFeedbackUrl)
+const mockedBuildEmbeddedFeedbackUrl = vi.mocked(buildEmbeddedFeedbackUrl)
 
 beforeEach(() => {
   mockedBuildFeedbackUrl.mockReturnValue(
-    'https://docs.google.com/forms/d/e/example/viewform?usp=pp_url&entry.123=%2Fblog'
+    'https://docs.google.com/forms/d/e/example/viewform?usp=pp_url&entry.123=%2Fsub-wait%2Fmap'
   )
-  window.history.replaceState({}, '', '/blog')
+  mockedBuildEmbeddedFeedbackUrl.mockReturnValue(
+    'https://docs.google.com/forms/d/e/example/viewform?usp=pp_url&entry.123=%2Fsub-wait%2Fmap&embedded=true'
+  )
+  window.history.replaceState({}, '', '/sub-wait/map')
 })
 
 afterEach(() => {
@@ -40,22 +48,45 @@ describe('FeedbackButton', () => {
     ).toHaveFocus()
   })
 
-  it('links to a form prefilled with the current page path', async () => {
+  it('embeds the form prefilled with the current page path', async () => {
     const user = userEvent.setup()
     render(<FeedbackButton />)
 
     await user.click(screen.getByRole('button', { name: 'Send feedback' }))
 
-    expect(mockedBuildFeedbackUrl).toHaveBeenCalledWith('/blog')
-    expect(screen.getByRole('link', { name: 'Open feedback form' })).toHaveAttribute(
+    expect(mockedBuildEmbeddedFeedbackUrl).toHaveBeenCalledWith('/sub-wait/map')
+    const frame = screen.getByTitle('Feedback form')
+    expect(frame.tagName).toBe('IFRAME')
+    expect(frame).toHaveAttribute(
+      'src',
+      expect.stringContaining('embedded=true')
+    )
+    expect(frame).toHaveAttribute(
+      'src',
+      expect.stringContaining('entry.123=%2Fsub-wait%2Fmap')
+    )
+  })
+
+  it('offers a new-tab fallback link to the non-embedded form', async () => {
+    const user = userEvent.setup()
+    render(<FeedbackButton />)
+
+    await user.click(screen.getByRole('button', { name: 'Send feedback' }))
+
+    const link = screen.getByRole('link', {
+      name: /Open feedback form in a new tab/,
+    })
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute(
       'href',
-      expect.stringContaining('entry.123=%2Fblog')
+      expect.not.stringContaining('embedded=true')
     )
   })
 
   it('does not render in production when the form is unconfigured', () => {
     vi.stubEnv('PROD', true)
     mockedBuildFeedbackUrl.mockReturnValue(null)
+    mockedBuildEmbeddedFeedbackUrl.mockReturnValue(null)
 
     render(<FeedbackButton />)
 

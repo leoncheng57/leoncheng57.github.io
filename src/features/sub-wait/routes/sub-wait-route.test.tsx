@@ -90,6 +90,14 @@ describe('SubWaitRoute', () => {
     expect(screen.getByRole('searchbox')).toBeInTheDocument()
   })
 
+  it('renders a feedback button in the masthead', () => {
+    renderAt('/sub-wait/')
+
+    expect(
+      screen.getByRole('button', { name: 'Send feedback' }),
+    ).toBeInTheDocument()
+  })
+
   it('links back to LeonCheng.dev from the footer', () => {
     renderAt('/sub-wait/')
 
