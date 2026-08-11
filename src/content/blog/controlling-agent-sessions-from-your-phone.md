@@ -75,10 +75,10 @@ The installer generates a random ntfy topic, stores it in `~/.config/opencode/nt
 Install Tailscale on the workstation and phone, join both to the same tailnet, and subscribe to the generated topic in the ntfy phone app. Then add the repository's `bin/` directory to your `PATH` and start the server:
 
 ```bash
-oc-web
+oc-remote web
 ```
 
-The important part of `oc-web` is small:
+The important part of `oc-remote web` is small:
 
 ```bash
 TS_IP="$(tailscale ip -4 2>/dev/null | head -1 || true)"
@@ -93,7 +93,7 @@ exec opencode web --hostname "$TS_IP" --port 4096
 
 This is intentionally not `0.0.0.0`, and it does not use Tailscale Funnel. The process binds only to the machine's Tailscale address. If Tailscale is unavailable, the launcher fails closed instead of falling back to localhost, the LAN, or every interface.
 
-I keep `oc-web` running in a terminal or tmux. The workstation has to remain awake and online; this is remote control of a local agent, not remote execution in a vendor cloud.
+I keep `oc-remote web` running in a terminal or tmux. The workstation has to remain awake and online; this is remote control of a local agent, not remote execution in a vendor cloud.
 
 ## Notifications that open the exact session
 
@@ -150,17 +150,19 @@ The plugin therefore registers its hooks for every instance and keeps only share
 
 ## Small tools that make it practical
 
-The repository includes two helpers beyond the server launcher:
+The repository exposes the whole workflow through one CLI:
 
 ```bash
-oc-link ~/Documents/Projects/my-project
-oc-link ~/Documents/Projects/my-project ses_xxx
-oc-notify-test
+oc-remote --help
+oc-remote link ~/Documents/Projects/my-project
+oc-remote link ~/Documents/Projects/my-project ses_xxx
+oc-remote notify-test
+oc-remote topic --qr
 ```
 
-`oc-link` prints a bookmarkable new-session link for a project, or a deep link for an existing session. If `qrencode` is installed, it also renders a terminal QR code, which is much nicer than typing a Tailscale IP and encoded path on a phone.
+`oc-remote link` prints a bookmarkable new-session link for a project, or a deep link for an existing session. If `qrencode` is installed, it also renders a terminal QR code, which is much nicer than typing a Tailscale IP and encoded path on a phone. `oc-remote topic --qr` does the same for subscribing a new device to the private ntfy topic.
 
-`oc-notify-test` sends a high-priority test push. Run it first when notifications do not arrive: if the phone buzzes, the ntfy channel is healthy and the remaining problem is plugin loading or event handling.
+`oc-remote notify-test` sends a high-priority test push. Run it first when notifications do not arrive: if the phone buzzes, the ntfy channel is healthy and the remaining problem is plugin loading or event handling.
 
 ## What a day with this looks like
 
@@ -174,15 +176,15 @@ The important property is that this changes *where I can be* without changing *w
 
 ### The project picker can show no folders
 
-The web UI's folder picker is rooted at `$HOME`. On a real development machine, indexing the entire home directory may effectively never finish, leaving the "Add project" dialog at "No folders found."
+The web UI's folder picker is rooted at `$HOME`. On a real development machine, indexing the entire home directory may effectively never finish, leaving the "Add project" dialog at "No folders found." This is a confirmed upstream behavior, not a Tailscale or ntfy problem: [issue #41155](https://github.com/anomalyco/opencode/issues/41155) reproduces it on OpenCode 1.18.15 and development builds, with related reports in [#37611](https://github.com/anomalyco/opencode/issues/37611), [#39434](https://github.com/anomalyco/opencode/issues/39434), and [#39655](https://github.com/anomalyco/opencode/issues/39655).
 
-`oc-web` currently works around this by setting `OPENCODE_TEST_HOME` to the chosen project root. That makes the picker index a small, relevant directory in seconds. The tradeoff is that `~/.claude` skill discovery follows the temporary home and `~` in OpenCode's path display refers to the served directory.
+`oc-remote web` currently works around this by setting `OPENCODE_TEST_HOME` to the chosen project root. That makes the picker index a small, relevant directory in seconds. The tradeoff is that `~/.claude` skill discovery follows the temporary home and `~` in OpenCode's path display refers to the served directory.
 
-Tracking: [issue #41155](https://github.com/anomalyco/opencode/issues/41155), [issue #37611](https://github.com/anomalyco/opencode/issues/37611), and [PR #41153](https://github.com/anomalyco/opencode/pull/41153).
+The direct fix is being developed in [PR #41153](https://github.com/anomalyco/opencode/pull/41153). Until it ships in a release and is verified locally, the launcher keeps the override explicit and removable through `PROJECT_HOME_OVERRIDE=0`.
 
 ### A fresh browser can look empty
 
-The project and session rail is browser-local state. A new phone browser may show an empty homepage even though the server has active projects and sessions. Add a project once or open an `oc-link` deep link to initialize that browser.
+The project and session rail is browser-local state. A new phone browser may show an empty homepage even though the server has active projects and sessions. Add a project once or open an `oc-remote link` deep link to initialize that browser.
 
 Tracking: [issue #37606](https://github.com/anomalyco/opencode/issues/37606) and [issue #40399](https://github.com/anomalyco/opencode/issues/40399).
 
