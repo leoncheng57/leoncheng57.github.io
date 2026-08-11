@@ -114,7 +114,7 @@ describe('SubWaitPwa', () => {
     )
     expect(screen.getByText('Tap Share in Safari')).toBeInTheDocument()
     expect(
-      screen.getByLabelText('iPhone or iPad install walkthrough'),
+      screen.getByLabelText('iPhone or iPad install recording'),
     ).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'Need help? See full guide ->' }),

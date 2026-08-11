@@ -1147,6 +1147,61 @@
   background: #111;
 }
 
+/* Physical recordings are captured at 480x1040, a taller frame than the
+   390x720 animations. Declared after .installVideo so it wins the cascade. */
+.installVideoRecording {
+  aspect-ratio: 6 / 13;
+}
+
+.installMediaRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+}
+
+.installMediaFigure {
+  margin: 0;
+}
+
+.installMediaFigure .installVideo {
+  margin-bottom: 0.6rem;
+}
+
+.installMediaFigure figcaption {
+  color: var(--sw-muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.installMediaPlaceholder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 320px);
+  aspect-ratio: 6 / 13;
+  margin: 0 auto 0.6rem;
+  padding: 1.25rem;
+  border: 1px dashed var(--sw-line);
+  border-radius: 0.8rem;
+  background: var(--sw-surface);
+  text-align: center;
+}
+
+.installMediaPlaceholder strong {
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+}
+
+.installMediaPlaceholder span {
+  color: var(--sw-muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
 /* Compact variant used inside the install help modal. Declared after
    .installVideo so the shared properties it overrides win the cascade. */
 .installHelpVideo {
@@ -1240,6 +1295,17 @@
 
   .mastheadLink {
     font-size: 0.8rem;
+  }
+
+  .installMediaRow {
+    grid-template-columns: 1fr;
+  }
+
+  /* When media stack vertically, keep the missing-recording card compact
+     instead of preserving the tall phone aspect ratio. */
+  .installMediaPlaceholder {
+    aspect-ratio: auto;
+    padding: 2.25rem 1.25rem;
   }
 
   .installSteps {

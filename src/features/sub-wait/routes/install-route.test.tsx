@@ -59,6 +59,41 @@ describe('InstallRoute', () => {
     ).toHaveAttribute('href', '/sub-wait/install')
   })
 
+  it('pairs each platform with its recording (or TBD placeholder) and animation', () => {
+    render(
+      <MemoryRouter initialEntries={['/sub-wait/install']}>
+        <Routes>
+          <Route path="/sub-wait/*" element={<SubWaitRoute />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    const iphoneRecording = screen.getByLabelText('iPhone installation recording')
+    const iphoneAnimation = screen.getByLabelText('iPhone installation walkthrough')
+    expect(iphoneRecording).toBeInTheDocument()
+    expect(iphoneAnimation).toBeInTheDocument()
+    expect(
+      iphoneRecording.compareDocumentPosition(iphoneAnimation) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy()
+    expect(
+      screen.getByText('Real recording, Safari on iOS 26'),
+    ).toBeInTheDocument()
+
+    expect(
+      screen.queryByLabelText('Android installation recording'),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByLabelText('Android installation walkthrough'),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'A screen recording from a physical Android phone is coming soon.',
+      ),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Real recording, coming soon')).toBeInTheDocument()
+  })
+
   it('explains station installs and compatibility limitations', () => {
     render(
       <MemoryRouter initialEntries={['/sub-wait/install']}>
