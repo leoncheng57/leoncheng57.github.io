@@ -121,8 +121,16 @@ export default function SubWaitPwa(): ReactElement | null {
         height={36}
       />
       <div className={styles.installHintCopy}>
-        <strong>Add {station?.name ?? 'Sub-Wait'} to your phone</strong>
-        <span>Full-screen train times, no app store.</span>
+        <strong>
+          {station ? (
+            <>
+              Add <em>{station.name}</em> station to your phone homescreen
+            </>
+          ) : (
+            'Add Sub-Wait to your phone homescreen'
+          )}
+        </strong>
+        <span>1-click from immediate subway times, no app store required.</span>
         <a href={assetUrl('sub-wait/install')}>Open installation guide →</a>
       </div>
       <button

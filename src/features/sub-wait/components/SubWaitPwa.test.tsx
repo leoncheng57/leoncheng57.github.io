@@ -80,7 +80,14 @@ describe('SubWaitPwa', () => {
         <SubWaitPwa />
       </MemoryRouter>,
     )
-    expect(screen.getByText('Add Sub-Wait to your phone')).toBeInTheDocument()
+    expect(
+      screen.getByText('Add Sub-Wait to your phone homescreen'),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        '1-click from immediate subway times, no app store required.',
+      ),
+    ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /Open installation guide/ })).toHaveAttribute(
       'href',
       '/sub-wait/install',
@@ -89,7 +96,9 @@ describe('SubWaitPwa', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'Collapse install instructions' }),
     )
-    expect(screen.queryByText('Add Sub-Wait to your phone')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Add Sub-Wait to your phone homescreen'),
+    ).not.toBeInTheDocument()
     expect(
       screen.getByRole('button', { name: 'Open install instructions' }),
     ).toBeInTheDocument()
@@ -100,7 +109,9 @@ describe('SubWaitPwa', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'Open install instructions' }),
     )
-    expect(screen.getByText('Add Sub-Wait to your phone')).toBeInTheDocument()
+    expect(
+      screen.getByText('Add Sub-Wait to your phone homescreen'),
+    ).toBeInTheDocument()
     expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
       'false',
     )
@@ -118,7 +129,15 @@ describe('SubWaitPwa', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.getByText('Add East Broadway to your phone')).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        (_, element) =>
+          element?.tagName === 'STRONG' &&
+          element.textContent ===
+            'Add East Broadway station to your phone homescreen',
+      ),
+    ).toBeInTheDocument()
+    expect(screen.getByText('East Broadway').tagName).toBe('EM')
   })
 
   it('shows on Android but not on desktop browsers', () => {

@@ -18,7 +18,7 @@
     <text x="116" y="463" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="500" fill="#666" text-anchor="start">Create an app icon</text>
     <rect x="50" y="490" width="290" height="62" rx="12" fill="#f1f1f1"/>
     <text x="72" y="528" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="500" fill="#171717" text-anchor="start">Add Bookmark</text>
-    <circle cx="326" cy="390" r="27" fill="#111" stroke="#fff" stroke-width="4"/>
+    <circle cx="326" cy="390" r="27" fill="#111" stroke="#ff6319" stroke-width="7"/>
     <text x="326" y="397" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800" fill="#fff" text-anchor="middle">2</text>
   
   </svg>

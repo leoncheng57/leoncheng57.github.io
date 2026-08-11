@@ -16,7 +16,7 @@
     <text x="151" y="318" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700" fill="#171717" text-anchor="start">Install app</text>
     <text x="108" y="382" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="500" fill="#171717" text-anchor="start">Share…</text>
     <text x="108" y="431" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="500" fill="#171717" text-anchor="start">Find in page</text>
-    <circle cx="326" cy="356" r="27" fill="#111" stroke="#fff" stroke-width="4"/>
+    <circle cx="326" cy="356" r="27" fill="#111" stroke="#ff6319" stroke-width="7"/>
     <text x="326" y="363" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800" fill="#fff" text-anchor="middle">2</text>
   
   </svg>
