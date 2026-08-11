@@ -752,6 +752,7 @@
 }
 
 .installHintCopy a {
+  align-self: flex-end;
   color: var(--sw-accent-strong);
   font-size: 0.74rem;
   font-weight: 700;
@@ -868,6 +869,37 @@
 
 .installPlatform {
   margin: 0 0 2.5rem;
+}
+
+.installStationNote,
+.installCompatibility {
+  margin: 0 0 2rem;
+  padding: 1rem;
+  border: 1px solid var(--sw-line);
+  border-radius: 0.8rem;
+  background: var(--sw-surface-raised);
+}
+
+.installStationNote h2,
+.installCompatibility h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.installStationNote p,
+.installCompatibility ul {
+  margin: 0;
+  color: var(--sw-muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.installCompatibility ul {
+  padding-left: 1.2rem;
+}
+
+.installCompatibility li + li {
+  margin-top: 0.35rem;
 }
 
 .installPlatform > h2 {
