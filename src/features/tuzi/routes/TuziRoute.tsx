@@ -156,6 +156,12 @@ export default function TuziRoute(): ReactElement {
         </section>
       </main>
 
+      <nav className={styles.mobileDock} aria-label="Tuzi mobile navigation">
+        <a href="#rank"><span>↕</span>Rank</a>
+        <a href="#shelf"><span>▤</span>Shelf</a>
+        <Link to="/apps"><span>•••</span>Apps</Link>
+      </nav>
+
       <footer>
         <span>Tuzi · an early experiment by Leon</span>
         <Link to="/apps">More apps</Link>
