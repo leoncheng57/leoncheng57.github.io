@@ -177,6 +177,34 @@ export default function AppsIndexRoute(): ReactElement {
               <Link to="/workout-lab">Build a workout</Link>
             </p>
           </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
+                src="/app-icons/tuzi.svg"
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <Link to="/tuzi/">Tuzi</Link>
+                  <span className={styles.betaBadge}>BETA</span>
+                </h2>
+                <p className={styles.subtitle}>Find your next favorite book</p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              A demonstration prototype, not a finished app. Compare books
+              head-to-head to build an Elo-ranked shelf; rankings reset on
+              reload while accounts and a live catalog are still being
+              explored.
+            </p>
+            <p className={styles.links}>
+              <Link to="/tuzi/">Start ranking</Link>
+            </p>
+          </article>
         </div>
       </main>
     </div>

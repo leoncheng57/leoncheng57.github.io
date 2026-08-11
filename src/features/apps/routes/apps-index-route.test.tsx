@@ -18,7 +18,7 @@ describe('apps index route', () => {
     const container = renderAppsIndex()
 
     const cards = container.querySelectorAll('article')
-    expect(cards).toHaveLength(5)
+    expect(cards).toHaveLength(6)
 
     cards.forEach((card) => {
       const icon = card.querySelector('img')
@@ -41,6 +41,7 @@ describe('apps index route', () => {
       '/app-icons/sub-wait-v2.svg',
       '/app-icons/game-nights.svg',
       '/app-icons/workout-lab.svg',
+      '/app-icons/tuzi.svg',
     ])
   })
 
@@ -51,6 +52,9 @@ describe('apps index route', () => {
       expect(icon).toHaveAttribute('alt', '')
     })
 
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Tuzi BETA' })
+    ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 2, name: 'House Party Photo Hunt' })
     ).toBeInTheDocument()
@@ -74,6 +78,21 @@ describe('apps index route', () => {
     expect(
       screen.getByRole('link', { name: "Georgie's Game Nights" })
     ).toHaveAttribute('href', '/georgies-board-game-nights')
+  })
+
+  it('links to Tuzi as the last app card marked beta', () => {
+    const container = renderAppsIndex()
+
+    expect(screen.getByRole('link', { name: 'Tuzi' })).toHaveAttribute(
+      'href',
+      '/tuzi/'
+    )
+
+    const cards = Array.from(container.querySelectorAll('article'))
+    const lastCard = cards[cards.length - 1]
+    expect(lastCard).toHaveTextContent('Tuzi')
+    expect(lastCard).toHaveTextContent('BETA')
+    expect(lastCard).toHaveTextContent(/demonstration prototype/i)
   })
 
   it('links to Workout Lab', () => {
