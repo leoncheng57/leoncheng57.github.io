@@ -168,9 +168,12 @@ describe('SubWaitRoute', () => {
     const initialTheme = page.dataset.theme
     expect(initialTheme === 'light' || initialTheme === 'dark').toBe(true)
 
-    await user.click(
-      screen.getByRole('button', { name: /Switch to (light|dark) mode/ }),
-    )
+    const toggle = screen.getByRole('button', {
+      name: /Switch to (light|dark) mode/,
+    })
+    expect(toggle).toHaveTextContent('')
+
+    await user.click(toggle)
     expect(page.dataset.theme).not.toBe(initialTheme)
     expect(window.localStorage.getItem('sub-wait-theme')).toBe(
       page.dataset.theme,

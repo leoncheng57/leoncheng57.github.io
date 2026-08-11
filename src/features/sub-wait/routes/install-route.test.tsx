@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, describe, expect, it } from 'vitest'
 import SubWaitRoute from './SubWaitRoute'
@@ -43,9 +43,19 @@ describe('InstallRoute', () => {
         </Routes>
       </MemoryRouter>,
     )
-    expect(screen.getByRole('link', { name: 'Install' })).toHaveAttribute(
+    expect(
+      within(screen.getByRole('contentinfo')).getByRole('link', {
+        name: 'Install',
+      }),
+    ).toHaveAttribute(
       'href',
       '/sub-wait/install',
     )
+    expect(
+      within(screen.getByRole('navigation', { name: 'Sub-Wait' })).getByRole(
+        'link',
+        { name: 'Install' },
+      ),
+    ).toHaveAttribute('href', '/sub-wait/install')
   })
 })
