@@ -138,7 +138,7 @@ export default function GameNightsRoute(): ReactElement {
                 <li>Bring your own food or snacks</li>
                 <li>
                   <span>
-                    Georgie&apos;s Cafe is open 9 AM-8 PM every day, so come early and{' '}
+                    Georgie&apos;s Cafe is open 9 AM-8 PM every day, so you can always come early to{' '}
                     <a
                       className={styles.inlineLink}
                       href="https://www.georgies.cafe/menu"
@@ -230,7 +230,7 @@ export default function GameNightsRoute(): ReactElement {
               target="_blank"
               rel="noreferrer"
             >
-              Find VITAL Lower East Side <span aria-hidden="true">↗</span>
+              Find VITAL LES / Georgie&apos;s Cafe <span aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
