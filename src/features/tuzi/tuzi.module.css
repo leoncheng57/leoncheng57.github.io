@@ -324,12 +324,9 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.65rem;
   touch-action: pan-y;
-  transform: translateX(var(--drag-x));
-  transition: transform 180ms ease;
   user-select: none;
 }
 
-.comparison.dragging { cursor: grabbing; transition: none; }
 .bookChoice {
   display: flex;
   min-height: 14rem;
@@ -339,10 +336,12 @@
   border: 2px solid #d3cfc1;
   border-radius: 0.85rem;
   box-shadow: 3px 3px 0 #dedacd;
+  touch-action: pan-y;
 }
 
 .bookChoice:hover { border-color: var(--ink); box-shadow: 3px 3px 0 #dedacd; transform: none; }
 .bookChoice:active { border-color: var(--ink); box-shadow: 1px 1px 0 var(--lime); transform: translate(2px, 2px); }
+.bookChoice.dragging { z-index: 4; cursor: grabbing; box-shadow: 10px 14px 24px rgba(27, 51, 40, 0.26); transform: translate3d(var(--card-x), var(--card-y), 0) rotate(var(--card-rotate)) scale(1.03); transition: none; }
 .cover { width: 100%; height: 7.75rem; aspect-ratio: auto; flex: none; padding: 0.65rem; border-radius: 0.45rem; }
 .cover strong { font-size: 1rem; }
 .cover small { font-size: 0.7rem; }
@@ -363,6 +362,20 @@
 .shelfCard > p:not(.eyebrow) { font-size: 1rem; }
 .shelfCard > button { min-height: 3.5rem; font-size: 0.9rem; }
 
+.catalog { width: min(100% - 1.5rem, 34rem); margin: 0 auto 2rem; padding-top: 0.5rem; }
+.catalogHeader { display: flex; align-items: end; justify-content: space-between; margin-bottom: 1rem; }
+.catalogHeader .eyebrow { margin-bottom: 0.35rem; }
+.catalogHeader h2 { margin: 0; font-family: 'Fraunces', serif; font-size: 2.35rem; line-height: 1; }
+.catalogHeader > strong { display: grid; width: 3rem; height: 3rem; border-radius: 50%; place-items: center; background: var(--coral); font-size: 1.1rem; }
+.catalogList { display: grid; gap: 0.65rem; }
+.catalogList article { display: grid; grid-template-columns: 4.25rem minmax(0, 1fr); gap: 0.9rem; min-height: 6.5rem; align-items: center; padding: 0.7rem; border: 1px solid #d3cfc1; border-radius: 0.85rem; background: white; }
+.catalogList .cover { width: 4.25rem; height: 5.25rem; padding: 0.35rem; box-shadow: 2px 3px 5px rgba(27, 51, 40, 0.2); }
+.catalogList .cover strong { font-size: 0.55rem; }
+.catalogList .cover small { font-size: 0.4rem; }
+.catalogList h3 { margin: 0; font-family: 'Fraunces', serif; font-size: 1.2rem; line-height: 1.05; }
+.catalogList p { margin: 0.25rem 0; color: #68766c; font-size: 0.9rem; }
+.catalogList small { display: block; color: #68766c; font-size: 0.85rem; line-height: 1.3; }
+
 .mobileDock {
   position: fixed;
   z-index: 20;
@@ -371,7 +384,7 @@
   left: 50%;
   display: grid;
   width: min(calc(100% - 1.25rem), 33rem);
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   overflow: hidden;
   border: 1px solid #405348;
   border-radius: 1rem;
@@ -381,7 +394,7 @@
   backdrop-filter: blur(12px);
 }
 
-.mobileDock a { display: flex; min-height: 4rem; align-items: center; justify-content: center; gap: 0.4rem; color: white; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; text-transform: uppercase; }
+.mobileDock a { display: flex; min-height: 4rem; align-items: center; justify-content: center; gap: 0.3rem; color: white; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.02em; text-decoration: none; text-transform: uppercase; }
 .mobileDock a:first-child { background: var(--lime); color: var(--ink); }
 .mobileDock span { font-size: 1rem; }
 .page footer { display: none; }
@@ -393,6 +406,7 @@
   .bookChoice { min-height: 13.25rem; padding: 0.55rem; }
   .bookMeta > strong { font-size: 1rem; }
   .chooseLabel { font-size: 0.78rem; }
+  .catalogList small { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -22,6 +22,8 @@ describe('Tuzi route', () => {
     expect(screen.getByText(/profiles and activity are public/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /pachinko/i })).toBeInTheDocument()
     expect(screen.getByText('Beta')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'All books' })).toBeInTheDocument()
+    expect(screen.getAllByRole('listitem')).toHaveLength(4)
   })
 
   it('advances the comparison after choosing a book', async () => {
@@ -36,13 +38,13 @@ describe('Tuzi route', () => {
 
   it('chooses a book by dragging toward it', () => {
     renderTuzi()
-    const comparison = screen.getByRole('group', {
-      name: /swipe left for pachinko or right for tomorrow/i,
+    const book = screen.getByRole('button', {
+      name: /tomorrow, and tomorrow, and tomorrow/i,
     })
 
-    fireEvent.pointerDown(comparison, { clientX: 100, pointerId: 1 })
-    fireEvent.pointerMove(comparison, { clientX: 190, pointerId: 1 })
-    fireEvent.pointerUp(comparison, { clientX: 190, pointerId: 1 })
+    fireEvent.pointerDown(book, { clientX: 100, clientY: 100, pointerId: 1 })
+    fireEvent.pointerMove(book, { clientX: 190, clientY: 118, pointerId: 1 })
+    fireEvent.pointerUp(book, { clientX: 190, clientY: 118, pointerId: 1 })
 
     expect(
       screen.getByText('Tomorrow, and Tomorrow, and Tomorrow moves up your shelf.'),
