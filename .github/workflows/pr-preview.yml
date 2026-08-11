@@ -55,6 +55,10 @@ jobs:
           branch: gh-pages
           target-folder: previews/pr-${{ github.event.pull_request.number }}
           clean: true
+          # The PR screenshots workflow publishes into screenshots/ inside this
+          # preview folder; preview redeploys must not delete it. The cleanup
+          # job below intentionally has no exclude so PR close removes it.
+          clean-exclude: screenshots/**
           force: false
           attempt-limit: 10
 
