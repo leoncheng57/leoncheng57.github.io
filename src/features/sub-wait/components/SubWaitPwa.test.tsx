@@ -100,19 +100,22 @@ describe('SubWaitPwa', () => {
       screen.queryByText('Add Sub-Wait to homescreen'),
     ).not.toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: 'Open install instructions' }),
+      screen.getByRole('button', { name: 'Add Sub-Wait to home screen' }),
     ).toBeInTheDocument()
     expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
       'true',
     )
 
     fireEvent.click(
-      screen.getByRole('button', { name: 'Open install instructions' }),
+      screen.getByRole('button', { name: 'Add Sub-Wait to home screen' }),
     )
     expect(screen.getByRole('dialog')).toHaveAccessibleName(
       'Add Sub-Wait to homescreen',
     )
     expect(screen.getByText('Tap Share in Safari')).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('iPhone or iPad install walkthrough'),
+    ).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'Need help? See full guide ->' }),
     ).toHaveAttribute('href', '/sub-wait/install')
@@ -126,11 +129,11 @@ describe('SubWaitPwa', () => {
       screen.queryByText('Add Sub-Wait to homescreen'),
     ).not.toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: 'Open install instructions' }),
+      screen.getByRole('button', { name: 'Add Sub-Wait to home screen' }),
     ).toHaveFocus()
 
     fireEvent.click(
-      screen.getByRole('button', { name: 'Open install instructions' }),
+      screen.getByRole('button', { name: 'Add Sub-Wait to home screen' }),
     )
     fireEvent.mouseDown(screen.getByRole('dialog').parentElement!)
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
@@ -174,13 +177,16 @@ describe('SubWaitPwa', () => {
       </MemoryRouter>,
     )
     fireEvent.click(
-      screen.getByRole('button', { name: 'Open install instructions' }),
+      screen.getByRole('button', { name: 'Add East Broadway to home screen' }),
     )
 
     expect(screen.getByRole('dialog')).toHaveAccessibleName(
       'Add East Broadway to homescreen',
     )
     expect(screen.getByText('Open the Chrome menu')).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('Android install walkthrough'),
+    ).toBeInTheDocument()
   })
 
   it('shows on Android but not on desktop browsers', () => {
