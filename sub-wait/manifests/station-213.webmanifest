@@ -1,0 +1,32 @@
+{
+  "name": "E 180 St",
+  "short_name": "E 180 St",
+  "description": "Live NYC subway arrival times for E 180 St.",
+  "id": "/sub-wait/pwa/station/213",
+  "start_url": "/sub-wait/station/213",
+  "scope": "/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
