@@ -1,8 +1,9 @@
-import { useEffect, useState, type ReactElement } from 'react'
+import { useEffect, useRef, useState, type ReactElement } from 'react'
 import { useLocation } from 'react-router-dom'
 import { getStation } from '../data/stations'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
+import InstallHelpModal from './InstallHelpModal'
 
 const COLLAPSED_KEY = 'sub-wait-install-hint-collapsed'
 
@@ -40,6 +41,8 @@ export default function SubWaitPwa(): ReactElement | null {
     isStandalone,
   )
   const [collapsed, setCollapsed] = useState(hasCollapsedHint)
+  const [installHelpOpen, setInstallHelpOpen] = useState(false)
+  const installButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const manifest = document.createElement('link')
@@ -96,18 +99,28 @@ export default function SubWaitPwa(): ReactElement | null {
 
   if (collapsed) {
     return (
-      <aside className={styles.installHintCollapsed} aria-label="Install Sub-Wait">
-        <button
-          type="button"
-          onClick={() => setHintCollapsed(false)}
-          aria-label="Open install instructions"
-        >
-          <span className={styles.installHintLogoWrap} aria-hidden="true">
-            <img src={assetUrl('sub-wait/icon-v2.svg')} alt="" />
-            <span className={styles.installHintPlus}>+</span>
-          </span>
-        </button>
-      </aside>
+      <>
+        <aside className={styles.installHintCollapsed} aria-label="Install Sub-Wait">
+          <button
+            ref={installButtonRef}
+            type="button"
+            onClick={() => setInstallHelpOpen(true)}
+            aria-label="Open install instructions"
+          >
+            <span className={styles.installHintLogoWrap} aria-hidden="true">
+              <img src={assetUrl('sub-wait/icon-v2.svg')} alt="" />
+              <span className={styles.installHintPlus}>+</span>
+            </span>
+          </button>
+        </aside>
+        {installHelpOpen ? (
+          <InstallHelpModal
+            onClose={() => setInstallHelpOpen(false)}
+            returnFocusTo={installButtonRef.current}
+            stationName={station?.name}
+          />
+        ) : null}
+      </>
     )
   }
 
