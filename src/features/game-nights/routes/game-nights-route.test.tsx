@@ -22,6 +22,29 @@ describe('game nights route', () => {
     expect(screen.getByText('No experience needed')).toBeInTheDocument()
   })
 
+  it('links to the Georgie&apos;s Cafe site, menu, and events pages', () => {
+    renderGameNights()
+
+    expect(screen.getByRole('link', { name: "Georgie's Cafe" })).toHaveAttribute(
+      'href',
+      'https://www.georgies.cafe/'
+    )
+    expect(
+      screen.getByRole('link', { name: /grab a snack or drink/i })
+    ).toHaveAttribute('href', 'https://www.georgies.cafe/menu')
+    expect(
+      screen.getByRole('link', { name: /book the space/i })
+    ).toHaveAttribute('href', 'https://www.georgies.cafe/events')
+    expect(screen.getByText(/open 9 AM-8 PM every day/i)).toBeInTheDocument()
+  })
+
+  it('renders arrow glyphs instead of raw HTML entities', () => {
+    renderGameNights()
+
+    expect(document.body.textContent).not.toMatch(/&nearr;|&darr;/i)
+    expect(screen.getAllByText('↗').length).toBeGreaterThan(0)
+  })
+
   it('explains how to join the private group chat', () => {
     renderGameNights()
 

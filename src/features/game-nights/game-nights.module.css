@@ -367,6 +367,12 @@
   text-transform: uppercase;
 }
 
+.inlineLink {
+  color: inherit !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .checkList {
   display: grid;
   gap: 20px;

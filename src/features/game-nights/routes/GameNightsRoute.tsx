@@ -72,7 +72,7 @@ export default function GameNightsRoute(): ReactElement {
               friend. Newcomers are always welcome, and we&apos;re happy to teach.
             </p>
             <a className={styles.primaryButton} href="#details">
-              Plan your first visit <span aria-hidden="true">&darr;</span>
+              Plan your first visit <span aria-hidden="true">↓</span>
             </a>
           </div>
 
@@ -109,7 +109,16 @@ export default function GameNightsRoute(): ReactElement {
             <article className={styles.detailCard}>
               <p className={styles.detailLabel}>Where</p>
               <h3>VITAL Lower East Side</h3>
-              <p className={styles.detailMain}>Georgie&apos;s Cafe</p>
+              <p className={styles.detailMain}>
+                <a
+                  className={styles.inlineLink}
+                  href="https://www.georgies.cafe/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Georgie&apos;s Cafe
+                </a>
+              </p>
               <p>Take the stairs to the second floor. That&apos;s where you&apos;ll find us.</p>
               <a
                 className={styles.textLink}
@@ -117,7 +126,7 @@ export default function GameNightsRoute(): ReactElement {
                 target="_blank"
                 rel="noreferrer"
               >
-                Get directions <span aria-hidden="true">&nearr;</span>
+                Get directions <span aria-hidden="true">↗</span>
               </a>
             </article>
             <article className={`${styles.detailCard} ${styles.detailCardAccent}`}>
@@ -127,6 +136,20 @@ export default function GameNightsRoute(): ReactElement {
                 <li>No dress code</li>
                 <li>No experience needed</li>
                 <li>Bring your own food or snacks</li>
+                <li>
+                  <span>
+                    Georgie&apos;s Cafe is open 9 AM-8 PM every day, so you can always come early to{' '}
+                    <a
+                      className={styles.inlineLink}
+                      href="https://www.georgies.cafe/menu"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      grab a snack or drink
+                    </a>{' '}
+                    before we start
+                  </span>
+                </li>
               </ul>
             </article>
           </div>
@@ -207,7 +230,7 @@ export default function GameNightsRoute(): ReactElement {
               target="_blank"
               rel="noreferrer"
             >
-              Find VITAL Lower East Side <span aria-hidden="true">&nearr;</span>
+              Find VITAL LES / Georgie&apos;s Cafe <span aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
@@ -218,6 +241,11 @@ export default function GameNightsRoute(): ReactElement {
           <a href="https://leoncheng.dev/">← LeonCheng.dev</a>
         </p>
         <p>Georgie&apos;s Game Nights</p>
+        <p>
+          <a href="https://www.georgies.cafe/events" target="_blank" rel="noreferrer">
+            Book the space at Georgie&apos;s Cafe <span aria-hidden="true">↗</span>
+          </a>
+        </p>
         <p>Almost every Friday &middot; 8-11 PM &middot; Lower East Side</p>
       </footer>
     </div>
