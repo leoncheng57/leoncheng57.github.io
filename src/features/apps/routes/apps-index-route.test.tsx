@@ -18,7 +18,7 @@ describe('apps index route', () => {
     const container = renderAppsIndex()
 
     const cards = container.querySelectorAll('article')
-    expect(cards).toHaveLength(5)
+    expect(cards).toHaveLength(6)
 
     cards.forEach((card) => {
       const icon = card.querySelector('img')
@@ -36,6 +36,7 @@ describe('apps index route', () => {
     ).map((icon) => icon.getAttribute('src'))
 
     expect(iconSources).toEqual([
+      '/app-icons/opencode-remote-control.svg',
       '/app-icons/house-party-photo-hunt.svg',
       '/app-icons/whoops-hoops.png',
       '/app-icons/sub-wait-v2.svg',
@@ -51,6 +52,12 @@ describe('apps index route', () => {
       expect(icon).toHaveAttribute('alt', '')
     })
 
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'OpenCode Remote Control BETA',
+      })
+    ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 2, name: 'House Party Photo Hunt' })
     ).toBeInTheDocument()
@@ -93,5 +100,13 @@ describe('apps index route', () => {
       'href',
       '/sub-wait'
     )
+  })
+
+  it('links to the OpenCode Remote Control app', () => {
+    renderAppsIndex()
+
+    expect(
+      screen.getByRole('link', { name: 'OpenCode Remote Control' })
+    ).toHaveAttribute('href', '/opencode-remote-control')
   })
 })

@@ -1,0 +1,349 @@
+.page {
+  min-height: 100vh;
+  padding: 2rem 1rem 5rem;
+  background:
+    linear-gradient(rgba(16, 35, 61, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 35, 61, 0.045) 1px, transparent 1px),
+    var(--bg);
+  background-size: 28px 28px;
+}
+
+.page a {
+  color: var(--link-color);
+}
+
+.main {
+  width: min(100%, 70rem);
+  margin: 0 auto;
+}
+
+.backLink {
+  margin: 1.5rem 0;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: end;
+  padding: 2.5rem;
+  border: 3px solid var(--hr-color);
+  background: var(--surface-raised);
+  box-shadow: 10px 10px 0 var(--text-primary);
+}
+
+.eyebrow,
+.signal,
+.flow,
+.sectionHeading > span,
+.commandHeader,
+.notes article > span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+}
+
+.eyebrow {
+  margin: 0 0 0.8rem;
+  color: var(--link-color);
+}
+
+.hero h1 {
+  max-width: 11ch;
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 6.8rem);
+  line-height: 0.86;
+  letter-spacing: -0.07em;
+}
+
+.lede {
+  max-width: 42rem;
+  margin: 1.5rem 0 0;
+  color: var(--text-muted);
+  font-size: 1.12rem;
+  line-height: 1.6;
+}
+
+.signal {
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.7rem 0.85rem;
+  border: 2px solid var(--hr-color);
+  white-space: nowrap;
+}
+
+.signalDot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: #1cab70;
+  box-shadow: 0 0 0 4px rgba(28, 171, 112, 0.15);
+}
+
+.flow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  margin: 2.5rem 0;
+  overflow-x: auto;
+  color: var(--text-muted);
+}
+
+.flow span {
+  padding: 0.6rem 0.8rem;
+  border: 2px solid var(--hr-color);
+  background: var(--accent-soft);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 1.5rem;
+}
+
+.controls,
+.output {
+  padding: 1.5rem;
+  border: 3px solid var(--hr-color);
+}
+
+.controls {
+  background: var(--accent-soft);
+}
+
+.output {
+  background: var(--text-primary);
+  color: #f6f3eb;
+}
+
+.sectionHeading {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeading > span {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid currentColor;
+  place-items: center;
+}
+
+.sectionHeading h2,
+.sectionHeading p {
+  margin: 0;
+}
+
+.sectionHeading h2 {
+  font-size: 1.35rem;
+}
+
+.sectionHeading p {
+  margin-top: 0.25rem;
+  color: inherit;
+  opacity: 0.7;
+}
+
+.controls label:not(.toggle) {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.controls input[type='text'],
+.controls input[type='url'],
+.controls input:not([type]) {
+  min-width: 0;
+}
+
+.controls input:not([type='checkbox']) {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem;
+  border: 2px solid var(--hr-color);
+  border-radius: 0;
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  font: 0.9rem ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.controlRow {
+  display: grid;
+  grid-template-columns: minmax(6rem, 0.35fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.toggle {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  padding: 1rem;
+  border: 2px solid var(--hr-color);
+  background: rgba(255, 255, 255, 0.45);
+  line-height: 1.45;
+}
+
+.toggle input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.15rem;
+  accent-color: var(--link-color);
+}
+
+.toggle span {
+  display: grid;
+  gap: 0.2rem;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+.toggle strong {
+  color: var(--text-primary);
+}
+
+.reset {
+  margin-top: 1.2rem;
+  padding: 0.65rem 0.85rem;
+  border: 2px solid var(--hr-color);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reset:hover {
+  background: var(--surface-raised);
+}
+
+.commandBlock {
+  margin-top: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #09182b;
+}
+
+.commandHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--accent-strong);
+}
+
+.commandHeader button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #f6f3eb;
+  font: inherit;
+  cursor: pointer;
+}
+
+.commandBlock pre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.commandBlock code {
+  color: #d5f0fa;
+  font-size: 0.83rem;
+  line-height: 1.65;
+}
+
+.notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.notes article {
+  padding: 1.5rem;
+  border: 3px solid var(--hr-color);
+  background: var(--surface-raised);
+}
+
+.notes article > span {
+  color: var(--link-color);
+}
+
+.notes h2 {
+  margin: 0.6rem 0;
+  font-size: 1.45rem;
+}
+
+.notes p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.notes code {
+  padding: 0.12rem 0.3rem;
+  background: var(--accent-soft);
+  color: var(--text-primary);
+}
+
+.footer {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--hr-color);
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 1rem 0.75rem 3rem;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    box-shadow: 6px 6px 0 var(--text-primary);
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 17vw, 5rem);
+  }
+
+  .signal {
+    justify-self: start;
+  }
+
+  .flow {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow-x: visible;
+  }
+
+  .workspace,
+  .notes {
+    grid-template-columns: 1fr;
+  }
+
+  .controlRow {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

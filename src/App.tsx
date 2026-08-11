@@ -2,6 +2,7 @@ import type { ReactElement } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import ScrollToTop from './components/scroll-to-top/ScrollToTop'
 import AppsIndexRoute from './features/apps/routes/AppsIndexRoute'
+import OpenCodeRemoteControlRoute from './features/apps/opencode-remote-control/routes/OpenCodeRemoteControlRoute'
 import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
 import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
 import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
@@ -34,6 +35,10 @@ export default function App(): ReactElement {
           element={<Navigate to="/georgies-board-game-nights" replace />}
         />
         <Route path="/apps" element={<AppsIndexRoute />} />
+        <Route
+          path="/opencode-remote-control"
+          element={<OpenCodeRemoteControlRoute />}
+        />
         <Route path="/repo" element={<RepoRoute />} />
         <Route path="/repo/ci" element={<CiRoute />} />
         <Route path="/repo/production" element={<ProductionRoute />} />

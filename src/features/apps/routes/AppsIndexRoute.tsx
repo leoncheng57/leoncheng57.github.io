@@ -5,6 +5,7 @@ import styles from '../apps.module.css'
 
 export default function AppsIndexRoute(): ReactElement {
   const subWaitIconUrl = `${import.meta.env.BASE_URL}app-icons/sub-wait-v2.svg`
+  const openCodeRemoteIconUrl = `${import.meta.env.BASE_URL}app-icons/opencode-remote-control.svg`
 
   return (
     <div className={styles.page}>
@@ -17,6 +18,41 @@ export default function AppsIndexRoute(): ReactElement {
           <h1>Apps</h1>
         </header>
         <div className={styles.appList}>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
+                src={openCodeRemoteIconUrl}
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <Link to="/opencode-remote-control">
+                    OpenCode Remote Control
+                  </Link>
+                  <span className={styles.betaBadge}>BETA</span>
+                </h2>
+                <p className={styles.subtitle}>
+                  Build a private phone-control setup for local agents
+                </p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              Configure a Tailscale-only OpenCode Web server, generate setup
+              commands, and add ntfy push notifications that deep-link to the
+              exact session needing attention.
+            </p>
+            <p className={styles.links}>
+              <Link to="/opencode-remote-control">Build your setup</Link>
+              {' · '}
+              <a href="https://github.com/leoncheng57/opencode-remote-control-and-notifications">
+                GitHub
+              </a>
+            </p>
+          </article>
           <article className={styles.appCard}>
             <div className={styles.appCardHeader}>
               <img
