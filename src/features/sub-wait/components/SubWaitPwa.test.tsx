@@ -114,7 +114,7 @@ describe('SubWaitPwa', () => {
     )
     expect(screen.getByText('Tap Share in Safari')).toBeInTheDocument()
     expect(
-      screen.getByRole('link', { name: 'View the full installation guide →' }),
+      screen.getByRole('link', { name: 'Need help? See full guide ->' }),
     ).toHaveAttribute('href', '/sub-wait/install')
     expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
       'true',

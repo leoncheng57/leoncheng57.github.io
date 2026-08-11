@@ -171,7 +171,7 @@ export default function InstallHelpModal({
           to="/sub-wait/install"
           onClick={onClose}
         >
-          View the full installation guide →
+          Need help? See full guide -&gt;
         </Link>
       </div>
     </div>
