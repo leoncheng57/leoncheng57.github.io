@@ -28,7 +28,7 @@
     <rect x="164" y="623" width="62" height="54" rx="17" fill="#eef4f8" stroke="#111" stroke-width="4"/>
     <path d="M195 658V635M195 635l-9 9M195 635l9 9" fill="none" stroke="#1769aa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
     <rect x="181" y="650" width="28" height="20" rx="4" fill="none" stroke="#1769aa" stroke-width="3"/>
-    <circle cx="329" cy="599" r="27" fill="#111" stroke="#fff" stroke-width="4"/>
+    <circle cx="329" cy="599" r="27" fill="#111" stroke="#ff6319" stroke-width="7"/>
     <text x="329" y="606" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="800" fill="#fff" text-anchor="middle">1</text>
   
   </svg>
