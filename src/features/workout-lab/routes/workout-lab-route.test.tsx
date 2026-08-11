@@ -80,6 +80,14 @@ describe('workout lab route', () => {
     expect(screen.getByRole('link', { name: 'Guide' })).toBeInTheDocument()
   })
 
+  it('links back to LeonCheng.dev from the footer', () => {
+    renderWorkoutLab()
+
+    expect(
+      screen.getByRole('link', { name: '← LeonCheng.dev' })
+    ).toHaveAttribute('href', 'https://leoncheng.dev/')
+  })
+
   it('showcases every movement pattern illustration on the landing page', () => {
     renderWorkoutLab()
 

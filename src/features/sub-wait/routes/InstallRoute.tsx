@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import InstallVideo from '../components/InstallVideo'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
 
@@ -53,10 +54,12 @@ const ANDROID_STEPS: InstallStep[] = [
 ]
 
 function PlatformSteps({
+  platform,
   title,
   note,
   steps,
 }: {
+  platform: 'iphone' | 'android'
   title: string
   note: string
   steps: InstallStep[]
@@ -65,6 +68,10 @@ function PlatformSteps({
     <section className={styles.installPlatform} aria-labelledby={`${title}-steps`}>
       <h2 id={`${title}-steps`}>{title}</h2>
       <p>{note}</p>
+      <InstallVideo
+        platform={platform}
+        label={`${title} installation walkthrough`}
+      />
       <ol className={styles.installSteps}>
         {steps.map((step, index) => (
           <li key={step.image} className={styles.installStep}>
@@ -108,12 +115,22 @@ export default function InstallRoute(): ReactElement {
         </div>
       </header>
 
+      <section className={styles.installStationNote}>
+        <h2>Install a station app</h2>
+        <p>
+          Open the station you want first, then follow the steps below. Its app
+          uses the station name and opens directly to that station&apos;s arrivals.
+        </p>
+      </section>
+
       <PlatformSteps
+        platform="iphone"
         title="iPhone"
         note="Use Safari. The exact toolbar position can vary slightly by iOS version."
         steps={IPHONE_STEPS}
       />
       <PlatformSteps
+        platform="android"
         title="Android"
         note="Use Chrome. Depending on your device, the menu may say Install app or Add to Home screen."
         steps={ANDROID_STEPS}
@@ -128,9 +145,29 @@ export default function InstallRoute(): ReactElement {
           icon.
         </p>
       </section>
+      <section className={styles.installCompatibility}>
+        <h2>Compatibility notes</h2>
+        <ul>
+          <li>Requires iOS/iPadOS 16.4+ or a recent Chromium browser.</li>
+          <li>Older browsers may merge or replace installations.</li>
+          <li>
+            <code>start_url</code> is technically a browser hint, so launch
+            behavior can vary.
+          </li>
+          <li>Long station names may be truncated on home screens.</li>
+          <li>
+            Same-name stations, such as &ldquo;23 St,&rdquo; can look identical.
+          </li>
+          <li>
+            Install while viewing the desired station page. Installing from the
+            homepage creates the general Sub-Wait app.
+          </li>
+        </ul>
+      </section>
       <p className={styles.installIllustrationNote}>
-        These are original illustrations. Labels and menu placement can vary
-        slightly by phone and operating-system version.
+        These walkthroughs are animated illustrations, not operating-system
+        recordings. Labels and menu placement can vary slightly by phone and
+        operating-system version.
       </p>
     </main>
   )

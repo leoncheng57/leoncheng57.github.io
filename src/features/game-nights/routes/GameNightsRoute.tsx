@@ -214,6 +214,9 @@ export default function GameNightsRoute(): ReactElement {
       </main>
 
       <footer className={styles.footer}>
+        <p>
+          <a href="https://leoncheng.dev/">← LeonCheng.dev</a>
+        </p>
         <p>Georgie&apos;s Game Nights</p>
         <p>Almost every Friday &middot; 8-11 PM &middot; Lower East Side</p>
       </footer>

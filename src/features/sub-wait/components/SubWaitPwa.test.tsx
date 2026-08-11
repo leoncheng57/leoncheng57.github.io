@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { MemoryRouter } from 'react-router-dom'
 import SubWaitPwa, { shouldShowInstallHint } from './SubWaitPwa'
 
 const originalUserAgent = navigator.userAgent
@@ -27,7 +28,11 @@ describe('SubWaitPwa', () => {
   })
 
   it('injects route-specific PWA metadata and removes it on unmount', () => {
-    const { unmount } = render(<SubWaitPwa />)
+    const { unmount } = render(
+      <MemoryRouter initialEntries={['/sub-wait/']}>
+        <SubWaitPwa />
+      </MemoryRouter>,
+    )
 
     expect(
       document.head.querySelector('link[data-sub-wait="manifest"]'),
@@ -45,16 +50,45 @@ describe('SubWaitPwa', () => {
     ).toBeNull()
   })
 
-  it('collapses to a persistent icon and can be reopened', () => {
+  it.each([
+    '/sub-wait/station/F16',
+    '/sub-wait/station/F16/N',
+  ])('uses the station manifest and title on %s', (route) => {
+    render(
+      <MemoryRouter initialEntries={[route]}>
+        <SubWaitPwa />
+      </MemoryRouter>,
+    )
+
+    expect(
+      document.head.querySelector('link[data-sub-wait="manifest"]'),
+    ).toHaveAttribute('href', '/sub-wait/manifests/station-F16.webmanifest')
+    expect(
+      document.head.querySelector('meta[data-sub-wait="apple-title"]'),
+    ).toHaveAttribute('content', 'East Broadway')
+  })
+
+  it('collapses persistently and opens install help without expanding', () => {
     Object.defineProperty(navigator, 'userAgent', {
       configurable: true,
       value:
         'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15',
     })
 
-    render(<SubWaitPwa />)
-    expect(screen.getByText('Add Sub-Wait to your phone')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /Open installation guide/ })).toHaveAttribute(
+    render(
+      <MemoryRouter initialEntries={['/sub-wait/']}>
+        <SubWaitPwa />
+      </MemoryRouter>,
+    )
+    expect(
+      screen.getByText('Add Sub-Wait to homescreen'),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        '1-click from immediate subway times, no app store required.',
+      ),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'More details' })).toHaveAttribute(
       'href',
       '/sub-wait/install',
     )
@@ -62,21 +96,97 @@ describe('SubWaitPwa', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'Collapse install instructions' }),
     )
-    expect(screen.queryByText('Add Sub-Wait to your phone')).not.toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: 'Open install instructions' }),
+      screen.queryByText('Add Sub-Wait to homescreen'),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Add Sub-Wait to home screen' }),
     ).toBeInTheDocument()
     expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
       'true',
     )
 
     fireEvent.click(
-      screen.getByRole('button', { name: 'Open install instructions' }),
+      screen.getByRole('button', { name: 'Add Sub-Wait to home screen' }),
     )
-    expect(screen.getByText('Add Sub-Wait to your phone')).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toHaveAccessibleName(
+      'Add Sub-Wait to homescreen',
+    )
+    expect(screen.getByText('Tap Share in Safari')).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('iPhone or iPad install walkthrough'),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Need help? See full guide ->' }),
+    ).toHaveAttribute('href', '/sub-wait/install')
     expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
-      'false',
+      'true',
     )
+
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Add Sub-Wait to homescreen'),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Add Sub-Wait to home screen' }),
+    ).toHaveFocus()
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Add Sub-Wait to home screen' }),
+    )
+    fireEvent.mouseDown(screen.getByRole('dialog').parentElement!)
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(window.localStorage.getItem('sub-wait-install-hint-collapsed')).toBe(
+      'true',
+    )
+  })
+
+  it('uses the station name in the install reminder', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      configurable: true,
+      value: 'Mozilla/5.0 (Linux; Android 14)',
+    })
+
+    render(
+      <MemoryRouter initialEntries={['/sub-wait/station/F16/S']}>
+        <SubWaitPwa />
+      </MemoryRouter>,
+    )
+
+    expect(
+      screen.getByText(
+        (_, element) =>
+          element?.tagName === 'STRONG' &&
+          element.textContent === 'Add East Broadway to homescreen',
+      ),
+    ).toBeInTheDocument()
+    expect(screen.getByText('East Broadway').tagName).toBe('EM')
+  })
+
+  it('uses the station name in collapsed install help', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      configurable: true,
+      value: 'Mozilla/5.0 (Linux; Android 14)',
+    })
+    window.localStorage.setItem('sub-wait-install-hint-collapsed', 'true')
+
+    render(
+      <MemoryRouter initialEntries={['/sub-wait/station/F16/S']}>
+        <SubWaitPwa />
+      </MemoryRouter>,
+    )
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Add East Broadway to home screen' }),
+    )
+
+    expect(screen.getByRole('dialog')).toHaveAccessibleName(
+      'Add East Broadway to homescreen',
+    )
+    expect(screen.getByText('Open the Chrome menu')).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('Android install walkthrough'),
+    ).toBeInTheDocument()
   })
 
   it('shows on Android but not on desktop browsers', () => {

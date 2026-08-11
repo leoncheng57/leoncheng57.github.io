@@ -58,4 +58,27 @@ describe('InstallRoute', () => {
       ),
     ).toHaveAttribute('href', '/sub-wait/install')
   })
+
+  it('explains station installs and compatibility limitations', () => {
+    render(
+      <MemoryRouter initialEntries={['/sub-wait/install']}>
+        <Routes>
+          <Route path="/sub-wait/*" element={<SubWaitRoute />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(
+      screen.getByRole('heading', { name: 'Install a station app' }),
+    ).toBeInTheDocument()
+    const notes = screen.getByRole('heading', { name: 'Compatibility notes' })
+      .parentElement
+    expect(notes).toHaveTextContent('iOS/iPadOS 16.4+')
+    expect(notes).toHaveTextContent('recent Chromium')
+    expect(notes).toHaveTextContent('merge or replace installations')
+    expect(notes).toHaveTextContent('start_url is technically a browser hint')
+    expect(notes).toHaveTextContent('Long station names may be truncated')
+    expect(notes).toHaveTextContent('Same-name stations')
+    expect(notes).toHaveTextContent('Installing from the homepage creates the general Sub-Wait app')
+  })
 })

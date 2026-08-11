@@ -37,7 +37,7 @@ function logo(x, y, scale = 1) {
 }
 
 function callout(cx, cy, number) {
-  return `<circle cx="${cx}" cy="${cy}" r="27" fill="#111" stroke="#fff" stroke-width="4"/>
+  return `<circle cx="${cx}" cy="${cy}" r="27" fill="#111" stroke="#ff6319" stroke-width="7"/>
     ${text(cx, cy + 7, number, { size: 21, weight: 800, fill: '#fff', anchor: 'middle' })}`
 }
 

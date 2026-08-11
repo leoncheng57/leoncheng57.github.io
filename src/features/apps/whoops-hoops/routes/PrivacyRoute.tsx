@@ -125,6 +125,9 @@ export default function PrivacyRoute(): ReactElement {
           </div>
         </section>
       </main>
+      <footer className={styles.footer}>
+        <a href="https://leoncheng.dev/">← LeonCheng.dev</a>
+      </footer>
     </div>
   )
 }

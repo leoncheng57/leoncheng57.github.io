@@ -567,6 +567,7 @@ export default function WorkoutLabRoute(): ReactElement {
         </Routes>
 
         <footer className={styles.footer}>
+          <a href="https://leoncheng.dev/">← LeonCheng.dev</a>
           <span>Workout Lab</span>
           <span>Deterministic sessions · Same inputs, same workout</span>
         </footer>
