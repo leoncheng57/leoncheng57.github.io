@@ -1,6 +1,6 @@
 {
   "index.html": {
-    "file": "assets/index-DF5RTv9t.js",
+    "file": "assets/index-Ci_x8-am.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -21,7 +21,7 @@
     "isDynamicEntry": true
   },
   "src/features/workout-lab/data/exercise-videos.ts": {
-    "file": "assets/exercise-videos-BQQx31ia.js",
+    "file": "assets/exercise-videos-DeMwZ9gD.js",
     "name": "exercise-videos",
     "src": "src/features/workout-lab/data/exercise-videos.ts",
     "isDynamicEntry": true,
