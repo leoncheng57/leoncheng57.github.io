@@ -1,4 +1,10 @@
-import { useState, type CSSProperties, type ReactElement } from 'react'
+import {
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent,
+  type ReactElement,
+} from 'react'
 import { Link } from 'react-router-dom'
 import TuziPwa from '../components/TuziPwa'
 import styles from '../tuzi.module.css'
@@ -66,6 +72,10 @@ export default function TuziRoute(): ReactElement {
   const [ranked, setRanked] = useState(12)
   const [message, setMessage] = useState('Which would you rather recommend?')
   const [showNotice, setShowNotice] = useState(true)
+  const [dragX, setDragX] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const dragStartX = useRef<number | null>(null)
+  const suppressClick = useRef(false)
 
   const leftBook = books[round % books.length]
   const rightBook = books[(round + 1) % books.length]
@@ -79,6 +89,53 @@ export default function TuziRoute(): ReactElement {
   function skip(): void {
     setMessage('Skipped. Here is a fresh pair.')
     setRound((current) => current + 2)
+  }
+
+  function updateDrag(nextDragX: number): void {
+    const clampedDragX = Math.max(-120, Math.min(120, nextDragX))
+    setDragX(clampedDragX)
+  }
+
+  function startDrag(event: PointerEvent<HTMLDivElement>): void {
+    dragStartX.current = event.clientX
+    setIsDragging(true)
+    event.currentTarget.setPointerCapture?.(event.pointerId)
+  }
+
+  function moveDrag(event: PointerEvent<HTMLDivElement>): void {
+    if (dragStartX.current === null) return
+    updateDrag(event.clientX - dragStartX.current)
+  }
+
+  function finishDrag(event: PointerEvent<HTMLDivElement>): void {
+    if (dragStartX.current === null) return
+
+    const distance = event.clientX - dragStartX.current
+    dragStartX.current = null
+    setIsDragging(false)
+    updateDrag(0)
+
+    if (Math.abs(distance) < 64) return
+
+    suppressClick.current = true
+    window.setTimeout(() => {
+      suppressClick.current = false
+    }, 0)
+    choose(distance < 0 ? leftBook : rightBook)
+  }
+
+  function cancelDrag(): void {
+    dragStartX.current = null
+    setIsDragging(false)
+    updateDrag(0)
+  }
+
+  function chooseByTap(book: Book): void {
+    if (suppressClick.current) {
+      suppressClick.current = false
+      return
+    }
+    choose(book)
   }
 
   return (
@@ -110,12 +167,8 @@ export default function TuziRoute(): ReactElement {
         <section className={styles.hero} id="rank">
           <div className={styles.heroCopy}>
             <span className={styles.betaLabel}>Beta</span>
-            <p className={styles.eyebrow}>Your reading taste, sorted</p>
-            <h1>Pick one.<br />Find your next.</h1>
-            <p className={styles.intro}>
-              Choose the book you would recommend. Tuzi turns quick comparisons
-              into a shelf that actually feels like yours.
-            </p>
+            <p className={styles.eyebrow}>Rank books. Get better picks.</p>
+            <h1>Pick your next.</h1>
             <div className={styles.progressRow}>
               <span><strong>{ranked}</strong> books ranked</span>
               <span><strong>8</strong> more to unlock picks</span>
@@ -127,16 +180,30 @@ export default function TuziRoute(): ReactElement {
 
           <div className={styles.rankArea} aria-live="polite">
             <p className={styles.prompt}>{message}</p>
-            <div className={styles.comparison}>
+            <div className={styles.swipeLegend} aria-hidden="true">
+              <span className={dragX < -20 ? styles.swipeActive : undefined}>← {leftBook.title}</span>
+              <strong>Drag to pick</strong>
+              <span className={dragX > 20 ? styles.swipeActive : undefined}>{rightBook.title} →</span>
+            </div>
+            <div
+              className={`${styles.comparison} ${isDragging ? styles.dragging : ''}`}
+              style={{ '--drag-x': `${dragX}px` } as CSSProperties}
+              role="group"
+              aria-label={`Swipe left for ${leftBook.title} or right for ${rightBook.title}`}
+              onPointerDown={startDrag}
+              onPointerMove={moveDrag}
+              onPointerUp={finishDrag}
+              onPointerCancel={cancelDrag}
+            >
               {[leftBook, rightBook].map((book, index) => (
-                <button className={styles.bookChoice} type="button" onClick={() => choose(book)} key={book.title}>
+                <button className={styles.bookChoice} type="button" onClick={() => chooseByTap(book)} key={book.title}>
                   <BookCover book={book} position={index + 1} />
                   <span className={styles.bookMeta}>
                     <strong>{book.title}</strong>
                     <span>{book.author} · {book.year}</span>
                     <small>{book.blurb}</small>
                   </span>
-                  <span className={styles.chooseLabel}>Choose this book <span>→</span></span>
+                  <span className={styles.chooseLabel}>Pick this <span>→</span></span>
                 </button>
               ))}
               <span className={styles.or}>or</span>

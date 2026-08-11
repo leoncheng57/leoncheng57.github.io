@@ -248,9 +248,151 @@
   .page footer { gap: 1rem; flex-direction: column; }
 }
 
+/* Tuzi is a phone app at every viewport size. */
+.page {
+  padding-bottom: calc(5.75rem + env(safe-area-inset-bottom));
+  font-size: 16px;
+}
+
+.nav {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  width: min(100% - 1.5rem, 34rem);
+  height: 4rem;
+  background: rgba(251, 248, 237, 0.96);
+  backdrop-filter: blur(12px);
+}
+
+.nav nav { display: none; }
+.brand { font-size: 1.5rem; }
+.mark { width: 2.25rem; height: 2.25rem; }
+.profileButton { width: 3rem; height: 3rem; font-size: 0.9rem; }
+
+.notice {
+  width: min(100% - 1rem, 34rem);
+  margin: 0 auto;
+  gap: 0.6rem;
+  justify-content: flex-start;
+  padding: 0.75rem;
+  border-radius: 0.85rem;
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.notice strong { flex: none; font-size: 0.8rem; }
+.notice span { flex: 1; }
+.notice button { min-width: 3.25rem; min-height: 3rem; font-size: 0.95rem; }
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: min(100% - 1.5rem, 34rem);
+  padding: 1.35rem 0 2.5rem;
+}
+
+.hero::before {
+  top: -2rem;
+  right: -14rem;
+  width: 25rem;
+  height: 25rem;
+}
+
+.heroCopy { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 0.5rem 0.75rem; }
+.betaLabel { margin: 0; padding: 0.4rem 0.7rem; font-size: 0.75rem; }
+.eyebrow { margin: 0; font-size: 0.78rem; line-height: 1.3; }
+.hero h1 { grid-column: 1 / -1; font-size: clamp(2.65rem, 12vw, 3.75rem); line-height: 0.95; }
+.intro { grid-column: 1 / -1; margin: 0.5rem 0 0.75rem; font-size: 1.05rem; line-height: 1.45; }
+.progressRow { grid-column: 1 / -1; align-items: end; font-size: 0.9rem; }
+.progressRow span:last-child { text-align: right; }
+.progressRow strong { font-size: 1.2rem; }
+.progressTrack { grid-column: 1 / -1; width: 100%; height: 0.5rem; margin-top: 0; border-radius: 999px; }
+
+.rankArea { min-width: 0; }
+.prompt { margin: 0 0 0.75rem; font-size: 1.35rem; line-height: 1.15; }
+.swipeLegend { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.45rem; margin-bottom: 0.6rem; color: #69776e; font-size: 0.72rem; line-height: 1.15; }
+.swipeLegend span { overflow: hidden; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.swipeLegend span:last-child { text-align: right; }
+.swipeLegend strong { padding: 0.35rem 0.5rem; border-radius: 999px; background: #e7e3d6; color: var(--ink); font-size: 0.68rem; text-transform: uppercase; }
+.swipeLegend .swipeActive { color: #b43d2c; }
+
+.comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  touch-action: pan-y;
+  transform: translateX(var(--drag-x));
+  transition: transform 180ms ease;
+  user-select: none;
+}
+
+.comparison.dragging { cursor: grabbing; transition: none; }
+.bookChoice {
+  display: flex;
+  min-height: 14rem;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.7rem;
+  border: 2px solid #d3cfc1;
+  border-radius: 0.85rem;
+  box-shadow: 3px 3px 0 #dedacd;
+}
+
+.bookChoice:hover { border-color: var(--ink); box-shadow: 3px 3px 0 #dedacd; transform: none; }
+.bookChoice:active { border-color: var(--ink); box-shadow: 1px 1px 0 var(--lime); transform: translate(2px, 2px); }
+.cover { width: 100%; height: 7.75rem; aspect-ratio: auto; flex: none; padding: 0.65rem; border-radius: 0.45rem; }
+.cover strong { font-size: 1rem; }
+.cover small { font-size: 0.7rem; }
+.coverIndex { font-size: 0.7rem; }
+.bookMeta { flex: 1; padding: 0; }
+.bookMeta > strong { font-size: 1.08rem; line-height: 1.08; }
+.bookMeta > span { margin-top: 0.35rem; font-size: 0.85rem; line-height: 1.25; }
+.bookMeta small { display: none; }
+.chooseLabel { min-height: 3rem; align-items: center; margin: 0 -0.25rem -0.25rem; padding: 0.6rem 0.7rem; border: 0; border-radius: 0.6rem; background: var(--lime); color: var(--ink); font-size: 0.86rem; letter-spacing: 0.02em; }
+.chooseLabel span { font-size: 1.3rem; }
+.or { width: 2.1rem; height: 2.1rem; font-size: 0.85rem; }
+.skipButton { width: 100%; min-height: 3.25rem; margin: 0.75rem auto 0; border: 1px solid #c9c5b8; border-radius: 0.75rem; background: white; color: var(--ink); font-size: 1rem; font-weight: 700; text-decoration: none; }
+
+.lowerGrid { width: min(100% - 1.5rem, 34rem); margin-bottom: 2rem; }
+.shelfCard { width: 100%; margin-top: 2rem; padding: 1.4rem; border-radius: 1rem; }
+.shelfCard .eyebrow { margin-bottom: 0.6rem; }
+.shelfCard h2 { font-size: 2.35rem; }
+.shelfCard > p:not(.eyebrow) { font-size: 1rem; }
+.shelfCard > button { min-height: 3.5rem; font-size: 0.9rem; }
+
+.mobileDock {
+  position: fixed;
+  z-index: 20;
+  right: auto;
+  bottom: calc(0.65rem + env(safe-area-inset-bottom));
+  left: 50%;
+  display: grid;
+  width: min(calc(100% - 1.25rem), 33rem);
+  grid-template-columns: repeat(3, 1fr);
+  overflow: hidden;
+  border: 1px solid #405348;
+  border-radius: 1rem;
+  background: rgba(27, 51, 40, 0.97);
+  box-shadow: 0 8px 24px rgba(27, 51, 40, 0.28);
+  transform: translateX(-50%);
+  backdrop-filter: blur(12px);
+}
+
+.mobileDock a { display: flex; min-height: 4rem; align-items: center; justify-content: center; gap: 0.4rem; color: white; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; text-transform: uppercase; }
+.mobileDock a:first-child { background: var(--lime); color: var(--ink); }
+.mobileDock span { font-size: 1rem; }
+.page footer { display: none; }
+
 @media (max-width: 370px) {
-  .bookChoice { grid-template-columns: 5.5rem 1fr; }
-  .bookMeta small { display: none; }
+  .hero { width: min(100% - 1rem, 34rem); padding-top: 1rem; }
+  .hero h1 { font-size: 2.45rem; }
+  .cover { height: 7rem; }
+  .bookChoice { min-height: 13.25rem; padding: 0.55rem; }
+  .bookMeta > strong { font-size: 1rem; }
+  .chooseLabel { font-size: 0.78rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
