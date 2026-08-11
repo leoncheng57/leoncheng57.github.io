@@ -1,6 +1,5 @@
 import { useEffect, useState, type ReactElement } from 'react'
 import { Link } from 'react-router-dom'
-import TopNav from '../../../../components/top-nav/TopNav'
 import styles from '../opencode-remote-control.module.css'
 
 const STORAGE_KEY = 'opencode-remote-control-settings-v1'
@@ -72,6 +71,14 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
   const [settings, setSettings] = useState<Settings>(loadSettings)
 
   useEffect(() => {
+    const previousTitle = document.title
+    document.title = 'OpenCode Remote Control'
+    return () => {
+      document.title = previousTitle
+    }
+  }, [])
+
+  useEffect(() => {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(settings))
     } catch {
@@ -100,11 +107,21 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
 
   return (
     <div className={styles.page}>
-      <TopNav />
-      <main className={styles.main}>
-        <p className={styles.backLink}>
-          <Link to="/apps">Back to apps</Link>
-        </p>
+      <header className={styles.productNav}>
+        <a className={styles.brand} href="#top" aria-label="OpenCode Remote Control home">
+          <span className={styles.brandMark} aria-hidden="true">
+            &gt;_
+          </span>
+          <span>OC REMOTE</span>
+        </a>
+        <nav className={styles.navLinks} aria-label="OpenCode Remote Control navigation">
+          <a href="#builder">Setup</a>
+          <a href="#phone">Phone</a>
+          <a href={REPOSITORY_URL}>Source ↗</a>
+          <Link to="/apps">LeonCheng.dev ↗</Link>
+        </nav>
+      </header>
+      <main className={styles.main} id="top">
 
         <header className={styles.hero}>
           <div>
@@ -131,7 +148,7 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
           <span>NTFY</span>
         </section>
 
-        <div className={styles.workspace}>
+        <div className={styles.workspace} id="builder">
           <section className={styles.controls}>
             <div className={styles.sectionHeading}>
               <span>01</span>
@@ -209,7 +226,7 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
           </section>
         </div>
 
-        <section className={styles.notes}>
+        <section className={styles.notes} id="phone">
           <article>
             <span>03 / PHONE</span>
             <h2>Subscribe, then scan.</h2>

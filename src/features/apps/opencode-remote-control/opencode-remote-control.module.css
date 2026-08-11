@@ -1,11 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap');
+
 .page {
+  --bg: #07110e;
+  --surface: #f5f1e7;
+  --surface-raised: #fffdf6;
+  --text-primary: #0c2620;
+  --text-muted: #355e54;
+  --hr-color: #0c2620;
+  --link-color: #007f69;
+  --link-hover-color: #005f50;
+  --accent-soft: #c5f3df;
+  --accent-mid: #73dfbd;
+  --accent-strong: #5fffc9;
   min-height: 100vh;
-  padding: 2rem 1rem 5rem;
+  padding: 0 1rem 5rem;
   background:
-    linear-gradient(rgba(16, 35, 61, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 35, 61, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(197, 243, 223, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(197, 243, 223, 0.07) 1px, transparent 1px),
     var(--bg);
   background-size: 28px 28px;
+  color: var(--text-primary);
+  font-family: 'Manrope', sans-serif;
 }
 
 .page a {
@@ -17,8 +32,55 @@
   margin: 0 auto;
 }
 
-.backLink {
-  margin: 1.5rem 0;
+.productNav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(100%, 70rem);
+  margin: 0 auto;
+  padding: 1.35rem 0;
+  border-bottom: 1px solid rgba(197, 243, 223, 0.32);
+  color: #e9fff6;
+}
+
+.brand {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  color: #e9fff6 !important;
+  font: 800 0.82rem 'DM Mono', monospace;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+}
+
+.brandMark {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--accent-strong);
+  background: rgba(95, 255, 201, 0.08);
+  color: var(--accent-strong);
+  place-items: center;
+}
+
+.navLinks {
+  display: flex;
+  gap: clamp(0.8rem, 3vw, 2rem);
+  font: 500 0.7rem 'DM Mono', monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.navLinks a {
+  color: #c5f3df;
+  text-decoration: none;
+}
+
+.navLinks a:hover,
+.navLinks a:focus-visible {
+  color: var(--accent-strong);
 }
 
 .hero {
@@ -27,6 +89,7 @@
   gap: 2rem;
   align-items: end;
   padding: 2.5rem;
+  margin-top: 2.5rem;
   border: 3px solid var(--hr-color);
   background: var(--surface-raised);
   box-shadow: 10px 10px 0 var(--text-primary);
@@ -309,7 +372,26 @@
 
 @media (max-width: 760px) {
   .page {
-    padding: 1rem 0.75rem 3rem;
+    padding: 0 0.75rem 3rem;
+  }
+
+  .productNav {
+    align-items: flex-start;
+    padding: 1rem 0;
+  }
+
+  .brand > span:last-child {
+    display: none;
+  }
+
+  .navLinks {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 16rem;
+  }
+
+  .navLinks a:nth-child(3) {
+    display: none;
   }
 
   .hero {
