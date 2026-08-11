@@ -53,7 +53,43 @@ npm run build
 - Prefer fresh screenshots captured from the current local app state rather than reusing older assets.
 - If the screenshots need to be persisted for the PR/MR description, add only the minimal image assets required and link/embed those hosted GitHub URLs in the PR/MR body.
 
-### Playwright Screenshot Workflow
+### Automated PR Screenshots (preferred)
+
+CI can capture screenshots for you. Add a fenced `screenshots` block to the
+pull request description with one page path per line:
+
+````md
+```screenshots
+/blog
+/blog/some-article
+/workout-lab
+```
+````
+
+`.github/workflows/pr-screenshots.yml` runs on every PR open, push, and
+description edit. It builds the app, captures each listed path with
+Playwright (`scripts/ci-screenshots.mjs`), publishes the PNGs to `gh-pages`
+under `previews/pr-<number>/screenshots/`, and maintains a single sticky PR
+comment embedding the images. The images are removed automatically when the
+pull request closes.
+
+Rules for the block:
+
+- Paths must start with `/` and contain no whitespace.
+- Lines starting with `#` are treated as comments and ignored.
+- Removing the block (or all paths) updates the sticky comment to say no
+  screenshots are requested.
+
+To run the capture locally:
+
+```bash
+npm run build
+node scripts/ci-screenshots.mjs /blog /apps
+```
+
+Output lands in `screenshot-output/` (untracked).
+
+### Playwright Screenshot Workflow (manual fallback)
 
 1. Start the local app with:
 
@@ -128,6 +164,7 @@ GitHub Actions publishes that generated directory to the `gh-pages` branch:
 
 - `.github/workflows/deploy-production.yml` publishes production at the branch root and preserves `previews/`.
 - `.github/workflows/pr-preview.yml` publishes each pull request under `previews/pr-<number>/` and removes it when the pull request closes.
-- Both workflows must keep the shared `gh-pages-deploy` concurrency group and non-force pushes because they write to the same branch.
+- `.github/workflows/pr-screenshots.yml` publishes PR screenshots under `previews/pr-<number>/screenshots/`; the preview deploy excludes that folder from its clean step, and the preview cleanup removes it on close.
+- All three workflows must keep the shared `gh-pages-deploy` concurrency group and non-force pushes because they write to the same branch.
 
 GitHub Pages must publish from the `gh-pages` branch root. During the initial cutover, seed and verify the branch with the manual production workflow before changing the Pages source from `main:/docs`.

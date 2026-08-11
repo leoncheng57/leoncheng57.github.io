@@ -1,0 +1,138 @@
+name: PR screenshots
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Writes to the same gh-pages branch as the production and preview deploys,
+# so it must share their concurrency group and never force-push.
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  screenshots:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (github.event.action != 'edited' || github.event.changes.body != null)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Parse screenshot paths from pull request description
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.pull_request.body ?? '';
+            const match = body.match(/```screenshots\s*\n([\s\S]*?)```/);
+            const paths = [];
+
+            if (match) {
+              for (const rawLine of match[1].split('\n')) {
+                const line = rawLine.trim();
+                if (!line || line.startsWith('#')) {
+                  continue;
+                }
+                if (!line.startsWith('/') || /\s/.test(line)) {
+                  core.setFailed(`Invalid screenshot path "${line}". Paths must start with "/" and contain no whitespace.`);
+                  return;
+                }
+                paths.push(line);
+              }
+            }
+
+            core.setOutput('paths', paths.join(' '));
+            core.setOutput('has_paths', paths.length > 0 ? 'true' : 'false');
+            core.info(paths.length > 0 ? `Screenshot paths: ${paths.join(' ')}` : 'No ```screenshots block found in the pull request description.');
+
+      - name: Set up Node.js
+        if: steps.parse.outputs.has_paths == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        if: steps.parse.outputs.has_paths == 'true'
+        run: npm ci
+
+      - name: Install Playwright browser
+        if: steps.parse.outputs.has_paths == 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Build app
+        if: steps.parse.outputs.has_paths == 'true'
+        run: |
+          rm -rf docs
+          npm run build
+
+      - name: Capture screenshots
+        if: steps.parse.outputs.has_paths == 'true'
+        run: node scripts/ci-screenshots.mjs ${{ steps.parse.outputs.paths }}
+
+      - name: Publish screenshots to gh-pages
+        if: steps.parse.outputs.has_paths == 'true'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: screenshot-output
+          branch: gh-pages
+          target-folder: previews/pr-${{ github.event.pull_request.number }}/screenshots
+          clean: true
+          force: false
+          attempt-limit: 10
+
+      - name: Update screenshots comment on pull request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- pr-screenshots -->';
+            const hasPaths = '${{ steps.parse.outputs.has_paths }}' === 'true';
+            const shortSha = context.payload.pull_request.head.sha.slice(0, 7);
+            const baseUrl = `https://leoncheng.dev/previews/pr-${context.issue.number}/screenshots`;
+
+            const lines = [marker, '## PR screenshots', ''];
+            if (hasPaths) {
+              const manifest = JSON.parse(fs.readFileSync('screenshot-output/manifest.json', 'utf8'));
+              for (const entry of manifest) {
+                lines.push(`### \`${entry.path}\``);
+                lines.push('');
+                lines.push(`![${entry.path}](${baseUrl}/${entry.file}?sha=${shortSha})`);
+                lines.push('');
+              }
+              lines.push(`_Captured at ${shortSha}. Screenshots refresh on every push and description edit, and are removed when the pull request closes._`);
+            } else {
+              lines.push('No screenshots requested. Add a ```screenshots fenced block with one page path per line to the pull request description to capture pages.');
+            }
+            const body = lines.join('\n');
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              ...context.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const existing = comments.find((comment) => comment.body?.includes(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                ...context.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else if (hasPaths) {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
