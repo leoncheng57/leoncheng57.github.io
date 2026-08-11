@@ -21,6 +21,33 @@ export default function AppsIndexRoute(): ReactElement {
             <div className={styles.appCardHeader}>
               <img
                 className={styles.appIcon}
+                src="/app-icons/tuzi.svg"
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <Link to="/tuzi">Tuzi</Link>
+                  <span className={styles.betaBadge}>BETA</span>
+                </h2>
+                <p className={styles.subtitle}>Find your next favorite book</p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              Build a personal reading taste profile by choosing between books.
+              This first draft explores the ranking loop before accounts and a
+              live catalog.
+            </p>
+            <p className={styles.links}>
+              <Link to="/tuzi">Start ranking</Link>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
                 src="/app-icons/house-party-photo-hunt.svg"
                 alt=""
                 width={64}
