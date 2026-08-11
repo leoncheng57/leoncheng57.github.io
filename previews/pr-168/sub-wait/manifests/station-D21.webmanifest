@@ -1,0 +1,32 @@
+{
+  "name": "Broadway-Lafayette St",
+  "short_name": "Broadway-Lafayette St",
+  "description": "Live NYC subway arrival times for Broadway-Lafayette St.",
+  "id": "/previews/pr-168/sub-wait/pwa/station/D21",
+  "start_url": "/previews/pr-168/sub-wait/station/D21",
+  "scope": "/previews/pr-168/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-168/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-168/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-168/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
