@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
+import InstallVideo from './InstallVideo'
 
 interface InstallHelpModalProps {
   onClose: () => void
@@ -61,6 +62,11 @@ function PlatformSteps({ platform }: { platform: Platform }): ReactElement {
   return (
     <section className={styles.installHelpPlatform} aria-labelledby={headingId}>
       <h3 id={headingId}>{title}</h3>
+      <InstallVideo
+        platform={platform}
+        label={`${title} install walkthrough`}
+        className={styles.installHelpVideo}
+      />
       <ol>
         {steps.map((step) => (
           <li key={step.title}>

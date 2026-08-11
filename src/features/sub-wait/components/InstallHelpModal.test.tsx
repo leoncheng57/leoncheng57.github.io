@@ -32,7 +32,13 @@ describe('InstallHelpModal', () => {
 
     expect(screen.getByRole('heading', { name: 'iPhone or iPad' })).toBeInTheDocument()
     expect(screen.getByText('Tap Share in Safari')).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('iPhone or iPad install walkthrough'),
+    ).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'Android' })).not.toBeInTheDocument()
+    expect(
+      screen.queryByLabelText('Android install walkthrough'),
+    ).not.toBeInTheDocument()
   })
 
   it('shows only Android installation steps for Android devices', () => {
@@ -41,7 +47,13 @@ describe('InstallHelpModal', () => {
 
     expect(screen.getByRole('heading', { name: 'Android' })).toBeInTheDocument()
     expect(screen.getByText('Open the Chrome menu')).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('Android install walkthrough'),
+    ).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'iPhone or iPad' })).not.toBeInTheDocument()
+    expect(
+      screen.queryByLabelText('iPhone or iPad install walkthrough'),
+    ).not.toBeInTheDocument()
   })
 
   it('shows both platform instructions when detection is inconclusive', () => {
@@ -50,6 +62,12 @@ describe('InstallHelpModal', () => {
 
     expect(screen.getByRole('heading', { name: 'iPhone or iPad' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Android' })).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('iPhone or iPad install walkthrough'),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('Android install walkthrough'),
+    ).toBeInTheDocument()
   })
 
   it('closes from its button, Escape, and backdrop', () => {

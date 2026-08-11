@@ -5,17 +5,19 @@ import { assetUrl } from '../utils/assetUrl'
 type InstallVideoProps = {
   platform: 'iphone' | 'android'
   label: string
+  className?: string
 }
 
 export default function InstallVideo({
   platform,
   label,
+  className,
 }: InstallVideoProps): ReactElement {
   const assetPrefix = `sub-wait/install/${platform}-walkthrough`
 
   return (
     <video
-      className={styles.installVideo}
+      className={[styles.installVideo, className].filter(Boolean).join(' ')}
       aria-label={label}
       controls
       playsInline

@@ -105,11 +105,15 @@ export default function SubWaitPwa(): ReactElement | null {
             ref={installButtonRef}
             type="button"
             onClick={() => setInstallHelpOpen(true)}
-            aria-label="Open install instructions"
           >
             <span className={styles.installHintLogoWrap} aria-hidden="true">
               <img src={assetUrl('sub-wait/icon-v2.svg')} alt="" />
               <span className={styles.installHintPlus}>+</span>
+            </span>
+            <span className={styles.installHintCollapsedText}>
+              {station
+                ? `Add ${station.name} to home screen`
+                : 'Add Sub-Wait to home screen'}
             </span>
           </button>
         </aside>
