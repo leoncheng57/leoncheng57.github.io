@@ -3,17 +3,18 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import App from '../../../App'
+import { books } from '../data/books'
 
-function renderTuzi(): void {
+function renderTuzi(path = '/tuzi/'): void {
   render(
-    <MemoryRouter initialEntries={['/tuzi/']}>
+    <MemoryRouter initialEntries={[path]}>
       <App />
     </MemoryRouter>
   )
 }
 
 describe('Tuzi route', () => {
-  it('renders the ranking draft and public-data warning', () => {
+  it('renders the Elo comparison and complete static catalog', () => {
     renderTuzi()
 
     expect(
@@ -23,7 +24,19 @@ describe('Tuzi route', () => {
     expect(screen.getByRole('button', { name: /pachinko/i })).toBeInTheDocument()
     expect(screen.getByText('Beta')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'All books' })).toBeInTheDocument()
-    expect(screen.getAllByRole('listitem')).toHaveLength(4)
+    expect(books.length).toBeGreaterThan(100)
+    expect(screen.getAllByRole('listitem')).toHaveLength(books.length + 3)
+  })
+
+  it('collapses and expands the public-data warning', async () => {
+    const user = userEvent.setup()
+    renderTuzi()
+
+    await user.click(screen.getByRole('button', { name: 'Collapse public data notice' }))
+    expect(screen.queryByText(/profiles and activity are public/i)).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Expand public data notice' }))
+    expect(screen.getByText(/profiles and activity are public/i)).toBeInTheDocument()
   })
 
   it('advances the comparison after choosing a book', async () => {
@@ -33,7 +46,8 @@ describe('Tuzi route', () => {
     await user.click(screen.getByRole('button', { name: /pachinko/i }))
 
     expect(screen.getByText('Pachinko moves up your shelf.')).toBeInTheDocument()
-    expect(screen.getByLabelText('13 of 20 books ranked')).toBeInTheDocument()
+    expect(screen.getByLabelText('1 of 20 comparisons complete')).toBeInTheDocument()
+    expect(screen.getByText('1516')).toBeInTheDocument()
   })
 
   it('chooses a book by dragging toward it', () => {
@@ -49,6 +63,19 @@ describe('Tuzi route', () => {
     expect(
       screen.getByText('Tomorrow, and Tomorrow, and Tomorrow moves up your shelf.'),
     ).toBeInTheDocument()
-    expect(screen.getByLabelText('13 of 20 books ranked')).toBeInTheDocument()
+    expect(screen.getByLabelText('1 of 20 comparisons complete')).toBeInTheDocument()
+  })
+
+  it('explains Elo ranking on its own page', () => {
+    renderTuzi('/tuzi/how-ranking-works')
+
+    expect(
+      screen.getByRole('heading', { name: /elo turns every pick/i }),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/two new books meet at 1500/i)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /back to ranking/i })).toHaveAttribute(
+      'href',
+      '/tuzi/',
+    )
   })
 })

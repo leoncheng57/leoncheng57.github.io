@@ -285,6 +285,8 @@
 .notice strong { flex: none; font-size: 0.8rem; }
 .notice span { flex: 1; }
 .notice button { min-width: 3.25rem; min-height: 3rem; font-size: 0.95rem; }
+.noticeCollapsed { width: fit-content; min-width: 13.5rem; }
+.noticeCollapsed button { min-width: 0; }
 
 .hero {
   display: grid;
@@ -310,6 +312,7 @@
 .progressRow span:last-child { text-align: right; }
 .progressRow strong { font-size: 1.2rem; }
 .progressTrack { grid-column: 1 / -1; width: 100%; height: 0.5rem; margin-top: 0; border-radius: 999px; }
+.howLink { grid-column: 1 / -1; width: fit-content; margin-top: 0.35rem; color: var(--ink); font-size: 0.9rem; font-weight: 700; text-underline-offset: 0.2em; }
 
 .rankArea { min-width: 0; }
 .prompt { margin: 0 0 0.75rem; font-size: 1.35rem; line-height: 1.15; }
@@ -361,6 +364,11 @@
 .shelfCard h2 { font-size: 2.35rem; }
 .shelfCard > p:not(.eyebrow) { font-size: 1rem; }
 .shelfCard > button { min-height: 3.5rem; font-size: 0.9rem; }
+.shelfRanking { display: grid; gap: 0.6rem; margin: 1.25rem 0 0; padding: 1rem 0 0 1.5rem; border-top: 1px solid #5b6c62; }
+.shelfRanking li { padding-left: 0.25rem; color: #c5d0c8; }
+.shelfRanking li::marker { color: var(--lime); font-weight: 700; }
+.shelfRanking li span { color: white; }
+.shelfRanking li strong { float: right; color: var(--lime); }
 
 .catalog { width: min(100% - 1.5rem, 34rem); margin: 0 auto 2rem; padding-top: 0.5rem; }
 .catalogHeader { display: flex; align-items: end; justify-content: space-between; margin-bottom: 1rem; }
@@ -398,6 +406,23 @@
 .mobileDock a:first-child { background: var(--lime); color: var(--ink); }
 .mobileDock span { font-size: 1rem; }
 .page footer { display: none; }
+
+.explainer { width: min(100% - 1.5rem, 34rem); margin: 0 auto; padding: 2rem 0 4rem; }
+.backLink { display: block; width: fit-content; margin-bottom: 2.5rem; color: var(--ink); font-size: 0.9rem; font-weight: 700; text-underline-offset: 0.2em; }
+.explainer > h1 { margin: 0.5rem 0 1rem; font-family: 'Fraunces', serif; font-size: clamp(2.8rem, 12vw, 4.6rem); font-weight: 600; letter-spacing: -0.05em; line-height: 0.95; }
+.explainerLead { margin: 0 0 3rem; color: #56645b; font-size: 1.15rem; line-height: 1.6; }
+.explainer > section { display: grid; grid-template-columns: 2.6rem 1fr; gap: 0.75rem; padding: 1.5rem 0; border-top: 1px solid #d3cfc1; }
+.explainer > section > span { display: grid; width: 2.25rem; height: 2.25rem; border-radius: 50%; place-items: center; background: var(--lime); font-size: 0.8rem; font-weight: 700; }
+.explainer section h2,
+.eloExample h2 { margin: 0 0 0.6rem; font-family: 'Fraunces', serif; font-size: 1.8rem; line-height: 1.05; }
+.explainer section p { margin: 0; color: #56645b; line-height: 1.55; }
+.explainer code { display: block; overflow-x: auto; margin-top: 1rem; padding: 0.85rem; border-radius: 0.5rem; background: #e7e3d6; color: var(--ink); font-size: 0.77rem; white-space: nowrap; }
+.eloExample { margin: 1.5rem 0 2rem; padding: 1.4rem; border-radius: 1rem; background: var(--ink); color: white; }
+.eloExample .eyebrow { margin-bottom: 0.6rem; color: var(--lime); }
+.eloExample > p:not(.eyebrow) { color: #c5d0c8; line-height: 1.5; }
+.eloExample > div { display: grid; grid-template-columns: 4rem 1fr; align-items: baseline; padding: 0.7rem 0; border-top: 1px solid #5b6c62; }
+.eloExample > div strong { color: var(--lime); font-size: 1.35rem; }
+.rankCta { display: flex; min-height: 3.5rem; align-items: center; justify-content: center; border-radius: 0.75rem; background: var(--coral); color: var(--ink); font-weight: 700; text-decoration: none; }
 
 @media (max-width: 370px) {
   .hero { width: min(100% - 1rem, 34rem); padding-top: 1rem; }
