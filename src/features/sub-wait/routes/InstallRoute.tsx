@@ -108,6 +108,14 @@ export default function InstallRoute(): ReactElement {
         </div>
       </header>
 
+      <section className={styles.installStationNote}>
+        <h2>Install a station app</h2>
+        <p>
+          Open the station you want first, then follow the steps below. Its app
+          uses the station name and opens directly to that station&apos;s arrivals.
+        </p>
+      </section>
+
       <PlatformSteps
         title="iPhone"
         note="Use Safari. The exact toolbar position can vary slightly by iOS version."
@@ -127,6 +135,25 @@ export default function InstallRoute(): ReactElement {
           Chrome, and install it again to fetch the current purple-and-gold S/W
           icon.
         </p>
+      </section>
+      <section className={styles.installCompatibility}>
+        <h2>Compatibility notes</h2>
+        <ul>
+          <li>Requires iOS/iPadOS 16.4+ or a recent Chromium browser.</li>
+          <li>Older browsers may merge or replace installations.</li>
+          <li>
+            <code>start_url</code> is technically a browser hint, so launch
+            behavior can vary.
+          </li>
+          <li>Long station names may be truncated on home screens.</li>
+          <li>
+            Same-name stations, such as &ldquo;23 St,&rdquo; can look identical.
+          </li>
+          <li>
+            Install while viewing the desired station page. Installing from the
+            homepage creates the general Sub-Wait app.
+          </li>
+        </ul>
       </section>
       <p className={styles.installIllustrationNote}>
         These are original illustrations. Labels and menu placement can vary
