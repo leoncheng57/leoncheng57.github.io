@@ -1,6 +1,6 @@
 {
   "index.html": {
-    "file": "assets/index-D3aidNuB.js",
+    "file": "assets/index-C72R0boL.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -11,7 +11,7 @@
       "src/features/workout-lab/data/exercise-videos.ts"
     ],
     "css": [
-      "assets/index-BoVI0Amz.css"
+      "assets/index-CAQBkE3I.css"
     ]
   },
   "src/features/workout-lab/data/exercise-details.ts": {
@@ -21,7 +21,7 @@
     "isDynamicEntry": true
   },
   "src/features/workout-lab/data/exercise-videos.ts": {
-    "file": "assets/exercise-videos-B51l3QbA.js",
+    "file": "assets/exercise-videos-Ca9ezY_5.js",
     "name": "exercise-videos",
     "src": "src/features/workout-lab/data/exercise-videos.ts",
     "isDynamicEntry": true,
