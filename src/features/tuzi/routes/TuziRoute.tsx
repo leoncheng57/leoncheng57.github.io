@@ -1,5 +1,6 @@
 import { useState, type CSSProperties, type ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import TuziPwa from '../components/TuziPwa'
 import styles from '../tuzi.module.css'
 
 type Book = {
@@ -82,8 +83,9 @@ export default function TuziRoute(): ReactElement {
 
   return (
     <div className={styles.page}>
+      <TuziPwa />
       <header className={styles.nav}>
-        <Link className={styles.brand} to="/tuzi" aria-label="Tuzi home">
+        <Link className={styles.brand} to="/tuzi/" aria-label="Tuzi home">
           <span className={styles.mark}>T</span>
           <span>tuzi</span>
         </Link>

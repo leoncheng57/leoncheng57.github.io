@@ -85,7 +85,7 @@ describe('apps index route', () => {
 
     expect(screen.getByRole('link', { name: 'Tuzi' })).toHaveAttribute(
       'href',
-      '/tuzi'
+      '/tuzi/'
     )
   })
 

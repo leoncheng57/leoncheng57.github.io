@@ -6,7 +6,7 @@ import App from '../../../App'
 
 function renderTuzi(): void {
   render(
-    <MemoryRouter initialEntries={['/tuzi']}>
+    <MemoryRouter initialEntries={['/tuzi/']}>
       <App />
     </MemoryRouter>
   )

@@ -50,7 +50,7 @@ export default function App(): ReactElement {
         <Route path="/apps/whoops-hoops/support" element={<SupportRoute />} />
         <Route path="/workout-lab/*" element={<WorkoutLabRoute />} />
         <Route path="/sub-wait/*" element={<SubWaitRoute />} />
-        <Route path="/tuzi" element={<TuziRoute />} />
+        <Route path="/tuzi/*" element={<TuziRoute />} />
       </Routes>
     </>
   )

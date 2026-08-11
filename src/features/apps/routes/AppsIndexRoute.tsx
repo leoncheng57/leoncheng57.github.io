@@ -29,7 +29,7 @@ export default function AppsIndexRoute(): ReactElement {
               />
               <div className={styles.appCardHeading}>
                 <h2>
-                  <Link to="/tuzi">Tuzi</Link>
+                  <Link to="/tuzi/">Tuzi</Link>
                   <span className={styles.betaBadge}>BETA</span>
                 </h2>
                 <p className={styles.subtitle}>Find your next favorite book</p>
@@ -41,7 +41,7 @@ export default function AppsIndexRoute(): ReactElement {
               live catalog.
             </p>
             <p className={styles.links}>
-              <Link to="/tuzi">Start ranking</Link>
+              <Link to="/tuzi/">Start ranking</Link>
             </p>
           </article>
           <article className={styles.appCard}>
