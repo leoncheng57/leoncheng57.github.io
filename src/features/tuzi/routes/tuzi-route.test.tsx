@@ -27,7 +27,33 @@ describe('Tuzi route', () => {
     expect(screen.getByText(/demonstration prototype.*rankings reset/i)).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'All books' })).toBeInTheDocument()
     expect(books.length).toBeGreaterThan(100)
-    expect(screen.getAllByRole('listitem')).toHaveLength(books.length + 3)
+    expect(screen.getAllByRole('listitem')).toHaveLength(books.length)
+    expect(screen.getByText(/your shelf is empty/i)).toBeInTheDocument()
+  })
+
+  it('shows every compared book on the shelf, ordered by rating', async () => {
+    const user = userEvent.setup()
+    renderTuzi()
+
+    await user.click(screen.getByRole('button', { name: /pachinko/i }))
+    await user.click(screen.getByRole('button', { name: /the left hand of darkness/i }))
+
+    expect(screen.queryByText(/your shelf is empty/i)).not.toBeInTheDocument()
+    expect(screen.getByText('4 books ranked so far')).toBeInTheDocument()
+
+    const shelf = screen.getByRole('complementary', { name: 'Your ranked shelf' })
+    const rankedTitles = Array.from(shelf.querySelectorAll('ol li span')).map(
+      (item) => item.textContent,
+    )
+    expect(rankedTitles).toHaveLength(4)
+    expect(rankedTitles.slice(0, 2).sort()).toEqual([
+      'Pachinko',
+      'The Left Hand of Darkness',
+    ])
+    expect(rankedTitles.slice(2).sort()).toEqual([
+      'Braiding Sweetgrass',
+      'Tomorrow, and Tomorrow, and Tomorrow',
+    ])
   })
 
   it('collapses and expands the public-data warning', async () => {

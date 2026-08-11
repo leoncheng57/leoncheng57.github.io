@@ -60,10 +60,12 @@ function RankingHome(): ReactElement {
 
   const leftBook = books[(round * 2) % books.length]
   const rightBook = books[(round * 2 + 1) % books.length]
-  const shelf = [...books].sort((a, b) => {
-    const ratingDifference = (ratings[b.id] ?? INITIAL_RATING) - (ratings[a.id] ?? INITIAL_RATING)
-    return ratingDifference || books.indexOf(a) - books.indexOf(b)
-  })
+  const shelf = books
+    .filter((book) => book.id in ratings)
+    .sort((a, b) => {
+      const ratingDifference = (ratings[b.id] ?? INITIAL_RATING) - (ratings[a.id] ?? INITIAL_RATING)
+      return ratingDifference || books.indexOf(a) - books.indexOf(b)
+    })
   const comparisonsUntilPicks = Math.max(20 - comparisons, 0)
 
   function choose(winner: Book): void {
@@ -193,22 +195,31 @@ function RankingHome(): ReactElement {
       </section>
 
       <section className={styles.lowerGrid}>
-        <aside className={styles.shelfCard} id="shelf">
+        <aside className={styles.shelfCard} id="shelf" aria-label="Your ranked shelf">
           <p className={styles.eyebrow}>Your Elo shelf</p>
           <h2>Your favorites rise with every pick.</h2>
-          <div className={styles.miniCovers} aria-label="Top three ranked books">
-            {shelf.slice(0, 3).map((book, index) => (
-              <BookCover book={book} position={index + 1} key={book.id} />
-            ))}
-          </div>
-          <ol className={styles.shelfRanking}>
-            {shelf.slice(0, 3).map((book) => (
-              <li key={book.id}>
-                <span>{book.title}</span>
-                <strong>{Math.round(ratings[book.id] ?? INITIAL_RATING)}</strong>
-              </li>
-            ))}
-          </ol>
+          {shelf.length === 0 ? (
+            <p>Your shelf is empty. Every book you compare shows up here, ordered by its Elo rating.</p>
+          ) : (
+            <>
+              <div className={styles.miniCovers} aria-label="Top ranked books">
+                {shelf.slice(0, 3).map((book, index) => (
+                  <BookCover book={book} position={index + 1} key={book.id} />
+                ))}
+              </div>
+              <p>
+                {shelf.length} {shelf.length === 1 ? 'book' : 'books'} ranked so far
+              </p>
+              <ol className={styles.shelfRanking}>
+                {shelf.map((book) => (
+                  <li key={book.id}>
+                    <span>{book.title}</span>
+                    <strong>{Math.round(ratings[book.id] ?? INITIAL_RATING)}</strong>
+                  </li>
+                ))}
+              </ol>
+            </>
+          )}
         </aside>
       </section>
 

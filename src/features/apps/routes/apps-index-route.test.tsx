@@ -36,12 +36,12 @@ describe('apps index route', () => {
     ).map((icon) => icon.getAttribute('src'))
 
     expect(iconSources).toEqual([
-      '/app-icons/tuzi.svg',
       '/app-icons/house-party-photo-hunt.svg',
       '/app-icons/whoops-hoops.png',
       '/app-icons/sub-wait-v2.svg',
       '/app-icons/game-nights.svg',
       '/app-icons/workout-lab.svg',
+      '/app-icons/tuzi.svg',
     ])
   })
 
@@ -80,13 +80,19 @@ describe('apps index route', () => {
     ).toHaveAttribute('href', '/georgies-board-game-nights')
   })
 
-  it('links to Tuzi', () => {
-    renderAppsIndex()
+  it('links to Tuzi as the last app card marked beta', () => {
+    const container = renderAppsIndex()
 
     expect(screen.getByRole('link', { name: 'Tuzi' })).toHaveAttribute(
       'href',
       '/tuzi/'
     )
+
+    const cards = Array.from(container.querySelectorAll('article'))
+    const lastCard = cards[cards.length - 1]
+    expect(lastCard).toHaveTextContent('Tuzi')
+    expect(lastCard).toHaveTextContent('BETA')
+    expect(lastCard).toHaveTextContent(/demonstration prototype/i)
   })
 
   it('links to Workout Lab', () => {
