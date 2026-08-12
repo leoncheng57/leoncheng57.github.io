@@ -21,6 +21,11 @@ describe('blog routes', () => {
     expect(screen.queryByRole('link', { name: 'Read the blog' })).not.toBeInTheDocument()
     expect(
       screen.getByRole('link', {
+        name: /One Manager, Five Workers: A Practical Pattern for Parallel Coding Agents/i,
+      })
+    ).toHaveAttribute('href', '/blog/manager-worker-parallel-agents')
+    expect(
+      screen.getByRole('link', {
         name: /Worktrees, Remote Coding Agents, and Choosing the Right Kind of Isolation/i,
       })
     ).toHaveAttribute('href', '/blog/worktrees-vs-remote-coding-agents')
