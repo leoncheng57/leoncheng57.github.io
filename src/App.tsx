@@ -7,6 +7,7 @@ import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
 import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
 import BlogPostRoute from './features/blog/routes/BlogPostRoute'
 import GameNightsRoute from './features/game-nights/routes/GameNightsRoute'
+import GuidesRoute from './features/guides/routes/GuidesRoute'
 import CiRoute from './features/repo/routes/CiRoute'
 import PlanningRoute from './features/repo/routes/PlanningRoute'
 import PreviewsRoute from './features/repo/routes/PreviewsRoute'
@@ -25,6 +26,7 @@ export default function App(): ReactElement {
         <Route path="/" element={<HomeRoute />} />
         <Route path="/blog" element={<BlogIndexRoute />} />
         <Route path="/blog/:slug" element={<BlogPostRoute />} />
+        <Route path="/guides" element={<GuidesRoute />} />
         <Route
           path="/georgies-board-game-nights"
           element={<GameNightsRoute />}
