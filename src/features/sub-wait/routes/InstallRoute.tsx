@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react'
+import { useEffect, type ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
@@ -87,6 +87,15 @@ function PlatformSteps({
 }
 
 export default function InstallRoute(): ReactElement {
+  useEffect(() => {
+    const previousTitle = document.title
+    document.title = "Install Sub-Wait | Leon's Website"
+
+    return () => {
+      document.title = previousTitle
+    }
+  }, [])
+
   return (
     <main className={styles.main}>
       <p className={styles.backLink}>

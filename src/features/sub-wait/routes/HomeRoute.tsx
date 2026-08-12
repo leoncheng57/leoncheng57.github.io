@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactElement } from 'react'
+import { useEffect, useMemo, useState, type ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import StationRowLink from '../components/StationRowLink'
 import { STATIONS } from '../data/stations'
@@ -90,6 +90,15 @@ function NearbySection(): ReactElement {
 
 export default function HomeRoute(): ReactElement {
   const logoUrl = assetUrl('sub-wait/icon-v2.svg')
+
+  useEffect(() => {
+    const previousTitle = document.title
+    document.title = "Sub-Wait | Leon's Website"
+
+    return () => {
+      document.title = previousTitle
+    }
+  }, [])
 
   return (
     <main className={styles.main}>

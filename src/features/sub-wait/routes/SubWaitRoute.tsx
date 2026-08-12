@@ -1,5 +1,5 @@
-import { useLayoutEffect, type ReactElement } from 'react'
-import { Link, NavLink, Route, Routes } from 'react-router-dom'
+import { useEffect, useLayoutEffect, type ReactElement } from 'react'
+import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import SubWaitPwa from '../components/SubWaitPwa'
 import useTheme from '../hooks/useTheme'
 import styles from '../sub-wait.module.css'
@@ -12,12 +12,29 @@ import StationsRoute from './StationsRoute'
 
 export default function SubWaitRoute(): ReactElement {
   const { theme, toggleTheme } = useTheme()
+  const location = useLocation()
 
   useLayoutEffect(() => {
     if (window.location.pathname === '/sub-wait') {
       window.history.replaceState(window.history.state, '', '/sub-wait/')
     }
   }, [])
+
+  useEffect(() => {
+    const gtag = (
+      window as Window & {
+        gtag?: (..._args: [string, string, Record<string, string>]) => void
+      }
+    ).gtag
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'page_view', {
+        page_location: window.location.href,
+        page_title: document.title,
+        page_path: `${location.pathname}${location.search}`,
+      })
+    }
+  }, [location.pathname, location.search])
 
   return (
     <div className={styles.page} data-theme={theme}>

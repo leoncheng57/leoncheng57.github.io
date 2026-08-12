@@ -79,6 +79,36 @@ afterEach(() => {
 })
 
 describe('SubWaitRoute', () => {
+  it('sets the page title and reports the initial route to GA4', () => {
+    const gtag = vi.fn()
+    vi.stubGlobal('gtag', gtag)
+
+    renderAt('/sub-wait/')
+
+    expect(document.title).toBe("Sub-Wait | Leon's Website")
+    expect(gtag).toHaveBeenCalledWith('event', 'page_view', {
+      page_location: window.location.href,
+      page_title: "Sub-Wait | Leon's Website",
+      page_path: '/sub-wait/',
+    })
+  })
+
+  it('updates the title and reports client-side route changes', async () => {
+    const gtag = vi.fn()
+    vi.stubGlobal('gtag', gtag)
+    const user = userEvent.setup()
+
+    renderAt('/sub-wait/')
+    await user.click(screen.getByRole('link', { name: 'Stations' }))
+
+    expect(document.title).toBe('Stations | Sub-Wait')
+    expect(gtag).toHaveBeenLastCalledWith('event', 'page_view', {
+      page_location: window.location.href,
+      page_title: 'Stations | Sub-Wait',
+      page_path: '/sub-wait/stations',
+    })
+  })
+
   it('renders the logo hero on the home page', () => {
     renderAt('/sub-wait/')
     expect(

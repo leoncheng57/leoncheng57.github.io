@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from 'react'
+import { useEffect, type ReactElement, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
@@ -25,6 +25,15 @@ function DocsSection({
 
 export default function ArchitectureRoute(): ReactElement {
   const diagramUrl = assetUrl('sub-wait/architecture-diagram-v2.svg')
+
+  useEffect(() => {
+    const previousTitle = document.title
+    document.title = "Architecture | Sub-Wait"
+
+    return () => {
+      document.title = previousTitle
+    }
+  }, [])
 
   return (
     <main className={styles.main}>

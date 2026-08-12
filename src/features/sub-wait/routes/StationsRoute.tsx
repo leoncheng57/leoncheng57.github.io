@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactElement } from 'react'
+import { useEffect, useMemo, useState, type ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import StationRowLink from '../components/StationRowLink'
 import { BOROUGHS, stationsByBorough } from '../data/stations'
@@ -35,6 +35,15 @@ function BoroughGroup({ borough }: { borough: string }): ReactElement | null {
 }
 
 export default function StationsRoute(): ReactElement {
+  useEffect(() => {
+    const previousTitle = document.title
+    document.title = "Stations | Sub-Wait"
+
+    return () => {
+      document.title = previousTitle
+    }
+  }, [])
+
   return (
     <main className={styles.main}>
       <p className={styles.backLink}>

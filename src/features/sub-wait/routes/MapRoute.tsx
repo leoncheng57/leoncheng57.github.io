@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -36,6 +37,15 @@ export default function MapRoute(): ReactElement {
     spread: number
   } | null>(null)
   const movedRef = useRef(false)
+
+  useEffect(() => {
+    const previousTitle = document.title
+    document.title = "Map | Sub-Wait"
+
+    return () => {
+      document.title = previousTitle
+    }
+  }, [])
 
   const projection = useMemo(
     () => buildProjection(STATIONS, MAP_WIDTH, MAP_PADDING),

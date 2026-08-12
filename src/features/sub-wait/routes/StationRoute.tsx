@@ -81,6 +81,18 @@ export default function StationRoute(): ReactElement {
       : null
   const arrivalsState = useArrivals(station)
 
+  useEffect(() => {
+    const previousTitle = document.title
+    const directionTitle = station && direction ? directionLabel(station, direction) : null
+    document.title = station
+      ? `${station.name}${directionTitle ? ` - ${directionTitle}` : ''} | Sub-Wait`
+      : "Station not found | Sub-Wait"
+
+    return () => {
+      document.title = previousTitle
+    }
+  }, [direction, station])
+
   if (!station || (params.direction !== undefined && direction === null)) {
     return (
       <main className={styles.main}>
