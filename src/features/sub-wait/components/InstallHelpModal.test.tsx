@@ -26,22 +26,25 @@ describe('InstallHelpModal', () => {
     document.body.style.overflow = ''
   })
 
-  it('shows only iPhone installation steps for Apple phones and tablets', () => {
+  it('shows the physical recording only for Apple phones and tablets', () => {
     setUserAgent('Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X)')
     renderModal()
 
     expect(screen.getByRole('heading', { name: 'iPhone or iPad' })).toBeInTheDocument()
     expect(screen.getByText('Tap Share in Safari')).toBeInTheDocument()
     expect(
-      screen.getByLabelText('iPhone or iPad install walkthrough'),
+      screen.getByLabelText('iPhone or iPad install recording'),
     ).toBeInTheDocument()
+    expect(
+      screen.queryByLabelText('iPhone or iPad install walkthrough'),
+    ).not.toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'Android' })).not.toBeInTheDocument()
     expect(
       screen.queryByLabelText('Android install walkthrough'),
     ).not.toBeInTheDocument()
   })
 
-  it('shows only Android installation steps for Android devices', () => {
+  it('falls back to the animated walkthrough for Android devices', () => {
     setUserAgent('Mozilla/5.0 (Linux; Android 14)')
     renderModal()
 
@@ -50,9 +53,12 @@ describe('InstallHelpModal', () => {
     expect(
       screen.getByLabelText('Android install walkthrough'),
     ).toBeInTheDocument()
+    expect(
+      screen.queryByLabelText('Android install recording'),
+    ).not.toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'iPhone or iPad' })).not.toBeInTheDocument()
     expect(
-      screen.queryByLabelText('iPhone or iPad install walkthrough'),
+      screen.queryByLabelText('iPhone or iPad install recording'),
     ).not.toBeInTheDocument()
   })
 
@@ -63,7 +69,7 @@ describe('InstallHelpModal', () => {
     expect(screen.getByRole('heading', { name: 'iPhone or iPad' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Android' })).toBeInTheDocument()
     expect(
-      screen.getByLabelText('iPhone or iPad install walkthrough'),
+      screen.getByLabelText('iPhone or iPad install recording'),
     ).toBeInTheDocument()
     expect(
       screen.getByLabelText('Android install walkthrough'),

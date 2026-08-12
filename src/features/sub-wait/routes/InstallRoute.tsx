@@ -1,6 +1,9 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
-import InstallVideo from '../components/InstallVideo'
+import InstallVideo, {
+  INSTALL_RECORDING_AVAILABLE,
+  type InstallPlatform,
+} from '../components/InstallVideo'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
 
@@ -53,24 +56,67 @@ const ANDROID_STEPS: InstallStep[] = [
   },
 ]
 
+function PlatformMedia({
+  platform,
+  title,
+  recordingCaption,
+}: {
+  platform: InstallPlatform
+  title: string
+  recordingCaption: string
+}): ReactElement {
+  return (
+    <div className={styles.installMediaRow}>
+      <figure className={styles.installMediaFigure}>
+        {INSTALL_RECORDING_AVAILABLE[platform] ? (
+          <InstallVideo
+            platform={platform}
+            kind="recording"
+            label={`${title} installation recording`}
+          />
+        ) : (
+          <div className={styles.installMediaPlaceholder}>
+            <strong>TBD</strong>
+            <span>
+              A screen recording from a physical {title} phone is coming soon.
+            </span>
+          </div>
+        )}
+        <figcaption>{recordingCaption}</figcaption>
+      </figure>
+      <figure className={styles.installMediaFigure}>
+        <InstallVideo
+          platform={platform}
+          kind="animation"
+          label={`${title} installation walkthrough`}
+        />
+        <figcaption>Animated walkthrough</figcaption>
+      </figure>
+    </div>
+  )
+}
+
 function PlatformSteps({
   platform,
   title,
   note,
+  recordingCaption,
   steps,
 }: {
-  platform: 'iphone' | 'android'
+  platform: InstallPlatform
   title: string
   note: string
+  recordingCaption: string
   steps: InstallStep[]
 }): ReactElement {
   return (
     <section className={styles.installPlatform} aria-labelledby={`${title}-steps`}>
       <h2 id={`${title}-steps`}>{title}</h2>
       <p>{note}</p>
-      <InstallVideo
+      <PlatformMedia
         platform={platform}
-        label={`${title} installation walkthrough`}
+        title={title}
+        recordingCaption={recordingCaption}
       />
       <ol className={styles.installSteps}>
         {steps.map((step, index) => (
@@ -127,12 +173,14 @@ export default function InstallRoute(): ReactElement {
         platform="iphone"
         title="iPhone"
         note="Use Safari. The exact toolbar position can vary slightly by iOS version."
+        recordingCaption="Real recording, Safari on iOS 26"
         steps={IPHONE_STEPS}
       />
       <PlatformSteps
         platform="android"
         title="Android"
         note="Use Chrome. Depending on your device, the menu may say Install app or Add to Home screen."
+        recordingCaption="Real recording, coming soon"
         steps={ANDROID_STEPS}
       />
 
@@ -165,9 +213,10 @@ export default function InstallRoute(): ReactElement {
         </ul>
       </section>
       <p className={styles.installIllustrationNote}>
-        These walkthroughs are animated illustrations, not operating-system
-        recordings. Labels and menu placement can vary slightly by phone and
-        operating-system version.
+        The iPhone screen recording was captured on a physical iPhone in Safari
+        on iOS 26; an Android recording is coming. The animated walkthroughs
+        are original illustrations. Labels and menu placement can vary slightly
+        by phone and operating-system version.
       </p>
     </main>
   )

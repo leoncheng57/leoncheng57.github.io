@@ -21,78 +21,6 @@ export default function AppsIndexRoute(): ReactElement {
             <div className={styles.appCardHeader}>
               <img
                 className={styles.appIcon}
-                src="/app-icons/house-party-photo-hunt.svg"
-                alt=""
-                width={64}
-                height={64}
-                decoding="async"
-              />
-              <div className={styles.appCardHeading}>
-                <h2>
-                  <a href="https://leoncheng.dev/vibe-photo-voting-house-game/">
-                    House Party Photo Hunt
-                  </a>
-                </h2>
-                <p className={styles.subtitle}>
-                  A photo game built for house parties
-                </p>
-              </div>
-            </div>
-            <p className={styles.description}>
-              Guests play on their phones while the host runs the game from a
-              laptop and shares voting and results on a TV. The hosted game
-              requires a password; clone the repository and connect your own
-              Supabase database to run it yourself. Built with care and smarts.
-            </p>
-            <p className={styles.links}>
-              <a href="https://leoncheng.dev/vibe-photo-voting-house-game/">
-                Password-protected game
-              </a>
-              {' · '}
-              <a href="https://github.com/leoncheng57/vibe-photo-voting-house-game">
-                GitHub
-              </a>
-            </p>
-          </article>
-          <article className={styles.appCard}>
-            <div className={styles.appCardHeader}>
-              <img
-                className={styles.appIcon}
-                src="/app-icons/whoops-hoops.png"
-                alt=""
-                width={64}
-                height={64}
-                decoding="async"
-              />
-              <div className={styles.appCardHeading}>
-                <h2>
-                  <a href="https://apps.apple.com/us/app/whoops-hoops/id6763969713">
-                    Whoops Hoops
-                  </a>
-                </h2>
-                <p className={styles.subtitle}>A daily NBA player guess game</p>
-              </div>
-            </div>
-            <p className={styles.description}>
-              Guess a mystery NBA player each day using color-coded clues across
-              six attributes: team, conference, division, position, height, and
-              age. 304 current NBA players bundled offline — no internet
-              required.
-            </p>
-            <p className={styles.links}>
-              <a href="https://apps.apple.com/us/app/whoops-hoops/id6763969713">
-                iOS
-              </a>
-              {' · '}
-              <Link to="/apps/whoops-hoops/privacy">Privacy</Link>
-              {' · '}
-              <Link to="/apps/whoops-hoops/support">Support</Link>
-            </p>
-          </article>
-          <article className={styles.appCard}>
-            <div className={styles.appCardHeader}>
-              <img
-                className={styles.appIcon}
                 src={subWaitIconUrl}
                 alt=""
                 width={64}
@@ -152,7 +80,7 @@ export default function AppsIndexRoute(): ReactElement {
             <div className={styles.appCardHeader}>
               <img
                 className={styles.appIcon}
-                src="/app-icons/workout-lab.svg"
+                src="/app-icons/whoops-hoops.png"
                 alt=""
                 width={64}
                 height={64}
@@ -160,21 +88,64 @@ export default function AppsIndexRoute(): ReactElement {
               />
               <div className={styles.appCardHeading}>
                 <h2>
-                  <Link to="/workout-lab">Workout Lab</Link>
-                  <span className={styles.betaBadge}>BETA</span>
+                  <a href="https://apps.apple.com/us/app/whoops-hoops/id6763969713">
+                    Whoops Hoops
+                  </a>
+                </h2>
+                <p className={styles.subtitle}>A daily NBA player guess game</p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              Guess a mystery NBA player each day using color-coded clues across
+              six attributes: team, conference, division, position, height, and
+              age. 304 current NBA players bundled offline — no internet
+              required.
+            </p>
+            <p className={styles.links}>
+              <a href="https://apps.apple.com/us/app/whoops-hoops/id6763969713">
+                iOS
+              </a>
+              {' · '}
+              <Link to="/apps/whoops-hoops/privacy">Privacy</Link>
+              {' · '}
+              <Link to="/apps/whoops-hoops/support">Support</Link>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
+                src="/app-icons/house-party-photo-hunt.svg"
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <a href="https://leoncheng.dev/vibe-photo-voting-house-game/">
+                    House Party Photo Hunt
+                  </a>
                 </h2>
                 <p className={styles.subtitle}>
-                  A workout generator built around you
+                  A photo game built for house parties
                 </p>
               </div>
             </div>
             <p className={styles.description}>
-              Customize your goal, experience, time, equipment, and focus to
-              generate a complete workout. The deterministic generator makes
-              every set of choices repeatable.
+              Guests play on their phones while the host runs the game from a
+              laptop and shares voting and results on a TV. The hosted game
+              requires a password; clone the repository and connect your own
+              Supabase database to run it yourself. Built with care and smarts.
             </p>
             <p className={styles.links}>
-              <Link to="/workout-lab">Build a workout</Link>
+              <a href="https://leoncheng.dev/vibe-photo-voting-house-game/">
+                Password-protected game
+              </a>
+              {' · '}
+              <a href="https://github.com/leoncheng57/vibe-photo-voting-house-game">
+                GitHub
+              </a>
             </p>
           </article>
           <article className={styles.appCard}>
@@ -203,6 +174,35 @@ export default function AppsIndexRoute(): ReactElement {
             </p>
             <p className={styles.links}>
               <Link to="/tuzi/">Start ranking</Link>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
+                src="/app-icons/workout-lab.svg"
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <Link to="/workout-lab">Workout Lab</Link>
+                  <span className={styles.betaBadge}>BETA</span>
+                </h2>
+                <p className={styles.subtitle}>
+                  A workout generator built around you
+                </p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              Customize your goal, experience, time, equipment, and focus to
+              generate a complete workout. The deterministic generator makes
+              every set of choices repeatable.
+            </p>
+            <p className={styles.links}>
+              <Link to="/workout-lab">Build a workout</Link>
             </p>
           </article>
         </div>

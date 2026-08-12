@@ -2,7 +2,7 @@ import { useEffect, useRef, type ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../sub-wait.module.css'
-import InstallVideo from './InstallVideo'
+import InstallVideo, { INSTALL_RECORDING_AVAILABLE } from './InstallVideo'
 
 interface InstallHelpModalProps {
   onClose: () => void
@@ -58,13 +58,19 @@ function PlatformSteps({ platform }: { platform: Platform }): ReactElement {
   const title = platform === 'iphone' ? 'iPhone or iPad' : 'Android'
   const steps = platform === 'iphone' ? IPHONE_STEPS : ANDROID_STEPS
   const headingId = `install-help-${platform}`
+  const hasRecording = INSTALL_RECORDING_AVAILABLE[platform]
 
   return (
     <section className={styles.installHelpPlatform} aria-labelledby={headingId}>
       <h3 id={headingId}>{title}</h3>
       <InstallVideo
         platform={platform}
-        label={`${title} install walkthrough`}
+        kind={hasRecording ? 'recording' : 'animation'}
+        label={
+          hasRecording
+            ? `${title} install recording`
+            : `${title} install walkthrough`
+        }
         className={styles.installHelpVideo}
       />
       <ol>
