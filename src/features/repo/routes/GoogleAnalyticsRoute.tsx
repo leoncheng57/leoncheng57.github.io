@@ -64,6 +64,26 @@ export default function GoogleAnalyticsRoute(): ReactElement {
             client-side navigation is counted once.
           </p>
         </section>
+
+        <section className={styles.section} aria-labelledby="analytics-groups-heading">
+          <h2 id="analytics-groups-heading">Traffic by app</h2>
+          <p>
+            Each pageview also sends GA4&apos;s built-in{' '}
+            <code>content_group</code> parameter, derived from the route prefix,
+            so every app reports as one value instead of many separate paths.
+            Groups include <code>home</code>, <code>blog</code>,{' '}
+            <code>guides</code>, <code>apps-index</code>,{' '}
+            <code>whoops-hoops</code>, <code>repo</code>, <code>sub-wait</code>,{' '}
+            <code>workout-lab</code>, <code>tuzi</code>, and{' '}
+            <code>game-nights</code>.
+          </p>
+          <p>
+            Build a custom report with <strong>Content group</strong> as the
+            primary dimension to chart views per app over time. Content groups
+            are not retroactive, so they only describe traffic collected after
+            this shipped.
+          </p>
+        </section>
       </main>
     </div>
   )

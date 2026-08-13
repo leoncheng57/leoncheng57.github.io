@@ -2,7 +2,10 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter, Link } from 'react-router-dom'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import RouteMetadata, { getRouteTitle } from './RouteMetadata'
+import RouteMetadata, {
+  getRouteContentGroup,
+  getRouteTitle,
+} from './RouteMetadata'
 
 afterEach(() => {
   vi.unstubAllGlobals()
@@ -45,6 +48,34 @@ describe('getRouteTitle', () => {
   })
 })
 
+describe('getRouteContentGroup', () => {
+  it.each([
+    ['/', 'home'],
+    ['/blog', 'blog'],
+    ['/blog/hello-blog', 'blog'],
+    ['/guides', 'guides'],
+    ['/apps', 'apps-index'],
+    ['/apps/whoops-hoops/privacy', 'whoops-hoops'],
+    ['/apps/whoops-hoops/support', 'whoops-hoops'],
+    ['/repo', 'repo'],
+    ['/repo/google-analytics', 'repo'],
+    ['/development/previews', 'repo'],
+    ['/sub-wait/', 'sub-wait'],
+    ['/sub-wait/station/F16/N', 'sub-wait'],
+    ['/workout-lab/exercises', 'workout-lab'],
+    ['/tuzi/how-ranking-works', 'tuzi'],
+    ['/georgies-board-game-nights', 'game-nights'],
+    ['/game-nights', 'game-nights'],
+    ['/unknown-path', 'other'],
+  ])('groups %s as %s', (pathname, expected) => {
+    expect(getRouteContentGroup(pathname)).toBe(expected)
+  })
+
+  it('does not group an unrelated path that merely shares a prefix', () => {
+    expect(getRouteContentGroup('/sub-waiting')).toBe('other')
+  })
+})
+
 describe('RouteMetadata', () => {
   it('sets titles, tracks initial and client-side pageviews, and restores the title', async () => {
     const gtag = vi.fn()
@@ -62,6 +93,7 @@ describe('RouteMetadata', () => {
     await waitFor(() => {
       expect(document.title).toBe("Blog | Leon's Website")
       expect(gtag).toHaveBeenCalledWith('event', 'page_view', {
+        content_group: 'blog',
         page_location: 'http://localhost:3000/blog',
         page_path: '/blog',
         page_title: "Blog | Leon's Website",
@@ -75,6 +107,7 @@ describe('RouteMetadata', () => {
         'East Broadway - Uptown & Queens | Sub-Wait',
       )
       expect(gtag).toHaveBeenLastCalledWith('event', 'page_view', {
+        content_group: 'sub-wait',
         page_location: 'http://localhost:3000/sub-wait/station/F16/N',
         page_path: '/sub-wait/station/F16/N',
         page_title: 'East Broadway - Uptown & Queens | Sub-Wait',
