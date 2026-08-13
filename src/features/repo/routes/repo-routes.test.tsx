@@ -121,14 +121,56 @@ describe('repo subpages', () => {
     expect(
       screen.getByRole('heading', { level: 3, name: 'Tuzi' })
     ).toBeInTheDocument()
-    expect(screen.getByText('Alpha')).toBeInTheDocument()
+    expect(screen.getAllByText('Alpha')).toHaveLength(2)
+    expect(screen.getByRole('link', { name: 'Tuzi' })).toHaveAttribute(
+      'href',
+      '/tuzi/'
+    )
     expect(screen.getByRole('link', { name: 'Start ranking' })).toHaveAttribute(
       'href',
       '/tuzi/'
     )
     expect(
+      screen.getByRole('heading', { level: 3, name: 'GA Traffic Dashboard' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'GA Traffic Dashboard' })
+    ).toHaveAttribute('href', '/repo/alpha-projs/ga-traffic-dashboard')
+    expect(screen.getByRole('link', { name: 'Read more' })).toHaveAttribute(
+      'href',
+      '/repo/alpha-projs/ga-traffic-dashboard'
+    )
+    expect(
       screen.getByRole('link', { name: 'Back home' })
     ).toHaveAttribute('href', '/')
+  })
+
+  it('renders the GA traffic dashboard page at /repo/alpha-projs/ga-traffic-dashboard', () => {
+    render(
+      <MemoryRouter initialEntries={['/repo/alpha-projs/ga-traffic-dashboard']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'GA Traffic Dashboard' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Back to alpha projs' })
+    ).toHaveAttribute('href', '/repo/alpha-projs')
+    expect(
+      screen.getByRole('link', { name: 'Source code on GitHub' })
+    ).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/leoncheng57.github.io/tree/main/alpha-projs/ga-traffic-dashboard'
+    )
+    expect(
+      screen.getByRole('link', { name: 'GA4: Pages and screens' })
+    ).toHaveAttribute('href', expect.stringContaining('analytics.google.com'))
+    expect(
+      screen.getByRole('link', { name: 'GA4: per-app rows, year to date' })
+    ).toHaveAttribute('href', expect.stringContaining('analytics.google.com'))
+    expect(screen.getAllByText('(private-access-only)')).toHaveLength(3)
   })
 
   it('documents CI checks at /repo/ci', () => {

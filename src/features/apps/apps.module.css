@@ -10,6 +10,7 @@
 .page a:hover {
   color: var(--link-hover-color);
   opacity: 0.85;
+  text-decoration: underline;
 }
 
 .index {

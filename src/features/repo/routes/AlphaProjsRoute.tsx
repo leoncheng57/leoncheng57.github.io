@@ -25,7 +25,9 @@ export default function AlphaProjsRoute(): ReactElement {
             <img src="/app-icons/tuzi.svg" alt="" width="72" height="72" />
             <div className={styles.projectCardBody}>
               <div className={styles.projectCardHeading}>
-                <h3>Tuzi</h3>
+                <h3>
+                  <Link to="/tuzi/">Tuzi</Link>
+                </h3>
                 <span className={styles.alphaBadge}>Alpha</span>
               </div>
               <p>
@@ -34,6 +36,34 @@ export default function AlphaProjsRoute(): ReactElement {
               </p>
               <Link to="/tuzi/" className={styles.projectLink}>
                 Start ranking
+              </Link>
+            </div>
+          </article>
+          <article className={styles.projectCard}>
+            <img
+              src="/app-icons/ga-traffic-dashboard.svg"
+              alt=""
+              width="72"
+              height="72"
+            />
+            <div className={styles.projectCardBody}>
+              <div className={styles.projectCardHeading}>
+                <h3>
+                  <Link to="/repo/alpha-projs/ga-traffic-dashboard">
+                    GA Traffic Dashboard
+                  </Link>
+                </h3>
+                <span className={styles.alphaBadge}>Alpha</span>
+              </div>
+              <p>
+                Local-only dashboard charting traffic per app on this site,
+                powered by the GA4 Data API.
+              </p>
+              <Link
+                to="/repo/alpha-projs/ga-traffic-dashboard"
+                className={styles.projectLink}
+              >
+                Read more
               </Link>
             </div>
           </article>
