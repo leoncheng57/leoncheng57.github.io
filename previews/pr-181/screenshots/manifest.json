@@ -2,5 +2,21 @@
   {
     "path": "/",
     "file": "home.png"
+  },
+  {
+    "path": "/apps",
+    "file": "apps.png"
+  },
+  {
+    "path": "/guides",
+    "file": "guides.png"
+  },
+  {
+    "path": "/repo/alpha-projs",
+    "file": "repo--alpha-projs.png"
+  },
+  {
+    "path": "/repo/design-components",
+    "file": "repo--design-components.png"
   }
 ]
