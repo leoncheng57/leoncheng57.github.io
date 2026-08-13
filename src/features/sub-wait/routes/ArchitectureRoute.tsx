@@ -222,13 +222,13 @@ export default function ArchitectureRoute(): ReactElement {
           </li>
         </ol>
         <p>
-          <strong>Note to future Leon:</strong> verify that GA4 Enhanced
-          Measurement has browser-history page views enabled. React Router
-          changes routes without a full document reload; if those navigation
-          events do not appear, add explicit <code>page_view</code> events on
-          route changes before relying on the reports. PR previews also load
-          the global tag, so filter or disable <code>/previews/</code> traffic
-          before treating the data as production-only.
+          The site sends an explicit <code>page_view</code> after each React
+          Router navigation, including the current page URL, path, and
+          route-specific title. Automatic pageviews are disabled in the global
+          GA4 configuration, and browser-history pageviews are disabled in the
+          web stream&apos;s Enhanced Measurement settings, to avoid duplicate
+          events. PR previews also load the global tag, so filter or disable{' '}
+          <code>/previews/</code> traffic before treating the data as production-only.
         </p>
       </DocsSection>
     </main>

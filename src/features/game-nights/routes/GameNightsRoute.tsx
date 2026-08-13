@@ -1,4 +1,4 @@
-import { useEffect, type ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import styles from '../game-nights.module.css'
 
 const sampleGames = [
@@ -31,15 +31,6 @@ const photos = [
 ]
 
 export default function GameNightsRoute(): ReactElement {
-  useEffect(() => {
-    const previousTitle = document.title
-    document.title = "Georgie's Game Nights"
-
-    return () => {
-      document.title = previousTitle
-    }
-  }, [])
-
   return (
     <div className={styles.page}>
       <header className={styles.header}>

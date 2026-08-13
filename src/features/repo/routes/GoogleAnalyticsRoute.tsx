@@ -57,10 +57,11 @@ export default function GoogleAnalyticsRoute(): ReactElement {
         <section className={styles.section} aria-labelledby="analytics-routing-heading">
           <h2 id="analytics-routing-heading">Client-side navigation</h2>
           <p>
-            React Router changes pages without a full document reload. GA4
-            Enhanced Measurement should have browser-history page views enabled.
-            If route changes do not appear in Realtime, add explicit{' '}
-            <code>page_view</code> events before relying on route-level reports.
+            The site sends an explicit <code>page_view</code> after each React
+            Router navigation with the current URL, path, and route-specific
+            title. Automatic tag pageviews and Enhanced Measurement
+            browser-history pageviews are disabled so each initial load and
+            client-side navigation is counted once.
           </p>
         </section>
       </main>
