@@ -121,10 +121,31 @@ describe('repo subpages', () => {
     expect(
       screen.getByRole('heading', { level: 3, name: 'Tuzi' })
     ).toBeInTheDocument()
-    expect(screen.getByText('Alpha')).toBeInTheDocument()
+    expect(screen.getAllByText('Alpha')).toHaveLength(2)
     expect(screen.getByRole('link', { name: 'Start ranking' })).toHaveAttribute(
       'href',
       '/tuzi/'
+    )
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'GA Traffic Dashboard' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'View code on GitHub' })
+    ).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/leoncheng57.github.io/tree/main/alpha-projs/ga-traffic-dashboard'
+    )
+    expect(
+      screen.getByRole('link', { name: 'GA: Pages and Screens' })
+    ).toHaveAttribute(
+      'href',
+      expect.stringContaining('analytics.google.com')
+    )
+    expect(
+      screen.getByRole('link', { name: 'GA: per-app rows' })
+    ).toHaveAttribute(
+      'href',
+      expect.stringContaining('analytics.google.com')
     )
     expect(
       screen.getByRole('link', { name: 'Back home' })
