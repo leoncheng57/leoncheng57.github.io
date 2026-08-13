@@ -170,9 +170,7 @@ describe('repo subpages', () => {
     expect(
       screen.getByRole('link', { name: 'GA4: per-app rows, year to date' })
     ).toHaveAttribute('href', expect.stringContaining('analytics.google.com'))
-    expect(
-      screen.getByRole('link', { name: 'Google Analytics' })
-    ).toHaveAttribute('href', '/repo/google-analytics')
+    expect(screen.getAllByText('(private-access-only)')).toHaveLength(3)
   })
 
   it('documents CI checks at /repo/ci', () => {

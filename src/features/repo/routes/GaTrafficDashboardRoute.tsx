@@ -40,42 +40,11 @@ export default function GaTrafficDashboardRoute(): ReactElement {
 
         <header className={styles.pageHeader}>
           <p className={styles.eyebrow}>Repo / alpha projs / GA traffic dashboard</p>
-          <h1>GA Traffic Dashboard</h1>
-          <p>
-            One line per app section of this site, built on the Google
-            Analytics 4 Data API. It runs locally only: the traffic data stays
-            private, the code is public.
-          </p>
+          <div className={styles.titleRow}>
+            <h1>GA Traffic Dashboard</h1>
+            <span className={styles.privateBadge}>(private-access-only)</span>
+          </div>
         </header>
-
-        <section className={styles.section} aria-labelledby="why-heading">
-          <h2 id="why-heading">Why it exists</h2>
-          <p>
-            GA4&apos;s built-in reports chart the top five <em>pages</em>, so{' '}
-            <code>/sub-wait/</code>, <code>/sub-wait/station/F16</code>, and
-            every article under <code>/blog/</code> appear as unrelated lines.
-            Reading &quot;how is sub-wait doing?&quot; off that chart means
-            adding rows up by hand.
-          </p>
-          <p>
-            This dashboard groups every page path into the app it belongs to -{' '}
-            <code>sub-wait</code>, <code>blog</code>, <code>workout-lab</code>,{' '}
-            <code>apps</code>, <code>game-nights</code>, <code>repo</code>,{' '}
-            <code>tuzi</code>, <code>home</code> - and charts those groups
-            instead. Because the grouping happens in code rather than in GA
-            config, it applies to all historical data.
-          </p>
-          <p>
-            Preview traffic is matched first, so reviewing my own pull request
-            previews under <code>/previews/pr-N/</code> never inflates a real
-            app&apos;s numbers. That group is hidden by default.
-          </p>
-          <p>
-            The complementary approach - having the site tag its own pageviews
-            so GA can group them natively - is documented on the{' '}
-            <Link to="/repo/google-analytics">Google Analytics</Link> page.
-          </p>
-        </section>
 
         <section className={styles.section} aria-labelledby="how-heading">
           <h2 id="how-heading">How it works</h2>
@@ -149,12 +118,14 @@ export default function GaTrafficDashboardRoute(): ReactElement {
               <a href={GA_PAGES_AND_SCREENS_URL} target="_blank" rel="noreferrer">
                 GA4: Pages and screens
               </a>{' '}
+              <span className={styles.privateBadge}>(private-access-only)</span>{' '}
               - the per-page report this replaces.
             </li>
             <li>
               <a href={GA_PER_APP_ROWS_URL} target="_blank" rel="noreferrer">
                 GA4: per-app rows, year to date
               </a>{' '}
+              <span className={styles.privateBadge}>(private-access-only)</span>{' '}
               - the closest equivalent using plotted rows.
             </li>
             <li>
