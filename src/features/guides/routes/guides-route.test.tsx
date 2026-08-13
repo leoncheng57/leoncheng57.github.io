@@ -8,7 +8,7 @@ const GUIDE_TITLE = 'Running Parallel Coding Agents with a Manager and Workers'
 const GUIDE_PATH = '/guides/manager-worker-parallel-agents'
 
 describe('guides index route', () => {
-  it('lists published guides with chapter counts', () => {
+  it('lists published guides as cards with chapter previews', () => {
     render(
       <MemoryRouter initialEntries={['/guides']}>
         <App />
@@ -18,18 +18,37 @@ describe('guides index route', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Guides' })).toBeInTheDocument()
 
     expect(screen.getByRole('link', { name: GUIDE_TITLE })).toHaveAttribute('href', GUIDE_PATH)
-    expect(screen.getByText(/chapters$/)).toBeInTheDocument()
-    expect(screen.getByText(/Last reviewed:/)).toBeInTheDocument()
+    expect(screen.getByText(/7 chapters/)).toBeInTheDocument()
+    expect(screen.getByText(/updated 2026-/)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /read guide/ })).toHaveAttribute('href', GUIDE_PATH)
+
+    // The card previews the first chapters without listing all of them.
+    expect(screen.getByText('Plan the work and set up workers')).toBeInTheDocument()
+    expect(screen.getByText(/and 4 more chapters/)).toBeInTheDocument()
   })
 
-  it('uses its own site chrome instead of the main site navigation', () => {
+  it('stays on the main site chrome, like the apps index', () => {
     render(
       <MemoryRouter initialEntries={['/guides']}>
         <App />
       </MemoryRouter>
     )
 
-    // The shared TopNav renders a "Repo pages" control; guides must not use it.
+    expect(screen.getByRole('button', { name: 'Repo pages' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Back home' })).toHaveAttribute('href', '/')
+    expect(screen.queryByRole('navigation', { name: 'Guides navigation' })).not.toBeInTheDocument()
+  })
+})
+
+describe('guide site chrome', () => {
+  it('replaces the main site navigation on a guide page', () => {
+    render(
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    // The shared TopNav renders a "Repo pages" control; a guide must not use it.
     expect(screen.queryByRole('button', { name: 'Repo pages' })).not.toBeInTheDocument()
 
     const guidesNav = screen.getByRole('navigation', { name: 'Guides navigation' })
@@ -44,7 +63,7 @@ describe('guides index route', () => {
     const user = userEvent.setup()
 
     render(
-      <MemoryRouter initialEntries={['/guides']}>
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
         <App />
       </MemoryRouter>
     )

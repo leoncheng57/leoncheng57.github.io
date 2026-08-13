@@ -5,11 +5,11 @@ import useGuidesTheme from '../hooks/useGuidesTheme'
 import styles from '../guides.module.css'
 import GuideChapterRoute from './GuideChapterRoute'
 import GuideOverviewRoute from './GuideOverviewRoute'
-import GuidesIndexRoute from './GuidesIndexRoute'
 
 /**
- * Guides is a standalone documentation site: it owns its own masthead, footer,
- * theme toggle, and nested routes instead of using the main site chrome.
+ * A single guide reads as its own small documentation site: it owns a masthead,
+ * footer, theme toggle, and chapter routes instead of the main site chrome.
+ * The guides index at /guides stays on the main site and links in here.
  */
 export default function GuidesRoute(): ReactElement {
   const { theme, toggleTheme } = useGuidesTheme()
@@ -48,9 +48,8 @@ export default function GuidesRoute(): ReactElement {
         </header>
 
         <Routes>
-          <Route index element={<GuidesIndexRoute />} />
-          <Route path=":slug" element={<GuideOverviewRoute />} />
-          <Route path=":slug/:chapterSlug" element={<GuideChapterRoute />} />
+          <Route index element={<GuideOverviewRoute />} />
+          <Route path=":chapterSlug" element={<GuideChapterRoute />} />
         </Routes>
 
         <footer className={styles.footer}>
