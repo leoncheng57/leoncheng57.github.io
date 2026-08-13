@@ -31,6 +31,9 @@ describe('repo hub route', () => {
       within(subpageNav).getByRole('link', { name: /Project planning/ })
     ).toHaveAttribute('href', '/repo/planning')
     expect(
+      within(subpageNav).getByRole('link', { name: /Google Analytics/ })
+    ).toHaveAttribute('href', '/repo/google-analytics')
+    expect(
       within(subpageNav).getByRole('link', { name: /Alpha Projs/ })
     ).toHaveAttribute('href', '/repo/alpha-projs')
 
@@ -79,6 +82,9 @@ describe('repo hub route', () => {
       within(repoPages).getByText('Project planning').closest('a')
     ).toHaveAttribute('href', '/repo/planning')
     expect(
+      within(repoPages).getByText('Google Analytics').closest('a')
+    ).toHaveAttribute('href', '/repo/google-analytics')
+    expect(
       within(repoPages).getByText('Alpha Projs').closest('a')
     ).toHaveAttribute('href', '/repo/alpha-projs')
   })
@@ -97,6 +103,25 @@ describe('repo hub route', () => {
 })
 
 describe('repo subpages', () => {
+  it('documents Google Analytics at /repo/google-analytics', () => {
+    render(
+      <MemoryRouter initialEntries={['/repo/google-analytics']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Google Analytics' })
+    ).toBeInTheDocument()
+    expect(screen.getByText('G-5MLNJQ7789')).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Open Google Analytics' })
+    ).toHaveAttribute('href', 'https://analytics.google.com/analytics/web/')
+    expect(
+      screen.getByRole('link', { name: 'Back to Repo' })
+    ).toHaveAttribute('href', '/repo')
+  })
+
   it('renders Alpha Projs at /repo/alpha-projs', () => {
     render(
       <MemoryRouter initialEntries={['/repo/alpha-projs']}>

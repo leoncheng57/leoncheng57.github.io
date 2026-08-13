@@ -25,6 +25,11 @@ const SUBPAGES = [
     description: 'The open GitHub issues currently on the backlog.',
   },
   {
+    to: '/repo/google-analytics',
+    title: 'Google Analytics',
+    description: 'The site-wide GA4 setup and how to verify page views.',
+  },
+  {
     to: '/repo/alpha-projs',
     title: 'Alpha Projs',
     description: 'Early projects and experiments still taking shape.',
