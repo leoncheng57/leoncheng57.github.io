@@ -249,8 +249,7 @@
   line-height: 1.65;
 }
 
-.alphaBadge,
-.betaBadge {
+.alphaBadge {
   padding: 0.2rem 0.45rem;
   border: 2px solid var(--text-primary);
   background: #f4ad9c;
@@ -258,10 +257,6 @@
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.betaBadge {
-  background: #f7df71;
 }
 
 .projectLink {

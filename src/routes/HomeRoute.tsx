@@ -26,7 +26,7 @@ const APP_ITEMS: RecentItem[] = [
     date: '2026-08-11',
     href: '/tuzi/',
     cta: 'Open project',
-    status: ['Alpha', 'Beta'],
+    status: ['Alpha'],
   },
   {
     key: 'app-sub-wait',

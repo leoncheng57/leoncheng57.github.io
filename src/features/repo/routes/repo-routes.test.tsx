@@ -118,7 +118,6 @@ describe('repo subpages', () => {
       screen.getByRole('heading', { level: 3, name: 'Tuzi' })
     ).toBeInTheDocument()
     expect(screen.getByText('Alpha')).toBeInTheDocument()
-    expect(screen.getByText('Beta')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Start ranking' })).toHaveAttribute(
       'href',
       '/tuzi/'

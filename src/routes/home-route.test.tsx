@@ -28,6 +28,6 @@ describe('home route recent work', () => {
     expect(within(recentWork).getAllByText('App')).toHaveLength(3)
     expect(within(recentWork).getAllByText('Blog')).toHaveLength(2)
     expect(within(recentWork).getAllByText('Alpha')).toHaveLength(1)
-    expect(within(recentWork).getAllByText('Beta')).toHaveLength(3)
+    expect(within(recentWork).getAllByText('Beta')).toHaveLength(2)
   })
 })

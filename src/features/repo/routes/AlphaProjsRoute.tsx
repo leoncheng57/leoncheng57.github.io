@@ -27,7 +27,6 @@ export default function AlphaProjsRoute(): ReactElement {
               <div className={styles.projectCardHeading}>
                 <h3>Tuzi</h3>
                 <span className={styles.alphaBadge}>Alpha</span>
-                <span className={styles.betaBadge}>Beta</span>
               </div>
               <p>
                 A demonstration prototype for comparing books head-to-head and
