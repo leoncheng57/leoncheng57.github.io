@@ -7,7 +7,10 @@ import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
 import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
 import BlogPostRoute from './features/blog/routes/BlogPostRoute'
 import GameNightsRoute from './features/game-nights/routes/GameNightsRoute'
+import GuidesRoute from './features/guides/routes/GuidesRoute'
+import AlphaProjsRoute from './features/repo/routes/AlphaProjsRoute'
 import CiRoute from './features/repo/routes/CiRoute'
+import GoogleAnalyticsRoute from './features/repo/routes/GoogleAnalyticsRoute'
 import PlanningRoute from './features/repo/routes/PlanningRoute'
 import PreviewsRoute from './features/repo/routes/PreviewsRoute'
 import ProductionRoute from './features/repo/routes/ProductionRoute'
@@ -25,6 +28,7 @@ export default function App(): ReactElement {
         <Route path="/" element={<HomeRoute />} />
         <Route path="/blog" element={<BlogIndexRoute />} />
         <Route path="/blog/:slug" element={<BlogPostRoute />} />
+        <Route path="/guides" element={<GuidesRoute />} />
         <Route
           path="/georgies-board-game-nights"
           element={<GameNightsRoute />}
@@ -36,7 +40,9 @@ export default function App(): ReactElement {
         />
         <Route path="/apps" element={<AppsIndexRoute />} />
         <Route path="/repo" element={<RepoRoute />} />
+        <Route path="/repo/alpha-projs" element={<AlphaProjsRoute />} />
         <Route path="/repo/ci" element={<CiRoute />} />
+        <Route path="/repo/google-analytics" element={<GoogleAnalyticsRoute />} />
         <Route path="/repo/production" element={<ProductionRoute />} />
         <Route path="/repo/previews" element={<PreviewsRoute />} />
         <Route path="/repo/planning" element={<PlanningRoute />} />
