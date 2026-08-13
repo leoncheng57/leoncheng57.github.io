@@ -8,6 +8,10 @@
     "file": "guides--manager-worker-parallel-agents.png"
   },
   {
+    "path": "/guides/manager-worker-parallel-agents/case-study-parallel-remediation",
+    "file": "guides--manager-worker-parallel-agents--case-study-parallel-remediation.png"
+  },
+  {
     "path": "/",
     "file": "home.png"
   }
