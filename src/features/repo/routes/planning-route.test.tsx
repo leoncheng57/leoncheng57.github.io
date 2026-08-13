@@ -83,12 +83,12 @@ describe('repo planning route', () => {
     )
   })
 
-  it('links back to the Repo hub', async () => {
+  it('links back home', async () => {
     renderPlanning()
 
     expect(
-      screen.getByRole('link', { name: 'Back to Repo' })
-    ).toHaveAttribute('href', '/repo')
+      screen.getByRole('link', { name: 'Back home' })
+    ).toHaveAttribute('href', '/')
 
     await screen.findByLabelText('Open GitHub issues')
   })

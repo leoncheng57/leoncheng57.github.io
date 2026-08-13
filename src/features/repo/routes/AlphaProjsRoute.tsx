@@ -9,7 +9,7 @@ export default function AlphaProjsRoute(): ReactElement {
       <TopNav />
       <main className={styles.content}>
         <p className={styles.backLink}>
-          <Link to="/repo">Back to Repo</Link>
+          <Link to="/">Back home</Link>
         </p>
 
         <header className={styles.pageHeader}>
@@ -17,26 +17,26 @@ export default function AlphaProjsRoute(): ReactElement {
           <h1>Alpha Projs</h1>
         </header>
 
-        <section
-          className={styles.placeholderBanner}
-          aria-labelledby="alpha-placeholder-heading"
-        >
-          <div className={styles.placeholderStatus}>
-            <span className={styles.statusDot} aria-hidden="true" />
-            In progress
-          </div>
-          <h2 id="alpha-placeholder-heading">Still taking shape</h2>
-          <p>
-            Early projects and experiments are being assembled here. This space
-            will become a home for things still in alpha.
-          </p>
-          <div className={styles.placeholderFooter}>
-            <span className={styles.comingSoon}>Coming soon</span>
-            <div className={styles.buildTrack} aria-hidden="true">
-              <span />
-              <strong>Building the next thing</strong>
+        <section aria-labelledby="alpha-projects-heading">
+          <h2 id="alpha-projects-heading" className={styles.eyebrow}>
+            Active experiments
+          </h2>
+          <article className={styles.projectCard}>
+            <img src="/app-icons/tuzi.svg" alt="" width="72" height="72" />
+            <div className={styles.projectCardBody}>
+              <div className={styles.projectCardHeading}>
+                <h3>Tuzi</h3>
+                <span className={styles.alphaBadge}>Alpha</span>
+              </div>
+              <p>
+                A demonstration prototype for comparing books head-to-head and
+                building an Elo-ranked shelf. Rankings currently reset on reload.
+              </p>
+              <Link to="/tuzi/" className={styles.projectLink}>
+                Start ranking
+              </Link>
             </div>
-          </div>
+          </article>
         </section>
       </main>
     </div>

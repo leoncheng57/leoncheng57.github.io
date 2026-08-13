@@ -12,7 +12,9 @@ describe('blog routes', () => {
     )
 
     expect(screen.queryByRole('link', { name: 'Home' })).not.toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Repo' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Repo pages' })
+    ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'LC Logo' })).toBeInTheDocument()
     expect(screen.getAllByRole('img', { name: 'LC Logo' })).toHaveLength(1)
@@ -22,9 +24,6 @@ describe('blog routes', () => {
         name: /Worktrees, Remote Coding Agents, and Choosing the Right Kind of Isolation/i,
       })
     ).toHaveAttribute('href', '/blog/worktrees-vs-remote-coding-agents')
-    expect(
-      screen.getByRole('link', { name: /My cmux Setup for Parallel AI Coding/i })
-    ).toHaveAttribute('href', '/blog/my-cmux-setup-for-parallel-ai-coding')
   })
 
   it('renders the blog index route', () => {
@@ -35,7 +34,9 @@ describe('blog routes', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Blog' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Repo' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Repo pages' })
+    ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Hello Blog' })).toBeInTheDocument()
     expect(
@@ -115,7 +116,9 @@ describe('blog routes', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Hello Blog' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Repo' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Repo pages' })
+    ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Blogs' })).toBeInTheDocument()
     expect(screen.getByText(/estimated reading time/i)).toBeInTheDocument()
     expect(screen.getByText('meta')).toBeInTheDocument()

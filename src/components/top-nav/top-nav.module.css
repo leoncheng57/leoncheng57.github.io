@@ -77,6 +77,13 @@
 .repoTrigger {
   min-width: 4.25rem;
   padding: 0 0.75rem;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  background: transparent;
+  color: var(--link-color);
+  cursor: pointer;
+  font: inherit;
 }
 
 .wrenchIcon {
