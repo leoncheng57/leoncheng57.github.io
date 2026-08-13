@@ -6,5 +6,17 @@
   {
     "path": "/guides",
     "file": "guides.png"
+  },
+  {
+    "path": "/repo",
+    "file": "repo.png"
+  },
+  {
+    "path": "/repo/alpha-projs",
+    "file": "repo--alpha-projs.png"
+  },
+  {
+    "path": "/repo/google-analytics",
+    "file": "repo--google-analytics.png"
   }
 ]
