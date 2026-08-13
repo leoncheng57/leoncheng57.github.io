@@ -46,6 +46,35 @@ const REDIRECT_PATHS = new Set([
   '/game-nights',
 ])
 
+/**
+ * Ordered path prefixes mapped to GA4 `content_group` values. Order matters:
+ * nested products such as `/apps/whoops-hoops` must resolve before the broader
+ * `/apps` catalog prefix.
+ */
+const CONTENT_GROUP_PREFIXES: [string, string][] = [
+  ['/apps/whoops-hoops', 'whoops-hoops'],
+  ['/apps', 'apps-index'],
+  ['/blog', 'blog'],
+  ['/guides', 'guides'],
+  ['/georgies-board-game-nights', 'game-nights'],
+  ['/game-nights', 'game-nights'],
+  ['/repo', 'repo'],
+  ['/development', 'repo'],
+  ['/sub-wait', 'sub-wait'],
+  ['/tuzi', 'tuzi'],
+  ['/workout-lab', 'workout-lab'],
+]
+
+export function getRouteContentGroup(pathname: string): string {
+  if (pathname === '/' || pathname === '') return 'home'
+
+  for (const [prefix, group] of CONTENT_GROUP_PREFIXES) {
+    if (pathname === prefix || pathname.startsWith(`${prefix}/`)) return group
+  }
+
+  return 'other'
+}
+
 function decodePathSegment(value: string): string {
   try {
     return decodeURIComponent(value)
@@ -95,6 +124,7 @@ type GtagWindow = Window & {
     _command: 'event',
     _eventName: 'page_view',
     _parameters: {
+      content_group: string
       page_location: string
       page_path: string
       page_title: string
@@ -122,6 +152,7 @@ export default function RouteMetadata(): ReactElement | null {
     if (!gtag) return
 
     gtag('event', 'page_view', {
+      content_group: getRouteContentGroup(location.pathname),
       page_location: window.location.href,
       page_path: `${window.location.pathname}${window.location.search}`,
       page_title: title,
