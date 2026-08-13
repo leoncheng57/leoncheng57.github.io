@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactElement } from 'react'
 import { useLocation } from 'react-router-dom'
 import { getBlogPostBySlug } from '../../features/blog/content'
+import { getGuideBySlug } from '../../features/guides/content'
 import { directionLabel, getStation } from '../../features/sub-wait/data/stations'
 import type { Direction } from '../../features/sub-wait/types'
 
@@ -95,6 +96,14 @@ export function getRouteTitle(pathname: string): string {
     return post
       ? `${post.title} | ${SITE_TITLE}`
       : `Post Not Found | ${SITE_TITLE}`
+  }
+
+  const guideMatch = pathname.match(/^\/guides\/([^/]+)\/?$/)
+  if (guideMatch) {
+    const guide = getGuideBySlug(decodePathSegment(guideMatch[1]))
+    return guide
+      ? `${guide.title} | Guides | ${SITE_TITLE}`
+      : `Guide Not Found | ${SITE_TITLE}`
   }
 
   const stationMatch = pathname.match(
