@@ -50,7 +50,8 @@
   gap: 0;
 }
 
-.linksRow a {
+.linksRow > a,
+.repoTrigger {
   display: grid;
   place-items: center;
   min-width: 6rem;
@@ -62,9 +63,71 @@
   text-transform: uppercase;
 }
 
-.linksRow a:hover {
+.linksRow > a:hover,
+.repoTrigger:hover {
   color: var(--text-primary);
   background: var(--accent-strong);
+}
+
+.repoMenu {
+  position: relative;
+  display: flex;
+}
+
+.repoTrigger {
+  min-width: 4.25rem;
+  padding: 0 0.75rem;
+}
+
+.wrenchIcon {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: currentColor;
+}
+
+.repoDropdown {
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  right: -3px;
+  display: grid;
+  width: 17rem;
+  border: 3px solid var(--text-primary);
+  background: var(--surface);
+  box-shadow: 7px 7px 0 var(--text-primary);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.repoMenu:hover .repoDropdown,
+.repoMenu:focus-within .repoDropdown,
+.repoTrigger:focus + .repoDropdown,
+.repoDropdown:focus-within {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.repoDropdown a {
+  padding: 0.85rem 1rem;
+  border-bottom: 2px solid var(--text-primary);
+  color: var(--link-color);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.repoDropdown a:last-child {
+  border-bottom: 0;
+}
+
+.repoDropdown a:hover,
+.repoDropdown a:focus-visible {
+  color: var(--text-primary);
+  background: var(--accent-strong);
+  opacity: 1;
 }
 
 @media (max-width: 480px) {
@@ -87,10 +150,24 @@
     gap: 0;
   }
 
-  .linksRow a {
+  .linksRow > a,
+  .repoTrigger {
     min-width: 0;
     flex: 1;
     padding: 0 0.4rem;
     font-size: 0.58rem;
+  }
+
+  .repoMenu {
+    flex: 0 0 3.25rem;
+  }
+
+  .repoTrigger {
+    width: 100%;
+    padding: 0 0.35rem;
+  }
+
+  .repoDropdown {
+    width: min(17rem, calc(100vw - 2rem));
   }
 }

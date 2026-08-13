@@ -8,6 +8,7 @@ import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
 import BlogPostRoute from './features/blog/routes/BlogPostRoute'
 import GameNightsRoute from './features/game-nights/routes/GameNightsRoute'
 import GuidesRoute from './features/guides/routes/GuidesRoute'
+import AlphaProjsRoute from './features/repo/routes/AlphaProjsRoute'
 import CiRoute from './features/repo/routes/CiRoute'
 import PlanningRoute from './features/repo/routes/PlanningRoute'
 import PreviewsRoute from './features/repo/routes/PreviewsRoute'
@@ -38,6 +39,7 @@ export default function App(): ReactElement {
         />
         <Route path="/apps" element={<AppsIndexRoute />} />
         <Route path="/repo" element={<RepoRoute />} />
+        <Route path="/repo/alpha-projs" element={<AlphaProjsRoute />} />
         <Route path="/repo/ci" element={<CiRoute />} />
         <Route path="/repo/production" element={<ProductionRoute />} />
         <Route path="/repo/previews" element={<PreviewsRoute />} />

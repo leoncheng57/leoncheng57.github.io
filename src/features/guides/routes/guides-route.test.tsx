@@ -22,6 +22,6 @@ describe('guides route', () => {
 
     const repoLink = screen.getByRole('link', { name: 'Repo' })
     expect(repoLink).toHaveAttribute('href', '/repo')
-    expect(repoLink).toHaveTextContent('📁 Repo')
+    expect(repoLink).toHaveAttribute('title', 'Repo')
   })
 })
