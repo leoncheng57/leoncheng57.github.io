@@ -1,41 +1,83 @@
 import { describe, expect, it } from 'vitest'
-import { getAllGuides, loadGuidesFromFiles } from './content'
+import { getAllGuides, getGuideChapter, loadGuidesFromFiles } from './content'
+
+const GUIDE_FILE = `---
+title: "Sample Guide"
+description: "A sample reference."
+updatedAt: "2026-04-12"
+audience: "Engineers trying the pattern."
+tags:
+  - AI
+  - workflow
+---
+
+# Sample Guide
+
+Overview body for the sample guide.
+`
 
 describe('loadGuidesFromFiles', () => {
-  it('parses guides and sorts them by last reviewed date', () => {
+  it('builds a guide from its directory and orders chapters by filename prefix', () => {
     const guides = loadGuidesFromFiles({
-      '/src/content/guides/older-guide.md': `---
-title: "Older Guide"
-description: "An older reference."
-updatedAt: "2026-04-10"
+      '/src/content/guides/sample/guide.md': GUIDE_FILE,
+      '/src/content/guides/sample/02-second.md': `---
+title: "Second Chapter"
 ---
 
-# Older Guide
+# Second Chapter
 
-This guide has enough words in its body to derive a reading time estimate.
+Second body.
 `,
-      '/src/content/guides/newer-guide.md': `---
-title: "Newer Guide"
-description: "A newer reference."
-updatedAt: "2026-04-12"
-estimateTimeToRead: 8
+      '/src/content/guides/sample/01-first.md': `---
+title: "First Chapter"
+description: "Where to start."
 ---
 
-# Newer Guide
+# First Chapter
 
-Short body.
+First body.
 `,
     })
 
-    expect(guides.map((guide) => guide.slug)).toEqual(['newer-guide', 'older-guide'])
-    expect(guides[0]).toMatchObject({ title: 'Newer Guide', readingTimeMinutes: 8 })
-    expect(guides[1].readingTimeMinutes).toBeGreaterThan(0)
+    expect(guides).toHaveLength(1)
+
+    const guide = guides[0]
+    expect(guide.slug).toBe('sample')
+    expect(guide.title).toBe('Sample Guide')
+    expect(guide.audience).toBe('Engineers trying the pattern.')
+    expect(guide.tags).toEqual(['AI', 'workflow'])
+    expect(guide.overview).toContain('Overview body')
+    expect(guide.chapters.map((chapter) => chapter.slug)).toEqual(['first', 'second'])
+    expect(guide.chapters[0].description).toBe('Where to start.')
+    expect(guide.readingTimeMinutes).toBeGreaterThan(0)
+  })
+
+  it('sorts guides by last reviewed date', () => {
+    const guides = loadGuidesFromFiles({
+      '/src/content/guides/older/guide.md': GUIDE_FILE.replace('2026-04-12', '2026-04-10'),
+      '/src/content/guides/newer/guide.md': GUIDE_FILE.replace('2026-04-12', '2026-04-14'),
+    })
+
+    expect(guides.map((guide) => guide.slug)).toEqual(['newer', 'older'])
+  })
+
+  it('throws when a guide directory has no guide.md', () => {
+    expect(() =>
+      loadGuidesFromFiles({
+        '/src/content/guides/broken/01-first.md': `---
+title: "Orphan Chapter"
+---
+
+# Orphan Chapter
+`,
+      })
+    ).toThrow(/guide\.md/i)
   })
 
   it('throws when the last reviewed date is missing', () => {
     expect(() =>
       loadGuidesFromFiles({
-        '/src/content/guides/broken-guide.md': `---
+        '/src/content/guides/broken/guide.md': `---
 title: "Broken Guide"
 description: "Missing a review date."
 ---
@@ -46,9 +88,9 @@ description: "Missing a review date."
     ).toThrow(/updatedAt/i)
   })
 
-  it('keeps drafts out of the published list but resolvable by slug', () => {
+  it('keeps drafts out of the published list', () => {
     const guides = loadGuidesFromFiles({
-      '/src/content/guides/draft-guide.md': `---
+      '/src/content/guides/draft/guide.md': `---
 title: "Draft Guide"
 description: "Hidden from the index."
 updatedAt: "2026-04-13"
@@ -59,31 +101,31 @@ draft: true
 `,
     })
 
-    expect(guides).toHaveLength(1)
-    expect(guides[0]).toMatchObject({ slug: 'draft-guide', draft: true })
+    expect(guides[0]).toMatchObject({ slug: 'draft', draft: true })
   })
 
-  it('parses the optional audience field and tag lists', () => {
-    const guides = loadGuidesFromFiles({
-      '/src/content/guides/audience-guide.md': `---
-title: "Audience Guide"
-description: "Has an audience note."
-updatedAt: "2026-04-14"
-audience: "Engineers running several agents at once."
-tags:
-  - AI
-  - workflow
+  it('resolves a chapter and its position within a guide', () => {
+    const [guide] = loadGuidesFromFiles({
+      '/src/content/guides/sample/guide.md': GUIDE_FILE,
+      '/src/content/guides/sample/01-first.md': `---
+title: "First Chapter"
 ---
 
-# Audience Guide
+# First Chapter
+`,
+      '/src/content/guides/sample/02-second.md': `---
+title: "Second Chapter"
+---
+
+# Second Chapter
 `,
     })
 
-    expect(guides[0].audience).toBe('Engineers running several agents at once.')
-    expect(guides[0].tags).toEqual(['AI', 'workflow'])
+    expect(getGuideChapter(guide, 'second')).toMatchObject({ index: 1 })
+    expect(getGuideChapter(guide, 'missing')).toBeUndefined()
   })
 
-  it('publishes every real guide with the required metadata', () => {
+  it('publishes every real guide with the required metadata and chapters', () => {
     const guides = getAllGuides()
 
     expect(guides.length).toBeGreaterThan(0)
@@ -93,7 +135,14 @@ tags:
       expect(guide.description).toBeTruthy()
       expect(guide.updatedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/)
       expect(guide.tags.length).toBeLessThanOrEqual(3)
-      expect(guide.content.length).toBeGreaterThan(0)
+      expect(guide.overview.length).toBeGreaterThan(0)
+      expect(guide.chapters.length).toBeGreaterThan(0)
+
+      for (const chapter of guide.chapters) {
+        expect(chapter.title).toBeTruthy()
+        expect(chapter.slug).toMatch(/^[a-z0-9-]+$/)
+        expect(chapter.content.length).toBeGreaterThan(0)
+      }
     }
   })
 })

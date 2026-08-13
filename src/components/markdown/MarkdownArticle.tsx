@@ -5,10 +5,12 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import ArticleImage from './ArticleImage'
 import HeadingLink from './HeadingLink'
-import styles from '../blog.module.css'
+import type { ArticleStyles } from './types'
 
 interface MarkdownArticleProps {
   content: string
+  /** Feature stylesheet, so blog and guides can render the same markdown in different themes. */
+  styles: ArticleStyles
 }
 
 function isImageParagraph(node?: Element): boolean {
@@ -20,7 +22,7 @@ function isImageParagraph(node?: Element): boolean {
   )
 }
 
-export default function MarkdownArticle({ content }: MarkdownArticleProps): ReactElement {
+export default function MarkdownArticle({ content, styles }: MarkdownArticleProps): ReactElement {
   return (
     <div className={styles.articleBody}>
       <ReactMarkdown
@@ -28,27 +30,32 @@ export default function MarkdownArticle({ content }: MarkdownArticleProps): Reac
         remarkPlugins={[remarkGfm]}
         components={{
           h1: ({ node: _node, ...props }) => (
-            <HeadingLink as="h1" id={props.id}>
+            <HeadingLink as="h1" id={props.id} styles={styles}>
               {props.children}
             </HeadingLink>
           ),
           h2: ({ node: _node, ...props }) => (
-            <HeadingLink as="h2" id={props.id}>
+            <HeadingLink as="h2" id={props.id} styles={styles}>
               {props.children}
             </HeadingLink>
           ),
           h3: ({ node: _node, ...props }) => (
-            <HeadingLink as="h3" id={props.id}>
+            <HeadingLink as="h3" id={props.id} styles={styles}>
               {props.children}
             </HeadingLink>
           ),
           h4: ({ node: _node, ...props }) => (
-            <HeadingLink as="h4" id={props.id}>
+            <HeadingLink as="h4" id={props.id} styles={styles}>
               {props.children}
             </HeadingLink>
           ),
           img: ({ node: _node, ...props }) => (
-            <ArticleImage alt={props.alt ?? 'Article image'} src={props.src ?? ''} title={props.title} />
+            <ArticleImage
+              alt={props.alt ?? 'Article image'}
+              src={props.src ?? ''}
+              title={props.title}
+              styles={styles}
+            />
           ),
           p: ({ node, ...props }) =>
             isImageParagraph(node as Element | undefined) ? (

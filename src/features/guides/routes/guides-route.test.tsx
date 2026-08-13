@@ -4,8 +4,11 @@ import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import App from '../../../App'
 
+const GUIDE_TITLE = 'Running Parallel Coding Agents with a Manager and Workers'
+const GUIDE_PATH = '/guides/manager-worker-parallel-agents'
+
 describe('guides index route', () => {
-  it('lists published guides with their metadata and primary navigation', () => {
+  it('lists published guides with chapter counts', () => {
     render(
       <MemoryRouter initialEntries={['/guides']}>
         <App />
@@ -14,19 +17,30 @@ describe('guides index route', () => {
 
     expect(screen.getByRole('heading', { level: 1, name: 'Guides' })).toBeInTheDocument()
 
-    const guideLink = screen.getByRole('link', {
-      name: 'Running Parallel Coding Agents with a Manager and Workers',
-    })
-    expect(guideLink).toHaveAttribute('href', '/guides/manager-worker-parallel-agents')
+    expect(screen.getByRole('link', { name: GUIDE_TITLE })).toHaveAttribute('href', GUIDE_PATH)
+    expect(screen.getByText(/chapters$/)).toBeInTheDocument()
     expect(screen.getByText(/Last reviewed:/)).toBeInTheDocument()
-    expect(screen.getByText(/min read/)).toBeInTheDocument()
-
-    expect(screen.queryByRole('heading', { level: 2, name: 'Still taking shape' })).not.toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Guides' })).toHaveAttribute('href', '/guides')
-    expect(screen.getByRole('button', { name: 'Repo pages' })).toHaveAttribute('title', 'Repo pages')
   })
 
-  it('opens a guide from the index', async () => {
+  it('uses its own site chrome instead of the main site navigation', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    // The shared TopNav renders a "Repo pages" control; guides must not use it.
+    expect(screen.queryByRole('button', { name: 'Repo pages' })).not.toBeInTheDocument()
+
+    const guidesNav = screen.getByRole('navigation', { name: 'Guides navigation' })
+    expect(within(guidesNav).getByRole('link', { name: 'All guides' })).toHaveAttribute(
+      'href',
+      '/guides'
+    )
+    expect(within(guidesNav).getByRole('link', { name: 'Main site' })).toHaveAttribute('href', '/')
+  })
+
+  it('toggles between light and dark themes', async () => {
     const user = userEvent.setup()
 
     render(
@@ -35,71 +49,60 @@ describe('guides index route', () => {
       </MemoryRouter>
     )
 
-    await user.click(
-      screen.getByRole('link', {
-        name: 'Running Parallel Coding Agents with a Manager and Workers',
-      })
-    )
+    const toggle = screen.getByRole('button', { name: /Switch to (light|dark) theme/ })
+    const initialLabel = toggle.getAttribute('aria-label')
+    const themedRegion = document.querySelector('[data-theme]')
+    const initialTheme = themedRegion?.getAttribute('data-theme')
+
+    expect(initialTheme).toMatch(/^(light|dark)$/)
+
+    await user.click(toggle)
 
     expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: 'Running Parallel Coding Agents with a Manager and Workers',
-      })
-    ).toBeInTheDocument()
+      screen.getByRole('button', { name: /Switch to (light|dark) theme/ }).getAttribute('aria-label')
+    ).not.toBe(initialLabel)
+    expect(document.querySelector('[data-theme]')?.getAttribute('data-theme')).not.toBe(initialTheme)
   })
 })
 
-describe('guide detail route', () => {
-  it('renders the guide content, metadata, and back link', () => {
+describe('guide overview route', () => {
+  it('renders the guide landing page with metadata and a table of contents', () => {
     render(
-      <MemoryRouter initialEntries={['/guides/manager-worker-parallel-agents']}>
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
         <App />
       </MemoryRouter>
     )
 
-    const heading = screen.getByRole('heading', {
-      level: 1,
-      name: 'Running Parallel Coding Agents with a Manager and Workers',
-    })
-    expect(heading).toBeInTheDocument()
-
+    expect(screen.getByRole('heading', { level: 1, name: GUIDE_TITLE })).toBeInTheDocument()
     expect(screen.getByText(/Last reviewed:/)).toBeInTheDocument()
     expect(screen.getByText(/Estimated reading time:/)).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Back to guides' })).toHaveAttribute('href', '/guides')
 
-    expect(screen.getByRole('heading', { level: 2, name: 'Procedure' })).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { level: 3, name: 'Step 4: Choose an autonomy level per worker' })
-    ).toBeInTheDocument()
-
-    const autonomyDiagram = screen.getByRole('img', { name: /Four configurable worker autonomy levels/ })
-    expect(autonomyDiagram).toHaveAttribute(
-      'src',
-      '/guides/manager-worker-agents/autonomy-spectrum.svg'
+    const contents = screen.getByRole('navigation', { name: 'Guide contents' })
+    expect(within(contents).getByRole('link', { name: /Plan the work and set up workers/ })).toHaveAttribute(
+      'href',
+      `${GUIDE_PATH}/plan-and-set-up`
     )
+    expect(
+      within(contents).getByRole('link', { name: /Case study: parallel remediation/ })
+    ).toHaveAttribute('href', `${GUIDE_PATH}/case-study-parallel-remediation`)
+
+    expect(screen.getByRole('link', { name: /Start reading/ })).toBeInTheDocument()
   })
 
-  it('supports changing the reading font size', async () => {
-    const user = userEvent.setup()
-
+  it('renders the overview diagram from the guides asset path', () => {
     render(
-      <MemoryRouter initialEntries={['/guides/manager-worker-parallel-agents']}>
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
         <App />
       </MemoryRouter>
     )
 
-    const article = screen.getByRole('main')
-    expect(article).toHaveStyle({ '--blog-font-size': '1.05rem' })
-
-    await user.click(screen.getByRole('button', { name: 'Increase font size' }))
-    expect(article.getAttribute('style')).toContain('--blog-font-size')
-
-    await user.click(screen.getByRole('button', { name: 'Reset font size' }))
-    expect(article).toHaveStyle({ '--blog-font-size': '1.05rem' })
+    expect(screen.getByRole('img', { name: /One manager session coordinates/ })).toHaveAttribute(
+      'src',
+      '/guides/manager-worker-agents/orchestration-map.svg'
+    )
   })
 
-  it('renders a not found state for unknown guide slugs', () => {
+  it('renders a not found state for unknown guides', () => {
     render(
       <MemoryRouter initialEntries={['/guides/missing-guide']}>
         <App />
@@ -107,18 +110,78 @@ describe('guide detail route', () => {
     )
 
     expect(screen.getByRole('heading', { level: 1, name: 'Guide not found' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Back to guides' })).toBeInTheDocument()
   })
+})
 
-  it('keeps guide tables scoped to the article body', () => {
+describe('guide chapter route', () => {
+  it('renders chapter content with sidebar navigation and a pager', () => {
     render(
-      <MemoryRouter initialEntries={['/guides/manager-worker-parallel-agents']}>
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/configure-autonomy`]}>
         <App />
       </MemoryRouter>
     )
 
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Configure worker autonomy' })
+    ).toBeInTheDocument()
+
+    const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
+    const activeLink = within(sidebar).getByRole('link', { name: /Configure worker autonomy/ })
+    expect(activeLink).toHaveAttribute('aria-current', 'page')
+
+    expect(screen.getByRole('link', { name: /Previous/ })).toHaveAttribute(
+      'href',
+      `${GUIDE_PATH}/plan-and-set-up`
+    )
+    expect(screen.getByRole('link', { name: /Next/ })).toHaveAttribute(
+      'href',
+      `${GUIDE_PATH}/run-and-review`
+    )
+  })
+
+  it('renders the case study chapter with its severity table', () => {
+    render(
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/case-study-parallel-remediation`]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'Case study: parallel remediation after a manager review',
+      })
+    ).toBeInTheDocument()
+
     const tables = screen.getAllByRole('table')
     expect(tables.length).toBeGreaterThan(0)
     expect(within(tables[0]).getAllByRole('row').length).toBeGreaterThan(1)
+  })
+
+  it('navigates between chapters from the sidebar', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/plan-and-set-up`]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
+    await user.click(within(sidebar).getByRole('link', { name: /Troubleshooting and capacity/ }))
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Troubleshooting and capacity' })
+    ).toBeInTheDocument()
+  })
+
+  it('renders a not found state for unknown chapters', () => {
+    render(
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/missing-chapter`]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Chapter not found' })).toBeInTheDocument()
   })
 })

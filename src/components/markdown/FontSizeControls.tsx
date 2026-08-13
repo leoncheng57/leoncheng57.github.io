@@ -1,16 +1,18 @@
 import type { ReactElement } from 'react'
-import styles from '../blog.module.css'
+import type { ArticleStyles } from './types'
 
 interface FontSizeControlsProps {
   onDecrease: () => void
   onReset: () => void
   onIncrease: () => void
+  styles: ArticleStyles
 }
 
 export default function FontSizeControls({
   onDecrease,
   onReset,
   onIncrease,
+  styles,
 }: FontSizeControlsProps): ReactElement {
   return (
     <div className={styles.fontControls} aria-label="Article font size controls">

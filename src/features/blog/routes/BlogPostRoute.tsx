@@ -3,8 +3,8 @@ import type { CSSProperties, ReactElement } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import TopNav from '../../../components/top-nav/TopNav'
 import BlogMeta from '../components/BlogMeta'
-import FontSizeControls from '../components/FontSizeControls'
-import MarkdownArticle from '../components/MarkdownArticle'
+import FontSizeControls from '../../../components/markdown/FontSizeControls'
+import MarkdownArticle from '../../../components/markdown/MarkdownArticle'
 import { getBlogPostBySlug } from '../content'
 import styles from '../blog.module.css'
 
@@ -48,9 +48,10 @@ export default function BlogPostRoute(): ReactElement {
               onDecrease={() => setFontScale((current) => Math.max(0.9, current - 0.1))}
               onReset={() => setFontScale(1)}
               onIncrease={() => setFontScale((current) => Math.min(1.4, current + 0.1))}
+              styles={styles}
             />
           </header>
-          <MarkdownArticle content={post.content} />
+          <MarkdownArticle content={post.content} styles={styles} />
         </article>
       </main>
     </div>

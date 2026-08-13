@@ -1,11 +1,12 @@
 import type { ReactElement, ReactNode } from 'react'
 import { createElement } from 'react'
-import styles from '../blog.module.css'
+import type { ArticleStyles } from './types'
 
 interface HeadingLinkProps {
   as: 'h1' | 'h2' | 'h3' | 'h4'
   id?: string
   children: ReactNode
+  styles: ArticleStyles
 }
 
 function flattenChildren(children: ReactNode): string {
@@ -24,7 +25,7 @@ function flattenChildren(children: ReactNode): string {
   return ''
 }
 
-export default function HeadingLink({ as, id, children }: HeadingLinkProps): ReactElement {
+export default function HeadingLink({ as, id, children, styles }: HeadingLinkProps): ReactElement {
   const headingText = flattenChildren(children).trim()
   const heading = createElement(
     as,
@@ -33,19 +34,17 @@ export default function HeadingLink({ as, id, children }: HeadingLinkProps): Rea
   )
 
   return (
-    <>
-      <div className={styles.headingRow}>
-        {heading}
-        {id ? (
-          <a
-            href={`#${id}`}
-            aria-label={`Link to section ${headingText}`}
-            className={styles.headingAnchor}
-          >
-            <span aria-hidden="true">#</span>
-          </a>
-        ) : null}
-      </div>
-    </>
+    <div className={styles.headingRow}>
+      {heading}
+      {id ? (
+        <a
+          href={`#${id}`}
+          aria-label={`Link to section ${headingText}`}
+          className={styles.headingAnchor}
+        >
+          <span aria-hidden="true">#</span>
+        </a>
+      ) : null}
+    </div>
   )
 }

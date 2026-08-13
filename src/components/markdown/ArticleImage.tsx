@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import type { ReactElement } from 'react'
-import styles from '../blog.module.css'
+import type { ArticleStyles } from './types'
 
 interface ArticleImageProps {
   alt: string
   src: string
   title?: string
+  styles: ArticleStyles
 }
 
-export default function ArticleImage({ alt, src, title }: ArticleImageProps): ReactElement {
+export default function ArticleImage({ alt, src, title, styles }: ArticleImageProps): ReactElement {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {

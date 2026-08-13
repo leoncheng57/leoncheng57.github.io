@@ -21,17 +21,22 @@ The Markdown frontmatter contains the article title, description, publication da
 
 ## Reading guides
 
-Guides are maintained, step-by-step references kept up to date over time. They follow the same Markdown convention as blog articles.
+Guides are maintained, step-by-step references kept up to date over time. Unlike blog articles, each guide is a multi-page document: a landing page plus ordered chapters.
 
 - [Guides Markdown directory](https://github.com/leoncheng57/leoncheng57.github.io/tree/main/src/content/guides)
 
-Each guide URL slug matches its Markdown filename. To read a guide, replace `{slug}` in this URL:
+Each guide is a directory. `guide.md` holds the guide metadata and landing page; the remaining `NN-<chapter>.md` files are chapters in order. The numeric prefix controls ordering only and is not part of the URL.
 
-`https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/guides/{slug}.md`
+- Guide landing page: `/guides/{guide-slug}` from `src/content/guides/{guide-slug}/guide.md`
+- Chapter page: `/guides/{guide-slug}/{chapter-slug}` from `src/content/guides/{guide-slug}/{NN}-{chapter-slug}.md`
 
-Guide frontmatter contains the title, description, intended audience, tags, and an `updatedAt` field recording when the guide was last reviewed.
+Raw Markdown for a guide directory:
 
-- [Running Parallel Coding Agents with a Manager and Workers](https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/guides/manager-worker-parallel-agents.md)
+`https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/guides/{guide-slug}/guide.md`
+
+Guide frontmatter contains the title, description, intended audience, tags, and an `updatedAt` field recording when the guide was last reviewed. Chapter frontmatter contains a title and optional description.
+
+- [Running Parallel Coding Agents with a Manager and Workers](https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/guides/manager-worker-parallel-agents/guide.md)
 
 ## Recent articles
 

@@ -8,8 +8,7 @@ import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
 import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
 import BlogPostRoute from './features/blog/routes/BlogPostRoute'
 import GameNightsRoute from './features/game-nights/routes/GameNightsRoute'
-import GuideRoute from './features/guides/routes/GuideRoute'
-import GuidesIndexRoute from './features/guides/routes/GuidesIndexRoute'
+import GuidesRoute from './features/guides/routes/GuidesRoute'
 import AlphaProjsRoute from './features/repo/routes/AlphaProjsRoute'
 import CiRoute from './features/repo/routes/CiRoute'
 import GaTrafficDashboardRoute from './features/repo/routes/GaTrafficDashboardRoute'
@@ -33,8 +32,7 @@ export default function App(): ReactElement {
         <Route path="/" element={<HomeRoute />} />
         <Route path="/blog" element={<BlogIndexRoute />} />
         <Route path="/blog/:slug" element={<BlogPostRoute />} />
-        <Route path="/guides" element={<GuidesIndexRoute />} />
-        <Route path="/guides/:slug" element={<GuideRoute />} />
+        <Route path="/guides/*" element={<GuidesRoute />} />
         <Route
           path="/georgies-board-game-nights"
           element={<GameNightsRoute />}

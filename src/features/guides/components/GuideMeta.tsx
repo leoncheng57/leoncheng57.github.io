@@ -1,22 +1,21 @@
 import type { ReactElement } from 'react'
-// Guides intentionally reuse the blog article styling and tag chips so long-form
-// pages render identically across both sections of the site.
-import TagList from '../../blog/components/TagList'
-import styles from '../../blog/blog.module.css'
+import TagList from '../../../components/markdown/TagList'
+import styles from '../guides.module.css'
 import type { Guide } from '../types'
 
 interface GuideMetaProps {
   guide: Guide
+  readingTimeMinutes?: number
 }
 
-export default function GuideMeta({ guide }: GuideMetaProps): ReactElement {
+export default function GuideMeta({ guide, readingTimeMinutes }: GuideMetaProps): ReactElement {
   return (
     <div className={styles.metaSection}>
       <div className={styles.meta}>
         <p>Last reviewed: {guide.updatedAt}</p>
-        <p>Estimated reading time: {guide.readingTimeMinutes} min</p>
+        <p>Estimated reading time: {readingTimeMinutes ?? guide.readingTimeMinutes} min</p>
       </div>
-      <TagList tags={guide.tags} />
+      <TagList tags={guide.tags} styles={styles} label="Guide tags" />
     </div>
   )
 }

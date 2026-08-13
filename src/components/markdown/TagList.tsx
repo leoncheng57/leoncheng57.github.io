@@ -1,19 +1,27 @@
 import type { ReactElement } from 'react'
-import styles from '../blog.module.css'
+import type { ArticleStyles } from './types'
 
 interface TagListProps {
   tags: string[]
   selectedTags?: string[]
   onTagClick?: (_tag: string) => void
+  styles: ArticleStyles
+  label?: string
 }
 
-export default function TagList({ tags, selectedTags = [], onTagClick }: TagListProps): ReactElement | null {
+export default function TagList({
+  tags,
+  selectedTags = [],
+  onTagClick,
+  styles,
+  label = 'Post tags',
+}: TagListProps): ReactElement | null {
   if (tags.length === 0) {
     return null
   }
 
   return (
-    <ul className={styles.tagList} aria-label="Post tags">
+    <ul className={styles.tagList} aria-label={label}>
       {tags.map((tag) => (
         <li key={tag}>
           {onTagClick ? (

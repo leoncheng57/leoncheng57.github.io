@@ -1,3 +1,13 @@
+export interface GuideChapter {
+  slug: string
+  title: string
+  description?: string
+  /** Sort position, taken from the `NN-` filename prefix. */
+  order: number
+  readingTimeMinutes: number
+  content: string
+}
+
 export interface Guide {
   slug: string
   title: string
@@ -7,11 +17,13 @@ export interface Guide {
   publishedAt?: string
   /** Short answer to "should I read this?", shown on the guides index. */
   audience?: string
-  estimateTimeToRead?: number
-  readingTimeMinutes: number
   tags: string[]
   draft?: boolean
-  content: string
+  /** Landing-page body, from the guide's `guide.md` file. */
+  overview: string
+  /** Reading time for the overview plus every chapter. */
+  readingTimeMinutes: number
+  chapters: GuideChapter[]
 }
 
 export interface GuideFrontmatter {
@@ -20,7 +32,11 @@ export interface GuideFrontmatter {
   updatedAt?: string
   publishedAt?: string
   audience?: string
-  estimateTimeToRead?: number
   tags?: string[]
   draft?: boolean
+}
+
+export interface GuideChapterFrontmatter {
+  title?: string
+  description?: string
 }
