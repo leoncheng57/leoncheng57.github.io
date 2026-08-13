@@ -54,7 +54,7 @@ describe('ArchitectureRoute', () => {
     expect(
       screen.getByRole('link', { name: 'Open Google Analytics' }),
     ).toHaveAttribute('href', 'https://analytics.google.com/analytics/web/')
-    expect(screen.getByText(/Note to future Leon/)).toBeInTheDocument()
+    expect(screen.getByText(/site sends an explicit/)).toBeInTheDocument()
   })
 
   it('is reachable from the masthead and footer', () => {

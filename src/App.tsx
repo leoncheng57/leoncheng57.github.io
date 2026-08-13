@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import RouteMetadata from './components/route-metadata/RouteMetadata'
 import ScrollToTop from './components/scroll-to-top/ScrollToTop'
 import AppsIndexRoute from './features/apps/routes/AppsIndexRoute'
 import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
@@ -23,6 +24,7 @@ import HomeRoute from './routes/HomeRoute'
 export default function App(): ReactElement {
   return (
     <>
+      <RouteMetadata />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomeRoute />} />

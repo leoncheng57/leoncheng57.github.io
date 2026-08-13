@@ -117,6 +117,7 @@ describe('repo subpages', () => {
     expect(
       screen.getByRole('link', { name: 'Open Google Analytics' })
     ).toHaveAttribute('href', 'https://analytics.google.com/analytics/web/')
+    expect(screen.getByText(/site sends an explicit/)).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'Back to Repo' })
     ).toHaveAttribute('href', '/repo')
