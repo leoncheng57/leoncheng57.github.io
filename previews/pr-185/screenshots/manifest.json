@@ -2,5 +2,17 @@
   {
     "path": "/repo/alpha-projs",
     "file": "repo--alpha-projs.png"
+  },
+  {
+    "path": "/repo/alpha-projs/ga-traffic-dashboard",
+    "file": "repo--alpha-projs--ga-traffic-dashboard.png"
+  },
+  {
+    "path": "/apps",
+    "file": "apps.png"
+  },
+  {
+    "path": "/blog",
+    "file": "blog.png"
   }
 ]
