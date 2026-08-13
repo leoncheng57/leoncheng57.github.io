@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import PlaceholderBanner from '../../../components/placeholder-banner/PlaceholderBanner'
 import TopNav from '../../../components/top-nav/TopNav'
 import styles from '../design-components.module.css'
 import repoStyles from '../repo.module.css'
@@ -77,6 +78,16 @@ export default function DesignComponentsRoute(): ReactElement {
               <p>Best for recent work and high-signal destinations.</p>
             </article>
           </div>
+        </section>
+
+        <section className={styles.showcase} aria-labelledby="placeholder-heading">
+          <h2 id="placeholder-heading">Placeholder banner</h2>
+          <PlaceholderBanner
+            headingId="placeholder-example-heading"
+            headingLevel={3}
+            description="Use this status card when a section has a clear purpose but its maintained content is not ready to publish yet."
+            buildLabel="Building the next thing"
+          />
         </section>
 
         <section className={styles.showcase} aria-labelledby="surfaces-heading">

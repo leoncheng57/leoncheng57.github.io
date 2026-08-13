@@ -21,6 +21,10 @@ describe('getRouteTitle', () => {
     ['/repo/alpha-projs', "Alpha Projects | Repo | Leon's Website"],
     ['/repo/ci', "CI Checks | Repo | Leon's Website"],
     [
+      '/repo/design-components',
+      "Design Components | Repo | Leon's Website",
+    ],
+    [
       '/repo/google-analytics',
       "Google Analytics | Repo | Leon's Website",
     ],

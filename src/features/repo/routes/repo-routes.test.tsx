@@ -80,6 +80,9 @@ describe('repo subpages', () => {
     ).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Cards' })).toBeInTheDocument()
     expect(
+      screen.getByRole('heading', { level: 3, name: 'Still taking shape' })
+    ).toBeInTheDocument()
+    expect(
       screen.getByRole('heading', { name: 'Loading bars' })
     ).toBeInTheDocument()
     expect(screen.getAllByRole('progressbar')).toHaveLength(4)
