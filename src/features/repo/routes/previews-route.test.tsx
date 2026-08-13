@@ -28,7 +28,7 @@ describe('repo previews route', () => {
     ).toHaveTextContent('gh-pages-deploy')
   })
 
-  it('links back to the Repo hub', () => {
+  it('links back home', () => {
     render(
       <MemoryRouter initialEntries={['/repo/previews']}>
         <App />
@@ -36,8 +36,8 @@ describe('repo previews route', () => {
     )
 
     expect(
-      screen.getByRole('link', { name: 'Back to Repo' })
-    ).toHaveAttribute('href', '/repo')
+      screen.getByRole('link', { name: 'Back home' })
+    ).toHaveAttribute('href', '/')
   })
 
   it('redirects the old /development/previews URL', () => {

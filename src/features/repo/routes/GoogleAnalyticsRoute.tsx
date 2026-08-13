@@ -9,7 +9,7 @@ export default function GoogleAnalyticsRoute(): ReactElement {
       <TopNav />
       <main className={styles.content}>
         <p className={styles.backLink}>
-          <Link to="/repo">Back to Repo</Link>
+          <Link to="/">Back home</Link>
         </p>
 
         <header className={styles.pageHeader}>

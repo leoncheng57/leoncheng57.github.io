@@ -24,11 +24,11 @@ export default function TopNav(): ReactElement {
         <Link to="/apps">Apps</Link>
         <Link to="/guides">Guides</Link>
         <div className={styles.repoMenu}>
-          <Link
-            to="/repo"
+          <button
+            type="button"
             className={styles.repoTrigger}
-            aria-label="Repo"
-            title="Repo"
+            aria-label="Repo pages"
+            title="Repo pages"
           >
             <svg
               aria-hidden="true"
@@ -37,11 +37,11 @@ export default function TopNav(): ReactElement {
             >
               <path d="M22.4 4.2a6.5 6.5 0 0 1-8.1 8.1L6.6 20a2.8 2.8 0 1 1-4-4l7.7-7.7a6.5 6.5 0 0 1 8.1-8.1l-3.7 3.7.7 2.7 2.7.7 3.7-3.7.6.6ZM5.2 16.9a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4Z" />
             </svg>
-          </Link>
+          </button>
           <div
             className={styles.repoDropdown}
             role="group"
-            aria-label="Repo pages"
+            aria-label="Repo page links"
           >
             {REPO_PAGES.map((page) => (
               <Link key={page.to} to={page.to}>

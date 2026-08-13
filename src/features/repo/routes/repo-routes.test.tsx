@@ -1,54 +1,12 @@
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import App from '../../../App'
 
-describe('repo hub route', () => {
-  it('mostly lists the subpages', () => {
+describe('repo navigation', () => {
+  it('uses a non-navigating wrench button and lists the Repo pages', () => {
     render(
-      <MemoryRouter initialEntries={['/repo']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    expect(
-      screen.getByRole('heading', { level: 1, name: 'Repo' })
-    ).toBeInTheDocument()
-
-    const subpageNav = screen.getByRole('navigation', { name: 'Repo pages' })
-    expect(subpageNav).toBeInTheDocument()
-    expect(within(subpageNav).getByRole('link', { name: /CI checks/ })).toHaveAttribute(
-      'href',
-      '/repo/ci'
-    )
-    expect(
-      within(subpageNav).getByRole('link', { name: /Production deploys/ })
-    ).toHaveAttribute('href', '/repo/production')
-    expect(
-      within(subpageNav).getByRole('link', { name: /Pull request previews/ })
-    ).toHaveAttribute('href', '/repo/previews')
-    expect(
-      within(subpageNav).getByRole('link', { name: /Project planning/ })
-    ).toHaveAttribute('href', '/repo/planning')
-    expect(
-      within(subpageNav).getByRole('link', { name: /Google Analytics/ })
-    ).toHaveAttribute('href', '/repo/google-analytics')
-    expect(
-      within(subpageNav).getByRole('link', { name: /Alpha Projs/ })
-    ).toHaveAttribute('href', '/repo/alpha-projs')
-
-    // The detailed content lives on the subpages, not the hub.
-    expect(
-      screen.queryByLabelText('Production deployment flow')
-    ).not.toBeInTheDocument()
-    expect(
-      screen.queryByLabelText('Continuous integration commands')
-    ).not.toBeInTheDocument()
-  })
-
-  it('uses a wrench link for Repo and lists its pages in the primary nav', () => {
-    render(
-      <MemoryRouter initialEntries={['/repo']}>
+      <MemoryRouter initialEntries={['/']}>
         <App />
       </MemoryRouter>
     )
@@ -62,12 +20,12 @@ describe('repo hub route', () => {
       screen.queryByRole('link', { name: 'Development' })
     ).not.toBeInTheDocument()
     const primaryNav = screen.getByRole('navigation', { name: 'Primary' })
-    expect(within(primaryNav).getByRole('link', { name: 'Repo' })).toHaveAttribute(
-      'href',
-      '/repo'
-    )
+    const repoButton = within(primaryNav).getByRole('button', {
+      name: 'Repo pages',
+    })
+    expect(within(primaryNav).queryByRole('link', { name: 'Repo' })).not.toBeInTheDocument()
 
-    const repoPages = within(primaryNav).getByLabelText('Repo pages')
+    const repoPages = within(primaryNav).getByLabelText('Repo page links')
     expect(within(repoPages).getByText('CI checks').closest('a')).toHaveAttribute(
       'href',
       '/repo/ci'
@@ -87,18 +45,19 @@ describe('repo hub route', () => {
     expect(
       within(repoPages).getByText('Alpha Projs').closest('a')
     ).toHaveAttribute('href', '/repo/alpha-projs')
+
+    fireEvent.click(repoButton)
+    expect(screen.getByText("Hi, I'm Leon")).toBeInTheDocument()
   })
 
-  it('redirects the old /development URLs to /repo', () => {
+  it.each(['/repo', '/development'])('redirects the old %s hub URL home', (path) => {
     render(
-      <MemoryRouter initialEntries={['/development']}>
+      <MemoryRouter initialEntries={[path]}>
         <App />
       </MemoryRouter>
     )
 
-    expect(
-      screen.getByRole('heading', { level: 1, name: 'Repo' })
-    ).toBeInTheDocument()
+    expect(screen.getByText("Hi, I'm Leon")).toBeInTheDocument()
   })
 })
 
@@ -118,8 +77,8 @@ describe('repo subpages', () => {
       screen.getByRole('link', { name: 'Open Google Analytics' })
     ).toHaveAttribute('href', 'https://analytics.google.com/analytics/web/')
     expect(
-      screen.getByRole('link', { name: 'Back to Repo' })
-    ).toHaveAttribute('href', '/repo')
+      screen.getByRole('link', { name: 'Back home' })
+    ).toHaveAttribute('href', '/')
   })
 
   it('renders Alpha Projs at /repo/alpha-projs', () => {
@@ -138,8 +97,8 @@ describe('repo subpages', () => {
     expect(screen.getByText('In progress')).toBeInTheDocument()
     expect(screen.getByText('Coming soon')).toBeInTheDocument()
     expect(
-      screen.getByRole('link', { name: 'Back to Repo' })
-    ).toHaveAttribute('href', '/repo')
+      screen.getByRole('link', { name: 'Back home' })
+    ).toHaveAttribute('href', '/')
   })
 
   it('documents CI checks at /repo/ci', () => {
@@ -156,8 +115,8 @@ describe('repo subpages', () => {
       screen.getByLabelText('Continuous integration commands')
     ).toHaveTextContent('npm run test:run')
     expect(
-      screen.getByRole('link', { name: 'Back to Repo' })
-    ).toHaveAttribute('href', '/repo')
+      screen.getByRole('link', { name: 'Back home' })
+    ).toHaveAttribute('href', '/')
   })
 
   it('documents production deploys at /repo/production', () => {

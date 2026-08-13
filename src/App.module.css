@@ -50,18 +50,18 @@
 
 .recentGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.5rem, 4vw, 2.5rem);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
 }
 
 .recentCard {
   position: relative;
   display: flex;
-  min-height: 17rem;
+  min-height: 13rem;
   flex-direction: column;
   justify-content: flex-end;
   overflow: hidden;
-  padding: 1.5rem;
+  padding: 1.1rem;
   border: 3px solid var(--text-primary);
   background-color: var(--accent-strong);
   background-image: radial-gradient(rgba(16, 35, 61, 0.16) 1px, transparent 1px);
@@ -70,8 +70,12 @@
   color: var(--text-primary);
 }
 
-.recentCard:nth-child(2) {
+.recentCard:nth-child(3n + 2) {
   background-color: var(--accent-mid);
+}
+
+.recentCard:nth-child(3n) {
+  background-color: var(--accent-soft);
 }
 
 .recentNumber {
@@ -80,7 +84,7 @@
   right: 0.5rem;
   color: var(--text-primary);
   font-family: "Arial Black", Arial, sans-serif;
-  font-size: clamp(5rem, 10vw, 7.5rem);
+  font-size: clamp(4rem, 7vw, 5.5rem);
   letter-spacing: -0.1em;
   line-height: 1;
   opacity: 0.12;
@@ -90,22 +94,22 @@
   position: relative;
   z-index: 1;
   display: block;
-  height: 7.5rem;
-  margin-bottom: 0.85rem;
+  height: 5rem;
+  margin-bottom: 0.7rem;
 }
 
 .posterFrameBack,
 .posterFrameFront {
   position: absolute;
   width: 36%;
-  height: 5.75rem;
-  border: 3px solid var(--text-primary);
+  height: 3.75rem;
+  border: 2px solid var(--text-primary);
   background: linear-gradient(140deg, var(--accent-soft) 0 38%, #f4ad9c 38% 52%, var(--surface-raised) 52%);
-  box-shadow: 6px 6px 0 rgba(16, 35, 61, 0.35);
+  box-shadow: 4px 4px 0 rgba(16, 35, 61, 0.35);
 }
 
 .posterFrameBack {
-  top: 0.5rem;
+  top: 0.35rem;
   left: 10%;
   transform: rotate(-8deg);
 }
@@ -121,7 +125,7 @@
   position: relative;
   z-index: 2;
   font-family: "Arial Black", Arial, sans-serif;
-  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  font-size: clamp(1rem, 1.65vw, 1.3rem);
   font-weight: 900;
   letter-spacing: -0.055em;
   line-height: 0.95;
@@ -131,10 +135,24 @@
 .recentCta {
   position: relative;
   z-index: 2;
-  margin-top: 1rem;
-  font-size: 0.72rem;
+  margin-top: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 900;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.recentType {
+  position: absolute;
+  z-index: 2;
+  top: 0.85rem;
+  left: 1rem;
+  padding: 0.25rem 0.45rem;
+  border: 2px solid var(--text-primary);
+  background: var(--surface-raised);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -179,7 +197,13 @@
   text-underline-offset: 0.18em;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
+  .recentGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
   .container {
     padding: 1rem 1rem 3rem;
   }
@@ -193,6 +217,6 @@
   }
 
   .recentCard {
-    min-height: 15rem;
+    min-height: 13rem;
   }
 }

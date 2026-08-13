@@ -14,7 +14,6 @@ import GoogleAnalyticsRoute from './features/repo/routes/GoogleAnalyticsRoute'
 import PlanningRoute from './features/repo/routes/PlanningRoute'
 import PreviewsRoute from './features/repo/routes/PreviewsRoute'
 import ProductionRoute from './features/repo/routes/ProductionRoute'
-import RepoRoute from './features/repo/routes/RepoRoute'
 import SubWaitRoute from './features/sub-wait/routes/SubWaitRoute'
 import TuziRoute from './features/tuzi/routes/TuziRoute'
 import WorkoutLabRoute from './features/workout-lab/routes/WorkoutLabRoute'
@@ -39,15 +38,15 @@ export default function App(): ReactElement {
           element={<Navigate to="/georgies-board-game-nights" replace />}
         />
         <Route path="/apps" element={<AppsIndexRoute />} />
-        <Route path="/repo" element={<RepoRoute />} />
+        <Route path="/repo" element={<Navigate to="/" replace />} />
         <Route path="/repo/alpha-projs" element={<AlphaProjsRoute />} />
         <Route path="/repo/ci" element={<CiRoute />} />
         <Route path="/repo/google-analytics" element={<GoogleAnalyticsRoute />} />
         <Route path="/repo/production" element={<ProductionRoute />} />
         <Route path="/repo/previews" element={<PreviewsRoute />} />
         <Route path="/repo/planning" element={<PlanningRoute />} />
-        {/* The Repo section shipped briefly as /development; keep old links working. */}
-        <Route path="/development" element={<Navigate to="/repo" replace />} />
+        {/* These hub URLs shipped briefly; keep old links from reaching a dead page. */}
+        <Route path="/development" element={<Navigate to="/" replace />} />
         <Route
           path="/development/previews"
           element={<Navigate to="/repo/previews" replace />}
