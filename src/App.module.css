@@ -142,11 +142,19 @@
   text-transform: uppercase;
 }
 
-.recentType {
+.recentLabels {
   position: absolute;
   z-index: 2;
   top: 0.85rem;
   left: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.recentType,
+.recentStatus,
+.recentStatusAlpha {
   padding: 0.25rem 0.45rem;
   border: 2px solid var(--text-primary);
   background: var(--surface-raised);
@@ -154,6 +162,14 @@
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.recentStatus {
+  background: #f7df71;
+}
+
+.recentStatusAlpha {
+  background: #f4ad9c;
 }
 
 .main .recentCard {

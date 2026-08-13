@@ -43,6 +43,9 @@ describe('repo navigation', () => {
       within(repoPages).getByText('Google Analytics').closest('a')
     ).toHaveAttribute('href', '/repo/google-analytics')
     expect(
+      within(repoPages).getByText('Design Components').closest('a')
+    ).toHaveAttribute('href', '/repo/design-components')
+    expect(
       within(repoPages).getByText('Alpha Projs').closest('a')
     ).toHaveAttribute('href', '/repo/alpha-projs')
 
@@ -62,6 +65,26 @@ describe('repo navigation', () => {
 })
 
 describe('repo subpages', () => {
+  it('showcases the visual system at /repo/design-components', () => {
+    render(
+      <MemoryRouter initialEntries={['/repo/design-components']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Design Components' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Color palette' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Cards' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Loading bars' })
+    ).toBeInTheDocument()
+    expect(screen.getAllByRole('progressbar')).toHaveLength(4)
+  })
+
   it('documents Google Analytics at /repo/google-analytics', () => {
     render(
       <MemoryRouter initialEntries={['/repo/google-analytics']}>
@@ -92,10 +115,14 @@ describe('repo subpages', () => {
       screen.getByRole('heading', { level: 1, name: 'Alpha Projs' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Still taking shape' })
+      screen.getByRole('heading', { level: 3, name: 'Tuzi' })
     ).toBeInTheDocument()
-    expect(screen.getByText('In progress')).toBeInTheDocument()
-    expect(screen.getByText('Coming soon')).toBeInTheDocument()
+    expect(screen.getByText('Alpha')).toBeInTheDocument()
+    expect(screen.getByText('Beta')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Start ranking' })).toHaveAttribute(
+      'href',
+      '/tuzi/'
+    )
     expect(
       screen.getByRole('link', { name: 'Back home' })
     ).toHaveAttribute('href', '/')

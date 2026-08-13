@@ -208,6 +208,70 @@
   font-size: 0.95rem;
 }
 
+.projectCard {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.25rem;
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border: 3px solid var(--text-primary);
+  background: var(--surface);
+  box-shadow: 8px 8px 0 var(--text-primary);
+}
+
+.projectCard img {
+  border: 2px solid var(--text-primary);
+  border-radius: 1rem;
+}
+
+.projectCardBody {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.projectCardHeading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.projectCardHeading h3 {
+  margin: 0;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: -0.04em;
+}
+
+.projectCardBody p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.alphaBadge,
+.betaBadge {
+  padding: 0.2rem 0.45rem;
+  border: 2px solid var(--text-primary);
+  background: #f4ad9c;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.betaBadge {
+  background: #f7df71;
+}
+
+.projectLink {
+  justify-self: start;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .placeholderBanner {
   position: relative;
   max-width: 44rem;
@@ -326,6 +390,10 @@
 }
 
 @media (max-width: 560px) {
+  .projectCard {
+    grid-template-columns: 1fr;
+  }
+
   .placeholderFooter {
     align-items: stretch;
     flex-direction: column;

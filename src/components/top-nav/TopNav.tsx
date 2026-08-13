@@ -8,6 +8,7 @@ const REPO_PAGES = [
   { to: '/repo/previews', label: 'Pull request previews' },
   { to: '/repo/planning', label: 'Project planning' },
   { to: '/repo/google-analytics', label: 'Google Analytics' },
+  { to: '/repo/design-components', label: 'Design Components' },
   { to: '/repo/alpha-projs', label: 'Alpha Projs' },
 ]
 

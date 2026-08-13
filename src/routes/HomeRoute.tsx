@@ -10,10 +10,11 @@ import styles from '../App.module.css'
 type RecentItem = {
   key: string
   title: string
-  type: 'App' | 'Blog' | 'Guide'
+  type: 'App' | 'Blog' | 'Project'
   date: string
   href: string
   cta: string
+  status?: Array<'Alpha' | 'Beta'>
   external?: boolean
 }
 
@@ -21,10 +22,11 @@ const APP_ITEMS: RecentItem[] = [
   {
     key: 'app-tuzi',
     title: 'Tuzi',
-    type: 'App',
+    type: 'Project',
     date: '2026-08-11',
     href: '/tuzi/',
-    cta: 'Open app',
+    cta: 'Open project',
+    status: ['Alpha', 'Beta'],
   },
   {
     key: 'app-sub-wait',
@@ -33,6 +35,7 @@ const APP_ITEMS: RecentItem[] = [
     date: '2026-08-10',
     href: '/sub-wait',
     cta: 'Open app',
+    status: ['Beta'],
   },
   {
     key: 'app-game-nights',
@@ -49,6 +52,7 @@ const APP_ITEMS: RecentItem[] = [
     date: '2026-08-09',
     href: '/workout-lab',
     cta: 'Open app',
+    status: ['Beta'],
   },
   {
     key: 'app-photo-hunt',
@@ -70,17 +74,6 @@ const APP_ITEMS: RecentItem[] = [
   },
 ]
 
-const GUIDE_ITEMS: RecentItem[] = [
-  {
-    key: 'guide-index',
-    title: 'Guides',
-    type: 'Guide',
-    date: '2026-08-12',
-    href: '/guides',
-    cta: 'View guides',
-  },
-]
-
 export default function HomeRoute(): ReactElement {
   const recentItems: RecentItem[] = [
     ...getAllBlogPosts().map((post) => ({
@@ -92,7 +85,6 @@ export default function HomeRoute(): ReactElement {
       cta: 'Read article',
     })),
     ...APP_ITEMS,
-    ...GUIDE_ITEMS,
   ]
     .sort((left, right) => right.date.localeCompare(left.date) || left.title.localeCompare(right.title))
     .slice(0, 6)
@@ -115,7 +107,21 @@ export default function HomeRoute(): ReactElement {
                   <span className={styles.recentNumber}>
                     {String(index + 1).padStart(2, '0')}
                   </span>
-                  <span className={styles.recentType}>{item.type}</span>
+                  <span className={styles.recentLabels}>
+                    <span className={styles.recentType}>{item.type}</span>
+                    {item.status?.map((status) => (
+                      <span
+                        className={
+                          status === 'Alpha'
+                            ? styles.recentStatusAlpha
+                            : styles.recentStatus
+                        }
+                        key={status}
+                      >
+                        {status}
+                      </span>
+                    ))}
+                  </span>
                   <span className={styles.posterFrames} aria-hidden="true">
                     <span className={styles.posterFrameBack} />
                     <span className={styles.posterFrameFront} />
