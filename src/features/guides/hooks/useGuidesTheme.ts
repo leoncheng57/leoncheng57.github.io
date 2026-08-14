@@ -30,9 +30,9 @@ function storedTheme(): GuidesTheme | null {
  */
 export default function useGuidesTheme(): {
   theme: GuidesTheme
-  toggleTheme: () => void
+  setTheme: (_next: GuidesTheme) => void
 } {
-  const [theme, setTheme] = useState<GuidesTheme>(() => storedTheme() ?? systemTheme())
+  const [theme, setThemeState] = useState<GuidesTheme>(() => storedTheme() ?? systemTheme())
 
   useEffect(() => {
     if (typeof window.matchMedia !== 'function') return undefined
@@ -40,7 +40,7 @@ export default function useGuidesTheme(): {
     const query = window.matchMedia('(prefers-color-scheme: dark)')
     const onChange = (event: MediaQueryListEvent) => {
       if (storedTheme() === null) {
-        setTheme(event.matches ? 'dark' : 'light')
+        setThemeState(event.matches ? 'dark' : 'light')
       }
     }
 
@@ -48,17 +48,14 @@ export default function useGuidesTheme(): {
     return () => query.removeEventListener('change', onChange)
   }, [])
 
-  const toggleTheme = useCallback(() => {
-    setTheme((current) => {
-      const next: GuidesTheme = current === 'dark' ? 'light' : 'dark'
-      try {
-        window.localStorage.setItem(STORAGE_KEY, next)
-      } catch {
-        // localStorage unavailable (private browsing); theme still toggles.
-      }
-      return next
-    })
+  const setTheme = useCallback((next: GuidesTheme) => {
+    setThemeState(next)
+    try {
+      window.localStorage.setItem(STORAGE_KEY, next)
+    } catch {
+      // localStorage unavailable (private browsing); theme still updates.
+    }
   }, [])
 
-  return { theme, toggleTheme }
+  return { theme, setTheme }
 }

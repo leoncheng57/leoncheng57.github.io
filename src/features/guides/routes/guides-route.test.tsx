@@ -41,7 +41,7 @@ describe('guides index route', () => {
 })
 
 describe('guide site chrome', () => {
-  it('replaces the main site navigation on a guide page', () => {
+  it('replaces the main site navigation with just the theme pill', () => {
     render(
       <MemoryRouter initialEntries={[GUIDE_PATH]}>
         <App />
@@ -50,16 +50,15 @@ describe('guide site chrome', () => {
 
     // The shared TopNav renders a "Repo pages" control; a guide must not use it.
     expect(screen.queryByRole('button', { name: 'Repo pages' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'All guides' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Main site' })).not.toBeInTheDocument()
 
-    const guidesNav = screen.getByRole('navigation', { name: 'Guides navigation' })
-    expect(within(guidesNav).getByRole('link', { name: 'All guides' })).toHaveAttribute(
-      'href',
-      '/guides'
-    )
-    expect(within(guidesNav).getByRole('link', { name: 'Main site' })).toHaveAttribute('href', '/')
+    const pill = screen.getByRole('group', { name: 'Color theme' })
+    expect(within(pill).getByRole('button', { name: 'Light' })).toBeInTheDocument()
+    expect(within(pill).getByRole('button', { name: 'Dark' })).toBeInTheDocument()
   })
 
-  it('toggles between light and dark themes', async () => {
+  it('switches between light and dark themes via the pill', async () => {
     const user = userEvent.setup()
 
     render(
@@ -68,19 +67,22 @@ describe('guide site chrome', () => {
       </MemoryRouter>
     )
 
-    const toggle = screen.getByRole('button', { name: /Switch to (light|dark) theme/ })
-    const initialLabel = toggle.getAttribute('aria-label')
+    const pill = screen.getByRole('group', { name: 'Color theme' })
+    const lightOption = within(pill).getByRole('button', { name: 'Light' })
+    const darkOption = within(pill).getByRole('button', { name: 'Dark' })
     const themedRegion = document.querySelector('[data-theme]')
-    const initialTheme = themedRegion?.getAttribute('data-theme')
 
-    expect(initialTheme).toMatch(/^(light|dark)$/)
+    expect(themedRegion?.getAttribute('data-theme')).toMatch(/^(light|dark)$/)
 
-    await user.click(toggle)
+    await user.click(darkOption)
+    expect(darkOption).toHaveAttribute('aria-pressed', 'true')
+    expect(lightOption).toHaveAttribute('aria-pressed', 'false')
+    expect(document.querySelector('[data-theme]')).toHaveAttribute('data-theme', 'dark')
 
-    expect(
-      screen.getByRole('button', { name: /Switch to (light|dark) theme/ }).getAttribute('aria-label')
-    ).not.toBe(initialLabel)
-    expect(document.querySelector('[data-theme]')?.getAttribute('data-theme')).not.toBe(initialTheme)
+    await user.click(lightOption)
+    expect(lightOption).toHaveAttribute('aria-pressed', 'true')
+    expect(darkOption).toHaveAttribute('aria-pressed', 'false')
+    expect(document.querySelector('[data-theme]')).toHaveAttribute('data-theme', 'light')
   })
 })
 
@@ -109,7 +111,7 @@ describe('guide overview route', () => {
 
     // Overview sections are rendered as numbered cards, not one prose column.
     expect(screen.getByRole('heading', { level: 2, name: 'What you get' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: 'Concepts' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: 'The isolation model' })).toBeInTheDocument()
 
     const contents = screen.getByRole('navigation', { name: 'Guide contents' })
     expect(within(contents).getByRole('link', { name: /Plan the work and set up workers/ })).toHaveAttribute(
@@ -119,19 +121,23 @@ describe('guide overview route', () => {
     expect(
       within(contents).getByRole('link', { name: /Case study: parallel remediation/ })
     ).toHaveAttribute('href', `${GUIDE_PATH}/case-study-parallel-remediation`)
+
+    // Chapters 1-3 are grouped separately from the rest.
+    expect(within(contents).getByText('The Procedure')).toBeInTheDocument()
+    expect(within(contents).getByText('Beyond the Basics')).toBeInTheDocument()
+    expect(within(contents).getByText('Reference')).toBeInTheDocument()
   })
 
-  it('renders the overview diagram from the guides asset path', () => {
+  it('renders the manager/worker ascii diagram on the overview', () => {
     render(
       <MemoryRouter initialEntries={[GUIDE_PATH]}>
         <App />
       </MemoryRouter>
     )
 
-    expect(screen.getByRole('img', { name: /One manager session coordinates/ })).toHaveAttribute(
-      'src',
-      '/guides/manager-worker-agents/orchestration-map.svg'
-    )
+    expect(screen.getByText((content) => content.includes('manager') && content.includes('worker'), {
+      selector: 'pre code',
+    })).toBeInTheDocument()
   })
 
   it('renders a not found state for unknown guides', () => {
@@ -160,6 +166,8 @@ describe('guide chapter route', () => {
     const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
     const activeLink = within(sidebar).getByRole('link', { name: /Configure worker autonomy/ })
     expect(activeLink).toHaveAttribute('aria-current', 'page')
+    expect(within(sidebar).getByText('The Procedure')).toBeInTheDocument()
+    expect(within(sidebar).getByText('Beyond the Basics')).toBeInTheDocument()
 
     expect(screen.getByRole('link', { name: /Previous/ })).toHaveAttribute(
       'href',

@@ -65,6 +65,7 @@ function parseChapter(fileName: string, rawContent: string, path: string): Guide
     title: frontmatter.title!,
     description: frontmatter.description,
     order: orderMatch ? Number(orderMatch[1]) : Number.MAX_SAFE_INTEGER,
+    part: frontmatter.part,
     readingTimeMinutes: calculateReadingTime(normalizedContent),
     content: normalizedContent,
   }

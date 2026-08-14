@@ -1,41 +1,40 @@
 ---
 title: "Workers versus subagents"
 description: "When a persistent worker session beats a delegated subagent call."
+part: "Beyond the Basics"
 ---
 
 # Workers versus subagents
 
-Subagents are useful for bounded research or a single lookup. For multi-step feature delivery, persistent worker sessions are usually better.
+Subagents suit a single lookup. For multi-step delivery, persistent workers usually win.
 
-| Dimension | Subagent | Persistent worker session |
+| Dimension | Subagent | Worker session |
 | --- | --- | --- |
-| Visibility | Usually summarized on return | Live terminal, files, Git history, PR |
-| Lifetime | Ends with the delegated call | Survives pauses; can be resumed |
-| Intervention | Limited while running | Inspect and redirect at any time |
-| Isolation | Often shares the parent environment | Dedicated worktree, process, and port |
-| Review loop | Typically one result | Commits, draft PRs, CI, revisions |
-| Best use | Narrow investigation | Feature work with its own lifecycle |
+| Visibility | Summarized on return | Live terminal, files, PR |
+| Lifetime | Ends with the call | Survives pauses, resumable |
+| Intervention | Limited while running | Inspect and redirect anytime |
+| Isolation | Shares parent environment | Own worktree, process, port |
+| Review loop | One result | Commits, draft PRs, revisions |
 
-## Persistence is a configuration, not a gift
+```text
+subagent:  spawn -> answer -> gone
+worker:    spawn -> commit -> PR -> feedback -> revise -> PR ...
+```
 
-To get resumable workers:
+## Persistence is configured, not automatic
 
-- keep the session record;
-- keep the worktree until the work is verified;
-- launch so the session remains interactive after the run finishes.
+Keep the session record and worktree, and launch so the session stays interactive:
 
-That last point is easy to miss. `opencode run "$(cat prompt.md)"` exits when the run completes; appending `opencode --continue` keeps the session available.
+```bash
+opencode run "$(cat prompt.md)"; opencode --continue
+```
+
+Without that trailer, the session exits when the run completes.
 
 ## Why this changes review economics
 
-Hours after a worker first reports completion, you can send new feedback to the same session. Its branch, files, and conversation are still aligned, so the cost of another review round is a follow-up message rather than a fresh onboarding prompt.
+Hours later, feedback goes to the same session — its branch and conversation are still aligned, so a second review round costs a follow-up, not context reconstruction. With subagents, that means pasting a diff back into a fresh call.
 
-With subagents, the same feedback means reconstructing context from scratch, usually by pasting a diff back into a new call.
+## When a subagent is still right
 
-## When to still use a subagent
-
-- Answering a factual question about the codebase.
-- Searching for every call site of a symbol.
-- Producing a one-off summary the manager will act on immediately.
-
-These are bounded, read-mostly, and produce a single answer. Nothing is gained from a dedicated worktree.
+Factual questions, symbol search, one-off summaries — bounded, read-mostly, single-answer work with nothing gained from a dedicated worktree.

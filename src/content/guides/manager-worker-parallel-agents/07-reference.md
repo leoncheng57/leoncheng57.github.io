@@ -1,6 +1,7 @@
 ---
 title: "Reference: contract template and checklists"
 description: "Copy-paste worker contract, launch checklist, and review checklist."
+part: "Reference"
 ---
 
 # Reference: contract template and checklists
@@ -21,15 +22,12 @@ Autonomy
 - Never merge or run destructive Git commands.
 
 Execution
-- Worktree: <path>.
-- Dev port: <port>.
-- Commit and push after: <checkpoint>.
-- Rebase rule: <rule for moving bases>.
+- Worktree: <path>. Dev port: <port>.
+- Commit/push after: <checkpoint>. Rebase rule: <rule>.
 
 Evidence
-- Run: <lint/tests/build>.
-- Capture: <screenshots/manual checks>.
-- Report: PR, commits, checks, residual risks, remaining work.
+- Run: <lint/tests/build>. Capture: <screenshots>.
+- Report: PR, commits, checks, risks, remaining work.
 
 Handoff
 - Open a draft PR against <base>.
@@ -39,35 +37,27 @@ Handoff
 
 ## Launch checklist
 
-- [ ] Tasks split, dependencies ordered, stack bases chosen
-- [ ] Integration order decided for batches that share a subsystem
-- [ ] One branch, worktree, port, and session per task
-- [ ] Contract written per worker, including ownership and escalation
-- [ ] Autonomy level chosen per task and matched by permissions
-- [ ] Launch command leaves the session resumable
-- [ ] Launch acknowledgment verified for every worker
+- [ ] Tasks split, dependencies ordered, integration order decided
+- [ ] One branch, worktree, port, session per task
+- [ ] Contract written with ownership and escalation
+- [ ] Autonomy chosen per task, matched by permissions
+- [ ] Launch acknowledgment verified per worker
 
 ## Review checklist
 
 - [ ] Draft PR opened before ready-for-review
-- [ ] Commits logically separated
-- [ ] Diff still matches the assigned scope
-- [ ] Evidence matches the predeclared gates
-- [ ] Dependent branches rebased onto the current base
+- [ ] Commits separated, diff matches scope, evidence matches gates
+- [ ] Dependent branches rebased onto current base
 - [ ] Feedback routed into the owning session
-- [ ] Merge performed by a human
-- [ ] Worktrees removed only after verification
+- [ ] Human merge; worktrees removed after verification
 
 ## High-risk work checklist
 
-Use in addition to the above whenever the result will touch real data or production systems.
-
-- [ ] Manager review completed independently of CI status
-- [ ] Findings triaged by severity, counts recorded
-- [ ] Remediation split by subsystem theme
+- [ ] Manager review independent of CI status
+- [ ] Findings triaged by severity, split by subsystem theme
 - [ ] Explicit go/no-go gate defined and written down
 - [ ] First live run staged from read-only to a small batch
-- [ ] Newly discovered work queued as follow-up workers
+- [ ] New findings queued as follow-up workers, not scope creep
 
 ## Related reading
 

@@ -2,6 +2,7 @@ import type { ReactElement } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import MarkdownArticle from '../../../components/markdown/MarkdownArticle'
 import TagList from '../../../components/markdown/TagList'
+import { groupChaptersByPart } from '../chapterGroups'
 import GuideNotFound from '../components/GuideNotFound'
 import { getGuideBySlug } from '../content'
 import { splitMarkdownSections } from '../markdownSections'
@@ -78,27 +79,32 @@ export default function GuideOverviewRoute(): ReactElement {
       {guide.chapters.length > 0 ? (
         <nav id="guide-contents" className={styles.contentsSection} aria-label="Guide contents">
           <h2 className={styles.contentsTitle}>Contents</h2>
-          <ol className={styles.chapterGrid}>
-            {guide.chapters.map((chapter, index) => (
-              <li key={chapter.slug}>
-                <Link to={`/guides/${guide.slug}/${chapter.slug}`} className={styles.chapterCard}>
-                  <span className={styles.chapterCardNumber} aria-hidden="true">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span className={styles.chapterCardBody}>
-                    <span className={styles.chapterCardTitle}>{chapter.title}</span>
-                    {chapter.description ? (
-                      <span className={styles.chapterCardDescription}>{chapter.description}</span>
-                    ) : null}
-                    <span className={styles.chapterCardMeta}>{chapter.readingTimeMinutes} min</span>
-                  </span>
-                  <span className={styles.chapterCardArrow} aria-hidden="true">
-                    &rarr;
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ol>
+          {groupChaptersByPart(guide.chapters).map((group) => (
+            <div key={group.part || 'ungrouped'} className={styles.chapterPart}>
+              {group.part ? <p className={styles.chapterPartLabel}>{group.part}</p> : null}
+              <ol className={styles.chapterGrid}>
+                {group.items.map(({ chapter, index }) => (
+                  <li key={chapter.slug}>
+                    <Link to={`/guides/${guide.slug}/${chapter.slug}`} className={styles.chapterCard}>
+                      <span className={styles.chapterCardNumber} aria-hidden="true">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <span className={styles.chapterCardBody}>
+                        <span className={styles.chapterCardTitle}>{chapter.title}</span>
+                        {chapter.description ? (
+                          <span className={styles.chapterCardDescription}>{chapter.description}</span>
+                        ) : null}
+                        <span className={styles.chapterCardMeta}>{chapter.readingTimeMinutes} min</span>
+                      </span>
+                      <span className={styles.chapterCardArrow} aria-hidden="true">
+                        &rarr;
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ))}
         </nav>
       ) : null}
     </main>

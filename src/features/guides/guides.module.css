@@ -74,14 +74,8 @@
 .masthead {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  padding: 0.85rem 1.1rem;
-  border: 1px solid var(--gd-line);
-  border-radius: 12px;
-  background: var(--gd-surface);
-  box-shadow: var(--gd-shadow);
+  justify-content: center;
+  padding: 0.65rem;
 }
 
 @media (min-width: 60rem) {
@@ -92,67 +86,39 @@
   }
 }
 
-.brand {
+/* Segmented light/dark pill: the only masthead control on a guide page. */
+.themePill {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  font-family: var(--gd-mono);
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: -0.01em;
-  color: var(--gd-ink);
-  text-decoration: none;
-}
-
-.brandMark {
-  color: var(--gd-accent);
-}
-
-.brandTag {
-  font-family: var(--gd-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--gd-muted);
-}
-
-.mastheadNav {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  flex-wrap: wrap;
-}
-
-.mastheadNav a {
-  font-family: var(--gd-mono);
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--gd-muted);
-  text-decoration: none;
-  padding: 0.4rem 0.6rem;
-  border-radius: 7px;
-}
-
-.mastheadNav a:hover {
-  color: var(--gd-ink);
-  background: var(--gd-surface-raised);
-}
-
-.themeToggle {
-  font-family: var(--gd-mono);
-  font-size: 0.78rem;
-  color: var(--gd-ink);
-  background: var(--gd-surface-raised);
+  padding: 0.2rem;
   border: 1px solid var(--gd-line);
-  border-radius: 7px;
-  padding: 0.4rem 0.65rem;
-  cursor: pointer;
+  border-radius: 999px;
+  background: var(--gd-surface);
+  box-shadow: var(--gd-shadow);
 }
 
-.themeToggle:hover {
-  border-color: var(--gd-line-strong);
+.themeOption,
+.themeOptionActive {
+  font-family: var(--gd-mono);
+  font-size: 0.76rem;
+  border: none;
+  border-radius: 999px;
+  padding: 0.4rem 1.1rem;
+  cursor: pointer;
+  background: transparent;
+}
+
+.themeOption {
+  color: var(--gd-muted);
+}
+
+.themeOption:hover {
+  color: var(--gd-ink);
+}
+
+.themeOptionActive {
+  color: var(--gd-accent-contrast);
+  background: var(--gd-accent);
+  font-weight: 700;
 }
 
 /* ------------------------------------------------------------------ layout */
@@ -354,6 +320,26 @@
   color: var(--gd-muted);
 }
 
+.chapterPart {
+  margin-bottom: 1.5rem;
+}
+
+.chapterPart:last-child {
+  margin-bottom: 0;
+}
+
+.chapterPartLabel {
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--gd-line);
+  font-family: var(--gd-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gd-accent);
+}
+
 .chapterGrid {
   list-style: none;
   margin: 0;
@@ -519,6 +505,25 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--gd-muted);
+}
+
+.sidebarPart {
+  margin-bottom: 0.75rem;
+}
+
+.sidebarPart:last-child {
+  margin-bottom: 0;
+}
+
+.sidebarPartLabel {
+  margin: 0.4rem 0 0.15rem;
+  padding: 0 0.5rem;
+  font-family: var(--gd-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gd-accent);
 }
 
 .sidebarList {

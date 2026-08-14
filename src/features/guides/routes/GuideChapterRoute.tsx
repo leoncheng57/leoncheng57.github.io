@@ -3,6 +3,7 @@ import type { CSSProperties, ReactElement } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import FontSizeControls from '../../../components/markdown/FontSizeControls'
 import MarkdownArticle from '../../../components/markdown/MarkdownArticle'
+import { groupChaptersByPart } from '../chapterGroups'
 import GuideNotFound from '../components/GuideNotFound'
 import { getGuideBySlug, getGuideChapter } from '../content'
 import styles from '../guides.module.css'
@@ -41,25 +42,30 @@ export default function GuideChapterRoute(): ReactElement {
       <div className={styles.chapterLayout}>
         <nav className={styles.sidebar} aria-label="Guide chapters">
           <h2 className={styles.sidebarHeading}>Chapters</h2>
-          <ol className={styles.sidebarList}>
-            {guide.chapters.map((item, itemIndex) => {
-              const isActive = item.slug === chapter.slug
-              return (
-                <li key={item.slug}>
-                  <Link
-                    to={`/guides/${guide.slug}/${item.slug}`}
-                    className={`${styles.sidebarLink} ${isActive ? styles.sidebarLinkActive : ''}`}
-                    aria-current={isActive ? 'page' : undefined}
-                  >
-                    <span className={styles.sidebarNumber}>
-                      {String(itemIndex + 1).padStart(2, '0')}
-                    </span>
-                    <span>{item.title}</span>
-                  </Link>
-                </li>
-              )
-            })}
-          </ol>
+          {groupChaptersByPart(guide.chapters).map((group) => (
+            <div key={group.part || 'ungrouped'} className={styles.sidebarPart}>
+              {group.part ? <p className={styles.sidebarPartLabel}>{group.part}</p> : null}
+              <ol className={styles.sidebarList}>
+                {group.items.map(({ chapter: item, index: itemIndex }) => {
+                  const isActive = item.slug === chapter.slug
+                  return (
+                    <li key={item.slug}>
+                      <Link
+                        to={`/guides/${guide.slug}/${item.slug}`}
+                        className={`${styles.sidebarLink} ${isActive ? styles.sidebarLinkActive : ''}`}
+                        aria-current={isActive ? 'page' : undefined}
+                      >
+                        <span className={styles.sidebarNumber}>
+                          {String(itemIndex + 1).padStart(2, '0')}
+                        </span>
+                        <span>{item.title}</span>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ol>
+            </div>
+          ))}
         </nav>
 
         <article className={styles.article}>

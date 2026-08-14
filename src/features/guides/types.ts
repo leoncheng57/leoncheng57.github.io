@@ -4,6 +4,8 @@ export interface GuideChapter {
   description?: string
   /** Sort position, taken from the `NN-` filename prefix. */
   order: number
+  /** Optional group label; consecutive chapters sharing a part render together. */
+  part?: string
   readingTimeMinutes: number
   content: string
 }
@@ -39,4 +41,5 @@ export interface GuideFrontmatter {
 export interface GuideChapterFrontmatter {
   title?: string
   description?: string
+  part?: string
 }
