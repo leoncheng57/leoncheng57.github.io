@@ -12,8 +12,8 @@ worktrees on one laptop, so a static host has nothing to point it at.
 
 ```bash
 cd alpha-projs/agent-dashboard
-node cli.mjs            # one-shot table
-node cli.mjs --watch    # live board, redrawn every 5s, ctrl-c to exit
+node cli.mjs            # live board in a terminal, redrawn every 5s, ctrl-c to exit
+node cli.mjs --once     # one-shot table
 node cli.mjs --json     # aggregated state for scripts and agents
 ```
 
@@ -35,11 +35,15 @@ gmail-screenshot      done       42m  alpha-projs/gmail-r… +1/-1  pass  #191  
 Rows sort worst-first - stale, then by phase - so the top of the table is the
 shortest description of what still needs attention.
 
+In a terminal the live board is the default; piped output (`node cli.mjs | cat`)
+falls back to the one-shot table so scripts get plain text.
+
 ## Flags
 
 | Flag | Meaning |
 | --- | --- |
-| `--watch` | Live board in the alternate screen buffer, restored cleanly on ctrl-c |
+| `--once` | One-shot table, even in a terminal |
+| `--watch` | Live board, even when auto-detection says otherwise |
 | `--json` | Print the aggregated state and exit |
 | `--config <path>` | Use this config file instead of auto-detection |
 | `--project <name>` | Select one project from a multi-project config |
