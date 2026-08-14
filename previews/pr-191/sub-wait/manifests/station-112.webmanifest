@@ -1,0 +1,32 @@
+{
+  "name": "168 St-Washington Hts",
+  "short_name": "168 St-Washington Hts",
+  "description": "Live NYC subway arrival times for 168 St-Washington Hts.",
+  "id": "/previews/pr-191/sub-wait/pwa/station/112",
+  "start_url": "/previews/pr-191/sub-wait/station/112",
+  "scope": "/previews/pr-191/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-191/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-191/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-191/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
