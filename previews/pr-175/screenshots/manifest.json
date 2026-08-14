@@ -8,8 +8,12 @@
     "file": "guides--manager-worker-parallel-agents.png"
   },
   {
-    "path": "/guides/manager-worker-parallel-agents/case-study-parallel-remediation",
-    "file": "guides--manager-worker-parallel-agents--case-study-parallel-remediation.png"
+    "path": "/guides/manager-worker-parallel-agents/run-and-review",
+    "file": "guides--manager-worker-parallel-agents--run-and-review.png"
+  },
+  {
+    "path": "/repo/design-components",
+    "file": "repo--design-components.png"
   },
   {
     "path": "/",
