@@ -121,7 +121,7 @@ describe('repo subpages', () => {
     expect(
       screen.getByRole('heading', { level: 3, name: 'Tuzi' })
     ).toBeInTheDocument()
-    expect(screen.getAllByText('Alpha')).toHaveLength(2)
+    expect(screen.getAllByText('Alpha')).toHaveLength(3)
     expect(screen.getByRole('link', { name: 'Tuzi' })).toHaveAttribute(
       'href',
       '/tuzi/'
@@ -136,9 +136,21 @@ describe('repo subpages', () => {
     expect(
       screen.getByRole('link', { name: 'GA Traffic Dashboard' })
     ).toHaveAttribute('href', '/repo/alpha-projs/ga-traffic-dashboard')
-    expect(screen.getByRole('link', { name: 'Read more' })).toHaveAttribute(
+    const readMoreLinks = screen.getAllByRole('link', { name: 'Read more' })
+    expect(readMoreLinks).toHaveLength(2)
+    expect(readMoreLinks[0]).toHaveAttribute(
       'href',
       '/repo/alpha-projs/ga-traffic-dashboard'
+    )
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Gmail Reader' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Gmail Reader' })
+    ).toHaveAttribute('href', '/repo/alpha-projs/gmail-reader')
+    expect(readMoreLinks[1]).toHaveAttribute(
+      'href',
+      '/repo/alpha-projs/gmail-reader'
     )
     expect(
       screen.getByRole('link', { name: 'Back home' })
@@ -171,6 +183,40 @@ describe('repo subpages', () => {
       screen.getByRole('link', { name: 'GA4: per-app rows, year to date' })
     ).toHaveAttribute('href', expect.stringContaining('analytics.google.com'))
     expect(screen.getAllByText('(private-access-only)')).toHaveLength(3)
+  })
+
+  it('renders the Gmail Reader page at /repo/alpha-projs/gmail-reader', () => {
+    render(
+      <MemoryRouter initialEntries={['/repo/alpha-projs/gmail-reader']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Gmail Reader' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Back to alpha projs' })
+    ).toHaveAttribute('href', '/repo/alpha-projs')
+    expect(
+      screen.getByRole('heading', { name: 'How it works' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Run it yourself' })
+    ).toBeInTheDocument()
+    expect(screen.getByLabelText('Local setup commands')).toHaveTextContent(
+      'git clone git@github.com:leoncheng57/gmail-reader.git'
+    )
+    expect(
+      screen.getByRole('link', { name: 'gmail-reader on GitHub' })
+    ).toHaveAttribute('href', 'https://github.com/leoncheng57/gmail-reader')
+    expect(
+      screen.getByRole('link', { name: 'README: setup and daily use' })
+    ).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/gmail-reader#readme'
+    )
+    expect(screen.getAllByText('(private-access-only)')).toHaveLength(4)
   })
 
   it('documents CI checks at /repo/ci', () => {

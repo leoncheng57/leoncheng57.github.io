@@ -12,6 +12,7 @@ import GuidesRoute from './features/guides/routes/GuidesRoute'
 import AlphaProjsRoute from './features/repo/routes/AlphaProjsRoute'
 import CiRoute from './features/repo/routes/CiRoute'
 import GaTrafficDashboardRoute from './features/repo/routes/GaTrafficDashboardRoute'
+import GmailReaderRoute from './features/repo/routes/GmailReaderRoute'
 import DesignComponentsRoute from './features/repo/routes/DesignComponentsRoute'
 import GoogleAnalyticsRoute from './features/repo/routes/GoogleAnalyticsRoute'
 import PlanningRoute from './features/repo/routes/PlanningRoute'
@@ -47,6 +48,10 @@ export default function App(): ReactElement {
         <Route
           path="/repo/alpha-projs/ga-traffic-dashboard"
           element={<GaTrafficDashboardRoute />}
+        />
+        <Route
+          path="/repo/alpha-projs/gmail-reader"
+          element={<GmailReaderRoute />}
         />
         <Route path="/repo/ci" element={<CiRoute />} />
         <Route path="/repo/design-components" element={<DesignComponentsRoute />} />

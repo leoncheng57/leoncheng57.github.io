@@ -20,6 +20,7 @@ const STATIC_TITLES: Record<string, string> = {
   '/repo': `Repo | ${SITE_TITLE}`,
   '/repo/alpha-projs': `Alpha Projects | Repo | ${SITE_TITLE}`,
   '/repo/alpha-projs/ga-traffic-dashboard': `GA Traffic Dashboard | Alpha Projects | Repo | ${SITE_TITLE}`,
+  '/repo/alpha-projs/gmail-reader': `Gmail Reader | Alpha Projects | Repo | ${SITE_TITLE}`,
   '/repo/ci': `CI Checks | Repo | ${SITE_TITLE}`,
   '/repo/design-components': `Design Components | Repo | ${SITE_TITLE}`,
   '/repo/google-analytics': `Google Analytics | Repo | ${SITE_TITLE}`,
