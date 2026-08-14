@@ -1,0 +1,32 @@
+{
+  "name": "W 8 St-NY Aquarium",
+  "short_name": "W 8 St-NY Aquarium",
+  "description": "Live NYC subway arrival times for W 8 St-NY Aquarium.",
+  "id": "/previews/pr-195/sub-wait/pwa/station/D42",
+  "start_url": "/previews/pr-195/sub-wait/station/D42",
+  "scope": "/previews/pr-195/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-195/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-195/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-195/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
