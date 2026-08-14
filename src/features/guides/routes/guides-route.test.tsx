@@ -38,6 +38,16 @@ describe('guides index route', () => {
     expect(screen.getByRole('link', { name: 'Back home' })).toHaveAttribute('href', '/')
     expect(screen.queryByRole('navigation', { name: 'Guides navigation' })).not.toBeInTheDocument()
   })
+
+  it('marks the guides section as beta', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(screen.getByText('BETA')).toBeInTheDocument()
+  })
 })
 
 describe('guide site chrome', () => {
@@ -56,6 +66,24 @@ describe('guide site chrome', () => {
     const pill = screen.getByRole('group', { name: 'Color theme' })
     expect(within(pill).getByRole('button', { name: 'Light' })).toBeInTheDocument()
     expect(within(pill).getByRole('button', { name: 'Dark' })).toBeInTheDocument()
+  })
+
+  it('marks every guide page as beta in the masthead', () => {
+    const { unmount } = render(
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+    expect(screen.getByText('BETA')).toBeInTheDocument()
+    unmount()
+
+    // Chapter pages share the masthead, so the badge follows them.
+    render(
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/configure-autonomy`]}>
+        <App />
+      </MemoryRouter>
+    )
+    expect(screen.getByText('BETA')).toBeInTheDocument()
   })
 
   it('switches between light and dark themes via the pill', async () => {

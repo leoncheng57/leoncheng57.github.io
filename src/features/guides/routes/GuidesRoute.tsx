@@ -28,6 +28,7 @@ export default function GuidesRoute(): ReactElement {
     <div className={styles.page} data-theme={theme}>
       <div className={styles.frame}>
         <header className={styles.masthead}>
+          <span className={styles.betaBadge}>BETA</span>
           <div className={styles.themePill} role="group" aria-label="Color theme">
             <button
               type="button"

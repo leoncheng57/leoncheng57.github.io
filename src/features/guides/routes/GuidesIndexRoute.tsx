@@ -16,10 +16,13 @@ export default function GuidesIndexRoute(): ReactElement {
           <Link to="/">Back home</Link>
         </p>
         <header className={styles.pageHeader}>
-          <h1>Guides</h1>
+          <div className={styles.titleRow}>
+            <h1>Guides</h1>
+            <span className={styles.betaBadge}>BETA</span>
+          </div>
           <p>
             Maintained, step-by-step references I keep up to date as the workflows change. Each guide
-            opens as its own multi-chapter document.
+            opens as its own multi-chapter document. This section is still taking shape.
           </p>
         </header>
         {guides.length === 0 ? (
