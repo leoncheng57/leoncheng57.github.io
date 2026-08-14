@@ -330,6 +330,13 @@ function readStatusFile(directory, staleAfterSeconds) {
     ? null
     : Math.max(0, Math.round((Date.now() - updatedMs) / 1000))
   const phase = typeof parsed.phase === 'string' ? parsed.phase : 'unknown'
+  // Agents reliably mislabel local time as UTC. A future timestamp cannot be
+  // trusted for staleness either way, so say so instead of pretending.
+  const futureMs = Number.isNaN(updatedMs) ? 0 : updatedMs - Date.now()
+  const clockNote =
+    futureMs > 60_000
+      ? `updated_at is ${Math.round(futureMs / 60_000)}m in the future - worker clock wrong?`
+      : null
 
   return {
     id,
@@ -344,7 +351,7 @@ function readStatusFile(directory, staleAfterSeconds) {
     ageSeconds,
     stale:
       ageSeconds !== null && ageSeconds > staleAfterSeconds && phase !== 'done',
-    note: null,
+    note: clockNote,
   }
 }
 
