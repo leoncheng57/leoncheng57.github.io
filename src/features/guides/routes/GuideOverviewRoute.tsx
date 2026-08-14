@@ -1,82 +1,105 @@
-import { useState } from 'react'
-import type { CSSProperties, ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import FontSizeControls from '../../../components/markdown/FontSizeControls'
 import MarkdownArticle from '../../../components/markdown/MarkdownArticle'
-import GuideMeta from '../components/GuideMeta'
+import TagList from '../../../components/markdown/TagList'
 import GuideNotFound from '../components/GuideNotFound'
 import { getGuideBySlug } from '../content'
+import { splitMarkdownSections } from '../markdownSections'
 import styles from '../guides.module.css'
 
 export default function GuideOverviewRoute(): ReactElement {
   const { slug = '' } = useParams()
   const guide = getGuideBySlug(slug)
-  const [fontScale, setFontScale] = useState(1)
 
   if (!guide) {
     return <GuideNotFound heading="Guide not found" message="The requested guide does not exist." />
   }
 
-  const articleStyle = { '--gd-font-size': `${1.02 * fontScale}rem` } as CSSProperties
+  const { intro, sections } = splitMarkdownSections(guide.overview)
   const firstChapter = guide.chapters[0]
 
   return (
-    <main className={styles.main} style={articleStyle}>
+    <main className={styles.main}>
       <p className={styles.backLink}>
         <Link to="/guides">&larr; All guides</Link>
       </p>
 
-      <article className={styles.article}>
-        <header className={styles.pageHeader}>
-          <p className={styles.eyebrow}>Guide</p>
-          <h1>{guide.title}</h1>
-          <p>{guide.description}</p>
-          {guide.audience ? <p className={styles.audience}>{guide.audience}</p> : null}
-          <GuideMeta guide={guide} />
-          <FontSizeControls
-            onDecrease={() => setFontScale((current) => Math.max(0.9, current - 0.1))}
-            onReset={() => setFontScale(1)}
-            onIncrease={() => setFontScale((current) => Math.min(1.4, current + 0.1))}
-            styles={styles}
-          />
-        </header>
+      <header className={styles.hero}>
+        <p className={styles.eyebrow}>~/guides/{guide.slug}</p>
+        <h1 className={styles.heroTitle}>{guide.title}</h1>
+        <p className={styles.heroDescription}>{guide.description}</p>
+        {guide.audience ? <p className={styles.audience}>{guide.audience}</p> : null}
+        <p className={styles.heroMeta}>
+          <span>Last reviewed {guide.updatedAt}</span>
+          <span className={styles.metaSeparator} aria-hidden="true">
+            ·
+          </span>
+          <span>
+            {guide.chapters.length} {guide.chapters.length === 1 ? 'chapter' : 'chapters'}
+          </span>
+          <span className={styles.metaSeparator} aria-hidden="true">
+            ·
+          </span>
+          <span>{guide.readingTimeMinutes} min read</span>
+        </p>
+        <TagList tags={guide.tags} styles={styles} label="Guide tags" />
+        <div className={styles.ctaRow}>
+          {firstChapter ? (
+            <Link to={`/guides/${guide.slug}/${firstChapter.slug}`} className={styles.primaryCta}>
+              Start reading &rarr;
+            </Link>
+          ) : null}
+          <a href="#guide-contents" className={styles.secondaryCta}>
+            Contents
+          </a>
+        </div>
+      </header>
 
-        <MarkdownArticle content={guide.overview} styles={styles} />
-      </article>
+      <div className={styles.overview}>
+        {intro ? (
+          <div className={styles.intro}>
+            <MarkdownArticle content={intro} styles={styles} />
+          </div>
+        ) : null}
+
+        {sections.map((section, index) => (
+          <section key={section.title} className={styles.sectionCard}>
+            <div className={styles.sectionHead}>
+              <span className={styles.sectionNumber} aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h2 className={styles.sectionTitle}>{section.title}</h2>
+            </div>
+            <MarkdownArticle content={section.body} styles={styles} />
+          </section>
+        ))}
+      </div>
 
       {guide.chapters.length > 0 ? (
-        <nav className={styles.contents} aria-label="Guide contents">
-          <h2 className={styles.contentsHeading}>Contents</h2>
-          <ol className={styles.contentsList}>
+        <nav id="guide-contents" className={styles.contentsSection} aria-label="Guide contents">
+          <h2 className={styles.contentsTitle}>Contents</h2>
+          <ol className={styles.chapterGrid}>
             {guide.chapters.map((chapter, index) => (
               <li key={chapter.slug}>
-                <Link to={`/guides/${guide.slug}/${chapter.slug}`} className={styles.contentsLink}>
-                  <span className={styles.contentsNumber}>
+                <Link to={`/guides/${guide.slug}/${chapter.slug}`} className={styles.chapterCard}>
+                  <span className={styles.chapterCardNumber} aria-hidden="true">
                     {String(index + 1).padStart(2, '0')}
                   </span>
-                  <span className={styles.contentsTitle}>
-                    {chapter.title}
+                  <span className={styles.chapterCardBody}>
+                    <span className={styles.chapterCardTitle}>{chapter.title}</span>
                     {chapter.description ? (
-                      <span className={styles.contentsDescription}>{chapter.description}</span>
+                      <span className={styles.chapterCardDescription}>{chapter.description}</span>
                     ) : null}
+                    <span className={styles.chapterCardMeta}>{chapter.readingTimeMinutes} min</span>
+                  </span>
+                  <span className={styles.chapterCardArrow} aria-hidden="true">
+                    &rarr;
                   </span>
                 </Link>
               </li>
             ))}
           </ol>
         </nav>
-      ) : null}
-
-      {firstChapter ? (
-        <div className={styles.pager}>
-          <Link
-            to={`/guides/${guide.slug}/${firstChapter.slug}`}
-            className={`${styles.pagerLink} ${styles.pagerNext}`}
-          >
-            <span className={styles.pagerLabel}>Start reading</span>
-            <span className={styles.pagerTitle}>{firstChapter.title}</span>
-          </Link>
-        </div>
       ) : null}
     </main>
   )

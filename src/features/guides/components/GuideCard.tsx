@@ -34,7 +34,6 @@ export default function GuideCard({ guide }: GuideCardProps): ReactElement {
         </h2>
 
         <p className={styles.description}>{guide.description}</p>
-        {guide.audience ? <p className={styles.audience}>{guide.audience}</p> : null}
 
         <p className={styles.cardMeta}>
           <span>updated {guide.updatedAt}</span>
@@ -73,9 +72,7 @@ export default function GuideCard({ guide }: GuideCardProps): ReactElement {
             {remainingChapters > 0 ? (
               <li className={styles.more}>
                 <span aria-hidden="true">..</span>
-                <span>
-                  and {remainingChapters} more {remainingChapters === 1 ? 'chapter' : 'chapters'}
-                </span>
+                <span>+{remainingChapters} more</span>
               </li>
             ) : null}
           </ol>

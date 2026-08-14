@@ -154,13 +154,6 @@
   color: var(--term-ink);
 }
 
-.audience {
-  margin: 0 0 0.85rem;
-  font-size: 0.8rem;
-  line-height: 1.6;
-  color: var(--term-muted);
-}
-
 .cardMeta {
   display: flex;
   flex-wrap: wrap;

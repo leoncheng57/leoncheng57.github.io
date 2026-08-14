@@ -1,6 +1,6 @@
 ---
 title: "Running Parallel Coding Agents with a Manager and Workers"
-description: "How to orchestrate one manager agent session and several autonomous worker sessions across Git worktrees, with configurable autonomy, draft-PR review gates, and recovery procedures."
+description: "Orchestrate one manager session and several autonomous workers across Git worktrees, with configurable autonomy and draft-PR review gates."
 updatedAt: "2026-08-13"
 publishedAt: "2026-08-12"
 audience: "Engineers who already use a coding agent and want several tasks moving at once without losing review control."

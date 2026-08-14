@@ -24,7 +24,7 @@ describe('guides index route', () => {
 
     // The card previews the first chapters without listing all of them.
     expect(screen.getByText('Plan the work and set up workers')).toBeInTheDocument()
-    expect(screen.getByText(/and 4 more chapters/)).toBeInTheDocument()
+    expect(screen.getByText(/\+4 more/)).toBeInTheDocument()
   })
 
   it('stays on the main site chrome, like the apps index', () => {
@@ -85,7 +85,7 @@ describe('guide site chrome', () => {
 })
 
 describe('guide overview route', () => {
-  it('renders the guide landing page with metadata and a table of contents', () => {
+  it('renders the guide landing page as a hero with chapter cards', () => {
     render(
       <MemoryRouter initialEntries={[GUIDE_PATH]}>
         <App />
@@ -93,8 +93,23 @@ describe('guide overview route', () => {
     )
 
     expect(screen.getByRole('heading', { level: 1, name: GUIDE_TITLE })).toBeInTheDocument()
-    expect(screen.getByText(/Last reviewed:/)).toBeInTheDocument()
-    expect(screen.getByText(/Estimated reading time:/)).toBeInTheDocument()
+    expect(screen.getByText(`~/guides/manager-worker-parallel-agents`)).toBeInTheDocument()
+    expect(screen.getByText(/Last reviewed 2026-/)).toBeInTheDocument()
+    expect(screen.getByText(/min read/)).toBeInTheDocument()
+
+    // Hero CTAs
+    expect(screen.getByRole('link', { name: /Start reading/ })).toHaveAttribute(
+      'href',
+      `${GUIDE_PATH}/plan-and-set-up`
+    )
+    expect(screen.getByRole('link', { name: 'Contents' })).toHaveAttribute(
+      'href',
+      '#guide-contents'
+    )
+
+    // Overview sections are rendered as numbered cards, not one prose column.
+    expect(screen.getByRole('heading', { level: 2, name: 'What you get' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: 'Concepts' })).toBeInTheDocument()
 
     const contents = screen.getByRole('navigation', { name: 'Guide contents' })
     expect(within(contents).getByRole('link', { name: /Plan the work and set up workers/ })).toHaveAttribute(
@@ -104,8 +119,6 @@ describe('guide overview route', () => {
     expect(
       within(contents).getByRole('link', { name: /Case study: parallel remediation/ })
     ).toHaveAttribute('href', `${GUIDE_PATH}/case-study-parallel-remediation`)
-
-    expect(screen.getByRole('link', { name: /Start reading/ })).toBeInTheDocument()
   })
 
   it('renders the overview diagram from the guides asset path', () => {

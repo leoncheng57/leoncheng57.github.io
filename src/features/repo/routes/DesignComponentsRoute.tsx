@@ -2,10 +2,16 @@ import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import PlaceholderBanner from '../../../components/placeholder-banner/PlaceholderBanner'
 import TopNav from '../../../components/top-nav/TopNav'
+import GuideCard from '../../guides/components/GuideCard'
+import { getAllGuides } from '../../guides/content'
 import styles from '../design-components.module.css'
 import repoStyles from '../repo.module.css'
 
 export default function DesignComponentsRoute(): ReactElement {
+  // Live specimen: the guides index card, rendered from real guide data so the
+  // reference never drifts from the shipped component.
+  const [featuredGuide] = getAllGuides()
+
   return (
     <div className={repoStyles.page}>
       <TopNav />
@@ -79,6 +85,18 @@ export default function DesignComponentsRoute(): ReactElement {
             </article>
           </div>
         </section>
+
+        {featuredGuide ? (
+          <section className={styles.showcase} aria-labelledby="terminal-card-heading">
+            <h2 id="terminal-card-heading">Terminal card</h2>
+            <p>
+              The guides index renders each guide as a terminal window: chrome dots, a
+              path header, a <code>$</code> prompt, tag chips, and a chapter preview.
+              This is the live component with real guide data.
+            </p>
+            <GuideCard guide={featuredGuide} />
+          </section>
+        ) : null}
 
         <section className={styles.showcase} aria-labelledby="placeholder-heading">
           <h2 id="placeholder-heading">Placeholder banner</h2>
