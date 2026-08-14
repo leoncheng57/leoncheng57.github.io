@@ -19,6 +19,11 @@ describe('getRouteTitle', () => {
     ['/blog/hello-blog', "Hello Blog | Leon's Website"],
     ['/blog/missing-post', "Post Not Found | Leon's Website"],
     ['/guides', "Guides | Leon's Website"],
+    [
+      '/guides/manager-worker-parallel-agents',
+      "Running Parallel Coding Agents with a Manager and Workers | Guides | Leon's Website",
+    ],
+    ['/guides/missing-guide', "Guide Not Found | Leon's Website"],
     ['/apps', "Apps | Leon's Website"],
     ['/apps/whoops-hoops/privacy', 'Privacy Policy | Whoops Hoops'],
     ['/repo/alpha-projs', "Alpha Projects | Repo | Leon's Website"],

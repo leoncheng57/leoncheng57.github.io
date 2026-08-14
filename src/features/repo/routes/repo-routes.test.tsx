@@ -80,6 +80,13 @@ describe('repo subpages', () => {
     ).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Cards' })).toBeInTheDocument()
     expect(
+      screen.getByRole('heading', { name: 'Terminal card' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /read guide/ })).toHaveAttribute(
+      'href',
+      '/guides/manager-worker-parallel-agents'
+    )
+    expect(
       screen.getByRole('heading', { level: 3, name: 'Still taking shape' })
     ).toBeInTheDocument()
     expect(

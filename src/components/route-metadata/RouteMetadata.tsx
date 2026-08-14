@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactElement } from 'react'
 import { useLocation } from 'react-router-dom'
 import { getBlogPostBySlug } from '../../features/blog/content'
+import { getGuideBySlug, getGuideChapter } from '../../features/guides/content'
 import { directionLabel, getStation } from '../../features/sub-wait/data/stations'
 import type { Direction } from '../../features/sub-wait/types'
 
@@ -96,6 +97,26 @@ export function getRouteTitle(pathname: string): string {
       ? `${post.title} | ${SITE_TITLE}`
       : `Post Not Found | ${SITE_TITLE}`
   }
+
+  const guideMatch = pathname.match(/^\/guides\/([^/]+)(?:\/([^/]+))?\/?$/)
+  if (guideMatch) {
+    const guide = getGuideBySlug(decodePathSegment(guideMatch[1]))
+    if (!guide) {
+      return `Guide Not Found | ${SITE_TITLE}`
+    }
+
+    const chapterSlug = guideMatch[2]
+    if (!chapterSlug) {
+      return `${guide.title} | Guides | ${SITE_TITLE}`
+    }
+
+    const found = getGuideChapter(guide, decodePathSegment(chapterSlug))
+    return found
+      ? `${found.chapter.title} | ${guide.title} | ${SITE_TITLE}`
+      : `Chapter Not Found | ${guide.title} | ${SITE_TITLE}`
+  }
+
+  if (pathname.startsWith('/guides/')) return `Guide Not Found | ${SITE_TITLE}`
 
   const stationMatch = pathname.match(
     /^\/sub-wait\/station\/([^/]+)(?:\/([^/]+))?\/?$/,

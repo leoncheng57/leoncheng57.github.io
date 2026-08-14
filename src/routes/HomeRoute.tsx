@@ -5,12 +5,13 @@ import Headline from '../components/headline/headline'
 import Social from '../components/social/social'
 import TopNav from '../components/top-nav/TopNav'
 import { getAllBlogPosts } from '../features/blog/content'
+import { getAllGuides } from '../features/guides/content'
 import styles from '../App.module.css'
 
 type RecentItem = {
   key: string
   title: string
-  type: 'App' | 'Blog' | 'Project'
+  type: 'App' | 'Blog' | 'Guide' | 'Project'
   date: string
   href: string
   cta: string
@@ -76,6 +77,14 @@ const APP_ITEMS: RecentItem[] = [
 
 export default function HomeRoute(): ReactElement {
   const recentItems: RecentItem[] = [
+    ...getAllGuides().map((guide) => ({
+      key: `guide-${guide.slug}`,
+      title: guide.title,
+      type: 'Guide' as const,
+      date: guide.updatedAt,
+      href: `/guides/${guide.slug}`,
+      cta: 'Read guide',
+    })),
     ...getAllBlogPosts().map((post) => ({
       key: `blog-${post.slug}`,
       title: post.title,

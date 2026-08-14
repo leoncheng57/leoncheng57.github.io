@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import TopNav from '../../../components/top-nav/TopNav'
-import TagList from '../components/TagList'
+import TagList from '../../../components/markdown/TagList'
 import { getAllBlogPosts } from '../content'
 import styles from '../blog.module.css'
 
@@ -142,7 +142,12 @@ export default function BlogIndexRoute(): ReactElement {
                 <p>{post.publishedAt}</p>
                 <p>{post.readingTimeMinutes} min read</p>
               </div>
-              <TagList tags={post.tags} selectedTags={selectedTags} onTagClick={addTag} />
+              <TagList
+                tags={post.tags}
+                selectedTags={selectedTags}
+                onTagClick={addTag}
+                styles={styles}
+              />
             </article>
           ))}
           {visiblePosts.length === 0 ? <p className={styles.emptyState}>No posts match those tags.</p> : null}
