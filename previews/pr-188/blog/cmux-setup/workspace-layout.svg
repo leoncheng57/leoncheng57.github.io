@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title description">
+  <title id="title">Sanitized cmux workspace layout</title>
+  <desc id="description">A cmux window with a task sidebar, an OpenCode terminal, and browser tabs for a local preview, issue, and documentation.</desc>
+  <defs>
+    <linearGradient id="window" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#181a21"/>
+      <stop offset="1" stop-color="#101116"/>
+    </linearGradient>
+    <linearGradient id="preview" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#273144"/>
+      <stop offset="1" stop-color="#1a202d"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity=".38"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="720" fill="#0b0c10"/>
+  <g filter="url(#shadow)">
+    <rect x="42" y="38" width="1116" height="630" rx="18" fill="url(#window)" stroke="#343743" stroke-width="2"/>
+    <path d="M42 94h1116" stroke="#343743" stroke-width="2"/>
+    <circle cx="76" cy="66" r="7" fill="#ff655a"/>
+    <circle cx="100" cy="66" r="7" fill="#ffbd45"/>
+    <circle cx="124" cy="66" r="7" fill="#2fca52"/>
+    <text x="600" y="73" fill="#aeb3c2" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="16" text-anchor="middle">cmux · checkout UI</text>
+
+    <rect x="42" y="94" width="248" height="574" fill="#13151b"/>
+    <path d="M290 94v574" stroke="#343743" stroke-width="2"/>
+    <text x="68" y="133" fill="#777e91" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" letter-spacing="1.4">WORKSPACES</text>
+
+    <rect x="57" y="151" width="218" height="48" rx="9" fill="#292d39"/>
+    <circle cx="78" cy="175" r="5" fill="#72d6a5"/>
+    <text x="94" y="181" fill="#f1f3f8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="600">checkout UI</text>
+    <text x="69" y="228" fill="#b7bdca" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15">API cleanup</text>
+    <circle cx="255" cy="222" r="5" fill="#f2b84b"/>
+    <text x="69" y="265" fill="#b7bdca" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15">release prep</text>
+    <circle cx="255" cy="259" r="5" fill="#778197"/>
+
+    <text x="68" y="325" fill="#777e91" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" letter-spacing="1.4">PROJECT</text>
+    <text x="69" y="360" fill="#d6dae4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">~/code/web-app</text>
+    <text x="69" y="386" fill="#777e91" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">branch: checkout-ui</text>
+
+    <rect x="312" y="116" width="486" height="530" rx="11" fill="#111318" stroke="#343743"/>
+    <rect x="312" y="116" width="486" height="48" rx="11" fill="#1d2028"/>
+    <path d="M312 153h486" stroke="#343743"/>
+    <circle cx="336" cy="140" r="5" fill="#72d6a5"/>
+    <text x="351" y="146" fill="#e7e9ef" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="600">OpenCode</text>
+    <text x="336" y="205" fill="#788296" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">~/code/web-app  checkout-ui</text>
+    <text x="336" y="244" fill="#d6dae4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">› Update the checkout flow and open a PR</text>
+    <rect x="336" y="269" width="438" height="76" rx="8" fill="#1b1e26"/>
+    <text x="354" y="299" fill="#72d6a5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">✓ Read task and inspected existing flow</text>
+    <text x="354" y="327" fill="#72d6a5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">✓ Implemented and ran tests</text>
+    <text x="336" y="383" fill="#d6dae4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">Reviewing the local page now.</text>
+    <rect x="336" y="422" width="438" height="1" fill="#2c303b"/>
+    <text x="336" y="462" fill="#8991a3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">Tests: 18 passed</text>
+    <text x="336" y="491" fill="#8991a3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">Build: complete</text>
+    <rect x="336" y="565" width="438" height="48" rx="8" fill="#1b1e26" stroke="#343743"/>
+    <text x="354" y="595" fill="#777e91" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">Ask anything…</text>
+
+    <rect x="820" y="116" width="316" height="530" rx="11" fill="url(#preview)" stroke="#343743"/>
+    <rect x="820" y="116" width="316" height="48" rx="11" fill="#1d2028"/>
+    <path d="M820 153h316" stroke="#343743"/>
+    <rect x="836" y="128" width="102" height="26" rx="6" fill="#303542"/>
+    <text x="851" y="146" fill="#f0f2f7" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">localhost</text>
+    <text x="958" y="146" fill="#8f97a8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">Issue</text>
+    <text x="1023" y="146" fill="#8f97a8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12">Docs</text>
+
+    <rect x="844" y="188" width="268" height="420" rx="9" fill="#f2efe8"/>
+    <rect x="865" y="214" width="80" height="9" rx="4" fill="#bbb7ae"/>
+    <rect x="865" y="248" width="210" height="18" rx="5" fill="#34353b"/>
+    <rect x="865" y="278" width="162" height="9" rx="4" fill="#aaa69d"/>
+    <rect x="865" y="295" width="198" height="9" rx="4" fill="#c0bcb2"/>
+    <rect x="865" y="338" width="226" height="104" rx="8" fill="#d9e3e5"/>
+    <rect x="883" y="358" width="118" height="10" rx="4" fill="#4a5961"/>
+    <rect x="883" y="381" width="184" height="7" rx="3" fill="#89969b"/>
+    <rect x="883" y="397" width="155" height="7" rx="3" fill="#a2adb1"/>
+    <rect x="865" y="470" width="91" height="30" rx="15" fill="#2f7660"/>
+    <text x="887" y="490" fill="#fff" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600">Continue</text>
+    <rect x="865" y="532" width="191" height="8" rx="4" fill="#bbb7ae"/>
+    <rect x="865" y="550" width="222" height="8" rx="4" fill="#cec9bf"/>
+  </g>
+
+  <rect x="392" y="679" width="416" height="27" rx="13.5" fill="#232733"/>
+  <circle cx="412" cy="692.5" r="5" fill="#72d6a5"/>
+  <text x="428" y="698" fill="#d5d9e3" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14">Agent session done · checkout UI</text>
+</svg>
