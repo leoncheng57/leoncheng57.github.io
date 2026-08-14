@@ -1,0 +1,8 @@
+{
+  "name": "leoncheng.dev",
+  "root": "/Users/you/code/leoncheng57.github.io",
+  "mainBranch": "main",
+  "worktrees": "/Users/you/code/leoncheng57.github.io.worktrees/*",
+  "github": { "owner": "leoncheng57", "repo": "leoncheng57.github.io" },
+  "staleAfterSeconds": 900
+}

@@ -136,7 +136,10 @@ title: "Second Chapter"
       expect(guide.updatedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/)
       expect(guide.tags.length).toBeLessThanOrEqual(3)
       expect(guide.overview.length).toBeGreaterThan(0)
-      expect(guide.chapters.length).toBeGreaterThan(0)
+      // A guide is either multi-chapter or a single substantial page.
+      if (guide.chapters.length === 0) {
+        expect(guide.readingTimeMinutes).toBeGreaterThan(3)
+      }
 
       for (const chapter of guide.chapters) {
         expect(chapter.title).toBeTruthy()
