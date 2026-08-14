@@ -5,6 +5,7 @@ import {
   fetchQuality,
   fetchSummary,
   fetchTraffic,
+  isDemoMode,
   type PageRow,
   type QualityResponse,
   type SummaryResponse,
@@ -113,7 +114,10 @@ export default function App() {
         <header className={styles.pageHeader}>
           <div>
             <p className={styles.eyebrow}>Alpha projs / GA traffic dashboard</p>
-            <h1>Traffic by app</h1>
+            <h1>
+              Traffic by app
+              {isDemoMode() && <span className={styles.demoBadge}>demo data</span>}
+            </h1>
           </div>
           {GA_REPORT_URL && (
             <a

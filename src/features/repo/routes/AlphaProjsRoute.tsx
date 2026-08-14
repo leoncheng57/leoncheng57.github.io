@@ -54,6 +54,7 @@ export default function AlphaProjsRoute(): ReactElement {
                   </Link>
                 </h3>
                 <span className={styles.alphaBadge}>Alpha</span>
+                <span className={styles.privateBadge}>local-only</span>
               </div>
               <p>
                 Local-only dashboard charting traffic per app on this site,

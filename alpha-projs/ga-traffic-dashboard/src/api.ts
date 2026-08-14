@@ -1,5 +1,14 @@
 import type { DateRange } from './dates'
 
+/**
+ * Demo mode (`?demo`): serve deterministic fake data so the UI can be
+ * previewed and screenshotted without GA credentials. Real traffic numbers
+ * never appear in demo mode.
+ */
+export function isDemoMode(): boolean {
+  return new URLSearchParams(window.location.search).has('demo')
+}
+
 export type TrafficRow = {
   date: string
   pagePath: string
@@ -74,32 +83,48 @@ async function getJson<T>(
   return body
 }
 
-export function fetchTraffic(
+export async function fetchTraffic(
   range: DateRange,
   granularity: 'day' | 'week',
   signal: AbortSignal,
 ): Promise<TrafficResponse> {
+  if (isDemoMode()) {
+    const { demoTraffic } = await import('./demoData')
+    return demoTraffic(range, granularity)
+  }
   return getJson('/api/traffic', { ...range, granularity }, signal)
 }
 
-export function fetchSummary(
+export async function fetchSummary(
   range: DateRange,
   signal: AbortSignal,
 ): Promise<SummaryResponse> {
+  if (isDemoMode()) {
+    const { demoSummary } = await import('./demoData')
+    return demoSummary(range)
+  }
   return getJson('/api/summary', { ...range }, signal)
 }
 
-export function fetchPages(
+export async function fetchPages(
   range: DateRange,
   signal: AbortSignal,
 ): Promise<{ rows: PageRow[] }> {
+  if (isDemoMode()) {
+    const { demoPages } = await import('./demoData')
+    return demoPages(range)
+  }
   return getJson('/api/pages', { ...range }, signal)
 }
 
-export function fetchQuality(
+export async function fetchQuality(
   range: DateRange,
   granularity: 'day' | 'week',
   signal: AbortSignal,
 ): Promise<QualityResponse> {
+  if (isDemoMode()) {
+    const { demoQuality } = await import('./demoData')
+    return demoQuality(range, granularity)
+  }
   return getJson('/api/quality', { ...range, granularity }, signal)
 }
