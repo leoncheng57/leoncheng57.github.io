@@ -33,12 +33,16 @@ const USAGE = `Agent dashboard - one row per child agent.
 Usage
   node cli.mjs [options]
 
+In a terminal the live board is the default. When stdout is piped the
+default is a one-shot table, so scripts get plain output.
+
 Options
-  --watch              Live full-screen board, redrawn on an interval
+  --once               One-shot table, even in a terminal
+  --watch              Live full-screen board, even when auto-detection says otherwise
   --json               Print the aggregated state as JSON and exit
   --config <path>      Config file to use instead of auto-detection
   --project <name>     Select one project from a multi-project config
-  --interval <seconds> Redraw interval for --watch (default ${DEFAULT_INTERVAL_SECONDS})
+  --interval <seconds> Redraw interval for the live board (default ${DEFAULT_INTERVAL_SECONDS})
   --help               Show this message
 
 With no config file the project is inferred from the current directory.`
@@ -48,6 +52,7 @@ function parseCliArgs(argv) {
     const { values } = parseArgs({
       args: argv,
       options: {
+        once: { type: 'boolean', default: false },
         watch: { type: 'boolean', default: false },
         json: { type: 'boolean', default: false },
         config: { type: 'string' },
@@ -57,6 +62,11 @@ function parseCliArgs(argv) {
       },
       strict: true,
     })
+
+    if (values.once && values.watch) {
+      fail(`--once and --watch contradict each other.\n\n${USAGE}`)
+    }
+
     return values
   } catch (error) {
     fail(`${error.message}\n\n${USAGE}`)
@@ -922,7 +932,12 @@ function main() {
     return
   }
 
-  if (values.watch) {
+  // The live board is the default where it makes sense: an interactive
+  // terminal. Piped output gets the one-shot table, because an alternate
+  // screen buffer is meaningless in a file or a pager.
+  const live = values.watch || (process.stdout.isTTY && !values.once)
+
+  if (live) {
     const interval = values.interval ? Number(values.interval) : DEFAULT_INTERVAL_SECONDS
 
     if (!Number.isFinite(interval) || interval <= 0) {

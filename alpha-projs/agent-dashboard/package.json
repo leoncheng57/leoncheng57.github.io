@@ -6,6 +6,6 @@
   "bin": { "agent-dashboard": "./cli.mjs" },
   "scripts": {
     "start": "node cli.mjs",
-    "watch": "node cli.mjs --watch"
+    "once": "node cli.mjs --once"
   }
 }

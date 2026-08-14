@@ -153,12 +153,12 @@ With the protocol in place you already have something useful: `cat ../*/.agent-s
 The CLI is a single file with no dependencies, [vendored in this site's repository](https://github.com/leoncheng57/leoncheng57.github.io/tree/main/alpha-projs/agent-dashboard). From any directory inside the repository whose workers you want to watch:
 
 ```bash
-node <site-repo>/alpha-projs/agent-dashboard/cli.mjs            # one-shot table
-node <site-repo>/alpha-projs/agent-dashboard/cli.mjs --watch    # live board, redrawn every 5s
+node <site-repo>/alpha-projs/agent-dashboard/cli.mjs            # live board, redrawn every 5s
+node <site-repo>/alpha-projs/agent-dashboard/cli.mjs --once     # one-shot table
 node <site-repo>/alpha-projs/agent-dashboard/cli.mjs --json     # the same state, for scripts and agents
 ```
 
-There is no install step and, in the common case, no config: the project is inferred from the directory you run it in. In the four-step flow this guide teaches, the manager spawns the `--watch` board right after launching the workers, in a spare pane it does not focus; you glance at it during the run and close it yourself when the run is over. Nothing depends on it being up — it is a window onto files, not a participant.
+In a terminal the live board is the default; piped output falls back to the one-shot table so scripts get plain text. There is no install step and, in the common case, no config: the project is inferred from the directory you run it in. In the four-step flow this guide teaches, the manager spawns the board right after launching the workers, in a spare pane it does not focus; you glance at it during the run and close it yourself when the run is over. Nothing depends on it being up — it is a window onto files, not a participant.
 
 ```text
 leoncheng57.github.io  base main
@@ -198,11 +198,12 @@ Two synthetic phases can appear alongside the reported ones. `no-report` marks a
 
 | Flag | Meaning |
 | --- | --- |
-| `--watch` | Live board in the alternate screen buffer, restored cleanly on Ctrl-C |
+| `--once` | One-shot table, even in a terminal |
+| `--watch` | Live board, even when piped detection would choose the table |
 | `--json` | Print the aggregated state as JSON and exit |
 | `--config <path>` | Use this config file instead of auto-detection |
 | `--project <name>` | Select one project from a multi-project config |
-| `--interval <seconds>` | Redraw interval for `--watch` (default 5) |
+| `--interval <seconds>` | Redraw interval for the live board (default 5) |
 | `--help` | Usage |
 
 With no config file, the project is inferred from the current directory: the main clone from `git rev-parse --git-common-dir` (so running inside a linked worktree works), the name from that directory's basename, the base branch from `origin/HEAD` (falling back to `main`), the workers from the sibling `<repo>.worktrees/*` directory, and the GitHub repo from the `origin` remote. If the current directory is not inside a Git repository, the CLI refuses to guess and asks for `--config`.
