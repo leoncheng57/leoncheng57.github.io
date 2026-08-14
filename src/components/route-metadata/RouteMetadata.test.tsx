@@ -22,6 +22,10 @@ describe('getRouteTitle', () => {
     ['/apps', "Apps | Leon's Website"],
     ['/apps/whoops-hoops/privacy', 'Privacy Policy | Whoops Hoops'],
     ['/repo/alpha-projs', "Alpha Projects | Repo | Leon's Website"],
+    [
+      '/repo/alpha-projs/gmail-reader',
+      "Gmail Reader | Alpha Projects | Repo | Leon's Website",
+    ],
     ['/repo/ci', "CI Checks | Repo | Leon's Website"],
     [
       '/repo/design-components',

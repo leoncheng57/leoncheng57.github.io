@@ -68,6 +68,33 @@ export default function AlphaProjsRoute(): ReactElement {
               </Link>
             </div>
           </article>
+          <article className={styles.projectCard}>
+            <img
+              src="/app-icons/gmail-reader.svg"
+              alt=""
+              width="72"
+              height="72"
+            />
+            <div className={styles.projectCardBody}>
+              <div className={styles.projectCardHeading}>
+                <h3>
+                  <Link to="/repo/alpha-projs/gmail-reader">Gmail Reader</Link>
+                </h3>
+                <span className={styles.alphaBadge}>Alpha</span>
+              </div>
+              <p>
+                Local-only Gmail organizer: full-inbox index in SQLite, grouped
+                bulk archive/label with a review queue, audit history with undo,
+                and a local analytics dashboard.
+              </p>
+              <Link
+                to="/repo/alpha-projs/gmail-reader"
+                className={styles.projectLink}
+              >
+                Read more
+              </Link>
+            </div>
+          </article>
         </section>
       </main>
     </div>
