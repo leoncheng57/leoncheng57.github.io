@@ -21,7 +21,7 @@ Reading a worker's TUI from outside is a guess dressed up as monitoring. A quiet
 So stop observing and start requiring reports. One rule — every worker rewrites its status file on every phase change — converts a manager that polls into a manager that gets told. Two failure modes get first-class treatment, because they are the ones that silently eat an afternoon:
 
 - **Blocked workers announce themselves.** A worker that hits a missing credential writes `blocked` with a reason and stops, instead of burning tokens guessing.
-- **Silent workers get exposed.** Every report carries a timestamp; a row that has not been rewritten in fifteen minutes is flagged stale. A worker that died mid-task looks exactly like this — which is the point.
+- **Silent workers get exposed.** Every report carries a timestamp; a row that has not been rewritten in fifteen minutes is flagged stale. Because the contract requires a heartbeat rewrite while working, a stale row means a dead worker — not a quiet one.
 
 <details>
 <summary>How reporting compares with every polling approach</summary>
@@ -90,6 +90,8 @@ Keep the vocabulary short and closed. A list that grows per task stops being sca
 
 </details>
 
+Two lessons from live runs are baked into the contract. Workers must get `updated_at` by running `date -u +%Y-%m-%dT%H:%M:%SZ` rather than writing the time from memory — models reliably mislabel local time as UTC, which makes a freshly created row look hours stale and destroys the one signal staleness detection depends on. And long phases need a **heartbeat**: rewriting the file every few minutes with a fresh timestamp and summary is what distinguishes *stale-because-dead* from merely quiet, so the stale flag stays trustworthy.
+
 Two housekeeping rules make the protocol stick. First, the file describes a local run, not the branch, so gitignore it once in the shared repository (`echo '.agent-status.json' >> .gitignore`) — otherwise a pull request's contents change every time the agent changes phase. Second, if your terminal multiplexer can show a per-tab status, mirror the phase there too (`cmux set-status agent "$PHASE"`); the file remains the source of truth, the tab is a convenience.
 
 ## Turn a session into a manager
@@ -123,7 +125,12 @@ Every child assignment prompt must include:
       "updated_at": "<ISO 8601 UTC>"}
    - Phases: assigned, working, verifying, pushed, pr-open, done. Use blocked
      at any point, with blockers explaining why.
-   - Never skip the write. A stale file is read as a dead worker.
+   - Get updated_at by RUNNING `date -u +%Y-%m-%dT%H:%M:%SZ` - never write the
+     time from memory.
+   - Heartbeat: while in any phase, rewrite the file (same phase, fresh
+     updated_at, current summary) at least every 10 minutes and whenever your
+     activity changes. Never skip the write. A stale file is read as a dead
+     worker.
    - Mirror the phase with `cmux set-status agent "<phase>"` and send
      `cmux notify` when done or blocked.
 4. The verification gate to run before every commit (lint, tests, build).
