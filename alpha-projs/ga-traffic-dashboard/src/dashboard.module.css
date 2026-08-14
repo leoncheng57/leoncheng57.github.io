@@ -70,6 +70,21 @@
   text-transform: uppercase;
 }
 
+.demoBadge {
+  display: inline-block;
+  margin-left: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border: 2px solid var(--text-primary);
+  background: var(--accent-warm);
+  vertical-align: middle;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .section {
   margin-top: 2.5rem;
 }
