@@ -38,6 +38,28 @@ export default function GmailReaderRoute(): ReactElement {
           </div>
         </header>
 
+        <section className={styles.section} aria-labelledby="looks-heading">
+          <h2 id="looks-heading">What it looks like</h2>
+          <p>
+            The inbox view running locally, with two accounts connected side by
+            side:
+          </p>
+          <figure className={styles.screenshotFigure}>
+            <img
+              src="/alpha-projs/gmail-reader-inbox.png"
+              alt="Two side-by-side demo mailbox columns, each with a search box, grouping filters, and a list of labelled threads showing sender, subject, snippet, message count, and date"
+              loading="lazy"
+              width="1600"
+              height="648"
+            />
+            <figcaption>
+              Two demo mailboxes seeded with generated threads - no real mail;
+              the addresses are demo.alpha@example.com and
+              demo.beta@example.com.
+            </figcaption>
+          </figure>
+        </section>
+
         <section className={styles.section} aria-labelledby="how-heading">
           <h2 id="how-heading">How it works</h2>
           <p>
