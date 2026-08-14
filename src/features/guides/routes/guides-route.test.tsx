@@ -18,13 +18,13 @@ describe('guides index route', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Guides' })).toBeInTheDocument()
 
     expect(screen.getByRole('link', { name: GUIDE_TITLE })).toHaveAttribute('href', GUIDE_PATH)
-    expect(screen.getByText(/7 chapters/)).toBeInTheDocument()
+    expect(screen.getByText(/5 chapters/)).toBeInTheDocument()
     expect(screen.getByText(/updated 2026-/)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /read guide/ })).toHaveAttribute('href', GUIDE_PATH)
 
     // The card previews the first chapters without listing all of them.
     expect(screen.getByText('Plan the work and set up workers')).toBeInTheDocument()
-    expect(screen.getByText(/\+4 more/)).toBeInTheDocument()
+    expect(screen.getByText(/\+2 more/)).toBeInTheDocument()
   })
 
   it('stays on the main site chrome, like the apps index', () => {
@@ -109,9 +109,11 @@ describe('guide overview route', () => {
       '#guide-contents'
     )
 
-    // Overview sections are rendered as numbered cards, not one prose column.
-    expect(screen.getByRole('heading', { level: 2, name: 'What you get' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: 'The isolation model' })).toBeInTheDocument()
+    // The landing page is intro + diagram + contents; detail lives in chapters.
+    expect(
+      screen.getByText(/A procedure for running several coding agents at once/)
+    ).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { level: 2, name: 'What you get' })).not.toBeInTheDocument()
 
     const contents = screen.getByRole('navigation', { name: 'Guide contents' })
     expect(within(contents).getByRole('link', { name: /Plan the work and set up workers/ })).toHaveAttribute(
@@ -119,8 +121,8 @@ describe('guide overview route', () => {
       `${GUIDE_PATH}/plan-and-set-up`
     )
     expect(
-      within(contents).getByRole('link', { name: /Case study: parallel remediation/ })
-    ).toHaveAttribute('href', `${GUIDE_PATH}/case-study-parallel-remediation`)
+      within(contents).getByRole('link', { name: /Reference: contract template/ })
+    ).toHaveAttribute('href', `${GUIDE_PATH}/reference`)
 
     // Chapters 1-3 are grouped separately from the rest.
     expect(within(contents).getByText('The Procedure')).toBeInTheDocument()
@@ -179,23 +181,32 @@ describe('guide chapter route', () => {
     )
   })
 
-  it('renders the case study chapter with its severity table', () => {
+  it('renders chapter tables inside the article body', () => {
     render(
-      <MemoryRouter initialEntries={[`${GUIDE_PATH}/case-study-parallel-remediation`]}>
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/configure-autonomy`]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const tables = screen.getAllByRole('table')
+    expect(tables.length).toBeGreaterThan(0)
+    expect(within(tables[0]).getAllByRole('row').length).toBeGreaterThan(1)
+  })
+
+  it('renders the three-wave split diagram in the first chapter', () => {
+    render(
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/plan-and-set-up`]}>
         <App />
       </MemoryRouter>
     )
 
     expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: 'Case study: parallel remediation after a manager review',
-      })
+      screen.getByText(
+        (content) =>
+          content.includes('wave 1') && content.includes('wave 2') && content.includes('wave 3'),
+        { selector: 'pre code' }
+      )
     ).toBeInTheDocument()
-
-    const tables = screen.getAllByRole('table')
-    expect(tables.length).toBeGreaterThan(0)
-    expect(within(tables[0]).getAllByRole('row').length).toBeGreaterThan(1)
   })
 
   it('navigates between chapters from the sidebar', async () => {
@@ -208,10 +219,10 @@ describe('guide chapter route', () => {
     )
 
     const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
-    await user.click(within(sidebar).getByRole('link', { name: /Troubleshooting and capacity/ }))
+    await user.click(within(sidebar).getByRole('link', { name: /Workers versus subagents/ }))
 
     expect(
-      screen.getByRole('heading', { level: 1, name: 'Troubleshooting and capacity' })
+      screen.getByRole('heading', { level: 1, name: 'Workers versus subagents' })
     ).toBeInTheDocument()
   })
 

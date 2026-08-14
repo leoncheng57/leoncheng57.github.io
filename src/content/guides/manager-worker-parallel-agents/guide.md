@@ -27,32 +27,3 @@ A procedure for running several coding agents at once: one **manager** session t
 ```
 
 Examples use [OpenCode](https://opencode.ai) and [cmux](https://cmux.dev), but any agent CLI with session resume and Git worktrees works.
-
-## What you get
-
-- Several visible, inspectable sessions running at once
-- One place (the manager) holding the dependency graph and review queue
-- Per-task autonomy control
-- Resumable work that survives closed terminals
-- Merge authority that stays with you
-
-## What this is not
-
-- Not a review shortcut — every change lands through a PR you approve
-- Not for one ambiguous task — a single supervised session is better
-- Not free — each worker costs disk, CPU, ports, and CI capacity
-
-## The isolation model
-
-Four boundaries per worker:
-
-| Boundary | Mechanism | Prevents |
-| --- | --- | --- |
-| History | One branch per task | Interleaved commits |
-| Files | One worktree per task | Concurrent edits |
-| Runtime | One port per task | Port collisions |
-| Context | One session per task | Lost task memory |
-
-## How to read this guide
-
-Ch. 1-3: the procedure. Ch. 4: workers vs. subagents. Ch. 5: a remediation case study. Ch. 6-7: failure modes and templates.

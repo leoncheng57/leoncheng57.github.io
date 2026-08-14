@@ -37,7 +37,7 @@ Handoff
 
 ## Launch checklist
 
-- [ ] Tasks split, dependencies ordered, integration order decided
+- [ ] Tasks split into waves, dependencies and PR bases decided
 - [ ] One branch, worktree, port, session per task
 - [ ] Contract written with ownership and escalation
 - [ ] Autonomy chosen per task, matched by permissions

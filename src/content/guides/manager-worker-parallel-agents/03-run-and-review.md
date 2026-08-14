@@ -24,7 +24,7 @@ cmux new-workspace \
   --focus false
 ```
 
-`opencode --continue` keeps the session alive after the run finishes; `--focus false` keeps it from stealing your window. Confirm each worker actually started — see [Chapter 6](/guides/manager-worker-parallel-agents/troubleshooting).
+`opencode --continue` keeps the session alive after the run finishes; `--focus false` keeps it from stealing your window. Confirm each worker actually started — a created workspace is not the same as a running agent, and a launch command can lose its first characters if text arrives before the shell is ready.
 
 ## Step 7: Monitor without taking over
 

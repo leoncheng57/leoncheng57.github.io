@@ -1,6 +1,6 @@
 ---
 title: "Plan the work and set up workers"
-description: "Split tasks, order dependencies, create isolated worktrees, and write the launch contract."
+description: "Split tasks into parallel waves, create isolated worktrees, and write the launch contract."
 part: "The Procedure"
 ---
 
@@ -8,20 +8,38 @@ part: "The Procedure"
 
 Most parallel-work failures are planning failures. Do these three steps before any agent writes code.
 
-## Step 1: Split the work and order the dependencies
+## Step 1: Split the work into waves
 
-Group tasks by the files they touch. Tasks sharing code need a stack with explicit PR bases; independent tasks can branch from `main`.
+Group tasks by the files they touch. Tasks that share code must run in sequence; everything else runs at the same time. The result is a series of **waves** — each wave is a set of workers that can all run in parallel, and a wave starts once the previous one lands.
+
+Five issues, three waves:
 
 ```text
-main
- |- #1 station PWAs ......... base: main
- |   \- #3 install modal .... base: #1
- |       \- #2 walkthroughs . base: #3
- |- #4 feedback flow ........ base: main
- \- #5 return links ......... base: main
+ wave 1   #1 station PWAs    #4 feedback flow   #5 return links
+          base: main         base: main         base: main
+          `---------- 3 workers, all in parallel ----------'
+             |
+             v  (#1 lands)
+ wave 2   #3 install modal
+          base: #1
+             |
+             v  (#3 lands)
+ wave 3   #2 walkthroughs
+          base: #3
 ```
 
-Parallelism follows this graph, not the issue count. Split by file ownership for feature work, or by theme and severity for remediation ([Chapter 5](/guides/manager-worker-parallel-agents/case-study-parallel-remediation)).
+Wave 1 is three parallel workers because those files never overlap. Issues #3 and #2 touch the same install experience as #1, so they stack behind it with explicit PR bases. Parallelism follows this graph, not the issue count.
+
+## The isolation model
+
+Four boundaries per worker. Skip one and parallel work breaks:
+
+| Boundary | Mechanism | Prevents |
+| --- | --- | --- |
+| History | One branch per task | Interleaved commits |
+| Files | One worktree per task | Concurrent edits |
+| Runtime | One port per task | Port collisions |
+| Context | One session per task | Lost task memory |
 
 ## Step 2: Create one worktree per task
 
@@ -43,10 +61,4 @@ Write a prompt file per worker. Each contract states:
 - autonomy level and escalation conditions
 - the exact completion report expected
 
-Full template: [Chapter 7](/guides/manager-worker-parallel-agents/reference).
-
-## Ownership and evidence
-
-"Improve the install flow" is not an ownership boundary. Name the exact component a worker owns and what belongs to someone else — this makes conflicts structurally unlikely, not just less likely.
-
-Require evidence matching the task before coding starts. Without predeclared gates, "done" means whatever the worker happened to check.
+"Improve the install flow" is not an ownership boundary — name the exact component a worker owns and what belongs to someone else. Full template: [the reference chapter](/guides/manager-worker-parallel-agents/reference).
