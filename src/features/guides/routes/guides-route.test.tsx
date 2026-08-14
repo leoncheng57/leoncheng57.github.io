@@ -173,6 +173,7 @@ describe('guide overview route', () => {
     // Chapters 1-3 are grouped separately from the rest.
     expect(within(contents).getByText('The Procedure')).toBeInTheDocument()
     expect(within(contents).getByText('Beyond the Basics')).toBeInTheDocument()
+    expect(within(contents).getByText('Watcher Tool')).toBeInTheDocument()
     expect(within(contents).getByText('Reference')).toBeInTheDocument()
   })
 
@@ -216,6 +217,7 @@ describe('guide chapter route', () => {
     expect(activeLink).toHaveAttribute('aria-current', 'page')
     expect(within(sidebar).getByText('The Procedure')).toBeInTheDocument()
     expect(within(sidebar).getByText('Beyond the Basics')).toBeInTheDocument()
+    expect(within(sidebar).getByText('Watcher Tool')).toBeInTheDocument()
 
     expect(screen.getByRole('link', { name: /Previous/ })).toHaveAttribute(
       'href',
