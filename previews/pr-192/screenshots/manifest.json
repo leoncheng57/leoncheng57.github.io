@@ -1,0 +1,18 @@
+[
+  {
+    "path": "/guides",
+    "file": "guides.png"
+  },
+  {
+    "path": "/guides/agent-dashboard",
+    "file": "guides--agent-dashboard.png"
+  },
+  {
+    "path": "/guides/agent-dashboard/read-the-board",
+    "file": "guides--agent-dashboard--read-the-board.png"
+  },
+  {
+    "path": "/repo/alpha-projs/agent-dashboard",
+    "file": "repo--alpha-projs--agent-dashboard.png"
+  }
+]
