@@ -6,9 +6,6 @@ import App from '../../../App'
 
 const GUIDE_TITLE = 'Running Parallel Coding Agents with a Manager and Workers'
 const GUIDE_PATH = '/guides/manager-worker-parallel-agents'
-const DASHBOARD_TITLE =
-  'Watching Parallel Agents with a Status Protocol and a Local Board'
-const DASHBOARD_PATH = '/guides/agent-dashboard'
 
 describe('guides index route', () => {
   it('lists published guides as cards with chapter previews', () => {
@@ -21,7 +18,7 @@ describe('guides index route', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Guides' })).toBeInTheDocument()
 
     expect(screen.getByRole('link', { name: GUIDE_TITLE })).toHaveAttribute('href', GUIDE_PATH)
-    expect(screen.getByText(/5 chapters/)).toBeInTheDocument()
+    expect(screen.getByText(/6 chapters/)).toBeInTheDocument()
     expect(screen.getAllByText(/updated 2026-/).length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: /read guide/ })[0]).toHaveAttribute(
       'href',
@@ -30,21 +27,22 @@ describe('guides index route', () => {
 
     // The card previews the first chapters without listing all of them.
     expect(screen.getByText('Plan the work and set up workers')).toBeInTheDocument()
-    expect(screen.getByText(/\+2 more/)).toBeInTheDocument()
+    expect(screen.getByText(/\+3 more/)).toBeInTheDocument()
   })
 
-  it('lists a single-page guide without a chapter count', () => {
+  it('redirects the retired agent-dashboard guide to the watch-the-run chapter', () => {
     render(
-      <MemoryRouter initialEntries={['/guides']}>
+      <MemoryRouter initialEntries={['/guides/agent-dashboard']}>
         <App />
       </MemoryRouter>
     )
 
-    expect(screen.getByRole('link', { name: DASHBOARD_TITLE })).toHaveAttribute(
-      'href',
-      DASHBOARD_PATH
-    )
-    expect(screen.queryByText(/0 chapters/)).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: /Watch the run: a status protocol and a live board/,
+      })
+    ).toBeInTheDocument()
   })
 
   it('stays on the main site chrome, like the apps index', () => {
@@ -175,6 +173,7 @@ describe('guide overview route', () => {
     // Chapters 1-3 are grouped separately from the rest.
     expect(within(contents).getByText('The Procedure')).toBeInTheDocument()
     expect(within(contents).getByText('Beyond the Basics')).toBeInTheDocument()
+    expect(within(contents).getByText('Watcher Tool')).toBeInTheDocument()
     expect(within(contents).getByText('Reference')).toBeInTheDocument()
   })
 
@@ -218,6 +217,7 @@ describe('guide chapter route', () => {
     expect(activeLink).toHaveAttribute('aria-current', 'page')
     expect(within(sidebar).getByText('The Procedure')).toBeInTheDocument()
     expect(within(sidebar).getByText('Beyond the Basics')).toBeInTheDocument()
+    expect(within(sidebar).getByText('Watcher Tool')).toBeInTheDocument()
 
     expect(screen.getByRole('link', { name: /Previous/ })).toHaveAttribute(
       'href',

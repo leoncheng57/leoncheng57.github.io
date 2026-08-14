@@ -26,9 +26,9 @@ describe('blog routes', () => {
     ).toHaveAttribute('href', '/guides/manager-worker-parallel-agents')
     expect(
       screen.getByRole('link', {
-        name: /Watching Parallel Agents with a Status Protocol and a Local Board/i,
+        name: /Worktrees, Remote Coding Agents, and Choosing the Right Kind of Isolation/i,
       })
-    ).toHaveAttribute('href', '/guides/agent-dashboard')
+    ).toHaveAttribute('href', '/blog/worktrees-vs-remote-coding-agents')
   })
 
   it('renders the blog index route', () => {

@@ -695,6 +695,47 @@
   text-underline-offset: 0.18em;
 }
 
+/* Collapsible sections, written as <details> blocks in the markdown. */
+.articleBody details {
+  margin: 0 0 1.15rem;
+  border: 1px solid var(--gd-border);
+  border-radius: 8px;
+  background: var(--gd-surface);
+}
+
+.articleBody details > summary {
+  cursor: pointer;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  color: var(--gd-ink);
+  list-style: none;
+}
+
+.articleBody details > summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.55rem;
+  color: var(--gd-accent);
+  transition: transform 0.15s ease;
+}
+
+.articleBody details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.articleBody details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.articleBody details > :not(summary) {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.articleBody details > :last-child {
+  padding-bottom: 0.9rem;
+}
+
 .headingRow {
   display: flex;
   align-items: baseline;
