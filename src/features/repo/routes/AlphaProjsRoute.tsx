@@ -81,6 +81,7 @@ export default function AlphaProjsRoute(): ReactElement {
                   <Link to="/repo/alpha-projs/gmail-reader">Gmail Reader</Link>
                 </h3>
                 <span className={styles.alphaBadge}>Alpha</span>
+                <span className={styles.privateBadge}>local-only</span>
               </div>
               <p>
                 Local-only Gmail organizer: full-inbox index in SQLite, grouped

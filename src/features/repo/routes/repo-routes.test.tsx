@@ -122,7 +122,7 @@ describe('repo subpages', () => {
       screen.getByRole('heading', { level: 3, name: 'Tuzi' })
     ).toBeInTheDocument()
     expect(screen.getAllByText('Alpha')).toHaveLength(3)
-    expect(screen.getByText('local-only')).toBeInTheDocument()
+    expect(screen.getAllByText('local-only')).toHaveLength(2)
     expect(screen.getByRole('link', { name: 'Tuzi' })).toHaveAttribute(
       'href',
       '/tuzi/'
