@@ -286,6 +286,26 @@
   vertical-align: middle;
 }
 
+.screenshotFigure {
+  margin: 1.25rem 0 0;
+}
+
+.screenshotFigure img {
+  display: block;
+  width: 100%;
+  max-width: 44rem;
+  height: auto;
+  border: 3px solid var(--text-primary);
+  box-shadow: 8px 8px 0 var(--text-primary);
+}
+
+.screenshotFigure figcaption {
+  margin-top: 0.9rem;
+  color: var(--text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.74rem;
+}
+
 .projectLink {
   justify-self: start;
   font-size: 0.75rem;

@@ -1,0 +1,366 @@
+:root {
+  --blue-emphasis: #087da8;
+  --link-hover-color: #075985;
+  --bg: #eaf3f4;
+  --surface: #f5f8f7;
+  --text-primary: #10233d;
+  --text-muted: #47617e;
+  --link-color: #087da8;
+  --accent-soft: #d5f0fa;
+  --accent-warm: #f4ad9c;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 2rem 1rem 5rem;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(16, 35, 61, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 35, 61, 0.12) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.page a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.page a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
+}
+
+.content {
+  width: min(100%, 68rem);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--link-color);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pageHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.5rem 0 2rem;
+}
+
+.pageHeader h1 {
+  margin: 0.2rem 0 0;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.headerLinks {
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.demoBadge {
+  display: inline-block;
+  margin-left: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border: 2px solid var(--text-primary);
+  background: var(--accent-warm);
+  vertical-align: middle;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.section {
+  margin-top: 2.5rem;
+}
+
+.section > h2 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.25rem, 3.5vw, 1.6rem);
+}
+
+.sectionNote {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.card {
+  padding: 1.25rem;
+  border: 3px solid var(--text-primary);
+  background: var(--surface);
+  box-shadow: 8px 8px 0 var(--text-primary);
+}
+
+/* --- range picker ------------------------------------------------------- */
+
+.rangeBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.presetButton {
+  padding: 0.35rem 0.8rem;
+  border: 2px solid var(--text-primary);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.presetButtonActive {
+  background: var(--text-primary);
+  color: var(--surface);
+}
+
+.rangeLabel {
+  margin-left: 0.25rem;
+  color: var(--text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+}
+
+.pickerPopover {
+  position: relative;
+}
+
+.pickerPanel {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  padding: 0.75rem;
+  border: 3px solid var(--text-primary);
+  background: var(--surface);
+  box-shadow: 8px 8px 0 var(--text-primary);
+}
+
+.pickerPanel :global(.rdp-root) {
+  --rdp-accent-color: #087da8;
+  --rdp-accent-background-color: #d5f0fa;
+  font-size: 0.85rem;
+}
+
+.pickerActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.pickerActions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --- KPI cards ---------------------------------------------------------- */
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1.5rem;
+}
+
+.kpiLabel {
+  margin: 0;
+  color: var(--text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.kpiValue {
+  margin: 0.35rem 0 0.15rem;
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.kpiDelta {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.deltaUp {
+  color: #15803d;
+}
+
+.deltaDown {
+  color: #b91c1c;
+}
+
+.deltaFlat {
+  color: var(--text-muted);
+}
+
+/* --- app pills ---------------------------------------------------------- */
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.pill {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  border: 2px solid;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* --- sparkline grid ------------------------------------------------------ */
+
+.sparkGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+  gap: 1.25rem;
+}
+
+.sparkCard {
+  padding: 0.9rem 1rem 0.5rem;
+  border: 3px solid var(--text-primary);
+  background: var(--surface);
+  box-shadow: 6px 6px 0 var(--text-primary);
+}
+
+.sparkHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sparkName {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.sparkTotal {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* --- tables -------------------------------------------------------------- */
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.table th {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 3px solid var(--text-primary);
+  text-align: left;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid rgba(16, 35, 61, 0.15);
+  white-space: nowrap;
+}
+
+.table td.num,
+.table th.num {
+  text-align: right;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.pathCell {
+  max-width: 24rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+}
+
+.appTag {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 2px solid;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.flagged {
+  background: #fde8e8;
+}
+
+/* --- states -------------------------------------------------------------- */
+
+.loading {
+  color: var(--text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8rem;
+}
+
+.error {
+  padding: 0.75rem 1rem;
+  border: 3px solid #b91c1c;
+  background: #fde8e8;
+  color: #7f1d1d;
+  font-size: 0.9rem;
+}
+
+.notice {
+  max-width: 42rem;
+  margin: 3rem auto;
+}
+
+.notice pre {
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  border: 2px solid var(--text-primary);
+  border-radius: 0;
+  background: var(--text-primary);
+  color: #e5e7eb;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}

@@ -122,6 +122,7 @@ describe('repo subpages', () => {
       screen.getByRole('heading', { level: 3, name: 'Tuzi' })
     ).toBeInTheDocument()
     expect(screen.getAllByText('Alpha')).toHaveLength(3)
+    expect(screen.getByText('local-only')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Tuzi' })).toHaveAttribute(
       'href',
       '/tuzi/'
@@ -183,6 +184,12 @@ describe('repo subpages', () => {
       screen.getByRole('link', { name: 'GA4: per-app rows, year to date' })
     ).toHaveAttribute('href', expect.stringContaining('analytics.google.com'))
     expect(screen.getAllByText('(private-access-only)')).toHaveLength(3)
+    expect(
+      screen.getByAltText(/Full dashboard page rendered with demo data/)
+    ).toHaveAttribute('src', '/alpha-projs/ga-dashboard-demo.png')
+    expect(
+      screen.getByAltText(/Static deployment notice/)
+    ).toHaveAttribute('src', '/alpha-projs/ga-dashboard-static-notice.png')
   })
 
   it('renders the Gmail Reader page at /repo/alpha-projs/gmail-reader', () => {
