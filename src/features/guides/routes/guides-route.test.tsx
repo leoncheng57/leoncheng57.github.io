@@ -6,6 +6,9 @@ import App from '../../../App'
 
 const GUIDE_TITLE = 'Running Parallel Coding Agents with a Manager and Workers'
 const GUIDE_PATH = '/guides/manager-worker-parallel-agents'
+const DASHBOARD_TITLE =
+  'Watching Parallel Agents with a Status Protocol and a Local Board'
+const DASHBOARD_PATH = '/guides/agent-dashboard'
 
 describe('guides index route', () => {
   it('lists published guides as cards with chapter previews', () => {
@@ -19,12 +22,29 @@ describe('guides index route', () => {
 
     expect(screen.getByRole('link', { name: GUIDE_TITLE })).toHaveAttribute('href', GUIDE_PATH)
     expect(screen.getByText(/5 chapters/)).toBeInTheDocument()
-    expect(screen.getByText(/updated 2026-/)).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /read guide/ })).toHaveAttribute('href', GUIDE_PATH)
+    expect(screen.getAllByText(/updated 2026-/).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: /read guide/ })[0]).toHaveAttribute(
+      'href',
+      expect.stringMatching(/^\/guides\//)
+    )
 
     // The card previews the first chapters without listing all of them.
     expect(screen.getByText('Plan the work and set up workers')).toBeInTheDocument()
     expect(screen.getByText(/\+2 more/)).toBeInTheDocument()
+  })
+
+  it('lists a single-page guide without a chapter count', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(screen.getByRole('link', { name: DASHBOARD_TITLE })).toHaveAttribute(
+      'href',
+      DASHBOARD_PATH
+    )
+    expect(screen.queryByText(/0 chapters/)).not.toBeInTheDocument()
   })
 
   it('stays on the main site chrome, like the apps index', () => {

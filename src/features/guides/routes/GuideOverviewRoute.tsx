@@ -32,12 +32,16 @@ export default function GuideOverviewRoute(): ReactElement {
         {guide.audience ? <p className={styles.audience}>{guide.audience}</p> : null}
         <p className={styles.heroMeta}>
           <span>Last reviewed {guide.updatedAt}</span>
-          <span className={styles.metaSeparator} aria-hidden="true">
-            ·
-          </span>
-          <span>
-            {guide.chapters.length} {guide.chapters.length === 1 ? 'chapter' : 'chapters'}
-          </span>
+          {guide.chapters.length > 0 ? (
+            <>
+              <span className={styles.metaSeparator} aria-hidden="true">
+                ·
+              </span>
+              <span>
+                {guide.chapters.length} {guide.chapters.length === 1 ? 'chapter' : 'chapters'}
+              </span>
+            </>
+          ) : null}
           <span className={styles.metaSeparator} aria-hidden="true">
             ·
           </span>
@@ -50,9 +54,11 @@ export default function GuideOverviewRoute(): ReactElement {
               Start reading &rarr;
             </Link>
           ) : null}
-          <a href="#guide-contents" className={styles.secondaryCta}>
-            Contents
-          </a>
+          {guide.chapters.length > 0 ? (
+            <a href="#guide-contents" className={styles.secondaryCta}>
+              Contents
+            </a>
+          ) : null}
         </div>
       </header>
 

@@ -37,12 +37,16 @@ export default function GuideCard({ guide }: GuideCardProps): ReactElement {
 
         <p className={styles.cardMeta}>
           <span>updated {guide.updatedAt}</span>
-          <span className={styles.separator} aria-hidden="true">
-            ·
-          </span>
-          <span>
-            {guide.chapters.length} {guide.chapters.length === 1 ? 'chapter' : 'chapters'}
-          </span>
+          {guide.chapters.length > 0 ? (
+            <>
+              <span className={styles.separator} aria-hidden="true">
+                ·
+              </span>
+              <span>
+                {guide.chapters.length} {guide.chapters.length === 1 ? 'chapter' : 'chapters'}
+              </span>
+            </>
+          ) : null}
           <span className={styles.separator} aria-hidden="true">
             ·
           </span>

@@ -1,0 +1,11 @@
+{
+  "name": "agent-dashboard",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "bin": { "agent-dashboard": "./cli.mjs" },
+  "scripts": {
+    "start": "node cli.mjs",
+    "watch": "node cli.mjs --watch"
+  }
+}
