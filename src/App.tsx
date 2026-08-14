@@ -34,6 +34,13 @@ export default function App(): ReactElement {
         <Route path="/blog" element={<BlogIndexRoute />} />
         <Route path="/blog/:slug" element={<BlogPostRoute />} />
         <Route path="/guides" element={<GuidesIndexRoute />} />
+        {/* The standalone agent-dashboard guide was folded into the manager-worker guide. */}
+        <Route
+          path="/guides/agent-dashboard/*"
+          element={
+            <Navigate to="/guides/manager-worker-parallel-agents/watch-the-run" replace />
+          }
+        />
         <Route path="/guides/:slug/*" element={<GuidesRoute />} />
         <Route
           path="/georgies-board-game-nights"

@@ -1,6 +1,7 @@
 import type { Element } from 'hast'
 import type { ReactElement } from 'react'
 import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import ArticleImage from './ArticleImage'
@@ -26,7 +27,7 @@ export default function MarkdownArticle({ content, styles }: MarkdownArticleProp
   return (
     <div className={styles.articleBody}>
       <ReactMarkdown
-        rehypePlugins={[rehypeSlug]}
+        rehypePlugins={[rehypeRaw, rehypeSlug]}
         remarkPlugins={[remarkGfm]}
         components={{
           h1: ({ node: _node, ...props }) => (

@@ -74,4 +74,4 @@ status files are required.
 - The collector reads only `.agent-status.json`; it never reads agent
   transcripts, and it never writes to a child's worktree.
 
-Full walkthrough: [the Agent Dashboard guide](https://leoncheng.dev/guides/agent-dashboard).
+Full walkthrough: [the Watch the run chapter](https://leoncheng.dev/guides/manager-worker-parallel-agents/watch-the-run).
