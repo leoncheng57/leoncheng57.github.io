@@ -46,6 +46,38 @@ export default function GaTrafficDashboardRoute(): ReactElement {
           </div>
         </header>
 
+        <section className={styles.section} aria-labelledby="looks-heading">
+          <h2 id="looks-heading">What it looks like</h2>
+          <p>
+            Running locally with <strong>demo data</strong> (the screenshot
+            uses generated numbers - real traffic stays private; note the
+            badge):
+          </p>
+          <figure className={styles.screenshotFigure}>
+            <img
+              src="/alpha-projs/ga-dashboard-demo.png"
+              alt="Full dashboard page rendered with demo data: KPI cards, per-app charts, tables"
+              loading="lazy"
+              width="1280"
+              height="5155"
+            />
+            <figcaption>
+              The full page at <code>localhost:5199/?demo</code>.
+            </figcaption>
+          </figure>
+          <p>Deployed to a static host, it degrades to this instead:</p>
+          <figure className={styles.screenshotFigure}>
+            <img
+              src="/alpha-projs/ga-dashboard-static-notice.png"
+              alt="Static deployment notice with run-it-locally instructions"
+              loading="lazy"
+              width="998"
+              height="760"
+            />
+            <figcaption>No credentials, no data - just instructions.</figcaption>
+          </figure>
+        </section>
+
         <section className={styles.section} aria-labelledby="how-heading">
           <h2 id="how-heading">How it works</h2>
           <p>
