@@ -54,13 +54,14 @@
 /* ------------------------------------------------------------- guide card */
 
 .guideCard {
-  --term-bg: #0d1117;
-  --term-chrome: #161b22;
-  --term-ink: #dbe3ec;
-  --term-muted: #8b98a9;
-  --term-accent: #4ade80;
-  --term-accent-alt: #a5b4fc;
-  --term-line: rgba(219, 227, 236, 0.16);
+  /* Same Supabase green-on-near-black palette as the guide pages themselves. */
+  --term-bg: #0b0d0e;
+  --term-chrome: #141617;
+  --term-ink: #edeef0;
+  --term-muted: #7c8286;
+  --term-accent: #3ecf8e;
+  --term-accent-alt: #7dd8b4;
+  --term-line: rgba(237, 238, 240, 0.14);
   --term-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
     'Liberation Mono', monospace;
 

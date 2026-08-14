@@ -5,35 +5,36 @@
    main site's cream paper and dot grid. */
 :global(html[data-guides-theme='light']),
 :global(html[data-guides-theme='light'] body) {
-  background-color: #fbfaf7;
+  background-color: #ffffff;
   background-image: none;
 }
 
 :global(html[data-guides-theme='dark']),
 :global(html[data-guides-theme='dark'] body) {
   color-scheme: dark;
-  background-color: #0e1116;
+  background-color: #0b0d0e;
   background-image: none;
 }
 
 /* Guides is a standalone documentation site with its own theme, independent of
-   the main site chrome and of the blog styling. Light is the default; the
-   masthead toggle flips the data-theme attribute on this wrapper. */
+   the main site chrome and of the blog styling. It defaults to Supabase's
+   green-on-near-black dark theme; the masthead pill flips a light variant on
+   the same brand green via the data-theme attribute on this wrapper. */
 .page {
-  --gd-bg: #fbfaf7;
+  --gd-bg: #ffffff;
   --gd-surface: #ffffff;
-  --gd-surface-raised: #f2f1ec;
-  --gd-ink: #14181d;
-  --gd-ink-soft: #333b45;
-  --gd-muted: #6a7480;
-  --gd-accent: #4338ca;
-  --gd-accent-soft: #eef0fd;
+  --gd-surface-raised: #f3f5f4;
+  --gd-ink: #0f1210;
+  --gd-ink-soft: #383f3c;
+  --gd-muted: #6b7370;
+  --gd-accent: #16825a;
+  --gd-accent-soft: #e3f7ec;
   --gd-accent-contrast: #ffffff;
-  --gd-line: rgba(20, 24, 29, 0.14);
-  --gd-line-strong: rgba(20, 24, 29, 0.28);
-  --gd-code-bg: #f4f3ee;
-  --gd-callout-bg: #f0f4ff;
-  --gd-shadow: 0 1px 2px rgba(20, 24, 29, 0.06);
+  --gd-line: rgba(15, 18, 16, 0.14);
+  --gd-line-strong: rgba(15, 18, 16, 0.28);
+  --gd-code-bg: #f2f4f3;
+  --gd-callout-bg: #e3f7ec;
+  --gd-shadow: 0 1px 2px rgba(15, 18, 16, 0.06);
 
   --gd-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --gd-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -48,20 +49,20 @@
 }
 
 .page[data-theme='dark'] {
-  --gd-bg: #0e1116;
-  --gd-surface: #161b22;
-  --gd-surface-raised: #1d242e;
-  --gd-ink: #e7edf3;
-  --gd-ink-soft: #c2ccd6;
-  --gd-muted: #8b97a5;
-  --gd-accent: #a5b4fc;
-  --gd-accent-soft: #1e2434;
-  --gd-accent-contrast: #10131a;
-  --gd-line: rgba(231, 237, 243, 0.16);
-  --gd-line-strong: rgba(231, 237, 243, 0.32);
-  --gd-code-bg: #11161d;
-  --gd-callout-bg: #151d2c;
-  --gd-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --gd-bg: #0b0d0e;
+  --gd-surface: #121415;
+  --gd-surface-raised: #1a1d1e;
+  --gd-ink: #edeef0;
+  --gd-ink-soft: #b9bec2;
+  --gd-muted: #7c8286;
+  --gd-accent: #3ecf8e;
+  --gd-accent-soft: #103b28;
+  --gd-accent-contrast: #04140d;
+  --gd-line: rgba(237, 238, 240, 0.12);
+  --gd-line-strong: rgba(237, 238, 240, 0.24);
+  --gd-code-bg: #0f1113;
+  --gd-callout-bg: #10201a;
+  --gd-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 .frame {

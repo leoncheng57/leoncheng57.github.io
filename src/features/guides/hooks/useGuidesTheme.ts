@@ -1,19 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 export type GuidesTheme = 'light' | 'dark'
 
 const STORAGE_KEY = 'guides-theme'
 
-function systemTheme(): GuidesTheme {
-  if (
-    typeof window !== 'undefined' &&
-    typeof window.matchMedia === 'function' &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-  ) {
-    return 'dark'
-  }
-  return 'light'
-}
+/** Guides defaults to its Supabase-style dark theme, matching Supabase's own default. */
+const DEFAULT_THEME: GuidesTheme = 'dark'
 
 function storedTheme(): GuidesTheme | null {
   try {
@@ -25,28 +17,14 @@ function storedTheme(): GuidesTheme | null {
 }
 
 /**
- * Guides theme: follows the system color scheme until the reader picks one,
- * then persists that override in localStorage.
+ * Guides theme: defaults to dark, persists an explicit light/dark choice
+ * from the masthead pill in localStorage.
  */
 export default function useGuidesTheme(): {
   theme: GuidesTheme
   setTheme: (_next: GuidesTheme) => void
 } {
-  const [theme, setThemeState] = useState<GuidesTheme>(() => storedTheme() ?? systemTheme())
-
-  useEffect(() => {
-    if (typeof window.matchMedia !== 'function') return undefined
-
-    const query = window.matchMedia('(prefers-color-scheme: dark)')
-    const onChange = (event: MediaQueryListEvent) => {
-      if (storedTheme() === null) {
-        setThemeState(event.matches ? 'dark' : 'light')
-      }
-    }
-
-    query.addEventListener('change', onChange)
-    return () => query.removeEventListener('change', onChange)
-  }, [])
+  const [theme, setThemeState] = useState<GuidesTheme>(() => storedTheme() ?? DEFAULT_THEME)
 
   const setTheme = useCallback((next: GuidesTheme) => {
     setThemeState(next)
