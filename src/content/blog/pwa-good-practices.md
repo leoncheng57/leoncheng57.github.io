@@ -25,6 +25,7 @@ This post collects the practices that actually mattered while shipping them: why
   - [The illustrated animation pipeline](#the-illustrated-animation-pipeline)
   - [Real-device recordings](#real-device-recordings)
   - [Where each format wins](#where-each-format-wins)
+  - [The road not taken: laptop simulators](#the-road-not-taken-laptop-simulators)
 - [Closing thought](#closing-thought)
 
 ## Why a PWA instead of a native app
@@ -143,6 +144,8 @@ const GUIDES = {
 
 The result is a ~0.3 MB MP4 for a 13-second walkthrough, embedded as a normal `<video>` with `controls`, `playsInline`, `preload="metadata"`, poster, captions, and no autoplay. When a menu changes, I edit one SVG or one caption and re-run the script — the whole video regenerates deterministically.
 
+That said, be clear-eyed about where this generator is: it is very much in a beta/alpha state. The accuracy is approximate — spacing, labels, and transitions are my hand-drawn interpretation of the real OS menus, not pixel-faithful reproductions — and the visual polish is lacking compared to what a motion designer (or the real OS) would produce. I stopped iterating on it for now purely due to lack of time; it is good enough to communicate the steps, and that was the bar I needed to clear.
+
 ### Real-device recordings
 
 The second kind is an actual iPhone screen recording of the real install flow (Safari on iOS 26). Illustrations are clear, but a real recording is what convinces a skeptical user that the flow genuinely exists on their phone.
@@ -164,6 +167,12 @@ Running both formats side by side taught me a presentation split that I now trea
 - **The full guide shows the recording and the animation side by side.** The recording proves the flow; the illustration makes it unambiguous *where* to tap, because a stylized frame with a pulsing ripple communicates the target far better than a busy real screenshot.
 
 Both pipelines share the same size and codec targets (MP4 + WebM + poster + VTT, around a megabyte or less per video), so a guide with several videos still loads instantly.
+
+### The road not taken: laptop simulators
+
+With more time, the next thing I would have tried is capturing the flows from iOS and Android simulators on a laptop. The appeal is accuracy without a personal phone: Xcode's iOS Simulator runs real Safari and supports Add to Home Screen, so it would give correct spacing, labels, transitions, and safe areas for the current iOS release; Android Studio's emulator with a Play Store system image runs real Chrome, so the full "Install app" flow works and could be captured with `adb screenrecord`. Both would drop straight into the same recording-optimization script as a phone capture.
+
+I have not done this yet — again, time — and it comes with its own honesty caveats (generic status bars and mouse-driven taps make emulator footage look subtly different from a real device), but it is the obvious middle ground between my rough illustrated animations and asking a human for a fresh screen recording every time an OS update changes a menu.
 
 ## Closing thought
 
