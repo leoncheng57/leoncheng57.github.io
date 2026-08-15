@@ -23,6 +23,7 @@ import SubWaitRoute from './features/sub-wait/routes/SubWaitRoute'
 import TuziRoute from './features/tuzi/routes/TuziRoute'
 import WorkoutLabRoute from './features/workout-lab/routes/WorkoutLabRoute'
 import HomeRoute from './routes/HomeRoute'
+import NotFoundRoute from './routes/NotFoundRoute'
 
 export default function App(): ReactElement {
   return (
@@ -79,6 +80,7 @@ export default function App(): ReactElement {
         <Route path="/workout-lab/*" element={<WorkoutLabRoute />} />
         <Route path="/sub-wait/*" element={<SubWaitRoute />} />
         <Route path="/tuzi/*" element={<TuziRoute />} />
+        <Route path="*" element={<NotFoundRoute />} />
       </Routes>
     </>
   )
