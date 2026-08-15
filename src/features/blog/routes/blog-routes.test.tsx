@@ -26,9 +26,9 @@ describe('blog routes', () => {
     ).toHaveAttribute('href', '/guides/manager-worker-parallel-agents')
     expect(
       screen.getByRole('link', {
-        name: /Worktrees, Remote Coding Agents, and Choosing the Right Kind of Isolation/i,
+        name: /Building House Party Photo Hunt/i,
       })
-    ).toHaveAttribute('href', '/blog/worktrees-vs-remote-coding-agents')
+    ).toHaveAttribute('href', '/blog/building-house-party-photo-hunt')
   })
 
   it('renders the blog index route', () => {
