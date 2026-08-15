@@ -40,6 +40,7 @@ Guide frontmatter contains the title, description, intended audience, tags, and 
 
 ## Recent articles
 
+- [PWA Good Practices: What I Learned Shipping Installable Web Apps](https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/blog/pwa-good-practices.md)
 - [My cmux Setup for Parallel AI Coding](https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/blog/my-cmux-setup-for-parallel-ai-coding.md)
 - [The Ticket Is the Interface: A Better Way to Work With AI](https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/blog/the-ticket-is-the-interface.md)
 - [Hindsight Memory: Auto-Updating RAG for Agents](https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/blog/hindsight-memory.md)
