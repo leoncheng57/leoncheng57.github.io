@@ -1,0 +1,32 @@
+{
+  "name": "Grand Central-42 St",
+  "short_name": "Grand Central-42 St",
+  "description": "Live NYC subway arrival times for Grand Central-42 St.",
+  "id": "/previews/pr-199/sub-wait/pwa/station/723",
+  "start_url": "/previews/pr-199/sub-wait/station/723",
+  "scope": "/previews/pr-199/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-199/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-199/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-199/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
