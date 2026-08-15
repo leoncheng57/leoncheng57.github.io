@@ -27,6 +27,20 @@
   outline-offset: 2px;
 }
 
+/* Default trigger icon (chat bubble); tracks the surrounding text size and
+   color so it fits every footer theme. */
+.triggerIcon {
+  width: 1em;
+  height: 1em;
+  margin-right: 0.4em;
+  vertical-align: -0.12em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .backdrop {
   position: fixed;
   z-index: 1000;
