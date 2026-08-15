@@ -1,0 +1,34 @@
+[
+  {
+    "path": "/",
+    "file": "home.png"
+  },
+  {
+    "path": "/blog",
+    "file": "blog.png"
+  },
+  {
+    "path": "/guides",
+    "file": "guides.png"
+  },
+  {
+    "path": "/sub-wait",
+    "file": "sub-wait.png"
+  },
+  {
+    "path": "/workout-lab",
+    "file": "workout-lab.png"
+  },
+  {
+    "path": "/tuzi",
+    "file": "tuzi.png"
+  },
+  {
+    "path": "/georgies-board-game-nights",
+    "file": "georgies-board-game-nights.png"
+  },
+  {
+    "path": "/repo/design-components",
+    "file": "repo--design-components.png"
+  }
+]
