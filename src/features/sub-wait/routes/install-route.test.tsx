@@ -35,21 +35,13 @@ describe('InstallRoute', () => {
     expect(screen.getByText('Still seeing an old icon?')).toBeInTheDocument()
   })
 
-  it('links to the guide from the app footer', () => {
+  it('links to the guide from the masthead', () => {
     render(
       <MemoryRouter initialEntries={['/sub-wait/']}>
         <Routes>
           <Route path="/sub-wait/*" element={<SubWaitRoute />} />
         </Routes>
       </MemoryRouter>,
-    )
-    expect(
-      within(screen.getByRole('contentinfo')).getByRole('link', {
-        name: 'Install',
-      }),
-    ).toHaveAttribute(
-      'href',
-      '/sub-wait/install',
     )
     expect(
       within(screen.getByRole('navigation', { name: 'Sub-Wait' })).getByRole(

@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import FeedbackTrigger from '../../../../components/feedback/FeedbackTrigger'
 import styles from '../whoops-hoops.module.css'
 
 const LAST_UPDATED = 'April 27, 2026'
@@ -127,6 +128,7 @@ export default function PrivacyRoute(): ReactElement {
       </main>
       <footer className={styles.footer}>
         <a href="https://leoncheng.dev/">← LeonCheng.dev</a>
+        <FeedbackTrigger />
       </footer>
     </div>
   )

@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import PlaceholderBanner from '../../../components/placeholder-banner/PlaceholderBanner'
+import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import GuideCard from '../../guides/components/GuideCard'
 import { getAllGuides } from '../../guides/content'
@@ -144,7 +145,27 @@ export default function DesignComponentsRoute(): ReactElement {
             </div>
           </div>
         </section>
+
+        <section className={styles.showcase} aria-labelledby="footer-heading">
+          <h2 id="footer-heading">Site footer</h2>
+          <p>
+            Every page ends with the shared footer (#198): a link back home,
+            the Google feedback form trigger, and a copyright line. Pages can
+            pass an optional extra row for app-specific credits, and themed
+            pages restyle it through the <code>--sf-*</code> custom
+            properties.
+          </p>
+          <div className={styles.footerSpecimen}>
+            <SiteFooter />
+          </div>
+          <div className={styles.footerSpecimen}>
+            <SiteFooter>
+              <span>Example extra row · app-specific credits go here</span>
+            </SiteFooter>
+          </div>
+        </section>
       </main>
+      <SiteFooter />
     </div>
   )
 }

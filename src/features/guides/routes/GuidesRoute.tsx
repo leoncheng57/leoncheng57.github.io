@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import type { ReactElement } from 'react'
 import { Link, Route, Routes } from 'react-router-dom'
+import FeedbackTrigger from '../../../components/feedback/FeedbackTrigger'
 import useGuidesTheme from '../hooks/useGuidesTheme'
 import styles from '../guides.module.css'
 import GuideChapterRoute from './GuideChapterRoute'
@@ -57,6 +58,7 @@ export default function GuidesRoute(): ReactElement {
         <footer className={styles.footer}>
           <Link to="/">&larr; LeonCheng.dev</Link>
           <span>Guides are living documents and are revised over time.</span>
+          <FeedbackTrigger />
         </footer>
       </div>
     </div>

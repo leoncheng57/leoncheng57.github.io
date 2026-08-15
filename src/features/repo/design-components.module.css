@@ -10,6 +10,16 @@
   letter-spacing: -0.045em;
 }
 
+.footerSpecimen {
+  margin-top: 1rem;
+  padding: 0 1rem 1rem;
+  border: 2px dashed var(--text-muted);
+}
+
+.footerSpecimen footer {
+  margin-top: 1rem;
+}
+
 .swatchGrid,
 .cardGrid,
 .surfaceGrid {

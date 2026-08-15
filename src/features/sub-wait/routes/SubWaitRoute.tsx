@@ -1,5 +1,6 @@
 import { useLayoutEffect, type ReactElement } from 'react'
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
+import SiteFooter from '../../../components/site-footer/SiteFooter'
 import FeedbackButton from '../components/FeedbackButton'
 import SubWaitPwa from '../components/SubWaitPwa'
 import useTheme from '../hooks/useTheme'
@@ -78,19 +79,12 @@ export default function SubWaitRoute(): ReactElement {
           <Route path="architecture" element={<ArchitectureRoute />} />
         </Routes>
 
-        <footer className={styles.footer}>
-          <span>
-            <a href="https://leoncheng.dev/">← LeonCheng.dev</a>
-          </span>
-          <span>
-            Sub-Wait · <Link to="/sub-wait/install">Install</Link> ·{' '}
-            <Link to="/sub-wait/architecture">How it works</Link>
-          </span>
+        <SiteFooter>
           <span>
             Real-time data from the{' '}
             <a href="https://api.mta.info/">MTA GTFS-Realtime feeds</a>
           </span>
-        </footer>
+        </SiteFooter>
       </div>
     </div>
   )

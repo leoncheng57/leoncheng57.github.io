@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import FeedbackTrigger from '../../../components/feedback/FeedbackTrigger'
 import styles from '../game-nights.module.css'
 
 const sampleGames = [
@@ -238,6 +239,9 @@ export default function GameNightsRoute(): ReactElement {
           </a>
         </p>
         <p>Almost every Friday &middot; 8-11 PM &middot; Lower East Side</p>
+        <p>
+          <FeedbackTrigger />
+        </p>
       </footer>
     </div>
   )

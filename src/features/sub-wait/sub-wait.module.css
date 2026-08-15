@@ -17,6 +17,21 @@
     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
     sans-serif;
 
+  /* Theme the shared feedback dialog (src/components/feedback) to match. */
+  --fb-surface: var(--sw-surface);
+  --fb-surface-raised: var(--sw-surface-raised);
+  --fb-ink: var(--sw-ink);
+  --fb-line: var(--sw-line);
+  --fb-muted: var(--sw-muted);
+  --fb-accent: var(--sw-accent-strong);
+  --fb-focus: var(--sw-focus);
+
+  /* Theme the shared SiteFooter (src/components/site-footer) to match. */
+  --sf-line: var(--sw-line);
+  --sf-ink: var(--sw-ink);
+  --sf-muted: var(--sw-muted);
+  --sf-border-width: 1px;
+
   min-height: 100vh;
   background: var(--sw-bg);
   color: var(--sw-ink);
@@ -142,100 +157,13 @@
   gap: 0.5rem;
 }
 
-/* ── Feedback (see #152) ──────────────────────────────────────────────── */
+/* ── Feedback (see #152, #198) ────────────────────────────────────────── */
 
+/* Masthead icon trigger for the shared feedback dialog; the dialog itself
+   lives in src/components/feedback and is themed via the --fb-* vars set on
+   .page above. */
 .feedbackToggle {
   composes: themeToggle;
-}
-
-.feedbackBackdrop {
-  position: fixed;
-  z-index: 1000;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.68);
-}
-
-.feedbackDialog {
-  position: relative;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 0.75rem;
-  width: min(100%, 40rem);
-  height: min(75vh, 42rem);
-  padding: 1rem;
-  border: 1px solid var(--sw-line);
-  border-radius: 0.85rem;
-  background: var(--sw-surface);
-  color: var(--sw-ink);
-  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.35);
-}
-
-.feedbackClose {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  display: grid;
-  width: 1.75rem;
-  height: 1.75rem;
-  place-items: center;
-  padding: 0;
-  border: 1px solid var(--sw-line);
-  border-radius: 999px;
-  background: var(--sw-surface-raised);
-  color: var(--sw-ink);
-  font-size: 1rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.feedbackClose:hover {
-  border-color: var(--sw-accent-strong);
-}
-
-.feedbackClose:focus-visible,
-.feedbackNewTabLink:focus-visible {
-  outline: 2px solid var(--sw-focus);
-  outline-offset: 2px;
-}
-
-.feedbackCopy {
-  margin: 0;
-  padding-right: 2.25rem;
-  font-size: 0.85rem;
-  line-height: 1.45;
-}
-
-.feedbackFrame {
-  width: 100%;
-  height: 100%;
-  border: 1px solid var(--sw-line);
-  border-radius: 0.6rem;
-  /* Google Forms renders on white; keep it legible in dark mode too. */
-  background: #ffffff;
-}
-
-.feedbackFooter {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.feedbackNewTabLink {
-  color: var(--sw-ink-soft);
-  font-size: 0.78rem;
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-}
-
-.feedbackNewTabLink:hover {
-  color: var(--sw-accent-strong);
-}
-
-.feedbackUnconfigured {
-  color: var(--sw-muted);
-  font-size: 0.8rem;
 }
 
 /* ── Shared page elements ─────────────────────────────────────────────── */
@@ -271,21 +199,8 @@
   text-decoration: underline;
 }
 
-.footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 3rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--sw-line);
-  color: var(--sw-muted);
-  font-size: 0.75rem;
-}
-
-.footer a {
-  color: inherit;
-}
+/* The page footer is the shared SiteFooter (src/components/site-footer),
+   themed via the --sf-* vars set on .page above. */
 
 /* ── Route bullets ────────────────────────────────────────────────────── */
 
