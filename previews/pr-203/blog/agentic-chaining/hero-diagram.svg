@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200" width="700" height="200" style="background:#1a1b26">
+  <defs>
+    <marker id="arrow-h" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#565f89" />
+    </marker>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap');
+      text { font-family: 'Inter', system-ui, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="350" y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#a9b1d6">Agentic Chaining — Small, opinionated agents in sequence</text>
+
+  <!-- Node A: Deterministic (no human) -->
+  <rect x="30" y="60" width="100" height="56" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <text x="80" y="84" text-anchor="middle" font-size="16" font-weight="600" fill="#fff">A</text>
+  <text x="80" y="101" text-anchor="middle" font-size="9" fill="#93c5fd">deterministic</text>
+
+  <!-- Arrow A→B -->
+  <line x1="130" y1="88" x2="152" y2="88" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-h)" />
+
+  <!-- Node B: Both + Human -->
+  <rect x="154" y="60" width="100" height="56" rx="8" fill="#3b1f6e" stroke="#a78bfa" stroke-width="2" />
+  <rect x="154" y="60" width="100" height="56" rx="8" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="4 2" />
+  <text x="204" y="80" text-anchor="middle" font-size="16" font-weight="600" fill="#fff">B</text>
+  <text x="204" y="95" text-anchor="middle" font-size="9" fill="#c4b5fd">both</text>
+  <text x="204" y="108" text-anchor="middle" font-size="9" fill="#86efac">+ human</text>
+
+  <!-- Arrow B→C -->
+  <line x1="254" y1="88" x2="276" y2="88" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-h)" />
+
+  <!-- Node C: Deterministic + Human -->
+  <rect x="278" y="60" width="100" height="56" rx="8" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <rect x="278" y="60" width="100" height="56" rx="8" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="4 2" />
+  <text x="328" y="80" text-anchor="middle" font-size="16" font-weight="600" fill="#fff">C</text>
+  <text x="328" y="95" text-anchor="middle" font-size="9" fill="#93c5fd">deterministic</text>
+  <text x="328" y="108" text-anchor="middle" font-size="9" fill="#86efac">+ human</text>
+
+  <!-- Arrow C→D -->
+  <line x1="378" y1="88" x2="400" y2="88" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-h)" />
+
+  <!-- Node D: Both + Human -->
+  <rect x="402" y="60" width="100" height="56" rx="8" fill="#3b1f6e" stroke="#a78bfa" stroke-width="2" />
+  <rect x="402" y="60" width="100" height="56" rx="8" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="4 2" />
+  <text x="452" y="80" text-anchor="middle" font-size="16" font-weight="600" fill="#fff">D</text>
+  <text x="452" y="95" text-anchor="middle" font-size="9" fill="#c4b5fd">both</text>
+  <text x="452" y="108" text-anchor="middle" font-size="9" fill="#86efac">+ human</text>
+
+  <!-- Arrow D→E -->
+  <line x1="502" y1="88" x2="524" y2="88" stroke="#565f89" stroke-width="2" marker-end="url(#arrow-h)" />
+
+  <!-- Node E: Both + Human -->
+  <rect x="526" y="60" width="100" height="56" rx="8" fill="#3b1f6e" stroke="#a78bfa" stroke-width="2" />
+  <rect x="526" y="60" width="100" height="56" rx="8" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="4 2" />
+  <text x="576" y="80" text-anchor="middle" font-size="16" font-weight="600" fill="#fff">E</text>
+  <text x="576" y="95" text-anchor="middle" font-size="9" fill="#c4b5fd">both</text>
+  <text x="576" y="108" text-anchor="middle" font-size="9" fill="#86efac">+ human</text>
+
+  <!-- Trailing dots to suggest continuation -->
+  <text x="648" y="92" text-anchor="middle" font-size="18" fill="#565f89">...</text>
+
+  <!-- Legend (centered) -->
+  <!-- Total legend width: 12+6+82 + 30 + 12+6+34 + 30 + 12+6+120 = ~350px. Center at x=350 → start at ~175 -->
+  <rect x="175" y="138" width="12" height="12" rx="2" fill="#1e3a5f" stroke="#60a5fa" stroke-width="1.5" />
+  <text x="193" y="149" font-size="11" fill="#7982a9">Deterministic</text>
+  <rect x="295" y="138" width="12" height="12" rx="2" fill="#3b1f6e" stroke="#a78bfa" stroke-width="1.5" />
+  <text x="313" y="149" font-size="11" fill="#7982a9">Both</text>
+  <rect x="355" y="138" width="12" height="12" rx="2" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4 2" />
+  <text x="373" y="149" font-size="11" fill="#7982a9">Human-in-the-loop</text>
+
+  <!-- Watermark -->
+  <text x="350" y="192" text-anchor="middle" font-size="10" fill="#3b3f54">leoncheng.dev</text>
+</svg>
