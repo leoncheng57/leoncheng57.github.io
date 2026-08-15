@@ -1,0 +1,64 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 2rem 1rem 5rem;
+  background-color: #eaf3f4;
+  background-image:
+    linear-gradient(rgba(16, 35, 61, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 35, 61, 0.12) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.page a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.page a:hover {
+  color: var(--link-hover-color);
+  opacity: 0.85;
+  text-decoration: underline;
+}
+
+.content {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+  flex: 1;
+}
+
+.pageHeader {
+  max-width: 44rem;
+  margin-top: 3rem;
+}
+
+.pageHeader h1 {
+  margin: 0.2rem 0 0.75rem;
+  font-size: clamp(2.5rem, 8vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+
+.pageHeader p {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--link-color);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
