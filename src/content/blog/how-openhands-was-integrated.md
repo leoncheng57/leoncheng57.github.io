@@ -10,6 +10,8 @@ tags:
 
 # Integrating OpenHands into an Internal Dev Portal
 
+![A session, from idea to merged MR](component:session-storyboard)
+
 OpenHands is one of the more exciting things to come out of the
 open-source AI tooling wave: a fully autonomous coding agent — it clones a
 repo, writes code, runs tests, and opens a merge request on its own — that

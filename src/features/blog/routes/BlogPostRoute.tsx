@@ -4,10 +4,16 @@ import { Link, useParams } from 'react-router-dom'
 import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import BlogMeta from '../components/BlogMeta'
+import SessionStoryboard from '../components/SessionStoryboard'
 import FontSizeControls from '../../../components/markdown/FontSizeControls'
 import MarkdownArticle from '../../../components/markdown/MarkdownArticle'
 import { getBlogPostBySlug } from '../content'
 import styles from '../blog.module.css'
+
+/** Interactive figures blog posts can embed via ![alt](component:<name>). */
+const BLOG_EMBEDS = {
+  'session-storyboard': (alt: string) => <SessionStoryboard ariaLabel={alt} />,
+}
 
 export default function BlogPostRoute(): ReactElement {
   const { slug = '' } = useParams()
@@ -52,7 +58,7 @@ export default function BlogPostRoute(): ReactElement {
               styles={styles}
             />
           </header>
-          <MarkdownArticle content={post.content} styles={styles} />
+          <MarkdownArticle content={post.content} styles={styles} embeds={BLOG_EMBEDS} />
         </article>
       </main>
       <SiteFooter />
