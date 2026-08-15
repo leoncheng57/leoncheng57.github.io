@@ -10,7 +10,7 @@ tags:
 
 # 📸 Building House Party Photo Hunt: A Photo Voting Game for My Housewarming
 
-I was planning a housewarming party and wanted a fun activity that could hold the room together without holding anyone hostage. The result was [House Party Photo Hunt](https://leoncheng.dev/vibe-photo-voting-house-game/) -- a photo scavenger game where guests snap pictures on their phones for themed rounds, and everyone votes on the results together on the TV.
+I was helping organize a housewarming party -- not as the main planner, but as the one on the hook for a fun activity that could hold the room together without holding anyone hostage. The result was [House Party Photo Hunt](https://leoncheng.dev/vibe-photo-voting-house-game/) -- a photo scavenger game where guests snap pictures on their phones for themed rounds, and everyone votes on the results together on the TV.
 
 This is the story of why the game works at a party, and the engineering that went into it -- including the photo export runbook that keeps the whole thing within a free database tier.
 
@@ -52,7 +52,7 @@ Presentation mattered more than I expected. An exciting, light design theme turn
 
 Before the party, I did some quick UX testing with a few people. Two features came directly out of that -- neither of which I would have prioritized on my own.
 
-**A developer section with a run of the show.** Hosting a game while also hosting a party is a lot. Testers pointed out that the host needs a script: what to announce, when to open voting, when to reveal winners. So the app grew a developer section with a run-of-show -- an operational checklist for the event itself, right next to the photo export runbook. Runbooks aren't just for infrastructure.
+**A developer section with a run of the show.** Running a game in the middle of a party -- while the actual hosts are busy hosting -- is a lot. Testers pointed out that the host needs a script: what to announce, when to open voting, when to reveal winners. So the app grew a developer section with a run-of-show -- an operational checklist for the event itself, right next to the photo export runbook. Runbooks aren't just for infrastructure.
 
 **TV mode with Spotify playback.** The voting screen on the TV was functional but flat. Testing surfaced that music is what makes it feel like a party moment, so TV mode integrates the Spotify SDK for playback. Music during the picture-taking phase keeps the energy up while people roam around shooting photos, and music during voting turns the reveal into an event instead of a slideshow.
 
