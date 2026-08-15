@@ -18,6 +18,10 @@
 }
 
 .footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
   width: min(100%, 52rem);
   margin: 3rem auto 0;
   padding-top: 1rem;

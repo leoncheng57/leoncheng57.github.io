@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 import Headline from '../components/headline/headline'
 import Social from '../components/social/social'
+import SiteFooter from '../components/site-footer/SiteFooter'
 import TopNav from '../components/top-nav/TopNav'
 import { getAllBlogPosts } from '../features/blog/content'
 import { getAllGuides } from '../features/guides/content'
@@ -153,6 +154,7 @@ export default function HomeRoute(): ReactElement {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   )
 }

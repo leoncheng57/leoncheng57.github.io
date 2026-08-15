@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import styles from '../repo.module.css'
 
@@ -98,6 +99,7 @@ export default function AlphaProjsRoute(): ReactElement {
           </article>
         </section>
       </main>
+      <SiteFooter />
     </div>
   )
 }

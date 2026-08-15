@@ -1,7 +1,8 @@
-// "SubWait Feedback form" (see #152). Fields: Category (dropdown,
-// entry.1233029295), Current page (short answer, entry.201088765),
-// "Describe your comment" (paragraph, entry.1675638029), and Rating
-// (1-5 linear scale, entry.1796631476).
+// Site-wide Google feedback form (see #152, #198). Originally the "SubWait
+// Feedback form"; now shared by every page footer. Fields: Category
+// (dropdown, entry.1233029295), Current page (short answer,
+// entry.201088765), "Describe your comment" (paragraph, entry.1675638029),
+// and Rating (1-5 linear scale, entry.1796631476).
 export const FEEDBACK_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSe3vmUWVzBh74mpxOz9TXMkqoyAiTeP2B7h9FIzYx19oAtTUA/viewform'
 

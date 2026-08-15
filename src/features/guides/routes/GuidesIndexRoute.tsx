@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import GuideCard from '../components/GuideCard'
 import { getAllGuides } from '../content'
@@ -35,6 +36,7 @@ export default function GuidesIndexRoute(): ReactElement {
           </div>
         )}
       </main>
+      <SiteFooter />
     </div>
   )
 }

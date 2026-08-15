@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { CSSProperties, ReactElement } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import BlogMeta from '../components/BlogMeta'
 import FontSizeControls from '../../../components/markdown/FontSizeControls'
@@ -54,6 +55,7 @@ export default function BlogPostRoute(): ReactElement {
           <MarkdownArticle content={post.content} styles={styles} />
         </article>
       </main>
+      <SiteFooter />
     </div>
   )
 }

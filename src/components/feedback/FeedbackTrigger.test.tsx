@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import FeedbackButton from './FeedbackButton'
+import FeedbackTrigger from './FeedbackTrigger'
 import {
   buildEmbeddedFeedbackUrl,
   buildFeedbackUrl,
@@ -29,10 +29,10 @@ afterEach(() => {
   vi.unstubAllEnvs()
 })
 
-describe('FeedbackButton', () => {
+describe('FeedbackTrigger', () => {
   it('renders an aria-labelled button and opens the feedback dialog', async () => {
     const user = userEvent.setup()
-    render(<FeedbackButton />)
+    render(<FeedbackTrigger />)
 
     const trigger = screen.getByRole('button', { name: 'Send feedback' })
     expect(trigger).toHaveAttribute('aria-expanded', 'false')
@@ -50,7 +50,7 @@ describe('FeedbackButton', () => {
 
   it('embeds the form prefilled with the current page path', async () => {
     const user = userEvent.setup()
-    render(<FeedbackButton />)
+    render(<FeedbackTrigger />)
 
     await user.click(screen.getByRole('button', { name: 'Send feedback' }))
 
@@ -69,7 +69,7 @@ describe('FeedbackButton', () => {
 
   it('offers a new-tab fallback link to the non-embedded form', async () => {
     const user = userEvent.setup()
-    render(<FeedbackButton />)
+    render(<FeedbackTrigger />)
 
     await user.click(screen.getByRole('button', { name: 'Send feedback' }))
 
@@ -88,7 +88,7 @@ describe('FeedbackButton', () => {
     mockedBuildFeedbackUrl.mockReturnValue(null)
     mockedBuildEmbeddedFeedbackUrl.mockReturnValue(null)
 
-    render(<FeedbackButton />)
+    render(<FeedbackTrigger />)
 
     expect(
       screen.queryByRole('button', { name: 'Send feedback' })
@@ -97,7 +97,7 @@ describe('FeedbackButton', () => {
 
   it('closes on Escape and returns focus to the trigger', async () => {
     const user = userEvent.setup()
-    render(<FeedbackButton />)
+    render(<FeedbackTrigger />)
     const trigger = screen.getByRole('button', { name: 'Send feedback' })
 
     await user.click(trigger)
@@ -109,7 +109,7 @@ describe('FeedbackButton', () => {
 
   it('closes when the backdrop is clicked', async () => {
     const user = userEvent.setup()
-    render(<FeedbackButton />)
+    render(<FeedbackTrigger />)
 
     await user.click(screen.getByRole('button', { name: 'Send feedback' }))
     fireEvent.mouseDown(screen.getByTestId('feedback-backdrop'))

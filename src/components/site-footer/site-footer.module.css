@@ -1,0 +1,52 @@
+/* Design-system footer (#198). Defaults follow the main site palette;
+   themed pages override the --sf-* custom properties from a parent class
+   (see sub-wait.module.css for an example). */
+
+.footer {
+  display: grid;
+  gap: 0.6rem;
+  width: min(100%, 1040px);
+  margin: 3rem auto 0;
+  padding-top: 0.85rem;
+  border-top: var(--sf-border-width, 3px) solid
+    var(--sf-line, var(--text-primary));
+  color: var(--sf-muted, var(--text-muted));
+  font-size: 0.75rem;
+}
+
+.extraRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+}
+
+.extraRow a {
+  color: inherit;
+}
+
+.mainRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+}
+
+.homeLink {
+  color: var(--sf-ink, var(--text-primary));
+  text-decoration: none;
+}
+
+.homeLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.feedbackTrigger {
+  color: var(--sf-ink, var(--text-primary));
+}
+
+.copyright {
+  color: inherit;
+}

@@ -40,6 +40,15 @@
   --gd-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --gd-font-size: 1.02rem;
 
+  /* Theme the shared feedback dialog (src/components/feedback) to match. */
+  --fb-surface: var(--gd-surface);
+  --fb-surface-raised: var(--gd-surface-raised);
+  --fb-ink: var(--gd-ink);
+  --fb-line: var(--gd-line);
+  --fb-muted: var(--gd-muted);
+  --fb-accent: var(--gd-accent);
+  --fb-focus: var(--gd-accent);
+
   min-height: 100vh;
   background: var(--gd-bg);
   color: var(--gd-ink);
