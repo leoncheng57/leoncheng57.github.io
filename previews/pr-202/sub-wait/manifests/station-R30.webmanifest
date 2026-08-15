@@ -1,0 +1,32 @@
+{
+  "name": "DeKalb Av",
+  "short_name": "DeKalb Av",
+  "description": "Live NYC subway arrival times for DeKalb Av.",
+  "id": "/previews/pr-202/sub-wait/pwa/station/R30",
+  "start_url": "/previews/pr-202/sub-wait/station/R30",
+  "scope": "/previews/pr-202/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-202/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-202/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-202/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
