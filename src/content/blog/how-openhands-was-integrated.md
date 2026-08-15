@@ -10,20 +10,26 @@ tags:
 
 # Integrating OpenHands into an Internal Dev Portal
 
-![From laptop experiment to deployed service — the OpenHands integration ladder](/blog/how-openhands-was-integrated/hero-diagram.svg)
+OpenHands is one of the more exciting things to come out of the
+open-source AI tooling wave: a fully autonomous coding agent — it clones a
+repo, writes code, runs tests, and opens a merge request on its own — that
+you can run yourself, MIT-licensed, no vendor in the loop. When I first
+tried [OpenHands](https://docs.openhands.dev), a complete autonomous task
+(clone → branch → edit → verify → commit → push → draft MR) took about
+seven minutes and cost $2.81. That was enough to convince me it deserved
+more than a laptop experiment.
 
-I recently integrated [OpenHands](https://docs.openhands.dev) — the
-open-source autonomous coding agent — into an internal developer portal at
-work. It went from a laptop experiment (measured at ~7 minutes and $2.81
-per autonomous task) to an always-on deployment with its own UI, and the
-project settled into a shape I'd now reuse for any OSS agent: evaluate
-locally, deploy a shared instance, wrap it with your own frontend, then let
-real usage drive the hardening.
+So I set out to build it into the internal developer portal at work as a
+proper always-on service — with its own UI, durable server-side sessions,
+and Slack notifications. This post is the story of that build, and the
+shape it settled into is one I'd now reuse for any OSS agent: evaluate
+locally, deploy a shared instance, wrap it with your own frontend, then
+let real usage drive the hardening.
 
-Rather than a chronological tour, this post is organized by theme — the
-architecture, security, ops, and UX decisions are each more useful on their
-own than interleaved. A [concise timeline](#historical-phases) at the end
-records the order things actually happened in, mistakes included.
+Rather than a chronological tour, the post is organized by theme — the
+architecture, security, ops, and UX decisions are each more useful on
+their own than interleaved. A concise [timeline](#historical-phases) at
+the end records the order things actually happened in, mistakes included.
 
 ## Table of contents
 
@@ -35,6 +41,7 @@ records the order things actually happened in, mistakes included.
 - [Quick build shortcuts](#quick-build-shortcuts)
 - [Betting on open source](#betting-on-open-source)
 - [Historical phases](#historical-phases)
+- [Future](#future)
 - [Takeaways](#takeaways)
 
 ## The starting point
@@ -60,6 +67,24 @@ clone, branch, docs edit, run a check script, conventional commit, push,
 draft MR — in about seven minutes for $2.81.
 
 ## Architecture
+
+The full system, end to end:
+
+```text
+ browser ──► oauth2-proxy ──► React pages ──► Express BFF
+             (email            (native UI     │ allowlist again,
+              allowlist)        + embed)      │ key injection, caches
+                                              ▼
+                     ┌─ agent pod ─────────────┐        ┌──────────┐
+                     │ agent-canvas + sidecars │ ─────► │  GitLab  │ clone /
+                     │ PVC: state + workspaces │        └──────────┘ push / MR
+                     └───────┬──────────┬──────┘        ┌──────────┐
+                             │          └─────────────► │  Slack   │ notify
+                             ▼                          └──────────┘
+                     ┌──────────────┐                   ┌──────────┐
+                     │ LLM provider │                   │ MCP srvs │ read-only
+                     └──────────────┘                   └──────────┘
+```
 
 The system exists in two shapes.
 
@@ -111,6 +136,30 @@ The BFF grew to roughly twenty-five endpoints, grouped by concern:
 | Git | repos, changes, commits, diffs |
 | Terminal | read-only command history & output |
 | Workflow | suggested GitLab issues, repo picker, notification settings |
+
+A full session lifecycle through those pieces — start, interrupt,
+finish, merge:
+
+```text
+ user                    portal UI       BFF             agent         GitLab
+  │ "fix the flaky        │               │                │              │
+  │  login test"          │               │                │              │
+  ├──────────────────────►│ POST /conversations            │              │
+  │                       ├──────────────►│ mint UUID,     │              │
+  │                       │               │ sessions/<uuid>│              │
+  │                       │               ├───────────────►│ clone ──────►│
+  │                       │◄── poll 3s ───┤◄── events ─────┤ work…        │
+  │ "wait — use the       │               │                │              │
+  │  staging config" ────►│ pause ───────►│───────────────►│ (halted)     │
+  │ "ok continue" ───────►│ msg + resume ►│───────────────►│ work…        │
+  │                       │               │                ├ push draft ─►│
+  │                       │               │                ├ open MR ────►│
+  │                       │◄─ final response ◄─────────────┤              │
+  │ review & merge MR ───────────────────────────────────────────────────►│
+  │ "done, close it" ────►│ delete ──────►│───────────────►│              │
+  │                       │               │   … ~2h later: the janitor    │
+  │                       │               │   reclaims the idle workspace │
+```
 
 Two architectural decisions carried the most weight:
 
@@ -237,9 +286,35 @@ and forked. I can kick off a task, close the laptop, get the Slack ping,
 and pick the conversation back up from where it stands — the exact thing
 the local setup couldn't do. Most of the UI leans on this one property.
 
+What a typical session actually feels like:
+
+![A session from the person's point of view — clarify, walk away, get pinged, review, merge](/blog/how-openhands-was-integrated/session-journey.svg)
+
 The portal offers two front doors: an embed of the full upstream UI (file
 browser, VS Code, settings — everything, for free) and a **native
-conversation UI** for the day-to-day loop. The native UI accumulated:
+conversation UI** for the day-to-day loop:
+
+```text
+ ┌─ conversations ──┬─ conversation ──────────────────────┬─ inspect ─────---┐
+ │                  │ repo picker ▾          model chip ▾ │ Files            │
+ │ 🟢 fix login bug │─────────────────────────────────────│   src/auth/…     │
+ │    running…      │ agent: cloned repo…          14:02  │   package.json   │
+ │                  │ agent: running tests…        14:07  │                  │
+ │ ✅ update docs   │ you:   also update the docs  14:11  │ Changes          │
+ │    finished      │ agent: final response ✓      14:19  │   +42 −7 (3 f)   │
+ │                  │                                     │                  │
+ │ ⏸️ retry flaky   │                                     │ Terminal (ro)    │
+ │    paused        │                                     │   $ npm test …   │
+ │                  │                                     │                  │
+ │ ✅ bump deps     │                                     │ Tasks            │
+ │    finished      │                                     │   [x] clone      │
+ │                  │                                     │   [x] tests      │
+ │ [+ new session]  │─────────────────────────────────────│   [ ] docs       │
+ │                  │ prompt…    [pause] [resume]  ▓▓░ 61%│ Skills           │
+ └──────────────────┴─────────────────────────────────────┴───────────────---┘
+```
+
+The native UI accumulated:
 
 - A chat-style transcript with timestamps, a wrap toggle, and correct
   rendering of the final agent response in long conversations (a
@@ -337,6 +412,36 @@ The themes above were built in this order:
    been cleared by hand.
 5. **Polish** — per-message model switching, a local CLI for driving
    deployed conversations, transcript fixes, pinned repos.
+
+## Future
+
+Things I want to build next, roughly in order of pull:
+
+- **A Slack bot that carries the conversation.** The Slack notifier is
+  one-way today: it pings, you walk to a laptop. A custom bot that relays
+  full conversations into Slack threads would make the agent genuinely
+  steerable from a phone — reply in the thread, the agent gets the
+  message. The nuances are real, though: mapping thread replies to
+  conversation state needs careful command design (free text vs.
+  explicit commands, who in a shared channel is allowed to steer which
+  session), and company phone-access policies limit what can be exposed
+  to a mobile Slack client in the first place.
+- **Browser and terminal in the sidebar.** The feasibility docs already
+  exist; the read-only terminal history shipped. The next step is a live
+  (but still carefully scoped) terminal view and a browser pane beside
+  the transcript, so watching the agent test a web page doesn't require
+  the full upstream embed.
+- **Cost tracking per user.** One shared LLM key means one shared bill.
+  Attributing token spend per conversation and per user would make the
+  $2.81-per-task math visible continuously instead of only during
+  evaluations — and make it obvious when a runaway session is burning
+  money.
+- **Smarter caching for repeated repos.** Most conversations clone the
+  same handful of repositories, and each clone plus `npm install` costs
+  ~2GB and real minutes. A shared read-through cache — reference clones
+  or a warm object store the per-session workspaces derive from — would
+  cut both startup latency and the disk pressure that motivated the
+  200Gi volume and the janitor in the first place.
 
 ## Takeaways
 
