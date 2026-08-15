@@ -16,12 +16,12 @@ describe('home route recent work', () => {
 
     expect(cards).toHaveLength(6)
     expect(cards.map((card) => card.getAttribute('href'))).toEqual([
+      '/blog/building-house-party-photo-hunt',
       '/guides/manager-worker-parallel-agents',
       '/tuzi/',
       '/georgies-board-game-nights',
       '/sub-wait',
       '/workout-lab',
-      '/blog/worktrees-vs-remote-coding-agents',
     ])
     expect(within(recentWork).getAllByText('Project')).toHaveLength(1)
     expect(within(recentWork).getAllByText('App')).toHaveLength(3)
