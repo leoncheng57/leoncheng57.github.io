@@ -1,0 +1,32 @@
+{
+  "name": "175 St",
+  "short_name": "175 St",
+  "description": "Live NYC subway arrival times for 175 St.",
+  "id": "/previews/pr-200/sub-wait/pwa/station/A07",
+  "start_url": "/previews/pr-200/sub-wait/station/A07",
+  "scope": "/previews/pr-200/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-200/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-200/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-200/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
