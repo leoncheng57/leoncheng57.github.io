@@ -18,7 +18,10 @@ if (typeof window.IntersectionObserver === 'undefined') {
     readonly root = null
     readonly rootMargin = ''
     readonly thresholds: readonly number[] = []
-    constructor(private readonly callback: IntersectionObserverCallback) {}
+    private readonly callback: IntersectionObserverCallback
+    constructor(callback: IntersectionObserverCallback) {
+      this.callback = callback
+    }
     observe(target: Element): void {
       this.callback(
         [{ isIntersecting: true, target } as IntersectionObserverEntry],
