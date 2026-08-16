@@ -43,9 +43,9 @@ jobs:
                 if (!line || line.startsWith('#')) {
                   continue;
                 }
-                const parsed = line.match(/^((?:full:)?\/\S*)(?: -- (\S.*))?$/);
+                const parsed = line.match(/^((?:with-full:)?\/\S*)(?: -- (\S.*))?$/);
                 if (!parsed) {
-                  core.setFailed(`Invalid screenshot line "${line}". Expected "[full:]/path[ -- Title]" with a path that starts with "/" and contains no whitespace.`);
+                  core.setFailed(`Invalid screenshot line "${line}". Expected "[with-full:]/path[ -- Title]" with a path that starts with "/" and contains no whitespace.`);
                   return;
                 }
                 targets.push({ arg: parsed[1], title: parsed[2]?.trim() ?? null });
@@ -108,31 +108,28 @@ jobs:
             if (hasPaths) {
               const manifest = JSON.parse(fs.readFileSync('screenshot-output/manifest.json', 'utf8'));
               for (const entry of manifest) {
-                const image = `![${entry.title ?? entry.path}](${baseUrl}/${entry.file}?sha=${shortSha})`;
-                if (entry.full) {
-                  const summary = entry.title
-                    ? `${entry.title} — <code>${entry.path}</code> (full page)`
-                    : `<code>${entry.path}</code> (full page)`;
-                  lines.push(`<details><summary>${summary}</summary>`);
+                const label = entry.title ?? entry.path;
+                lines.push(entry.title ? `### ${entry.title}` : `### \`${entry.path}\``);
+                lines.push('');
+                if (entry.title) {
+                  lines.push(`\`${entry.path}\``);
                   lines.push('');
-                  lines.push(image);
+                }
+                lines.push(`![${label}](${baseUrl}/${entry.file}?sha=${shortSha})`);
+                lines.push('');
+                if (entry.fullFile) {
+                  lines.push(`<details><summary>Full page — <code>${entry.path}</code></summary>`);
+                  lines.push('');
+                  lines.push(`![${label} (full page)](${baseUrl}/${entry.fullFile}?sha=${shortSha})`);
                   lines.push('');
                   lines.push('</details>');
                   lines.push('');
-                } else {
-                  lines.push(entry.title ? `### ${entry.title}` : `### \`${entry.path}\``);
-                  lines.push('');
-                  if (entry.title) {
-                    lines.push(`\`${entry.path}\``);
-                    lines.push('');
-                  }
-                  lines.push(image);
-                  lines.push('');
                 }
               }
-              lines.push(`_Captured at ${shortSha}. Screenshots refresh on every push and description edit, and are removed when the pull request closes._`);
+              const updatedAt = new Date().toISOString().replace('T', ' ').slice(0, 16);
+              lines.push(`_Captured at ${shortSha}, updated ${updatedAt} UTC. Screenshots refresh on every push and description edit, and are removed when the pull request closes._`);
             } else {
-              lines.push('No screenshots requested. Add a ```screenshots fenced block to the pull request description with one `[full:]/path[ -- Title]` line per page to capture. Prefix a path with `full:` to capture the entire scroll height; add ` -- Title` to label what the capture shows.');
+              lines.push('No screenshots requested. Add a ```screenshots fenced block to the pull request description with one `[with-full:]/path[ -- Title]` line per page to capture. Prefix a path with `with-full:` to also capture the entire scroll height; add ` -- Title` to label what the capture shows.');
             }
             const body = lines.join('\n');
 

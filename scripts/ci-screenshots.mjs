@@ -4,16 +4,16 @@
  *
  * Usage:
  *   npm run build
- *   node scripts/ci-screenshots.mjs "/blog -- Blog index" full:/blog/foo
+ *   node scripts/ci-screenshots.mjs "/blog -- Blog index" with-full:/blog/foo
  *
  * Serves the built `docs/` directory with `vite preview`, then captures one
  * PNG per provided page path into `screenshot-output/`. Output filenames are
  * derived from the path: `/` -> `home.png`, `/blog/foo` -> `blog--foo.png`.
  *
- * Each target uses the format `[full:]/path[ -- Title]`:
- * - A `full:` prefix captures the entire scroll height of the page instead of
- *   the 1280x800 viewport: `full:/blog/foo` -> `blog--foo--full.png`. The
- *   same path may be listed both ways without filename collisions.
+ * Each target uses the format `[with-full:]/path[ -- Title]`:
+ * - Every target gets a 1280x800 viewport capture. A `with-full:` prefix
+ *   additionally captures the entire scroll height of the page into a second
+ *   file: `with-full:/blog/foo` -> `blog--foo.png` + `blog--foo--full.png`.
  * - An optional ` -- Title` labels the capture in the manifest so consumers
  *   (like the PR sticky comment) can explain what each screenshot shows.
  *
@@ -35,7 +35,7 @@ const OUTPUT_DIR = 'screenshot-output';
 const VIEWPORT = { width: 1280, height: 800 };
 const PORT = 4173;
 
-const FULL_PAGE_PREFIX = 'full:';
+const WITH_FULL_PREFIX = 'with-full:';
 const TITLE_SEPARATOR = ' -- ';
 
 function normalizeTarget(rawTarget, explicitTitle = null) {
@@ -48,14 +48,14 @@ function normalizeTarget(rawTarget, explicitTitle = null) {
   const inlineTitle = separatorIndex === -1 ? null : trimmed.slice(separatorIndex + TITLE_SEPARATOR.length).trim();
   const title = explicitTitle ?? (inlineTitle || null);
 
-  const fullPage = rawPath.startsWith(FULL_PAGE_PREFIX);
-  const pagePath = fullPage ? rawPath.slice(FULL_PAGE_PREFIX.length) : rawPath;
+  const withFull = rawPath.startsWith(WITH_FULL_PREFIX);
+  const pagePath = withFull ? rawPath.slice(WITH_FULL_PREFIX.length) : rawPath;
   if (!pagePath.startsWith('/') || /\s/.test(pagePath)) {
     throw new Error(
-      `Invalid screenshot target "${trimmed}". Expected "[full:]/path[ -- Title]" with a path that starts with "/" and contains no whitespace.`,
+      `Invalid screenshot target "${trimmed}". Expected "[with-full:]/path[ -- Title]" with a path that starts with "/" and contains no whitespace.`,
     );
   }
-  return { path: pagePath, fullPage, title };
+  return { path: pagePath, withFull, title };
 }
 
 function targetsFromEnv(json) {
@@ -93,7 +93,7 @@ async function main() {
         .filter(Boolean);
 
   if (targets.length === 0) {
-    console.error('No page paths provided. Example: node scripts/ci-screenshots.mjs "/blog -- Blog index" full:/apps');
+    console.error('No page paths provided. Example: node scripts/ci-screenshots.mjs "/blog -- Blog index" with-full:/apps');
     process.exitCode = 1;
     return;
   }
@@ -113,13 +113,23 @@ async function main() {
     const context = await browser.newContext({ viewport: VIEWPORT });
     const page = await context.newPage();
 
-    for (const { path: pagePath, fullPage, title } of targets) {
-      const fileName = `${fileNameForPath(pagePath)}${fullPage ? '--full' : ''}.png`;
+    for (const { path: pagePath, withFull, title } of targets) {
+      const baseName = fileNameForPath(pagePath);
+      const fileName = `${baseName}.png`;
       const outputPath = path.join(OUTPUT_DIR, fileName);
-      console.log(`Capturing ${pagePath}${fullPage ? ' (full page)' : ''} -> ${outputPath}`);
+      console.log(`Capturing ${pagePath} -> ${outputPath}`);
       await page.goto(`${baseUrl}${pagePath}`, { waitUntil: 'networkidle' });
-      await page.screenshot({ path: outputPath, fullPage });
-      captured.push({ path: pagePath, file: fileName, full: fullPage, title });
+      await page.screenshot({ path: outputPath, fullPage: false });
+
+      let fullFile = null;
+      if (withFull) {
+        fullFile = `${baseName}--full.png`;
+        const fullOutputPath = path.join(OUTPUT_DIR, fullFile);
+        console.log(`Capturing ${pagePath} (full page) -> ${fullOutputPath}`);
+        await page.screenshot({ path: fullOutputPath, fullPage: true });
+      }
+
+      captured.push({ path: pagePath, file: fileName, fullFile, title });
     }
   } finally {
     await browser.close();
