@@ -3,12 +3,12 @@
     "path": "/apps",
     "file": "apps.png",
     "fullFile": null,
-    "title": null
+    "title": "Apps index with the new Cook Today card"
   },
   {
     "path": "/cook-today",
     "file": "cook-today.png",
-    "fullFile": null,
-    "title": null
+    "fullFile": "cook-today--full.png",
+    "title": "Cook Today checkbox form (full page)"
   }
 ]
