@@ -1,0 +1,32 @@
+{
+  "name": "Fort Hamilton Pkwy",
+  "short_name": "Fort Hamilton Pkwy",
+  "description": "Live NYC subway arrival times for Fort Hamilton Pkwy.",
+  "id": "/previews/pr-206/sub-wait/pwa/station/N03",
+  "start_url": "/previews/pr-206/sub-wait/station/N03",
+  "scope": "/previews/pr-206/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-206/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-206/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-206/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
