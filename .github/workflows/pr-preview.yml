@@ -68,11 +68,13 @@ jobs:
           script: |
             const marker = '<!-- pr-preview -->';
             const previewUrl = `https://leoncheng.dev/previews/pr-${context.issue.number}/`;
+            const shortSha = context.payload.pull_request.head.sha.slice(0, 7);
+            const updatedAt = new Date().toISOString().replace('T', ' ').slice(0, 16);
             const body = [
               marker,
               `PR preview: ${previewUrl}`,
               '',
-              '_Updated for the latest commit. This preview is removed when the pull request closes._',
+              `_Deployed at ${shortSha}, updated ${updatedAt} UTC. This preview refreshes on every push and is removed when the pull request closes._`,
             ].join('\n');
             const comments = await github.paginate(github.rest.issues.listComments, {
               ...context.repo,
