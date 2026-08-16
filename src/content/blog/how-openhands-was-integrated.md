@@ -21,52 +21,20 @@ tried [OpenHands](https://docs.openhands.dev), a complete autonomous task
 seven minutes and cost $2.81. That was enough to convince me it deserved
 more than a laptop experiment.
 
-So I set out to build it into the internal developer portal at work as a
-proper always-on service — with its own UI, durable server-side sessions,
-and Slack notifications. This post is the story of that build, and the
-shape it settled into is one I'd now reuse for any OSS agent: evaluate
-locally, deploy a shared instance, wrap it with your own frontend, then
-let real usage drive the hardening.
-
-Rather than a chronological tour, the post is organized by theme — the
-architecture, security, ops, and UX decisions are each more useful on
-their own than interleaved. A concise [timeline](#historical-phases) at
-the end records the order things actually happened in, mistakes included.
+OpenHands is a specific coding modality: an **interactive, sandboxed**
+agent that I can watch, interrupt, clarify, and steer while it works.
 
 ## Table of contents
 
-- [The starting point](#the-starting-point)
 - [Architecture](#architecture)
 - [Security](#security)
 - [Ops](#ops)
 - [UX](#ux)
-- [Quick build shortcuts](#quick-build-shortcuts)
+- [Shortcuts Taken](#shortcuts-taken---hacky-today-build-fast-break-things)
 - [Betting on open source](#betting-on-open-source)
-- [Historical phases](#historical-phases)
+- [Historical Timeline Phases](#historical-timeline-phases)
 - [Future](#future)
 - [Takeaways](#takeaways)
-
-## The starting point
-
-The host system is an internal developer portal: a React frontend and an
-Express backend in one monorepo, where each internal tool is a small
-self-contained app. I already had an async ticket-to-MR agent (file a
-ticket, get a merge request back) and local git worktrees for parallel
-work. OpenHands came in as a third modality: an **interactive, sandboxed**
-agent you can watch and steer mid-run — a complement to the other two, not
-a replacement.
-
-Before building anything, I evaluated it locally. A bootstrap script
-starts the OpenHands app container (UI and API on `:3000`), mounting the
-Docker socket so it can spawn per-conversation sandbox containers.
-Usefully, everything the UI does is also a REST call, so the entire setup
-is scriptable: LLM configuration via `POST /api/v1/settings`, my GitLab
-PAT via `POST /api/v1/secrets/git-providers` so the agent can clone, push,
-and open MRs.
-
-The evaluation that justified everything after: a fully autonomous run —
-clone, branch, docs edit, run a check script, conventional commit, push,
-draft MR — in about seven minutes for $2.81.
 
 ## Architecture
 
@@ -96,9 +64,10 @@ the agent loop lives on my laptop — runs pause when it sleeps.
 
 **Deployed** (shared): a single StatefulSet on a dev Kubernetes cluster
 running the all-in-one image, where the agent server runs in-process — no
-Docker socket, no per-conversation containers. Two sidecars (a Slack
-notifier and a workspace janitor) share the pod, and everything durable
-lives on one PVC:
+Docker socket, no per-conversation containers. It runs 24/7 and does not
+stop when I close my laptop, which is a key advantage of the remote setup.
+Two sidecars (a Slack notifier and a workspace janitor) share the pod, and
+everything durable lives on one PVC:
 
 ```text
                  ┌──────────────────────────────────────────────┐
@@ -116,8 +85,7 @@ lives on one PVC:
                  └──────────────────────────────────────────────┘
 ```
 
-On the portal side, OpenHands is one more self-contained app in the
-monorepo: a set of React pages and an Express router. The router is a
+The native UI is a set of React pages backed by an Express
 backend-for-frontend — the only thing browsers ever talk to:
 
 ```text
@@ -140,7 +108,7 @@ The BFF grew to roughly twenty-five endpoints, grouped by concern:
 | Workflow | suggested GitLab issues, repo picker, notification settings |
 
 A full session lifecycle through those pieces — start, interrupt,
-finish, merge:
+finish, merge — is a human-in-the-loop (HITL) agent workflow:
 
 ```text
  user                    portal UI       BFF             agent         GitLab
@@ -163,7 +131,7 @@ finish, merge:
   │                       │               │   reclaims the idle workspace │
 ```
 
-Two architectural decisions carried the most weight:
+### Workspace isolation and bounded reads
 
 **Per-conversation workspaces.** Initially every conversation shared one
 working tree on the persistent volume — so concurrent agents collided.
@@ -171,13 +139,30 @@ The fix mints the conversation UUID in the BFF, hands it to OpenHands as
 the conversation ID, and derives a durable per-session directory
 (`sessions/<uuid>`) from it.
 
-**Bounded everything.** The upstream agent-server rejects event pages
-larger than 100, so transcript reads paginate. The repo list is cached
-for five minutes; the conversation→working-dir scope cache has a TTL and
-a hard cap of 256 entries with oldest-first eviction; the disk-usage
-probe is cached and deduplicated so any number of polling browsers cause
-at most ~2 probes a minute. Nothing grows without bound just because a
-browser polls it.
+```text
+ /home/openhands/
+ ├── .openhands/                    conversations + metadata
+ └── workspace/
+     └── sessions/
+         ├── <conversation-uuid-a>/ repo clone + build output
+         ├── <conversation-uuid-b>/ repo clone + build output
+         └── <conversation-uuid-c>/ repo clone + build output
+
+ one PVC
+ ├── persistent state shared by the service
+ └── isolated working tree per conversation
+```
+
+**Bounded everything.** Nothing grows without bound just because a
+browser polls it:
+
+- Transcript reads paginate because the upstream agent-server rejects
+  event pages larger than 100.
+- The repo list is cached for five minutes.
+- The conversation→working-dir scope cache has a TTL and a hard cap of
+  256 entries with oldest-first eviction.
+- The disk-usage probe is cached and deduplicated, so any number of
+  polling browsers cause at most ~2 probes a minute.
 
 ## Security
 
@@ -239,26 +224,21 @@ The runbook records the gotchas that each cost real time:
    conversation's agent-server WebSocket and posts to Slack on
    finished / error / stuck / awaiting-input transitions.
 
-Deploy day had its own firefights: the all-in-one image exposes a
-**different API surface** than the classic app (`/api/conversations/search`
-with an `X-Session-API-Key` header), so the notifier needed rework; users
-with long identity-provider group lists got a **blank page after login**
-because the session cookie blew past 4KB and drew a 431 upstream (fix:
-`session-cookie-minimal`); and setting a **stable agent-server API key**
-invalidated the auto-generated on-disk key the sidecar was still using —
-one more fix.
+### Capacity tuning
 
-Then real usage started sending capacity feedback, and each response was
+Real usage started sending capacity feedback, and each response was
 driven by measured numbers rather than guesses:
 
-| Resource | Before | After | Trigger |
+| Resource | Before | Trigger | After |
 | --- | --- | --- | --- |
-| CPU / memory limits | 2 CPU / 4Gi | 8 CPU / 16Gi | throttling and OOM kills during `npm install` / build / test |
-| Workspace volume | 20Gi | 200Gi | 84% full with just eight sessions (~2GB each — the clone is ~115MB; the bulk is `node_modules`) |
+| CPU / memory limits | 2 CPU / 4Gi | throttling and OOM kills during `npm install` / build / test | 8 CPU / 16Gi |
+| Workspace volume | 20Gi | 84% full with just eight sessions (~2GB each — the clone is ~115MB; the bulk is `node_modules`) | 200Gi |
 
 The volume resize had a wrinkle: `volumeClaimTemplates` are immutable, so
 growing the disk meant patching the live PVC and recreating the
 StatefulSet with `--cascade=orphan`.
+
+### Janitor sidecar disk cleanup
 
 The sharpest operational edge: conversation transcripts and metadata live
 on the *same* volume as the session workspaces. One runaway
@@ -275,9 +255,6 @@ for two hours, checking every five minutes. Its design details matter:
 - The TTL is clamped to a minimum of five minutes in code, so a typo in
   an env var can't turn the janitor into an immediate
   delete-everything loop.
-- The dry-run flag defaults to off, deliberately: a permanently dry
-  janitor is just the do-nothing reaper again.
-
 ## UX
 
 The property that mattered most for a *remote* coding agent framework:
@@ -288,32 +265,47 @@ and forked. I can kick off a task, close the laptop, get the Slack ping,
 and pick the conversation back up from where it stands — the exact thing
 the local setup couldn't do. Most of the UI leans on this one property.
 
-What a typical session actually feels like:
+What a typical HITL session feels like:
 
-![A session from the person's point of view — clarify, walk away, get pinged, review, merge](/blog/how-openhands-was-integrated/session-journey.svg)
+```text
+ Person                 OpenHands              Slack              GitLab
+   │ start + clarify       │                     │                   │
+   ├──────────────────────►│                     │                   │
+   │◄──── questions ──────►│                     │                   │
+   │ "go"                  │                     │                   │
+   ├──────────────────────►│ long server-side run│                   │
+   │                       ├────────────────────►│ task summary      │
+   │◄───────────────────────────────────────────┤ phone ping        │
+   │ decide: steer again?  │                     │                   │
+   ├──────── yes ─────────►│ continue work       │                   │
+   │                       ├────────────────────────────────────────►│ draft MR
+   │ review + verify + merge────────────────────────────────────────►│
+   ├──────────────────────►│ close session       │                   │
+   │                       │ janitor cleans workspace after ~2h idle │
+```
 
 The portal offers two front doors: an embed of the full upstream UI (file
 browser, VS Code, settings — everything, for free) and a **native
 conversation UI** for the day-to-day loop:
 
 ```text
- ┌─ conversations ──┬─ conversation ──────────────────────┬─ inspect ─────---┐
- │                  │ repo picker ▾          model chip ▾ │ Files            │
- │ 🟢 fix login bug │─────────────────────────────────────│   src/auth/…     │
- │    running…      │ agent: cloned repo…          14:02  │   package.json   │
- │                  │ agent: running tests…        14:07  │                  │
- │ ✅ update docs   │ you:   also update the docs  14:11  │ Changes          │
- │    finished      │ agent: final response ✓      14:19  │   +42 −7 (3 f)   │
- │                  │                                     │                  │
- │ ⏸️ retry flaky   │                                     │ Terminal (ro)    │
- │    paused        │                                     │   $ npm test …   │
- │                  │                                     │                  │
- │ ✅ bump deps     │                                     │ Tasks            │
- │    finished      │                                     │   [x] clone      │
- │                  │                                     │   [x] tests      │
- │ [+ new session]  │─────────────────────────────────────│   [ ] docs       │
- │                  │ prompt…    [pause] [resume]  ▓▓░ 61%│ Skills           │
- └──────────────────┴─────────────────────────────────────┴───────────────---┘
+ ┌─ conversations ────────┬─ conversation ───────────────────────────────┬─ inspect ──────────────┐
+ │                        │ repo picker ▾                   model chip ▾ │ Files                  │
+ │ 🟢 fix login bug       │──────────────────────────────────────────────│   src/auth/…           │
+ │    running…            │ agent: cloned repo…                    14:02 │   package.json         │
+ │                        │ agent: running tests…                  14:07 │                        │
+ │ ✅ update docs         │ you:   also update the docs            14:11 │ Changes                │
+ │    finished            │ agent: final response ✓                14:19 │   +42 −7 (3 files)     │
+ │                        │                                              │                        │
+ │ ⏸️ retry flaky         │                                              │ Terminal (read-only)   │
+ │    paused              │                                              │   $ npm test …         │
+ │                        │                                              │                        │
+ │ ✅ bump deps           │                                              │ Tasks                  │
+ │    finished            │                                              │   [x] clone            │
+ │                        │                                              │   [x] tests            │
+ │ [+ new session]        │──────────────────────────────────────────────│   [ ] docs             │
+ │                        │ prompt…       [pause] [resume]  disk ▓▓░ 61% │ Skills                 │
+ └────────────────────────┴──────────────────────────────────────────────┴────────────────────────┘
 ```
 
 The native UI accumulated:
@@ -334,19 +326,11 @@ The native UI accumulated:
 - A suggested-issues feed of open, unassigned GitLab issues — a "what
   should I hand the agent next?" prompt.
 
-One UX lesson came from deletion: a "Plan mode" (agent proposes before
-acting) and live mode-switching shipped, proved unreliable in practice,
-and were removed. A control that only sometimes works is worse than no
-control.
-
-## Quick build shortcuts
+## Shortcuts Taken - hacky today, build fast, break things
 
 The whole thing shipped fast because of a handful of deliberate
 shortcuts:
 
-- **The auto-approved config path.** The entire deployment lives in the
-  one values file that needs no human review — no shared chart, RBAC, or
-  network-policy changes anywhere.
 - **The all-in-one image.** No sandbox orchestration, no Docker socket,
   no per-conversation container lifecycle to manage.
 - **Sidecars reuse the agent image.** The notifier and janitor need a
@@ -354,9 +338,6 @@ shortcuts:
   build or pull.
 - **Scripts mount from ConfigMaps.** Changing the notifier or janitor is
   a values-file edit and a sync — no image build, no registry.
-- **Iframe the upstream UI.** The full OpenHands frontend (file browser,
-  VS Code, settings) came for free as an embed while the native UI grew
-  incrementally beside it.
 - **Everything over REST.** Settings, secrets, conversations — all
   scriptable, so the local bootstrap, the deployment's MCP registration,
   and the BFF all drive the same API.
@@ -366,6 +347,13 @@ shortcuts:
 - **Poll, don't stream.** The native UI polls every 3 seconds instead of
   managing WebSocket state. The bounded caches in the BFF make this
   cheap; boring beats clever here.
+
+### OpenHands Canvas UI as Backup
+
+The full OpenHands frontend (file browser, VS Code, settings) came for
+free as an embed while the native UI grew incrementally beside it. It is
+still available as a backup when the narrower native UI does not expose a
+capability yet.
 
 ## Betting on open source
 
@@ -387,7 +375,15 @@ but means the OSS surface I depend on gets the least commercial
 attention. If the project's momentum ever concentrates fully on the
 hosted product, I own more of this stack than I'd like.
 
-## Historical phases
+### Relevant OpenHands docs and repos
+
+- [OpenHands documentation](https://docs.openhands.dev/)
+- [Agent Canvas overview](https://docs.openhands.dev/openhands/usage/agent-canvas/overview)
+- [OpenHands main OSS repository](https://github.com/OpenHands/OpenHands)
+- [OpenHands software-agent SDK](https://github.com/OpenHands/software-agent-sdk)
+- [Browser-use guide](https://docs.openhands.dev/sdk/guides/agent-browser-use)
+
+## Historical Timeline Phases
 
 The themes above were built in this order:
 
@@ -400,18 +396,21 @@ The themes above were built in this order:
 
 1. **Local evaluation** — bootstrap script, runbook, Slack notifier, the
    $2.81 measured run.
-2. **Shared deployment** — StatefulSet + oauth2-proxy. *Mistakes:* the
-   notifier targeted the wrong API surface; oversized session cookies
-   431'd at the upstream; introducing the stable API key silently broke
-   the sidecar's file-based auth.
-3. **Native UI + BFF.** *Mistake:* every conversation initially shared
-   one working tree — concurrent agents collided. Per-conversation
-   workspaces should have existed from day one. Also shipped, then
-   deleted, an unreliable Plan mode.
-4. **Capacity & cleanup.** *Mistake:* resources and disk were both
-   undersized and fixed reactively — compute after OOM kills, disk at
-   84% full, and the janitor only after the volume had once hit 94% and
-   been cleared by hand.
+2. **Shared deployment** — StatefulSet + oauth2-proxy.
+   - **Mistake:** the notifier targeted the wrong API surface.
+   - **Mistake:** oversized session cookies 431'd at the upstream.
+   - **Mistake:** introducing the stable API key silently broke the
+     sidecar's file-based auth.
+3. **Native UI + BFF.**
+   - **Mistake:** every conversation initially shared one working tree,
+     so concurrent agents collided. Per-conversation workspaces should
+     have existed from day one.
+   - **Mistake:** I shipped, then deleted, an unreliable Plan mode.
+4. **Capacity & cleanup.**
+   - **Mistake:** compute was undersized and fixed after OOM kills.
+   - **Mistake:** disk was resized reactively at 84% full, and the
+     janitor arrived only after the volume had once hit 94% and been
+     cleared by hand.
 5. **Polish** — per-message model switching, a local CLI for driving
    deployed conversations, transcript fixes, pinned repos.
 
@@ -444,6 +443,8 @@ Things I want to build next, roughly in order of pull:
   or a warm object store the per-session workspaces derive from — would
   cut both startup latency and the disk pressure that motivated the
   200Gi volume and the janitor in the first place.
+- **Keep improving the fundamentals.** I am still working on usability,
+  efficiency, logging, and security improvements.
 
 ## Takeaways
 
