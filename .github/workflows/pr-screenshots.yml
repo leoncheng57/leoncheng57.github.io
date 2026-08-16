@@ -34,7 +34,22 @@ jobs:
         with:
           script: |
             const body = context.payload.pull_request.body ?? '';
-            const match = body.match(/```screenshots\s*\n([\s\S]*?)```/);
+
+            // Prefer the explicitly marked CI region so the machine-parsed
+            // block is isolated from the rest of the description. When both
+            // markers are present, only that region is searched; otherwise
+            // fall back to scanning the whole body (backward compatible).
+            const region = body.match(/<!--\s*ci:screenshots:start\s*-->([\s\S]*?)<!--\s*ci:screenshots:end\s*-->/);
+            if (body.includes('ci:screenshots:start') && !region) {
+              core.setFailed('Found a ci:screenshots:start marker without a matching <!-- ci:screenshots:end --> marker in the pull request description.');
+              return;
+            }
+            const searchText = region ? region[1] : body;
+            if (region) {
+              core.info('Parsing screenshots from the ci:screenshots marker region.');
+            }
+
+            const match = searchText.match(/```screenshots\s*\n([\s\S]*?)```/);
             const targets = [];
 
             if (match) {
@@ -118,7 +133,7 @@ jobs:
                 lines.push(`![${label}](${baseUrl}/${entry.file}?sha=${shortSha})`);
                 lines.push('');
                 if (entry.fullFile) {
-                  lines.push(`<details><summary>Full page — <code>${entry.path}</code></summary>`);
+                  lines.push(`<details><summary>📸 Full page — <code>${entry.path}</code> <em>(click to expand)</em></summary>`);
                   lines.push('');
                   lines.push(`![${label} (full page)](${baseUrl}/${entry.fullFile}?sha=${shortSha})`);
                   lines.push('');
@@ -129,7 +144,7 @@ jobs:
               const updatedAt = new Date().toISOString().replace('T', ' ').slice(0, 16);
               lines.push(`_Captured at ${shortSha}, updated ${updatedAt} UTC. Screenshots refresh on every push and description edit, and are removed when the pull request closes._`);
             } else {
-              lines.push('No screenshots requested. Add a ```screenshots fenced block to the pull request description with one `[with-full:]/path[ -- Title]` line per page to capture. Prefix a path with `with-full:` to also capture the entire scroll height; add ` -- Title` to label what the capture shows.');
+              lines.push('No screenshots requested. Add a ```screenshots fenced block to the pull request description with one `[with-full:]/path[ -- Title]` line per page to capture. Prefix a path with `with-full:` to also capture the entire scroll height; add ` -- Title` to label what the capture shows. Prefer wrapping the block between `<!-- ci:screenshots:start -->` and `<!-- ci:screenshots:end -->` markers under a "## CI: screenshots" heading so the CI-parsed region stands apart from prose.');
             }
             const body = lines.join('\n');
 
