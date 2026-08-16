@@ -39,9 +39,12 @@ jobs:
             // block is isolated from the rest of the description. When both
             // markers are present, only that region is searched; otherwise
             // fall back to scanning the whole body (backward compatible).
-            const region = body.match(/<!--\s*ci:screenshots:start\s*-->([\s\S]*?)<!--\s*ci:screenshots:end\s*-->/);
-            if (body.includes('ci:screenshots:start') && !region) {
-              core.setFailed('Found a ci:screenshots:start marker without a matching <!-- ci:screenshots:end --> marker in the pull request description.');
+            // Markers only count when they sit alone on their own line, so
+            // prose that merely mentions the marker strings is ignored.
+            const startMarker = /^\s*<!--\s*ci:screenshots:start\s*-->\s*$/m;
+            const region = body.match(/^\s*<!--\s*ci:screenshots:start\s*-->\s*$([\s\S]*?)^\s*<!--\s*ci:screenshots:end\s*-->\s*$/m);
+            if (startMarker.test(body) && !region) {
+              core.setFailed('Found a ci:screenshots:start marker without a matching <!-- ci:screenshots:end --> marker on its own line in the pull request description.');
               return;
             }
             const searchText = region ? region[1] : body;

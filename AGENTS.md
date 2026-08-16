@@ -82,7 +82,9 @@ with-full:/blog/some-long-article -- Full article, header through footer
 
 When both markers are present, the workflow only parses inside that region
 (a stray ```screenshots block elsewhere in the description is ignored). A
-bare block without markers still works for backward compatibility.
+bare block without markers still works for backward compatibility. Each
+marker must sit alone on its own line; prose that merely mentions the
+marker strings does not count.
 
 `.github/workflows/pr-screenshots.yml` runs on every PR open, push, and
 description edit. It builds the app, captures each listed path with
