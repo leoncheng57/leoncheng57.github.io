@@ -24,6 +24,9 @@ more than a laptop experiment.
 OpenHands is a specific coding modality: an **interactive, sandboxed**
 agent that I can watch, interrupt, clarify, and steer while it works.
 
+This article is about how I built a custom tool that uses OpenHands for
+cloud-run, interruptible agents.
+
 ## Table of contents
 
 - [Architecture](#architecture)
@@ -34,7 +37,6 @@ agent that I can watch, interrupt, clarify, and steer while it works.
 - [Betting on open source](#betting-on-open-source)
 - [Historical Timeline Phases](#historical-timeline-phases)
 - [Future](#future)
-- [Takeaways](#takeaways)
 
 ## Architecture
 
@@ -446,29 +448,4 @@ Things I want to build next, roughly in order of pull:
 - **Keep improving the fundamentals.** I am still working on usability,
   efficiency, logging, and security improvements.
 
-## Takeaways
-
-1. **Docs-first cadence.** Every stage began or ended with a runbook or
-   design doc. The gotchas that cost hours are written down with their
-   symptoms, so the next person greps the error message and finds the
-   answer.
-2. **A clean maturity ladder.** Local eval with a measured cost → shared
-   deployment with honest tenancy tradeoffs → own UI via a BFF → capacity
-   and cleanup → workflow features. Each rung justified the next; the
-   $3-per-task evaluation came *before* any infrastructure spend.
-3. **Security posture lives in the code.** Fail-closed allowlists, path
-   escape proofs, bounded caches, upstream values treated as untrusted,
-   tokens kept out of URLs, and a refusal to ship arbitrary command
-   execution — mostly documented as comments right where the decision is
-   enforced.
-4. **Capacity decisions from measurements, not vibes.** 84% full, ~2GB
-   per session, under 1GiB of 16Gi memory used — the numbers said disk
-   was the constraint, so disk is what changed.
-5. **Deletion is a feature.** An unreliable mode was removed shortly
-   after shipping, and the janitor exists because cleanup that never
-   deletes anything is indistinguishable from no cleanup at all.
-
-The most transferable lesson: when adopting an OSS agent for team use,
-the agent itself is the easy part. The real work is tenancy, credential
-boundaries, durable workspaces, capacity, and the discipline to write
-down what you decided *not* to build.
+![OpenHands session lifecycle](component:session-storyboard)
