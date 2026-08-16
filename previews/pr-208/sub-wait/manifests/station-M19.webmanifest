@@ -1,0 +1,32 @@
+{
+  "name": "Bowery",
+  "short_name": "Bowery",
+  "description": "Live NYC subway arrival times for Bowery.",
+  "id": "/previews/pr-208/sub-wait/pwa/station/M19",
+  "start_url": "/previews/pr-208/sub-wait/station/M19",
+  "scope": "/previews/pr-208/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-208/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-208/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-208/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
