@@ -69,17 +69,23 @@ const NOTIFY = 'M 782 318 C 820 285, 838 248, 852 212'
 const STEER = 'M 880 540 C 838 534, 810 528, 786 518'
 const STEER_RETURN = 'M 786 540 C 812 548, 842 556, 880 562'
 // GitLab exchange: the hub pushes the draft MR down; the merge comes back up.
-const DRAFT_MR = 'M 466 604 C 442 590, 420 576, 400 562'
-const DRAFT_MR_RETURN = 'M 384 542 C 408 556, 432 572, 452 588'
+const DRAFT_MR = 'M 470 558 C 448 572, 426 582, 406 590'
+const DRAFT_MR_RETURN = 'M 396 570 C 418 560, 442 554, 466 560'
 
 const NODE_TEXT = '#a9b1d6'
 
-// The "server in operation" indicator inside the hub: a green dot tracing a
-// sideways figure-eight (lemniscate), horizontally centered in the square
-// card, above the beat list. Two mirrored bezier loops crossing at the
-// center, closed so the SMIL animation cycles seamlessly.
+// The "server in operation" indicator inside the hub: green dots tracing a
+// sideways figure-eight (lemniscate) in a dedicated band between the card
+// header and the beat list. Two mirrored bezier loops crossing at the
+// center, closed so the SMIL animation cycles seamlessly. Three dots run
+// the same path at different speeds, so they lap and overtake each other.
 const HUB_CX = 600
-const HUB_CY = 368
+const HUB_CY = 366
+const INFINITY_DOTS = [
+  { r: 9, opacity: 1, dur: '4.5s', halo: true },
+  { r: 6, opacity: 0.8, dur: '3.1s', halo: false },
+  { r: 4.5, opacity: 0.6, dur: '6.4s', halo: false },
+]
 const INFINITY_PATH =
   `M ${HUB_CX} ${HUB_CY} ` +
   `C ${HUB_CX + 20} ${HUB_CY - 22}, ${HUB_CX + 45} ${HUB_CY - 22}, ${HUB_CX + 45} ${HUB_CY} ` +
@@ -261,12 +267,12 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
             markerEnd="url(#spoke-arrow)"
           />
           <text
-            x={452}
-            y={634}
+            x={448}
+            y={614}
             textAnchor="middle"
             fontSize={12.5}
             fill="#bb9af7"
-            transform="rotate(32 452 634)"
+            transform="rotate(30 448 614)"
           >
             🔀 draft MR
           </text>
@@ -343,48 +349,55 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
 
         {/* OPENHANDS hub (center) */}
         <motion.g variants={cardVariants}>
-          <rect x={420} y={240} width={360} height={360} rx={16} fill="#24283b" stroke="#9ece6a" strokeWidth={3} />
-          <text x={450} y={296} fontSize={36}>
+          <rect x={420} y={252} width={360} height={300} rx={16} fill="#24283b" stroke="#9ece6a" strokeWidth={3} />
+          <text x={450} y={306} fontSize={36}>
             🙌
           </text>
-          <text x={505} y={288} fontSize={21} fontWeight={700} fill="#9ece6a" letterSpacing={1}>
+          <text x={505} y={298} fontSize={21} fontWeight={700} fill="#9ece6a" letterSpacing={1}>
             OPENHANDS
           </text>
-          <text x={505} y={310} fontSize={13} fill={NODE_TEXT}>
+          <text x={505} y={320} fontSize={13} fill={NODE_TEXT}>
             one service, whole session
           </text>
-          {/* Server-in-operation indicator: green dot tracing an infinity
-              pattern, centered above the beat list. Statically centered
-              under reduced motion. */}
+          {/* Server-in-operation indicator in its own band between the
+              header and the beat list: three green dots of varying speed
+              lapping each other on the infinity path. Static under reduced
+              motion. */}
           {reducedMotion ? (
             <>
               <circle cx={HUB_CX} cy={HUB_CY} r={15} fill="#9ece6a" opacity={0.2} />
               <circle cx={HUB_CX} cy={HUB_CY} r={9} fill="#9ece6a" />
+              <circle cx={HUB_CX - 28} cy={HUB_CY} r={6} fill="#9ece6a" opacity={0.8} />
+              <circle cx={HUB_CX + 28} cy={HUB_CY} r={4.5} fill="#9ece6a" opacity={0.6} />
             </>
           ) : (
-            <>
-              <circle r={15} fill="#9ece6a" opacity={0.2}>
-                <animateMotion dur="4.5s" repeatCount="indefinite" rotate="0" calcMode="paced" path={INFINITY_PATH} />
-              </circle>
-              <circle r={9} fill="#9ece6a">
-                <animateMotion dur="4.5s" repeatCount="indefinite" rotate="0" calcMode="paced" path={INFINITY_PATH} />
-              </circle>
-            </>
+            INFINITY_DOTS.map((dot) => (
+              <g key={dot.dur}>
+                {dot.halo && (
+                  <circle r={15} fill="#9ece6a" opacity={0.2}>
+                    <animateMotion dur={dot.dur} repeatCount="indefinite" rotate="0" calcMode="paced" path={INFINITY_PATH} />
+                  </circle>
+                )}
+                <circle r={dot.r} fill="#9ece6a" opacity={dot.opacity}>
+                  <animateMotion dur={dot.dur} repeatCount="indefinite" rotate="0" calcMode="paced" path={INFINITY_PATH} />
+                </circle>
+              </g>
+            ))
           )}
-          <text x={450} y={470} fontSize={15}>
+          <text x={450} y={442} fontSize={15}>
             💬
           </text>
-          <text x={484} y={470} fontSize={14.5} fill={NODE_TEXT}>
+          <text x={484} y={442} fontSize={14.5} fill={NODE_TEXT}>
             clarify
           </text>
           {reducedMotion ? (
-            <text x={450} y={500} fontSize={15}>
+            <text x={450} y={472} fontSize={15}>
               🚀
             </text>
           ) : (
             <motion.text
               x={450}
-              y={500}
+              y={472}
               fontSize={15}
               animate={{ y: [0, -4, 0], x: [0, 3, 0] }}
               transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
@@ -392,13 +405,13 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
               🚀
             </motion.text>
           )}
-          <text x={484} y={500} fontSize={14.5} fill={NODE_TEXT}>
+          <text x={484} y={472} fontSize={14.5} fill={NODE_TEXT}>
             long run
           </text>
-          <text x={450} y={530} fontSize={15}>
+          <text x={450} y={502} fontSize={15}>
             🧹
           </text>
-          <text x={484} y={530} fontSize={14.5} fill={NODE_TEXT}>
+          <text x={484} y={502} fontSize={14.5} fill={NODE_TEXT}>
             auto-sweep after ~2h
           </text>
         </motion.g>
