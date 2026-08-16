@@ -7,12 +7,24 @@ const ISSUES_API_URL =
 const ISSUES_PAGE_URL =
   'https://github.com/leoncheng57/leoncheng57.github.io/issues'
 
-interface IssueSummary {
+export type Priority = 'high' | 'medium' | 'low' | 'none'
+
+const PRIORITY_LABELS: Record<string, Priority> = {
+  'prio:high': 'high',
+  'prio:medium': 'medium',
+  'prio:low': 'low',
+}
+
+export interface PlanningItem {
   id: number
   number: number
   title: string
   url: string
   labels: string[]
+  isPullRequest: boolean
+  comments: number
+  updatedAt: string
+  priority: Priority
 }
 
 interface GitHubIssue {
@@ -22,34 +34,84 @@ interface GitHubIssue {
   html_url: string
   pull_request?: unknown
   labels?: Array<{ name?: string }>
+  comments?: number
+  updated_at?: string
 }
 
-export function parseOpenIssues(payload: unknown): IssueSummary[] {
+export function parsePlanningItems(payload: unknown): PlanningItem[] {
   if (!Array.isArray(payload)) return []
 
-  return (payload as GitHubIssue[])
-    .filter((item) => !item.pull_request)
-    .map((item) => ({
+  return (payload as GitHubIssue[]).map((item) => {
+    const labels = (item.labels ?? [])
+      .map((label) => label.name ?? '')
+      .filter(Boolean)
+    const priority =
+      labels.map((label) => PRIORITY_LABELS[label]).find(Boolean) ?? 'none'
+
+    return {
       id: item.id,
       number: item.number,
       title: item.title,
       url: item.html_url,
-      labels: (item.labels ?? [])
-        .map((label) => label.name ?? '')
-        .filter(Boolean),
-    }))
+      labels: labels.filter((label) => !(label in PRIORITY_LABELS)),
+      isPullRequest: Boolean(item.pull_request),
+      comments: item.comments ?? 0,
+      updatedAt: item.updated_at ?? '',
+      priority,
+    }
+  })
+}
+
+interface PriorityGroup {
+  priority: Priority
+  heading: string
+  items: PlanningItem[]
+}
+
+const PRIORITY_ORDER: Array<Pick<PriorityGroup, 'priority' | 'heading'>> = [
+  { priority: 'high', heading: 'High priority' },
+  { priority: 'medium', heading: 'Medium priority' },
+  { priority: 'low', heading: 'Low priority' },
+  { priority: 'none', heading: 'Unprioritized' },
+]
+
+export function groupByPriority(items: PlanningItem[]): PriorityGroup[] {
+  return PRIORITY_ORDER.map(({ priority, heading }) => ({
+    priority,
+    heading,
+    items: items.filter((item) => item.priority === priority),
+  })).filter((group) => group.items.length > 0)
+}
+
+export function formatLastActivity(updatedAt: string): string {
+  const timestamp = Date.parse(updatedAt)
+  if (Number.isNaN(timestamp)) return ''
+
+  return new Date(timestamp).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
+  })
 }
 
 type LoadState = 'loading' | 'error' | 'ready'
 
+const PRIORITY_BADGE_CLASS: Record<Priority, string> = {
+  high: 'priorityHigh',
+  medium: 'priorityMedium',
+  low: 'priorityLow',
+  none: 'priorityNone',
+}
+
 export default function OpenIssues(): ReactElement {
   const [loadState, setLoadState] = useState<LoadState>('loading')
-  const [issues, setIssues] = useState<IssueSummary[]>([])
+  const [items, setItems] = useState<PlanningItem[]>([])
 
   useEffect(() => {
     const controller = new AbortController()
 
-    async function loadIssues(): Promise<void> {
+    async function loadItems(): Promise<void> {
       try {
         const response = await fetch(ISSUES_API_URL, {
           signal: controller.signal,
@@ -58,14 +120,14 @@ export default function OpenIssues(): ReactElement {
         if (!response.ok) throw new Error(`HTTP ${response.status}`)
 
         const payload: unknown = await response.json()
-        setIssues(parseOpenIssues(payload))
+        setItems(parsePlanningItems(payload))
         setLoadState('ready')
       } catch {
         if (!controller.signal.aborted) setLoadState('error')
       }
     }
 
-    void loadIssues()
+    void loadItems()
     return () => controller.abort()
   }, [])
 
@@ -82,29 +144,60 @@ export default function OpenIssues(): ReactElement {
     )
   }
 
-  if (issues.length === 0) {
-    return <p className={styles.issuesStatus}>No open issues — the backlog is clear.</p>
+  if (items.length === 0) {
+    return (
+      <p className={styles.issuesStatus}>No open issues — the backlog is clear.</p>
+    )
   }
 
+  const groups = groupByPriority(items)
+
   return (
-    <ul className={styles.issueList} aria-label="Open GitHub issues">
-      {issues.map((issue) => (
-        <li key={issue.id} className={styles.issueItem}>
-          <a href={issue.url}>
-            <span className={styles.issueNumber}>#{issue.number}</span>{' '}
-            {issue.title}
-          </a>
-          {issue.labels.length > 0 && (
-            <span className={styles.issueLabels}>
-              {issue.labels.map((label) => (
-                <span key={label} className={styles.issueLabel}>
-                  {label}
-                </span>
-              ))}
+    <div className={styles.priorityGroups} aria-label="Open GitHub issues">
+      {groups.map((group) => (
+        <section key={group.priority} className={styles.priorityGroup}>
+          <h3 className={styles.priorityHeading}>
+            <span
+              className={`${styles.priorityBadge} ${styles[PRIORITY_BADGE_CLASS[group.priority]]}`}
+            >
+              {group.heading}
             </span>
-          )}
-        </li>
+            <span className={styles.priorityCount}>{group.items.length}</span>
+          </h3>
+          <ul className={styles.issueList} aria-label={group.heading}>
+            {group.items.map((item) => (
+              <li key={item.id} className={styles.issueItem}>
+                <span className={styles.issueRow}>
+                  <a href={item.url}>
+                    <span className={styles.issueNumber}>#{item.number}</span>{' '}
+                    {item.title}
+                  </a>
+                  {item.isPullRequest && (
+                    <span className={styles.prBadge}>PR</span>
+                  )}
+                  {item.labels.length > 0 && (
+                    <span className={styles.issueLabels}>
+                      {item.labels.map((label) => (
+                        <span key={label} className={styles.issueLabel}>
+                          {label}
+                        </span>
+                      ))}
+                    </span>
+                  )}
+                </span>
+                <span className={styles.issueMeta}>
+                  {item.comments === 1
+                    ? '1 comment'
+                    : `${item.comments} comments`}
+                  {formatLastActivity(item.updatedAt) && (
+                    <> · last activity {formatLastActivity(item.updatedAt)}</>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
       ))}
-    </ul>
+    </div>
   )
 }
