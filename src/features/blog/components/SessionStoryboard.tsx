@@ -1,14 +1,20 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import type { ReactElement, ReactNode } from 'react'
+import type { ReactElement } from 'react'
 
 /**
- * Animated "day in the life" storyboard for the OpenHands article opener.
+ * Animated hub-and-spoke storyboard for the OpenHands article opener.
  *
- * Six scene cards on a winding dashed road, with small ambient animations:
- * a bobbing rocket, rising coffee steam, a pulsing phone ping, marching
- * road dashes, and a glowing DONE dot. All ambient loops are disabled when
- * the user prefers reduced motion; the entrance stagger still settles into
- * the full static composition.
+ * The OpenHands service sits in the center; the person's day is a winding
+ * road orbiting it clockwise (START → YOU → WALK AWAY → DECIDE → GITLAB →
+ * DONE). Dashed spokes carry the service interactions: the clarify chat
+ * loop, the Slack notify ping, the "steer again" resume, and the draft MR.
+ *
+ * Ambient animations: a traveler dot riding the orbit (SMIL animateMotion —
+ * deterministic across browsers for path-following), marching road dashes,
+ * a bobbing rocket in the hub, coffee steam, a ping ripple on the notify
+ * spoke, a pulsing chat loop, and a glowing DONE dot. Every loop is
+ * disabled under prefers-reduced-motion; the entrance stagger still
+ * settles into the full static composition.
  *
  * Embedded from markdown via `![alt](component:session-storyboard)` —
  * see the img override in MarkdownArticle.
@@ -18,81 +24,28 @@ interface SessionStoryboardProps {
   ariaLabel: string
 }
 
-interface SceneCard {
-  x: number
-  y: number
-  accent: string
-  emoji: string
-  title: string
-  lines: string[]
-}
+// The person's day: one winding road orbiting the hub clockwise.
+const ORBIT =
+  'M 36 96 C 90 130, 140 150, 195 165 ' +
+  'C 300 90, 380 150, 470 100 C 560 60, 700 160, 800 120 C 880 95, 950 140, 990 195 ' +
+  'C 1060 260, 1100 300, 1070 380 C 1040 460, 1060 500, 990 565 ' +
+  'C 900 660, 800 640, 700 690 C 600 735, 480 660, 380 660 C 330 660, 300 630, 270 610 ' +
+  'C 200 640, 140 660, 96 700'
 
-const CARD_W = 300
-const CARD_H = 158
-const CARDS: SceneCard[] = [
-  {
-    x: 60,
-    y: 92,
-    accent: '#7aa2f7',
-    emoji: '🧑‍💻',
-    title: 'CLARIFY',
-    lines: ['chat with the agent', 'to shape the idea'],
-  },
-  {
-    x: 450,
-    y: 92,
-    accent: '#9ece6a',
-    emoji: '🚀',
-    title: 'LONG RUN',
-    lines: ['agent works', 'server-side'],
-  },
-  {
-    x: 840,
-    y: 92,
-    accent: '#e0af68',
-    emoji: '☕',
-    title: 'WALK AWAY',
-    lines: ['coffee break —', '📱 Slack pings the phone'],
-  },
-  {
-    x: 840,
-    y: 352,
-    accent: '#f7768e',
-    emoji: '🤔',
-    title: 'DECIDE',
-    lines: ['read the summary:', 'worth going back?'],
-  },
-  {
-    x: 450,
-    y: 352,
-    accent: '#bb9af7',
-    emoji: '🔍',
-    title: 'REVIEW & MERGE',
-    lines: ['verify the draft MR,', 'merge it in GitLab'],
-  },
-  {
-    x: 60,
-    y: 352,
-    accent: '#2ac3de',
-    emoji: '🧹',
-    title: 'CLOSE',
-    lines: ['session ends — workspace', 'swept after ~2h idle'],
-  },
-]
+// Spokes: what the service does, drawn hub ↔ satellite.
+const CHAT_TO_HUB = 'M 240 225 C 300 260, 350 290, 412 320'
+const CHAT_TO_YOU = 'M 398 342 C 330 315, 270 275, 218 235'
+const NOTIFY = 'M 782 318 C 820 285, 838 248, 852 212'
+const STEER = 'M 880 540 C 810 505, 775 470, 742 496'
+const DRAFT_MR = 'M 470 492 C 430 520, 395 535, 348 552'
 
-// One smooth serpentine through the card centers, row 1 left→right then
-// row 2 right→left, ending at the DONE dot.
-const ROAD =
-  'M 34 171 H 210 H 990 C 1130 171, 1130 431, 990 431 H 210 C 150 431, 120 466, 116 500'
-
-// Dashed loop-back from DECIDE up to LONG RUN ("steer again").
-const LOOP_BACK = 'M 880 352 C 790 285, 700 248, 628 210'
+const NODE_TEXT = '#a9b1d6'
 
 export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps): ReactElement {
   const reducedMotion = useReducedMotion()
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 18 },
+    hidden: { opacity: 0, y: 16 },
     show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
   }
 
@@ -102,24 +55,31 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
       aria-label={ariaLabel}
       initial={reducedMotion ? 'show' : 'hidden'}
       whileInView="show"
-      viewport={{ once: true, amount: 0.25 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ staggerChildren: 0.12 }}
       style={{ width: '100%', maxWidth: 980 }}
     >
       <svg
-        viewBox="0 0 1200 578"
+        viewBox="0 0 1200 764"
         width="100%"
         style={{ display: 'block', background: '#1a1b26', borderRadius: 16 }}
         fontFamily="Inter, system-ui, sans-serif"
       >
+        <defs>
+          <marker id="spoke-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M 0 0 L 7 3 L 0 6 Z" fill="context-stroke" />
+          </marker>
+        </defs>
+
         {/* Title */}
-        <text x={600} y={46} textAnchor="middle" fontSize={22} fontWeight={600} fill="#c0caf5">
+        <text x={600} y={44} textAnchor="middle" fontSize={22} fontWeight={600} fill="#c0caf5">
           A session, from idea to merged MR
         </text>
 
-        {/* Winding road (marching dashes) */}
+        {/* The winding orbit (marching dashes) */}
         <motion.path
-          d={ROAD}
+          id="orbit"
+          d={ORBIT}
           fill="none"
           stroke="#565f89"
           strokeWidth={3}
@@ -133,43 +93,138 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
               })}
         />
 
-        {/* Loop-back branch: decide → long run */}
-        <path
-          d={LOOP_BACK}
-          fill="none"
-          stroke="#f7768e"
-          strokeWidth={2}
-          strokeDasharray="4 6"
-          strokeLinecap="round"
-          opacity={0.75}
-          markerEnd="url(#loop-arrow)"
-        />
-        <defs>
-          <marker id="loop-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-            <path d="M 0 0 L 7 3 L 0 6 Z" fill="#f7768e" />
-          </marker>
-        </defs>
-        <text
-          x={718}
-          y={303}
-          textAnchor="middle"
-          fontSize={12}
-          fill="#f7768e"
-          transform="rotate(-25 718 303)"
-        >
-          steer again ↩
-        </text>
+        {/* Traveler riding the orbit. SMIL follows the path natively and is
+            rendered only when motion is allowed. */}
+        {!reducedMotion && (
+          <g>
+            <circle r={9} fill="#7aa2f7" opacity={0.25}>
+              <animateMotion dur="11s" repeatCount="indefinite" rotate="0">
+                <mpath href="#orbit" />
+              </animateMotion>
+            </circle>
+            <circle r={5} fill="#7aa2f7">
+              <animateMotion dur="11s" repeatCount="indefinite" rotate="0">
+                <mpath href="#orbit" />
+              </animateMotion>
+            </circle>
+          </g>
+        )}
 
-        {/* START dot */}
-        <circle cx={34} cy={171} r={7} fill="#9ece6a" />
-        <text x={34} y={143} textAnchor="middle" fontSize={12} fontWeight={600} fill="#9ece6a">
+        {/* Spokes */}
+        <motion.g
+          variants={cardVariants}
+          {...(reducedMotion
+            ? {}
+            : {
+                animate: { opacity: [0.55, 1, 0.55] },
+                transition: { duration: 2.2, repeat: Infinity, ease: 'easeInOut' },
+              })}
+        >
+          <path
+            d={CHAT_TO_HUB}
+            fill="none"
+            stroke="#7aa2f7"
+            strokeWidth={2}
+            strokeDasharray="5 6"
+            markerEnd="url(#spoke-arrow)"
+          />
+          <path
+            d={CHAT_TO_YOU}
+            fill="none"
+            stroke="#7aa2f7"
+            strokeWidth={2}
+            strokeDasharray="5 6"
+            markerEnd="url(#spoke-arrow)"
+          />
+          <text x={252} y={296} fontSize={12.5} fill="#7aa2f7" transform="rotate(22 252 296)">
+            💬 chat to clarify
+          </text>
+        </motion.g>
+
+        <motion.g variants={cardVariants}>
+          <path
+            d={NOTIFY}
+            fill="none"
+            stroke="#e0af68"
+            strokeWidth={2}
+            strokeDasharray="5 6"
+            markerEnd="url(#spoke-arrow)"
+          />
+          <text
+            x={788}
+            y={272}
+            textAnchor="middle"
+            fontSize={12.5}
+            fill="#e0af68"
+            transform="rotate(-40 788 272)"
+          >
+            📱 notify
+          </text>
+          {!reducedMotion &&
+            [0, 1].map((i) => (
+              <motion.circle
+                key={i}
+                cx={852}
+                cy={210}
+                fill="none"
+                stroke="#e0af68"
+                strokeWidth={2}
+                animate={{ r: [5, 20], opacity: [0.7, 0] }}
+                transition={{ duration: 1.8, delay: i * 0.9, repeat: Infinity, ease: 'easeOut' }}
+              />
+            ))}
+        </motion.g>
+
+        <motion.g variants={cardVariants}>
+          <path
+            d={STEER}
+            fill="none"
+            stroke="#f7768e"
+            strokeWidth={2}
+            strokeDasharray="5 6"
+            markerEnd="url(#spoke-arrow)"
+          />
+          <text
+            x={800}
+            y={540}
+            textAnchor="middle"
+            fontSize={12.5}
+            fill="#f7768e"
+            transform="rotate(16 800 540)"
+          >
+            steer again ↩
+          </text>
+        </motion.g>
+
+        <motion.g variants={cardVariants}>
+          <path
+            d={DRAFT_MR}
+            fill="none"
+            stroke="#bb9af7"
+            strokeWidth={2}
+            strokeDasharray="5 6"
+            markerEnd="url(#spoke-arrow)"
+          />
+          <text
+            x={372}
+            y={502}
+            textAnchor="middle"
+            fontSize={12.5}
+            fill="#bb9af7"
+            transform="rotate(24 372 502)"
+          >
+            🔀 draft MR
+          </text>
+        </motion.g>
+
+        {/* START / DONE */}
+        <circle cx={36} cy={96} r={7} fill="#9ece6a" />
+        <text x={36} y={74} textAnchor="middle" fontSize={12} fontWeight={600} fill="#9ece6a">
           START
         </text>
-
-        {/* DONE dot with glow pulse */}
         <motion.circle
-          cx={116}
-          cy={514}
+          cx={96}
+          cy={700}
           fill="#bb9af7"
           opacity={0.35}
           {...(reducedMotion
@@ -179,103 +234,136 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
                 transition: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' },
               })}
         />
-        <circle cx={116} cy={514} r={7} fill="#bb9af7" />
-        <text x={150} y={519} fontSize={12} fontWeight={600} fill="#bb9af7">
+        <circle cx={96} cy={700} r={7} fill="#bb9af7" />
+        <text x={96} y={734} textAnchor="middle" fontSize={12} fontWeight={600} fill="#bb9af7">
           DONE ✅
         </text>
+        <text x={96} y={752} textAnchor="middle" fontSize={11.5} fill={NODE_TEXT}>
+          close the session
+        </text>
 
-        {/* Scene cards */}
-        {CARDS.map((card) => (
-          <motion.g key={card.title} variants={cardVariants}>
-            <rect
-              x={card.x}
-              y={card.y}
-              width={CARD_W}
-              height={CARD_H}
-              rx={14}
-              fill="#24283b"
-              stroke={card.accent}
-              strokeWidth={2}
-            />
-            {card.emoji === '🚀' && !reducedMotion ? (
-              <motion.text
-                x={card.x + 24}
-                y={card.y + 52}
-                fontSize={34}
-                animate={{ y: [0, -6, 0], x: [0, 3, 0] }}
-                transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                {card.emoji}
-              </motion.text>
-            ) : (
-              <text x={card.x + 24} y={card.y + 52} fontSize={34}>
-                {card.emoji}
-              </text>
-            )}
-            {card.emoji === '☕' && !reducedMotion && (
-              <StoryboardSteam x={card.x + 44} y={card.y + 16} />
-            )}
-            {card.emoji === '🤔' && !reducedMotion && (
-              <>
-                {[0, 1].map((i) => (
-                  <motion.circle
-                    key={i}
-                    cx={card.x + CARD_W - 34}
-                    cy={card.y + 40}
-                    fill="none"
-                    stroke="#f7768e"
-                    strokeWidth={2}
-                    animate={{ r: [6, 20], opacity: [0.7, 0] }}
-                    transition={{ duration: 1.8, delay: i * 0.9, repeat: Infinity, ease: 'easeOut' }}
-                  />
-                ))}
-                <text x={card.x + CARD_W - 44} y={card.y + 47} fontSize={18}>
-                  📱
-                </text>
-              </>
-            )}
-            <text
-              x={card.x + 72}
-              y={card.y + 46}
-              fontSize={17}
-              fontWeight={700}
-              fill={card.accent}
-              letterSpacing={1}
-            >
-              {card.title}
-            </text>
-            {card.lines.map((line, i) => (
-              <text key={line} x={card.x + 24} y={card.y + 92 + i * 24} fontSize={14.5} fill="#a9b1d6">
-                {line}
-              </text>
+        {/* YOU (top-left) */}
+        <motion.g variants={cardVariants}>
+          <rect x={70} y={110} width={250} height={112} rx={14} fill="#24283b" stroke="#7aa2f7" strokeWidth={2} />
+          <text x={95} y={162} fontSize={30}>
+            🧑‍💻
+          </text>
+          <text x={142} y={156} fontSize={17} fontWeight={700} fill="#7aa2f7" letterSpacing={1}>
+            YOU
+          </text>
+          <text x={95} y={200} fontSize={14.5} fill={NODE_TEXT}>
+            the idea
+          </text>
+        </motion.g>
+
+        {/* WALK AWAY (top-right) */}
+        <motion.g variants={cardVariants}>
+          <rect x={860} y={130} width={280} height={132} rx={14} fill="#24283b" stroke="#e0af68" strokeWidth={2} />
+          <text x={885} y={182} fontSize={30}>
+            ☕
+          </text>
+          {!reducedMotion &&
+            [0, 1, 2].map((i) => (
+              <motion.path
+                key={i}
+                d={`M ${901 + i * 9} 158 q 4 -6 0 -12`}
+                fill="none"
+                stroke="#e0af68"
+                strokeWidth={2}
+                strokeLinecap="round"
+                animate={{ y: [-2, -12], opacity: [0.7, 0] }}
+                transition={{ duration: 1.9, delay: i * 0.55, repeat: Infinity, ease: 'easeInOut' }}
+              />
             ))}
-          </motion.g>
-        ))}
+          <text x={936} y={176} fontSize={17} fontWeight={700} fill="#e0af68" letterSpacing={1}>
+            WALK AWAY
+          </text>
+          <text x={885} y={216} fontSize={14.5} fill={NODE_TEXT}>
+            coffee break —
+          </text>
+          <text x={885} y={240} fontSize={14.5} fill={NODE_TEXT}>
+            📱 Slack pings the phone
+          </text>
+        </motion.g>
+
+        {/* OPENHANDS hub (center) */}
+        <motion.g variants={cardVariants}>
+          <rect x={420} y={280} width={360} height={212} rx={16} fill="#24283b" stroke="#9ece6a" strokeWidth={3} />
+          <text x={450} y={334} fontSize={36}>
+            🙌
+          </text>
+          <text x={505} y={326} fontSize={21} fontWeight={700} fill="#9ece6a" letterSpacing={1}>
+            OPENHANDS
+          </text>
+          <text x={505} y={348} fontSize={13} fill={NODE_TEXT}>
+            one service, whole session
+          </text>
+          <text x={450} y={398} fontSize={15}>
+            💬
+          </text>
+          <text x={484} y={398} fontSize={14.5} fill={NODE_TEXT}>
+            clarify
+          </text>
+          {reducedMotion ? (
+            <text x={450} y={428} fontSize={15}>
+              🚀
+            </text>
+          ) : (
+            <motion.text
+              x={450}
+              y={428}
+              fontSize={15}
+              animate={{ y: [0, -4, 0], x: [0, 3, 0] }}
+              transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              🚀
+            </motion.text>
+          )}
+          <text x={484} y={428} fontSize={14.5} fill={NODE_TEXT}>
+            long run
+          </text>
+          <text x={450} y={458} fontSize={15}>
+            🧹
+          </text>
+          <text x={484} y={458} fontSize={14.5} fill={NODE_TEXT}>
+            auto-sweep after ~2h
+          </text>
+        </motion.g>
+
+        {/* DECIDE (bottom-right) */}
+        <motion.g variants={cardVariants}>
+          <rect x={860} y={500} width={280} height={132} rx={14} fill="#24283b" stroke="#f7768e" strokeWidth={2} />
+          <text x={885} y={552} fontSize={30}>
+            🤔
+          </text>
+          <text x={932} y={546} fontSize={17} fontWeight={700} fill="#f7768e" letterSpacing={1}>
+            DECIDE
+          </text>
+          <text x={885} y={586} fontSize={14.5} fill={NODE_TEXT}>
+            read the summary —
+          </text>
+          <text x={885} y={610} fontSize={14.5} fill={NODE_TEXT}>
+            worth going back?
+          </text>
+        </motion.g>
+
+        {/* GITLAB (bottom-left) */}
+        <motion.g variants={cardVariants}>
+          <rect x={140} y={540} width={262} height={148} rx={14} fill="#24283b" stroke="#bb9af7" strokeWidth={2} />
+          <text x={165} y={592} fontSize={30}>
+            🦊
+          </text>
+          <text x={212} y={586} fontSize={17} fontWeight={700} fill="#bb9af7" letterSpacing={1}>
+            GITLAB
+          </text>
+          <text x={165} y={626} fontSize={14.5} fill={NODE_TEXT}>
+            review the draft MR,
+          </text>
+          <text x={165} y={650} fontSize={14.5} fill={NODE_TEXT}>
+            verify &amp; merge
+          </text>
+        </motion.g>
       </svg>
     </motion.div>
-  )
-}
-
-interface SteamProps {
-  x: number
-  y: number
-}
-
-function StoryboardSteam({ x, y }: SteamProps): ReactNode {
-  return (
-    <>
-      {[0, 1, 2].map((i) => (
-        <motion.path
-          key={i}
-          d={`M ${x + i * 9} ${y + 16} q 4 -6 0 -12`}
-          fill="none"
-          stroke="#e0af68"
-          strokeWidth={2}
-          strokeLinecap="round"
-          animate={{ y: [-2, -12], opacity: [0.7, 0] }}
-          transition={{ duration: 1.9, delay: i * 0.55, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      ))}
-    </>
   )
 }
