@@ -19,12 +19,13 @@ export default function PlanningRoute(): ReactElement {
           <h1>Project planning</h1>
           <p>
             Work on this site is planned in the open. These are the GitHub
-            issues currently on the backlog, fetched live from the GitHub API.
+            issues and pull requests currently on the backlog, grouped by
+            priority and fetched live from the GitHub API.
           </p>
         </header>
 
         <section className={styles.section} aria-labelledby="issues-heading">
-          <h2 id="issues-heading">Open issues</h2>
+          <h2 id="issues-heading">Open issues &amp; pull requests</h2>
           <OpenIssues />
         </section>
       </main>
