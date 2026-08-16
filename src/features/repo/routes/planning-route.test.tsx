@@ -1,8 +1,10 @@
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '../../../App'
 import {
+  extractLinkedItems,
+  formatActiveDays,
   formatRelativeDays,
   pickLabelTextColor,
   toDescriptionPreview,
@@ -18,7 +20,7 @@ const sampleItems = [
     number: 84,
     title: 'Design: Change the website theme',
     html_url: 'https://github.com/leoncheng57/leoncheng57.github.io/issues/84',
-    body: '- add a **dark** theme\n- see [mockups](https://example.com)',
+    body: '- add a **dark** theme\n- see [mockups](https://example.com)\n- related to #95',
     labels: [
       { name: 'app:platform', color: 'aaaaaa' },
       { name: 'prio:high', color: 'b60205' },
@@ -141,23 +143,27 @@ describe('repo planning route', () => {
     ).toBeInTheDocument()
     expect(screen.getByText('Nothing here yet.')).toBeInTheDocument()
 
-    // Priority labels drive grouping instead of showing as pills.
-    expect(screen.queryByText('prio:high')).not.toBeInTheDocument()
+    // Priority labels drive grouping instead of showing as card pills.
+    expect(within(high).queryByText('prio:high')).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('checkbox', { name: 'prio:high' })
+    ).toBeInTheDocument()
   })
 
   it('shows comment counts and relative day counts for opened/active', async () => {
     renderPlanning()
 
-    expect(
-      await screen.findByText('3 comments · opened 12d ago')
-    ).toBeInTheDocument()
-    expect(screen.getByText('active 3d ago')).toBeInTheDocument()
+    expect(await screen.findByText('3 comments')).toBeInTheDocument()
+    expect(screen.getByText('opened 12d ago')).toBeInTheDocument()
+    expect(screen.getByText('active 3 days ago')).toBeInTheDocument()
 
-    expect(screen.getByText('1 comment · opened today')).toBeInTheDocument()
-    expect(screen.getByText('active today')).toBeInTheDocument()
+    expect(screen.getByText('1 comment')).toBeInTheDocument()
+    expect(screen.getByText('opened today')).toBeInTheDocument()
+    expect(screen.getByText('active 0 days ago')).toBeInTheDocument()
 
-    expect(screen.getByText('0 comments · opened 27d ago')).toBeInTheDocument()
-    expect(screen.getByText('active 20d ago')).toBeInTheDocument()
+    expect(screen.getByText('0 comments')).toBeInTheDocument()
+    expect(screen.getByText('opened 27d ago')).toBeInTheDocument()
+    expect(screen.getByText('active 20 days ago')).toBeInTheDocument()
   })
 
   it('shows a cleaned, truncated description preview', async () => {
@@ -165,7 +171,7 @@ describe('repo planning route', () => {
 
     // Markdown list markers, bold markers, and link targets are stripped.
     expect(
-      await screen.findByText('add a dark theme see mockups')
+      await screen.findByText('add a dark theme see mockups related to #95')
     ).toBeInTheDocument()
 
     // Long bodies are truncated with an ellipsis.
@@ -174,10 +180,58 @@ describe('repo planning route', () => {
     expect(truncated.textContent?.length).toBeLessThanOrEqual(241)
   })
 
+  it('expands an issue to show its full description', async () => {
+    renderPlanning()
+
+    const low = await screen.findByRole('list', { name: 'Low priority' })
+    const preview = within(low).getByText(/^Goal A very long description/)
+    expect(preview.textContent?.endsWith('…')).toBe(true)
+
+    fireEvent.click(within(low).getByRole('button', { name: 'See more...' }))
+
+    expect(
+      within(low).getByRole('button', { name: 'Show less' })
+    ).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      within(low).getByText(/^Goal A very long description/).textContent?.length
+    ).toBeGreaterThan(241)
+  })
+
+  it('searches item text and filters by multiple labels', async () => {
+    renderPlanning()
+
+    const search = await screen.findByRole('searchbox', {
+      name: 'Search title, number, or description',
+    })
+    fireEvent.change(search, { target: { value: 'pull request shown' } })
+    expect(await screen.findByText('Showing 1 of 3 open items')).toBeInTheDocument()
+    expect(
+      screen.queryByText('Design: Change the website theme')
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }))
+    fireEvent.click(screen.getByRole('checkbox', { name: 'app:platform' }))
+    fireEvent.click(screen.getByRole('checkbox', { name: 'prio:high' }))
+    expect(await screen.findByText('Showing 1 of 3 open items')).toBeInTheDocument()
+    expect(screen.getByText('Design: Change the website theme')).toBeInTheDocument()
+  })
+
+  it('shows links to related issues and pull requests', async () => {
+    renderPlanning()
+
+    expect(
+      await screen.findByRole('link', { name: 'issue #95' })
+    ).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/leoncheng57.github.io/issues/95'
+    )
+  })
+
   it('applies GitHub label colors to label pills', async () => {
     renderPlanning()
 
-    const pill = await screen.findByText('app:platform')
+    const high = await screen.findByRole('list', { name: 'High priority' })
+    const pill = within(high).getByText('app:platform')
     expect(pill).toHaveStyle({ backgroundColor: '#aaaaaa' })
   })
 
@@ -213,6 +267,32 @@ describe('planning helpers', () => {
     expect(formatRelativeDays('2026-08-04T10:00:00Z', now)).toBe('12d ago')
     expect(formatRelativeDays('2026-08-17T13:00:00Z', now)).toBe('today')
     expect(formatRelativeDays('not a date', now)).toBe('')
+  })
+
+  it('formatActiveDays includes zero and pluralizes days', () => {
+    const now = Date.parse('2026-08-16T12:00:00Z')
+    expect(formatActiveDays('2026-08-16T09:00:00Z', now)).toBe('0 days ago')
+    expect(formatActiveDays('2026-08-15T11:00:00Z', now)).toBe('1 day ago')
+  })
+
+  it('extractLinkedItems finds local and full GitHub references', () => {
+    expect(
+      extractLinkedItems(
+        'See #84 and https://github.com/leoncheng57/leoncheng57.github.io/pull/91',
+        95
+      )
+    ).toEqual([
+      {
+        number: 91,
+        type: 'pull request',
+        url: 'https://github.com/leoncheng57/leoncheng57.github.io/pull/91',
+      },
+      {
+        number: 84,
+        type: 'issue',
+        url: 'https://github.com/leoncheng57/leoncheng57.github.io/issues/84',
+      },
+    ])
   })
 
   it('pickLabelTextColor chooses readable text for light and dark labels', () => {
