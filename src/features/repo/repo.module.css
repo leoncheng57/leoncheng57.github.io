@@ -153,10 +153,43 @@
   gap: 0.5rem;
 }
 
+.issueRow > a {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .issueNumber {
   color: var(--text-muted);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.85em;
+}
+
+.issueIdentity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.itemTypeIcon {
+  width: 0.9rem;
+  height: 0.9rem;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  vertical-align: -0.12em;
+}
+
+.itemTypeIconDot {
+  fill: currentColor;
+  stroke: none;
+}
+
+.issueTitle {
+  font-weight: 700;
 }
 
 .issueLabels {
@@ -167,22 +200,32 @@
   margin-left: auto;
 }
 
+.issueDescription {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
 .issueMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
   color: var(--text-muted);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.72rem;
 }
 
-.prBadge {
-  display: inline-flex;
-  padding: 0.14rem 0.4rem;
-  border: 1px solid color-mix(in srgb, var(--link-color) 55%, transparent);
-  border-radius: 0.35rem;
-  color: var(--link-color);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+.issueMetaRight {
+  margin-left: auto;
+  text-align: right;
 }
 
 .priorityGroups {
@@ -236,14 +279,37 @@
   font-size: 0.78rem;
 }
 
+.priorityEmpty {
+  margin: 0.75rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
 .issueLabel {
   display: inline-flex;
   padding: 0.18rem 0.55rem;
-  border: 1px solid color-mix(in srgb, var(--text-muted) 42%, transparent);
+  border: 1px solid rgba(0, 0, 0, 0.16);
   border-radius: 999px;
   color: var(--text-muted);
   font-size: 0.72rem;
+  font-weight: 600;
   line-height: 1.3;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .issueItem {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .issueRow > a {
+    flex-basis: 100%;
+  }
+
+  .issueLabels {
+    justify-content: flex-start;
+    margin-left: 0;
+  }
 }
 
 .cardList {
