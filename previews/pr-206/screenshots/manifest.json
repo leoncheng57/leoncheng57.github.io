@@ -2,11 +2,13 @@
   {
     "path": "/blog",
     "file": "blog.png",
-    "full": false
+    "full": false,
+    "title": null
   },
   {
     "path": "/blog/how-openhands-was-integrated",
     "file": "blog--how-openhands-was-integrated--full.png",
-    "full": true
+    "full": true,
+    "title": null
   }
 ]
