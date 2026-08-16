@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/blog",
+    "file": "blog.png",
+    "full": false
+  },
+  {
+    "path": "/blog/how-openhands-was-integrated",
+    "file": "blog--how-openhands-was-integrated--full.png",
+    "full": true
+  }
+]
