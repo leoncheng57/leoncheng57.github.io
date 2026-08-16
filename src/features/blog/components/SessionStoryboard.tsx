@@ -32,6 +32,34 @@ const ORBIT =
   'C 900 660, 800 640, 700 690 C 600 735, 480 660, 380 660 C 330 660, 300 630, 270 610 ' +
   'C 200 640, 140 660, 96 700'
 
+// The traveler acts the story out on its own composite path: it rides the
+// orbit but detours through the clarify chat loop three times, takes one
+// lap of the coffee circle while the run continues, and bounces DECIDE ↔
+// hub three times on the steer spoke before heading to GitLab. Written as
+// one path so a single SMIL animateMotion (calcMode="paced" → constant
+// walking speed) can drive it.
+const CHAT_OUT = 'C 300 260, 350 290, 412 320'
+const CHAT_BACK = 'C 330 315, 270 275, 218 235'
+const CHAT_OUT_AGAIN = 'C 300 262, 352 292, 412 320'
+const STEER_OUT = 'C 920 545, 810 505, 742 496'
+const STEER_BACK = 'C 800 520, 900 555, 990 565'
+const TRAVELER_PATH =
+  'M 36 96 C 90 130, 140 150, 195 165 ' +
+  // clarify chat loop ×3
+  `${CHAT_OUT} ${CHAT_BACK} ${CHAT_OUT_AGAIN} ${CHAT_BACK} ${CHAT_OUT_AGAIN} ${CHAT_BACK} ` +
+  // rejoin the orbit over the top crest
+  'C 230 170, 260 110, 320 100 C 400 145, 430 120, 470 100 ' +
+  'C 560 60, 700 160, 800 120 C 880 95, 950 140, 990 195 ' +
+  // one lap of the coffee circle
+  'C 1010 230, 1005 250, 1005 275 ' +
+  'A 30 30 0 1 1 1005 335 A 30 30 0 1 1 1005 275 ' +
+  'C 1030 320, 1060 340, 1070 380 C 1040 460, 1060 500, 990 565 ' +
+  // steer-again loop ×3
+  `${STEER_OUT} ${STEER_BACK} ${STEER_OUT} ${STEER_BACK} ${STEER_OUT} ${STEER_BACK} ` +
+  // bottom stretch to GitLab and out to DONE
+  'C 900 660, 800 640, 700 690 C 600 735, 480 660, 380 660 C 330 660, 300 630, 270 610 ' +
+  'C 200 640, 140 660, 96 700'
+
 // Spokes: what the service does, drawn hub ↔ satellite.
 const CHAT_TO_HUB = 'M 240 225 C 300 260, 350 290, 412 320'
 const CHAT_TO_YOU = 'M 398 342 C 330 315, 270 275, 218 235'
@@ -93,19 +121,27 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
               })}
         />
 
-        {/* Traveler riding the orbit. SMIL follows the path natively and is
-            rendered only when motion is allowed. */}
+        {/* The coffee lap the traveler rides while the run continues. */}
+        <circle
+          cx={1005}
+          cy={305}
+          r={30}
+          fill="none"
+          stroke="#e0af68"
+          strokeWidth={1.5}
+          strokeDasharray="4 6"
+          opacity={0.45}
+        />
+
+        {/* Traveler acting out the day. SMIL follows the composite path
+            natively and is rendered only when motion is allowed. */}
         {!reducedMotion && (
           <g>
             <circle r={9} fill="#7aa2f7" opacity={0.25}>
-              <animateMotion dur="11s" repeatCount="indefinite" rotate="0">
-                <mpath href="#orbit" />
-              </animateMotion>
+              <animateMotion dur="22s" repeatCount="indefinite" rotate="0" calcMode="paced" path={TRAVELER_PATH} />
             </circle>
             <circle r={5} fill="#7aa2f7">
-              <animateMotion dur="11s" repeatCount="indefinite" rotate="0">
-                <mpath href="#orbit" />
-              </animateMotion>
+              <animateMotion dur="22s" repeatCount="indefinite" rotate="0" calcMode="paced" path={TRAVELER_PATH} />
             </circle>
           </g>
         )}
