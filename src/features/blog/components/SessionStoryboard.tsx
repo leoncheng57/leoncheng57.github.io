@@ -41,8 +41,8 @@ const ORBIT =
 const CHAT_OUT = 'C 300 260, 350 290, 412 320'
 const CHAT_BACK = 'C 330 315, 270 275, 218 235'
 const CHAT_OUT_AGAIN = 'C 300 262, 352 292, 412 320'
-const STEER_OUT = 'C 920 545, 810 505, 742 496'
-const STEER_BACK = 'C 800 520, 900 555, 990 565'
+const STEER_OUT = 'C 920 545, 850 532, 786 520'
+const STEER_BACK = 'C 850 545, 920 555, 990 565'
 const TRAVELER_PATH =
   'M 36 96 C 90 130, 140 150, 195 165 ' +
   // clarify chat loop ×3
@@ -65,20 +65,21 @@ const CHAT_TO_HUB = 'M 240 225 C 300 260, 350 290, 412 320'
 const CHAT_TO_YOU = 'M 398 342 C 330 315, 270 275, 218 235'
 const NOTIFY = 'M 782 318 C 820 285, 838 248, 852 212'
 // Steer-again is a loop like the chat spoke: out to the hub and back.
-const STEER = 'M 880 540 C 810 505, 775 470, 742 496'
-const STEER_RETURN = 'M 756 514 C 802 524, 858 545, 902 560'
+// Attached to the square hub's right edge.
+const STEER = 'M 880 540 C 838 534, 810 528, 786 518'
+const STEER_RETURN = 'M 786 540 C 812 548, 842 556, 880 562'
 // GitLab exchange: the hub pushes the draft MR down; the merge comes back up.
-const DRAFT_MR = 'M 470 492 C 430 520, 395 535, 348 552'
-const DRAFT_MR_RETURN = 'M 368 572 C 410 558, 448 540, 484 512'
+const DRAFT_MR = 'M 466 604 C 442 590, 420 576, 400 562'
+const DRAFT_MR_RETURN = 'M 384 542 C 408 556, 432 572, 452 588'
 
 const NODE_TEXT = '#a9b1d6'
 
 // The "server in operation" indicator inside the hub: a green dot tracing a
-// sideways figure-eight (lemniscate) in the empty right half of the card.
-// Two mirrored bezier loops crossing at the center, closed so the SMIL
-// animation cycles seamlessly.
-const HUB_CX = 690
-const HUB_CY = 422
+// sideways figure-eight (lemniscate), horizontally centered in the square
+// card, above the beat list. Two mirrored bezier loops crossing at the
+// center, closed so the SMIL animation cycles seamlessly.
+const HUB_CX = 600
+const HUB_CY = 368
 const INFINITY_PATH =
   `M ${HUB_CX} ${HUB_CY} ` +
   `C ${HUB_CX + 20} ${HUB_CY - 22}, ${HUB_CX + 45} ${HUB_CY - 22}, ${HUB_CX + 45} ${HUB_CY} ` +
@@ -115,11 +116,6 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
             <path d="M 0 0 L 7 3 L 0 6 Z" fill="context-stroke" />
           </marker>
         </defs>
-
-        {/* Title */}
-        <text x={600} y={44} textAnchor="middle" fontSize={22} fontWeight={600} fill="#c0caf5">
-          A session, from idea to merged MR
-        </text>
 
         {/* The winding orbit (marching dashes) */}
         <motion.path
@@ -236,12 +232,12 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
             markerEnd="url(#spoke-arrow)"
           />
           <text
-            x={806}
-            y={552}
+            x={838}
+            y={506}
             textAnchor="middle"
             fontSize={12.5}
             fill="#f7768e"
-            transform="rotate(16 806 552)"
+            transform="rotate(-6 838 506)"
           >
             steer again ↩
           </text>
@@ -265,12 +261,12 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
             markerEnd="url(#spoke-arrow)"
           />
           <text
-            x={372}
-            y={502}
+            x={452}
+            y={634}
             textAnchor="middle"
             fontSize={12.5}
             fill="#bb9af7"
-            transform="rotate(24 372 502)"
+            transform="rotate(32 452 634)"
           >
             🔀 draft MR
           </text>
@@ -347,30 +343,48 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
 
         {/* OPENHANDS hub (center) */}
         <motion.g variants={cardVariants}>
-          <rect x={420} y={280} width={360} height={212} rx={16} fill="#24283b" stroke="#9ece6a" strokeWidth={3} />
-          <text x={450} y={334} fontSize={36}>
+          <rect x={420} y={240} width={360} height={360} rx={16} fill="#24283b" stroke="#9ece6a" strokeWidth={3} />
+          <text x={450} y={296} fontSize={36}>
             🙌
           </text>
-          <text x={505} y={326} fontSize={21} fontWeight={700} fill="#9ece6a" letterSpacing={1}>
+          <text x={505} y={288} fontSize={21} fontWeight={700} fill="#9ece6a" letterSpacing={1}>
             OPENHANDS
           </text>
-          <text x={505} y={348} fontSize={13} fill={NODE_TEXT}>
+          <text x={505} y={310} fontSize={13} fill={NODE_TEXT}>
             one service, whole session
           </text>
-          <text x={450} y={398} fontSize={15}>
+          {/* Server-in-operation indicator: green dot tracing an infinity
+              pattern, centered above the beat list. Statically centered
+              under reduced motion. */}
+          {reducedMotion ? (
+            <>
+              <circle cx={HUB_CX} cy={HUB_CY} r={15} fill="#9ece6a" opacity={0.2} />
+              <circle cx={HUB_CX} cy={HUB_CY} r={9} fill="#9ece6a" />
+            </>
+          ) : (
+            <>
+              <circle r={15} fill="#9ece6a" opacity={0.2}>
+                <animateMotion dur="4.5s" repeatCount="indefinite" rotate="0" calcMode="paced" path={INFINITY_PATH} />
+              </circle>
+              <circle r={9} fill="#9ece6a">
+                <animateMotion dur="4.5s" repeatCount="indefinite" rotate="0" calcMode="paced" path={INFINITY_PATH} />
+              </circle>
+            </>
+          )}
+          <text x={450} y={470} fontSize={15}>
             💬
           </text>
-          <text x={484} y={398} fontSize={14.5} fill={NODE_TEXT}>
+          <text x={484} y={470} fontSize={14.5} fill={NODE_TEXT}>
             clarify
           </text>
           {reducedMotion ? (
-            <text x={450} y={428} fontSize={15}>
+            <text x={450} y={500} fontSize={15}>
               🚀
             </text>
           ) : (
             <motion.text
               x={450}
-              y={428}
+              y={500}
               fontSize={15}
               animate={{ y: [0, -4, 0], x: [0, 3, 0] }}
               transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
@@ -378,32 +392,15 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
               🚀
             </motion.text>
           )}
-          <text x={484} y={428} fontSize={14.5} fill={NODE_TEXT}>
+          <text x={484} y={500} fontSize={14.5} fill={NODE_TEXT}>
             long run
           </text>
-          <text x={450} y={458} fontSize={15}>
+          <text x={450} y={530} fontSize={15}>
             🧹
           </text>
-          <text x={484} y={458} fontSize={14.5} fill={NODE_TEXT}>
+          <text x={484} y={530} fontSize={14.5} fill={NODE_TEXT}>
             auto-sweep after ~2h
           </text>
-          {/* Server-in-operation indicator: green dot tracing an infinity
-              pattern. Statically centered under reduced motion. */}
-          {reducedMotion ? (
-            <>
-              <circle cx={HUB_CX} cy={HUB_CY} r={12} fill="#9ece6a" opacity={0.2} />
-              <circle cx={HUB_CX} cy={HUB_CY} r={7} fill="#9ece6a" />
-            </>
-          ) : (
-            <>
-              <circle r={12} fill="#9ece6a" opacity={0.2}>
-                <animateMotion dur="4.5s" repeatCount="indefinite" rotate="0" calcMode="paced" path={INFINITY_PATH} />
-              </circle>
-              <circle r={7} fill="#9ece6a">
-                <animateMotion dur="4.5s" repeatCount="indefinite" rotate="0" calcMode="paced" path={INFINITY_PATH} />
-              </circle>
-            </>
-          )}
         </motion.g>
 
         {/* DECIDE (bottom-right) */}
@@ -439,6 +436,18 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
             verify &amp; merge
           </text>
         </motion.g>
+
+        {/* Translucent attribution */}
+        <text
+          x={600}
+          y={744}
+          textAnchor="middle"
+          fontSize={12}
+          fill="#565f89"
+          opacity={0.55}
+        >
+          © Leon Cheng
+        </text>
 
         {/* Traveler acting out the day. SMIL follows the composite path
             natively; drawn last so the dot passes in front of the node
