@@ -178,6 +178,36 @@ export default function AppsIndexRoute(): ReactElement {
               <Link to="/workout-lab">Build a workout</Link>
             </p>
           </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
+                src="/app-icons/cook-today.svg"
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <Link to="/cook-today">Cook Today</Link>
+                  <span className={styles.betaBadge}>IDEA</span>
+                </h2>
+                <p className={styles.subtitle}>
+                  Quick checkboxes to tonight&apos;s recipes and videos
+                </p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              Fill out a very quick checkbox form about what you have and how
+              you feel, and get recipe suggestions for the day with short
+              cooking videos for each dish. Currently a placeholder while the
+              idea takes shape.
+            </p>
+            <p className={styles.links}>
+              <Link to="/cook-today">Preview the idea</Link>
+            </p>
+          </article>
         </div>
       </main>
       <SiteFooter />

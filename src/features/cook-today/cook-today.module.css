@@ -1,0 +1,56 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-background, #fdfcfa);
+}
+
+.page a {
+  color: inherit;
+}
+
+.main {
+  margin: 0 auto;
+  max-width: 640px;
+  padding: 24px 20px 64px;
+}
+
+.backLink {
+  font-size: 0.9rem;
+  margin: 0 0 24px;
+}
+
+.pageHeader {
+  margin-bottom: 12px;
+}
+
+.pageHeader h1 {
+  margin: 0 0 4px;
+}
+
+.tagline {
+  color: var(--color-text-muted, #555);
+  margin: 0 0 32px;
+}
+
+.section {
+  margin-top: 40px;
+}
+
+.section h2 {
+  font-size: 1.1rem;
+  margin: 0 0 12px;
+}
+
+.section p {
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.flowList {
+  line-height: 1.7;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.flowList li {
+  margin-bottom: 8px;
+}

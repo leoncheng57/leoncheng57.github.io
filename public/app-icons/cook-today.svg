@@ -1,0 +1,7 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cook Today icon">
+  <rect width="128" height="128" rx="28" fill="#EBE9E4"/>
+  <rect x="3" y="3" width="122" height="122" rx="25.5" stroke="#101010" stroke-width="6"/>
+  <path d="M34 62H94V70C94 84.3594 82.3594 96 68 96H60C45.6406 96 34 84.3594 34 70V62Z" fill="#C2410C" stroke="#101010" stroke-width="6"/>
+  <path d="M34 66H24M94 66H104" stroke="#101010" stroke-width="6" stroke-linecap="round"/>
+  <path d="M50 48C50 43 54 42 54 37M64 48C64 43 68 42 68 37M78 48C78 43 82 42 82 37" stroke="#4D7C0F" stroke-width="6" stroke-linecap="round"/>
+</svg>

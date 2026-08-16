@@ -7,6 +7,7 @@ import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
 import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
 import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
 import BlogPostRoute from './features/blog/routes/BlogPostRoute'
+import CookTodayRoute from './features/cook-today/routes/CookTodayRoute'
 import GameNightsRoute from './features/game-nights/routes/GameNightsRoute'
 import GuidesIndexRoute from './features/guides/routes/GuidesIndexRoute'
 import GuidesRoute from './features/guides/routes/GuidesRoute'
@@ -80,6 +81,7 @@ export default function App(): ReactElement {
         <Route path="/workout-lab/*" element={<WorkoutLabRoute />} />
         <Route path="/sub-wait/*" element={<SubWaitRoute />} />
         <Route path="/tuzi/*" element={<TuziRoute />} />
+        <Route path="/cook-today" element={<CookTodayRoute />} />
         <Route path="*" element={<NotFoundRoute />} />
       </Routes>
     </>
