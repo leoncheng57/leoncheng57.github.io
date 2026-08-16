@@ -64,8 +64,12 @@ const TRAVELER_PATH =
 const CHAT_TO_HUB = 'M 240 225 C 300 260, 350 290, 412 320'
 const CHAT_TO_YOU = 'M 398 342 C 330 315, 270 275, 218 235'
 const NOTIFY = 'M 782 318 C 820 285, 838 248, 852 212'
+// Steer-again is a loop like the chat spoke: out to the hub and back.
 const STEER = 'M 880 540 C 810 505, 775 470, 742 496'
+const STEER_RETURN = 'M 756 514 C 802 524, 858 545, 902 560'
+// GitLab exchange: the hub pushes the draft MR down; the merge comes back up.
 const DRAFT_MR = 'M 470 492 C 430 520, 395 535, 348 552'
+const DRAFT_MR_RETURN = 'M 368 572 C 410 558, 448 540, 484 512'
 
 const NODE_TEXT = '#a9b1d6'
 
@@ -133,18 +137,8 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
           opacity={0.45}
         />
 
-        {/* Traveler acting out the day. SMIL follows the composite path
-            natively and is rendered only when motion is allowed. */}
-        {!reducedMotion && (
-          <g>
-            <circle r={9} fill="#7aa2f7" opacity={0.25}>
-              <animateMotion dur="22s" repeatCount="indefinite" rotate="0" calcMode="paced" path={TRAVELER_PATH} />
-            </circle>
-            <circle r={5} fill="#7aa2f7">
-              <animateMotion dur="22s" repeatCount="indefinite" rotate="0" calcMode="paced" path={TRAVELER_PATH} />
-            </circle>
-          </g>
-        )}
+        {/* Traveler is rendered at the very end of the SVG so it passes in
+            front of the node cards — see below. */}
 
         {/* Spokes */}
         <motion.g
@@ -220,13 +214,21 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
             strokeDasharray="5 6"
             markerEnd="url(#spoke-arrow)"
           />
+          <path
+            d={STEER_RETURN}
+            fill="none"
+            stroke="#f7768e"
+            strokeWidth={2}
+            strokeDasharray="5 6"
+            markerEnd="url(#spoke-arrow)"
+          />
           <text
-            x={800}
-            y={540}
+            x={806}
+            y={552}
             textAnchor="middle"
             fontSize={12.5}
             fill="#f7768e"
-            transform="rotate(16 800 540)"
+            transform="rotate(16 806 552)"
           >
             steer again ↩
           </text>
@@ -235,6 +237,14 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
         <motion.g variants={cardVariants}>
           <path
             d={DRAFT_MR}
+            fill="none"
+            stroke="#bb9af7"
+            strokeWidth={2}
+            strokeDasharray="5 6"
+            markerEnd="url(#spoke-arrow)"
+          />
+          <path
+            d={DRAFT_MR_RETURN}
             fill="none"
             stroke="#bb9af7"
             strokeWidth={2}
@@ -399,6 +409,20 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
             verify &amp; merge
           </text>
         </motion.g>
+
+        {/* Traveler acting out the day. SMIL follows the composite path
+            natively; drawn last so the dot passes in front of the node
+            cards. Rendered only when motion is allowed. */}
+        {!reducedMotion && (
+          <g>
+            <circle r={9} fill="#7aa2f7" opacity={0.25}>
+              <animateMotion dur="22s" repeatCount="indefinite" rotate="0" calcMode="paced" path={TRAVELER_PATH} />
+            </circle>
+            <circle r={5} fill="#7aa2f7">
+              <animateMotion dur="22s" repeatCount="indefinite" rotate="0" calcMode="paced" path={TRAVELER_PATH} />
+            </circle>
+          </g>
+        )}
       </svg>
     </motion.div>
   )
