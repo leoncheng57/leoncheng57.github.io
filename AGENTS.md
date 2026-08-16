@@ -65,15 +65,26 @@ npm run build
 
 CI can capture screenshots for you. Add a fenced `screenshots` block to the
 pull request description with one `[with-full:]/path[ -- Title]` line per
-page:
+page. Wrap it in `ci:screenshots` markers under a `## CI: screenshots`
+heading so the machine-parsed region is clearly separated from prose:
 
 ````md
+<!-- ci:screenshots:start -->
+## CI: screenshots
+
 ```screenshots
 /blog -- Blog index with the new card layout
 /blog/some-article
 with-full:/blog/some-long-article -- Full article, header through footer
 ```
+<!-- ci:screenshots:end -->
 ````
+
+When both markers are present, the workflow only parses inside that region
+(a stray ```screenshots block elsewhere in the description is ignored). A
+bare block without markers still works for backward compatibility. Each
+marker must sit alone on its own line; prose that merely mentions the
+marker strings does not count.
 
 `.github/workflows/pr-screenshots.yml` runs on every PR open, push, and
 description edit. It builds the app, captures each listed path with
@@ -102,6 +113,8 @@ Rules for the block:
   each screenshot shows; without one, the path is used instead. Add titles
   when the path alone does not explain why the page is listed.
 - Lines starting with `#` are treated as comments and ignored.
+- A `ci:screenshots:start` marker without a matching
+  `<!-- ci:screenshots:end -->` marker fails the workflow.
 - Removing the block (or all paths) updates the sticky comment to say no
   screenshots are requested.
 
