@@ -73,6 +73,19 @@ const DRAFT_MR_RETURN = 'M 368 572 C 410 558, 448 540, 484 512'
 
 const NODE_TEXT = '#a9b1d6'
 
+// The "server in operation" indicator inside the hub: a green dot tracing a
+// sideways figure-eight (lemniscate) in the empty right half of the card.
+// Two mirrored bezier loops crossing at the center, closed so the SMIL
+// animation cycles seamlessly.
+const HUB_CX = 690
+const HUB_CY = 422
+const INFINITY_PATH =
+  `M ${HUB_CX} ${HUB_CY} ` +
+  `C ${HUB_CX + 20} ${HUB_CY - 22}, ${HUB_CX + 45} ${HUB_CY - 22}, ${HUB_CX + 45} ${HUB_CY} ` +
+  `C ${HUB_CX + 45} ${HUB_CY + 22}, ${HUB_CX + 20} ${HUB_CY + 22}, ${HUB_CX} ${HUB_CY} ` +
+  `C ${HUB_CX - 20} ${HUB_CY - 22}, ${HUB_CX - 45} ${HUB_CY - 22}, ${HUB_CX - 45} ${HUB_CY} ` +
+  `C ${HUB_CX - 45} ${HUB_CY + 22}, ${HUB_CX - 20} ${HUB_CY + 22}, ${HUB_CX} ${HUB_CY} Z`
+
 export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps): ReactElement {
   const reducedMotion = useReducedMotion()
 
@@ -374,6 +387,23 @@ export default function SessionStoryboard({ ariaLabel }: SessionStoryboardProps)
           <text x={484} y={458} fontSize={14.5} fill={NODE_TEXT}>
             auto-sweep after ~2h
           </text>
+          {/* Server-in-operation indicator: green dot tracing an infinity
+              pattern. Statically centered under reduced motion. */}
+          {reducedMotion ? (
+            <>
+              <circle cx={HUB_CX} cy={HUB_CY} r={12} fill="#9ece6a" opacity={0.2} />
+              <circle cx={HUB_CX} cy={HUB_CY} r={7} fill="#9ece6a" />
+            </>
+          ) : (
+            <>
+              <circle r={12} fill="#9ece6a" opacity={0.2}>
+                <animateMotion dur="4.5s" repeatCount="indefinite" rotate="0" calcMode="paced" path={INFINITY_PATH} />
+              </circle>
+              <circle r={7} fill="#9ece6a">
+                <animateMotion dur="4.5s" repeatCount="indefinite" rotate="0" calcMode="paced" path={INFINITY_PATH} />
+              </circle>
+            </>
+          )}
         </motion.g>
 
         {/* DECIDE (bottom-right) */}
