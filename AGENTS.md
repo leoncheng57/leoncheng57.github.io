@@ -64,13 +64,13 @@ npm run build
 ### Automated PR Screenshots (preferred)
 
 CI can capture screenshots for you. Add a fenced `screenshots` block to the
-pull request description with one page path per line:
+pull request description with one `[full:]/path[ -- Title]` line per page:
 
 ````md
 ```screenshots
-/blog
+/blog -- Blog index with the new card layout
 /blog/some-article
-full:/blog/some-long-article
+full:/blog/some-long-article -- Full article, header through footer
 ```
 ````
 
@@ -95,6 +95,10 @@ Rules for the block:
   the default 1280x800 viewport (the file gets a `--full` suffix, and the
   sticky comment renders it collapsed in a `<details>` block). Use this
   sparingly: long pages produce large PNGs.
+- Append ` -- Title` (space, two dashes, space) to label a capture. The
+  title becomes the heading in the sticky comment, making it clear what
+  each screenshot shows; without one, the path is used instead. Add titles
+  when the path alone does not explain why the page is listed.
 - Lines starting with `#` are treated as comments and ignored.
 - Removing the block (or all paths) updates the sticky comment to say no
   screenshots are requested.
@@ -103,7 +107,7 @@ To run the capture locally:
 
 ```bash
 npm run build
-node scripts/ci-screenshots.mjs /blog full:/apps
+node scripts/ci-screenshots.mjs "/blog -- Blog index" full:/apps
 ```
 
 Output lands in `screenshot-output/` (untracked).

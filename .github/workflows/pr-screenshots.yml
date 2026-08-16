@@ -35,7 +35,7 @@ jobs:
           script: |
             const body = context.payload.pull_request.body ?? '';
             const match = body.match(/```screenshots\s*\n([\s\S]*?)```/);
-            const paths = [];
+            const targets = [];
 
             if (match) {
               for (const rawLine of match[1].split('\n')) {
@@ -43,17 +43,18 @@ jobs:
                 if (!line || line.startsWith('#')) {
                   continue;
                 }
-                if (!/^(full:)?\/\S*$/.test(line)) {
-                  core.setFailed(`Invalid screenshot path "${line}". Paths must start with "/" (optionally prefixed with "full:") and contain no whitespace.`);
+                const parsed = line.match(/^((?:full:)?\/\S*)(?: -- (\S.*))?$/);
+                if (!parsed) {
+                  core.setFailed(`Invalid screenshot line "${line}". Expected "[full:]/path[ -- Title]" with a path that starts with "/" and contains no whitespace.`);
                   return;
                 }
-                paths.push(line);
+                targets.push({ arg: parsed[1], title: parsed[2]?.trim() ?? null });
               }
             }
 
-            core.setOutput('paths', paths.join(' '));
-            core.setOutput('has_paths', paths.length > 0 ? 'true' : 'false');
-            core.info(paths.length > 0 ? `Screenshot paths: ${paths.join(' ')}` : 'No ```screenshots block found in the pull request description.');
+            core.setOutput('targets', JSON.stringify(targets));
+            core.setOutput('has_paths', targets.length > 0 ? 'true' : 'false');
+            core.info(targets.length > 0 ? `Screenshot targets: ${targets.map((t) => t.arg).join(' ')}` : 'No ```screenshots block found in the pull request description.');
 
       - name: Set up Node.js
         if: steps.parse.outputs.has_paths == 'true'
@@ -78,7 +79,9 @@ jobs:
 
       - name: Capture screenshots
         if: steps.parse.outputs.has_paths == 'true'
-        run: node scripts/ci-screenshots.mjs ${{ steps.parse.outputs.paths }}
+        env:
+          SCREENSHOT_TARGETS: ${{ steps.parse.outputs.targets }}
+        run: node scripts/ci-screenshots.mjs
 
       - name: Publish screenshots to gh-pages
         if: steps.parse.outputs.has_paths == 'true'
@@ -105,24 +108,31 @@ jobs:
             if (hasPaths) {
               const manifest = JSON.parse(fs.readFileSync('screenshot-output/manifest.json', 'utf8'));
               for (const entry of manifest) {
-                const image = `![${entry.path}](${baseUrl}/${entry.file}?sha=${shortSha})`;
+                const image = `![${entry.title ?? entry.path}](${baseUrl}/${entry.file}?sha=${shortSha})`;
                 if (entry.full) {
-                  lines.push(`<details><summary><code>${entry.path}</code> (full page)</summary>`);
+                  const summary = entry.title
+                    ? `${entry.title} — <code>${entry.path}</code> (full page)`
+                    : `<code>${entry.path}</code> (full page)`;
+                  lines.push(`<details><summary>${summary}</summary>`);
                   lines.push('');
                   lines.push(image);
                   lines.push('');
                   lines.push('</details>');
                   lines.push('');
                 } else {
-                  lines.push(`### \`${entry.path}\``);
+                  lines.push(entry.title ? `### ${entry.title}` : `### \`${entry.path}\``);
                   lines.push('');
+                  if (entry.title) {
+                    lines.push(`\`${entry.path}\``);
+                    lines.push('');
+                  }
                   lines.push(image);
                   lines.push('');
                 }
               }
               lines.push(`_Captured at ${shortSha}. Screenshots refresh on every push and description edit, and are removed when the pull request closes._`);
             } else {
-              lines.push('No screenshots requested. Add a ```screenshots fenced block with one page path per line to the pull request description to capture pages. Prefix a path with `full:` to capture the entire scroll height.');
+              lines.push('No screenshots requested. Add a ```screenshots fenced block to the pull request description with one `[full:]/path[ -- Title]` line per page to capture. Prefix a path with `full:` to capture the entire scroll height; add ` -- Title` to label what the capture shows.');
             }
             const body = lines.join('\n');
 
