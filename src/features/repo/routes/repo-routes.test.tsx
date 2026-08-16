@@ -46,6 +46,9 @@ describe('repo navigation', () => {
       within(repoPages).getByText('Design Components').closest('a')
     ).toHaveAttribute('href', '/repo/design-components')
     expect(
+      within(repoPages).getByText('Animations').closest('a')
+    ).toHaveAttribute('href', '/repo/animations')
+    expect(
       within(repoPages).getByText('Alpha Projs').closest('a')
     ).toHaveAttribute('href', '/repo/alpha-projs')
 
@@ -65,6 +68,35 @@ describe('repo navigation', () => {
 })
 
 describe('repo subpages', () => {
+  it('documents the motion system at /repo/animations', () => {
+    render(
+      <MemoryRouter initialEntries={['/repo/animations']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Animations' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'The stack' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Live specimen: the session storyboard' })
+    ).toBeInTheDocument()
+    // The real blog component is rendered as the specimen, not a copy.
+    expect(
+      screen.getByRole('img', { name: 'A session, from idea to merged MR' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Recipes' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Path traveler (SMIL)' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Reduced motion' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Embedding in articles' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Verifying motion' })).toBeInTheDocument()
+  })
+
   it('showcases the visual system at /repo/design-components', () => {
     render(
       <MemoryRouter initialEntries={['/repo/design-components']}>

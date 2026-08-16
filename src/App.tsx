@@ -14,6 +14,7 @@ import AlphaProjsRoute from './features/repo/routes/AlphaProjsRoute'
 import CiRoute from './features/repo/routes/CiRoute'
 import GaTrafficDashboardRoute from './features/repo/routes/GaTrafficDashboardRoute'
 import GmailReaderRoute from './features/repo/routes/GmailReaderRoute'
+import AnimationsRoute from './features/repo/routes/AnimationsRoute'
 import DesignComponentsRoute from './features/repo/routes/DesignComponentsRoute'
 import GoogleAnalyticsRoute from './features/repo/routes/GoogleAnalyticsRoute'
 import PlanningRoute from './features/repo/routes/PlanningRoute'
@@ -64,6 +65,7 @@ export default function App(): ReactElement {
           element={<GmailReaderRoute />}
         />
         <Route path="/repo/ci" element={<CiRoute />} />
+        <Route path="/repo/animations" element={<AnimationsRoute />} />
         <Route path="/repo/design-components" element={<DesignComponentsRoute />} />
         <Route path="/repo/google-analytics" element={<GoogleAnalyticsRoute />} />
         <Route path="/repo/production" element={<ProductionRoute />} />

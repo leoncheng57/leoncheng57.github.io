@@ -9,6 +9,7 @@ const REPO_PAGES = [
   { to: '/repo/planning', label: 'Project planning' },
   { to: '/repo/google-analytics', label: 'Google Analytics' },
   { to: '/repo/design-components', label: 'Design Components' },
+  { to: '/repo/animations', label: 'Animations' },
   { to: '/repo/alpha-projs', label: 'Alpha Projs' },
 ]
 
