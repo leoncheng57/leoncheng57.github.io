@@ -3,12 +3,18 @@
     "path": "/blog",
     "file": "blog.png",
     "full": false,
-    "title": null
+    "title": "Blog index"
   },
   {
-    "path": "/blog/how-openhands-was-integrated",
-    "file": "blog--how-openhands-was-integrated--full.png",
+    "path": "/blog/pwa-good-practices",
+    "file": "blog--pwa-good-practices--full.png",
     "full": true,
+    "title": "Full article layout (longest published post)"
+  },
+  {
+    "path": "/blog/hello-blog",
+    "file": "blog--hello-blog.png",
+    "full": false,
     "title": null
   }
 ]
