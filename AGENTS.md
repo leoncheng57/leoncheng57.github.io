@@ -47,6 +47,14 @@ npm run build
 - Rebuild with `npm run build` when you need updated deployment artifacts in `docs/`.
 - Keep changes small and consistent with the existing simple site structure.
 
+## Filing GitHub Issues
+
+- Use the single issue template at `.github/ISSUE_TEMPLATE/issue.md`
+  (sections: Goal, Context, Scope, Acceptance criteria). Blank issues are
+  disabled, so this template is the default.
+- When creating issues with `gh issue create`, structure the body with the
+  same section headings so issues stay consistent with the template.
+
 ## PR / MR Notes
 
 - When a change has a visible UI impact, include screenshots in the PR/MR description whenever possible.
@@ -62,7 +70,7 @@ pull request description with one page path per line:
 ```screenshots
 /blog
 /blog/some-article
-/workout-lab
+full:/blog/some-long-article
 ```
 ````
 
@@ -73,9 +81,20 @@ under `previews/pr-<number>/screenshots/`, and maintains a single sticky PR
 comment embedding the images. The images are removed automatically when the
 pull request closes.
 
+Prefer this workflow over manually captured and committed screenshot
+assets: it keeps image files out of the repository and cleans up after the
+pull request closes. Only commit screenshot assets when CI capture is not
+possible (for example, a state that cannot be reached from a plain URL).
+List only the routes affected by visible UI changes; skip the block
+entirely for pull requests with no UI impact.
+
 Rules for the block:
 
 - Paths must start with `/` and contain no whitespace.
+- Prefix a path with `full:` to capture the entire scroll height instead of
+  the default 1280x800 viewport (the file gets a `--full` suffix, and the
+  sticky comment renders it collapsed in a `<details>` block). Use this
+  sparingly: long pages produce large PNGs.
 - Lines starting with `#` are treated as comments and ignored.
 - Removing the block (or all paths) updates the sticky comment to say no
   screenshots are requested.
@@ -84,7 +103,7 @@ To run the capture locally:
 
 ```bash
 npm run build
-node scripts/ci-screenshots.mjs /blog /apps
+node scripts/ci-screenshots.mjs /blog full:/apps
 ```
 
 Output lands in `screenshot-output/` (untracked).
