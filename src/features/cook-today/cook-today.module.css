@@ -9,7 +9,7 @@
 
 .main {
   margin: 0 auto;
-  max-width: 640px;
+  max-width: 680px;
   padding: 24px 20px 64px;
 }
 
@@ -28,29 +28,231 @@
 
 .tagline {
   color: var(--color-text-muted, #555);
-  margin: 0 0 32px;
-}
-
-.section {
-  margin-top: 40px;
-}
-
-.section h2 {
-  font-size: 1.1rem;
-  margin: 0 0 12px;
-}
-
-.section p {
   line-height: 1.6;
   margin: 0 0 12px;
 }
 
-.flowList {
-  line-height: 1.7;
+.demoNotice {
+  border-left: 3px solid #c2410c;
+  color: var(--color-text-muted, #555);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 32px;
+  padding-left: 12px;
+}
+
+.form {
+  display: grid;
+  gap: 28px;
+}
+
+.fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.legend {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  padding: 0;
+  text-transform: uppercase;
+}
+
+.hint {
+  color: var(--color-text-muted, #666);
+  font-size: 0.85rem;
+  margin: 0 0 8px;
+}
+
+.optionGrid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.option {
+  align-items: flex-start;
+  cursor: pointer;
+  display: flex;
+  font-size: 0.95rem;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.option input {
+  cursor: pointer;
+  margin-top: 3px;
+}
+
+.measure {
+  color: var(--color-text-muted, #777);
+  font-size: 0.8rem;
+}
+
+.submitRow {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+}
+
+.submitButton {
+  background: #101010;
+  border: 2px solid #101010;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 10px 24px;
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.results {
+  margin-top: 40px;
+}
+
+.resultsHeader {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.resultsHeader h2 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.resultsHeader button {
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+}
+
+.status {
+  color: var(--color-text-muted, #555);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.suggestion {
+  border: 1px solid rgba(16, 16, 16, 0.14);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  padding: 16px;
+}
+
+.suggestionHeader {
+  display: flex;
+  gap: 14px;
+}
+
+.suggestionThumb {
+  border-radius: 10px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.suggestionThumbFallback {
+  align-items: center;
+  background: #f1efe9;
+  border-radius: 10px;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 1.6rem;
+  height: 72px;
+  justify-content: center;
+  width: 72px;
+}
+
+.suggestionHeading h3 {
+  font-size: 1.05rem;
+  margin: 0 0 4px;
+}
+
+.suggestionMeta {
+  color: var(--color-text-muted, #666);
+  font-size: 0.85rem;
+  margin: 0 0 8px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+}
+
+.chip,
+.dietChip {
+  border-radius: 999px;
+  font-size: 0.75rem;
+  padding: 3px 10px;
+}
+
+.chip {
+  background: #fde6d8;
+}
+
+.dietChip {
+  background: #e4efd2;
+}
+
+.suggestionActions {
+  margin: 14px 0 0;
+}
+
+.suggestionActions button {
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+}
+
+.checklist {
+  background: #f7f5f0;
+  border-radius: 12px;
+  margin: -4px 0 20px;
+  padding: 16px;
+}
+
+.checklistHeading {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.checklistGrid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+
+.groceryList {
+  margin-top: 20px;
+}
+
+.groceryList ul {
+  line-height: 1.6;
   margin: 0;
   padding-left: 20px;
 }
 
-.flowList li {
-  margin-bottom: 8px;
+.recipeLinks {
+  font-size: 0.9rem;
+  margin: 18px 0 0;
 }

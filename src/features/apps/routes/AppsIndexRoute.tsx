@@ -191,7 +191,7 @@ export default function AppsIndexRoute(): ReactElement {
               <div className={styles.appCardHeading}>
                 <h2>
                   <Link to="/cook-today">Cook Today</Link>
-                  <span className={styles.betaBadge}>IDEA</span>
+                  <span className={styles.betaBadge}>BETA</span>
                 </h2>
                 <p className={styles.subtitle}>
                   Quick checkboxes to tonight&apos;s recipes and videos
@@ -199,13 +199,13 @@ export default function AppsIndexRoute(): ReactElement {
               </div>
             </div>
             <p className={styles.description}>
-              Fill out a very quick checkbox form about what you have and how
-              you feel, and get recipe suggestions for the day with short
-              cooking videos for each dish. Currently a placeholder while the
-              idea takes shape.
+              Tick what is in your kitchen, the cuisine you are craving, and any
+              diet needs to get recipe ideas with cooking videos. Open a recipe
+              and tick off what you already have to turn the rest into a grocery
+              list.
             </p>
             <p className={styles.links}>
-              <Link to="/cook-today">Preview the idea</Link>
+              <Link to="/cook-today">Find something to cook</Link>
             </p>
           </article>
         </div>

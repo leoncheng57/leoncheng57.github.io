@@ -68,7 +68,7 @@ describe('apps index route', () => {
       screen.getByRole('heading', { level: 2, name: 'Sub-Wait BETA' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Cook Today IDEA' })
+      screen.getByRole('heading', { level: 2, name: 'Cook Today BETA' })
     ).toBeInTheDocument()
   })
 
@@ -93,7 +93,7 @@ describe('apps index route', () => {
       'Whoops Hoops',
       'House Party Photo Hunt',
       'Workout LabBETA',
-      'Cook TodayIDEA',
+      'Cook TodayBETA',
     ])
   })
 
