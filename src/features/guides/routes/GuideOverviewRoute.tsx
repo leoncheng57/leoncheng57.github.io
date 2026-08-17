@@ -24,6 +24,7 @@ export default function GuideOverviewRoute(): ReactElement {
   const guide = getGuideBySlug(slug)
   const [fontScale, setFontScale] = useState(1)
   const [navOpen, setNavOpen] = useState(false)
+  const [activeSlug, setActiveSlug] = useState<string | null>(null)
 
   // Scroll to the chapter anchor when arriving via a hash (for example from a
   // redirected legacy chapter URL) or when the hash changes in place.
@@ -34,12 +35,44 @@ export default function GuideOverviewRoute(): ReactElement {
     document.getElementById(hash.slice(1))?.scrollIntoView?.({ block: 'start' })
   }, [hash])
 
+  // Scrollspy: the chapter section crossing the middle band of the viewport is
+  // the "current" chapter, shown in the collapsed Chapters bar and highlighted
+  // in the list. Skipped in environments without IntersectionObserver (jsdom).
+  const chapterSlugs = guide ? guide.chapters.map((chapter) => chapter.slug).join(',') : ''
+  useEffect(() => {
+    if (!chapterSlugs || typeof IntersectionObserver === 'undefined') {
+      return
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSlug(entry.target.id)
+          }
+        }
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    )
+    for (const chapterSlug of chapterSlugs.split(',')) {
+      const element = document.getElementById(chapterSlug)
+      if (element) {
+        observer.observe(element)
+      }
+    }
+    return () => observer.disconnect()
+  }, [chapterSlugs])
+
   if (!guide) {
     return <GuideNotFound heading="Guide not found" message="The requested guide does not exist." />
   }
 
   const { intro, sections } = splitMarkdownSections(guide.overview)
   const firstChapter = guide.chapters[0]
+  const activeChapterIndex = guide.chapters.findIndex((chapter) => chapter.slug === activeSlug)
+  const activeChapter =
+    activeChapterIndex >= 0
+      ? { chapter: guide.chapters[activeChapterIndex], index: activeChapterIndex }
+      : null
   const articleStyle = { '--gd-font-size': `${1.02 * fontScale}rem` } as CSSProperties
 
   return (
@@ -94,8 +127,13 @@ export default function GuideOverviewRoute(): ReactElement {
       </div>
 
       {guide.chapters.length > 0 ? (
-        <div className={styles.chapterLayout}>
-          <nav className={styles.sidebar} aria-label="Guide chapters">
+        <>
+          <div className={styles.chaptersDivider} role="presentation">
+            <span className={styles.chaptersDividerLabel}>Chapters</span>
+          </div>
+
+          <div className={styles.chapterLayout}>
+            <nav className={styles.sidebar} aria-label="Guide chapters">
             <h2 className={styles.sidebarHeading}>Chapters</h2>
             <button
               type="button"
@@ -104,7 +142,13 @@ export default function GuideOverviewRoute(): ReactElement {
               aria-controls={CHAPTER_LIST_ID}
               onClick={() => setNavOpen((open) => !open)}
             >
-              Chapters
+              <span className={styles.sidebarToggleLabel}>Chapters</span>
+              {activeChapter ? (
+                <span className={styles.sidebarToggleCurrent}>
+                  {String(activeChapter.index + 1).padStart(2, '0')} ·{' '}
+                  {activeChapter.chapter.title}
+                </span>
+              ) : null}
               <span className={styles.sidebarToggleIcon} aria-hidden="true">
                 {navOpen ? '\u2212' : '+'}
               </span>
@@ -121,7 +165,10 @@ export default function GuideOverviewRoute(): ReactElement {
                       <li key={item.slug}>
                         <a
                           href={`#${item.slug}`}
-                          className={styles.sidebarLink}
+                          className={`${styles.sidebarLink} ${
+                            item.slug === activeSlug ? styles.sidebarLinkActive : ''
+                          }`}
+                          aria-current={item.slug === activeSlug ? 'true' : undefined}
                           onClick={() => setNavOpen(false)}
                         >
                           <span className={styles.sidebarNumber}>
@@ -150,7 +197,7 @@ export default function GuideOverviewRoute(): ReactElement {
               />
             </div>
 
-            {guide.chapters.map((chapter, index) => (
+            {guide.chapters.map((chapter, chapterIndex) => (
               <section
                 key={chapter.slug}
                 id={chapter.slug}
@@ -159,7 +206,7 @@ export default function GuideOverviewRoute(): ReactElement {
               >
                 <header className={styles.chapterSectionHead}>
                   <p className={styles.eyebrow}>
-                    Chapter {String(index + 1).padStart(2, '0')} ·{' '}
+                    Chapter {String(chapterIndex + 1).padStart(2, '0')} ·{' '}
                     {chapter.readingTimeMinutes} min
                   </p>
                   <h2 id={`${chapter.slug}-title`} className={styles.chapterSectionTitle}>
@@ -173,8 +220,9 @@ export default function GuideOverviewRoute(): ReactElement {
                 <MarkdownArticle content={chapter.content} styles={styles} />
               </section>
             ))}
+            </div>
           </div>
-        </div>
+        </>
       ) : null}
     </main>
   )

@@ -395,11 +395,34 @@
 
 /* ------------------------------------------------------- chapter two-column */
 
+/* A strong break between the overview material and the full chapter text. */
+.chaptersDivider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 3.5rem 0 2.25rem;
+}
+
+.chaptersDivider::before,
+.chaptersDivider::after {
+  content: '';
+  flex: 1;
+  border-top: 2px solid var(--gd-line-strong, var(--gd-line));
+}
+
+.chaptersDividerLabel {
+  font-family: var(--gd-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gd-accent);
+}
+
 /* Mobile-first: block layout so the collapsed Chapters bar can stick to the
    viewport while the article scrolls past. The grid returns at >=60rem. */
 .chapterLayout {
   display: block;
-  margin-top: 3rem;
 }
 
 @media (min-width: 60rem) {
@@ -457,6 +480,24 @@
 .sidebarToggle:hover {
   background: var(--gd-surface-raised);
   color: var(--gd-ink);
+}
+
+.sidebarToggleLabel {
+  flex-shrink: 0;
+}
+
+/* The chapter currently scrolled into view, shown inside the collapsed bar. */
+.sidebarToggleCurrent {
+  flex: 1;
+  min-width: 0;
+  margin: 0 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--gd-accent);
 }
 
 .sidebarToggleIcon {
