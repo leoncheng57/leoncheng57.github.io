@@ -324,17 +324,7 @@
 }
 
 .sectionHead {
-  display: flex;
-  align-items: baseline;
-  gap: 0.9rem;
   margin-bottom: 1.1rem;
-}
-
-.sectionNumber {
-  font-family: var(--gd-mono);
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--gd-accent);
 }
 
 .sectionTitle {
@@ -516,23 +506,32 @@
 
 /* ------------------------------------------------------- chapter two-column */
 
+/* Mobile-first: block layout so the collapsed Chapters bar can stick to the
+   viewport while the article scrolls past. The grid returns at >=60rem. */
 .chapterLayout {
-  display: grid;
-  gap: 2rem;
-  align-items: start;
+  display: block;
 }
 
 @media (min-width: 60rem) {
   .chapterLayout {
+    display: grid;
+    gap: 2rem;
+    align-items: start;
     grid-template-columns: 15rem minmax(0, 1fr);
   }
 }
 
 /* Mobile-first: a compact toggle row that expands the chapter list on demand.
+   It sticks to the viewport top so chapters stay reachable mid-article.
    At >=60rem the toggle disappears and the list is always visible + sticky. */
 .sidebar {
+  position: sticky;
+  top: 0.5rem;
+  z-index: 5;
+  margin-bottom: 2rem;
   border: 1px solid var(--gd-line);
   border-radius: 12px;
+  /* Opaque in both themes so article text never shows through while pinned. */
   background: var(--gd-surface);
   padding: 0.4rem 0.75rem;
 }
@@ -580,6 +579,9 @@
   display: none;
   margin-top: 0.35rem;
   padding-bottom: 0.35rem;
+  /* The expanded panel scrolls internally instead of covering the viewport. */
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 .sidebarBodyOpen {
@@ -588,8 +590,9 @@
 
 @media (min-width: 60rem) {
   .sidebar {
-    position: sticky;
     top: 5.25rem;
+    z-index: auto;
+    margin-bottom: 0;
     padding: 1rem 0.75rem;
   }
 
@@ -605,6 +608,8 @@
     display: block;
     margin-top: 0;
     padding-bottom: 0;
+    max-height: none;
+    overflow-y: visible;
   }
 }
 
