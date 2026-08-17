@@ -81,7 +81,7 @@ describe('OpenCode remote control guide', () => {
     ).toBeInTheDocument()
   })
 
-  it('links to the GitHub repository from the nav and footer', () => {
+  it('links to the GitHub repository from the nav and the hero note', () => {
     renderAt('/guides/opencode-remote-control')
 
     const repoUrl =
@@ -91,8 +91,13 @@ describe('OpenCode remote control guide', () => {
       repoUrl
     )
     expect(
-      screen.getByRole('link', { name: 'View source on GitHub ↗' })
+      screen.getByRole('link', {
+        name: 'opencode-remote-control-and-notifications ↗',
+      })
     ).toHaveAttribute('href', repoUrl)
+    expect(
+      screen.getByText(/a simple public repo I created/)
+    ).toBeInTheDocument()
   })
 
   it('updates generated commands and saves non-secret settings', async () => {

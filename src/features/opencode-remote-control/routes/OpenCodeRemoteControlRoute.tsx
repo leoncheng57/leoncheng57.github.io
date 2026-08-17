@@ -5,6 +5,54 @@ import ProductNav from '../components/ProductNav'
 import { PICKER_ISSUE_URL, REPOSITORY_URL } from '../constants'
 import styles from '../opencode-remote-control.module.css'
 
+const NAV_ITEMS = [
+  { id: 'architecture', index: '01', label: 'Architecture' },
+  { id: 'builder', index: '02', label: 'Setup' },
+  { id: 'commands', index: '03', label: 'Commands' },
+  { id: 'phone', index: '04', label: 'Phone' },
+  { id: 'notifications', index: '05', label: 'Notifications' },
+  { id: 'day-in-the-life', index: '06', label: 'Day' },
+  { id: 'security', index: '07', label: 'Security' },
+  { id: 'troubleshooting', index: '08', label: 'Help' },
+]
+
+const SECTION_IDS = NAV_ITEMS.map((item) => item.id)
+
+/**
+ * Scroll spy for the sticky nav: the active section is the last one whose top
+ * has passed under the nav. jsdom reports zero-size rects, so the hook stays
+ * inert (null) in tests.
+ */
+function useActiveSection(ids: string[]): string | null {
+  const [active, setActive] = useState<string | null>(null)
+
+  useEffect(() => {
+    function update(): void {
+      let current: string | null = null
+      let sawMeasurableSection = false
+      for (const id of ids) {
+        const element = document.getElementById(id)
+        if (!element) continue
+        const rect = element.getBoundingClientRect()
+        if (rect.height === 0) continue
+        sawMeasurableSection = true
+        if (rect.top <= 96) current = id
+      }
+      if (sawMeasurableSection) setActive(current)
+    }
+
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [ids])
+
+  return active
+}
+
 const ASCII_ARCHITECTURE = [
   '┌──────────┐   Tailscale (WireGuard)    ┌──────────────────────┐',
   '│  phone   │ ─────────────────────────▶ │  Mac: opencode web   │',
@@ -59,6 +107,7 @@ function shellQuote(value: string): string {
 
 export default function OpenCodeRemoteControlRoute(): ReactElement {
   const [settings, setSettings] = useState<Settings>(loadSettings)
+  const activeSection = useActiveSection(SECTION_IDS)
 
   useEffect(() => {
     const previousTitle = document.title
@@ -112,30 +161,16 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
   return (
     <div className={styles.page}>
       <ProductNav>
-        <a href="#architecture">
-          <span className={styles.navIndex}>01</span>Architecture
-        </a>
-        <a href="#builder">
-          <span className={styles.navIndex}>02</span>Setup
-        </a>
-        <a href="#commands">
-          <span className={styles.navIndex}>03</span>Commands
-        </a>
-        <a href="#phone">
-          <span className={styles.navIndex}>04</span>Phone
-        </a>
-        <a href="#notifications">
-          <span className={styles.navIndex}>05</span>Notifications
-        </a>
-        <a href="#day-in-the-life">
-          <span className={styles.navIndex}>06</span>Day
-        </a>
-        <a href="#security">
-          <span className={styles.navIndex}>07</span>Security
-        </a>
-        <a href="#troubleshooting">
-          <span className={styles.navIndex}>08</span>Help
-        </a>
+        {NAV_ITEMS.map((item) => (
+          <a
+            key={item.id}
+            href={`#${item.id}`}
+            aria-current={activeSection === item.id ? 'true' : undefined}
+          >
+            <span className={styles.navIndex}>{item.index}</span>
+            {item.label}
+          </a>
+        ))}
         <a className={styles.navExternal} href={REPOSITORY_URL}>
           GitHub ↗
         </a>
@@ -152,6 +187,14 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
             <p className={styles.lede}>
               Get notifications on your phone, and control all the power of AI,
               MCPs, Docker, and everything else that lives on your laptop.
+            </p>
+            <p className={styles.repoNote}>
+              All of it runs on{' '}
+              <a href={REPOSITORY_URL}>
+                opencode-remote-control-and-notifications ↗
+              </a>
+              , a simple public repo I created — one launch script plus one
+              ntfy notification plugin.
             </p>
           </div>
         </header>
@@ -675,10 +718,7 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
           </div>
         </section>
 
-        <SiteFooter>
-          <a href={REPOSITORY_URL}>View source on GitHub ↗</a>
-          <a href={PICKER_ISSUE_URL}>OpenCode picker issue ↗</a>
-        </SiteFooter>
+        <SiteFooter />
       </main>
     </div>
   )
