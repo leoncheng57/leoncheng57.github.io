@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import CmuxTrialWalkthrough from '../components/CmuxTrialWalkthrough'
 import GuideNotFound from '../components/GuideNotFound'
 import ManagerWorkerSimulator, {
   SIMULATOR_GUIDE_SLUG,
@@ -7,6 +8,7 @@ import ManagerWorkerSimulator, {
 import { getGuideBySlug } from '../content'
 import styles from '../guides.module.css'
 import simStyles from '../components/ManagerWorkerSimulator/ManagerWorkerSimulator.module.css'
+import trialStyles from '../components/CmuxTrialWalkthrough/CmuxTrialWalkthrough.module.css'
 
 /**
  * Guide-scoped experimental playground. Only the manager/worker guide has a
@@ -46,6 +48,10 @@ export default function GuidePlaygroundRoute(): ReactElement {
         </p>
       </header>
 
+      <h2 className={trialStyles.sectionHeading}>Try a run (guided)</h2>
+      <CmuxTrialWalkthrough />
+
+      <h2 className={trialStyles.sectionHeading}>Tune the knobs (sandbox)</h2>
       <ManagerWorkerSimulator />
     </main>
   )

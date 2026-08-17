@@ -1,0 +1,463 @@
+/*
+ * Styles for the guided "cmux trial" walkthrough: a mock cmux-style app
+ * window (sidebar of workspaces + a fake terminal pane) advanced frame by
+ * frame. Self-contained; consumes only the shared --gd-* theme variables.
+ *
+ * Color semantics match the round-1 sandbox legend:
+ *   orange = human touchpoint, blue = AI-only, hatched = blocked on a human,
+ *   green = merge/done.
+ */
+
+.walkthrough {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  border: 1px solid var(--gd-border, #d0d0d0);
+  border-radius: 12px;
+  background: var(--gd-surface, #fff);
+  padding: 1.25rem;
+  font-family: var(--gd-body, system-ui, sans-serif);
+  color: var(--gd-ink, #1a1a1a);
+}
+
+.walkthrough:focus-visible {
+  outline: 2px solid var(--gd-accent, #b4471f);
+  outline-offset: 2px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--gd-muted, #666);
+}
+
+/* -------------------------------------------------------- mock cmux window */
+
+.window {
+  position: relative;
+  border: 1px solid #2c2f33;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #141617;
+  color: #d7dce1;
+  font-family: var(--gd-mono, monospace);
+  box-shadow: var(--gd-shadow, 0 8px 24px rgba(0, 0, 0, 0.18));
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  background: #1d2023;
+  border-bottom: 1px solid #2c2f33;
+}
+
+.trafficLights {
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.trafficLights span {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+}
+
+.trafficLights span:nth-child(1) {
+  background: #f2564d;
+}
+
+.trafficLights span:nth-child(2) {
+  background: #f5b02f;
+}
+
+.trafficLights span:nth-child(3) {
+  background: #3ac569;
+}
+
+.chromeTitle {
+  font-size: 0.72rem;
+  color: #9aa3ab;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.windowBody {
+  display: grid;
+  grid-template-columns: 13rem 1fr;
+  min-height: 17rem;
+}
+
+/* ---------------------------------------------------------------- sidebar */
+
+.sidebar {
+  border-right: 1px solid #2c2f33;
+  background: #191c1e;
+  padding: 0.6rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebarHeading {
+  margin: 0 0 0.25rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #767f87;
+}
+
+.workspaceList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.workspaceItem {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.32rem 0.45rem;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  color: #c4cbd2;
+}
+
+.workspaceItemFocused {
+  composes: workspaceItem;
+  background: #262b2f;
+  color: #f0f3f5;
+}
+
+.workspaceName {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusDot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  flex: none;
+}
+
+.dotBusy {
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.phaseBadge {
+  flex: none;
+  font-size: 0.6rem;
+  padding: 0.08rem 0.35rem;
+  border-radius: 999px;
+  border: 1px solid #3a4046;
+  color: #9aa3ab;
+  white-space: nowrap;
+}
+
+/* Actor color semantics (match the round-1 legend). */
+.actorHuman {
+  background: #e39a2d;
+}
+
+.actorAi {
+  background: #4c7fb8;
+}
+
+.actorWaiting {
+  background: repeating-linear-gradient(
+    -45deg,
+    #b9b1a6,
+    #b9b1a6 2px,
+    #6d675e 2px,
+    #6d675e 4px
+  );
+}
+
+.actorMerge {
+  background: #4d9c63;
+}
+
+.badgeWaiting {
+  border-color: #b9b1a6;
+  color: #d6cfc4;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(185, 177, 166, 0.22),
+    rgba(185, 177, 166, 0.22) 3px,
+    transparent 3px,
+    transparent 6px
+  );
+}
+
+/* ------------------------------------------------------------------- pane */
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.paneHeader {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.68rem;
+  color: #9aa3ab;
+  border-bottom: 1px solid #23272a;
+  background: #17191b;
+}
+
+.transcript {
+  margin: 0;
+  padding: 0.75rem 0.9rem 1rem;
+  font-size: 0.74rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  flex: 1;
+}
+
+.lineCmd {
+  color: #e8edf1;
+}
+
+.lineCmd::before {
+  content: '$ ';
+  color: #3ac569;
+}
+
+.lineOut {
+  color: #9fb3c4;
+}
+
+.lineStatus {
+  color: #e39a2d;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.lineStatus::before {
+  content: '~ .agent-status.json  ';
+  color: #767f87;
+}
+
+.lineNote {
+  color: #767f87;
+  font-style: italic;
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  vertical-align: text-bottom;
+  background: #d7dce1;
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ toast */
+
+.toast {
+  position: absolute;
+  top: 2.4rem;
+  right: 0.75rem;
+  max-width: 17rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #3a4046;
+  background: #22262a;
+  color: #e8edf1;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.toastTitle {
+  display: block;
+  font-weight: 700;
+  color: #f0f3f5;
+  margin-bottom: 0.1rem;
+}
+
+/* ------------------------------------------------------------------ recap */
+
+.recap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.75rem 0.9rem 1rem;
+  font-family: var(--gd-body, system-ui, sans-serif);
+}
+
+.recapRow {
+  display: grid;
+  grid-template-columns: 11rem 1fr 3.5rem;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  color: #c4cbd2;
+}
+
+.recapBarTrack {
+  height: 0.8rem;
+  border-radius: 4px;
+  background: #22262a;
+  overflow: hidden;
+}
+
+.recapBar {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+}
+
+.recapValue {
+  font-family: var(--gd-mono, monospace);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: #e8edf1;
+}
+
+/* --------------------------------------------------------------- controls */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.stepButton {
+  font: inherit;
+  font-family: var(--gd-mono, monospace);
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--gd-border, #d0d0d0);
+  border-radius: 999px;
+  background: var(--gd-surface-raised, #fafafa);
+  color: var(--gd-ink, #1a1a1a);
+  cursor: pointer;
+}
+
+.stepButton:hover:not(:disabled) {
+  border-color: var(--gd-accent, #b4471f);
+}
+
+.stepButton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.stepButtonPrimary {
+  composes: stepButton;
+  background: var(--gd-accent, #b4471f);
+  border-color: var(--gd-accent, #b4471f);
+  color: var(--gd-accent-contrast, #fff);
+}
+
+.stepCounter {
+  font-family: var(--gd-mono, monospace);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--gd-muted, #666);
+}
+
+.caption {
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  border-left: 3px solid var(--gd-accent, #b4471f);
+  background: var(--gd-callout-bg, rgba(180, 71, 31, 0.06));
+  border-radius: 0 8px 8px 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.captionTitle {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+/* ------------------------------------------- playground page section titles */
+
+.sectionHeading {
+  margin: 2rem 0 0.75rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--gd-ink, #1a1a1a);
+}
+
+.sectionHeading:first-of-type {
+  margin-top: 0;
+}
+
+/* --------------------------------------------------- motion & small screens */
+
+@media (prefers-reduced-motion: reduce) {
+  .dotBusy,
+  .cursor {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .windowBody {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  /* Sidebar collapses to a horizontal strip above the pane. */
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #2c2f33;
+    padding: 0.5rem;
+  }
+
+  .workspaceList {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .workspaceItem,
+  .workspaceItemFocused {
+    padding: 0.25rem 0.4rem;
+  }
+
+  .recapRow {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .recapValue {
+    text-align: left;
+  }
+
+  .toast {
+    position: static;
+    margin: 0.5rem 0.75rem 0;
+    max-width: none;
+  }
+}
