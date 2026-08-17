@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/guides/manager-worker-parallel-agents",
+    "file": "guides--manager-worker-parallel-agents.png",
+    "fullFile": null,
+    "title": "One-pager: hero with two CTAs"
+  },
+  {
+    "path": "/guides/manager-worker-parallel-agents",
+    "file": "guides--manager-worker-parallel-agents.png",
+    "fullFile": "guides--manager-worker-parallel-agents--full.png",
+    "title": "Full one-pager scroll"
+  },
+  {
+    "path": "/guides/manager-worker-parallel-agents/plan-and-set-up",
+    "file": "guides--manager-worker-parallel-agents--plan-and-set-up.png",
+    "fullFile": null,
+    "title": "Legacy chapter URL redirect target"
+  }
+]
