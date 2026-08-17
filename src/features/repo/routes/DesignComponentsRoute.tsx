@@ -1,17 +1,24 @@
+import { useState } from 'react'
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import PlaceholderBanner from '../../../components/placeholder-banner/PlaceholderBanner'
 import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
+import ChaptersNav from '../../guides/components/ChaptersNav'
 import GuideCard from '../../guides/components/GuideCard'
 import { getAllGuides } from '../../guides/content'
+import guidesStyles from '../../guides/guides.module.css'
 import styles from '../design-components.module.css'
 import repoStyles from '../repo.module.css'
 
 export default function DesignComponentsRoute(): ReactElement {
-  // Live specimen: the guides index card, rendered from real guide data so the
-  // reference never drifts from the shipped component.
+  // Live specimens: rendered from real guide data so the reference never
+  // drifts from the shipped components.
   const [featuredGuide] = getAllGuides()
+  const specimenChapters = featuredGuide?.chapters ?? []
+  const [specimenActiveSlug, setSpecimenActiveSlug] = useState<string | null>(
+    specimenChapters[1]?.slug ?? specimenChapters[0]?.slug ?? null
+  )
 
   return (
     <div className={repoStyles.page}>
@@ -86,6 +93,52 @@ export default function DesignComponentsRoute(): ReactElement {
             </article>
           </div>
         </section>
+
+        {featuredGuide && specimenChapters.length > 0 ? (
+          <section className={styles.showcase} aria-labelledby="chapters-nav-heading">
+            <h2 id="chapters-nav-heading">Chapters bar &amp; scrollspy</h2>
+            <p>
+              The guide one-pager&rsquo;s chapter TOC: a sticky bar that collapses to a
+              single row on narrow viewports and expands to the grouped chapter
+              list. On the guide page an IntersectionObserver scrollspy
+              (<code>useScrollSpy</code>) tracks which chapter section crosses the
+              middle of the viewport; the collapsed bar shows it and the list
+              highlights it. This is the live component with real guide data —
+              use the buttons to simulate the scrolled-to chapter.
+            </p>
+            <div
+              className={styles.simulateRow}
+              role="group"
+              aria-label="Simulate the scrolled-to chapter"
+            >
+              {specimenChapters.map((chapter, index) => (
+                <button
+                  key={chapter.slug}
+                  type="button"
+                  className={
+                    chapter.slug === specimenActiveSlug
+                      ? styles.simulateButtonActive
+                      : styles.simulateButton
+                  }
+                  aria-pressed={chapter.slug === specimenActiveSlug}
+                  onClick={() => setSpecimenActiveSlug(chapter.slug)}
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </button>
+              ))}
+            </div>
+            <div
+              className={`${guidesStyles.theme} ${styles.chaptersNavSpecimen}`}
+              data-theme="dark"
+            >
+              <ChaptersNav
+                chapters={specimenChapters}
+                activeSlug={specimenActiveSlug}
+                listId="specimen-chapter-list"
+              />
+            </div>
+          </section>
+        ) : null}
 
         {featuredGuide ? (
           <section className={styles.showcase} aria-labelledby="terminal-card-heading">

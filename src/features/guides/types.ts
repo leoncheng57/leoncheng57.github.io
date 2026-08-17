@@ -6,6 +6,8 @@ export interface GuideChapter {
   order: number
   /** Optional group label; consecutive chapters sharing a part render together. */
   part?: string
+  /** Marks a chapter that is still stabilizing; renders a Beta pill. */
+  beta?: boolean
   readingTimeMinutes: number
   content: string
 }
@@ -42,4 +44,5 @@ export interface GuideChapterFrontmatter {
   title?: string
   description?: string
   part?: string
+  beta?: boolean
 }

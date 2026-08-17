@@ -19,8 +19,12 @@
 /* Guides is a standalone documentation site with its own theme, independent of
    the main site chrome and of the blog styling. It defaults to Supabase's
    green-on-near-black dark theme; the masthead pill flips a light variant on
-   the same brand green via the data-theme attribute on this wrapper. */
-.page {
+   the same brand green via the data-theme attribute on this wrapper.
+
+   The variables live on .theme (composed into .page) so specimens outside the
+   guide — e.g. the design-components page — can opt into the palette without
+   inheriting the full-page layout. */
+.theme {
   --gd-bg: #ffffff;
   --gd-surface: #ffffff;
   --gd-surface-raised: #f3f5f4;
@@ -48,7 +52,10 @@
   --fb-muted: var(--gd-muted);
   --fb-accent: var(--gd-accent);
   --fb-focus: var(--gd-accent);
+}
 
+.page {
+  composes: theme;
   min-height: 100vh;
   background: var(--gd-bg);
   color: var(--gd-ink);
@@ -57,7 +64,7 @@
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.page[data-theme='dark'] {
+.theme[data-theme='dark'] {
   --gd-bg: #0b0d0e;
   --gd-surface: #121415;
   --gd-surface-raised: #1a1d1e;
@@ -172,9 +179,25 @@
 
 .pageHeader h1 {
   margin: 0 0 0.6rem;
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  font-size: clamp(1.45rem, 1rem + 2.2vw, 2.6rem);
   line-height: 1.12;
   letter-spacing: -0.02em;
+}
+
+.betaPill {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.55rem;
+  padding: 0.14rem 0.5rem;
+  border: 1px solid var(--gd-accent);
+  border-radius: 999px;
+  font-family: var(--gd-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gd-accent);
+  background: var(--gd-accent-soft);
 }
 
 .pageHeader > p {
@@ -308,17 +331,7 @@
 }
 
 .sectionHead {
-  display: flex;
-  align-items: baseline;
-  gap: 0.9rem;
   margin-bottom: 1.1rem;
-}
-
-.sectionNumber {
-  font-family: var(--gd-mono);
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--gd-accent);
 }
 
 .sectionTitle {
@@ -326,117 +339,6 @@
   font-size: 1.35rem;
   letter-spacing: -0.015em;
   color: var(--gd-ink);
-}
-
-/* ---------------------------------------------------------- chapter cards */
-
-.contentsSection {
-  margin-top: 3rem;
-  scroll-margin-top: 5rem;
-}
-
-.contentsTitle {
-  margin: 0 0 1.1rem;
-  font-family: var(--gd-mono);
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--gd-muted);
-}
-
-.chapterPart {
-  margin-bottom: 1.5rem;
-}
-
-.chapterPart:last-child {
-  margin-bottom: 0;
-}
-
-.chapterPartLabel {
-  margin: 0 0 0.6rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--gd-line);
-  font-family: var(--gd-mono);
-  font-size: 0.74rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--gd-accent);
-}
-
-.chapterGrid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0.85rem;
-}
-
-@media (min-width: 55rem) {
-  .chapterGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.chapterCard {
-  display: flex;
-  gap: 1rem;
-  height: 100%;
-  padding: 1.1rem 1.2rem;
-  border: 1px solid var(--gd-line);
-  border-radius: 14px;
-  background: var(--gd-surface);
-  box-shadow: var(--gd-shadow);
-  color: var(--gd-ink);
-  text-decoration: none;
-}
-
-.chapterCard:hover {
-  border-color: var(--gd-accent);
-}
-
-.chapterCard:hover .chapterCardArrow {
-  color: var(--gd-accent);
-  transform: translateX(0.2rem);
-}
-
-.chapterCardNumber {
-  font-family: var(--gd-mono);
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--gd-accent);
-  line-height: 1.2;
-}
-
-.chapterCardBody {
-  display: grid;
-  gap: 0.3rem;
-  min-width: 0;
-}
-
-.chapterCardTitle {
-  font-weight: 650;
-  font-size: 1.02rem;
-  line-height: 1.35;
-}
-
-.chapterCardDescription {
-  font-size: 0.86rem;
-  line-height: 1.5;
-  color: var(--gd-muted);
-}
-
-.chapterCardMeta {
-  font-family: var(--gd-mono);
-  font-size: 0.72rem;
-  color: var(--gd-muted);
-}
-
-.chapterCardArrow {
-  margin-left: auto;
-  align-self: center;
-  color: var(--gd-muted);
-  transition: transform 0.15s ease, color 0.15s ease;
 }
 
 /* ------------------------------------------------------------------- index */
@@ -500,28 +402,63 @@
 
 /* ------------------------------------------------------- chapter two-column */
 
+/* A strong break opening every chapter section, labeled with its number. */
+.chaptersDivider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.4rem;
+}
+
+.chaptersDivider::before,
+.chaptersDivider::after {
+  content: '';
+  flex: 1;
+  border-top: 2px solid var(--gd-line-strong, var(--gd-line));
+}
+
+.chaptersDividerLabel {
+  font-family: var(--gd-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gd-accent);
+}
+
+/* Mobile-first: block layout so the collapsed Chapters bar can stick to the
+   viewport while the article scrolls past. The grid returns at >=60rem. */
 .chapterLayout {
-  display: grid;
-  gap: 2rem;
-  align-items: start;
+  display: block;
+  margin-top: 2.5rem;
 }
 
 @media (min-width: 60rem) {
   .chapterLayout {
+    display: grid;
+    gap: 2rem;
+    align-items: start;
     grid-template-columns: 15rem minmax(0, 1fr);
   }
 }
 
+/* Mobile-first: a compact toggle row that expands the chapter list on demand.
+   It sticks to the viewport top so chapters stay reachable mid-article.
+   At >=60rem the toggle disappears and the list is always visible + sticky. */
 .sidebar {
   position: sticky;
-  top: 5.25rem;
+  top: 0.5rem;
+  z-index: 5;
+  margin-bottom: 2rem;
   border: 1px solid var(--gd-line);
   border-radius: 12px;
+  /* Opaque in both themes so article text never shows through while pinned. */
   background: var(--gd-surface);
-  padding: 1rem 0.75rem;
+  padding: 0.4rem 0.75rem;
 }
 
 .sidebarHeading {
+  display: none;
   margin: 0 0 0.6rem;
   padding: 0 0.5rem;
   font-family: var(--gd-mono);
@@ -529,6 +466,90 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--gd-muted);
+}
+
+.sidebarToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.45rem 0.5rem;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  font-family: var(--gd-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gd-muted);
+  cursor: pointer;
+}
+
+.sidebarToggle:hover {
+  background: var(--gd-surface-raised);
+  color: var(--gd-ink);
+}
+
+.sidebarToggleLabel {
+  flex-shrink: 0;
+}
+
+/* The chapter currently scrolled into view, shown inside the collapsed bar. */
+.sidebarToggleCurrent {
+  flex: 1;
+  min-width: 0;
+  margin: 0 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--gd-accent);
+}
+
+.sidebarToggleIcon {
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--gd-accent);
+}
+
+.sidebarBody {
+  display: none;
+  margin-top: 0.35rem;
+  padding-bottom: 0.35rem;
+  /* The expanded panel scrolls internally instead of covering the viewport. */
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.sidebarBodyOpen {
+  display: block;
+}
+
+@media (min-width: 60rem) {
+  .sidebar {
+    top: 5.25rem;
+    z-index: auto;
+    margin-bottom: 0;
+    padding: 1rem 0.75rem;
+  }
+
+  .sidebarHeading {
+    display: block;
+  }
+
+  .sidebarToggle {
+    display: none;
+  }
+
+  .sidebarBody {
+    display: block;
+    margin-top: 0;
+    padding-bottom: 0;
+    max-height: none;
+    overflow-y: visible;
+  }
 }
 
 .sidebarPart {
@@ -590,31 +611,58 @@
   color: var(--gd-accent);
 }
 
+.sidebarBeta {
+  margin-left: 0.35rem;
+  font-family: var(--gd-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  vertical-align: text-top;
+  color: var(--gd-accent);
+}
+
 /* ----------------------------------------------------------------- article */
 
 .article {
   min-width: 0;
 }
 
-.metaSection {
+.readerControls {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.6rem 1.25rem;
-  margin: 1rem 0 0.75rem;
+  justify-content: flex-end;
+  margin: 0 0 0.75rem;
 }
 
-.meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1rem;
-  font-family: var(--gd-mono);
-  font-size: 0.76rem;
-  color: var(--gd-muted);
+/* One-pager chapter sections: every chapter renders in order on the guide
+   page, each with an anchor id so legacy chapter URLs can deep-link here. */
+.chapterSection {
+  margin-bottom: 3.25rem;
+  scroll-margin-top: 4.5rem;
 }
 
-.meta p {
+.chapterSection:last-child {
+  margin-bottom: 0;
+}
+
+.chapterSectionHead {
+  margin-bottom: 1.1rem;
+}
+
+.chapterSectionTitle {
+  margin: 0 0 0.45rem;
+  font-size: clamp(1.3rem, 0.95rem + 1.6vw, 1.8rem);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: var(--gd-ink);
+}
+
+.chapterSectionDescription {
   margin: 0;
+  max-width: 62ch;
+  color: var(--gd-muted);
+  line-height: 1.55;
+  font-size: 0.95rem;
 }
 
 .tagList {
@@ -953,58 +1001,6 @@
   max-height: 92vh;
   border-radius: 10px;
   background: #ffffff;
-}
-
-/* ------------------------------------------------------------------- pager */
-
-.pager {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 2.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--gd-line);
-}
-
-.pagerLink {
-  display: grid;
-  gap: 0.3rem;
-  max-width: 48%;
-  padding: 1rem 1.2rem;
-  border: 1px solid var(--gd-line);
-  border-radius: 12px;
-  background: var(--gd-surface);
-  box-shadow: var(--gd-shadow);
-  color: var(--gd-ink);
-  text-decoration: none;
-}
-
-.pagerLink:hover {
-  border-color: var(--gd-accent);
-  color: var(--gd-accent);
-}
-
-.pagerLink:hover .pagerLabel {
-  color: var(--gd-accent);
-}
-
-.pagerNext {
-  margin-left: auto;
-  text-align: right;
-}
-
-.pagerLabel {
-  font-family: var(--gd-mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--gd-muted);
-}
-
-.pagerTitle {
-  font-weight: 650;
-  font-size: 1rem;
-  line-height: 1.35;
 }
 
 /* ------------------------------------------------------------------ footer */
