@@ -1,17 +1,45 @@
-import type { ReactElement } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import type { CSSProperties, ReactElement } from 'react'
+import { Link, useLocation, useParams } from 'react-router-dom'
+import FontSizeControls from '../../../components/markdown/FontSizeControls'
 import MarkdownArticle from '../../../components/markdown/MarkdownArticle'
 import TagList from '../../../components/markdown/TagList'
-import { groupChaptersByPart } from '../chapterGroups'
+import ChaptersNav from '../components/ChaptersNav'
+import CmuxTrialWalkthrough from '../components/CmuxTrialWalkthrough'
 import GuideNotFound from '../components/GuideNotFound'
-import { SIMULATOR_GUIDE_SLUG } from '../components/ManagerWorkerSimulator'
+import ManagerWorkerSimulator, {
+  SIMULATOR_GUIDE_SLUG,
+} from '../components/ManagerWorkerSimulator'
 import { getGuideBySlug } from '../content'
+import useScrollSpy from '../hooks/useScrollSpy'
 import { splitMarkdownSections } from '../markdownSections'
 import styles from '../guides.module.css'
+import trialStyles from '../components/CmuxTrialWalkthrough/CmuxTrialWalkthrough.module.css'
 
+/** The chapter slug whose section embeds the interactive simulator inline. */
+const SIMULATOR_CHAPTER_SLUG = 'simulator'
+
+/**
+ * The whole guide reads as a single page: hero, then every chapter in order
+ * (the overview and the interactive simulator are chapters too). Old
+ * per-chapter and playground URLs redirect here with the section anchor as
+ * the location hash, which this route scrolls to on arrival.
+ */
 export default function GuideOverviewRoute(): ReactElement {
   const { slug = '' } = useParams()
+  const { hash } = useLocation()
   const guide = getGuideBySlug(slug)
+  const [fontScale, setFontScale] = useState(1)
+  const activeSlug = useScrollSpy(guide ? guide.chapters.map((chapter) => chapter.slug) : [])
+
+  // Scroll to the chapter anchor when arriving via a hash (for example from a
+  // redirected legacy chapter URL) or when the hash changes in place.
+  useEffect(() => {
+    if (!hash) {
+      return
+    }
+    document.getElementById(hash.slice(1))?.scrollIntoView?.({ block: 'start' })
+  }, [hash])
 
   if (!guide) {
     return <GuideNotFound heading="Guide not found" message="The requested guide does not exist." />
@@ -19,9 +47,11 @@ export default function GuideOverviewRoute(): ReactElement {
 
   const { intro, sections } = splitMarkdownSections(guide.overview)
   const firstChapter = guide.chapters[0]
+  const hasSimulator = guide.slug === SIMULATOR_GUIDE_SLUG
+  const articleStyle = { '--gd-font-size': `${1.02 * fontScale}rem` } as CSSProperties
 
   return (
-    <main className={styles.main}>
+    <main className={styles.main} style={articleStyle}>
       <p className={styles.backLink}>
         <Link to="/guides">&larr; All guides</Link>
       </p>
@@ -33,16 +63,6 @@ export default function GuideOverviewRoute(): ReactElement {
         {guide.audience ? <p className={styles.audience}>{guide.audience}</p> : null}
         <p className={styles.heroMeta}>
           <span>Last reviewed {guide.updatedAt}</span>
-          {guide.chapters.length > 0 ? (
-            <>
-              <span className={styles.metaSeparator} aria-hidden="true">
-                ·
-              </span>
-              <span>
-                {guide.chapters.length} {guide.chapters.length === 1 ? 'chapter' : 'chapters'}
-              </span>
-            </>
-          ) : null}
           <span className={styles.metaSeparator} aria-hidden="true">
             ·
           </span>
@@ -51,70 +71,87 @@ export default function GuideOverviewRoute(): ReactElement {
         <TagList tags={guide.tags} styles={styles} label="Guide tags" />
         <div className={styles.ctaRow}>
           {firstChapter ? (
-            <Link to={`/guides/${guide.slug}/${firstChapter.slug}`} className={styles.primaryCta}>
+            <a href={`#${firstChapter.slug}`} className={styles.primaryCta}>
               Start reading &rarr;
-            </Link>
-          ) : null}
-          {guide.chapters.length > 0 ? (
-            <a href="#guide-contents" className={styles.secondaryCta}>
-              Contents
             </a>
           ) : null}
-          {guide.slug === SIMULATOR_GUIDE_SLUG ? (
-            <Link to={`/guides/${guide.slug}/playground`} className={styles.secondaryCta}>
-              Open the simulator (experimental)
-            </Link>
+          {hasSimulator ? (
+            <a href={`#${SIMULATOR_CHAPTER_SLUG}`} className={styles.secondaryCta}>
+              <span aria-hidden="true">👋</span>
+              {'\u00A0'}Open the simulator
+            </a>
           ) : null}
         </div>
       </header>
 
-      <div className={styles.overview}>
-        {intro ? (
-          <div className={styles.intro}>
-            <MarkdownArticle content={intro} styles={styles} />
-          </div>
-        ) : null}
-
-        {sections.map((section) => (
-          <section key={section.title} className={styles.sectionCard}>
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionTitle}>{section.title}</h2>
+      {intro || sections.length > 0 ? (
+        <div className={styles.overview}>
+          {intro ? (
+            <div className={styles.intro}>
+              <MarkdownArticle content={intro} styles={styles} />
             </div>
-            <MarkdownArticle content={section.body} styles={styles} />
-          </section>
-        ))}
-      </div>
+          ) : null}
+
+          {sections.map((section) => (
+            <section key={section.title} className={styles.sectionCard}>
+              <div className={styles.sectionHead}>
+                <h2 className={styles.sectionTitle}>{section.title}</h2>
+              </div>
+              <MarkdownArticle content={section.body} styles={styles} />
+            </section>
+          ))}
+        </div>
+      ) : null}
 
       {guide.chapters.length > 0 ? (
-        <nav id="guide-contents" className={styles.contentsSection} aria-label="Guide contents">
-          <h2 className={styles.contentsTitle}>Contents</h2>
-          {groupChaptersByPart(guide.chapters).map((group) => (
-            <div key={group.part || 'ungrouped'} className={styles.chapterPart}>
-              {group.part ? <p className={styles.chapterPartLabel}>{group.part}</p> : null}
-              <ol className={styles.chapterGrid}>
-                {group.items.map(({ chapter, index }) => (
-                  <li key={chapter.slug}>
-                    <Link to={`/guides/${guide.slug}/${chapter.slug}`} className={styles.chapterCard}>
-                      <span className={styles.chapterCardNumber} aria-hidden="true">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <span className={styles.chapterCardBody}>
-                        <span className={styles.chapterCardTitle}>{chapter.title}</span>
-                        {chapter.description ? (
-                          <span className={styles.chapterCardDescription}>{chapter.description}</span>
-                        ) : null}
-                        <span className={styles.chapterCardMeta}>{chapter.readingTimeMinutes} min</span>
-                      </span>
-                      <span className={styles.chapterCardArrow} aria-hidden="true">
-                        &rarr;
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ol>
+        <div className={styles.chapterLayout}>
+          <ChaptersNav chapters={guide.chapters} activeSlug={activeSlug} />
+
+          <div className={styles.article}>
+            <div className={styles.readerControls}>
+              <FontSizeControls
+                onDecrease={() => setFontScale((current) => Math.max(0.9, current - 0.1))}
+                onReset={() => setFontScale(1)}
+                onIncrease={() => setFontScale((current) => Math.min(1.4, current + 0.1))}
+                styles={styles}
+              />
             </div>
-          ))}
-        </nav>
+
+            {guide.chapters.map((chapter, chapterIndex) => (
+              <section
+                key={chapter.slug}
+                id={chapter.slug}
+                className={styles.chapterSection}
+                aria-labelledby={`${chapter.slug}-title`}
+              >
+                <div className={styles.chaptersDivider} role="presentation">
+                  <span className={styles.chaptersDividerLabel}>
+                    Chapter {String(chapterIndex + 1).padStart(2, '0')} ·{' '}
+                    {chapter.readingTimeMinutes} min
+                  </span>
+                </div>
+                <header className={styles.chapterSectionHead}>
+                  <h2 id={`${chapter.slug}-title`} className={styles.chapterSectionTitle}>
+                    {chapter.title}
+                    {chapter.beta ? <span className={styles.betaPill}>Beta</span> : null}
+                  </h2>
+                  {chapter.description ? (
+                    <p className={styles.chapterSectionDescription}>{chapter.description}</p>
+                  ) : null}
+                </header>
+                <MarkdownArticle content={chapter.content} styles={styles} />
+                {hasSimulator && chapter.slug === SIMULATOR_CHAPTER_SLUG ? (
+                  <>
+                    <h3 className={trialStyles.sectionHeading}>Try a run (guided)</h3>
+                    <CmuxTrialWalkthrough />
+                    <h3 className={trialStyles.sectionHeading}>Tune the knobs (sandbox)</h3>
+                    <ManagerWorkerSimulator />
+                  </>
+                ) : null}
+              </section>
+            ))}
+          </div>
+        </div>
       ) : null}
     </main>
   )

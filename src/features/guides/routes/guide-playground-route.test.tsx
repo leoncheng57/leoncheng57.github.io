@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
@@ -15,44 +15,63 @@ function renderAt(path: string) {
   )
 }
 
-describe('guide playground route', () => {
-  it('renders the experimental simulator playground', () => {
-    renderAt(PLAYGROUND_PATH)
+describe('guide simulator chapter', () => {
+  it('renders the simulator inline as a beta chapter of the one-pager', () => {
+    renderAt(GUIDE_PATH)
 
-    expect(
-      screen.getByRole('heading', { level: 1, name: /Manager\/worker run simulator/ })
-    ).toBeInTheDocument()
-    expect(screen.getByText('Experimental')).toBeInTheDocument()
+    const heading = screen.getByRole('heading', { level: 2, name: /Run simulator/ })
+    expect(heading).toBeInTheDocument()
+    expect(document.getElementById('simulator')).toBeInTheDocument()
 
     // The simulator region with its labelled controls and transport.
     const simulator = screen.getByRole('region', { name: 'Manager and worker run simulator' })
     expect(simulator).toBeInTheDocument()
-    expect(screen.getByLabelText(/Workers/)).toBeInTheDocument()
-    expect(screen.getByLabelText('Autonomy level')).toBeInTheDocument()
-    expect(screen.getByLabelText('Task size variance')).toBeInTheDocument()
-    expect(screen.getByLabelText(/Human review latency/)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Reset' })).toBeInTheDocument()
-    expect(screen.getByLabelText('Scrub')).toBeInTheDocument()
+    expect(within(simulator).getByLabelText(/Workers/)).toBeInTheDocument()
+    expect(within(simulator).getByLabelText('Autonomy level')).toBeInTheDocument()
+    expect(within(simulator).getByLabelText('Task size variance')).toBeInTheDocument()
+    expect(within(simulator).getByLabelText(/Human review latency/)).toBeInTheDocument()
+    expect(within(simulator).getByRole('button', { name: 'Play' })).toBeInTheDocument()
+    expect(within(simulator).getByRole('button', { name: 'Reset' })).toBeInTheDocument()
+    expect(within(simulator).getByLabelText('Scrub')).toBeInTheDocument()
 
     // Swimlanes for the manager and the default worker count.
-    expect(screen.getByText('Manager')).toBeInTheDocument()
-    expect(screen.getByText('Worker 1')).toBeInTheDocument()
+    expect(within(simulator).getAllByText('Manager').length).toBeGreaterThan(0)
+    expect(within(simulator).getByText('Worker 1')).toBeInTheDocument()
 
     // Legend explains the human/AI/waiting encoding.
-    expect(screen.getByRole('list', { name: 'Timeline color legend' })).toBeInTheDocument()
+    expect(
+      within(simulator).getByRole('list', { name: 'Timeline color legend' })
+    ).toBeInTheDocument()
 
     // aria-live summary announces the current state.
-    expect(screen.getByText(/Minute 0 of \d+\. Manager:/)).toBeInTheDocument()
+    expect(within(simulator).getByText(/Minute 0 of \d+\. Manager:/)).toBeInTheDocument()
   })
 
   it('steps the clock forward deterministically', async () => {
     const user = userEvent.setup()
+    renderAt(GUIDE_PATH)
+
+    const simulator = screen.getByRole('region', { name: 'Manager and worker run simulator' })
+    expect(
+      within(simulator).getByRole('timer', { name: 'Simulated clock' })
+    ).toHaveTextContent(/^t = 0 \//)
+    await user.click(within(simulator).getByRole('button', { name: '+1 min' }))
+    expect(
+      within(simulator).getByRole('timer', { name: 'Simulated clock' })
+    ).toHaveTextContent(/^t = 1 \//)
+  })
+
+  it('redirects the legacy playground url to the simulator anchor', () => {
     renderAt(PLAYGROUND_PATH)
 
-    expect(screen.getByRole('timer', { name: 'Simulated clock' })).toHaveTextContent(/^t = 0 \//)
-    await user.click(screen.getByRole('button', { name: '+1 min' }))
-    expect(screen.getByRole('timer', { name: 'Simulated clock' })).toHaveTextContent(/^t = 1 \//)
+    // Lands on the one-pager with the simulator chapter present.
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: /Running Parallel Coding Agents/,
+      })
+    ).toBeInTheDocument()
+    expect(document.getElementById('simulator')).toBeInTheDocument()
   })
 
   it('shows GuideNotFound for a playground on other slugs', () => {
@@ -63,11 +82,12 @@ describe('guide playground route', () => {
     ).toBeInTheDocument()
   })
 
-  it('links to the playground from the guide overview CTA row', () => {
+  it('links to the simulator anchor from the guide CTA row', () => {
     renderAt(GUIDE_PATH)
 
-    expect(
-      screen.getByRole('link', { name: 'Open the simulator (experimental)' })
-    ).toHaveAttribute('href', PLAYGROUND_PATH)
+    expect(screen.getByRole('link', { name: /Open the simulator/ })).toHaveAttribute(
+      'href',
+      '#simulator'
+    )
   })
 })

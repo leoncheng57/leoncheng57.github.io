@@ -1,18 +1,13 @@
 import type { ReactElement } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import CmuxTrialWalkthrough from '../components/CmuxTrialWalkthrough'
+import { Navigate, useParams } from 'react-router-dom'
 import GuideNotFound from '../components/GuideNotFound'
-import ManagerWorkerSimulator, {
-  SIMULATOR_GUIDE_SLUG,
-} from '../components/ManagerWorkerSimulator'
+import { SIMULATOR_GUIDE_SLUG } from '../components/ManagerWorkerSimulator'
 import { getGuideBySlug } from '../content'
-import styles from '../guides.module.css'
-import simStyles from '../components/ManagerWorkerSimulator/ManagerWorkerSimulator.module.css'
-import trialStyles from '../components/CmuxTrialWalkthrough/CmuxTrialWalkthrough.module.css'
 
 /**
- * Guide-scoped experimental playground. Only the manager/worker guide has a
- * simulator; every other slug falls through to the shared GuideNotFound.
+ * The simulator now lives inline as a chapter of the guide one-pager, so the
+ * legacy playground URL redirects to its section anchor. Other slugs keep the
+ * not-found state.
  */
 export default function GuidePlaygroundRoute(): ReactElement {
   const { slug = '' } = useParams()
@@ -27,32 +22,5 @@ export default function GuidePlaygroundRoute(): ReactElement {
     )
   }
 
-  return (
-    <main className={styles.main}>
-      <p className={styles.backLink}>
-        <Link to={`/guides/${guide.slug}`}>&larr; Guide overview</Link>
-      </p>
-
-      <header className={styles.hero}>
-        <p className={styles.eyebrow}>~/guides/{guide.slug}/playground</p>
-        <span className={simStyles.experimentalBadge}>Experimental</span>
-        <h1 className={styles.heroTitle}>Manager/worker run simulator</h1>
-        <p className={styles.heroDescription}>
-          A toy model of one manager agent dispatching parallel workers. Tune the knobs to see
-          where time goes, where work stalls waiting on a human, and which moments are yours
-          versus the agents&rsquo;.
-        </p>
-        <p className={simStyles.playgroundNote}>
-          This playground is experimental and deliberately simplified: durations are simulated
-          minutes, not measurements. The same seed always replays the same run.
-        </p>
-      </header>
-
-      <h2 className={trialStyles.sectionHeading}>Try a run (guided)</h2>
-      <CmuxTrialWalkthrough />
-
-      <h2 className={trialStyles.sectionHeading}>Tune the knobs (sandbox)</h2>
-      <ManagerWorkerSimulator />
-    </main>
-  )
+  return <Navigate to={{ pathname: `/guides/${guide.slug}`, hash: '#simulator' }} replace />
 }
