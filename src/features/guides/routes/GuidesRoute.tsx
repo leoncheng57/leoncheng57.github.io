@@ -6,6 +6,7 @@ import useGuidesTheme from '../hooks/useGuidesTheme'
 import styles from '../guides.module.css'
 import GuideChapterRoute from './GuideChapterRoute'
 import GuideOverviewRoute from './GuideOverviewRoute'
+import GuidePlaygroundRoute from './GuidePlaygroundRoute'
 
 /**
  * A single guide reads as its own small documentation site: it owns a
@@ -52,6 +53,8 @@ export default function GuidesRoute(): ReactElement {
 
         <Routes>
           <Route index element={<GuideOverviewRoute />} />
+          {/* Experimental, guide-scoped playground; must precede :chapterSlug. */}
+          <Route path="playground" element={<GuidePlaygroundRoute />} />
           <Route path=":chapterSlug" element={<GuideChapterRoute />} />
         </Routes>
 

@@ -1,0 +1,321 @@
+/*
+ * Styles for the experimental manager/worker run simulator. Self-contained:
+ * relies only on the --gd-* theme variables set by the guides frame, with
+ * fallbacks so the component still renders sensibly outside it.
+ */
+
+.simulator {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  border: 1px solid var(--gd-border, #d0d0d0);
+  border-radius: 12px;
+  background: var(--gd-surface, #fff);
+  padding: 1.25rem;
+  font-family: var(--gd-body, system-ui, sans-serif);
+  color: var(--gd-ink, #1a1a1a);
+}
+
+/* ------------------------------------------------------------------ knobs */
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.9rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.controlsLegend {
+  font-family: var(--gd-mono, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gd-muted, #666);
+  padding: 0 0 0.5rem;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.controlLabel {
+  font-weight: 600;
+  color: var(--gd-ink, #1a1a1a);
+}
+
+.controlValue {
+  font-family: var(--gd-mono, monospace);
+  font-weight: 400;
+  color: var(--gd-muted, #666);
+}
+
+.control input[type='range'] {
+  width: 100%;
+  accent-color: var(--gd-accent, #b4471f);
+}
+
+.control select,
+.control input[type='number'] {
+  font: inherit;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--gd-border, #d0d0d0);
+  border-radius: 6px;
+  background: var(--gd-surface-raised, #fafafa);
+  color: var(--gd-ink, #1a1a1a);
+}
+
+.controlHint {
+  font-size: 0.75rem;
+  color: var(--gd-muted, #666);
+}
+
+/* -------------------------------------------------------------- transport */
+
+.transport {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.transportButton {
+  font: inherit;
+  font-family: var(--gd-mono, monospace);
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--gd-border, #d0d0d0);
+  border-radius: 999px;
+  background: var(--gd-surface-raised, #fafafa);
+  color: var(--gd-ink, #1a1a1a);
+  cursor: pointer;
+}
+
+.transportButton:hover {
+  border-color: var(--gd-accent, #b4471f);
+}
+
+.transportButtonPrimary {
+  composes: transportButton;
+  background: var(--gd-accent, #b4471f);
+  border-color: var(--gd-accent, #b4471f);
+  color: var(--gd-accent-contrast, #fff);
+  min-width: 5.5rem;
+}
+
+.scrub {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 14rem;
+  font-size: 0.85rem;
+}
+
+.scrub input[type='range'] {
+  flex: 1;
+  accent-color: var(--gd-accent, #b4471f);
+}
+
+.clock {
+  font-family: var(--gd-mono, monospace);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  color: var(--gd-ink, #1a1a1a);
+}
+
+.reducedMotionNote {
+  flex-basis: 100%;
+  font-size: 0.75rem;
+  color: var(--gd-muted, #666);
+}
+
+/* --------------------------------------------------------------- timeline */
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.lane {
+  display: grid;
+  grid-template-columns: minmax(9rem, 12rem) 1fr;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.laneHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.laneName {
+  font-family: var(--gd-mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.lanePhase {
+  font-size: 0.72rem;
+  color: var(--gd-muted, #666);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.laneWait {
+  color: var(--gd-accent, #b4471f);
+}
+
+.track {
+  position: relative;
+  height: 1.9rem;
+  border: 1px solid var(--gd-line, #e2e2e2);
+  border-radius: 6px;
+  background: var(--gd-code-bg, #f5f5f5);
+  overflow: hidden;
+}
+
+.segment {
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  border-radius: 4px;
+  min-width: 2px;
+  opacity: 0.92;
+}
+
+.segmentFuture {
+  opacity: 0.28;
+}
+
+.segmentActive {
+  outline: 2px solid var(--gd-ink, #1a1a1a);
+  outline-offset: 1px;
+  opacity: 1;
+}
+
+.actorHuman {
+  background: #e39a2d;
+}
+
+.actorAi {
+  background: #4c7fb8;
+}
+
+.actorWaiting {
+  background: repeating-linear-gradient(
+    -45deg,
+    #b9b1a6,
+    #b9b1a6 4px,
+    #ded8cf 4px,
+    #ded8cf 8px
+  );
+}
+
+.phaseMerge {
+  background: #4d9c63;
+}
+
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--gd-ink, #1a1a1a);
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------- legend */
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.78rem;
+  color: var(--gd-ink-soft, #444);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendSwatch {
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 3px;
+  flex: none;
+}
+
+/* ------------------------------------------------------------------ stats */
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  font-size: 0.82rem;
+  color: var(--gd-ink-soft, #444);
+  border-top: 1px dashed var(--gd-line, #e2e2e2);
+  padding-top: 0.75rem;
+}
+
+.statValue {
+  font-family: var(--gd-mono, monospace);
+  font-variant-numeric: tabular-nums;
+  color: var(--gd-ink, #1a1a1a);
+}
+
+/* ------------------------------------------------- playground page chrome */
+
+.experimentalBadge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--gd-accent, #b4471f);
+  border-radius: 999px;
+  font-family: var(--gd-mono, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gd-accent, #b4471f);
+  background: var(--gd-accent-soft, rgba(180, 71, 31, 0.08));
+}
+
+.playgroundNote {
+  font-size: 0.85rem;
+  color: var(--gd-muted, #666);
+  max-width: 60ch;
+}
+
+/* Visually hidden but exposed to screen readers (aria-live summary). */
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .lane {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}
