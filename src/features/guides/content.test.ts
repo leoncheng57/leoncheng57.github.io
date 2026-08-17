@@ -104,6 +104,41 @@ draft: true
     expect(guides[0]).toMatchObject({ slug: 'draft', draft: true })
   })
 
+  it('passes the beta frontmatter flag through to chapters', () => {
+    const [guide] = loadGuidesFromFiles({
+      '/src/content/guides/sample/guide.md': GUIDE_FILE,
+      '/src/content/guides/sample/01-stable.md': `---
+title: "Stable Chapter"
+---
+
+# Stable Chapter
+
+Stable body.
+`,
+      '/src/content/guides/sample/02-experimental.md': `---
+title: "Experimental Chapter"
+beta: true
+---
+
+# Experimental Chapter
+
+Experimental body.
+`,
+    })
+
+    expect(guide.chapters[0].beta).toBeUndefined()
+    expect(guide.chapters[1].beta).toBe(true)
+  })
+
+  it('flags the watch-the-run chapter of the real guide as beta', () => {
+    const guide = getAllGuides().find(
+      (candidate) => candidate.slug === 'manager-worker-parallel-agents'
+    )
+
+    expect(guide).toBeDefined()
+    expect(getGuideChapter(guide!, 'watch-the-run')?.chapter.beta).toBe(true)
+  })
+
   it('resolves a chapter and its position within a guide', () => {
     const [guide] = loadGuidesFromFiles({
       '/src/content/guides/sample/guide.md': GUIDE_FILE,

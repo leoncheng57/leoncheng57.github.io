@@ -172,9 +172,25 @@
 
 .pageHeader h1 {
   margin: 0 0 0.6rem;
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  font-size: clamp(1.45rem, 1rem + 2.2vw, 2.6rem);
   line-height: 1.12;
   letter-spacing: -0.02em;
+}
+
+.betaPill {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.55rem;
+  padding: 0.14rem 0.5rem;
+  border: 1px solid var(--gd-accent);
+  border-radius: 999px;
+  font-family: var(--gd-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gd-accent);
+  background: var(--gd-accent-soft);
 }
 
 .pageHeader > p {
@@ -512,16 +528,17 @@
   }
 }
 
+/* Mobile-first: a compact toggle row that expands the chapter list on demand.
+   At >=60rem the toggle disappears and the list is always visible + sticky. */
 .sidebar {
-  position: sticky;
-  top: 5.25rem;
   border: 1px solid var(--gd-line);
   border-radius: 12px;
   background: var(--gd-surface);
-  padding: 1rem 0.75rem;
+  padding: 0.4rem 0.75rem;
 }
 
 .sidebarHeading {
+  display: none;
   margin: 0 0 0.6rem;
   padding: 0 0.5rem;
   font-family: var(--gd-mono);
@@ -529,6 +546,66 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--gd-muted);
+}
+
+.sidebarToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.45rem 0.5rem;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  font-family: var(--gd-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gd-muted);
+  cursor: pointer;
+}
+
+.sidebarToggle:hover {
+  background: var(--gd-surface-raised);
+  color: var(--gd-ink);
+}
+
+.sidebarToggleIcon {
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--gd-accent);
+}
+
+.sidebarBody {
+  display: none;
+  margin-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+.sidebarBodyOpen {
+  display: block;
+}
+
+@media (min-width: 60rem) {
+  .sidebar {
+    position: sticky;
+    top: 5.25rem;
+    padding: 1rem 0.75rem;
+  }
+
+  .sidebarHeading {
+    display: block;
+  }
+
+  .sidebarToggle {
+    display: none;
+  }
+
+  .sidebarBody {
+    display: block;
+    margin-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 .sidebarPart {
@@ -587,6 +664,17 @@
 }
 
 .sidebarLinkActive .sidebarNumber {
+  color: var(--gd-accent);
+}
+
+.sidebarBeta {
+  margin-left: 0.35rem;
+  font-family: var(--gd-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  vertical-align: text-top;
   color: var(--gd-accent);
 }
 
