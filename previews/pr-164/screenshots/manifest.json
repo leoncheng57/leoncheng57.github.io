@@ -1,14 +1,20 @@
 [
   {
     "path": "/opencode-remote-control",
-    "file": "opencode-remote-control.png"
+    "file": "opencode-remote-control.png",
+    "fullFile": null,
+    "title": null
   },
   {
     "path": "/guides/opencode-remote-control",
-    "file": "guides--opencode-remote-control.png"
+    "file": "guides--opencode-remote-control.png",
+    "fullFile": null,
+    "title": null
   },
   {
     "path": "/guides",
-    "file": "guides.png"
+    "file": "guides.png",
+    "fullFile": null,
+    "title": null
   }
 ]
