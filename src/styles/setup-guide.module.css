@@ -335,7 +335,7 @@
   display: flex;
   gap: 12px;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 0;
   padding: 13px 16px;
   border: 1px solid var(--line);
   background: var(--panel);
@@ -343,6 +343,54 @@
   font-size: .85rem;
 }
 .installCommand > span { color: var(--accent); }
+
+.installTag {
+  margin-left: auto;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .58rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* Dark-palette twin of repo.module.css's .privateBadge, marking repo links
+   that need an account with access. */
+.privateBadge {
+  display: inline-block;
+  padding: .2rem .5rem;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: .58rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.heroIntro a {
+  color: var(--text);
+  text-underline-offset: 3px;
+}
+
+/* Callout attached directly beneath the install command box: shares its
+   border, drops the seam, and carries an accent edge. */
+.installNote {
+  margin: 0 0 16px;
+  padding: 11px 16px;
+  border: 1px solid var(--line);
+  border-top: 0;
+  border-left: 2px solid var(--accent);
+  background: var(--panel-2);
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.6;
+}
+
+.installNote a { color: var(--text); text-underline-offset: 3px; }
 
 .configNotes ul { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; }
 .configNotes li {

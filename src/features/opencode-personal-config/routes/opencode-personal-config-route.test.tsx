@@ -49,6 +49,15 @@ describe('opencode personal config route', () => {
     renderPage()
 
     expect(screen.getAllByText('./install.sh').length).toBeGreaterThan(0)
+    expect(screen.getByText('private')).toBeInTheDocument()
+    expect(screen.getAllByText('(private-access-only)').length).toBeGreaterThan(0)
+    expect(
+      screen.getAllByRole('link', { name: /opencode-personal/ }).map((link) =>
+        link.getAttribute('href')
+      )
+    ).toContain('https://github.com/leoncheng57/opencode-personal')
+    expect(screen.getByText(/everyone else sees a 404/i)).toBeInTheDocument()
+    expect(screen.getByText(/Pre-flight: warns and prompts/i)).toBeInTheDocument()
     expect(screen.getByText(/Secrets never enter the repo/i)).toBeInTheDocument()
     expect(
       screen.getByText(/no credentials or private hostnames are committed/i)

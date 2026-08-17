@@ -18,6 +18,9 @@
   color: var(--muted);
 }
 
+.treeHeader a { text-decoration: none; }
+.treeHeader a:hover, .treeHeader a:focus-visible { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+
 .treeBody {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

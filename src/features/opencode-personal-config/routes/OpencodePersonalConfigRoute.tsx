@@ -76,10 +76,17 @@ export default function OpencodePersonalConfigRoute(): ReactElement {
           <div>
             <h1>opencode personal config</h1>
             <p className={styles.heroIntro}>
-              A private repo with <code>opencode.json</code>, MCP server
-              definitions, skills, agents, and machine profiles. One installer
-              recreates the OpenCode               setup on a new laptop; secrets stay in
-              environment variables.
+              <a
+                href="https://github.com/leoncheng57/opencode-personal"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <code>opencode-personal</code>
+              </a>{' '}
+              <span className={styles.privateBadge}>(private-access-only)</span>{' '}
+              holds <code>opencode.json</code>, MCP server definitions, skills,
+              agents, and machine profiles. One installer recreates the OpenCode
+              setup on a new laptop; secrets stay in environment variables.
             </p>
             <p className={styles.envLine}>
               <code>opencode 1.18.18</code>
@@ -120,7 +127,15 @@ export default function OpencodePersonalConfigRoute(): ReactElement {
             role="img"
             aria-label="opencode-personal repository tree: config, profiles, mcp-projects, and install script"
           >
-            <div className={styles.treeHeader}>opencode-personal/</div>
+            <div className={styles.treeHeader}>
+              <a
+                href="https://github.com/leoncheng57/opencode-personal"
+                target="_blank"
+                rel="noreferrer"
+              >
+                opencode-personal/
+              </a>
+            </div>
             <div className={styles.treeBody}>
               <div className={styles.treeCol}>
                 <span className={styles.regionTag}>1</span>
@@ -247,8 +262,35 @@ export default function OpencodePersonalConfigRoute(): ReactElement {
               <div className={styles.installCommand}>
                 <span>$</span>
                 <code>./install.sh</code>
+                <span className={styles.installTag}>private</span>
               </div>
+              <p className={styles.installNote}>
+                These steps document my own machines.{' '}
+                <a
+                  href="https://github.com/leoncheng57/opencode-personal"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  opencode-personal
+                </a>{' '}
+                <span className={styles.privateBadge}>(private-access-only)</span>{' '}
+                needs an account with access; everyone else sees a 404. The
+                phone-push plugin is separately installable from the public{' '}
+                <a
+                  href="https://github.com/leoncheng57/opencode-remote-control-and-notifications"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  opencode-remote-control-and-notifications
+                </a>{' '}
+                repo.
+              </p>
               <ul>
+                <li>
+                  Pre-flight: warns and prompts if any of the 5 token env vars
+                  are unset
+                </li>
+                <li>Backs up the existing <code>opencode.json</code> with a timestamp</li>
                 <li>Copies <code>config/opencode/</code> to <code>~/.config/opencode/</code></li>
                 <li>Copies local MCP projects to <code>~/Documents/Projects/</code></li>
                 <li>Runs <code>npm install</code> where needed</li>

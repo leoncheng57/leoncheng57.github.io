@@ -45,9 +45,17 @@ export default function CmuxPersonalConfigRoute(): ReactElement {
           <div>
             <h1>cmux personal config</h1>
             <p className={styles.heroIntro}>
-              A private repo with <code>cmux.json</code>, an OpenCode notification
-              plugin, and an installer. Synced across machines. Completed agent
-              sessions stay silent; prompts that block on input speak.
+              <a
+                href="https://github.com/leoncheng57/cmux-personal"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <code>cmux-personal</code>
+              </a>{' '}
+              <span className={styles.privateBadge}>(private-access-only)</span>{' '}
+              holds <code>cmux.json</code>, an OpenCode notification plugin, and
+              an installer. Synced across machines. Completed agent sessions
+              stay silent; prompts that block on input speak.
             </p>
             <p className={styles.envLine}>
               <code>cmux 0.64.22 (102) · stock build</code>
@@ -222,12 +230,39 @@ export default function CmuxPersonalConfigRoute(): ReactElement {
               <div className={styles.installCommand}>
                 <span>$</span>
                 <code>./install.sh</code>
+                <span className={styles.installTag}>private</span>
               </div>
+              <p className={styles.installNote}>
+                These steps document my own machines.{' '}
+                <a
+                  href="https://github.com/leoncheng57/cmux-personal"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  cmux-personal
+                </a>{' '}
+                <span className={styles.privateBadge}>(private-access-only)</span>{' '}
+                needs an account with access; everyone else sees a 404. The
+                phone-push plugin is separately installable from the public{' '}
+                <a
+                  href="https://github.com/leoncheng57/opencode-remote-control-and-notifications"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  opencode-remote-control-and-notifications
+                </a>{' '}
+                repo.
+              </p>
               <ul>
                 <li>Backs up existing managed files with timestamps</li>
-                <li>Copies <code>cmux.json</code> and the OpenCode plugin</li>
-                <li>Validates the JSON against cmux settings support</li>
+                <li>Copies <code>cmux.json</code> and <code>cmux-question-notify.js</code></li>
+                <li>Validates JSON syntax with <code>python3 -m json.tool</code></li>
                 <li>Reloads a running cmux; restart OpenCode once</li>
+                <li>
+                  In practice <code>cmux-question-notify.js</code> is symlinked
+                  from the public repo, so edits there take effect without
+                  re-running the installer
+                </li>
               </ul>
             </div>
           </div>

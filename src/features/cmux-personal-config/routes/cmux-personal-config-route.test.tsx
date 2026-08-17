@@ -39,6 +39,13 @@ describe('cmux personal config route', () => {
     renderPage()
 
     expect(screen.getByText('./install.sh')).toBeInTheDocument()
+    expect(screen.getByText('private')).toBeInTheDocument()
+    expect(screen.getAllByText('(private-access-only)').length).toBeGreaterThan(0)
+    expect(
+      screen.getAllByRole('link', { name: /cmux-personal/ })[0]
+    ).toHaveAttribute('href', 'https://github.com/leoncheng57/cmux-personal')
+    expect(screen.getByText(/everyone else sees a 404/i)).toBeInTheDocument()
+    expect(screen.getByText(/python3 -m json.tool/)).toBeInTheDocument()
     expect(screen.getByText(/excludes credentials, private service URLs/i)).toBeInTheDocument()
     expect(screen.getByText(/never reads prompt contents aloud/i)).toBeInTheDocument()
   })

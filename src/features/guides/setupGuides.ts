@@ -22,7 +22,7 @@ const setupGuides: Guide[] = [
     slug: 'opencode-personal-config',
     title: 'opencode personal config',
     description:
-      'How my OpenCode configuration is structured and reinstalled: repository layout, MCP servers by transport, skills and agents, environment-variable secret handling, and the installer.',
+      'How my OpenCode configuration is kept portable across laptops: repository layout, MCP servers by transport, skills and agents, environment-variable secret handling, and the installer.',
     updatedAt: '2026-08-17',
     tags: ['opencode', 'mcp', 'setup'],
     overview: '',
