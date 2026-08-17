@@ -40,7 +40,7 @@ export default function App(): ReactElement {
         <Route
           path="/guides/agent-dashboard/*"
           element={
-            <Navigate to="/guides/manager-worker-parallel-agents/watch-the-run" replace />
+            <Navigate to="/guides/manager-worker-parallel-agents#watch-the-run" replace />
           }
         />
         <Route path="/guides/:slug/*" element={<GuidesRoute />} />

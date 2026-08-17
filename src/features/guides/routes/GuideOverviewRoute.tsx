@@ -1,5 +1,7 @@
-import type { ReactElement } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import type { CSSProperties, ReactElement } from 'react'
+import { Link, useLocation, useParams } from 'react-router-dom'
+import FontSizeControls from '../../../components/markdown/FontSizeControls'
 import MarkdownArticle from '../../../components/markdown/MarkdownArticle'
 import TagList from '../../../components/markdown/TagList'
 import { groupChaptersByPart } from '../chapterGroups'
@@ -9,9 +11,28 @@ import { getGuideBySlug } from '../content'
 import { splitMarkdownSections } from '../markdownSections'
 import styles from '../guides.module.css'
 
+const CHAPTER_LIST_ID = 'guide-chapter-list'
+
+/**
+ * The whole guide reads as a single page: hero, overview, then every chapter
+ * in order. Old per-chapter URLs redirect here with the chapter slug as the
+ * location hash, which this route scrolls to on arrival.
+ */
 export default function GuideOverviewRoute(): ReactElement {
   const { slug = '' } = useParams()
+  const { hash } = useLocation()
   const guide = getGuideBySlug(slug)
+  const [fontScale, setFontScale] = useState(1)
+  const [navOpen, setNavOpen] = useState(false)
+
+  // Scroll to the chapter anchor when arriving via a hash (for example from a
+  // redirected legacy chapter URL) or when the hash changes in place.
+  useEffect(() => {
+    if (!hash) {
+      return
+    }
+    document.getElementById(hash.slice(1))?.scrollIntoView?.({ block: 'start' })
+  }, [hash])
 
   if (!guide) {
     return <GuideNotFound heading="Guide not found" message="The requested guide does not exist." />
@@ -19,9 +40,10 @@ export default function GuideOverviewRoute(): ReactElement {
 
   const { intro, sections } = splitMarkdownSections(guide.overview)
   const firstChapter = guide.chapters[0]
+  const articleStyle = { '--gd-font-size': `${1.02 * fontScale}rem` } as CSSProperties
 
   return (
-    <main className={styles.main}>
+    <main className={styles.main} style={articleStyle}>
       <p className={styles.backLink}>
         <Link to="/guides">&larr; All guides</Link>
       </p>
@@ -33,16 +55,6 @@ export default function GuideOverviewRoute(): ReactElement {
         {guide.audience ? <p className={styles.audience}>{guide.audience}</p> : null}
         <p className={styles.heroMeta}>
           <span>Last reviewed {guide.updatedAt}</span>
-          {guide.chapters.length > 0 ? (
-            <>
-              <span className={styles.metaSeparator} aria-hidden="true">
-                ·
-              </span>
-              <span>
-                {guide.chapters.length} {guide.chapters.length === 1 ? 'chapter' : 'chapters'}
-              </span>
-            </>
-          ) : null}
           <span className={styles.metaSeparator} aria-hidden="true">
             ·
           </span>
@@ -51,18 +63,14 @@ export default function GuideOverviewRoute(): ReactElement {
         <TagList tags={guide.tags} styles={styles} label="Guide tags" />
         <div className={styles.ctaRow}>
           {firstChapter ? (
-            <Link to={`/guides/${guide.slug}/${firstChapter.slug}`} className={styles.primaryCta}>
+            <a href={`#${firstChapter.slug}`} className={styles.primaryCta}>
               Start reading &rarr;
-            </Link>
-          ) : null}
-          {guide.chapters.length > 0 ? (
-            <a href="#guide-contents" className={styles.secondaryCta}>
-              Contents
             </a>
           ) : null}
           {guide.slug === SIMULATOR_GUIDE_SLUG ? (
             <Link to={`/guides/${guide.slug}/playground`} className={styles.secondaryCta}>
-              Open the simulator (experimental)
+              <span aria-hidden="true">👋</span>
+              {'\u00A0'}Open the simulator
             </Link>
           ) : null}
         </div>
@@ -86,35 +94,87 @@ export default function GuideOverviewRoute(): ReactElement {
       </div>
 
       {guide.chapters.length > 0 ? (
-        <nav id="guide-contents" className={styles.contentsSection} aria-label="Guide contents">
-          <h2 className={styles.contentsTitle}>Contents</h2>
-          {groupChaptersByPart(guide.chapters).map((group) => (
-            <div key={group.part || 'ungrouped'} className={styles.chapterPart}>
-              {group.part ? <p className={styles.chapterPartLabel}>{group.part}</p> : null}
-              <ol className={styles.chapterGrid}>
-                {group.items.map(({ chapter, index }) => (
-                  <li key={chapter.slug}>
-                    <Link to={`/guides/${guide.slug}/${chapter.slug}`} className={styles.chapterCard}>
-                      <span className={styles.chapterCardNumber} aria-hidden="true">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <span className={styles.chapterCardBody}>
-                        <span className={styles.chapterCardTitle}>{chapter.title}</span>
-                        {chapter.description ? (
-                          <span className={styles.chapterCardDescription}>{chapter.description}</span>
-                        ) : null}
-                        <span className={styles.chapterCardMeta}>{chapter.readingTimeMinutes} min</span>
-                      </span>
-                      <span className={styles.chapterCardArrow} aria-hidden="true">
-                        &rarr;
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ol>
+        <div className={styles.chapterLayout}>
+          <nav className={styles.sidebar} aria-label="Guide chapters">
+            <h2 className={styles.sidebarHeading}>Chapters</h2>
+            <button
+              type="button"
+              className={styles.sidebarToggle}
+              aria-expanded={navOpen}
+              aria-controls={CHAPTER_LIST_ID}
+              onClick={() => setNavOpen((open) => !open)}
+            >
+              Chapters
+              <span className={styles.sidebarToggleIcon} aria-hidden="true">
+                {navOpen ? '\u2212' : '+'}
+              </span>
+            </button>
+            <div
+              id={CHAPTER_LIST_ID}
+              className={`${styles.sidebarBody} ${navOpen ? styles.sidebarBodyOpen : ''}`}
+            >
+              {groupChaptersByPart(guide.chapters).map((group) => (
+                <div key={group.part || 'ungrouped'} className={styles.sidebarPart}>
+                  {group.part ? <p className={styles.sidebarPartLabel}>{group.part}</p> : null}
+                  <ol className={styles.sidebarList}>
+                    {group.items.map(({ chapter: item, index: itemIndex }) => (
+                      <li key={item.slug}>
+                        <a
+                          href={`#${item.slug}`}
+                          className={styles.sidebarLink}
+                          onClick={() => setNavOpen(false)}
+                        >
+                          <span className={styles.sidebarNumber}>
+                            {String(itemIndex + 1).padStart(2, '0')}
+                          </span>
+                          <span>
+                            {item.title}
+                            {item.beta ? <span className={styles.sidebarBeta}>beta</span> : null}
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ))}
             </div>
-          ))}
-        </nav>
+          </nav>
+
+          <div className={styles.article}>
+            <div className={styles.readerControls}>
+              <FontSizeControls
+                onDecrease={() => setFontScale((current) => Math.max(0.9, current - 0.1))}
+                onReset={() => setFontScale(1)}
+                onIncrease={() => setFontScale((current) => Math.min(1.4, current + 0.1))}
+                styles={styles}
+              />
+            </div>
+
+            {guide.chapters.map((chapter, index) => (
+              <section
+                key={chapter.slug}
+                id={chapter.slug}
+                className={styles.chapterSection}
+                aria-labelledby={`${chapter.slug}-title`}
+              >
+                <header className={styles.chapterSectionHead}>
+                  <p className={styles.eyebrow}>
+                    Chapter {String(index + 1).padStart(2, '0')} ·{' '}
+                    {chapter.readingTimeMinutes} min
+                  </p>
+                  <h2 id={`${chapter.slug}-title`} className={styles.chapterSectionTitle}>
+                    {chapter.title}
+                    {chapter.beta ? <span className={styles.betaPill}>Beta</span> : null}
+                  </h2>
+                  {chapter.description ? (
+                    <p className={styles.chapterSectionDescription}>{chapter.description}</p>
+                  ) : null}
+                </header>
+                <MarkdownArticle content={chapter.content} styles={styles} />
+              </section>
+            ))}
+          </div>
+        </div>
       ) : null}
     </main>
   )

@@ -67,7 +67,7 @@ describe('guide playground route', () => {
     renderAt(GUIDE_PATH)
 
     expect(
-      screen.getByRole('link', { name: 'Open the simulator (experimental)' })
+      screen.getByRole('link', { name: /Open the simulator/ })
     ).toHaveAttribute('href', PLAYGROUND_PATH)
   })
 })

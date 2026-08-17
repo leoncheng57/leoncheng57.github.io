@@ -12,6 +12,7 @@ function renderNavigation(): ReturnType<typeof vi.fn> {
       <ScrollToTop />
       <Link to="/second">Next page</Link>
       <Link to="/first#section">Page section</Link>
+      <Link to="/second#anchor">Other page section</Link>
     </MemoryRouter>
   )
 
@@ -45,6 +46,16 @@ describe('ScrollToTop', () => {
     scrollTo.mockClear()
 
     fireEvent.click(screen.getByRole('link', { name: 'Page section' }))
+
+    expect(scrollTo).not.toHaveBeenCalled()
+  })
+
+  it('leaves the scroll alone when navigating to an anchor on another page', async () => {
+    const scrollTo = renderNavigation()
+    await waitFor(() => expect(scrollTo).toHaveBeenCalledTimes(1))
+    scrollTo.mockClear()
+
+    fireEvent.click(screen.getByRole('link', { name: 'Other page section' }))
 
     expect(scrollTo).not.toHaveBeenCalled()
   })
