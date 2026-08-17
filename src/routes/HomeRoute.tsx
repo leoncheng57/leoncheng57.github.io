@@ -22,6 +22,16 @@ type RecentItem = {
 
 const APP_ITEMS: RecentItem[] = [
   {
+    // Not a markdown guide, so it cannot come from getAllGuides().
+    key: 'guide-opencode-remote-control',
+    title: 'OpenCode Remote Control',
+    type: 'Guide',
+    date: '2026-08-13',
+    href: '/guides/opencode-remote-control',
+    cta: 'Read guide',
+    status: ['Beta'],
+  },
+  {
     key: 'app-tuzi',
     title: 'Tuzi',
     type: 'Project',

@@ -21,6 +21,7 @@ function renderNavigation(): ReturnType<typeof vi.fn> {
 
 afterEach(() => {
   vi.unstubAllGlobals()
+  vi.restoreAllMocks()
 })
 
 describe('ScrollToTop', () => {
@@ -50,13 +51,32 @@ describe('ScrollToTop', () => {
     expect(scrollTo).not.toHaveBeenCalled()
   })
 
-  it('leaves the scroll alone when navigating to an anchor on another page', async () => {
+  it('leaves the window scroll alone when navigating to an anchor on another page', async () => {
     const scrollTo = renderNavigation()
     await waitFor(() => expect(scrollTo).toHaveBeenCalledTimes(1))
     scrollTo.mockClear()
 
     fireEvent.click(screen.getByRole('link', { name: 'Other page section' }))
 
+    expect(scrollTo).not.toHaveBeenCalled()
+  })
+
+  it('scrolls the anchor target into view when arriving with a hash', async () => {
+    const scrollTo = vi.fn()
+    vi.stubGlobal('scrollTo', scrollTo)
+    const scrollIntoView = vi.spyOn(
+      window.HTMLElement.prototype,
+      'scrollIntoView'
+    )
+
+    render(
+      <MemoryRouter initialEntries={['/first#section']}>
+        <ScrollToTop />
+        <section id="section">Anchor target</section>
+      </MemoryRouter>
+    )
+
+    await waitFor(() => expect(scrollIntoView).toHaveBeenCalledTimes(1))
     expect(scrollTo).not.toHaveBeenCalled()
   })
 })

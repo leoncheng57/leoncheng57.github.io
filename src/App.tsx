@@ -12,6 +12,7 @@ import GameNightsRoute from './features/game-nights/routes/GameNightsRoute'
 import GuidesIndexRoute from './features/guides/routes/GuidesIndexRoute'
 import GuidesRoute from './features/guides/routes/GuidesRoute'
 import OpencodePersonalConfigRoute from './features/opencode-personal-config/routes/OpencodePersonalConfigRoute'
+import OpenCodeRemoteControlRoute from './features/opencode-remote-control/routes/OpenCodeRemoteControlRoute'
 import AlphaProjsRoute from './features/repo/routes/AlphaProjsRoute'
 import CiRoute from './features/repo/routes/CiRoute'
 import GaTrafficDashboardRoute from './features/repo/routes/GaTrafficDashboardRoute'
@@ -56,6 +57,10 @@ export default function App(): ReactElement {
         />
         <Route path="/guides/:slug/*" element={<GuidesRoute />} />
         <Route
+          path="/guides/opencode-remote-control"
+          element={<OpenCodeRemoteControlRoute />}
+        />
+        <Route
           path="/georgies-board-game-nights"
           element={<GameNightsRoute />}
         />
@@ -65,6 +70,11 @@ export default function App(): ReactElement {
           element={<Navigate to="/georgies-board-game-nights" replace />}
         />
         <Route path="/apps" element={<AppsIndexRoute />} />
+        {/* The page shipped briefly at /opencode-remote-control; keep old links working. */}
+        <Route
+          path="/opencode-remote-control"
+          element={<Navigate to="/guides/opencode-remote-control" replace />}
+        />
         <Route path="/repo" element={<Navigate to="/" replace />} />
         <Route path="/repo/alpha-projs" element={<AlphaProjsRoute />} />
         <Route

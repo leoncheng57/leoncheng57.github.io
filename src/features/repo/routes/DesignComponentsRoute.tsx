@@ -8,6 +8,7 @@ import ChaptersNav from '../../guides/components/ChaptersNav'
 import GuideCard from '../../guides/components/GuideCard'
 import { getAllGuides } from '../../guides/content'
 import guidesStyles from '../../guides/guides.module.css'
+import RemoteControlStoryboard from '../../opencode-remote-control/components/RemoteControlStoryboard'
 import styles from '../design-components.module.css'
 import repoStyles from '../repo.module.css'
 
@@ -197,6 +198,29 @@ export default function DesignComponentsRoute(): ReactElement {
               <div className={`${styles.loadingBar} ${styles.segmentedBar}`} role="progressbar" aria-label="Segmented progress" />
             </div>
           </div>
+        </section>
+
+        <section className={styles.showcase} aria-labelledby="storyboard-heading">
+          <h2 id="storyboard-heading">Storyboard animations</h2>
+          <p>
+            Long-form pages open with an animated SVG storyboard: node cards
+            connected by dashed paths, with dots riding the paths to act the
+            story out. The pattern combines a framer-motion entrance stagger
+            (cards fade up once when scrolled into view), marching dashes on
+            the main route, SMIL <code>animateMotion</code> with{' '}
+            <code>calcMode=&quot;paced&quot;</code> for deterministic
+            path-following dots, ping ripples where events land, and a
+            figure-eight &quot;working&quot; indicator inside the hub card.
+            Every loop is disabled under{' '}
+            <code>prefers-reduced-motion</code>; the entrance still settles
+            into the full static composition.
+          </p>
+          <p>
+            Two shipped storyboards use it: the OpenHands article opener
+            (SessionStoryboard) and the OpenCode Remote Control guide
+            (RemoteControlStoryboard). This is the live guide component:
+          </p>
+          <RemoteControlStoryboard ariaLabel="Live specimen of the remote-control storyboard animation" />
         </section>
 
         <section className={styles.showcase} aria-labelledby="footer-heading">
