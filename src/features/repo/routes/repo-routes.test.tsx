@@ -114,6 +114,20 @@ describe('repo subpages', () => {
     expect(
       screen.getByRole('heading', { name: 'Terminal card' })
     ).toBeInTheDocument()
+
+    // Chapters bar & scrollspy specimen: the live guide TOC with a simulated
+    // scrolled-to chapter controlled by the numbered buttons.
+    expect(
+      screen.getByRole('heading', { name: 'Chapters bar & scrollspy' })
+    ).toBeInTheDocument()
+    const simulateRow = screen.getByRole('group', {
+      name: 'Simulate the scrolled-to chapter',
+    })
+    expect(within(simulateRow).getAllByRole('button').length).toBeGreaterThan(2)
+    const specimenNav = screen.getByRole('navigation', { name: 'Guide chapters' })
+    expect(
+      within(specimenNav).getByRole('button', { name: /Chapters/ })
+    ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /read guide/ })).toHaveAttribute(
       'href',
       '/guides/manager-worker-parallel-agents'

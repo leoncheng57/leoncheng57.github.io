@@ -19,8 +19,12 @@
 /* Guides is a standalone documentation site with its own theme, independent of
    the main site chrome and of the blog styling. It defaults to Supabase's
    green-on-near-black dark theme; the masthead pill flips a light variant on
-   the same brand green via the data-theme attribute on this wrapper. */
-.page {
+   the same brand green via the data-theme attribute on this wrapper.
+
+   The variables live on .theme (composed into .page) so specimens outside the
+   guide — e.g. the design-components page — can opt into the palette without
+   inheriting the full-page layout. */
+.theme {
   --gd-bg: #ffffff;
   --gd-surface: #ffffff;
   --gd-surface-raised: #f3f5f4;
@@ -48,7 +52,10 @@
   --fb-muted: var(--gd-muted);
   --fb-accent: var(--gd-accent);
   --fb-focus: var(--gd-accent);
+}
 
+.page {
+  composes: theme;
   min-height: 100vh;
   background: var(--gd-bg);
   color: var(--gd-ink);
@@ -57,7 +64,7 @@
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.page[data-theme='dark'] {
+.theme[data-theme='dark'] {
   --gd-bg: #0b0d0e;
   --gd-surface: #121415;
   --gd-surface-raised: #1a1d1e;
@@ -395,12 +402,12 @@
 
 /* ------------------------------------------------------- chapter two-column */
 
-/* A strong break between the overview material and the full chapter text. */
+/* A strong break opening every chapter section, labeled with its number. */
 .chaptersDivider {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin: 3.5rem 0 2.25rem;
+  margin: 0 0 1.4rem;
 }
 
 .chaptersDivider::before,
@@ -423,6 +430,7 @@
    viewport while the article scrolls past. The grid returns at >=60rem. */
 .chapterLayout {
   display: block;
+  margin-top: 2.5rem;
 }
 
 @media (min-width: 60rem) {
@@ -639,8 +647,6 @@
 
 .chapterSectionHead {
   margin-bottom: 1.1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--gd-line);
 }
 
 .chapterSectionTitle {

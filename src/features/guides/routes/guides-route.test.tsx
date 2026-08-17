@@ -8,6 +8,8 @@ const GUIDE_TITLE = 'Running Parallel Coding Agents with a Manager and Workers'
 const GUIDE_PATH = '/guides/manager-worker-parallel-agents'
 
 const CHAPTER_TITLES = [
+  'Overview',
+  'Run simulator',
   'Plan the work and set up workers',
   'Configure worker autonomy',
   'Launch, review, and land the work',
@@ -27,7 +29,7 @@ describe('guides index route', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Guides' })).toBeInTheDocument()
 
     expect(screen.getByRole('link', { name: GUIDE_TITLE })).toHaveAttribute('href', GUIDE_PATH)
-    expect(screen.getByText(/6 chapters/)).toBeInTheDocument()
+    expect(screen.getByText(/8 chapters/)).toBeInTheDocument()
     expect(screen.getAllByText(/updated 2026-/).length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: /read guide/ })[0]).toHaveAttribute(
       'href',
@@ -36,7 +38,7 @@ describe('guides index route', () => {
 
     // The card previews the first chapters without listing all of them.
     expect(screen.getByText('Plan the work and set up workers')).toBeInTheDocument()
-    expect(screen.getByText(/\+3 more/)).toBeInTheDocument()
+    expect(screen.getByText(/\+5 more/)).toBeInTheDocument()
   })
 
   it('redirects the retired agent-dashboard guide to the one-pager watch-the-run anchor', () => {
@@ -158,12 +160,12 @@ describe('guide one-pager', () => {
     // Start reading scrolls to the first chapter anchor on the same page.
     expect(screen.getByRole('link', { name: /Start reading/ })).toHaveAttribute(
       'href',
-      '#plan-and-set-up'
+      '#overview'
     )
-    // The simulator CTA carries the waving hand and links to the playground.
+    // The simulator CTA carries the waving hand and anchors to its chapter.
     expect(screen.getByRole('link', { name: /Open the simulator/ })).toHaveAttribute(
       'href',
-      `${GUIDE_PATH}/playground`
+      '#simulator'
     )
 
     // The Contents button and chapter-card contents section are gone.
@@ -253,6 +255,7 @@ describe('guide one-pager', () => {
     expect(
       within(sidebar).getByRole('link', { name: /Configure worker autonomy/ })
     ).toHaveAttribute('href', '#configure-autonomy')
+    expect(within(sidebar).getByText('Start Here')).toBeInTheDocument()
     expect(within(sidebar).getByText('The Procedure')).toBeInTheDocument()
     expect(within(sidebar).getByText('Beyond the Basics')).toBeInTheDocument()
     expect(within(sidebar).getByText('Watcher Tool')).toBeInTheDocument()
