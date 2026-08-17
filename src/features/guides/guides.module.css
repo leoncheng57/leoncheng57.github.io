@@ -172,9 +172,25 @@
 
 .pageHeader h1 {
   margin: 0 0 0.6rem;
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  font-size: clamp(1.45rem, 1rem + 2.2vw, 2.6rem);
   line-height: 1.12;
   letter-spacing: -0.02em;
+}
+
+.betaPill {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.55rem;
+  padding: 0.14rem 0.5rem;
+  border: 1px solid var(--gd-accent);
+  border-radius: 999px;
+  font-family: var(--gd-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gd-accent);
+  background: var(--gd-accent-soft);
 }
 
 .pageHeader > p {
@@ -308,17 +324,7 @@
 }
 
 .sectionHead {
-  display: flex;
-  align-items: baseline;
-  gap: 0.9rem;
   margin-bottom: 1.1rem;
-}
-
-.sectionNumber {
-  font-family: var(--gd-mono);
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--gd-accent);
 }
 
 .sectionTitle {
@@ -500,28 +506,38 @@
 
 /* ------------------------------------------------------- chapter two-column */
 
+/* Mobile-first: block layout so the collapsed Chapters bar can stick to the
+   viewport while the article scrolls past. The grid returns at >=60rem. */
 .chapterLayout {
-  display: grid;
-  gap: 2rem;
-  align-items: start;
+  display: block;
 }
 
 @media (min-width: 60rem) {
   .chapterLayout {
+    display: grid;
+    gap: 2rem;
+    align-items: start;
     grid-template-columns: 15rem minmax(0, 1fr);
   }
 }
 
+/* Mobile-first: a compact toggle row that expands the chapter list on demand.
+   It sticks to the viewport top so chapters stay reachable mid-article.
+   At >=60rem the toggle disappears and the list is always visible + sticky. */
 .sidebar {
   position: sticky;
-  top: 5.25rem;
+  top: 0.5rem;
+  z-index: 5;
+  margin-bottom: 2rem;
   border: 1px solid var(--gd-line);
   border-radius: 12px;
+  /* Opaque in both themes so article text never shows through while pinned. */
   background: var(--gd-surface);
-  padding: 1rem 0.75rem;
+  padding: 0.4rem 0.75rem;
 }
 
 .sidebarHeading {
+  display: none;
   margin: 0 0 0.6rem;
   padding: 0 0.5rem;
   font-family: var(--gd-mono);
@@ -529,6 +545,72 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--gd-muted);
+}
+
+.sidebarToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.45rem 0.5rem;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  font-family: var(--gd-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gd-muted);
+  cursor: pointer;
+}
+
+.sidebarToggle:hover {
+  background: var(--gd-surface-raised);
+  color: var(--gd-ink);
+}
+
+.sidebarToggleIcon {
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--gd-accent);
+}
+
+.sidebarBody {
+  display: none;
+  margin-top: 0.35rem;
+  padding-bottom: 0.35rem;
+  /* The expanded panel scrolls internally instead of covering the viewport. */
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.sidebarBodyOpen {
+  display: block;
+}
+
+@media (min-width: 60rem) {
+  .sidebar {
+    top: 5.25rem;
+    z-index: auto;
+    margin-bottom: 0;
+    padding: 1rem 0.75rem;
+  }
+
+  .sidebarHeading {
+    display: block;
+  }
+
+  .sidebarToggle {
+    display: none;
+  }
+
+  .sidebarBody {
+    display: block;
+    margin-top: 0;
+    padding-bottom: 0;
+    max-height: none;
+    overflow-y: visible;
+  }
 }
 
 .sidebarPart {
@@ -587,6 +669,17 @@
 }
 
 .sidebarLinkActive .sidebarNumber {
+  color: var(--gd-accent);
+}
+
+.sidebarBeta {
+  margin-left: 0.35rem;
+  font-family: var(--gd-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  vertical-align: text-top;
   color: var(--gd-accent);
 }
 

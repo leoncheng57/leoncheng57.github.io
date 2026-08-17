@@ -69,12 +69,9 @@ export default function GuideOverviewRoute(): ReactElement {
           </div>
         ) : null}
 
-        {sections.map((section, index) => (
+        {sections.map((section) => (
           <section key={section.title} className={styles.sectionCard}>
             <div className={styles.sectionHead}>
-              <span className={styles.sectionNumber} aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
               <h2 className={styles.sectionTitle}>{section.title}</h2>
             </div>
             <MarkdownArticle content={section.body} styles={styles} />

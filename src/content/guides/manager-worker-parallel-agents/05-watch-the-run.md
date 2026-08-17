@@ -2,6 +2,7 @@
 title: "Watch the run: a status protocol and a live board"
 description: "Give every worker a status file it rewrites on each phase change, then watch all of them as one live terminal board."
 part: "Watcher Tool"
+beta: true
 ---
 
 # Watch the run: a status protocol and a live board

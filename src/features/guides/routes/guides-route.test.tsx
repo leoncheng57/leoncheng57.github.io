@@ -201,7 +201,9 @@ describe('guide overview route', () => {
 })
 
 describe('guide chapter route', () => {
-  it('renders chapter content with sidebar navigation and a pager', () => {
+  it('renders chapter content with sidebar navigation and a pager', async () => {
+    const user = userEvent.setup()
+
     render(
       <MemoryRouter initialEntries={[`${GUIDE_PATH}/configure-autonomy`]}>
         <App />
@@ -213,6 +215,8 @@ describe('guide chapter route', () => {
     ).toBeInTheDocument()
 
     const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
+    // The chapter list starts collapsed (mobile-first), so expand it.
+    await user.click(within(sidebar).getByRole('button', { name: /Chapters/ }))
     const activeLink = within(sidebar).getByRole('link', { name: /Configure worker autonomy/ })
     expect(activeLink).toHaveAttribute('aria-current', 'page')
     expect(within(sidebar).getByText('The Procedure')).toBeInTheDocument()
@@ -267,6 +271,7 @@ describe('guide chapter route', () => {
     )
 
     const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
+    await user.click(within(sidebar).getByRole('button', { name: /Chapters/ }))
     await user.click(within(sidebar).getByRole('link', { name: /Workers versus subagents/ }))
 
     expect(
@@ -282,5 +287,95 @@ describe('guide chapter route', () => {
     )
 
     expect(screen.getByRole('heading', { level: 1, name: 'Chapter not found' })).toBeInTheDocument()
+  })
+
+  it('exposes a collapsible chapter list behind a toggle button', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/configure-autonomy`]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
+    const toggle = within(sidebar).getByRole('button', { name: /Chapters/ })
+
+    // Collapsed by default; the button controls the chapter list container.
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    const listId = toggle.getAttribute('aria-controls')
+    expect(listId).toBeTruthy()
+    expect(document.getElementById(listId!)).toBeInTheDocument()
+    expect(
+      within(sidebar).queryByRole('link', { name: /Configure worker autonomy/ })
+    ).not.toBeInTheDocument()
+
+    await user.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      within(sidebar).getByRole('link', { name: /Configure worker autonomy/ })
+    ).toBeInTheDocument()
+
+    await user.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      within(sidebar).queryByRole('link', { name: /Configure worker autonomy/ })
+    ).not.toBeInTheDocument()
+  })
+
+  it('closes the chapter list again after navigating to another chapter', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/plan-and-set-up`]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
+    const toggle = within(sidebar).getByRole('button', { name: /Chapters/ })
+
+    await user.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+    await user.click(within(sidebar).getByRole('link', { name: /Configure worker autonomy/ }))
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Configure worker autonomy' })
+    ).toBeInTheDocument()
+    expect(
+      within(screen.getByRole('navigation', { name: 'Guide chapters' })).getByRole('button', {
+        name: /Chapters/,
+      })
+    ).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('marks beta chapters with a pill in the header and a sidebar marker', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/watch-the-run`]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const heading = screen.getByRole('heading', { level: 1, name: /Watch the run/ })
+    expect(within(heading).getByText('Beta')).toBeInTheDocument()
+
+    const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
+    await user.click(within(sidebar).getByRole('button', { name: /Chapters/ }))
+    const betaLink = within(sidebar).getByRole('link', { name: /Watch the run/ })
+    expect(within(betaLink).getByText('beta')).toBeInTheDocument()
+  })
+
+  it('does not mark stable chapters as beta', () => {
+    render(
+      <MemoryRouter initialEntries={[`${GUIDE_PATH}/configure-autonomy`]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const heading = screen.getByRole('heading', { level: 1, name: 'Configure worker autonomy' })
+    expect(within(heading).queryByText('Beta')).not.toBeInTheDocument()
   })
 })
