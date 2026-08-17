@@ -4,6 +4,7 @@ import MarkdownArticle from '../../../components/markdown/MarkdownArticle'
 import TagList from '../../../components/markdown/TagList'
 import { groupChaptersByPart } from '../chapterGroups'
 import GuideNotFound from '../components/GuideNotFound'
+import { SIMULATOR_GUIDE_SLUG } from '../components/ManagerWorkerSimulator'
 import { getGuideBySlug } from '../content'
 import { splitMarkdownSections } from '../markdownSections'
 import styles from '../guides.module.css'
@@ -58,6 +59,11 @@ export default function GuideOverviewRoute(): ReactElement {
             <a href="#guide-contents" className={styles.secondaryCta}>
               Contents
             </a>
+          ) : null}
+          {guide.slug === SIMULATOR_GUIDE_SLUG ? (
+            <Link to={`/guides/${guide.slug}/playground`} className={styles.secondaryCta}>
+              Open the simulator (experimental)
+            </Link>
           ) : null}
         </div>
       </header>
