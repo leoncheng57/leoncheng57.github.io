@@ -51,8 +51,9 @@ describe('OpenCode remote control guide', () => {
     expect(screen.getByText('06 / A DAY IN THE LIFE')).toBeInTheDocument()
     expect(screen.getByText('08 / TROUBLESHOOTING')).toBeInTheDocument()
     expect(
-      screen.getByRole('link', { name: 'Back to LeonCheng.dev ↗' })
+      screen.getByRole('link', { name: /leoncheng\.dev/ })
     ).toBeInTheDocument()
+    expect(screen.getAllByText('BETA').length).toBeGreaterThan(0)
   })
 
   it('redirects the old app path to the guide', () => {

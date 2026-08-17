@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactElement } from 'react'
+import SiteFooter from '../../../components/site-footer/SiteFooter'
 import CommandBlock from '../components/CommandBlock'
-import ProductFooter from '../components/ProductFooter'
 import ProductNav from '../components/ProductNav'
 import { PICKER_ISSUE_URL, REPOSITORY_URL } from '../constants'
 import styles from '../opencode-remote-control.module.css'
@@ -19,26 +19,8 @@ const ASCII_ARCHITECTURE = [
 ].join('\n')
 
 const DAILY_COMMANDS = [
-  'oc-remote --help                    # every command',
-  'oc-remote web                       # serve the default project root',
-  'oc-remote web ~/some/other/root     # serve a different root',
-  'OC_SERVE_DIR=~/x oc-remote web      # same, via env var',
-].join('\n')
-
-const LINK_COMMANDS = [
-  'oc-remote link ~/Documents/Projects/helix-hub',
-  'oc-remote link ~/Documents/Projects/helix-hub ses_xxx',
-  'oc-remote notify-test',
-  'oc-remote topic',
-  'oc-remote topic --url',
-  'oc-remote topic --qr',
-].join('\n')
-
-const NTFY_ENV_EXAMPLE = [
-  '# Read by plugins/ntfy-notify.js at server start',
-  'export OPENCODE_NTFY_TOPIC=my-private-topic-a1b2c3',
-  'export OPENCODE_NTFY_SERVER=https://ntfy.internal.example',
-  'export OPENCODE_NTFY_DISABLED=1',
+  'oc-remote --help    # every command',
+  'oc-remote web       # serve the default project root',
 ].join('\n')
 
 const ROTATE_TOPIC_COMMAND = [
@@ -162,7 +144,10 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
 
         <header className={styles.hero}>
           <div>
-            <p className={styles.eyebrow}>LOCAL MACHINE ↔ REMOTE PHONE CONTROL</p>
+            <p className={styles.eyebrow}>
+              LOCAL MACHINE ↔ REMOTE PHONE CONTROL
+              <span className={styles.betaBadge}>BETA</span>
+            </p>
             <h1>OpenCode, from anywhere and anytime.</h1>
             <p className={styles.lede}>
               Get notifications on your phone, and control all the power of AI,
@@ -387,55 +372,6 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
               remote access to work.
             </p>
           </div>
-          <CommandBlock label="LINKS AND TOPIC" command={LINK_COMMANDS} />
-          <div className={styles.guideBody}>
-            <table className={styles.referenceTable}>
-              <thead>
-                <tr>
-                  <th>Command</th>
-                  <th>Result</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <code>oc-remote link &lt;project&gt;</code>
-                  </td>
-                  <td>Bookmarkable link that opens a new session.</td>
-                </tr>
-                <tr>
-                  <td>
-                    <code>oc-remote link &lt;project&gt; &lt;session&gt;</code>
-                  </td>
-                  <td>Link straight into an existing session.</td>
-                </tr>
-                <tr>
-                  <td>
-                    <code>oc-remote notify-test</code>
-                  </td>
-                  <td>Sends a test push. It should buzz the phone.</td>
-                </tr>
-                <tr>
-                  <td>
-                    <code>oc-remote topic</code>
-                  </td>
-                  <td>Prints the private topic name.</td>
-                </tr>
-                <tr>
-                  <td>
-                    <code>oc-remote topic --url</code>
-                  </td>
-                  <td>Prints the full subscription URL.</td>
-                </tr>
-                <tr>
-                  <td>
-                    <code>oc-remote topic --qr</code>
-                  </td>
-                  <td>Prints a QR code the ntfy app can scan.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </section>
 
         <hr className={styles.sectionDivider} />
@@ -528,22 +464,7 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
               <strong>Open repo</strong> button is added as well, with SSH
               remotes converted to HTTPS.
             </p>
-            <p>
-              <code>oc-remote web</code> writes its current tailnet URL to{' '}
-              <code>~/.config/opencode/oc-web-url</code>, so notifications
-              raised by ordinary OpenCode TUI processes can deep-link into the
-              running web UI too.
-            </p>
-
             <h3>Runtime knobs</h3>
-            <p>
-              Three environment variables are read by the plugin when the server
-              starts. Changing them requires restarting{' '}
-              <code>oc-remote web</code>, because plugins load once at start.
-            </p>
-          </div>
-          <CommandBlock label="NTFY ENV" command={NTFY_ENV_EXAMPLE} />
-          <div className={styles.guideBody}>
             <table className={styles.referenceTable}>
               <thead>
                 <tr>
@@ -754,9 +675,10 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
           </div>
         </section>
 
-        <hr className={styles.sectionDivider} />
-
-        <ProductFooter />
+        <SiteFooter>
+          <a href={REPOSITORY_URL}>View source on GitHub ↗</a>
+          <a href={PICKER_ISSUE_URL}>OpenCode picker issue ↗</a>
+        </SiteFooter>
       </main>
     </div>
   )

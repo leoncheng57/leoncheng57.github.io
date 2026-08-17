@@ -50,6 +50,7 @@ export default function GuidesIndexRoute(): ReactElement {
                 <Link to="/guides/opencode-remote-control">
                   OpenCode Remote Control
                 </Link>
+                <span className={styles.betaBadge}>BETA</span>
               </h2>
               <p className={styles.description}>
                 Control local OpenCode sessions from your phone over a private

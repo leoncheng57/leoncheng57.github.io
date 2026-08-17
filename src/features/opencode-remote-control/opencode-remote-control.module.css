@@ -12,6 +12,12 @@
   --accent-soft: rgba(62, 207, 142, 0.12);
   --accent-border: rgba(62, 207, 142, 0.45);
   --accent-strong: #a7f3d0;
+
+  /* Theme the shared SiteFooter (src/components/site-footer) to match. */
+  --sf-line: var(--hr-color);
+  --sf-ink: var(--text-primary);
+  --sf-muted: var(--text-muted);
+  --sf-border-width: 1px;
   min-height: 100vh;
   padding: 0 1rem 5rem;
   background:
@@ -696,12 +702,18 @@
   background: var(--surface);
 }
 
-.footer {
-  display: flex;
-  gap: 1.5rem;
-  justify-content: space-between;
-  margin-top: 0;
+.betaBadge {
+  display: inline-flex;
+  margin-left: 0.6rem;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  color: var(--link-color);
+  font-size: 0.62rem;
   font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
 }
 
 .guideCallout {
@@ -906,10 +918,5 @@
 
   .referenceTable th {
     white-space: normal;
-  }
-
-  .footer {
-    align-items: flex-start;
-    flex-direction: column;
   }
 }

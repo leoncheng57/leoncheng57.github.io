@@ -91,7 +91,24 @@ describe('guides index route', () => {
       </MemoryRouter>
     )
 
-    expect(screen.getByText('BETA')).toBeInTheDocument()
+    // Section badge plus the OpenCode Remote Control card badge.
+    expect(screen.getAllByText('BETA').length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('lists the OpenCode Remote Control interactive guide', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('link', { name: 'OpenCode Remote Control' })
+    ).toHaveAttribute('href', '/guides/opencode-remote-control')
+    expect(screen.getByRole('link', { name: 'GitHub ↗' })).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/opencode-remote-control-and-notifications'
+    )
   })
 })
 
