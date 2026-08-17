@@ -1,0 +1,14 @@
+[
+  {
+    "path": "/guides/manager-worker-parallel-agents",
+    "file": "guides--manager-worker-parallel-agents.png",
+    "fullFile": null,
+    "title": "Guide overview with the new simulator CTA"
+  },
+  {
+    "path": "/guides/manager-worker-parallel-agents/playground",
+    "file": "guides--manager-worker-parallel-agents--playground.png",
+    "fullFile": "guides--manager-worker-parallel-agents--playground--full.png",
+    "title": "Experimental simulator playground"
+  }
+]
