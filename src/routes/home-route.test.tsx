@@ -20,14 +20,14 @@ describe('home route recent work', () => {
       '/blog/building-house-party-photo-hunt',
       '/blog/pwa-good-practices',
       '/guides/manager-worker-parallel-agents',
+      '/guides/opencode-remote-control',
       '/tuzi/',
-      '/georgies-board-game-nights',
     ])
     expect(within(recentWork).getAllByText('Project')).toHaveLength(1)
-    expect(within(recentWork).getAllByText('App')).toHaveLength(1)
+    expect(within(recentWork).queryAllByText('App')).toHaveLength(0)
     expect(within(recentWork).getAllByText('Blog')).toHaveLength(3)
-    expect(within(recentWork).getAllByText('Guide')).toHaveLength(1)
+    expect(within(recentWork).getAllByText('Guide')).toHaveLength(2)
     expect(within(recentWork).getAllByText('Alpha')).toHaveLength(1)
-    expect(within(recentWork).queryAllByText('Beta')).toHaveLength(0)
+    expect(within(recentWork).getAllByText('Beta')).toHaveLength(1)
   })
 })
