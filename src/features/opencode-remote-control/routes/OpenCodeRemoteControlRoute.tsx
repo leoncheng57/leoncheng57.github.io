@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactElement } from 'react'
 import SiteFooter from '../../../components/site-footer/SiteFooter'
 import CommandBlock from '../components/CommandBlock'
 import ProductNav from '../components/ProductNav'
+import RemoteControlStoryboard from '../components/RemoteControlStoryboard'
 import { PICKER_ISSUE_URL, REPOSITORY_URL } from '../constants'
 import styles from '../opencode-remote-control.module.css'
 
@@ -214,79 +215,7 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
             </p>
           </div>
 
-          <div className={styles.diagramGrid}>
-            <article className={styles.diagram}>
-              <div className={styles.diagramHeader}>
-                <span>CONTROL PLANE</span>
-                <small>interactive / private</small>
-              </div>
-              <div className={styles.diagramFlow}>
-                <div className={styles.node}>
-                  <strong>Phone browser</strong>
-                  <span>OpenCode Web UI</span>
-                </div>
-                <div className={styles.connection}>
-                  <b>→</b>
-                  <span>WireGuard</span>
-                </div>
-                <div className={`${styles.node} ${styles.nodeAccent}`}>
-                  <strong>Tailscale IP</strong>
-                  <span>100.x.y.z:4096</span>
-                </div>
-                <div className={styles.connection}>
-                  <b>→</b>
-                  <span>HTTP</span>
-                </div>
-                <div className={styles.node}>
-                  <strong>Host Mac</strong>
-                  <span>opencode web + repo</span>
-                </div>
-              </div>
-              <p className={styles.diagramNote}>
-                No Funnel, port forwarding, or LAN bind. The launcher exits if it
-                cannot resolve a Tailscale address.
-              </p>
-            </article>
-
-            <p className={styles.planeBridge}>
-              That is the inbound loop you drive. A second, outbound-only loop
-              lets the agent report back without exposing anything else:
-            </p>
-
-            <article className={styles.diagram}>
-              <div className={styles.diagramHeader}>
-                <span>NOTIFICATION PLANE</span>
-                <small>event-driven / outbound</small>
-              </div>
-              <div className={styles.diagramFlow}>
-                <div className={styles.node}>
-                  <strong>Event bus</strong>
-                  <span>idle · permission · question</span>
-                </div>
-                <div className={styles.connection}>
-                  <b>→</b>
-                  <span>plugin</span>
-                </div>
-                <div className={`${styles.node} ${styles.nodeAccent}`}>
-                  <strong>ntfy server</strong>
-                  <span>small push payload</span>
-                </div>
-                <div className={styles.connection}>
-                  <b>→</b>
-                  <span>push</span>
-                </div>
-                <div className={styles.node}>
-                  <strong>Exact session</strong>
-                  <span>tap deep link to respond</span>
-                </div>
-              </div>
-              <p className={styles.diagramNote}>
-                Only the notification title, response snippet, and session link
-                leave the host. Point the plugin at a self-hosted ntfy server if
-                that metadata must remain inside the tailnet.
-              </p>
-            </article>
-          </div>
+          <RemoteControlStoryboard ariaLabel="Animated storyboard: commands ride the Tailscale tunnel from the phone into the Mac, the agent works in a loop, and session events flow through the ntfy relay back to the phone as pushes that deep-link into the exact session." />
 
           <ol className={styles.sequence}>
             <li>

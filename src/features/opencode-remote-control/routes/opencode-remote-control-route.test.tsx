@@ -45,8 +45,12 @@ describe('OpenCode remote control guide', () => {
     expect(
       screen.getByRole('heading', { name: 'How to Setup' })
     ).toBeInTheDocument()
-    expect(screen.getByText('CONTROL PLANE')).toBeInTheDocument()
-    expect(screen.getByText('NOTIFICATION PLANE')).toBeInTheDocument()
+    expect(
+      screen.getByRole('img', { name: /Animated storyboard/ })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('CONTROL PLANE · Tailscale (WireGuard)')
+    ).toBeInTheDocument()
     expect(screen.getByText('03 / DAILY COMMANDS')).toBeInTheDocument()
     expect(screen.getByText('06 / A DAY IN THE LIFE')).toBeInTheDocument()
     expect(screen.getByText('08 / TROUBLESHOOTING')).toBeInTheDocument()

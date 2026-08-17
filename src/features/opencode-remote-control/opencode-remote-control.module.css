@@ -180,13 +180,6 @@
   white-space: pre;
 }
 
-.planeBridge {
-  width: min(100%, 46rem);
-  margin: 0.25rem auto;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  line-height: 1.6;
-}
 
 .architecture {
   margin-bottom: 1.5rem;
@@ -216,112 +209,20 @@
   line-height: 1.65;
 }
 
-.diagramGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1rem;
-  justify-items: center;
-}
 
-.diagram {
-  width: min(100%, 46rem);
-  min-width: 0;
-  padding: 1rem;
-  border: 1px solid var(--hr-color);
-  border-radius: 0.6rem;
-  background: #0b0d0c;
-}
 
-.diagramHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--hr-color);
-  font-family: 'DM Mono', monospace;
-}
 
-.diagramHeader span {
-  color: var(--link-color);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-}
 
-.diagramHeader small {
-  color: var(--text-muted);
-  font-size: 0.65rem;
-}
 
-.diagramFlow {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  margin: 1rem 0;
-}
 
-.node {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 3.2rem;
-  padding: 0.75rem 0.9rem;
-  border: 1px solid var(--hr-color);
-  border-radius: 0.45rem;
-  background: var(--surface);
-}
 
-.node strong {
-  flex: 0 0 auto;
-  color: var(--text-primary);
-  font-size: 0.8rem;
-}
 
-.node span {
-  min-width: 0;
-  color: var(--text-muted);
-  font: 0.62rem/1.4 'DM Mono', monospace;
-  overflow-wrap: anywhere;
-  text-align: right;
-}
 
-.nodeAccent {
-  border-color: var(--accent-border);
-  background: var(--accent-soft);
-}
 
-.nodeAccent strong,
-.nodeAccent span {
-  color: var(--accent-strong);
-}
 
-.connection {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: center;
-  min-height: 2rem;
-  color: var(--link-color);
-}
 
-.connection b {
-  font-size: 1rem;
-  transform: rotate(90deg);
-}
 
-.connection span {
-  color: var(--text-muted);
-  font: 0.56rem 'DM Mono', monospace;
-  white-space: nowrap;
-}
 
-.diagramNote {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.78rem;
-  line-height: 1.55;
-}
 
 .sequence {
   position: relative;
