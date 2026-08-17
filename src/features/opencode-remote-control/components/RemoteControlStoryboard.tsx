@@ -29,9 +29,9 @@ const GREEN_SOFT = 'rgba(62, 207, 142, 0.45)'
 const AMBER = '#e0af68'
 
 // Control tunnel: phone (right edge) → Mac (left edge), a gentle arc.
-const TUNNEL = 'M 340 240 C 500 170, 700 170, 860 240'
+const TUNNEL = 'M 370 240 C 520 170, 710 170, 860 240'
 // Tap return ride: the same arc, reversed.
-const TUNNEL_BACK = 'M 860 250 C 700 180, 500 180, 340 250'
+const TUNNEL_BACK = 'M 860 250 C 710 180, 520 180, 370 250'
 // Notification spokes: Mac (bottom edge) → ntfy relay → phone (bottom edge).
 const EVENT_TO_NTFY = 'M 930 400 C 890 460, 830 500, 760 512'
 const NTFY_TO_PHONE = 'M 520 512 C 420 500, 330 440, 250 372'
@@ -185,7 +185,7 @@ export default function RemoteControlStoryboard({
           <rect
             x={90}
             y={230}
-            width={250}
+            width={280}
             height={140}
             rx={12}
             fill={SURFACE}
@@ -198,10 +198,10 @@ export default function RemoteControlStoryboard({
           <text x={156} y={276} fontSize={16} fontWeight={700} fill={GREEN} letterSpacing={1}>
             PHONE
           </text>
-          <text x={116} y={314} fontSize={13} fill={TEXT_MUTED}>
+          <text x={116} y={314} fontSize={12} fill={TEXT_MUTED}>
             OpenCode Web UI in the browser,
           </text>
-          <text x={116} y={336} fontSize={13} fill={TEXT_MUTED}>
+          <text x={116} y={336} fontSize={12} fill={TEXT_MUTED}>
             ntfy app for pushes
           </text>
         </motion.g>
@@ -224,11 +224,14 @@ export default function RemoteControlStoryboard({
           <text x={926} y={246} fontSize={16} fontWeight={700} fill={GREEN} letterSpacing={1}>
             MAC
           </text>
-          <text x={886} y={356} fontSize={13} fill={TEXT_MUTED}>
-            oc-remote web · tailnet-only bind
+          <text x={886} y={340} fontSize={12} fill={TEXT_MUTED}>
+            oc-remote web · tailnet-only
           </text>
-          <text x={886} y={378} fontSize={13} fill={TEXT_MUTED}>
-            repo · Docker · MCPs · credentials
+          <text x={886} y={360} fontSize={12} fill={TEXT_MUTED}>
+            repo · Docker · MCPs
+          </text>
+          <text x={886} y={380} fontSize={12} fill={TEXT_MUTED}>
+            credentials stay local
           </text>
           {/* Agent at work: figure-eight dots */}
           {reducedMotion ? (
@@ -260,14 +263,17 @@ export default function RemoteControlStoryboard({
             stroke={AMBER}
             strokeWidth={2}
           />
-          <text x={546} y={508} fontSize={24}>
+          <text x={546} y={502} fontSize={24}>
             🔔
           </text>
-          <text x={584} y={504} fontSize={15} fontWeight={700} fill={AMBER} letterSpacing={1}>
+          <text x={584} y={498} fontSize={15} fontWeight={700} fill={AMBER} letterSpacing={1}>
             NTFY
           </text>
-          <text x={546} y={540} fontSize={13} fill={TEXT_MUTED}>
-            only title · snippet · session link
+          <text x={546} y={530} fontSize={12} fill={TEXT_MUTED}>
+            only the title, a snippet,
+          </text>
+          <text x={546} y={550} fontSize={12} fill={TEXT_MUTED}>
+            and the session link
           </text>
         </motion.g>
 

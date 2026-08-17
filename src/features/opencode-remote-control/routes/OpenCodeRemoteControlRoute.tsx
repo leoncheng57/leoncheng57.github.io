@@ -54,18 +54,6 @@ function useActiveSection(ids: string[]): string | null {
   return active
 }
 
-const ASCII_ARCHITECTURE = [
-  '┌──────────┐   Tailscale (WireGuard)    ┌──────────────────────┐',
-  '│  phone   │ ─────────────────────────▶ │  Mac: opencode web   │',
-  '│ browser  │   http://100.x.y.z:4096    │  (tailnet-only bind) │',
-  '└──────────┘                            └──────────┬───────────┘',
-  '     ▲                                             │ session idle /',
-  '     │  push notification (tap to open session)    │ needs approval /',
-  '     │                                             │ question',
-  '┌────┴─────┐                            ┌──────────▼───────────┐',
-  '│ ntfy app │ ◀───────────────────────── │  ntfy-notify plugin  │',
-  '└──────────┘      https://ntfy.sh       └──────────────────────┘',
-].join('\n')
 
 const DAILY_COMMANDS = [
   'oc-remote --help    # every command',
@@ -190,7 +178,7 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
               MCPs, Docker, and everything else that lives on your laptop.
             </p>
             <p className={styles.repoNote}>
-              All of it runs on{' '}
+              All of it runs on 🐙{' '}
               <a href={REPOSITORY_URL}>
                 opencode-remote-control-and-notifications ↗
               </a>
@@ -200,9 +188,6 @@ export default function OpenCodeRemoteControlRoute(): ReactElement {
           </div>
         </header>
 
-        <pre className={styles.asciiDiagram} aria-label="Architecture overview">
-          {ASCII_ARCHITECTURE}
-        </pre>
 
         <section className={styles.architecture} id="architecture">
           <div className={styles.architectureIntro}>
