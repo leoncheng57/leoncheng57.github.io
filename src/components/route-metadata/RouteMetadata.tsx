@@ -18,6 +18,8 @@ const STATIC_TITLES: Record<string, string> = {
   '/game-nights': "Georgie's Game Nights",
   '/georgies-board-game-nights': "Georgie's Game Nights",
   '/guides': `Guides | ${SITE_TITLE}`,
+  '/guides/cmux-personal-config': `cmux personal config | Guides | ${SITE_TITLE}`,
+  '/guides/opencode-personal-config': `opencode personal config | Guides | ${SITE_TITLE}`,
   '/repo': `Repo | ${SITE_TITLE}`,
   '/repo/alpha-projs': `Alpha Projects | Repo | ${SITE_TITLE}`,
   '/repo/alpha-projs/ga-traffic-dashboard': `GA Traffic Dashboard | Alpha Projects | Repo | ${SITE_TITLE}`,

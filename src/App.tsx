@@ -7,9 +7,11 @@ import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
 import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
 import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
 import BlogPostRoute from './features/blog/routes/BlogPostRoute'
+import CmuxPersonalConfigRoute from './features/cmux-personal-config/routes/CmuxPersonalConfigRoute'
 import GameNightsRoute from './features/game-nights/routes/GameNightsRoute'
 import GuidesIndexRoute from './features/guides/routes/GuidesIndexRoute'
 import GuidesRoute from './features/guides/routes/GuidesRoute'
+import OpencodePersonalConfigRoute from './features/opencode-personal-config/routes/OpencodePersonalConfigRoute'
 import AlphaProjsRoute from './features/repo/routes/AlphaProjsRoute'
 import CiRoute from './features/repo/routes/CiRoute'
 import GaTrafficDashboardRoute from './features/repo/routes/GaTrafficDashboardRoute'
@@ -42,6 +44,15 @@ export default function App(): ReactElement {
           element={
             <Navigate to="/guides/manager-worker-parallel-agents#watch-the-run" replace />
           }
+        />
+        {/* Bespoke setup-guide pages; static segments outrank the :slug catch-all. */}
+        <Route
+          path="/guides/cmux-personal-config"
+          element={<CmuxPersonalConfigRoute />}
+        />
+        <Route
+          path="/guides/opencode-personal-config"
+          element={<OpencodePersonalConfigRoute />}
         />
         <Route path="/guides/:slug/*" element={<GuidesRoute />} />
         <Route

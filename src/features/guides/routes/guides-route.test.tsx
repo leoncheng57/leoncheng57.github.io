@@ -41,6 +41,21 @@ describe('guides index route', () => {
     expect(screen.getByText(/\+5 more/)).toBeInTheDocument()
   })
 
+  it('lists the bespoke personal config setup guides', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('link', { name: 'cmux personal config' })
+    ).toHaveAttribute('href', '/guides/cmux-personal-config')
+    expect(
+      screen.getByRole('link', { name: 'opencode personal config' })
+    ).toHaveAttribute('href', '/guides/opencode-personal-config')
+  })
+
   it('redirects the retired agent-dashboard guide to the one-pager watch-the-run anchor', () => {
     render(
       <MemoryRouter initialEntries={['/guides/agent-dashboard']}>
