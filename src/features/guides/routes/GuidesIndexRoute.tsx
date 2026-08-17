@@ -4,10 +4,11 @@ import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import GuideCard from '../components/GuideCard'
 import { getAllGuides } from '../content'
+import { getSetupGuides } from '../setupGuides'
 import styles from '../guides-index.module.css'
 
 export default function GuidesIndexRoute(): ReactElement {
-  const guides = getAllGuides()
+  const guides = [...getAllGuides(), ...getSetupGuides()]
 
   return (
     <div className={styles.page}>

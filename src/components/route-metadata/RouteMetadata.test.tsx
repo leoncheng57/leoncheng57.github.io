@@ -24,6 +24,14 @@ describe('getRouteTitle', () => {
       "Running Parallel Coding Agents with a Manager and Workers | Guides | Leon's Website",
     ],
     ['/guides/missing-guide', "Guide Not Found | Leon's Website"],
+    [
+      '/guides/cmux-personal-config',
+      "cmux personal config | Guides | Leon's Website",
+    ],
+    [
+      '/guides/opencode-personal-config',
+      "opencode personal config | Guides | Leon's Website",
+    ],
     ['/apps', "Apps | Leon's Website"],
     ['/apps/whoops-hoops/privacy', 'Privacy Policy | Whoops Hoops'],
     ['/repo/alpha-projs', "Alpha Projects | Repo | Leon's Website"],
@@ -63,6 +71,8 @@ describe('getRouteContentGroup', () => {
     ['/blog', 'blog'],
     ['/blog/hello-blog', 'blog'],
     ['/guides', 'guides'],
+    ['/guides/cmux-personal-config', 'guides'],
+    ['/guides/opencode-personal-config', 'guides'],
     ['/apps', 'apps-index'],
     ['/apps/whoops-hoops/privacy', 'whoops-hoops'],
     ['/apps/whoops-hoops/support', 'whoops-hoops'],
