@@ -108,6 +108,66 @@
   box-shadow: 8px 8px 0 var(--text-primary);
 }
 
+/* --- theme panel (temporary preview switcher) ---------------------------- */
+
+.themePanel {
+  margin: 0 0 1.25rem;
+}
+
+.themeToggle {
+  padding: 0.35rem 0.8rem;
+  border: 2px solid var(--text-primary);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.themeToggle:focus-visible {
+  outline: 3px solid var(--accent-warm);
+  outline-offset: 2px;
+}
+
+.themePanelBody {
+  margin-top: 0.6rem;
+}
+
+/* --- date scrubber -------------------------------------------------------- */
+
+.scrubberHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+}
+
+.scrubberTitle {
+  margin: 0;
+  font-size: clamp(1.25rem, 3.5vw, 1.6rem);
+}
+
+.scrubberValue {
+  margin: 0;
+  color: var(--link-color);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.scrubber {
+  padding: 0.5rem 0.25rem;
+  border: 3px solid var(--text-primary);
+  background: var(--surface);
+  box-shadow: 8px 8px 0 var(--text-primary);
+}
+
 /* --- range picker ------------------------------------------------------- */
 
 .rangeBar {
