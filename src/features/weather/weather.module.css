@@ -54,6 +54,106 @@
   --wx-unhealthy: #ef5350;
 }
 
+/* ── Temporary beta palettes (theme-preview picker) ───────────────────── */
+/* 'classic' is the default palette above; each candidate below overrides
+   the accent/series colors while inheriting the light/dark structure. */
+
+.page[data-palette='sky'] {
+  --wx-bg: #eef6fd;
+  --wx-surface-raised: #ddeefc;
+  --wx-accent: #0369a1;
+  --wx-accent-strong: #075985;
+  --wx-focus: #0369a1;
+  --wx-low: #0284c7;
+  --wx-precip: #0284c7;
+  --wx-high: #e11d48;
+}
+
+.page[data-palette='sky'][data-theme='dark'] {
+  --wx-bg: #071825;
+  --wx-surface: #0d2536;
+  --wx-surface-raised: #133249;
+  --wx-accent: #7dd3fc;
+  --wx-accent-strong: #bae6fd;
+  --wx-accent-contrast: #071825;
+  --wx-focus: #7dd3fc;
+  --wx-low: #38bdf8;
+  --wx-precip: #38bdf8;
+  --wx-high: #fb7185;
+}
+
+.page[data-palette='sunset'] {
+  --wx-bg: #fdf3ee;
+  --wx-surface-raised: #fbe4d8;
+  --wx-accent: #c2410c;
+  --wx-accent-strong: #9a3412;
+  --wx-focus: #c2410c;
+  --wx-high: #dc2626;
+  --wx-low: #0e7490;
+  --wx-precip: #0e7490;
+}
+
+.page[data-palette='sunset'][data-theme='dark'] {
+  --wx-bg: #1c1210;
+  --wx-surface: #2a1b17;
+  --wx-surface-raised: #38241e;
+  --wx-accent: #fdba74;
+  --wx-accent-strong: #fed7aa;
+  --wx-accent-contrast: #1c1210;
+  --wx-focus: #fdba74;
+  --wx-high: #f87171;
+  --wx-low: #67e8f9;
+  --wx-precip: #67e8f9;
+}
+
+.page[data-palette='forest'] {
+  --wx-bg: #f1f7f2;
+  --wx-surface-raised: #dfeee2;
+  --wx-accent: #166534;
+  --wx-accent-strong: #14532d;
+  --wx-focus: #166534;
+  --wx-low: #0d9488;
+  --wx-precip: #0d9488;
+  --wx-high: #b45309;
+}
+
+.page[data-palette='forest'][data-theme='dark'] {
+  --wx-bg: #0c1712;
+  --wx-surface: #14231b;
+  --wx-surface-raised: #1b3125;
+  --wx-accent: #86efac;
+  --wx-accent-strong: #bbf7d0;
+  --wx-accent-contrast: #0c1712;
+  --wx-focus: #86efac;
+  --wx-low: #5eead4;
+  --wx-precip: #5eead4;
+  --wx-high: #fbbf24;
+}
+
+.page[data-palette='plum'] {
+  --wx-bg: #f8f2fb;
+  --wx-surface-raised: #efe0f7;
+  --wx-accent: #7e22ce;
+  --wx-accent-strong: #6b21a8;
+  --wx-focus: #7e22ce;
+  --wx-low: #2563eb;
+  --wx-precip: #2563eb;
+  --wx-high: #db2777;
+}
+
+.page[data-palette='plum'][data-theme='dark'] {
+  --wx-bg: #150d1c;
+  --wx-surface: #22152e;
+  --wx-surface-raised: #2e1d3e;
+  --wx-accent: #d8b4fe;
+  --wx-accent-strong: #e9d5ff;
+  --wx-accent-contrast: #150d1c;
+  --wx-focus: #d8b4fe;
+  --wx-low: #93c5fd;
+  --wx-precip: #93c5fd;
+  --wx-high: #f472b6;
+}
+
 .frame {
   max-width: 30rem;
   margin: 0 auto;
@@ -136,6 +236,44 @@
   stroke: currentColor;
   stroke-width: 1.6;
   stroke-linecap: round;
+}
+
+/* ── Temporary theme-preview picker ───────────────────────────────────── */
+
+.paletteBar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  margin-top: 0.65rem;
+  border: 1px dashed var(--wx-line);
+  border-radius: 0.6rem;
+  background: var(--wx-surface);
+}
+
+.paletteLabel {
+  color: var(--wx-ink-soft);
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.paletteSelect {
+  flex: 1;
+  min-width: 0;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.45rem;
+  background: var(--wx-surface-raised);
+  color: var(--wx-ink);
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.paletteHint {
+  color: var(--wx-muted);
+  font-size: 0.7rem;
+  white-space: nowrap;
 }
 
 /* ── Layout ───────────────────────────────────────────────────────────── */
@@ -315,6 +453,37 @@
 .chartTapTarget:focus-visible {
   outline: 2px solid var(--wx-focus);
   outline-offset: -2px;
+}
+
+.scrubTarget {
+  fill: transparent;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.scrubTarget:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: -2px;
+}
+
+.scrubberLine {
+  stroke: var(--wx-accent);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.scrubberDot {
+  fill: var(--wx-accent);
+  stroke: var(--wx-surface);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.scrubberLabel {
+  fill: var(--wx-ink);
+  font-size: 10px;
+  font-weight: 700;
+  pointer-events: none;
 }
 
 .seriesHigh .chartLinePast,

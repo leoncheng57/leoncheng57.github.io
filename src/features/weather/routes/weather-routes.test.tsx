@@ -263,3 +263,84 @@ describe('offline behavior', () => {
     expect(screen.getByRole('button', { name: 'Retry' })).toBeInTheDocument()
   })
 })
+
+describe('chart scrubber', () => {
+  it('moves the scrubber with arrow keys and shows a readout on all charts', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    expect(screen.queryAllByTestId('chart-scrubber')).toHaveLength(0)
+
+    const slider = screen.getByRole('slider', {
+      name: 'Scrub through days on the temperature chart',
+    })
+    slider.focus()
+    await user.keyboard('{ArrowRight}')
+
+    // Today is index 7 in the 14-day window; ArrowRight moves to tomorrow.
+    const tomorrow = addDays(TODAY, 1)
+    // Fixture: temperature_2m_max = 80 + index, temperature_2m_min = 60 + index.
+    expect(
+      screen.getByText(`${formatDayLong(tomorrow)} · H 88° L 68°`),
+    ).toBeInTheDocument()
+    // The shared scrub index highlights every chart on the page.
+    expect(screen.getAllByTestId('chart-scrubber')).toHaveLength(3)
+    expect(
+      screen.getByText(`${formatDayLong(tomorrow)} · 35% rain`),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(`${formatDayLong(tomorrow)} · AQI 45`),
+    ).toBeInTheDocument()
+  })
+
+  it('scrubs through hours on the day page', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    const date = addDays(TODAY, 2)
+    renderAt(`/weather/day/${date}`)
+
+    await screen.findByRole('heading', { name: formatDayLong(date) })
+    const slider = screen.getByRole('slider', {
+      name: 'Scrub through hours on the temperature chart',
+    })
+    slider.focus()
+    await user.keyboard('{ArrowRight}')
+
+    expect(screen.getByText('1 AM · 70°')).toBeInTheDocument()
+    expect(screen.getByText('1 AM · 10% rain')).toBeInTheDocument()
+  })
+})
+
+describe('theme preview picker', () => {
+  it('switches palettes and persists the choice', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const page = container.querySelector('[data-palette]')
+    expect(page).toHaveAttribute('data-palette', 'classic')
+
+    await user.selectOptions(
+      screen.getByLabelText('Theme preview'),
+      'Sunset Coral',
+    )
+
+    expect(page).toHaveAttribute('data-palette', 'sunset')
+    expect(window.localStorage.getItem('nyc-weather-palette')).toBe('sunset')
+  })
+
+  it('restores a stored palette on load', async () => {
+    mockFetch()
+    window.localStorage.setItem('nyc-weather-palette', 'forest')
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    expect(container.querySelector('[data-palette]')).toHaveAttribute(
+      'data-palette',
+      'forest',
+    )
+  })
+})

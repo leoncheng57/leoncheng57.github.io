@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react'
+import { useRef, type PointerEvent, type ReactElement } from 'react'
 import styles from '../weather.module.css'
 
 export type ChartSeries = {
@@ -41,6 +41,14 @@ type LineChartProps = {
   onSelectIndex?: (_index: number) => void
   /** Accessible names for tap targets, one per index. */
   selectLabels?: string[]
+  /** Index highlighted by the draggable scrubber, or null when idle. */
+  scrubIndex?: number | null
+  /** Called as the scrubber is dragged (or moved with arrow keys). */
+  onScrubIndex?: (_index: number) => void
+  /** Accessible name for the scrubber slider handle. */
+  scrubAriaLabel?: string
+  /** Human-readable value announced for the scrubbed index. */
+  scrubValueText?: (_index: number) => string
 }
 
 const WIDTH = 360
@@ -97,9 +105,15 @@ export default function LineChart({
   ariaLabel,
   onSelectIndex,
   selectLabels,
+  scrubIndex,
+  onScrubIndex,
+  scrubAriaLabel,
+  scrubValueText,
 }: LineChartProps): ReactElement {
   const count = labels.length
   const { min, max, ticks } = domain(series, yMin, yMax)
+  const svgRef = useRef<SVGSVGElement>(null)
+  const dragRef = useRef<{ startX: number; moved: boolean } | null>(null)
 
   const x = (index: number): number =>
     count <= 1
@@ -138,8 +152,49 @@ export default function LineChart({
   const columnWidth =
     count <= 1 ? PLOT.right - PLOT.left : (PLOT.right - PLOT.left) / (count - 1)
 
+  const scrubbable = onScrubIndex !== undefined && count > 1
+  const activeScrub =
+    scrubbable && scrubIndex !== null && scrubIndex !== undefined
+      ? Math.max(0, Math.min(scrubIndex, count - 1))
+      : null
+
+  const indexFromClientX = (clientX: number): number => {
+    const svg = svgRef.current
+    if (!svg) return 0
+    const rect = svg.getBoundingClientRect()
+    if (rect.width <= 0) return 0
+    const viewX = ((clientX - rect.left) / rect.width) * WIDTH
+    const ratio = (viewX - PLOT.left) / (PLOT.right - PLOT.left)
+    return Math.max(0, Math.min(count - 1, Math.round(ratio * (count - 1))))
+  }
+
+  const onScrubPointerDown = (event: PointerEvent<SVGRectElement>) => {
+    if (!onScrubIndex) return
+    dragRef.current = { startX: event.clientX, moved: false }
+    event.currentTarget.setPointerCapture?.(event.pointerId)
+    onScrubIndex(indexFromClientX(event.clientX))
+  }
+  const onScrubPointerMove = (event: PointerEvent<SVGRectElement>) => {
+    const drag = dragRef.current
+    if (!onScrubIndex || !drag) return
+    if (Math.abs(event.clientX - drag.startX) > 4) drag.moved = true
+    onScrubIndex(indexFromClientX(event.clientX))
+  }
+  const onScrubPointerUp = (event: PointerEvent<SVGRectElement>) => {
+    const drag = dragRef.current
+    dragRef.current = null
+    // A press without horizontal movement is a tap: open the day/hour.
+    if (drag && !drag.moved && onSelectIndex) {
+      onSelectIndex(indexFromClientX(event.clientX))
+    }
+  }
+  const onScrubPointerCancel = () => {
+    dragRef.current = null
+  }
+
   return (
     <svg
+      ref={svgRef}
       className={styles.chart}
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
       role="img"
@@ -266,6 +321,87 @@ export default function LineChart({
             />
           ))
         : null}
+
+      {activeScrub !== null ? (
+        <g className={styles.scrubber} data-testid="chart-scrubber">
+          <line
+            className={styles.scrubberLine}
+            x1={x(activeScrub)}
+            x2={x(activeScrub)}
+            y1={PLOT.top - 4}
+            y2={PLOT.bottom}
+          />
+          {series.map((entry) => {
+            const value = entry.values[activeScrub]
+            if (value === null || value === undefined) return null
+            return (
+              <circle
+                key={entry.id}
+                className={styles.scrubberDot}
+                cx={x(activeScrub)}
+                cy={clampY(value)}
+                r={4}
+              />
+            )
+          })}
+          {scrubValueText ? (
+            <text
+              className={styles.scrubberLabel}
+              x={x(activeScrub) > (PLOT.left + PLOT.right) / 2 ? x(activeScrub) - 8 : x(activeScrub) + 8}
+              y={PLOT.top + 8}
+              textAnchor={
+                x(activeScrub) > (PLOT.left + PLOT.right) / 2 ? 'end' : 'start'
+              }
+            >
+              {scrubValueText(activeScrub)}
+            </text>
+          ) : null}
+        </g>
+      ) : null}
+
+      {scrubbable ? (
+        <rect
+          className={styles.scrubTarget}
+          data-testid="chart-scrub-target"
+          x={PLOT.left - columnWidth / 2}
+          y={PLOT.top - 8}
+          width={PLOT.right - PLOT.left + columnWidth}
+          height={PLOT.bottom - PLOT.top + 8}
+          role="slider"
+          tabIndex={0}
+          aria-label={scrubAriaLabel ?? 'Chart scrubber'}
+          aria-orientation="horizontal"
+          aria-valuemin={0}
+          aria-valuemax={count - 1}
+          aria-valuenow={activeScrub ?? markerIndex ?? 0}
+          aria-valuetext={
+            scrubValueText && activeScrub !== null
+              ? scrubValueText(activeScrub)
+              : undefined
+          }
+          onPointerDown={onScrubPointerDown}
+          onPointerMove={onScrubPointerMove}
+          onPointerUp={onScrubPointerUp}
+          onPointerCancel={onScrubPointerCancel}
+          onKeyDown={(event) => {
+            const current = activeScrub ?? markerIndex ?? 0
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+              event.preventDefault()
+              onScrubIndex?.(Math.max(0, current - 1))
+            } else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+              event.preventDefault()
+              onScrubIndex?.(Math.min(count - 1, current + 1))
+            } else if (
+              (event.key === 'Enter' || event.key === ' ') &&
+              onSelectIndex &&
+              activeScrub !== null
+            ) {
+              event.preventDefault()
+              onSelectIndex(activeScrub)
+            }
+          }}
+        />
+      ) : null}
     </svg>
   )
 }

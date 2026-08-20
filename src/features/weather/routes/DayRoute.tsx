@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react'
+import { useState, type ReactElement } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import LineChart from '../components/LineChart'
 import StatusBanner from '../components/StatusBanner'
@@ -29,6 +29,7 @@ export default function DayRoute(): ReactElement {
   const { date } = useParams<{ date: string }>()
   const { status, data } = useWeatherContext()
   const navigate = useNavigate()
+  const [scrubIndex, setScrubIndex] = useState<number | null>(null)
 
   if (!date || !isValidIsoDate(date)) {
     return <Navigate to="/weather/" replace />
@@ -74,6 +75,20 @@ export default function DayRoute(): ReactElement {
   )
   const condition = weatherCodeInfo(day.weatherCode)
   const summary = rainSummary(hours)
+
+  const tempScrubText = (index: number): string => {
+    const hour = hours[index]
+    if (!hour) return ''
+    const temp = hour.temp !== null ? `${Math.round(hour.temp)}°` : '–'
+    return `${formatHourLabel(hour.time)} · ${temp}`
+  }
+  const precipScrubText = (index: number): string => {
+    const hour = hours[index]
+    if (!hour) return ''
+    const chance =
+      hour.precipProb !== null ? `${Math.round(hour.precipProb)}%` : '–'
+    return `${formatHourLabel(hour.time)} · ${chance} rain`
+  }
 
   const previousDate = addDays(date, -1)
   const nextDate = addDays(date, 1)
@@ -140,7 +155,12 @@ export default function DayRoute(): ReactElement {
                   className: styles.seriesHigh,
                 },
               ]}
+              scrubIndex={scrubIndex}
+              onScrubIndex={setScrubIndex}
+              scrubAriaLabel="Scrub through hours on the temperature chart"
+              scrubValueText={tempScrubText}
             />
+            <p className={styles.chartLegend}>drag to scrub through hours</p>
           </section>
 
           <section className={styles.chartSection}>
@@ -159,6 +179,10 @@ export default function DayRoute(): ReactElement {
                   className: styles.seriesPrecip,
                 },
               ]}
+              scrubIndex={scrubIndex}
+              onScrubIndex={setScrubIndex}
+              scrubAriaLabel="Scrub through hours on the precipitation chart"
+              scrubValueText={precipScrubText}
             />
           </section>
 

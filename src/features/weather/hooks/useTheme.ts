@@ -2,7 +2,18 @@ import { useCallback, useEffect, useState } from 'react'
 
 export type Theme = 'light' | 'dark'
 
+export const PALETTES = [
+  { id: 'classic', label: 'Classic Navy' },
+  { id: 'sky', label: 'Electric Sky' },
+  { id: 'sunset', label: 'Sunset Coral' },
+  { id: 'forest', label: 'Forest Green' },
+  { id: 'plum', label: 'Plum Punch' },
+] as const
+
+export type Palette = (typeof PALETTES)[number]['id']
+
 const STORAGE_KEY = 'nyc-weather-theme'
+const PALETTE_KEY = 'nyc-weather-palette'
 
 function systemTheme(): Theme {
   if (
@@ -24,12 +35,30 @@ function storedTheme(): Theme | null {
   }
 }
 
+function storedPalette(): Palette {
+  try {
+    const value = window.localStorage.getItem(PALETTE_KEY)
+    return PALETTES.some((palette) => palette.id === value)
+      ? (value as Palette)
+      : 'classic'
+  } catch {
+    return 'classic'
+  }
+}
+
 /**
  * NYC Weather theme: defaults to the system color scheme, and a manual toggle
- * persists the override in localStorage.
+ * persists the override in localStorage. The palette is a temporary beta
+ * picker for evaluating candidate color themes; it persists the same way.
  */
-export default function useTheme(): { theme: Theme; toggleTheme: () => void } {
+export default function useTheme(): {
+  theme: Theme
+  toggleTheme: () => void
+  palette: Palette
+  setPalette: (_palette: Palette) => void
+} {
   const [theme, setTheme] = useState<Theme>(() => storedTheme() ?? systemTheme())
+  const [palette, setPaletteState] = useState<Palette>(storedPalette)
 
   useEffect(() => {
     if (typeof window.matchMedia !== 'function') return undefined
@@ -56,5 +85,14 @@ export default function useTheme(): { theme: Theme; toggleTheme: () => void } {
     })
   }, [])
 
-  return { theme, toggleTheme }
+  const setPalette = useCallback((next: Palette) => {
+    setPaletteState(next)
+    try {
+      window.localStorage.setItem(PALETTE_KEY, next)
+    } catch {
+      // localStorage unavailable (private browsing); palette still switches.
+    }
+  }, [])
+
+  return { theme, toggleTheme, palette, setPalette }
 }
