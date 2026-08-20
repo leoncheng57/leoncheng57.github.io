@@ -1,0 +1,78 @@
+.switcher {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 40rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid #d7dde3;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #47617e;
+}
+
+.optionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.7rem 0.4rem 0.4rem;
+  border: 2px solid;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.1;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.option:hover {
+  transform: translateY(-1px);
+}
+
+.option:focus-visible {
+  outline: 3px solid #087da8;
+  outline-offset: 2px;
+}
+
+.optionSelected {
+  box-shadow: 0 0 0 2px rgba(8, 125, 168, 0.35);
+}
+
+.swatch {
+  position: relative;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  flex: none;
+  overflow: hidden;
+}
+
+.swatchAccent {
+  position: absolute;
+  right: -0.1rem;
+  bottom: -0.1rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.optionText {
+  white-space: nowrap;
+}
