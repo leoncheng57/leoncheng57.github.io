@@ -1,0 +1,90 @@
+.scrubber {
+  --scrubber-height: 40px;
+  --scrubber-handle-size: 16px;
+  --scrubber-hit-size: 44px;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scrubberDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.track {
+  position: relative;
+  height: var(--scrubber-height);
+  width: 100%;
+  cursor: pointer;
+  /* Prevent the browser from scrolling the page while dragging on touch. */
+  touch-action: none;
+}
+
+.tick {
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 6px;
+  transform: translate(-50%, -50%);
+  background: rgba(16, 35, 61, 0.35);
+  pointer-events: none;
+}
+
+.marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.markerLine {
+  display: block;
+  width: 2px;
+  height: 100%;
+  margin: 0 auto;
+  background: #087da8;
+  box-shadow: 0 0 0 1px rgba(245, 248, 247, 0.9);
+}
+
+.handle {
+  position: absolute;
+  top: 50%;
+  width: var(--scrubber-handle-size);
+  height: var(--scrubber-handle-size);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #087da8;
+  border: 2px solid #f5f8f7;
+  box-shadow: 0 1px 3px rgba(16, 35, 61, 0.4);
+  cursor: grab;
+  touch-action: none;
+}
+
+.handle::before {
+  /* Enlarge the touch/click target beyond the visible dot without affecting layout. */
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--scrubber-hit-size);
+  height: var(--scrubber-hit-size);
+  transform: translate(-50%, -50%);
+}
+
+.handle:active {
+  cursor: grabbing;
+}
+
+.handle:focus-visible {
+  outline: 3px solid #f4ad9c;
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .scrubber {
+    --scrubber-height: 48px;
+    --scrubber-handle-size: 20px;
+  }
+}
