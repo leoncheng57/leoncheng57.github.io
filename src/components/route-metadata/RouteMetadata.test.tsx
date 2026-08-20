@@ -23,6 +23,10 @@ describe('getRouteTitle', () => {
       '/guides/manager-worker-parallel-agents',
       "Running Parallel Coding Agents with a Manager and Workers | Guides | Leon's Website",
     ],
+    [
+      '/guides/custom-coding-agent-ide-with-openhands',
+      "Building a Custom Coding-Agent IDE with OpenHands | Guides | Leon's Website",
+    ],
     ['/guides/missing-guide', "Guide Not Found | Leon's Website"],
     [
       '/guides/cmux-personal-config',

@@ -6,6 +6,8 @@ import App from '../../../App'
 
 const GUIDE_TITLE = 'Running Parallel Coding Agents with a Manager and Workers'
 const GUIDE_PATH = '/guides/manager-worker-parallel-agents'
+const OPENHANDS_GUIDE_TITLE = 'Building a Custom Coding-Agent IDE with OpenHands'
+const OPENHANDS_GUIDE_PATH = '/guides/custom-coding-agent-ide-with-openhands'
 
 const CHAPTER_TITLES = [
   'Overview',
@@ -39,6 +41,22 @@ describe('guides index route', () => {
     // The card previews the first chapters without listing all of them.
     expect(screen.getByText('Plan the work and set up workers')).toBeInTheDocument()
     expect(screen.getByText(/\+5 more/)).toBeInTheDocument()
+  })
+
+  it('lists the custom OpenHands IDE guide with its chapter preview', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(screen.getByRole('link', { name: OPENHANDS_GUIDE_TITLE })).toHaveAttribute(
+      'href',
+      OPENHANDS_GUIDE_PATH
+    )
+    expect(screen.getByText('Why build a control plane?')).toBeInTheDocument()
+    expect(screen.getByText('How it was built, layer by layer')).toBeInTheDocument()
+    expect(screen.getByText('Worktrees, streaming, and live previews')).toBeInTheDocument()
   })
 
   it('lists the bespoke personal config setup guides', () => {
@@ -177,6 +195,38 @@ describe('guide site chrome', () => {
 })
 
 describe('guide one-pager', () => {
+  it('renders the custom OpenHands IDE guide as a six-chapter one-pager', async () => {
+    const user = userEvent.setup()
+    render(
+      <MemoryRouter initialEntries={[OPENHANDS_GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: OPENHANDS_GUIDE_TITLE })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'How it was built, layer by layer' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Why not just use Claude Code or OpenCode?',
+      })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Downsides, decision guide, and lessons',
+      })
+    ).toBeInTheDocument()
+
+    const chapters = screen.getByRole('navigation', { name: 'Guide chapters' })
+    await user.click(within(chapters).getByRole('button', { name: /Chapters/ }))
+    expect(within(chapters).getAllByRole('link')).toHaveLength(6)
+  })
+
   it('renders the hero with exactly two CTAs: start reading and the simulator', () => {
     render(
       <MemoryRouter initialEntries={[GUIDE_PATH]}>
