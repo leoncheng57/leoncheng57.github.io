@@ -6,6 +6,7 @@ import styles from '../apps.module.css'
 
 export default function AppsIndexRoute(): ReactElement {
   const subWaitIconUrl = `${import.meta.env.BASE_URL}app-icons/sub-wait-v2.svg`
+  const weatherIconUrl = `${import.meta.env.BASE_URL}app-icons/weather.svg`
 
   return (
     <div className={styles.page}>
@@ -45,6 +46,35 @@ export default function AppsIndexRoute(): ReactElement {
             </p>
             <p className={styles.links}>
               <Link to="/sub-wait">Check train times</Link>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img
+                className={styles.appIcon}
+                src={weatherIconUrl}
+                alt=""
+                width={64}
+                height={64}
+                decoding="async"
+              />
+              <div className={styles.appCardHeading}>
+                <h2>
+                  <Link to="/weather">NYC Weather</Link>
+                  <span className={styles.betaBadge}>BETA</span>
+                </h2>
+                <p className={styles.subtitle}>
+                  Temperature, rain, and air quality for NYC
+                </p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              A simple line-graph forecast for New York City: temperature,
+              precipitation chance, and air quality across the past 7 days and
+              next 7 days, plus an hourly breakdown and active weather alerts.
+            </p>
+            <p className={styles.links}>
+              <Link to="/weather">Check the forecast</Link>
             </p>
           </article>
           <article className={styles.appCard}>
