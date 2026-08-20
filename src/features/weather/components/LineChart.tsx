@@ -18,6 +18,12 @@ export type ChartBars = {
   values: (number | null)[]
   /** Value that fills the plot height; defaults to the largest bar. */
   max?: number
+  /**
+   * Formats a bar value for the right-hand axis and the peak callout. Passing
+   * it opts the chart into the amount axis, so bars read as real quantities
+   * rather than decoration.
+   */
+  label?: (_value: number) => string
 }
 
 type LineChartProps = {
@@ -152,6 +158,15 @@ export default function LineChart({
   const columnWidth =
     count <= 1 ? PLOT.right - PLOT.left : (PLOT.right - PLOT.left) / (count - 1)
 
+  // Largest bar, labelled in place so the wettest hour/day is readable at a glance.
+  const barPeak = bars?.values.reduce<{ index: number; value: number } | null>(
+    (best, value, index) =>
+      value !== null && value > 0 && (best === null || value > best.value)
+        ? { index, value }
+        : best,
+    null,
+  )
+
   const scrubbable = onScrubIndex !== undefined && count > 1
   const activeScrub =
     scrubbable && scrubIndex !== null && scrubIndex !== undefined
@@ -163,7 +178,8 @@ export default function LineChart({
     if (!svg) return 0
     const rect = svg.getBoundingClientRect()
     if (rect.width <= 0) return 0
-    const viewX = ((clientX - rect.left) / rect.width) * WIDTH
+    // Map through the full viewBox width, which includes the amount-axis gutter.
+    const viewX = ((clientX - rect.left) / rect.width) * (WIDTH + rightGutter)
     const ratio = (viewX - PLOT.left) / (PLOT.right - PLOT.left)
     return Math.max(0, Math.min(count - 1, Math.round(ratio * (count - 1))))
   }
@@ -192,11 +208,15 @@ export default function LineChart({
     dragRef.current = null
   }
 
+  // The amount axis is drawn past PLOT.right, so widen the viewBox to fit it
+  // without shifting any existing geometry.
+  const rightGutter = bars?.label ? 34 : 0
+
   return (
     <svg
       ref={svgRef}
       className={styles.chart}
-      viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+      viewBox={`0 0 ${WIDTH + rightGutter} ${HEIGHT}`}
       role="img"
       aria-label={ariaLabel}
       preserveAspectRatio="xMidYMid meet"
@@ -234,9 +254,11 @@ export default function LineChart({
 
       {bars?.values.map((value, index) => {
         if (value === null || value <= 0) return null
-        const height =
-          (Math.min(value, barMax) / barMax) * (PLOT.bottom - PLOT.top)
-        const barWidth = Math.min(columnWidth * 0.5, 10)
+        const height = Math.max(
+          (Math.min(value, barMax) / barMax) * (PLOT.bottom - PLOT.top),
+          1.5,
+        )
+        const barWidth = Math.min(columnWidth * 0.72, 14)
         return (
           <rect
             key={index}
@@ -245,9 +267,49 @@ export default function LineChart({
             y={PLOT.bottom - height}
             width={barWidth}
             height={height}
+            rx={1}
           />
         )
       })}
+
+      {bars?.label && barPeak ? (
+        <g className={styles.barAxis}>
+          <text
+            className={styles.barAxisLabel}
+            x={PLOT.right + 4}
+            y={PLOT.bottom - (PLOT.bottom - PLOT.top)}
+            dy={8}
+          >
+            {bars.label(barMax)}
+          </text>
+          <text
+            className={styles.barAxisLabel}
+            x={PLOT.right + 4}
+            y={PLOT.bottom}
+            dy={-1}
+          >
+            0
+          </text>
+          <text
+            className={styles.barPeakLabel}
+            x={x(barPeak.index)}
+            y={
+              PLOT.bottom -
+              Math.max(
+                (Math.min(barPeak.value, barMax) / barMax) *
+                  (PLOT.bottom - PLOT.top),
+                1.5,
+              ) -
+              4
+            }
+            textAnchor={
+              x(barPeak.index) > (PLOT.left + PLOT.right) / 2 ? 'end' : 'middle'
+            }
+          >
+            {bars.label(barPeak.value)}
+          </text>
+        </g>
+      ) : null}
 
       {markerIndex !== undefined && markerIndex >= 0 && markerIndex < count ? (
         <g>

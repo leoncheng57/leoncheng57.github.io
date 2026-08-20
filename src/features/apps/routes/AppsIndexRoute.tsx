@@ -69,9 +69,10 @@ export default function AppsIndexRoute(): ReactElement {
               </div>
             </div>
             <p className={styles.description}>
-              A simple line-graph forecast for New York City: temperature,
-              precipitation chance, and air quality across the past 7 days and
-              next 7 days, plus an hourly breakdown and active weather alerts.
+              A simple line-graph forecast for New York City: an hour-by-hour
+              view of the next 24 hours, plus temperature, precipitation chance,
+              and air quality across the past 7 days and next 7 days, and active
+              weather alerts.
             </p>
             <p className={styles.links}>
               <Link to="/weather">Check the forecast</Link>

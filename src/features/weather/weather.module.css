@@ -199,7 +199,14 @@
 .mastheadNav {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 0.9rem;
+}
+
+@media (max-width: 24rem) {
+  .mastheadNav {
+    gap: 0.55rem;
+  }
 }
 
 .mastheadLink {
@@ -417,7 +424,24 @@
 
 .chartBar {
   fill: var(--wx-precip);
-  opacity: 0.22;
+  opacity: 0.55;
+}
+
+.barAxisLabel {
+  fill: var(--wx-precip);
+  font-size: 9px;
+  opacity: 0.85;
+}
+
+.barPeakLabel {
+  fill: var(--wx-precip);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.legendBar {
+  color: var(--wx-precip);
+  font-weight: 600;
 }
 
 .chartMarker {

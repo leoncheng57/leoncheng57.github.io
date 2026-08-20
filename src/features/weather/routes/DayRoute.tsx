@@ -1,6 +1,6 @@
-import { useState, type ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
-import LineChart from '../components/LineChart'
+import HourlyCharts from '../components/HourlyCharts'
 import StatusBanner from '../components/StatusBanner'
 import { useWeatherContext } from '../hooks/WeatherContext'
 import {
@@ -8,6 +8,7 @@ import {
   formatDayLong,
   formatHourLabel,
   isValidIsoDate,
+  nycNowHour,
   nycToday,
   weatherCodeInfo,
 } from '../utils/format'
@@ -29,7 +30,6 @@ export default function DayRoute(): ReactElement {
   const { date } = useParams<{ date: string }>()
   const { status, data } = useWeatherContext()
   const navigate = useNavigate()
-  const [scrubIndex, setScrubIndex] = useState<number | null>(null)
 
   if (!date || !isValidIsoDate(date)) {
     return <Navigate to="/weather/" replace />
@@ -64,31 +64,13 @@ export default function DayRoute(): ReactElement {
   const hours = data.hourly.filter((hour) => hour.time.startsWith(date))
   const today = nycToday()
   const isToday = date === today
+  const nowHour = nycNowHour()
   const nowHourIndex = isToday
-    ? hours.findIndex(
-        (hour) => hour.time === `${date}T${String(new Date().getHours()).padStart(2, '0')}:00`,
-      )
+    ? hours.findIndex((hour) => hour.time === nowHour)
     : -1
 
-  const hourLabels = hours.map((hour, index) =>
-    index % 4 === 0 ? formatHourLabel(hour.time) : '',
-  )
   const condition = weatherCodeInfo(day.weatherCode)
   const summary = rainSummary(hours)
-
-  const tempScrubText = (index: number): string => {
-    const hour = hours[index]
-    if (!hour) return ''
-    const temp = hour.temp !== null ? `${Math.round(hour.temp)}°` : '–'
-    return `${formatHourLabel(hour.time)} · ${temp}`
-  }
-  const precipScrubText = (index: number): string => {
-    const hour = hours[index]
-    if (!hour) return ''
-    const chance =
-      hour.precipProb !== null ? `${Math.round(hour.precipProb)}%` : '–'
-    return `${formatHourLabel(hour.time)} · ${chance} rain`
-  }
 
   const previousDate = addDays(date, -1)
   const nextDate = addDays(date, 1)
@@ -99,7 +81,7 @@ export default function DayRoute(): ReactElement {
     <main className={styles.main}>
       <StatusBanner />
       <p className={styles.backLink}>
-        <Link to="/weather/">← Back</Link>
+        <Link to="/weather/trends">← 14-day trends</Link>
       </p>
 
       <div className={styles.dayPager}>
@@ -141,51 +123,11 @@ export default function DayRoute(): ReactElement {
 
       {hours.length > 0 ? (
         <>
-          <section className={styles.chartSection}>
-            <h2 className={styles.chartTitle}>Temperature (°F)</h2>
-            <LineChart
-              ariaLabel={`Hourly temperature for ${formatDayLong(date)}`}
-              labels={hourLabels}
-              markerIndex={nowHourIndex >= 0 ? nowHourIndex : undefined}
-              markerLabel={nowHourIndex >= 0 ? 'Now' : undefined}
-              series={[
-                {
-                  id: 'temp',
-                  values: hours.map((hour) => hour.temp),
-                  className: styles.seriesHigh,
-                },
-              ]}
-              scrubIndex={scrubIndex}
-              onScrubIndex={setScrubIndex}
-              scrubAriaLabel="Scrub through hours on the temperature chart"
-              scrubValueText={tempScrubText}
-            />
-            <p className={styles.chartLegend}>drag to scrub through hours</p>
-          </section>
-
-          <section className={styles.chartSection}>
-            <h2 className={styles.chartTitle}>Precipitation Chance (%)</h2>
-            <LineChart
-              ariaLabel={`Hourly precipitation chance for ${formatDayLong(date)}`}
-              labels={hourLabels}
-              markerIndex={nowHourIndex >= 0 ? nowHourIndex : undefined}
-              markerLabel={nowHourIndex >= 0 ? 'Now' : undefined}
-              yMin={0}
-              yMax={100}
-              series={[
-                {
-                  id: 'precip',
-                  values: hours.map((hour) => hour.precipProb),
-                  className: styles.seriesPrecip,
-                },
-              ]}
-              scrubIndex={scrubIndex}
-              onScrubIndex={setScrubIndex}
-              scrubAriaLabel="Scrub through hours on the precipitation chart"
-              scrubValueText={precipScrubText}
-            />
-          </section>
-
+          <HourlyCharts
+            hours={hours}
+            nowIndex={nowHourIndex}
+            rangeLabel={formatDayLong(date)}
+          />
           {summary ? <p className={styles.tip}>💡 {summary}</p> : null}
         </>
       ) : (
