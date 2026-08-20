@@ -4,6 +4,7 @@ import { getBlogPostBySlug } from '../../features/blog/content'
 import { getGuideBySlug, getGuideChapter } from '../../features/guides/content'
 import { directionLabel, getStation } from '../../features/sub-wait/data/stations'
 import type { Direction } from '../../features/sub-wait/types'
+import { isValidIsoDate } from '../../features/weather/utils/format'
 
 const SITE_TITLE = "Leon's Website"
 
@@ -40,6 +41,10 @@ const STATIC_TITLES: Record<string, string> = {
   '/tuzi': 'Tuzi',
   '/tuzi/': 'Tuzi',
   '/tuzi/how-ranking-works': 'How Ranking Works | Tuzi',
+  '/weather': 'NYC Weather',
+  '/weather/': 'NYC Weather',
+  '/weather/week': 'Week | NYC Weather',
+  '/weather/alerts': 'Alerts | NYC Weather',
   '/workout-lab': 'Workout Lab',
   '/workout-lab/': 'Workout Lab',
   '/workout-lab/exercises': 'Exercises | Workout Lab',
@@ -69,6 +74,7 @@ const CONTENT_GROUP_PREFIXES: [string, string][] = [
   ['/development', 'repo'],
   ['/sub-wait', 'sub-wait'],
   ['/tuzi', 'tuzi'],
+  ['/weather', 'weather'],
   ['/workout-lab', 'workout-lab'],
 ]
 
@@ -140,8 +146,17 @@ export function getRouteTitle(pathname: string): string {
     return `${station.name} - ${label} | Sub-Wait`
   }
 
+  const weatherDayMatch = pathname.match(/^\/weather\/day\/([^/]+)\/?$/)
+  if (weatherDayMatch) {
+    const date = decodePathSegment(weatherDayMatch[1])
+    return isValidIsoDate(date)
+      ? `${date} | NYC Weather`
+      : 'Page Not Found | NYC Weather'
+  }
+
   if (pathname.startsWith('/sub-wait/')) return 'Page Not Found | Sub-Wait'
   if (pathname.startsWith('/tuzi/')) return 'Page Not Found | Tuzi'
+  if (pathname.startsWith('/weather/')) return 'Page Not Found | NYC Weather'
   if (pathname.startsWith('/workout-lab/')) return 'Page Not Found | Workout Lab'
   return `Page Not Found | ${SITE_TITLE}`
 }

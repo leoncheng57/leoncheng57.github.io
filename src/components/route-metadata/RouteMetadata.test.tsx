@@ -60,6 +60,11 @@ describe('getRouteTitle', () => {
     ['/sub-wait/station/unknown', 'Station Not Found | Sub-Wait'],
     ['/tuzi', 'Tuzi'],
     ['/tuzi/how-ranking-works', 'How Ranking Works | Tuzi'],
+    ['/weather/', 'NYC Weather'],
+    ['/weather/week', 'Week | NYC Weather'],
+    ['/weather/alerts', 'Alerts | NYC Weather'],
+    ['/weather/day/2026-08-20', '2026-08-20 | NYC Weather'],
+    ['/weather/day/not-a-date', 'Page Not Found | NYC Weather'],
   ])('returns a meaningful title for %s', (pathname, expected) => {
     expect(getRouteTitle(pathname)).toBe(expected)
   })
@@ -83,6 +88,8 @@ describe('getRouteContentGroup', () => {
     ['/sub-wait/station/F16/N', 'sub-wait'],
     ['/workout-lab/exercises', 'workout-lab'],
     ['/tuzi/how-ranking-works', 'tuzi'],
+    ['/weather/', 'weather'],
+    ['/weather/day/2026-08-20', 'weather'],
     ['/georgies-board-game-nights', 'game-nights'],
     ['/game-nights', 'game-nights'],
     ['/unknown-path', 'other'],

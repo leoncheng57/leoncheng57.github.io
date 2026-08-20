@@ -1,0 +1,664 @@
+.page {
+  /* Light theme (default). A cool blue accent distinguishes this app from
+     Sub-Wait's monochrome palette while keeping the same structure. */
+  --wx-bg: #f4f7fb;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #eaf1f8;
+  --wx-ink: #0f2a43;
+  --wx-ink-soft: #35526b;
+  --wx-muted: #6b7f93;
+  --wx-accent: #0f2a43;
+  --wx-accent-strong: #0a1c2e;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(15, 42, 67, 0.14);
+  --wx-focus: #0f2a43;
+  --wx-high: #d9534f;
+  --wx-low: #2f7bbf;
+  --wx-precip: #2f7bbf;
+  --wx-aqi: #1a1a1a;
+  --wx-good: #2e7d32;
+  --wx-moderate: #b8860b;
+  --wx-sensitive: #d2691e;
+  --wx-unhealthy: #c62828;
+  --wx-body:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
+    sans-serif;
+
+  min-height: 100vh;
+  background: var(--wx-bg);
+  color: var(--wx-ink);
+  font-family: var(--wx-body);
+  padding: 1rem 0.85rem 3rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.page[data-theme='dark'] {
+  --wx-bg: #0b1420;
+  --wx-surface: #142234;
+  --wx-surface-raised: #1c2e44;
+  --wx-ink: #eaf1f8;
+  --wx-ink-soft: #c3d3e2;
+  --wx-muted: #8ba0b5;
+  --wx-accent: #eaf1f8;
+  --wx-accent-strong: #ffffff;
+  --wx-accent-contrast: #0b1420;
+  --wx-line: rgba(234, 241, 248, 0.16);
+  --wx-focus: #eaf1f8;
+  --wx-high: #ff8a80;
+  --wx-low: #6fb3f2;
+  --wx-precip: #6fb3f2;
+  --wx-aqi: #eaf1f8;
+  --wx-good: #66bb6a;
+  --wx-moderate: #d4b106;
+  --wx-sensitive: #e08a3c;
+  --wx-unhealthy: #ef5350;
+}
+
+.frame {
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+/* ── Masthead ─────────────────────────────────────────────────────────── */
+
+.masthead {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 3px solid var(--wx-accent);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.wordmark {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.betaBadge {
+  padding: 0.22rem 0.4rem 0.18rem;
+  border-radius: 999px;
+  background: var(--wx-accent);
+  color: var(--wx-accent-contrast);
+  font-size: 0.55rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mastheadNav {
+  display: flex;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+.mastheadLink {
+  color: var(--wx-ink-soft);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.1rem;
+}
+
+.mastheadLink:global(.active) {
+  color: var(--wx-ink);
+  border-bottom: 2px solid var(--wx-accent);
+}
+
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--wx-line);
+  border-radius: 999px;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  cursor: pointer;
+}
+
+.themeToggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+/* ── Layout ───────────────────────────────────────────────────────────── */
+
+.main {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.pageTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.backLink {
+  margin: 0;
+}
+
+.backLink a {
+  color: var(--wx-ink-soft);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.loading,
+.updatedAt,
+.sourceNote {
+  color: var(--wx-muted);
+  font-size: 0.85rem;
+}
+
+/* ── Status banners ───────────────────────────────────────────────────── */
+
+.staleBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.6rem;
+  background: var(--wx-surface-raised);
+  color: var(--wx-ink-soft);
+  font-size: 0.85rem;
+}
+
+.staleBanner button,
+.errorPanel button {
+  border: 1px solid var(--wx-line);
+  border-radius: 0.4rem;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.errorPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  background: var(--wx-surface-raised);
+}
+
+/* ── Current conditions ───────────────────────────────────────────────── */
+
+.current {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.currentTemp {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.currentCondition {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--wx-ink-soft);
+}
+
+.currentAqi {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--wx-ink-soft);
+}
+
+/* ── Charts ───────────────────────────────────────────────────────────── */
+
+.chartSection {
+  background: var(--wx-surface);
+  border-radius: 0.75rem;
+  padding: 0.85rem 0.6rem 0.6rem;
+  border: 1px solid var(--wx-line);
+}
+
+.chartTitle {
+  margin: 0 0.35rem 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--wx-muted);
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chartGrid {
+  stroke: var(--wx-line);
+  stroke-width: 1;
+}
+
+.chartTickLabel {
+  fill: var(--wx-muted);
+  font-size: 9px;
+  text-anchor: end;
+  dominant-baseline: middle;
+}
+
+.chartAxisLabel {
+  fill: var(--wx-muted);
+  font-size: 9px;
+  text-anchor: middle;
+}
+
+.chartBar {
+  fill: var(--wx-precip);
+  opacity: 0.22;
+}
+
+.chartMarker {
+  stroke: var(--wx-muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+}
+
+.chartMarkerLabel {
+  fill: var(--wx-muted);
+  font-size: 9px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.chartLinePast {
+  fill: none;
+  stroke-width: 2.25;
+}
+
+.chartLineFuture {
+  fill: none;
+  stroke-width: 2.25;
+  stroke-dasharray: 4 3;
+  opacity: 0.85;
+}
+
+.chartTapTarget {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.chartTapTarget:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: -2px;
+}
+
+.seriesHigh .chartLinePast,
+.seriesHigh .chartLineFuture {
+  stroke: var(--wx-high);
+}
+
+.seriesLow .chartLinePast,
+.seriesLow .chartLineFuture {
+  stroke: var(--wx-low);
+}
+
+.seriesPrecip .chartLinePast,
+.seriesPrecip .chartLineFuture {
+  stroke: var(--wx-precip);
+}
+
+.seriesAqi .chartLinePast,
+.seriesAqi .chartLineFuture {
+  stroke: var(--wx-aqi);
+}
+
+.chartLegend {
+  margin: 0.35rem 0.35rem 0;
+  font-size: 0.75rem;
+  color: var(--wx-muted);
+}
+
+.legendHigh {
+  color: var(--wx-high);
+  font-weight: 700;
+}
+
+.legendLow {
+  color: var(--wx-low);
+  font-weight: 700;
+}
+
+.bandGood {
+  fill: var(--wx-good);
+  opacity: 0.08;
+}
+
+.bandModerate {
+  fill: var(--wx-moderate);
+  opacity: 0.08;
+}
+
+.bandSensitive {
+  fill: var(--wx-sensitive);
+  opacity: 0.1;
+}
+
+.bandUnhealthy {
+  fill: var(--wx-unhealthy);
+  opacity: 0.1;
+}
+
+.good {
+  color: var(--wx-good);
+  font-weight: 700;
+}
+
+.moderate {
+  color: var(--wx-moderate);
+  font-weight: 700;
+}
+
+.sensitive {
+  color: var(--wx-sensitive);
+  font-weight: 700;
+}
+
+.unhealthy,
+.veryUnhealthy,
+.hazardous {
+  color: var(--wx-unhealthy);
+  font-weight: 700;
+}
+
+.windowNote {
+  text-align: center;
+  color: var(--wx-muted);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+/* ── Week view ────────────────────────────────────────────────────────── */
+
+.weekHeader,
+.weekRow {
+  display: grid;
+  grid-template-columns: 3.4rem 1.4rem 1fr 2.6rem 2.2rem;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.5rem;
+}
+
+.weekHeader {
+  color: var(--wx-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding-bottom: 0.35rem;
+}
+
+.weekSectionTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--wx-muted);
+  margin: 0.75rem 0 0.35rem;
+}
+
+.weekList {
+  background: var(--wx-surface);
+  border-radius: 0.75rem;
+  border: 1px solid var(--wx-line);
+  overflow: hidden;
+}
+
+.weekRow {
+  color: inherit;
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.weekRow:not(:last-child) {
+  border-bottom: 1px solid var(--wx-line);
+}
+
+.weekDay {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.weekCondition {
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.weekTemps {
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.weekPrecip,
+.weekAqi {
+  font-size: 0.85rem;
+  text-align: right;
+  color: var(--wx-ink-soft);
+}
+
+/* ── Day detail ───────────────────────────────────────────────────────── */
+
+.dayPager {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dayPager button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.5rem;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.dayPager button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.dayPager h1 {
+  text-align: center;
+}
+
+.tip {
+  background: var(--wx-surface-raised);
+  border-radius: 0.6rem;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ── Alerts ───────────────────────────────────────────────────────────── */
+
+.alertList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.alertCard {
+  background: var(--wx-surface);
+  border: 1px solid var(--wx-line);
+  border-radius: 0.75rem;
+  padding: 0.85rem;
+}
+
+.alertEvent {
+  margin: 0 0 0.2rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.alertMeta {
+  margin: 0 0 0.4rem;
+  font-size: 0.8rem;
+  color: var(--wx-muted);
+}
+
+.alertHeadline {
+  margin: 0 0 0.5rem;
+  font-size: 0.88rem;
+  color: var(--wx-ink-soft);
+}
+
+.alertToggle {
+  border: none;
+  background: none;
+  color: var(--wx-accent);
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 0.3rem 0;
+  cursor: pointer;
+}
+
+.alertDetails {
+  margin-top: 0.4rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--wx-line);
+  font-size: 0.85rem;
+  color: var(--wx-ink-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  white-space: pre-line;
+}
+
+.emptyAlerts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--wx-ink-soft);
+}
+
+.emptyAlertsIcon {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+/* ── Install hint ─────────────────────────────────────────────────────── */
+
+.installHint {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--wx-surface);
+  border: 1px solid var(--wx-line);
+  border-radius: 0.75rem;
+  padding: 0.7rem 0.75rem;
+  margin: 0.85rem 0 0;
+}
+
+.installHintCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.82rem;
+  color: var(--wx-ink-soft);
+}
+
+.installHintCopy strong {
+  color: var(--wx-ink);
+  font-size: 0.88rem;
+}
+
+.installHintDismiss {
+  border: none;
+  background: none;
+  color: var(--wx-muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.3rem;
+}
+
+.installHintCollapsed {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 20;
+}
+
+.installHintCollapsed button {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--wx-line);
+  background: var(--wx-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────── */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-items: center;
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--wx-line);
+  color: var(--wx-muted);
+  font-size: 0.78rem;
+}
+
+.footer a {
+  color: inherit;
+  font-weight: 600;
+}
+
+/* ── Small phones ─────────────────────────────────────────────────────── */
+
+@media (max-width: 360px) {
+  .weekHeader,
+  .weekRow {
+    grid-template-columns: 3rem 1.2rem 1fr 2.3rem 1.9rem;
+    padding: 0.55rem 0.4rem;
+  }
+}
