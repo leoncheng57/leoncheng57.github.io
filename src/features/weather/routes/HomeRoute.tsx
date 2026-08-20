@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react'
+import { useState, type ReactElement } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LineChart from '../components/LineChart'
 import StatusBanner from '../components/StatusBanner'
@@ -23,6 +23,7 @@ const AQI_BANDS = [
 export default function HomeRoute(): ReactElement {
   const { status, data } = useWeatherContext()
   const navigate = useNavigate()
+  const [scrubIndex, setScrubIndex] = useState<number | null>(null)
 
   if (!data) {
     return (
@@ -53,6 +54,33 @@ export default function HomeRoute(): ReactElement {
   const openDay = (index: number) => {
     const day = daily[index]
     if (day) navigate(`/weather/day/${day.date}`)
+  }
+
+  const scrubDay = (index: number): string => {
+    const day = daily[index]
+    return day ? formatDayLong(day.date) : ''
+  }
+  const tempScrubText = (index: number): string => {
+    const day = daily[index]
+    if (!day) return ''
+    const high = day.tempMax !== null ? `${Math.round(day.tempMax)}°` : '–'
+    const low = day.tempMin !== null ? `${Math.round(day.tempMin)}°` : '–'
+    return `${scrubDay(index)} · H ${high} L ${low}`
+  }
+  const precipScrubText = (index: number): string => {
+    const day = daily[index]
+    if (!day) return ''
+    const chance =
+      day.precipProbMax !== null ? `${Math.round(day.precipProbMax)}%` : '–'
+    return `${scrubDay(index)} · ${chance} rain`
+  }
+  const aqiScrubText = (index: number): string => {
+    const day = daily[index]
+    if (!day) return ''
+    const aqiValue = day.aqiMax !== null ? Math.round(day.aqiMax) : null
+    return aqiValue !== null
+      ? `${scrubDay(index)} · AQI ${aqiValue}`
+      : scrubDay(index)
   }
 
   return (
@@ -100,10 +128,15 @@ export default function HomeRoute(): ReactElement {
           ]}
           onSelectIndex={openDay}
           selectLabels={selectLabels}
+          scrubIndex={scrubIndex}
+          onScrubIndex={setScrubIndex}
+          scrubAriaLabel="Scrub through days on the temperature chart"
+          scrubValueText={tempScrubText}
         />
         <p className={styles.chartLegend}>
           <span className={styles.legendHigh}>high</span> ·{' '}
-          <span className={styles.legendLow}>low</span> · tap a day for hourly
+          <span className={styles.legendLow}>low</span> · drag to scrub · tap a
+          day for hourly
         </p>
       </section>
 
@@ -126,6 +159,10 @@ export default function HomeRoute(): ReactElement {
           bars={{ values: daily.map((day) => day.precipSum), max: 1.5 }}
           onSelectIndex={openDay}
           selectLabels={selectLabels}
+          scrubIndex={scrubIndex}
+          onScrubIndex={setScrubIndex}
+          scrubAriaLabel="Scrub through days on the precipitation chart"
+          scrubValueText={precipScrubText}
         />
         <p className={styles.chartLegend}>bars show rain amount (in)</p>
       </section>
@@ -149,6 +186,10 @@ export default function HomeRoute(): ReactElement {
           ]}
           onSelectIndex={openDay}
           selectLabels={selectLabels}
+          scrubIndex={scrubIndex}
+          onScrubIndex={setScrubIndex}
+          scrubAriaLabel="Scrub through days on the air quality chart"
+          scrubValueText={aqiScrubText}
         />
         <p className={styles.chartLegend}>
           <span className={styles.good}>good</span> ·{' '}

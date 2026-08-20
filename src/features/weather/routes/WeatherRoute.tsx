@@ -2,7 +2,7 @@ import { useLayoutEffect, type ReactElement } from 'react'
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
 import WeatherPwa from '../components/WeatherPwa'
 import { WeatherContext } from '../hooks/WeatherContext'
-import useTheme from '../hooks/useTheme'
+import useTheme, { PALETTES, type Palette } from '../hooks/useTheme'
 import useWeather from '../hooks/useWeather'
 import styles from '../weather.module.css'
 import AlertsRoute from './AlertsRoute'
@@ -11,7 +11,7 @@ import HomeRoute from './HomeRoute'
 import WeekRoute from './WeekRoute'
 
 export default function WeatherRoute(): ReactElement {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme, palette, setPalette } = useTheme()
   const weather = useWeather()
 
   useLayoutEffect(() => {
@@ -21,7 +21,7 @@ export default function WeatherRoute(): ReactElement {
   }, [])
 
   return (
-    <div className={styles.page} data-theme={theme}>
+    <div className={styles.page} data-theme={theme} data-palette={palette}>
       <div className={styles.frame}>
         <header className={styles.masthead}>
           <Link className={styles.brand} to="/weather/">
@@ -54,6 +54,24 @@ export default function WeatherRoute(): ReactElement {
             )}
           </button>
         </header>
+        <div className={styles.paletteBar}>
+          <label className={styles.paletteLabel} htmlFor="wx-palette">
+            Theme preview
+          </label>
+          <select
+            id="wx-palette"
+            className={styles.paletteSelect}
+            value={palette}
+            onChange={(event) => setPalette(event.target.value as Palette)}
+          >
+            {PALETTES.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <span className={styles.paletteHint}>beta · pick a favorite</span>
+        </div>
         <WeatherPwa />
 
         <WeatherContext.Provider value={weather}>
