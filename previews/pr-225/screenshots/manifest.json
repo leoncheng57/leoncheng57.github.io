@@ -1,0 +1,14 @@
+[
+  {
+    "path": "/guides",
+    "file": "guides.png",
+    "fullFile": null,
+    "title": "Guides index with the new OpenHands IDE Guide"
+  },
+  {
+    "path": "/guides/custom-coding-agent-ide-with-openhands",
+    "file": "guides--custom-coding-agent-ide-with-openhands.png",
+    "fullFile": "guides--custom-coding-agent-ide-with-openhands--full.png",
+    "title": "Full OpenHands IDE Guide"
+  }
+]
