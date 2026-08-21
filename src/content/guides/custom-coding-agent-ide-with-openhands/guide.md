@@ -15,7 +15,7 @@ tags:
 
 I wanted one browser view for long-running coding work: conversations, branches, diffs, commands, previews, pull requests, and parallel workers. The result is [`custom-dca-ide-with-openhands`](https://github.com/leoncheng57/custom-dca-ide-with-openhands), a local-first React and Express control plane around the headless [OpenHands agent server](https://docs.openhands.dev/sdk/guides/agent-server/overview).
 
-![The custom OpenHands IDE during a live session: navigation for conversations, manager runs, terminal, notifications, settings, tools, and docs; a running conversation with an isolated workspace; task, changes, and pull-request sidebars; and a composer for steering the agent.](/guides/custom-coding-agent-ide-with-openhands/interface.webp "A live coding-agent session in the custom browser IDE.")
+![A guided walkthrough of the custom OpenHands IDE: picking a project, the plan-mode approval gate, the diff and preview panels, and the draft pull request.](component:openhands-ide-walkthrough)
 
 ## Start it
 
@@ -45,4 +45,4 @@ Open `http://localhost:5173`. The command starts the headless agent in Docker, t
 
 > **OpenHands is the execution engine; this repository is the control plane.**
 
-The Guide explains how that boundary was built, why it is useful compared with using Claude Code or OpenCode alone, and what it costs to maintain. The source repository is currently private, so links require collaborator access.
+The Guide opens with the question worth asking first — why not just use Claude Code or OpenCode? — then covers how the boundary was built and what it costs to maintain. The source repository is currently private, so links require collaborator access.

@@ -1,10 +1,10 @@
 ---
-title: "Downsides, decision guide, and lessons"
-description: "The maintenance, safety, performance, and complexity costs—and when the architecture is worth them."
+title: "Downsides and lessons"
+description: "The maintenance, safety, performance, and complexity costs of owning the layer above the agent."
 part: "Decide"
 ---
 
-# Downsides, decision guide, and lessons
+# Downsides and lessons
 
 Owning the control plane means owning its failures.
 
@@ -16,15 +16,7 @@ Owning the control plane means owning its failures.
 - **Disk:** conversation state, command events, clones, dependencies, and build output accumulate. Cleanup must never confuse real host projects with re-creatable session workspaces.
 - **Upstream lag:** the custom UI will sometimes trail stock OpenHands features; the stock canvas remains the escape hatch.
 
-```text
-One agent in one repo? ── yes ─► use Claude Code or OpenCode directly
-          │ no
-          ▼
-Repeated custom workflow? ─ no ─► use upstream clients + small scripts
-          │ yes
-          ▼
-Willing to own security + full stack? ─ yes ─► custom control plane
-```
+That list is the real answer to the decision tree in the opening chapter: the third branch is only worth taking if these costs buy back more time than they consume.
 
 The lessons I would carry forward:
 
