@@ -1,16 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
+import { DEFAULT_PALETTE, isPalette, type Palette } from '../palettes'
 
 export type Theme = 'light' | 'dark'
 
-export const PALETTES = [
-  { id: 'classic', label: 'Classic Navy' },
-  { id: 'sky', label: 'Electric Sky' },
-  { id: 'sunset', label: 'Sunset Coral' },
-  { id: 'forest', label: 'Forest Green' },
-  { id: 'plum', label: 'Plum Punch' },
-] as const
-
-export type Palette = (typeof PALETTES)[number]['id']
+// The palette registry lives in `../palettes` so a picker can read IDs, names
+// and swatches without applying a palette. The type is re-exported because it
+// is part of this hook's signature; import the registry itself from there.
+export type { Palette } from '../palettes'
 
 const STORAGE_KEY = 'nyc-weather-theme'
 const PALETTE_KEY = 'nyc-weather-palette'
@@ -38,11 +34,9 @@ function storedTheme(): Theme | null {
 function storedPalette(): Palette {
   try {
     const value = window.localStorage.getItem(PALETTE_KEY)
-    return PALETTES.some((palette) => palette.id === value)
-      ? (value as Palette)
-      : 'classic'
+    return isPalette(value) ? value : DEFAULT_PALETTE
   } catch {
-    return 'classic'
+    return DEFAULT_PALETTE
   }
 }
 

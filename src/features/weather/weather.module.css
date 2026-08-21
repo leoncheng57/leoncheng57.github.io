@@ -154,6 +154,374 @@
   --wx-high: #f472b6;
 }
 
+/* ── NYC-inspired colorways ────────────────────────────────────────────── */
+/* Each of these defines a full light and dark token set rather than
+   inheriting from classic, so the accent, series and status colors stay
+   deliberate in both modes. IDs, names and swatches live in palettes.ts. */
+
+/* Harbor Fog — maritime gray/teal; light-leaning, restrained brick red and harbor blue series. */
+.page[data-palette='harbor-fog'] {
+  --wx-bg: #f2f7f6;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #e2eeec;
+  --wx-ink: #173b3f;
+  --wx-ink-soft: #33575b;
+  --wx-muted: #5b7377;
+  --wx-accent: #00545c;
+  --wx-accent-strong: #003b41;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(23, 59, 63, 0.16);
+  --wx-focus: #00545c;
+  --wx-high: #983329;
+  --wx-low: #14577d;
+  --wx-precip: #14577d;
+  --wx-aqi: #173b3f;
+  --wx-good: #1f6b41;
+  --wx-moderate: #7f6209;
+  --wx-sensitive: #a3541b;
+  --wx-unhealthy: #a32a22;
+}
+
+.page[data-palette='harbor-fog'][data-theme='dark'] {
+  --wx-bg: #071417;
+  --wx-surface: #0f2226;
+  --wx-surface-raised: #173136;
+  --wx-ink: #e4f1f0;
+  --wx-ink-soft: #bcd3d3;
+  --wx-muted: #8ba7a9;
+  --wx-accent: #7ed4d8;
+  --wx-accent-strong: #b3e9eb;
+  --wx-accent-contrast: #071417;
+  --wx-line: rgba(228, 241, 240, 0.16);
+  --wx-focus: #7ed4d8;
+  --wx-high: #ff9e90;
+  --wx-low: #74c0ef;
+  --wx-precip: #74c0ef;
+  --wx-aqi: #e4f1f0;
+  --wx-good: #6cc48f;
+  --wx-moderate: #d9b64a;
+  --wx-sensitive: #ef9a5a;
+  --wx-unhealthy: #ff7a70;
+}
+
+/* Brownstone Heat — warm limestone and brick, with oxidized copper for the cool series. */
+.page[data-palette='brownstone-heat'] {
+  --wx-bg: #f8efe5;
+  --wx-surface: #fffaf4;
+  --wx-surface-raised: #f1e1d2;
+  --wx-ink: #442b26;
+  --wx-ink-soft: #63443b;
+  --wx-muted: #7a5b50;
+  --wx-accent: #8f3f2d;
+  --wx-accent-strong: #6d2d1f;
+  --wx-accent-contrast: #fffaf4;
+  --wx-line: rgba(68, 43, 38, 0.16);
+  --wx-focus: #8f3f2d;
+  --wx-high: #923026;
+  --wx-low: #11575d;
+  --wx-precip: #11575d;
+  --wx-aqi: #442b26;
+  --wx-good: #2c6b39;
+  --wx-moderate: #7d5f08;
+  --wx-sensitive: #a1521a;
+  --wx-unhealthy: #a52a22;
+}
+
+.page[data-palette='brownstone-heat'][data-theme='dark'] {
+  --wx-bg: #17100d;
+  --wx-surface: #241813;
+  --wx-surface-raised: #33231c;
+  --wx-ink: #f6e9dd;
+  --wx-ink-soft: #d8c1b2;
+  --wx-muted: #a88f82;
+  --wx-accent: #f0a184;
+  --wx-accent-strong: #f8c4b0;
+  --wx-accent-contrast: #17100d;
+  --wx-line: rgba(246, 233, 221, 0.16);
+  --wx-focus: #f0a184;
+  --wx-high: #ff8f7f;
+  --wx-low: #63c8d2;
+  --wx-precip: #63c8d2;
+  --wx-aqi: #f6e9dd;
+  --wx-good: #74c98a;
+  --wx-moderate: #e0b84e;
+  --wx-sensitive: #f0a05c;
+  --wx-unhealthy: #ff8072;
+}
+
+/* Taxi After Midnight — designed dark; the light set keeps the cab identity in the raised
+   surface and drops the accent to a readable deep amber (#ffd400 text is ~1.4:1 on white). */
+.page[data-palette='taxi-midnight'] {
+  --wx-bg: #f5f4f0;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #ffefa8;
+  --wx-ink: #10141a;
+  --wx-ink-soft: #333a44;
+  --wx-muted: #5f6773;
+  --wx-accent: #6b5200;
+  --wx-accent-strong: #4d3b00;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(16, 20, 26, 0.16);
+  --wx-focus: #6b5200;
+  --wx-high: #b03024;
+  --wx-low: #0d5f80;
+  --wx-precip: #0d5f80;
+  --wx-aqi: #10141a;
+  --wx-good: #2c6b39;
+  --wx-moderate: #7d6008;
+  --wx-sensitive: #a3541b;
+  --wx-unhealthy: #b0231c;
+}
+
+.page[data-palette='taxi-midnight'][data-theme='dark'] {
+  --wx-bg: #080b0f;
+  --wx-surface: #151a20;
+  --wx-surface-raised: #1f262f;
+  --wx-ink: #f7fafc;
+  --wx-ink-soft: #ccd6e0;
+  --wx-muted: #96a3b2;
+  --wx-accent: #ffd400;
+  --wx-accent-strong: #ffe45c;
+  --wx-accent-contrast: #0a0d11;
+  --wx-line: rgba(247, 250, 252, 0.16);
+  --wx-focus: #ffd400;
+  --wx-high: #ff6b5e;
+  --wx-low: #45c7f0;
+  --wx-precip: #45c7f0;
+  --wx-aqi: #f7fafc;
+  --wx-good: #57cc80;
+  --wx-moderate: #f2c14e;
+  --wx-sensitive: #ff9838;
+  --wx-unhealthy: #ff5747;
+}
+
+/* Park Avenue Patina — muted stone and aged metal for information-dense views. */
+.page[data-palette='park-avenue-patina'] {
+  --wx-bg: #eeede7;
+  --wx-surface: #f8f7f2;
+  --wx-surface-raised: #e2e1d9;
+  --wx-ink: #283430;
+  --wx-ink-soft: #43504b;
+  --wx-muted: #5c6863;
+  --wx-accent: #40574f;
+  --wx-accent-strong: #2c3d37;
+  --wx-accent-contrast: #f8f7f2;
+  --wx-line: rgba(40, 52, 48, 0.16);
+  --wx-focus: #40574f;
+  --wx-high: #803f38;
+  --wx-low: #315d6a;
+  --wx-precip: #315d6a;
+  --wx-aqi: #283430;
+  --wx-good: #2c6741;
+  --wx-moderate: #755b0a;
+  --wx-sensitive: #99501c;
+  --wx-unhealthy: #992e26;
+}
+
+.page[data-palette='park-avenue-patina'][data-theme='dark'] {
+  --wx-bg: #101513;
+  --wx-surface: #1b221f;
+  --wx-surface-raised: #26302c;
+  --wx-ink: #eceee8;
+  --wx-ink-soft: #cbd2cc;
+  --wx-muted: #98a49e;
+  --wx-accent: #9dbdb0;
+  --wx-accent-strong: #c3d9cf;
+  --wx-accent-contrast: #101513;
+  --wx-line: rgba(236, 238, 232, 0.16);
+  --wx-focus: #9dbdb0;
+  --wx-high: #e79489;
+  --wx-low: #7fb8c9;
+  --wx-precip: #7fb8c9;
+  --wx-aqi: #eceee8;
+  --wx-good: #79c48f;
+  --wx-moderate: #d4b457;
+  --wx-sensitive: #e79a5f;
+  --wx-unhealthy: #f0857a;
+}
+
+/* Coney Island Neon — designed dark; the light set trades the lime accent for a deep
+   olive-lime so it stays readable as link/button text. */
+.page[data-palette='coney-island-neon'] {
+  --wx-bg: #f7f4ff;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #eae2ff;
+  --wx-ink: #221c3d;
+  --wx-ink-soft: #443a6b;
+  --wx-muted: #615889;
+  --wx-accent: #4a6b00;
+  --wx-accent-strong: #354d00;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(34, 28, 61, 0.16);
+  --wx-focus: #4a6b00;
+  --wx-high: #bb1f5c;
+  --wx-low: #0d6f80;
+  --wx-precip: #0d6f80;
+  --wx-aqi: #221c3d;
+  --wx-good: #2c6b45;
+  --wx-moderate: #7a5f08;
+  --wx-sensitive: #a05019;
+  --wx-unhealthy: #b02420;
+}
+
+.page[data-palette='coney-island-neon'][data-theme='dark'] {
+  --wx-bg: #111023;
+  --wx-surface: #1c1930;
+  --wx-surface-raised: #272242;
+  --wx-ink: #f5f1ff;
+  --wx-ink-soft: #d5cdf0;
+  --wx-muted: #a29ac7;
+  --wx-accent: #c8ff3d;
+  --wx-accent-strong: #dcff8a;
+  --wx-accent-contrast: #131022;
+  --wx-line: rgba(245, 241, 255, 0.16);
+  --wx-focus: #c8ff3d;
+  --wx-high: #ff5c8a;
+  --wx-low: #47d7e8;
+  --wx-precip: #47d7e8;
+  --wx-aqi: #f5f1ff;
+  --wx-good: #6ee7a0;
+  --wx-moderate: #ffd84d;
+  --wx-sensitive: #ff9f4a;
+  --wx-unhealthy: #ff5d5d;
+}
+
+/* Subway Mosaic — off-white tile, navy lettering, station red, enamel green-blue. */
+.page[data-palette='subway-mosaic'] {
+  --wx-bg: #f4f1e8;
+  --wx-surface: #fffdf7;
+  --wx-surface-raised: #e9e4d6;
+  --wx-ink: #192f44;
+  --wx-ink-soft: #36506a;
+  --wx-muted: #5f6d7b;
+  --wx-accent: #005a70;
+  --wx-accent-strong: #003f4f;
+  --wx-accent-contrast: #fffdf7;
+  --wx-line: rgba(25, 47, 68, 0.16);
+  --wx-focus: #005a70;
+  --wx-high: #96303d;
+  --wx-low: #006c67;
+  --wx-precip: #006c67;
+  --wx-aqi: #192f44;
+  --wx-good: #2b6b3c;
+  --wx-moderate: #7c5f08;
+  --wx-sensitive: #a1531a;
+  --wx-unhealthy: #a32d33;
+}
+
+.page[data-palette='subway-mosaic'][data-theme='dark'] {
+  --wx-bg: #0a1522;
+  --wx-surface: #12212f;
+  --wx-surface-raised: #1b2f41;
+  --wx-ink: #eef2e9;
+  --wx-ink-soft: #cbd6cf;
+  --wx-muted: #94a4ae;
+  --wx-accent: #6fd0e0;
+  --wx-accent-strong: #a6e6f0;
+  --wx-accent-contrast: #0a1522;
+  --wx-line: rgba(238, 242, 233, 0.16);
+  --wx-focus: #6fd0e0;
+  --wx-high: #f4919c;
+  --wx-low: #55c9ba;
+  --wx-precip: #55c9ba;
+  --wx-aqi: #eef2e9;
+  --wx-good: #6fc987;
+  --wx-moderate: #d9bb52;
+  --wx-sensitive: #ec9a5b;
+  --wx-unhealthy: #ff8087;
+}
+
+/* Guggenheim Paper — modernist near-monochrome base with crisp cobalt, red and teal data. */
+.page[data-palette='guggenheim-paper'] {
+  --wx-bg: #f5f2e9;
+  --wx-surface: #fffefa;
+  --wx-surface-raised: #ebe7d9;
+  --wx-ink: #171717;
+  --wx-ink-soft: #3d3d3a;
+  --wx-muted: #66665f;
+  --wx-accent: #2448b8;
+  --wx-accent-strong: #17348c;
+  --wx-accent-contrast: #fffefa;
+  --wx-line: rgba(23, 23, 23, 0.16);
+  --wx-focus: #2448b8;
+  --wx-high: #a82e25;
+  --wx-low: #006c7a;
+  --wx-precip: #006c7a;
+  --wx-aqi: #171717;
+  --wx-good: #2b6b3a;
+  --wx-moderate: #7a5e08;
+  --wx-sensitive: #9d5019;
+  --wx-unhealthy: #b3261e;
+}
+
+.page[data-palette='guggenheim-paper'][data-theme='dark'] {
+  --wx-bg: #121212;
+  --wx-surface: #1c1c1b;
+  --wx-surface-raised: #272725;
+  --wx-ink: #f5f2e9;
+  --wx-ink-soft: #d3d0c8;
+  --wx-muted: #9c9a92;
+  --wx-accent: #8fb0ff;
+  --wx-accent-strong: #bcd0ff;
+  --wx-accent-contrast: #121212;
+  --wx-line: rgba(245, 242, 233, 0.16);
+  --wx-focus: #8fb0ff;
+  --wx-high: #f58a80;
+  --wx-low: #58c8d6;
+  --wx-precip: #58c8d6;
+  --wx-aqi: #f5f2e9;
+  --wx-good: #6fc98a;
+  --wx-moderate: #d7b84f;
+  --wx-sensitive: #eb9d5d;
+  --wx-unhealthy: #ff8177;
+}
+
+/* Queens Night Market — designed dark; the light set keeps the jewel tones but darkens
+   the gold accent for text legibility. */
+.page[data-palette='queens-night-market'] {
+  --wx-bg: #faf6f2;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #f1e9e0;
+  --wx-ink: #241f33;
+  --wx-ink-soft: #453e5c;
+  --wx-muted: #6a627f;
+  --wx-accent: #8a5a00;
+  --wx-accent-strong: #684400;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(36, 31, 51, 0.16);
+  --wx-focus: #8a5a00;
+  --wx-high: #b32455;
+  --wx-low: #0b6f60;
+  --wx-precip: #0b6f60;
+  --wx-aqi: #241f33;
+  --wx-good: #2c6b45;
+  --wx-moderate: #7b5f08;
+  --wx-sensitive: #a0521c;
+  --wx-unhealthy: #ad2531;
+}
+
+.page[data-palette='queens-night-market'][data-theme='dark'] {
+  --wx-bg: #11111a;
+  --wx-surface: #1d1a29;
+  --wx-surface-raised: #292538;
+  --wx-ink: #f7f2ff;
+  --wx-ink-soft: #d8d0e8;
+  --wx-muted: #a79ebd;
+  --wx-accent: #f6c453;
+  --wx-accent-strong: #ffdd8f;
+  --wx-accent-contrast: #14111c;
+  --wx-line: rgba(247, 242, 255, 0.16);
+  --wx-focus: #f6c453;
+  --wx-high: #ff6f91;
+  --wx-low: #55d6be;
+  --wx-precip: #55d6be;
+  --wx-aqi: #f7f2ff;
+  --wx-good: #62d69b;
+  --wx-moderate: #f0b429;
+  --wx-sensitive: #ff9a5c;
+  --wx-unhealthy: #ff5f70;
+}
+
 .frame {
   max-width: 30rem;
   margin: 0 auto;

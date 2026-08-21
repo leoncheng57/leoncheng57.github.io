@@ -2,6 +2,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { PALETTES } from '../palettes'
 import {
   addDays,
   formatDayLong,
@@ -438,6 +439,86 @@ describe('theme preview picker', () => {
     expect(container.querySelector('[data-palette]')).toHaveAttribute(
       'data-palette',
       'forest',
+    )
+  })
+
+  it('offers every registered palette as an option', async () => {
+    mockFetch()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const select = screen.getByLabelText('Theme preview')
+    expect(
+      within(select)
+        .getAllByRole('option')
+        .map((option) => (option as HTMLOptionElement).value),
+    ).toEqual(PALETTES.map((palette) => palette.id))
+  })
+
+  it('applies a new NYC colorway and persists it', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const page = container.querySelector('[data-palette]')
+    expect(page).toHaveAttribute('data-palette', 'classic')
+
+    await user.selectOptions(
+      screen.getByLabelText('Theme preview'),
+      'Taxi After Midnight',
+    )
+
+    expect(page).toHaveAttribute('data-palette', 'taxi-midnight')
+    expect(window.localStorage.getItem('nyc-weather-palette')).toBe(
+      'taxi-midnight',
+    )
+  })
+
+  it('restores a stored NYC colorway on load', async () => {
+    mockFetch()
+    window.localStorage.setItem('nyc-weather-palette', 'coney-island-neon')
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    expect(container.querySelector('[data-palette]')).toHaveAttribute(
+      'data-palette',
+      'coney-island-neon',
+    )
+  })
+
+  it('keeps the selected palette when light/dark mode is toggled', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    window.localStorage.setItem('nyc-weather-palette', 'harbor-fog')
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const page = container.querySelector('[data-palette]')
+    expect(page).toHaveAttribute('data-theme', 'light')
+    expect(page).toHaveAttribute('data-palette', 'harbor-fog')
+
+    await user.click(screen.getByRole('button', { name: 'Switch to dark mode' }))
+    expect(page).toHaveAttribute('data-theme', 'dark')
+    expect(page).toHaveAttribute('data-palette', 'harbor-fog')
+
+    await user.click(
+      screen.getByRole('button', { name: 'Switch to light mode' }),
+    )
+    expect(page).toHaveAttribute('data-theme', 'light')
+    expect(page).toHaveAttribute('data-palette', 'harbor-fog')
+    expect(window.localStorage.getItem('nyc-weather-palette')).toBe('harbor-fog')
+  })
+
+  it('falls back to classic when the stored palette id is not valid', async () => {
+    mockFetch()
+    window.localStorage.setItem('nyc-weather-palette', 'midtown-mystery')
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    expect(container.querySelector('[data-palette]')).toHaveAttribute(
+      'data-palette',
+      'classic',
     )
   })
 })
