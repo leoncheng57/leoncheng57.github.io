@@ -63,7 +63,7 @@ jobs:
           attempt-limit: 10
 
       - name: Add preview link to pull request
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const marker = '<!-- pr-preview -->';
