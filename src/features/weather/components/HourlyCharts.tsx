@@ -35,7 +35,11 @@ export default function HourlyCharts({
   rangeLabel,
   withDayInLabels = false,
 }: HourlyChartsProps): ReactElement {
-  const [scrubIndex, setScrubIndex] = useState<number | null>(null)
+  // Start on the current hour (or the start of the window) so the readout is
+  // visible without interaction, then follow wherever the reader drags it.
+  const [scrubIndex, setScrubIndex] = useState<number>(
+    nowIndex >= 0 ? nowIndex : 0,
+  )
 
   const labels = hours.map((hour, index) =>
     index % 4 === 0 ? formatHourLabel(hour.time) : '',

@@ -138,6 +138,8 @@ describe('weather hourly home route', () => {
     ).toBeInTheDocument()
     // The 14-day charts now live on their own page.
     expect(screen.queryByText('Air Quality (US AQI)')).not.toBeInTheDocument()
+    // The scrubber rests on the current hour without any interaction.
+    expect(screen.getAllByTestId('chart-scrubber')).toHaveLength(2)
   })
 
   it('anchors the window to the current NYC hour, not the device hour', async () => {
@@ -317,13 +319,42 @@ describe('offline behavior', () => {
 })
 
 describe('chart scrubber', () => {
+  it('shows the scrubber resting on today before any interaction', async () => {
+    mockFetch()
+    renderAt('/weather/trends')
+
+    await screen.findByRole('heading', { name: '14-day trends' })
+    // Visible on all three charts without dragging.
+    expect(screen.getAllByTestId('chart-scrubber')).toHaveLength(3)
+    // Today is index 7; fixture temps are 80 + index / 60 + index.
+    expect(
+      screen.getByText(`${formatDayLong(TODAY)} · H 87° L 67°`),
+    ).toBeInTheDocument()
+    // The separate "Today" marker is suppressed so the two lines do not stack.
+    expect(screen.queryByText('Today')).not.toBeInTheDocument()
+  })
+
+  it('restores the Today marker once the scrubber moves away from it', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/trends')
+
+    await screen.findByRole('heading', { name: '14-day trends' })
+    const slider = screen.getByRole('slider', {
+      name: 'Scrub through days on the temperature chart',
+    })
+    slider.focus()
+    await user.keyboard('{ArrowRight}')
+
+    expect(screen.getAllByText('Today').length).toBeGreaterThan(0)
+  })
+
   it('moves the scrubber with arrow keys and shows a readout on all charts', async () => {
     mockFetch()
     const user = userEvent.setup()
     renderAt('/weather/trends')
 
     await screen.findByRole('heading', { name: '14-day trends' })
-    expect(screen.queryAllByTestId('chart-scrubber')).toHaveLength(0)
 
     const slider = screen.getByRole('slider', {
       name: 'Scrub through days on the temperature chart',
