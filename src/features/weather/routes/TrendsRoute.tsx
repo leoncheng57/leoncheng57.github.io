@@ -46,6 +46,10 @@ export default function TrendsRoute(): ReactElement {
   const { daily, current } = data
   const today = nycToday()
   const todayIndex = daily.findIndex((day) => day.date === today)
+  // Data arrives after the first render, so the default resolves here rather
+  // than in useState: the scrubber rests on today until the reader moves it.
+  const activeScrub =
+    scrubIndex ?? (todayIndex >= 0 ? todayIndex : 0)
   const condition = weatherCodeInfo(current.weatherCode)
   const aqi = current.usAqi
 
@@ -136,7 +140,7 @@ export default function TrendsRoute(): ReactElement {
           ]}
           onSelectIndex={openDay}
           selectLabels={selectLabels}
-          scrubIndex={scrubIndex}
+          scrubIndex={activeScrub}
           onScrubIndex={setScrubIndex}
           scrubAriaLabel="Scrub through days on the temperature chart"
           scrubValueText={tempScrubText}
@@ -171,7 +175,7 @@ export default function TrendsRoute(): ReactElement {
           }}
           onSelectIndex={openDay}
           selectLabels={selectLabels}
-          scrubIndex={scrubIndex}
+          scrubIndex={activeScrub}
           onScrubIndex={setScrubIndex}
           scrubAriaLabel="Scrub through days on the precipitation chart"
           scrubValueText={precipScrubText}
@@ -201,7 +205,7 @@ export default function TrendsRoute(): ReactElement {
           ]}
           onSelectIndex={openDay}
           selectLabels={selectLabels}
-          scrubIndex={scrubIndex}
+          scrubIndex={activeScrub}
           onScrubIndex={setScrubIndex}
           scrubAriaLabel="Scrub through days on the air quality chart"
           scrubValueText={aqiScrubText}
