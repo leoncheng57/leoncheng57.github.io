@@ -1,7 +1,8 @@
 import { useLayoutEffect, type ReactElement } from 'react'
-import { Link, NavLink, Route, Routes } from 'react-router-dom'
+import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import SiteFooter from '../../../components/site-footer/SiteFooter'
 import PalettePicker from '../components/PalettePicker'
+import ChartScrubberTip from '../components/ChartScrubberTip'
 import WeatherPwa from '../components/WeatherPwa'
 import { WeatherContext } from '../hooks/WeatherContext'
 import useTheme from '../hooks/useTheme'
@@ -10,11 +11,21 @@ import styles from '../weather.module.css'
 import AlertsRoute from './AlertsRoute'
 import DayRoute from './DayRoute'
 import HourlyRoute from './HourlyRoute'
+import InstallRoute from './InstallRoute'
 import WeeklyRoute from './WeeklyRoute'
 
 export default function WeatherRoute(): ReactElement {
   const { theme, palette, setAppearance } = useTheme()
   const weather = useWeather()
+  const { pathname } = useLocation()
+  const chartPeriod =
+    pathname === '/weather/weekly'
+      ? 'day'
+      : pathname === '/weather' ||
+          pathname === '/weather/' ||
+          pathname.startsWith('/weather/day/')
+        ? 'hour'
+        : null
 
   useLayoutEffect(() => {
     if (window.location.pathname === '/weather') {
@@ -47,7 +58,10 @@ export default function WeatherRoute(): ReactElement {
             onChange={setAppearance}
           />
         </header>
-        <WeatherPwa />
+        <div className={styles.onboardingControls}>
+          <WeatherPwa />
+          {chartPeriod ? <ChartScrubberTip period={chartPeriod} /> : null}
+        </div>
 
         <WeatherContext.Provider value={weather}>
           <Routes>
@@ -55,6 +69,7 @@ export default function WeatherRoute(): ReactElement {
             <Route path="weekly" element={<WeeklyRoute />} />
             <Route path="day/:date" element={<DayRoute />} />
             <Route path="alerts" element={<AlertsRoute />} />
+            <Route path="install" element={<InstallRoute />} />
           </Routes>
         </WeatherContext.Provider>
 
@@ -62,7 +77,8 @@ export default function WeatherRoute(): ReactElement {
           <span>
             Weather and air quality by{' '}
             <a href="https://open-meteo.com/">Open-Meteo</a> · Alerts from{' '}
-            <a href="https://www.weather.gov/">NWS</a>
+            <a href="https://www.weather.gov/">NWS</a> ·{' '}
+            <Link to="/weather/install">Install NYC Weather</Link>
           </span>
         </SiteFooter>
       </div>

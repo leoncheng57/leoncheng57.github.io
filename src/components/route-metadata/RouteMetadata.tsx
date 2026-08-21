@@ -45,6 +45,7 @@ const STATIC_TITLES: Record<string, string> = {
   '/weather/': 'NYC Weather',
   '/weather/weekly': 'Weekly | NYC Weather',
   '/weather/alerts': 'Alerts | NYC Weather',
+  '/weather/install': 'Install | NYC Weather',
   '/workout-lab': 'Workout Lab',
   '/workout-lab/': 'Workout Lab',
   '/workout-lab/exercises': 'Exercises | Workout Lab',

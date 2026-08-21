@@ -119,6 +119,7 @@ export default function WeeklyRoute(): ReactElement {
         </p>
       </section>
 
+
       <section className={styles.chartSection}>
         <h2 className={styles.chartTitle}>Temperature (°F)</h2>
         <LineChart
@@ -147,8 +148,7 @@ export default function WeeklyRoute(): ReactElement {
         />
         <p className={styles.chartLegend}>
           <span className={styles.legendHigh}>high</span> ·{' '}
-          <span className={styles.legendLow}>low</span> · drag to scrub · tap a
-          day for hourly
+          <span className={styles.legendLow}>low</span> · tap a day for hourly
         </p>
       </section>
 

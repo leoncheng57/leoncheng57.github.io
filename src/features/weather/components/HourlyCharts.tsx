@@ -129,7 +129,6 @@ export default function HourlyCharts({
           scrubAriaLabel="Scrub through hours on the temperature chart"
           scrubValueText={tempScrubText}
         />
-        <p className={styles.chartLegend}>drag to scrub through hours</p>
       </section>
 
       <section className={styles.chartSection}>

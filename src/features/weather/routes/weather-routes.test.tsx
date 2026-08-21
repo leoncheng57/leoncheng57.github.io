@@ -177,6 +177,9 @@ describe('weather shell', () => {
     expect(
       within(footer).queryByRole('link', { name: 'Alerts' }),
     ).not.toBeInTheDocument()
+    expect(
+      within(footer).getByRole('link', { name: 'Install NYC Weather' }),
+    ).toHaveAttribute('href', '/weather/install')
   })
 })
 
@@ -208,6 +211,34 @@ describe('weather hourly home route', () => {
       expect(slider).toHaveAttribute('aria-valuemax', '36')
       expect(slider).toHaveAttribute('aria-valuenow', '12')
     })
+    expect(
+      screen.getByRole('button', { name: 'Chart drag' }),
+    ).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
+    expect(screen.queryByText(/drag to scrub/)).not.toBeInTheDocument()
+  })
+
+  it('does not reset the scrubber when chart instructions toggle', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    const slider = await screen.findByRole('slider', {
+      name: 'Scrub through hours on the temperature chart',
+    })
+    slider.focus()
+    await user.keyboard('{ArrowRight}')
+    const valueNow = slider.getAttribute('aria-valuenow')
+    const valueText = slider.getAttribute('aria-valuetext')
+
+    const instructions = screen.getByRole('button', { name: 'Chart drag' })
+    await user.click(instructions)
+    expect(slider).toHaveAttribute('aria-valuenow', valueNow)
+    expect(slider).toHaveAttribute('aria-valuetext', valueText)
+
+    await user.click(screen.getByRole('button', { name: 'Got it' }))
+    expect(slider).toHaveAttribute('aria-valuenow', valueNow)
+    expect(slider).toHaveAttribute('aria-valuetext', valueText)
   })
 
   it('marks the current hour mid-window once the scrubber moves off it', async () => {
@@ -380,6 +411,35 @@ describe('weather weekly route', () => {
         name: 'Daily high and low temperature, past 7 days and next 7 days',
       }),
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Chart drag' }),
+    ).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
+    expect(screen.getByText(/tap a day for hourly/)).toBeInTheDocument()
+    expect(screen.queryByText(/drag to scrub/)).not.toBeInTheDocument()
+  })
+
+  it('does not reset the scrubber when chart instructions toggle', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/weekly')
+
+    const slider = await screen.findByRole('slider', {
+      name: 'Scrub through days on the temperature chart',
+    })
+    slider.focus()
+    await user.keyboard('{ArrowRight}')
+    const valueNow = slider.getAttribute('aria-valuenow')
+    const valueText = slider.getAttribute('aria-valuetext')
+
+    const instructions = screen.getByRole('button', { name: 'Chart drag' })
+    await user.click(instructions)
+    expect(slider).toHaveAttribute('aria-valuenow', valueNow)
+    expect(slider).toHaveAttribute('aria-valuetext', valueText)
+
+    await user.click(screen.getByRole('button', { name: 'Got it' }))
+    expect(slider).toHaveAttribute('aria-valuenow', valueNow)
+    expect(slider).toHaveAttribute('aria-valuetext', valueText)
   })
 
   it('navigates to the hourly page when a day is tapped', async () => {
@@ -416,6 +476,9 @@ describe('weather day route', () => {
       }),
     ).toBeInTheDocument()
     expect(screen.getByText(/Rain likely 2 PM–5 PM/)).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Chart drag' }),
+    ).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('keeps the every-fourth-hour axis of a single-day window', async () => {

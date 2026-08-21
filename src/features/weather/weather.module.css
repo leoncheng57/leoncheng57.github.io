@@ -36,6 +36,15 @@
   --sf-ink: var(--wx-ink);
   --sf-muted: var(--wx-muted);
   --sf-border-width: 1px;
+  --pi-backdrop: rgba(3, 12, 20, 0.68);
+  --pi-surface: var(--wx-surface);
+  --pi-surface-raised: var(--wx-surface-raised);
+  --pi-ink: var(--wx-ink);
+  --pi-muted: var(--wx-ink-soft);
+  --pi-line: var(--wx-line);
+  --pi-accent: var(--wx-accent-strong);
+  --pi-accent-contrast: var(--wx-accent-contrast);
+  --pi-focus: var(--wx-focus);
 
   min-height: 100vh;
   background: var(--wx-bg);
@@ -1080,6 +1089,75 @@
   border: 1px solid var(--wx-line);
 }
 
+.chartTipBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(5, 12, 20, 0.62);
+}
+
+.chartTipDialog {
+  width: min(100%, 28rem);
+  overflow: hidden;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.9rem;
+  background: var(--wx-surface);
+  box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.3);
+}
+
+.chartTipDialogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--wx-line);
+}
+
+.chartTipDialog h2,
+.chartTipDialog p {
+  margin: 0;
+}
+
+.chartTipDialog h2 {
+  font-size: 1rem;
+}
+
+.chartTipDialog p {
+  padding: 1rem;
+  color: var(--wx-ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.chartTipDialog footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--wx-line);
+}
+
+.chartTipDialog button {
+  min-height: 36px;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.55rem;
+  background: var(--wx-surface-raised);
+  color: var(--wx-ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chartTipDialog button:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: 2px;
+}
+
 .chartTitle {
   margin: 0 0.35rem 0.35rem;
   font-size: 0.8rem;
@@ -1393,59 +1471,157 @@
   margin: 0;
 }
 
-/* ── Install hint ─────────────────────────────────────────────────────── */
+/* ── Onboarding controls ──────────────────────────────────────────────── */
 
-.installHint {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+.onboardingControls {
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
-  gap: 0.6rem;
-  background: var(--wx-surface);
-  border: 1px solid var(--wx-line);
-  border-radius: 0.75rem;
-  padding: 0.7rem 0.75rem;
-  margin: 0.85rem 0 0;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.55rem 0 0.8rem;
 }
 
-.installHintCopy {
+.onboardingButton {
+  min-height: 32px;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 999px;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.onboardingButton[aria-expanded='true'] {
+  border-color: var(--wx-accent);
+  background: var(--wx-surface-raised);
+}
+
+.onboardingButton:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: 2px;
+}
+
+/* ── Install guide ────────────────────────────────────────────────────── */
+
+.backLink {
+  margin: 1.25rem 0;
+}
+
+.backLink a {
+  color: var(--wx-accent);
+  font-weight: 700;
+}
+
+.installGuideHeader {
   display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  font-size: 0.82rem;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.installGuideHeader h1,
+.installGuideHeader p,
+.installPlatform h2,
+.installPlatform h3,
+.installPlatform p,
+.installCompatibility h2 {
+  margin: 0;
+}
+
+.installGuideHeader h1 {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  line-height: 1;
+}
+
+.installGuideHeader p {
+  max-width: 42rem;
+  margin-top: 0.45rem;
   color: var(--wx-ink-soft);
 }
 
-.installHintCopy strong {
-  color: var(--wx-ink);
-  font-size: 0.88rem;
+.installPlatform {
+  margin-top: 2rem;
 }
 
-.installHintDismiss {
-  border: none;
-  background: none;
-  color: var(--wx-muted);
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0.3rem;
+.installPlatformNote {
+  margin-top: 0.35rem !important;
+  color: var(--wx-ink-soft);
 }
 
-.installHintCollapsed {
-  position: fixed;
-  right: 1rem;
-  bottom: 1rem;
-  z-index: 20;
+.installSteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
 }
 
-.installHintCollapsed button {
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
+.installStep {
+  overflow: hidden;
   border: 1px solid var(--wx-line);
+  border-radius: 0.9rem;
   background: var(--wx-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.installStep img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid var(--wx-line);
+  background: var(--wx-surface-raised);
+}
+
+.installStep div {
+  padding: 1rem;
+}
+
+.installStep h3 {
+  font-size: 1rem;
+}
+
+.installStep p {
+  margin-top: 0.45rem;
+  color: var(--wx-ink-soft);
+  font-size: 0.9rem;
+}
+
+.installCompatibility {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.9rem;
+  background: var(--wx-surface-raised);
+}
+
+.installCompatibility ul {
+  margin-bottom: 0;
+}
+
+.installIllustrationNote {
+  color: var(--wx-muted);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 700px) {
+  .installSteps {
+    grid-template-columns: 1fr;
+  }
+
+  .installStep {
+    display: grid;
+    grid-template-columns: minmax(7rem, 38%) 1fr;
+  }
+
+  .installStep img {
+    height: 100%;
+    border-right: 1px solid var(--wx-line);
+    border-bottom: 0;
+    object-fit: cover;
+    object-position: top;
+  }
 }

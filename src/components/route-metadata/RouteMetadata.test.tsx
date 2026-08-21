@@ -67,6 +67,7 @@ describe('getRouteTitle', () => {
     ['/weather/', 'NYC Weather'],
     ['/weather/weekly', 'Weekly | NYC Weather'],
     ['/weather/alerts', 'Alerts | NYC Weather'],
+    ['/weather/install', 'Install | NYC Weather'],
     ['/weather/day/2026-08-20', '2026-08-20 | NYC Weather'],
     ['/weather/day/not-a-date', 'Page Not Found | NYC Weather'],
   ])('returns a meaningful title for %s', (pathname, expected) => {
