@@ -143,6 +143,13 @@ describe('repo subpages', () => {
     expect(
       screen.getByRole('region', { name: 'Live specimen of the simulated application walkthrough' })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Live application frame' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: 'Live specimen of the unloaded application iframe' })
+    ).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: 'Load live simulator' })).toHaveLength(1)
   })
 
   it('documents Google Analytics at /repo/google-analytics', () => {

@@ -41,6 +41,10 @@ export default function LiveIdeFrame({
     >
       <header className={styles.header}>
         <span className={styles.badge}>Live app</span>
+        <span className={styles.loadStatus} aria-live="polite">
+          <span className={styles.statusDot} aria-hidden="true" />
+          {isLoaded ? 'Live simulator loaded' : 'Iframe unloaded'}
+        </span>
         <p>
           Explore the real app UI on a fake, in-browser backend. Nothing here connects to an
           agent, repository, or account.
@@ -60,10 +64,26 @@ export default function LiveIdeFrame({
       ) : (
         <div className={styles.poster}>
           <img src={posterUrl} alt="" aria-hidden="true" />
-          <div className={styles.posterShade} />
-          <button className={styles.loadButton} type="button" onClick={loadFrame}>
-            Load live simulator
-          </button>
+          <div className={styles.posterTint} aria-hidden="true" />
+          <div className={styles.shimmer} aria-hidden="true" />
+          <div className={styles.launchPanel}>
+            <span className={styles.unloadedHint}>
+              <span aria-hidden="true">○</span> Ready when you are
+            </span>
+            <button
+              className={styles.loadButton}
+              type="button"
+              onClick={loadFrame}
+              aria-label="Load live simulator"
+            >
+              <span className={styles.sparkle} aria-hidden="true">✦</span>
+              <span className={styles.buttonCopy}>
+                <strong>Load live simulator</strong>
+                <small>Explore the interactive demo</small>
+              </span>
+              <span className={styles.arrow} aria-hidden="true">↗</span>
+            </button>
+          </div>
         </div>
       )}
     </section>
