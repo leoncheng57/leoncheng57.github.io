@@ -206,16 +206,18 @@ export default function DesignComponentsRoute(): ReactElement {
         <section className={styles.showcase} aria-labelledby="simulation-heading">
           <h2 id="simulation-heading">Simulation frame</h2>
           <p>
-            When an article needs to show an application it cannot embed, it
-            uses a scripted mock instead of a screenshot: a dark fake window
-            inside a dashed accent frame, announced by a{' '}
+            When an article needs a narrated sequence, it uses a scripted mock:
+            a dark fake window inside a dashed accent frame, announced by a{' '}
             <strong>SIMULATION</strong> pill so it is never mistaken for a
-            recording. The window is deliberately dark in both guide themes,
-            because it stands in for an app screenshot rather than page
-            furniture; only the outer shell follows <code>--gd-*</code>.
-            Frames advance on Back/Next or the arrow keys, scoped to the
-            section so they never hijack page scrolling, and the caption
-            doubles as an <code>aria-live</code> region. Nothing autoplays.
+            recording or the live simulator. Its authored pacing, low weight,
+            accessibility, and offline resilience make it the instant story;
+            the click-to-load iframe elsewhere in the guide is the independent
+            exploration surface. The window is deliberately dark in both guide
+            themes, because it stands in for an app screenshot rather than page
+            furniture; only the outer shell follows <code>--gd-*</code>. Frames
+            advance on Back/Next or the arrow keys, scoped to the section so
+            they never hijack page scrolling, and the caption doubles as an{' '}
+            <code>aria-live</code> region. Nothing autoplays.
           </p>
           <p>
             In a guide the frame breaks out to the full page width; hosts

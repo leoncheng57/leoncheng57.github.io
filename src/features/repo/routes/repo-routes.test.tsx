@@ -139,6 +139,10 @@ describe('repo subpages', () => {
       screen.getByRole('heading', { name: 'Loading bars' })
     ).toBeInTheDocument()
     expect(screen.getAllByRole('progressbar')).toHaveLength(4)
+    expect(screen.getByText(/authored pacing, low weight/)).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: 'Live specimen of the simulated application walkthrough' })
+    ).toBeInTheDocument()
   })
 
   it('documents Google Analytics at /repo/google-analytics', () => {

@@ -26,6 +26,6 @@ The lessons I would carry forward:
 4. Workspace design deserves more attention than the prompt box.
 5. Custom is better only where it encodes a workflow worth maintaining.
 
-The code is MIT-licensed at [leoncheng57/Customizable-DCA-OpenHands](https://github.com/leoncheng57/Customizable-DCA-OpenHands) — every seam named in this Guide is in there, so the honest way to judge whether the trade is worth it is to run it for a week.
+There are three honest ways to judge the trade: explore the [browser demo with fake data](https://leoncheng.dev/Customizable-DCA-OpenHands/openhands/native/), try the Docker-based [v0.0.1 prerelease](https://github.com/leoncheng57/Customizable-DCA-OpenHands/releases/tag/v0.0.1) while keeping its beta limitations in mind, or clone the [MIT-licensed repository](https://github.com/leoncheng57/Customizable-DCA-OpenHands) and run the development stack.
 
-Further reading: [OpenHands](https://docs.openhands.dev/), [Claude Code security](https://code.claude.com/docs/en/security), and [OpenCode permissions](https://opencode.ai/docs/permissions/).
+Further reading: [Customizable DCA docs](https://leoncheng.dev/Customizable-DCA-OpenHands/openhands/contributing), [OpenHands](https://docs.openhands.dev/), [Claude Code security](https://code.claude.com/docs/en/security), and [OpenCode permissions](https://opencode.ai/docs/permissions/).

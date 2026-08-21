@@ -15,6 +15,8 @@ export interface Tool {
   blurb: string
   /** A small ASCII sketch. Lines must stay within MAX_DIAGRAM_WIDTH. */
   diagram: string
+  /** Optional source or release page for claims that need a concrete reference. */
+  href?: string
 }
 
 /**
@@ -110,7 +112,8 @@ export const TOOLS: Tool[] = [
     id: 'packaging',
     name: 'One-command install',
     blurb:
-      'The packaged build puts the UI, the backend, and the agent container behind a single browser port, so Docker is the only prerequisite. Still beta.',
+      'The v0.0.1 prerelease packages the UI, backend, and agent container behind one browser port, so Docker is the only prerequisite. The package remains beta.',
     diagram: ['install.sh ──► app + agent containers', '           ──► one browser port'].join('\n'),
+    href: 'https://github.com/leoncheng57/Customizable-DCA-OpenHands/releases/tag/v0.0.1',
   },
 ]

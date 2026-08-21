@@ -21,6 +21,11 @@ export default function ToolGrid({
         <li key={tool.id} className={styles.card}>
           <h3 className={styles.name}>{tool.name}</h3>
           <p className={styles.blurb}>{tool.blurb}</p>
+          {tool.href ? (
+            <a className={styles.link} href={tool.href}>
+              View v0.0.1 prerelease ↗
+            </a>
+          ) : null}
           <pre className={styles.diagram} aria-hidden="true">
             {tool.diagram}
           </pre>

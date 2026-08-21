@@ -42,6 +42,15 @@ describe('TOOLS', () => {
     expect(TOOLS.length).toBeGreaterThanOrEqual(10)
   })
 
+  it('links the beta package card to the v0.0.1 prerelease', () => {
+    const packaging = TOOLS.find((tool) => tool.id === 'packaging')
+    expect(packaging?.blurb).toMatch(/v0\.0\.1 prerelease/i)
+    expect(packaging?.blurb).toMatch(/remains beta/i)
+    expect(packaging?.href).toBe(
+      'https://github.com/leoncheng57/Customizable-DCA-OpenHands/releases/tag/v0.0.1'
+    )
+  })
+
   it('keeps internal platform names out of the copy', () => {
     const copy = JSON.stringify(TOOLS)
     expect(copy).not.toMatch(/deepl/i)

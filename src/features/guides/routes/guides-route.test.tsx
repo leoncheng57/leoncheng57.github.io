@@ -256,8 +256,13 @@ describe('guide one-pager', () => {
       screen.getByRole('heading', { level: 1, name: OPENHANDS_GUIDE_TITLE })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('region', { name: /guided walkthrough of the custom OpenHands IDE/i })
+      screen.getByRole('region', { name: /narrated scripted preview of the custom OpenHands IDE/i })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: /independently explorable live app UI/i })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Load live simulator' })).toBeInTheDocument()
+    expect(screen.queryByTitle('Customizable DCA — live interactive demo')).not.toBeInTheDocument()
     // Both screen recordings are embedded from markdown via the component
     // registry, and both are redacted at encode time.
     expect(
