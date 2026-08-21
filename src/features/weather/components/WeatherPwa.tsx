@@ -1,4 +1,7 @@
-import { useEffect, useState, type ReactElement } from 'react'
+import { useEffect, useRef, useState, type ReactElement } from 'react'
+import { Link } from 'react-router-dom'
+import InstallHelpModal from '../../../components/pwa-install/InstallHelpModal'
+import { isInstallPlatformDevice } from '../../../components/pwa-install/installPlatforms'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../weather.module.css'
 
@@ -11,8 +14,12 @@ interface StandaloneNavigator extends Navigator {
 export function shouldShowInstallHint(
   userAgent: string,
   standalone: boolean,
+  platform = '',
+  maxTouchPoints = 0,
 ): boolean {
-  return /iphone|ipad|ipod|android/i.test(userAgent) && !standalone
+  return (
+    isInstallPlatformDevice(userAgent, platform, maxTouchPoints) && !standalone
+  )
 }
 
 function hasCollapsedHint(): boolean {
@@ -35,8 +42,12 @@ export default function WeatherPwa(): ReactElement | null {
   const showInstallHint = shouldShowInstallHint(
     navigator.userAgent,
     isStandalone,
+    navigator.platform,
+    navigator.maxTouchPoints,
   )
   const [collapsed, setCollapsed] = useState(hasCollapsedHint)
+  const [installHelpOpen, setInstallHelpOpen] = useState(false)
+  const installButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const manifest = document.createElement('link')
@@ -88,45 +99,80 @@ export default function WeatherPwa(): ReactElement | null {
 
   if (collapsed) {
     return (
-      <aside
-        className={styles.installHintCollapsed}
-        aria-label="Install NYC Weather"
-      >
-        <button
-          type="button"
-          onClick={() => setHintCollapsed(false)}
-          aria-label="Open install instructions"
+      <>
+        <aside
+          className={styles.installHintCollapsed}
+          aria-label="Install NYC Weather"
         >
-          <img src={assetUrl('weather/icon.svg')} alt="" width={28} height={28} />
-        </button>
-      </aside>
+          <button
+            ref={installButtonRef}
+            type="button"
+            onClick={() => setInstallHelpOpen(true)}
+          >
+            <span className={styles.installHintCollapsedIcon} aria-hidden="true">
+              <img src={assetUrl('weather/icon.svg')} alt="" width={28} height={28} />
+              <span>+</span>
+            </span>
+            <span>Add NYC Weather to home screen</span>
+          </button>
+        </aside>
+        {installHelpOpen ? (
+          <InstallHelpModal
+            appName="NYC Weather"
+            guidePath="/weather/install"
+            iconSrc={assetUrl('weather/icon.svg')}
+            onClose={() => setInstallHelpOpen(false)}
+            returnFocusTo={installButtonRef.current}
+          />
+        ) : null}
+      </>
     )
   }
 
   return (
-    <aside className={styles.installHint} aria-label="Install NYC Weather">
-      <img
-        className={styles.installHintLogo}
-        src={assetUrl('weather/icon.svg')}
-        alt=""
-        width={36}
-        height={36}
-      />
-      <div className={styles.installHintCopy}>
-        <strong>Add NYC Weather to your phone</strong>
-        <span>
-          Open your browser menu and choose “Add to Home Screen” for a
-          full-screen forecast, no app store.
-        </span>
-      </div>
-      <button
-        type="button"
-        className={styles.installHintDismiss}
-        onClick={() => setHintCollapsed(true)}
-        aria-label="Dismiss install instructions"
-      >
-        ×
-      </button>
-    </aside>
+    <>
+      <aside className={styles.installHint} aria-label="Install NYC Weather">
+        <img
+          className={styles.installHintLogo}
+          src={assetUrl('weather/icon.svg')}
+          alt=""
+          width={36}
+          height={36}
+        />
+        <div className={styles.installHintCopy}>
+          <strong>Add NYC Weather to your phone</strong>
+          <span>Get a full-screen forecast from your home screen, no app store.</span>
+          <span className={styles.installHintLinks}>
+            <button
+              ref={installButtonRef}
+              type="button"
+              onClick={() => setInstallHelpOpen(true)}
+            >
+              Help
+            </button>
+            <Link to="/weather/install">More details</Link>
+          </span>
+        </div>
+        <button
+          type="button"
+          className={styles.installHintDismiss}
+          onClick={() => setHintCollapsed(true)}
+          aria-label="Collapse install instructions"
+        >
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="m6 12 4-4 4 4" />
+          </svg>
+        </button>
+      </aside>
+      {installHelpOpen ? (
+        <InstallHelpModal
+          appName="NYC Weather"
+          guidePath="/weather/install"
+          iconSrc={assetUrl('weather/icon.svg')}
+          onClose={() => setInstallHelpOpen(false)}
+          returnFocusTo={installButtonRef.current}
+        />
+      ) : null}
+    </>
   )
 }

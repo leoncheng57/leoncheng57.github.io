@@ -177,6 +177,9 @@ describe('weather shell', () => {
     expect(
       within(footer).queryByRole('link', { name: 'Alerts' }),
     ).not.toBeInTheDocument()
+    expect(
+      within(footer).getByRole('link', { name: 'Install NYC Weather' }),
+    ).toHaveAttribute('href', '/weather/install')
   })
 })
 

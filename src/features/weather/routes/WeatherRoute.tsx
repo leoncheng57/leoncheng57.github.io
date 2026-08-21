@@ -10,6 +10,7 @@ import styles from '../weather.module.css'
 import AlertsRoute from './AlertsRoute'
 import DayRoute from './DayRoute'
 import HourlyRoute from './HourlyRoute'
+import InstallRoute from './InstallRoute'
 import WeeklyRoute from './WeeklyRoute'
 
 export default function WeatherRoute(): ReactElement {
@@ -55,6 +56,7 @@ export default function WeatherRoute(): ReactElement {
             <Route path="weekly" element={<WeeklyRoute />} />
             <Route path="day/:date" element={<DayRoute />} />
             <Route path="alerts" element={<AlertsRoute />} />
+            <Route path="install" element={<InstallRoute />} />
           </Routes>
         </WeatherContext.Provider>
 
@@ -62,7 +64,8 @@ export default function WeatherRoute(): ReactElement {
           <span>
             Weather and air quality by{' '}
             <a href="https://open-meteo.com/">Open-Meteo</a> · Alerts from{' '}
-            <a href="https://www.weather.gov/">NWS</a>
+            <a href="https://www.weather.gov/">NWS</a> ·{' '}
+            <Link to="/weather/install">Install NYC Weather</Link>
           </span>
         </SiteFooter>
       </div>

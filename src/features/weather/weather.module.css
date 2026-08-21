@@ -36,6 +36,15 @@
   --sf-ink: var(--wx-ink);
   --sf-muted: var(--wx-muted);
   --sf-border-width: 1px;
+  --pi-backdrop: rgba(3, 12, 20, 0.68);
+  --pi-surface: var(--wx-surface);
+  --pi-surface-raised: var(--wx-surface-raised);
+  --pi-ink: var(--wx-ink);
+  --pi-muted: var(--wx-ink-soft);
+  --pi-line: var(--wx-line);
+  --pi-accent: var(--wx-accent-strong);
+  --pi-accent-contrast: var(--wx-accent-contrast);
+  --pi-focus: var(--wx-focus);
 
   min-height: 100vh;
   background: var(--wx-bg);
@@ -1420,6 +1429,25 @@
   font-size: 0.88rem;
 }
 
+.installHintLinks {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+.installHintLinks button,
+.installHintLinks a {
+  border: 0;
+  background: none;
+  color: var(--wx-accent);
+  font: inherit;
+  font-weight: 700;
+  padding: 0.2rem 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .installHintDismiss {
   border: none;
   background: none;
@@ -1427,7 +1455,18 @@
   font-size: 1.1rem;
   line-height: 1;
   cursor: pointer;
-  padding: 0.3rem;
+  width: 44px;
+  height: 44px;
+  padding: 0.65rem;
+}
+
+.installHintDismiss svg {
+  width: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 .installHintCollapsed {
@@ -1438,8 +1477,10 @@
 }
 
 .installHintCollapsed button {
-  width: 44px;
-  height: 44px;
+  min-height: 44px;
+  max-width: min(18rem, calc(100vw - 2rem));
+  gap: 0.5rem;
+  padding: 0.45rem 0.75rem 0.45rem 0.45rem;
   border-radius: 999px;
   border: 1px solid var(--wx-line);
   background: var(--wx-surface);
@@ -1448,4 +1489,156 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: var(--wx-ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.installHintCollapsedIcon {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.installHintCollapsedIcon span {
+  position: absolute;
+  right: -0.25rem;
+  bottom: -0.15rem;
+  display: grid;
+  width: 1rem;
+  height: 1rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--wx-accent-strong);
+  color: var(--wx-accent-contrast);
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.installHint button:focus-visible,
+.installHint a:focus-visible,
+.installHintCollapsed button:focus-visible {
+  outline: 3px solid var(--wx-focus);
+  outline-offset: 3px;
+}
+
+/* ── Install guide ────────────────────────────────────────────────────── */
+
+.backLink {
+  margin: 1.25rem 0;
+}
+
+.backLink a {
+  color: var(--wx-accent);
+  font-weight: 700;
+}
+
+.installGuideHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.installGuideHeader h1,
+.installGuideHeader p,
+.installPlatform h2,
+.installPlatform h3,
+.installPlatform p,
+.installCompatibility h2 {
+  margin: 0;
+}
+
+.installGuideHeader h1 {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  line-height: 1;
+}
+
+.installGuideHeader p {
+  max-width: 42rem;
+  margin-top: 0.45rem;
+  color: var(--wx-ink-soft);
+}
+
+.installPlatform {
+  margin-top: 2rem;
+}
+
+.installPlatformNote {
+  margin-top: 0.35rem !important;
+  color: var(--wx-ink-soft);
+}
+
+.installSteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.installStep {
+  overflow: hidden;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.9rem;
+  background: var(--wx-surface);
+}
+
+.installStep img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid var(--wx-line);
+  background: var(--wx-surface-raised);
+}
+
+.installStep div {
+  padding: 1rem;
+}
+
+.installStep h3 {
+  font-size: 1rem;
+}
+
+.installStep p {
+  margin-top: 0.45rem;
+  color: var(--wx-ink-soft);
+  font-size: 0.9rem;
+}
+
+.installCompatibility {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.9rem;
+  background: var(--wx-surface-raised);
+}
+
+.installCompatibility ul {
+  margin-bottom: 0;
+}
+
+.installIllustrationNote {
+  color: var(--wx-muted);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 700px) {
+  .installSteps {
+    grid-template-columns: 1fr;
+  }
+
+  .installStep {
+    display: grid;
+    grid-template-columns: minmax(7rem, 38%) 1fr;
+  }
+
+  .installStep img {
+    height: 100%;
+    border-right: 1px solid var(--wx-line);
+    border-bottom: 0;
+    object-fit: cover;
+    object-position: top;
+  }
 }
