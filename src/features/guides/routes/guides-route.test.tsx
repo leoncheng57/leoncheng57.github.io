@@ -52,7 +52,8 @@ describe('guides index route', () => {
 
     const guideLink = screen.getByRole('link', { name: OPENHANDS_GUIDE_TITLE })
     expect(guideLink).toHaveAttribute('href', OPENHANDS_GUIDE_PATH)
-    expect(within(guideLink.closest('article')!).getByText('BETA')).toBeInTheDocument()
+    // This guide is out of beta; the pill must not come back by accident.
+    expect(within(guideLink.closest('article')!).queryByText('BETA')).toBeNull()
     expect(screen.getByText('Why not just use Claude Code or OpenCode?')).toBeInTheDocument()
     expect(screen.getByText('Why build a control plane?')).toBeInTheDocument()
     expect(screen.getByText('How it was built, layer by layer')).toBeInTheDocument()
@@ -216,14 +217,8 @@ describe('guide one-pager', () => {
     expect(
       screen.getByLabelText('A screen recording of the custom OpenHands IDE running in a mobile browser.')
     ).toBeInTheDocument()
-    expect(
-      screen.getByText(/git clone https:\/\/github\.com\/leoncheng57\/Customizable-DCA-OpenHands/)
-    ).toBeInTheDocument()
-    // Scoped to the overview's code block: the mobile chapter mentions the
-    // same command inline, so a bare match is ambiguous.
-    expect(
-      screen.getByText(/bash scripts\/dev\.sh\s+# add --tailscale for phone access/)
-    ).toBeInTheDocument()
+    // The walkthrough must be unmistakably a mock-up rather than a recording.
+    expect(screen.getByText('Simulation')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 2, name: 'How it was built, layer by layer' })
     ).toBeInTheDocument()
@@ -255,7 +250,7 @@ describe('guide one-pager', () => {
       '#vs-claude-code-and-opencode',
       '#why-build-a-control-plane',
       '#how-it-was-built',
-      '#the-daily-agent-loop',
+      '#the-tools-i-built',
       '#manager-runs-and-dogfooding',
       '#supervising-from-a-phone',
       '#downsides-and-lessons',

@@ -16,7 +16,7 @@ Owning the control plane means owning its failures.
 - **Disk:** conversation state, command events, clones, dependencies, and build output accumulate. Cleanup must never confuse real host projects with re-creatable session workspaces.
 - **Upstream lag:** the custom UI will sometimes trail stock OpenHands features; the stock canvas remains the escape hatch.
 
-That list is the real answer to the decision tree in the opening chapter: the third branch is only worth taking if these costs buy back more time than they consume.
+That list is the real trade: this is only worth owning if these costs buy back more time than they consume.
 
 The lessons I would carry forward:
 
