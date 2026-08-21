@@ -1,6 +1,5 @@
 import type { ReactElement } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
-import ChartScrubberTip from '../components/ChartScrubberTip'
 import HourlyCharts from '../components/HourlyCharts'
 import StatusBanner from '../components/StatusBanner'
 import { useWeatherContext } from '../hooks/WeatherContext'
@@ -124,7 +123,6 @@ export default function DayRoute(): ReactElement {
 
       {hours.length > 0 ? (
         <>
-          <ChartScrubberTip period="hour" />
           <HourlyCharts
             hours={hours}
             nowIndex={nowHourIndex}

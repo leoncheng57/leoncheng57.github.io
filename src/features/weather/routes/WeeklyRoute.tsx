@@ -1,6 +1,5 @@
 import { useState, type ReactElement } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ChartScrubberTip from '../components/ChartScrubberTip'
 import LineChart from '../components/LineChart'
 import StatusBanner from '../components/StatusBanner'
 import { useWeatherContext } from '../hooks/WeatherContext'
@@ -120,7 +119,6 @@ export default function WeeklyRoute(): ReactElement {
         </p>
       </section>
 
-      <ChartScrubberTip period="day" />
 
       <section className={styles.chartSection}>
         <h2 className={styles.chartTitle}>Temperature (°F)</h2>

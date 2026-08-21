@@ -212,10 +212,9 @@ describe('weather hourly home route', () => {
       expect(slider).toHaveAttribute('aria-valuenow', '12')
     })
     expect(
-      screen.getByText(
-        'Drag the vertical line across a chart to inspect each hour. You can also focus the chart and use the arrow keys.',
-      ),
-    ).toBeInTheDocument()
+      screen.getByRole('button', { name: 'Chart drag' }),
+    ).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
     expect(screen.queryByText(/drag to scrub/)).not.toBeInTheDocument()
   })
 
@@ -232,13 +231,12 @@ describe('weather hourly home route', () => {
     const valueNow = slider.getAttribute('aria-valuenow')
     const valueText = slider.getAttribute('aria-valuetext')
 
-    await user.click(
-      screen.getByRole('button', { name: 'Collapse chart instructions' }),
-    )
+    const instructions = screen.getByRole('button', { name: 'Chart drag' })
+    await user.click(instructions)
     expect(slider).toHaveAttribute('aria-valuenow', valueNow)
     expect(slider).toHaveAttribute('aria-valuetext', valueText)
 
-    await user.click(screen.getByRole('button', { name: 'How to read charts' }))
+    await user.click(instructions)
     expect(slider).toHaveAttribute('aria-valuenow', valueNow)
     expect(slider).toHaveAttribute('aria-valuetext', valueText)
   })
@@ -414,10 +412,9 @@ describe('weather weekly route', () => {
       }),
     ).toBeInTheDocument()
     expect(
-      screen.getByText(
-        'Drag the vertical line across a chart to inspect each day. You can also focus the chart and use the arrow keys.',
-      ),
-    ).toBeInTheDocument()
+      screen.getByRole('button', { name: 'Chart drag' }),
+    ).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
     expect(screen.getByText(/tap a day for hourly/)).toBeInTheDocument()
     expect(screen.queryByText(/drag to scrub/)).not.toBeInTheDocument()
   })
@@ -435,13 +432,12 @@ describe('weather weekly route', () => {
     const valueNow = slider.getAttribute('aria-valuenow')
     const valueText = slider.getAttribute('aria-valuetext')
 
-    await user.click(
-      screen.getByRole('button', { name: 'Collapse chart instructions' }),
-    )
+    const instructions = screen.getByRole('button', { name: 'Chart drag' })
+    await user.click(instructions)
     expect(slider).toHaveAttribute('aria-valuenow', valueNow)
     expect(slider).toHaveAttribute('aria-valuetext', valueText)
 
-    await user.click(screen.getByRole('button', { name: 'How to read charts' }))
+    await user.click(instructions)
     expect(slider).toHaveAttribute('aria-valuenow', valueNow)
     expect(slider).toHaveAttribute('aria-valuetext', valueText)
   })
@@ -481,10 +477,8 @@ describe('weather day route', () => {
     ).toBeInTheDocument()
     expect(screen.getByText(/Rain likely 2 PM–5 PM/)).toBeInTheDocument()
     expect(
-      screen.getByText(
-        'Drag the vertical line across a chart to inspect each hour. You can also focus the chart and use the arrow keys.',
-      ),
-    ).toBeInTheDocument()
+      screen.getByRole('button', { name: 'Chart drag' }),
+    ).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('keeps the every-fourth-hour axis of a single-day window', async () => {

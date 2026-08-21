@@ -1090,10 +1090,8 @@
 }
 
 .chartTip {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 0.75rem;
+  flex: 1 0 100%;
+  order: 2;
   padding: 0.75rem 0.85rem;
   border: 1px solid var(--wx-line);
   border-radius: 0.75rem;
@@ -1110,46 +1108,6 @@
   color: var(--wx-ink-soft);
   font-size: 0.82rem;
   line-height: 1.45;
-}
-
-.chartTipCollapse,
-.chartTipReopen {
-  min-height: 44px;
-  border: 1px solid var(--wx-line);
-  border-radius: 0.55rem;
-  background: var(--wx-surface);
-  color: var(--wx-accent);
-  font: inherit;
-  font-size: 0.78rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.chartTipCollapse {
-  max-width: 6.5rem;
-  padding: 0.45rem 0.65rem;
-}
-
-.chartTipReopen {
-  align-self: flex-start;
-  padding: 0.45rem 0.8rem;
-}
-
-.chartTipCollapse:focus-visible,
-.chartTipReopen:focus-visible {
-  outline: 2px solid var(--wx-focus);
-  outline-offset: 2px;
-}
-
-@media (max-width: 24rem) {
-  .chartTip {
-    grid-template-columns: 1fr;
-  }
-
-  .chartTipCollapse {
-    max-width: none;
-    width: 100%;
-  }
 }
 
 .chartTitle {
@@ -1465,153 +1423,39 @@
   margin: 0;
 }
 
-/* ── Install hint ─────────────────────────────────────────────────────── */
+/* ── Onboarding controls ──────────────────────────────────────────────── */
 
-.installHint {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 0.6rem;
-  background: var(--wx-surface);
-  border: 1px solid var(--wx-line);
-  border-radius: 0.75rem;
-  padding: 0.7rem 0.75rem;
-  margin: 0.85rem 0 0;
-}
-
-.installHintCopy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  font-size: 0.82rem;
-  color: var(--wx-ink-soft);
-}
-
-.installHintCopy strong {
-  color: var(--wx-ink);
-  font-size: 0.88rem;
-}
-
-.installHintLinks {
-  display: flex;
-  gap: 0.8rem;
-  margin-top: 0.2rem;
-}
-
-.installHintLinks button,
-.installHintLinks a {
-  border: 0;
-  background: none;
-  color: var(--wx-accent);
-  font: inherit;
-  font-weight: 700;
-  padding: 0.2rem 0;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
-
-.installHintDismiss {
-  border: none;
-  background: none;
-  color: var(--wx-muted);
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-  width: 44px;
-  height: 44px;
-  padding: 0.65rem;
-}
-
-.installHintDismiss svg {
-  width: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.8;
-}
-
-.installHintCollapsed {
+.onboardingControls {
   display: flex;
   justify-content: flex-end;
-  align-items: stretch;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 0.4rem;
-  margin: 0.65rem 0 0.9rem;
+  margin: 0.55rem 0 0.8rem;
 }
 
-.installHintCollapsed button {
-  min-height: 44px;
-  gap: 0.5rem;
+.onboardingButton {
+  min-height: 32px;
+  padding: 0.3rem 0.65rem;
   border: 1px solid var(--wx-line);
+  border-radius: 999px;
   background: var(--wx-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   color: var(--wx-ink);
   font: inherit;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
-}
-
-.installHintPreview {
-  max-width: min(16rem, calc(100vw - 5.5rem));
-  padding: 0.4rem 0.7rem 0.4rem 0.4rem;
-  border-radius: 0.75rem;
-}
-
-.installHintPreviewCopy {
-  display: grid;
-  min-width: 0;
-  text-align: left;
-}
-
-.installHintPreviewCopy strong,
-.installHintPreviewCopy small {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.installHintPreviewCopy small {
-  color: var(--wx-muted);
-  font-size: 0.68rem;
-  font-weight: 500;
-}
-
-.installHintHelp {
-  padding: 0.45rem 0.8rem;
-  border-radius: 0.75rem;
-}
-
-.installHintCollapsedIcon {
-  position: relative;
-  display: grid;
-  place-items: center;
-}
-
-.installHintCollapsedIcon span {
-  position: absolute;
-  right: -0.25rem;
-  bottom: -0.15rem;
-  display: grid;
-  width: 1rem;
-  height: 1rem;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--wx-accent-strong);
-  color: var(--wx-accent-contrast);
-  font-size: 0.8rem;
   line-height: 1;
+  cursor: pointer;
 }
 
-.installHint button:focus-visible,
-.installHint a:focus-visible,
-.installHintCollapsed button:focus-visible {
-  outline: 3px solid var(--wx-focus);
-  outline-offset: 3px;
+.onboardingButton[aria-expanded='true'] {
+  border-color: var(--wx-accent);
+  background: var(--wx-surface-raised);
+}
+
+.onboardingButton:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: 2px;
 }
 
 /* ── Install guide ────────────────────────────────────────────────────── */

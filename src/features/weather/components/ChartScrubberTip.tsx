@@ -9,9 +9,10 @@ export type ChartScrubberTipProps = {
 
 function hasCollapsedTip(): boolean {
   try {
-    return window.localStorage.getItem(COLLAPSED_KEY) === 'true'
+    const stored = window.localStorage.getItem(COLLAPSED_KEY)
+    return stored === null ? true : stored === 'true'
   } catch {
-    return false
+    return true
   }
 }
 
@@ -20,6 +21,7 @@ export default function ChartScrubberTip({
 }: ChartScrubberTipProps): ReactElement {
   const [collapsed, setCollapsed] = useState(hasCollapsedTip)
   const headingId = useId()
+  const panelId = useId()
 
   const setTipCollapsed = (nextCollapsed: boolean) => {
     try {
@@ -30,34 +32,30 @@ export default function ChartScrubberTip({
     setCollapsed(nextCollapsed)
   }
 
-  if (collapsed) {
-    return (
-      <button
-        type="button"
-        className={styles.chartTipReopen}
-        onClick={() => setTipCollapsed(false)}
-      >
-        How to read charts
-      </button>
-    )
-  }
-
   return (
-    <aside className={styles.chartTip} aria-labelledby={headingId}>
-      <div>
-        <h2 id={headingId}>How to read charts</h2>
-        <p>
-          Drag the vertical line across a chart to inspect each {period}. You can
-          also focus the chart and use the arrow keys.
-        </p>
-      </div>
+    <>
       <button
         type="button"
-        className={styles.chartTipCollapse}
-        onClick={() => setTipCollapsed(true)}
+        className={styles.onboardingButton}
+        onClick={() => setTipCollapsed(!collapsed)}
+        aria-expanded={!collapsed}
+        aria-controls={panelId}
       >
-        Collapse chart instructions
+        Chart drag
       </button>
-    </aside>
+      {!collapsed ? (
+        <aside
+          id={panelId}
+          className={styles.chartTip}
+          aria-labelledby={headingId}
+        >
+          <h2 id={headingId}>How to read charts</h2>
+          <p>
+            Drag the vertical line across a chart to inspect each {period}. You
+            can also focus the chart and use the arrow keys.
+          </p>
+        </aside>
+      ) : null}
+    </>
   )
 }

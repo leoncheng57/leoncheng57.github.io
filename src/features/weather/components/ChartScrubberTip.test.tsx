@@ -13,46 +13,46 @@ describe('ChartScrubberTip', () => {
   it.each([
     ['hour', 'Drag the vertical line across a chart to inspect each hour.'],
     ['day', 'Drag the vertical line across a chart to inspect each day.'],
-  ] as const)('starts expanded with %s instructions', (period, copy) => {
+  ] as const)('opens %s instructions from the compact control', async (period, copy) => {
+    const user = userEvent.setup()
     render(<ChartScrubberTip period={period} />)
 
+    const trigger = screen.getByRole('button', { name: 'Chart drag' })
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
+
+    await user.click(trigger)
     expect(
       screen.getByRole('complementary', { name: 'How to read charts' }),
     ).toHaveTextContent(
       `${copy} You can also focus the chart and use the arrow keys.`,
     )
-    expect(
-      screen.getByRole('button', { name: 'Collapse chart instructions' }),
-    ).toBeInTheDocument()
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
   })
 
   it('persists collapse and reopen choices', async () => {
     const user = userEvent.setup()
     render(<ChartScrubberTip period="hour" />)
+    const trigger = screen.getByRole('button', { name: 'Chart drag' })
 
-    await user.click(
-      screen.getByRole('button', { name: 'Collapse chart instructions' }),
-    )
-    expect(window.localStorage.getItem(STORAGE_KEY)).toBe('true')
-
-    await user.click(screen.getByRole('button', { name: 'How to read charts' }))
+    await user.click(trigger)
     expect(window.localStorage.getItem(STORAGE_KEY)).toBe('false')
-    expect(
-      screen.getByRole('button', { name: 'Collapse chart instructions' }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole('complementary')).toBeInTheDocument()
+
+    await user.click(trigger)
+    expect(window.localStorage.getItem(STORAGE_KEY)).toBe('true')
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
   })
 
-  it('starts collapsed when the stored preference is true', () => {
-    window.localStorage.setItem(STORAGE_KEY, 'true')
+  it('starts expanded when the stored preference is false', () => {
+    window.localStorage.setItem(STORAGE_KEY, 'false')
 
     render(<ChartScrubberTip period="day" />)
 
     expect(
-      screen.getByRole('button', { name: 'How to read charts' }),
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByRole('complementary', { name: 'How to read charts' }),
-    ).not.toBeInTheDocument()
+      screen.getByRole('button', { name: 'Chart drag' }),
+    ).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByRole('complementary')).toBeInTheDocument()
   })
 
   it('still toggles in-session when localStorage is blocked', async () => {
@@ -69,17 +69,12 @@ describe('ChartScrubberTip', () => {
       })
 
     render(<ChartScrubberTip period="hour" />)
-    await user.click(
-      screen.getByRole('button', { name: 'Collapse chart instructions' }),
-    )
-    expect(
-      screen.getByRole('button', { name: 'How to read charts' }),
-    ).toBeInTheDocument()
+    const trigger = screen.getByRole('button', { name: 'Chart drag' })
+    await user.click(trigger)
+    expect(screen.getByRole('complementary')).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'How to read charts' }))
-    expect(
-      screen.getByRole('button', { name: 'Collapse chart instructions' }),
-    ).toBeInTheDocument()
+    await user.click(trigger)
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
 
     getItem.mockRestore()
     setItem.mockRestore()
