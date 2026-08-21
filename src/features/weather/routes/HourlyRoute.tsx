@@ -12,8 +12,10 @@ import {
 } from '../utils/format'
 import styles from '../weather.module.css'
 
-/** Hours shown ahead of now on the landing page. */
-const WINDOW_HOURS = 24
+/** Hours of history shown before now on the landing page. */
+const PAST_HOURS = 12
+/** Hours of forecast shown after now on the landing page. */
+const FUTURE_HOURS = 24
 
 function rainSummary(
   hours: { time: string; precipProb: number | null }[],
@@ -35,9 +37,9 @@ function rainSummary(
 }
 
 /**
- * Landing page: a rolling window starting at the current hour, so the app
- * opens on what is happening now rather than on a calendar day that may be
- * nearly over. Calendar days stay available at /weather/day/:date.
+ * Landing page: a rolling window centred on the current hour, so the app opens
+ * on what just happened and what is coming rather than on a calendar day that
+ * may be nearly over. Calendar days stay available at /weather/day/:date.
  */
 export default function HourlyRoute(): ReactElement {
   const { status, data } = useWeatherContext()
@@ -61,14 +63,26 @@ export default function HourlyRoute(): ReactElement {
   const aqi = current.usAqi
 
   const nowHour = nycNowHour()
-  // Fall back to the start of the payload if "now" is missing (stale cache).
-  const startIndex = Math.max(
-    data.hourly.findIndex((hour) => hour.time >= nowHour),
-    0,
-  )
-  const hours = data.hourly.slice(startIndex, startIndex + WINDOW_HOURS)
+  // The first point at or after now anchors the window. A stale cache whose
+  // newest point predates now has no such point, so anchor past the end and
+  // let the slice fall back to the most recent hours available.
+  const anchor = data.hourly.findIndex((hour) => hour.time >= nowHour)
+  const anchorIndex = anchor === -1 ? data.hourly.length : anchor
+  const startIndex = Math.max(anchorIndex - PAST_HOURS, 0)
+  const hours = data.hourly.slice(startIndex, anchorIndex + FUTURE_HOURS + 1)
+  // -1 when the current hour is absent, which suppresses the "Now" marker.
   const nowIndex = hours.findIndex((hour) => hour.time === nowHour)
-  const summary = rainSummary(hours)
+  // Rain that already ended must not be announced, so scan from now forward.
+  const futureStart = hours.findIndex((hour) => hour.time >= nowHour)
+  const summary =
+    futureStart === -1 ? null : rainSummary(hours.slice(futureStart))
+  // Without a current hour, rest the scrubber on the point nearest to now.
+  const initialScrubIndex =
+    nowIndex >= 0
+      ? nowIndex
+      : futureStart === -1
+        ? Math.max(hours.length - 1, 0)
+        : futureStart
 
   return (
     <main className={styles.main}>
@@ -96,12 +110,14 @@ export default function HourlyRoute(): ReactElement {
 
       {hours.length > 0 ? (
         <>
-          <h1 className={styles.pageTitle}>Next 24 hours</h1>
+          <h1 className={styles.pageTitle}>Past 12 hours and next 24 hours</h1>
           <HourlyCharts
             hours={hours}
             nowIndex={nowIndex}
-            rangeLabel="the next 24 hours"
+            rangeLabel="the past 12 hours and next 24 hours"
             withDayInLabels
+            multiDayAxis
+            initialScrubIndex={initialScrubIndex}
           />
           {summary ? <p className={styles.tip}>💡 {summary}</p> : null}
         </>
