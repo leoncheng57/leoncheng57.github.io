@@ -8,8 +8,7 @@ import styles from '../weather.module.css'
 import AlertsRoute from './AlertsRoute'
 import DayRoute from './DayRoute'
 import HourlyRoute from './HourlyRoute'
-import TrendsRoute from './TrendsRoute'
-import WeekRoute from './WeekRoute'
+import WeeklyRoute from './WeeklyRoute'
 
 export default function WeatherRoute(): ReactElement {
   const { theme, toggleTheme, palette, setPalette } = useTheme()
@@ -33,11 +32,8 @@ export default function WeatherRoute(): ReactElement {
             <NavLink className={styles.mastheadLink} to="/weather/" end>
               Hourly
             </NavLink>
-            <NavLink className={styles.mastheadLink} to="/weather/trends">
-              Trends
-            </NavLink>
-            <NavLink className={styles.mastheadLink} to="/weather/week">
-              Week
+            <NavLink className={styles.mastheadLink} to="/weather/weekly">
+              Weekly
             </NavLink>
             <NavLink className={styles.mastheadLink} to="/weather/alerts">
               Alerts
@@ -84,8 +80,7 @@ export default function WeatherRoute(): ReactElement {
         <WeatherContext.Provider value={weather}>
           <Routes>
             <Route index element={<HourlyRoute />} />
-            <Route path="trends" element={<TrendsRoute />} />
-            <Route path="week" element={<WeekRoute />} />
+            <Route path="weekly" element={<WeeklyRoute />} />
             <Route path="day/:date" element={<DayRoute />} />
             <Route path="alerts" element={<AlertsRoute />} />
           </Routes>
@@ -93,8 +88,7 @@ export default function WeatherRoute(): ReactElement {
 
         <footer className={styles.footer}>
           <span>
-            NYC Weather · <Link to="/weather/trends">Trends</Link> ·{' '}
-            <Link to="/weather/week">Week</Link> ·{' '}
+            NYC Weather · <Link to="/weather/weekly">Weekly</Link> ·{' '}
             <Link to="/weather/alerts">Alerts</Link>
           </span>
           <span>

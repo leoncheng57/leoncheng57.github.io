@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -160,24 +160,15 @@ describe('weather hourly home route', () => {
       screen.getByText(new RegExp(`${nowLabel} · 70°`)),
     ).toBeInTheDocument()
   })
-
-  it('links to the 14-day trends page', async () => {
-    mockFetch()
-    renderAt('/weather/')
-
-    expect(
-      await screen.findByRole('link', { name: 'See 14-day trends →' }),
-    ).toBeInTheDocument()
-  })
 })
 
-describe('weather trends route', () => {
+describe('weather weekly route', () => {
   it('renders the three 14-day charts', async () => {
     mockFetch()
-    renderAt('/weather/trends')
+    renderAt('/weather/weekly')
 
     expect(
-      await screen.findByRole('heading', { name: '14-day trends' }),
+      await screen.findByRole('heading', { name: 'Weekly' }),
     ).toBeInTheDocument()
     expect(screen.getByText('Temperature (°F)')).toBeInTheDocument()
     expect(screen.getByText('Precipitation (%)')).toBeInTheDocument()
@@ -192,9 +183,9 @@ describe('weather trends route', () => {
   it('navigates to the hourly page when a day is tapped', async () => {
     mockFetch()
     const user = userEvent.setup()
-    renderAt('/weather/trends')
+    renderAt('/weather/weekly')
 
-    await screen.findByRole('heading', { name: '14-day trends' })
+    await screen.findByRole('heading', { name: 'Weekly' })
     const tapTargets = screen.getAllByRole('button', {
       name: `View hourly details for ${formatDayLong(TODAY)}`,
     })
@@ -204,23 +195,6 @@ describe('weather trends route', () => {
       await screen.findByRole('heading', {
         name: `Today, ${formatDayLong(TODAY)}`,
       }),
-    ).toBeInTheDocument()
-  })
-})
-
-describe('weather week route', () => {
-  it('lists the next 7 days and the past 7 days', async () => {
-    mockFetch()
-    renderAt('/weather/week')
-
-    const upcoming = await screen.findByRole('region', { name: 'Next 7 days' })
-    expect(within(upcoming).getByText('Today')).toBeInTheDocument()
-    expect(within(upcoming).getAllByRole('link')).toHaveLength(7)
-
-    const past = screen.getByRole('region', { name: 'Past 7 days' })
-    expect(within(past).getAllByRole('link')).toHaveLength(7)
-    expect(
-      within(past).getByText(formatDayLong(addDays(TODAY, -7))),
     ).toBeInTheDocument()
   })
 })
@@ -321,9 +295,9 @@ describe('offline behavior', () => {
 describe('chart scrubber', () => {
   it('shows the scrubber resting on today before any interaction', async () => {
     mockFetch()
-    renderAt('/weather/trends')
+    renderAt('/weather/weekly')
 
-    await screen.findByRole('heading', { name: '14-day trends' })
+    await screen.findByRole('heading', { name: 'Weekly' })
     // Visible on all three charts without dragging.
     expect(screen.getAllByTestId('chart-scrubber')).toHaveLength(3)
     // Today is index 7; fixture temps are 80 + index / 60 + index.
@@ -337,9 +311,9 @@ describe('chart scrubber', () => {
   it('restores the Today marker once the scrubber moves away from it', async () => {
     mockFetch()
     const user = userEvent.setup()
-    renderAt('/weather/trends')
+    renderAt('/weather/weekly')
 
-    await screen.findByRole('heading', { name: '14-day trends' })
+    await screen.findByRole('heading', { name: 'Weekly' })
     const slider = screen.getByRole('slider', {
       name: 'Scrub through days on the temperature chart',
     })
@@ -352,9 +326,9 @@ describe('chart scrubber', () => {
   it('moves the scrubber with arrow keys and shows a readout on all charts', async () => {
     mockFetch()
     const user = userEvent.setup()
-    renderAt('/weather/trends')
+    renderAt('/weather/weekly')
 
-    await screen.findByRole('heading', { name: '14-day trends' })
+    await screen.findByRole('heading', { name: 'Weekly' })
 
     const slider = screen.getByRole('slider', {
       name: 'Scrub through days on the temperature chart',
@@ -381,9 +355,9 @@ describe('chart scrubber', () => {
 
   it('labels rain amounts on the precipitation chart', async () => {
     mockFetch()
-    renderAt('/weather/trends')
+    renderAt('/weather/weekly')
 
-    await screen.findByRole('heading', { name: '14-day trends' })
+    await screen.findByRole('heading', { name: 'Weekly' })
     // Right-hand amount axis top (bars max) plus the labelled wettest day.
     expect(screen.getAllByText('1.50"').length).toBeGreaterThan(0)
     expect(screen.getAllByText('0.10"').length).toBeGreaterThan(0)
