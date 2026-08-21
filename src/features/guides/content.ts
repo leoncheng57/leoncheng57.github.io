@@ -117,6 +117,9 @@ export function loadGuidesFromFiles(files: Record<string, string>): Guide[] {
       tags: frontmatter.tags ?? [],
       draft: frontmatter.draft,
       beta: frontmatter.beta,
+      repoUrl: frontmatter.repoUrl,
+      repoAccess: frontmatter.repoAccess,
+      repoScope: frontmatter.repoScope,
       overview,
       readingTimeMinutes:
         calculateReadingTime(overview) +

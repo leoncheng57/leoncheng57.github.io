@@ -13,6 +13,9 @@ const setupGuides: Guide[] = [
     description:
       'How my cmux configuration is kept portable across laptops: window layout, notification routing for OpenCode agents (silent completions, spoken input prompts), the shared config file, and the installer.',
     updatedAt: '2026-08-17',
+    repoUrl: 'https://github.com/leoncheng57/cmux-personal',
+    repoAccess: 'private',
+    repoScope: 'standalone',
     tags: ['cmux', 'opencode', 'setup'],
     overview: '',
     readingTimeMinutes: 4,
@@ -24,6 +27,9 @@ const setupGuides: Guide[] = [
     description:
       'How my OpenCode configuration is kept portable across laptops: repository layout, MCP servers by transport, skills and agents, environment-variable secret handling, and the installer.',
     updatedAt: '2026-08-17',
+    repoUrl: 'https://github.com/leoncheng57/opencode-personal',
+    repoAccess: 'private',
+    repoScope: 'standalone',
     tags: ['opencode', 'mcp', 'setup'],
     overview: '',
     readingTimeMinutes: 4,

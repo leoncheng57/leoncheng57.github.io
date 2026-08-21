@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import GuideCard from '../components/GuideCard'
+import GuideRepoReference from '../components/GuideRepoReference'
 import { getAllGuides } from '../content'
 import { getSetupGuides } from '../setupGuides'
+import { REPOSITORY_URL as REMOTE_CONTROL_REPOSITORY_URL } from '../../opencode-remote-control/constants'
 import styles from '../guides-index.module.css'
 
 export default function GuidesIndexRoute(): ReactElement {
@@ -61,16 +63,13 @@ export default function GuidesIndexRoute(): ReactElement {
                 Claude Code or Cursor. Every skill page carries copy-paste
                 install commands.
               </p>
+              <GuideRepoReference
+                repoUrl="https://github.com/leoncheng57/agent-skills"
+                repoAccess="public"
+                repoScope="standalone"
+              />
               <p className={styles.cardMeta}>
                 <span>external site</span>
-                <span className={styles.separator} aria-hidden="true">
-                  ·
-                </span>
-                <span>
-                  <a href="https://github.com/leoncheng57/agent-skills">
-                    GitHub ↗
-                  </a>
-                </span>
               </p>
               <ul className={styles.tagRow} aria-label="Guide tags">
                 <li className={styles.tag}>#agents</li>
@@ -112,20 +111,17 @@ export default function GuidesIndexRoute(): ReactElement {
                 Interactive setup builder, daily commands, notification
                 customization, and troubleshooting on one page.
               </p>
+              <GuideRepoReference
+                repoUrl={REMOTE_CONTROL_REPOSITORY_URL}
+                repoAccess="public"
+                repoScope="standalone"
+              />
               <p className={styles.cardMeta}>
                 <span>updated 2026-08-13</span>
                 <span className={styles.separator} aria-hidden="true">
                   ·
                 </span>
                 <span>interactive guide</span>
-                <span className={styles.separator} aria-hidden="true">
-                  ·
-                </span>
-                <span>
-                  <a href="https://github.com/leoncheng57/opencode-remote-control-and-notifications">
-                    GitHub ↗
-                  </a>
-                </span>
               </p>
               <p className={styles.cardCta}>
                 <Link to="/guides/opencode-remote-control">read guide &rarr;</Link>
