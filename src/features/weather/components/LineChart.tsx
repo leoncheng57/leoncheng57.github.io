@@ -24,6 +24,12 @@ export type ChartBars = {
    * rather than decoration.
    */
   label?: (_value: number) => string
+  /**
+   * Floor for the rendered bar width, for dense windows where the derived
+   * width would otherwise be too thin to see or tap. Omit to keep the plain
+   * proportional width.
+   */
+  minWidth?: number
 }
 
 type LineChartProps = {
@@ -273,7 +279,10 @@ export default function LineChart({
           (Math.min(value, barMax) / barMax) * (PLOT.bottom - PLOT.top),
           1.5,
         )
-        const barWidth = Math.min(columnWidth * 0.72, 14)
+        const barWidth = Math.max(
+          Math.min(columnWidth * 0.72, 14),
+          bars.minWidth ?? 0,
+        )
         return (
           <rect
             key={index}

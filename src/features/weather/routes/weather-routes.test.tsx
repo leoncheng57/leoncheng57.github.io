@@ -21,10 +21,25 @@ function buildDates(): string[] {
   return dates
 }
 
-function buildForecastResponse() {
+/**
+ * The UTC instant at which New York is at the given local hour on `date`,
+ * so clock-sensitive assertions do not depend on the machine's zone or on
+ * whether daylight saving is in effect.
+ */
+function utcInstantForNycHour(date: string, hour: number): Date {
+  const target = `${date}T${String(hour).padStart(2, '0')}:00`
+  for (let offset = 0; offset < 48; offset += 1) {
+    const candidate = new Date(`${date}T00:00:00Z`)
+    candidate.setUTCHours(offset)
+    if (nycNowHour(candidate) === target) return candidate
+  }
+  throw new Error(`No UTC instant maps to ${target} in New York`)
+}
+
+function buildForecastResponse(hourlyDates: string[] = buildDates()) {
   const dates = buildDates()
   const hourlyTime: string[] = []
-  dates.forEach((date) => {
+  hourlyDates.forEach((date) => {
     for (let hour = 0; hour < 24; hour += 1) {
       hourlyTime.push(`${date}T${String(hour).padStart(2, '0')}:00`)
     }
@@ -52,8 +67,8 @@ function buildForecastResponse() {
   }
 }
 
-function buildAirQualityResponse() {
-  const forecast = buildForecastResponse()
+function buildAirQualityResponse(hourlyDates?: string[]) {
+  const forecast = buildForecastResponse(hourlyDates)
   return {
     current: { us_aqi: 42 },
     hourly: {
@@ -81,7 +96,10 @@ const HEAT_ALERT = {
   ],
 }
 
-function mockFetch(alertsBody: unknown = EMPTY_ALERTS): void {
+function mockFetch(
+  alertsBody: unknown = EMPTY_ALERTS,
+  hourlyDates?: string[],
+): void {
   vi.stubGlobal(
     'fetch',
     vi.fn(async (input: RequestInfo | URL) => {
@@ -89,9 +107,9 @@ function mockFetch(alertsBody: unknown = EMPTY_ALERTS): void {
       let body: unknown
       // Check air quality first: its hostname contains 'api.open-meteo.com'.
       if (url.includes('air-quality-api.open-meteo.com')) {
-        body = buildAirQualityResponse()
+        body = buildAirQualityResponse(hourlyDates)
       } else if (url.includes('api.open-meteo.com')) {
-        body = buildForecastResponse()
+        body = buildForecastResponse(hourlyDates)
       } else if (url.includes('api.weather.gov')) {
         body = alertsBody
       } else {
@@ -120,26 +138,67 @@ beforeEach(() => {
 })
 
 afterEach(() => {
+  vi.useRealTimers()
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
 })
 
+/** Pins the clock to a New York wall-clock hour without faking timers. */
+function freezeNycHour(date: string, hour: number): void {
+  vi.useFakeTimers({ toFake: ['Date'] })
+  vi.setSystemTime(utcInstantForNycHour(date, hour))
+}
+
 describe('weather hourly home route', () => {
-  it('lands on a rolling 24-hour window starting at the current hour', async () => {
+  it('lands on an inclusive window of the past 12 and next 24 hours', async () => {
     mockFetch()
     renderAt('/weather/')
 
     expect(
-      await screen.findByRole('heading', { name: 'Next 24 hours' }),
+      await screen.findByRole('heading', {
+        name: 'Past 12 hours and next 24 hours',
+      }),
     ).toBeInTheDocument()
     expect(screen.getByText(/72°F/)).toBeInTheDocument()
     expect(
-      screen.getByRole('img', { name: 'Hourly temperature for the next 24 hours' }),
+      screen.getByRole('img', {
+        name: 'Hourly temperature for the past 12 hours and next 24 hours',
+      }),
     ).toBeInTheDocument()
     // The 14-day charts now live on their own page.
     expect(screen.queryByText('Air Quality (US AQI)')).not.toBeInTheDocument()
     // The scrubber rests on the current hour without any interaction.
     expect(screen.getAllByTestId('chart-scrubber')).toHaveLength(2)
+
+    // 12 past hours + now + 24 future hours, with "now" in the middle.
+    const sliders = screen.getAllByRole('slider')
+    expect(sliders).toHaveLength(2)
+    sliders.forEach((slider) => {
+      expect(slider).toHaveAttribute('aria-valuemax', '36')
+      expect(slider).toHaveAttribute('aria-valuenow', '12')
+    })
+  })
+
+  it('marks the current hour mid-window once the scrubber moves off it', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByRole('heading', {
+      name: 'Past 12 hours and next 24 hours',
+    })
+    // At rest the scrubber sits on the marker, which stays hidden so the two
+    // lines do not stack on the same pixel.
+    expect(screen.queryByText('Now')).not.toBeInTheDocument()
+
+    const slider = screen.getByRole('slider', {
+      name: 'Scrub through hours on the temperature chart',
+    })
+    slider.focus()
+    await user.keyboard('{ArrowRight}')
+
+    expect(screen.getAllByText('Now').length).toBe(2)
+    expect(slider).toHaveAttribute('aria-valuenow', '13')
   })
 
   it('anchors the window to the current NYC hour, not the device hour', async () => {
@@ -147,18 +206,130 @@ describe('weather hourly home route', () => {
     const user = userEvent.setup()
     renderAt('/weather/')
 
-    await screen.findByRole('heading', { name: 'Next 24 hours' })
+    await screen.findByRole('heading', {
+      name: 'Past 12 hours and next 24 hours',
+    })
     const slider = screen.getByRole('slider', {
       name: 'Scrub through hours on the temperature chart',
     })
     slider.focus()
-    // Index 0 is the current NYC hour; ArrowLeft cannot move before it.
-    await user.keyboard('{ArrowLeft}')
+    // Index 12 is the current NYC hour, and both charts share the readout.
+    await user.keyboard('{ArrowRight}{ArrowLeft}')
 
     const nowLabel = formatHourLabel(nycNowHour())
     expect(
-      screen.getByText(new RegExp(`${nowLabel} · 70°`)),
+      screen.getAllByText(new RegExp(`${nowLabel} · 70°`)).length,
+    ).toBeGreaterThan(0)
+  })
+
+  it('steps back into real history and clamps at both ends', async () => {
+    freezeNycHour(TODAY, 18)
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByRole('heading', {
+      name: 'Past 12 hours and next 24 hours',
+    })
+    const slider = screen.getByRole('slider', {
+      name: 'Scrub through hours on the temperature chart',
+    })
+    slider.focus()
+
+    // ArrowLeft from "now" is no longer a no-op: it enters the past.
+    await user.keyboard('{ArrowLeft}')
+    expect(slider).toHaveAttribute('aria-valuenow', '11')
+    expect(screen.getAllByText(/5 PM · 70°/).length).toBeGreaterThan(0)
+
+    // Twelve more presses reach the oldest hour and then stop there.
+    await user.keyboard('{ArrowLeft}'.repeat(12))
+    expect(slider).toHaveAttribute('aria-valuenow', '0')
+    expect(screen.getAllByText(/6 AM · 70°/).length).toBeGreaterThan(0)
+
+    // The far end clamps at index 36, the last of the 24 forecast hours.
+    await user.keyboard('{ArrowRight}'.repeat(40))
+    expect(slider).toHaveAttribute('aria-valuenow', '36')
+  })
+
+  it('spaces axis ticks on the clock and names the day at midnight', async () => {
+    freezeNycHour(TODAY, 18)
+    mockFetch()
+    renderAt('/weather/')
+
+    await screen.findByRole('heading', {
+      name: 'Past 12 hours and next 24 hours',
+    })
+    const tomorrowWeekday = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'UTC',
+      weekday: 'short',
+    }).format(new Date(`${addDays(TODAY, 1)}T12:00:00Z`))
+
+    // The window spans two dates, so the midnight tick carries its weekday to
+    // keep repeated hour labels apart. Both charts share the axis.
+    expect(screen.getAllByText(`${tomorrowWeekday} 12 AM`)).toHaveLength(2)
+    // Ticks land every six hours of clock time rather than on every fourth
+    // array index, which would crowd 37 points into the same plot width.
+    expect(screen.getAllByText('12 PM')).toHaveLength(4)
+    expect(screen.queryByText('5 PM')).not.toBeInTheDocument()
+  })
+
+  it('summarises only rain that has not already ended', async () => {
+    // The fixture rains 2 PM–5 PM every day. At 6 PM that block is history,
+    // so the tip must point at tomorrow rather than at this afternoon.
+    freezeNycHour(TODAY, 18)
+    mockFetch()
+    renderAt('/weather/')
+
+    await screen.findByRole('heading', {
+      name: 'Past 12 hours and next 24 hours',
+    })
+    expect(screen.getByText(/Rain likely 2 PM–5 PM/)).toBeInTheDocument()
+
+    // The window still holds this afternoon's rain, it is just not announced.
+    const slider = screen.getByRole('slider', {
+      name: 'Scrub through hours on the precipitation chart',
+    })
+    expect(slider).toHaveAttribute('aria-valuemax', '36')
+  })
+
+  it('falls back to the newest hours when the cached data predates now', async () => {
+    // Every hourly point is at least a day old, as with a long-stale cache.
+    mockFetch(EMPTY_ALERTS, [addDays(TODAY, -3), addDays(TODAY, -2)])
+    renderAt('/weather/')
+
+    expect(
+      await screen.findByRole('heading', {
+        name: 'Past 12 hours and next 24 hours',
+      }),
     ).toBeInTheDocument()
+    // Only the intersection renders: the last 12 available hours.
+    const slider = screen.getByRole('slider', {
+      name: 'Scrub through hours on the temperature chart',
+    })
+    expect(slider).toHaveAttribute('aria-valuemax', '11')
+    // No current hour means no "Now" marker, and the scrubber rests on the
+    // nearest available point instead.
+    expect(slider).toHaveAttribute('aria-valuenow', '11')
+    expect(screen.queryByText('Now')).not.toBeInTheDocument()
+    // Rain that ended days ago is never announced.
+    expect(screen.queryByText(/Rain likely/)).not.toBeInTheDocument()
+  })
+
+  it('renders the available intersection when history is truncated', async () => {
+    freezeNycHour(TODAY, 6)
+    // History starts at midnight today, six hours before now.
+    mockFetch(EMPTY_ALERTS, [TODAY, addDays(TODAY, 1)])
+    renderAt('/weather/')
+
+    await screen.findByRole('heading', {
+      name: 'Past 12 hours and next 24 hours',
+    })
+    const slider = screen.getByRole('slider', {
+      name: 'Scrub through hours on the temperature chart',
+    })
+    // 6 past hours + now + the 24 hours that remain in the fixture.
+    expect(slider).toHaveAttribute('aria-valuemax', '30')
+    expect(slider).toHaveAttribute('aria-valuenow', '6')
   })
 
   it('links to the 14-day trends page', async () => {
@@ -240,6 +411,18 @@ describe('weather day route', () => {
       }),
     ).toBeInTheDocument()
     expect(screen.getByText(/Rain likely 2 PM–5 PM/)).toBeInTheDocument()
+  })
+
+  it('keeps the every-fourth-hour axis of a single-day window', async () => {
+    mockFetch()
+    const date = addDays(TODAY, 2)
+    renderAt(`/weather/day/${date}`)
+
+    await screen.findByRole('heading', { name: formatDayLong(date) })
+    // A calendar day does not opt into the multi-day axis, so ticks stay on
+    // indices 0, 4, 8 … and midnight is a plain hour label.
+    expect(screen.getAllByText('4 AM')).toHaveLength(2)
+    expect(screen.getAllByText('12 AM')).toHaveLength(2)
   })
 
   it('pages to the next day', async () => {
