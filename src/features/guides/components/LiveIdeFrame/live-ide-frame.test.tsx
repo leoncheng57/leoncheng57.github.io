@@ -11,6 +11,8 @@ describe('LiveIdeFrame', () => {
       screen.getByRole('region', { name: 'An independently explorable app with fake data' })
     ).toBeInTheDocument()
     expect(screen.getByText('Live app')).toBeInTheDocument()
+    expect(screen.getByText('Iframe unloaded')).toBeInTheDocument()
+    expect(screen.getByText('Ready when you are')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Load live simulator' })).toBeInTheDocument()
     expect(screen.queryByTitle(LIVE_IDE_TITLE)).not.toBeInTheDocument()
   })
@@ -38,6 +40,8 @@ describe('LiveIdeFrame', () => {
     expect(iframe).toHaveAttribute('src', LIVE_IDE_URL)
     expect(iframe).toHaveAttribute('loading', 'lazy')
     expect(iframe).not.toHaveAttribute('sandbox')
+    expect(screen.getByText('Live simulator loaded')).toBeInTheDocument()
+    expect(screen.queryByText('Iframe unloaded')).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Open in a new tab ↗' })).toBeInTheDocument()
   })
 
