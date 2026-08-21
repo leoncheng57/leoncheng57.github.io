@@ -1,0 +1,32 @@
+{
+  "name": "Zerega Av",
+  "short_name": "Zerega Av",
+  "description": "Live NYC subway arrival times for Zerega Av.",
+  "id": "/previews/pr-242/sub-wait/pwa/station/606",
+  "start_url": "/previews/pr-242/sub-wait/station/606",
+  "scope": "/previews/pr-242/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-242/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-242/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-242/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
