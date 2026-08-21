@@ -10,6 +10,7 @@ import {
   nycNowHour,
   nycToday,
 } from '../utils/format'
+import styles from '../weather.module.css'
 import WeatherRoute from './WeatherRoute'
 
 const TODAY = nycToday()
@@ -568,8 +569,81 @@ describe('chart scrubber', () => {
   })
 })
 
-describe('theme preview picker', () => {
-  it('switches palettes and persists the choice', async () => {
+describe('colorway picker', () => {
+  async function openPicker(user: ReturnType<typeof userEvent.setup>) {
+    const trigger = screen.getByRole('button', { name: /^Colorway: / })
+    await user.click(trigger)
+    return { trigger, listbox: screen.getByRole('listbox', { name: 'Colorway' }) }
+  }
+
+  it('names the trigger after the current palette without showing the name', async () => {
+    mockFetch()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const trigger = screen.getByRole('button', {
+      name: 'Colorway: Classic Navy',
+    })
+
+    // The palette name is only ever inside the visually hidden wrapper; the
+    // trigger itself renders swatches.
+    expect(screen.getByText('Colorway: Classic Navy')).toHaveClass(
+      styles.paletteSrName,
+    )
+    expect(
+      trigger.querySelectorAll(`.${styles.paletteSwatch}`).length,
+    ).toBeGreaterThanOrEqual(4)
+    expect(trigger).toHaveAttribute('aria-haspopup', 'listbox')
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('opens a listbox of every registered palette, named but not labelled on screen', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+
+    const { trigger, listbox } = await openPicker(user)
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(trigger).toHaveAttribute('aria-controls', listbox.id)
+
+    const options = within(listbox).getAllByRole('option')
+    expect(options.map((option) => option.textContent)).toEqual(
+      PALETTES.map((palette) => palette.label),
+    )
+    options.forEach((option, index) => {
+      const palette = PALETTES[index]
+      expect(within(option).getByText(palette.label)).toHaveClass(
+        styles.paletteSrName,
+      )
+      expect(option.querySelectorAll(`.${styles.paletteSwatch}`)).toHaveLength(
+        palette.swatches.length,
+      )
+    })
+  })
+
+  it('marks the current palette selected and flags it non-chromatically', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    window.localStorage.setItem('nyc-weather-palette', 'forest')
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    await openPicker(user)
+
+    const selected = screen.getByRole('option', { selected: true })
+    expect(selected).toHaveTextContent('Forest Green')
+    expect(selected).toHaveClass(styles.paletteOptionSelected)
+    // A check glyph, not just a colour difference.
+    expect(selected.querySelector(`.${styles.paletteCheck} svg`)).not.toBeNull()
+    expect(screen.getAllByRole('option', { selected: false })).toHaveLength(
+      PALETTES.length - 1,
+    )
+  })
+
+  it('switches palettes by click, persists the choice and returns focus', async () => {
     mockFetch()
     const user = userEvent.setup()
     const { container } = renderAt('/weather/')
@@ -578,13 +652,158 @@ describe('theme preview picker', () => {
     const page = container.querySelector('[data-palette]')
     expect(page).toHaveAttribute('data-palette', 'classic')
 
-    await user.selectOptions(
-      screen.getByLabelText('Theme preview'),
-      'Sunset Coral',
-    )
+    const { trigger } = await openPicker(user)
+    await user.click(screen.getByRole('option', { name: 'Sunset Coral' }))
 
     expect(page).toHaveAttribute('data-palette', 'sunset')
     expect(window.localStorage.getItem('nyc-weather-palette')).toBe('sunset')
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    expect(trigger).toHaveFocus()
+    expect(trigger).toHaveAccessibleName('Colorway: Sunset Coral')
+  })
+
+  it('applies a new NYC colorway and persists it', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    await openPicker(user)
+    await user.click(screen.getByRole('option', { name: 'Taxi After Midnight' }))
+
+    expect(container.querySelector('[data-palette]')).toHaveAttribute(
+      'data-palette',
+      'taxi-midnight',
+    )
+    expect(window.localStorage.getItem('nyc-weather-palette')).toBe(
+      'taxi-midnight',
+    )
+  })
+
+  it('opens with the keyboard and selects with Enter after arrowing', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    screen.getByRole('button', { name: /^Colorway: / }).focus()
+    await user.keyboard('{Enter}')
+
+    // Opening lands on the current selection.
+    expect(screen.getByRole('option', { name: PALETTES[0].label })).toHaveFocus()
+
+    await user.keyboard('{ArrowDown}{ArrowDown}')
+    expect(screen.getByRole('option', { name: PALETTES[2].label })).toHaveFocus()
+    await user.keyboard('{ArrowUp}')
+    expect(screen.getByRole('option', { name: PALETTES[1].label })).toHaveFocus()
+
+    await user.keyboard('{Enter}')
+    expect(container.querySelector('[data-palette]')).toHaveAttribute(
+      'data-palette',
+      PALETTES[1].id,
+    )
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+  })
+
+  it('jumps to the first and last palette with Home and End', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    const { container } = renderAt('/weather/')
+    const last = PALETTES[PALETTES.length - 1]
+
+    await screen.findByText(/72°F/)
+    await openPicker(user)
+
+    await user.keyboard('{End}')
+    expect(screen.getByRole('option', { name: last.label })).toHaveFocus()
+    await user.keyboard('{Home}')
+    expect(screen.getByRole('option', { name: PALETTES[0].label })).toHaveFocus()
+
+    await user.keyboard('{End} ')
+    expect(container.querySelector('[data-palette]')).toHaveAttribute(
+      'data-palette',
+      last.id,
+    )
+  })
+
+  it('wraps arrow navigation at both ends', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+    const last = PALETTES[PALETTES.length - 1]
+
+    await screen.findByText(/72°F/)
+    await openPicker(user)
+
+    await user.keyboard('{ArrowUp}')
+    expect(screen.getByRole('option', { name: last.label })).toHaveFocus()
+    await user.keyboard('{ArrowDown}')
+    expect(screen.getByRole('option', { name: PALETTES[0].label })).toHaveFocus()
+  })
+
+  it('closes on Escape without changing the palette and restores focus', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const { trigger } = await openPicker(user)
+
+    await user.keyboard('{ArrowDown}{Escape}')
+
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    expect(trigger).toHaveFocus()
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    expect(container.querySelector('[data-palette]')).toHaveAttribute(
+      'data-palette',
+      'classic',
+    )
+  })
+
+  it('does not trap Tab inside the popup', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const { trigger } = await openPicker(user)
+
+    await user.tab()
+
+    // Focus escapes the picker entirely rather than cycling inside it.
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    expect(trigger).not.toHaveFocus()
+    expect(document.activeElement).not.toBe(document.body)
+    expect(
+      trigger.closest(`.${styles.palettePicker}`)?.contains(document.activeElement),
+    ).toBe(false)
+  })
+
+  it('dismisses on click-away', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    await openPicker(user)
+
+    await user.click(screen.getByText('Colorway'))
+
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+  })
+
+  it('closes again when the trigger is clicked a second time', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const { trigger } = await openPicker(user)
+
+    await user.click(trigger)
+
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('restores a stored palette on load', async () => {
@@ -597,39 +816,9 @@ describe('theme preview picker', () => {
       'data-palette',
       'forest',
     )
-  })
-
-  it('offers every registered palette as an option', async () => {
-    mockFetch()
-    renderAt('/weather/')
-
-    await screen.findByText(/72°F/)
-    const select = screen.getByLabelText('Theme preview')
     expect(
-      within(select)
-        .getAllByRole('option')
-        .map((option) => (option as HTMLOptionElement).value),
-    ).toEqual(PALETTES.map((palette) => palette.id))
-  })
-
-  it('applies a new NYC colorway and persists it', async () => {
-    mockFetch()
-    const user = userEvent.setup()
-    const { container } = renderAt('/weather/')
-
-    await screen.findByText(/72°F/)
-    const page = container.querySelector('[data-palette]')
-    expect(page).toHaveAttribute('data-palette', 'classic')
-
-    await user.selectOptions(
-      screen.getByLabelText('Theme preview'),
-      'Taxi After Midnight',
-    )
-
-    expect(page).toHaveAttribute('data-palette', 'taxi-midnight')
-    expect(window.localStorage.getItem('nyc-weather-palette')).toBe(
-      'taxi-midnight',
-    )
+      screen.getByRole('button', { name: 'Colorway: Forest Green' }),
+    ).toBeInTheDocument()
   })
 
   it('restores a stored NYC colorway on load', async () => {
@@ -644,7 +833,7 @@ describe('theme preview picker', () => {
     )
   })
 
-  it('keeps the selected palette when light/dark mode is toggled', async () => {
+  it('keeps the selected palette and the open popup when light/dark toggles', async () => {
     mockFetch()
     const user = userEvent.setup()
     window.localStorage.setItem('nyc-weather-palette', 'harbor-fog')
@@ -658,6 +847,13 @@ describe('theme preview picker', () => {
     await user.click(screen.getByRole('button', { name: 'Switch to dark mode' }))
     expect(page).toHaveAttribute('data-theme', 'dark')
     expect(page).toHaveAttribute('data-palette', 'harbor-fog')
+
+    // The picker still works, and still reports the same palette, in dark mode.
+    await openPicker(user)
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
+      'Harbor Fog',
+    )
+    await user.keyboard('{Escape}')
 
     await user.click(
       screen.getByRole('button', { name: 'Switch to light mode' }),

@@ -1,10 +1,10 @@
 import { useLayoutEffect, type ReactElement } from 'react'
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
+import PalettePicker from '../components/PalettePicker'
 import WeatherPwa from '../components/WeatherPwa'
 import { WeatherContext } from '../hooks/WeatherContext'
 import useTheme from '../hooks/useTheme'
 import useWeather from '../hooks/useWeather'
-import { PALETTES, type Palette } from '../palettes'
 import styles from '../weather.module.css'
 import AlertsRoute from './AlertsRoute'
 import DayRoute from './DayRoute'
@@ -59,22 +59,8 @@ export default function WeatherRoute(): ReactElement {
           </button>
         </header>
         <div className={styles.paletteBar}>
-          <label className={styles.paletteLabel} htmlFor="wx-palette">
-            Theme preview
-          </label>
-          <select
-            id="wx-palette"
-            className={styles.paletteSelect}
-            value={palette}
-            onChange={(event) => setPalette(event.target.value as Palette)}
-          >
-            {PALETTES.map((option) => (
-              <option key={option.id} value={option.id}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <span className={styles.paletteHint}>beta · pick a favorite</span>
+          <span className={styles.paletteLabel}>Colorway</span>
+          <PalettePicker value={palette} onChange={setPalette} />
         </div>
         <WeatherPwa />
 

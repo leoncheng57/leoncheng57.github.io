@@ -633,22 +633,136 @@
   white-space: nowrap;
 }
 
-.paletteSelect {
+/* The picker anchors its popup, so it owns a positioning context. It also
+   holds the remaining width in the bar so the strip can grow. */
+.palettePicker {
+  position: relative;
   flex: 1;
   min-width: 0;
-  padding: 0.3rem 0.4rem;
-  border: 1px solid var(--wx-line);
+}
+
+/* Trigger and options share a 44px-high row: colour strip, then a fixed
+   trailing slot for the caret / selected checkmark. */
+.paletteTrigger,
+.paletteOption {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.5rem;
   border-radius: 0.45rem;
   background: var(--wx-surface-raised);
   color: var(--wx-ink);
   font: inherit;
-  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
 }
 
-.paletteHint {
-  color: var(--wx-muted);
-  font-size: 0.7rem;
+.paletteTrigger {
+  border: 1px solid var(--wx-line);
+}
+
+.paletteTrigger:focus-visible,
+.paletteOption:focus-visible {
+  outline: 2px solid var(--wx-accent);
+  outline-offset: 2px;
+}
+
+/* The colour strip is the whole visible content: no palette name is drawn. */
+.paletteStrip {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  height: 1.35rem;
+  border-radius: 0.3rem;
+  overflow: hidden;
+  border: 1px solid var(--wx-line);
+  /* The gap lets the border colour show through as hairline dividers, so
+     adjacent near-identical colours still read as separate swatches. */
+  gap: 1px;
+  background: var(--wx-line);
+}
+
+.paletteSwatch {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Palette names stay in the accessibility tree but never on screen. */
+.paletteSrName {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
   white-space: nowrap;
+  border: 0;
+}
+
+/* Fixed trailing slot so rows stay aligned whether or not a check is drawn. */
+.paletteCheck {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.9rem;
+  height: 0.9rem;
+  color: var(--wx-ink-soft);
+}
+
+.paletteCaret,
+.paletteCheck svg {
+  flex: 0 0 auto;
+  width: 0.9rem;
+  height: 0.9rem;
+  color: var(--wx-ink-soft);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.paletteListbox {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.3rem;
+  /* 13 palettes will not fit on a phone, so the popup scrolls instead of
+     growing past the viewport. */
+  max-height: min(60vh, 20rem);
+  overflow-y: auto;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.55rem;
+  background: var(--wx-surface);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 22%);
+}
+
+.paletteOption {
+  border: 1px solid transparent;
+}
+
+.paletteOption:hover {
+  border-color: var(--wx-line);
+}
+
+/* Selection is a ring plus a checkmark, never colour alone. */
+.paletteOptionSelected {
+  border-color: var(--wx-accent);
+  box-shadow: inset 0 0 0 1px var(--wx-accent);
+}
+
+.paletteOptionSelected .paletteCheck {
+  color: var(--wx-accent);
 }
 
 /* ── Layout ───────────────────────────────────────────────────────────── */
