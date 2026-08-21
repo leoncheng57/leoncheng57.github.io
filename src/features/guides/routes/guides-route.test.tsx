@@ -119,13 +119,44 @@ describe('guides index route', () => {
       </MemoryRouter>
     )
 
-    expect(
-      screen.getByRole('link', { name: 'OpenCode Remote Control' })
-    ).toHaveAttribute('href', '/guides/opencode-remote-control')
-    expect(screen.getByRole('link', { name: 'GitHub ↗' })).toHaveAttribute(
+    const guideLink = screen.getByRole('link', { name: 'OpenCode Remote Control' })
+    expect(guideLink).toHaveAttribute('href', '/guides/opencode-remote-control')
+
+    // Several cards now carry a "GitHub ↗" meta link, so scope the lookup to
+    // this card rather than searching the whole page.
+    const card = within(guideLink.closest('article')!)
+    expect(card.getByRole('link', { name: 'GitHub ↗' })).toHaveAttribute(
       'href',
       'https://github.com/leoncheng57/opencode-remote-control-and-notifications'
     )
+  })
+
+  it('links out to the externally hosted agent skills catalogue', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const titleLink = screen.getByRole('link', { name: 'Agent Skills' })
+    expect(titleLink).toHaveAttribute('href', 'https://leoncheng.dev/agent-skills/')
+
+    // A plain anchor, not a router Link: the catalogue is a separate Pages
+    // site, so following it is a full page navigation out of the SPA.
+    const card = within(titleLink.closest('article')!)
+    expect(card.getByRole('link', { name: 'browse skills ↗' })).toHaveAttribute(
+      'href',
+      'https://leoncheng.dev/agent-skills/'
+    )
+    expect(card.getByRole('link', { name: 'GitHub ↗' })).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/agent-skills'
+    )
+
+    // No invented review date or reading time for a site this repo does not own.
+    expect(card.getByText('external site')).toBeInTheDocument()
+    expect(card.queryByText(/updated 20/)).not.toBeInTheDocument()
+    expect(card.queryByText(/min read/)).not.toBeInTheDocument()
   })
 })
 
