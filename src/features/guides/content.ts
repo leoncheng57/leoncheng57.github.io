@@ -116,6 +116,7 @@ export function loadGuidesFromFiles(files: Record<string, string>): Guide[] {
       audience: frontmatter.audience,
       tags: frontmatter.tags ?? [],
       draft: frontmatter.draft,
+      beta: frontmatter.beta,
       overview,
       readingTimeMinutes:
         calculateReadingTime(overview) +

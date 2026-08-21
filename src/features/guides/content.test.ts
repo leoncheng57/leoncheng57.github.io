@@ -104,6 +104,17 @@ draft: true
     expect(guides[0]).toMatchObject({ slug: 'draft', draft: true })
   })
 
+  it('passes the beta frontmatter flag through to guides', () => {
+    const [guide] = loadGuidesFromFiles({
+      '/src/content/guides/beta/guide.md': GUIDE_FILE.replace(
+        'tags:',
+        'beta: true\ntags:'
+      ),
+    })
+
+    expect(guide.beta).toBe(true)
+  })
+
   it('passes the beta frontmatter flag through to chapters', () => {
     const [guide] = loadGuidesFromFiles({
       '/src/content/guides/sample/guide.md': GUIDE_FILE,
