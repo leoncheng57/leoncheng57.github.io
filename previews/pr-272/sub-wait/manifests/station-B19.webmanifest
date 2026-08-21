@@ -1,0 +1,32 @@
+{
+  "name": "18 Av",
+  "short_name": "18 Av",
+  "description": "Live NYC subway arrival times for 18 Av.",
+  "id": "/previews/pr-272/sub-wait/pwa/station/B19",
+  "start_url": "/previews/pr-272/sub-wait/station/B19",
+  "scope": "/previews/pr-272/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-272/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-272/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-272/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
