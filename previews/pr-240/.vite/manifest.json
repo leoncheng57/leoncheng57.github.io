@@ -1,0 +1,32 @@
+{
+  "index.html": {
+    "file": "assets/index-C7P1DXXA.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/features/workout-lab/data/exercise-details.ts",
+      "src/features/workout-lab/data/exercise-videos.ts",
+      "src/features/workout-lab/data/exercise-details.ts",
+      "src/features/workout-lab/data/exercise-videos.ts"
+    ],
+    "css": [
+      "assets/index-UBs22MSp.css"
+    ]
+  },
+  "src/features/workout-lab/data/exercise-details.ts": {
+    "file": "assets/exercise-details-B7X9TM-8.js",
+    "name": "exercise-details",
+    "src": "src/features/workout-lab/data/exercise-details.ts",
+    "isDynamicEntry": true
+  },
+  "src/features/workout-lab/data/exercise-videos.ts": {
+    "file": "assets/exercise-videos-MgjyOGmV.js",
+    "name": "exercise-videos",
+    "src": "src/features/workout-lab/data/exercise-videos.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  }
+}

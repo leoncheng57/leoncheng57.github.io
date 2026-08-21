@@ -1,0 +1,32 @@
+{
+  "name": "Vernon Blvd-Jackson Av",
+  "short_name": "Vernon Blvd-Jackson Av",
+  "description": "Live NYC subway arrival times for Vernon Blvd-Jackson Av.",
+  "id": "/previews/pr-240/sub-wait/pwa/station/721",
+  "start_url": "/previews/pr-240/sub-wait/station/721",
+  "scope": "/previews/pr-240/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-240/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-240/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-240/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
