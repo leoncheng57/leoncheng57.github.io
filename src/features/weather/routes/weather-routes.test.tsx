@@ -2,7 +2,13 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { addDays, formatDayLong, nycToday } from '../utils/format'
+import {
+  addDays,
+  formatDayLong,
+  formatHourLabel,
+  nycNowHour,
+  nycToday,
+} from '../utils/format'
 import WeatherRoute from './WeatherRoute'
 
 const TODAY = nycToday()
@@ -118,13 +124,59 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-describe('weather home route', () => {
-  it('renders current conditions and the three charts', async () => {
+describe('weather hourly home route', () => {
+  it('lands on a rolling 24-hour window starting at the current hour', async () => {
     mockFetch()
     renderAt('/weather/')
 
-    expect(await screen.findByText(/72°F/)).toBeInTheDocument()
-    expect(screen.getByText(/AQI 42/)).toBeInTheDocument()
+    expect(
+      await screen.findByRole('heading', { name: 'Next 24 hours' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/72°F/)).toBeInTheDocument()
+    expect(
+      screen.getByRole('img', { name: 'Hourly temperature for the next 24 hours' }),
+    ).toBeInTheDocument()
+    // The 14-day charts now live on their own page.
+    expect(screen.queryByText('Air Quality (US AQI)')).not.toBeInTheDocument()
+  })
+
+  it('anchors the window to the current NYC hour, not the device hour', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByRole('heading', { name: 'Next 24 hours' })
+    const slider = screen.getByRole('slider', {
+      name: 'Scrub through hours on the temperature chart',
+    })
+    slider.focus()
+    // Index 0 is the current NYC hour; ArrowLeft cannot move before it.
+    await user.keyboard('{ArrowLeft}')
+
+    const nowLabel = formatHourLabel(nycNowHour())
+    expect(
+      screen.getByText(new RegExp(`${nowLabel} · 70°`)),
+    ).toBeInTheDocument()
+  })
+
+  it('links to the 14-day trends page', async () => {
+    mockFetch()
+    renderAt('/weather/')
+
+    expect(
+      await screen.findByRole('link', { name: 'See 14-day trends →' }),
+    ).toBeInTheDocument()
+  })
+})
+
+describe('weather trends route', () => {
+  it('renders the three 14-day charts', async () => {
+    mockFetch()
+    renderAt('/weather/trends')
+
+    expect(
+      await screen.findByRole('heading', { name: '14-day trends' }),
+    ).toBeInTheDocument()
     expect(screen.getByText('Temperature (°F)')).toBeInTheDocument()
     expect(screen.getByText('Precipitation (%)')).toBeInTheDocument()
     expect(screen.getByText('Air Quality (US AQI)')).toBeInTheDocument()
@@ -138,9 +190,9 @@ describe('weather home route', () => {
   it('navigates to the hourly page when a day is tapped', async () => {
     mockFetch()
     const user = userEvent.setup()
-    renderAt('/weather/')
+    renderAt('/weather/trends')
 
-    await screen.findByText(/72°F/)
+    await screen.findByRole('heading', { name: '14-day trends' })
     const tapTargets = screen.getAllByRole('button', {
       name: `View hourly details for ${formatDayLong(TODAY)}`,
     })
@@ -268,9 +320,9 @@ describe('chart scrubber', () => {
   it('moves the scrubber with arrow keys and shows a readout on all charts', async () => {
     mockFetch()
     const user = userEvent.setup()
-    renderAt('/weather/')
+    renderAt('/weather/trends')
 
-    await screen.findByText(/72°F/)
+    await screen.findByRole('heading', { name: '14-day trends' })
     expect(screen.queryAllByTestId('chart-scrubber')).toHaveLength(0)
 
     const slider = screen.getByRole('slider', {
@@ -287,11 +339,25 @@ describe('chart scrubber', () => {
     ).toBeInTheDocument()
     // The shared scrub index highlights every chart on the page.
     expect(screen.getAllByTestId('chart-scrubber')).toHaveLength(3)
+    // Fixture: precipitation_sum = 0.1", surfaced alongside the chance.
     expect(
-      screen.getByText(`${formatDayLong(tomorrow)} · 35% rain`),
+      screen.getByText(`${formatDayLong(tomorrow)} · 35% rain · 0.10"`),
     ).toBeInTheDocument()
     expect(
       screen.getByText(`${formatDayLong(tomorrow)} · AQI 45`),
+    ).toBeInTheDocument()
+  })
+
+  it('labels rain amounts on the precipitation chart', async () => {
+    mockFetch()
+    renderAt('/weather/trends')
+
+    await screen.findByRole('heading', { name: '14-day trends' })
+    // Right-hand amount axis top (bars max) plus the labelled wettest day.
+    expect(screen.getAllByText('1.50"').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('0.10"').length).toBeGreaterThan(0)
+    expect(
+      screen.getByText(/show rain amount \(inches, right axis\)/),
     ).toBeInTheDocument()
   })
 

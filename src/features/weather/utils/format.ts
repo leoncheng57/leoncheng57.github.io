@@ -10,6 +10,27 @@ export function nycToday(now: Date = new Date()): string {
   }).format(now)
 }
 
+/**
+ * The current hour as an ISO local time in New York, e.g. "2026-08-20T14:00",
+ * matching the shape of `HourlyPoint.time`. Device-local `getHours()` would
+ * point at the wrong hour for anyone outside Eastern time.
+ */
+export function nycNowHour(now: Date = new Date()): string {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: NYC_TIMEZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    hour12: false,
+  }).formatToParts(now)
+  const part = (type: string): string =>
+    parts.find((entry) => entry.type === type)?.value ?? '00'
+  // Some ICU builds render midnight as hour "24" under hour12: false.
+  const hour = part('hour') === '24' ? '00' : part('hour')
+  return `${part('year')}-${part('month')}-${part('day')}T${hour}:00`
+}
+
 /** Parses an ISO date as noon UTC so day-level formatting never shifts. */
 function dateAtNoonUtc(isoDate: string): Date {
   return new Date(`${isoDate}T12:00:00Z`)

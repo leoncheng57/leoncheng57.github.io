@@ -43,6 +43,7 @@ const STATIC_TITLES: Record<string, string> = {
   '/tuzi/how-ranking-works': 'How Ranking Works | Tuzi',
   '/weather': 'NYC Weather',
   '/weather/': 'NYC Weather',
+  '/weather/trends': 'Trends | NYC Weather',
   '/weather/week': 'Week | NYC Weather',
   '/weather/alerts': 'Alerts | NYC Weather',
   '/workout-lab': 'Workout Lab',

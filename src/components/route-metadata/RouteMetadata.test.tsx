@@ -61,6 +61,7 @@ describe('getRouteTitle', () => {
     ['/tuzi', 'Tuzi'],
     ['/tuzi/how-ranking-works', 'How Ranking Works | Tuzi'],
     ['/weather/', 'NYC Weather'],
+    ['/weather/trends', 'Trends | NYC Weather'],
     ['/weather/week', 'Week | NYC Weather'],
     ['/weather/alerts', 'Alerts | NYC Weather'],
     ['/weather/day/2026-08-20', '2026-08-20 | NYC Weather'],

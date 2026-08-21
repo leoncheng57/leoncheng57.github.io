@@ -20,7 +20,11 @@ const AQI_BANDS = [
   { from: 150, to: 200, className: styles.bandUnhealthy },
 ]
 
-export default function HomeRoute(): ReactElement {
+/**
+ * 14-day trends: the daily high/low, rain and AQI charts over 7 past and 7
+ * forecast days. Tapping a day opens its hourly detail.
+ */
+export default function TrendsRoute(): ReactElement {
   const { status, data } = useWeatherContext()
   const navigate = useNavigate()
   const [scrubIndex, setScrubIndex] = useState<number | null>(null)
@@ -72,7 +76,11 @@ export default function HomeRoute(): ReactElement {
     if (!day) return ''
     const chance =
       day.precipProbMax !== null ? `${Math.round(day.precipProbMax)}%` : '–'
-    return `${scrubDay(index)} · ${chance} rain`
+    const amount =
+      day.precipSum !== null && day.precipSum > 0
+        ? ` · ${day.precipSum.toFixed(2)}"`
+        : ''
+    return `${scrubDay(index)} · ${chance} rain${amount}`
   }
   const aqiScrubText = (index: number): string => {
     const day = daily[index]
@@ -87,21 +95,21 @@ export default function HomeRoute(): ReactElement {
     <main className={styles.main}>
       <StatusBanner />
 
+      <h1 className={styles.pageTitle}>14-day trends</h1>
       <section className={styles.current} aria-label="Current conditions">
-        <p className={styles.currentTemp}>
-          {Math.round(current.temp)}°F{' '}
-          <span className={styles.currentCondition}>
-            {condition.emoji} {condition.label}
-          </span>
+        <p className={styles.currentAqi}>
+          Now {Math.round(current.temp)}°F · {condition.emoji}{' '}
+          {condition.label}
+          {aqi !== null ? (
+            <>
+              {' · AQI '}
+              {Math.round(aqi)}{' '}
+              <span className={styles[aqiCategory(aqi).tone]}>
+                {aqiCategory(aqi).label}
+              </span>
+            </>
+          ) : null}
         </p>
-        {aqi !== null ? (
-          <p className={styles.currentAqi}>
-            AQI {Math.round(aqi)} ·{' '}
-            <span className={styles[aqiCategory(aqi).tone]}>
-              {aqiCategory(aqi).label}
-            </span>
-          </p>
-        ) : null}
         <p className={styles.updatedAt}>
           Updated {formatUpdatedTime(data.fetchedAt)}
         </p>
@@ -156,7 +164,11 @@ export default function HomeRoute(): ReactElement {
               className: styles.seriesPrecip,
             },
           ]}
-          bars={{ values: daily.map((day) => day.precipSum), max: 1.5 }}
+          bars={{
+            values: daily.map((day) => day.precipSum),
+            max: 1.5,
+            label: (value) => `${value.toFixed(2)}"`,
+          }}
           onSelectIndex={openDay}
           selectLabels={selectLabels}
           scrubIndex={scrubIndex}
@@ -164,7 +176,10 @@ export default function HomeRoute(): ReactElement {
           scrubAriaLabel="Scrub through days on the precipitation chart"
           scrubValueText={precipScrubText}
         />
-        <p className={styles.chartLegend}>bars show rain amount (in)</p>
+        <p className={styles.chartLegend}>
+          line shows chance · <span className={styles.legendBar}>bars</span>{' '}
+          show rain amount (inches, right axis)
+        </p>
       </section>
 
       <section className={styles.chartSection}>
