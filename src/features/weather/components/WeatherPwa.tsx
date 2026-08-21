@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import InstallHelpModal from '../../../components/pwa-install/InstallHelpModal'
-import { isInstallPlatformDevice } from '../../../components/pwa-install/installPlatforms'
 import { assetUrl } from '../utils/assetUrl'
 import styles from '../weather.module.css'
 
@@ -11,15 +10,8 @@ interface StandaloneNavigator extends Navigator {
   standalone?: boolean
 }
 
-export function shouldShowInstallHint(
-  userAgent: string,
-  standalone: boolean,
-  platform = '',
-  maxTouchPoints = 0,
-): boolean {
-  return (
-    isInstallPlatformDevice(userAgent, platform, maxTouchPoints) && !standalone
-  )
+export function shouldShowInstallHint(standalone: boolean): boolean {
+  return !standalone
 }
 
 function hasCollapsedHint(): boolean {
@@ -40,12 +32,7 @@ export default function WeatherPwa(): ReactElement | null {
   const isStandalone =
     window.matchMedia?.('(display-mode: standalone)').matches ||
     Boolean((navigator as StandaloneNavigator).standalone)
-  const showInstallHint = shouldShowInstallHint(
-    navigator.userAgent,
-    isStandalone,
-    navigator.platform,
-    navigator.maxTouchPoints,
-  )
+  const showInstallHint = shouldShowInstallHint(isStandalone)
   const [collapsed, setCollapsed] = useState(hasCollapsedHint)
   const [installHelpOpen, setInstallHelpOpen] = useState(false)
   const helpButtonRef = useRef<HTMLButtonElement>(null)
@@ -116,7 +103,7 @@ export default function WeatherPwa(): ReactElement | null {
               <span>+</span>
             </span>
             <span className={styles.installHintPreviewCopy}>
-              <strong>Install app</strong>
+              <strong>Install on phone</strong>
               <small>Add NYC Weather to your home screen</small>
             </span>
           </button>

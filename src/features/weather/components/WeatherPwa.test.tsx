@@ -56,22 +56,18 @@ describe('WeatherPwa', () => {
     document.body.style.overflow = ''
   })
 
-  it('detects supported mobile platforms and suppresses standalone mode', () => {
-    expect(shouldShowInstallHint('Mozilla/5.0 (Linux; Android 14)', false)).toBe(
-      true,
-    )
+  it('shows install controls in any browser and suppresses standalone mode', () => {
+    expect(shouldShowInstallHint(false)).toBe(true)
+    expect(shouldShowInstallHint(true)).toBe(false)
+
+    setNavigator({
+      platform: 'MacIntel',
+      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X)',
+    })
+    renderPwa()
     expect(
-      shouldShowInstallHint(
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X)',
-        false,
-        'MacIntel',
-        5,
-      ),
-    ).toBe(true)
-    expect(shouldShowInstallHint(originalNavigator.userAgent, false)).toBe(false)
-    expect(shouldShowInstallHint('Mozilla/5.0 (Linux; Android 14)', true)).toBe(
-      false,
-    )
+      screen.getByRole('button', { name: 'Expand install instructions' }),
+    ).toBeInTheDocument()
   })
 
   it('starts collapsed, expands on demand, and persists either state', () => {
@@ -80,7 +76,7 @@ describe('WeatherPwa', () => {
     expect(
       screen.getByRole('button', { name: 'Expand install instructions' }),
     ).toBeInTheDocument()
-    expect(screen.getByText('Install app')).toBeInTheDocument()
+    expect(screen.getByText('Install on phone')).toBeInTheDocument()
     expect(screen.getByText('Add NYC Weather to your home screen')).toBeInTheDocument()
     expect(screen.queryByText('Get a full-screen forecast')).not.toBeInTheDocument()
 
