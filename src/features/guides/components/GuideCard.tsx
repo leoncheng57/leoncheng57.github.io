@@ -31,6 +31,7 @@ export default function GuideCard({ guide }: GuideCardProps): ReactElement {
             $
           </span>
           <Link to={guidePath}>{guide.title}</Link>
+          {guide.beta ? <span className={styles.betaBadge}>BETA</span> : null}
         </h2>
 
         <p className={styles.description}>{guide.description}</p>

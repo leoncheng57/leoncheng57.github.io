@@ -23,6 +23,8 @@ export interface Guide {
   audience?: string
   tags: string[]
   draft?: boolean
+  /** Marks the full guide as still stabilizing; renders a Beta badge on its card. */
+  beta?: boolean
   /** Landing-page body, from the guide's `guide.md` file. */
   overview: string
   /** Reading time for the overview plus every chapter. */
@@ -38,6 +40,7 @@ export interface GuideFrontmatter {
   audience?: string
   tags?: string[]
   draft?: boolean
+  beta?: boolean
 }
 
 export interface GuideChapterFrontmatter {

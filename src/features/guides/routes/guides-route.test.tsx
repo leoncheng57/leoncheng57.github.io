@@ -50,10 +50,9 @@ describe('guides index route', () => {
       </MemoryRouter>
     )
 
-    expect(screen.getByRole('link', { name: OPENHANDS_GUIDE_TITLE })).toHaveAttribute(
-      'href',
-      OPENHANDS_GUIDE_PATH
-    )
+    const guideLink = screen.getByRole('link', { name: OPENHANDS_GUIDE_TITLE })
+    expect(guideLink).toHaveAttribute('href', OPENHANDS_GUIDE_PATH)
+    expect(within(guideLink.closest('article')!).getByText('BETA')).toBeInTheDocument()
     expect(screen.getByText('Why build a control plane?')).toBeInTheDocument()
     expect(screen.getByText('How it was built, layer by layer')).toBeInTheDocument()
     expect(screen.getByText('Worktrees, streaming, and live previews')).toBeInTheDocument()
@@ -206,6 +205,16 @@ describe('guide one-pager', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: OPENHANDS_GUIDE_TITLE })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('img', { name: /The custom OpenHands IDE during a live session/ })
+    ).toHaveAttribute(
+      'src',
+      '/guides/custom-coding-agent-ide-with-openhands/interface.webp'
+    )
+    expect(
+      screen.getByText(/cd ~\/Documents\/Projects\/custom-dca-ide-with-openhands/)
+    ).toBeInTheDocument()
+    expect(screen.getByText(/bash scripts\/dev\.sh/)).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 2, name: 'How it was built, layer by layer' })
     ).toBeInTheDocument()
