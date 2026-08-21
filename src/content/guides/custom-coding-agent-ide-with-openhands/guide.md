@@ -4,6 +4,9 @@ description: "How I turned OpenHands' headless agent server into a local browser
 updatedAt: "2026-08-20"
 publishedAt: "2026-08-20"
 audience: "For developers deciding whether to use a coding agent as-is or build a workflow-specific control plane around one."
+repoUrl: "https://github.com/leoncheng57/Customizable-DCA-OpenHands"
+repoAccess: "public"
+repoScope: "standalone"
 tags:
   - openhands
   - agents

@@ -115,6 +115,21 @@ draft: true
     expect(guide.beta).toBe(true)
   })
 
+  it('passes repository frontmatter through to guides', () => {
+    const [guide] = loadGuidesFromFiles({
+      '/src/content/guides/repository/guide.md': GUIDE_FILE.replace(
+        'tags:',
+        'repoUrl: "https://github.com/leoncheng57/example/tree/main/demo"\nrepoAccess: "private"\nrepoScope: "this-site"\ntags:'
+      ),
+    })
+
+    expect(guide).toMatchObject({
+      repoUrl: 'https://github.com/leoncheng57/example/tree/main/demo',
+      repoAccess: 'private',
+      repoScope: 'this-site',
+    })
+  })
+
   it('passes the beta frontmatter flag through to chapters', () => {
     const [guide] = loadGuidesFromFiles({
       '/src/content/guides/sample/guide.md': GUIDE_FILE,

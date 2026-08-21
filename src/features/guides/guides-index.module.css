@@ -175,6 +175,69 @@
   color: var(--term-ink);
 }
 
+.repoRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.55rem;
+  margin: 0 0 0.85rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--term-line);
+  background: var(--term-chrome);
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+
+.repoKind,
+.repoOwner,
+.repoPrivate {
+  flex: none;
+  padding: 0.13rem 0.38rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.repoKind {
+  color: var(--term-accent-alt);
+}
+
+.repoOwner {
+  color: var(--term-accent);
+}
+
+.repoPrivate {
+  color: var(--term-ink);
+}
+
+.guideCard .repoLink {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  gap: 0.3rem;
+  color: var(--term-ink);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.repoLink svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex: none;
+}
+
+.repoLink span:nth-of-type(1) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.guideCard .repoLink:hover {
+  color: var(--term-accent);
+  opacity: 1;
+}
+
 .cardMeta {
   display: flex;
   flex-wrap: wrap;

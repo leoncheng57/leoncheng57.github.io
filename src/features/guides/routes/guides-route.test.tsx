@@ -66,12 +66,13 @@ describe('guides index route', () => {
       </MemoryRouter>
     )
 
-    expect(
-      screen.getByRole('link', { name: 'cmux personal config' })
-    ).toHaveAttribute('href', '/guides/cmux-personal-config')
-    expect(
-      screen.getByRole('link', { name: 'opencode personal config' })
-    ).toHaveAttribute('href', '/guides/opencode-personal-config')
+    const cmuxLink = screen.getByRole('link', { name: 'cmux personal config' })
+    expect(cmuxLink).toHaveAttribute('href', '/guides/cmux-personal-config')
+    expect(within(cmuxLink.closest('article')!).getByText('PRIVATE ACCESS')).toBeInTheDocument()
+
+    const opencodeLink = screen.getByRole('link', { name: 'opencode personal config' })
+    expect(opencodeLink).toHaveAttribute('href', '/guides/opencode-personal-config')
+    expect(within(opencodeLink.closest('article')!).getByText('PRIVATE ACCESS')).toBeInTheDocument()
   })
 
   it('redirects the retired agent-dashboard guide to the one-pager watch-the-run anchor', () => {
@@ -123,10 +124,10 @@ describe('guides index route', () => {
     const guideLink = screen.getByRole('link', { name: 'OpenCode Remote Control' })
     expect(guideLink).toHaveAttribute('href', '/guides/opencode-remote-control')
 
-    // Several cards now carry a "GitHub ↗" meta link, so scope the lookup to
-    // this card rather than searching the whole page.
     const card = within(guideLink.closest('article')!)
-    expect(card.getByRole('link', { name: 'GitHub ↗' })).toHaveAttribute(
+    expect(card.getByRole('link', {
+      name: 'GitHub repository leoncheng57/opencode-remote-control-and-notifications',
+    })).toHaveAttribute(
       'href',
       'https://github.com/leoncheng57/opencode-remote-control-and-notifications'
     )
@@ -149,7 +150,9 @@ describe('guides index route', () => {
       'href',
       'https://leoncheng.dev/agent-skills/'
     )
-    expect(card.getByRole('link', { name: 'GitHub ↗' })).toHaveAttribute(
+    expect(card.getByRole('link', {
+      name: 'GitHub repository leoncheng57/agent-skills',
+    })).toHaveAttribute(
       'href',
       'https://github.com/leoncheng57/agent-skills'
     )
@@ -176,6 +179,33 @@ describe('guides index route', () => {
     expect(cards.length).toBeGreaterThan(1)
     expect(cards[0]).toBe(skillsCard)
     expect(cards.indexOf(screen.getByRole('link', { name: GUIDE_TITLE }).closest('article')!)).toBeGreaterThan(0)
+  })
+
+  it('shows exactly one repository reference on every guide card', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const repoLinks = screen.getAllByRole('link', { name: /^GitHub repository / })
+    const cards = Array.from(document.querySelectorAll('main article'))
+
+    expect(cards).toHaveLength(6)
+    expect(repoLinks).toHaveLength(cards.length)
+    for (const card of cards) {
+      expect(within(card).getAllByRole('link', { name: /^GitHub repository / })).toHaveLength(1)
+      expect(within(card).getByText('AUTHOR-OWNED')).toBeInTheDocument()
+    }
+
+    const managerCard = screen.getByRole('link', { name: GUIDE_TITLE }).closest('article')!
+    expect(within(managerCard).getByText('SOURCE IN THIS REPO')).toBeInTheDocument()
+    expect(within(managerCard).getByRole('link', {
+      name: 'GitHub repository leoncheng57/leoncheng57.github.io',
+    })).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/leoncheng57.github.io/tree/main/alpha-projs/agent-dashboard'
+    )
   })
 })
 
