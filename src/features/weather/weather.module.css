@@ -590,13 +590,26 @@
   border-bottom: 2px solid var(--wx-accent);
 }
 
-.themeToggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+/* ── Temporary theme-preview picker ───────────────────────────────────── */
+
+.palettePicker {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+.palettePreview {
+  min-height: 0;
   padding: 0;
+  transition: none;
+}
+
+.appearanceTrigger {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0.3rem;
   border: 1px solid var(--wx-line);
   border-radius: 999px;
   background: var(--wx-surface);
@@ -604,108 +617,147 @@
   cursor: pointer;
 }
 
-.themeToggle svg {
-  width: 1.1rem;
-  height: 1.1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-}
-
-/* ── Temporary theme-preview picker ───────────────────────────────────── */
-
-.paletteBar {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.65rem;
-  margin-top: 0.65rem;
-  border: 1px dashed var(--wx-line);
-  border-radius: 0.6rem;
-  background: var(--wx-surface);
-}
-
-.paletteLabel {
-  color: var(--wx-ink-soft);
-  font-size: 0.75rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-/* The picker anchors its popup, so it owns a positioning context. It also
-   holds the remaining width in the bar so the strip can grow. */
-.palettePicker {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-}
-
-/* Trigger, options and the column legend share one row box model: colour
-   strip first at a fixed width, then a fixed trailing slot for the caret /
-   selected checkmark. Identical padding and gap on all three is what keeps
-   the legend's headings sitting exactly over the columns they name. */
-.paletteTrigger,
-.paletteOption,
-.paletteLegend {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  width: 100%;
-  min-height: 2.75rem;
-  padding: 0.35rem 0.5rem;
-  border-radius: 0.45rem;
-  background: var(--wx-surface-raised);
-  color: var(--wx-ink);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.paletteTrigger {
-  border: 1px solid var(--wx-line);
-}
-
-.paletteTrigger:focus-visible,
-.paletteOption:focus-visible {
+.appearanceTrigger:focus-visible,
+.paletteClose:focus-visible,
+.paletteDone:focus-visible,
+.paletteRadio:focus-visible + .paletteSrName + .paletteCard {
   outline: 2px solid var(--wx-accent);
   outline-offset: 2px;
 }
 
-/* The colour strip is the only palette content drawn: no name on screen.
-
-   Six equal columns, one per role in `SWATCH_ROLES`, capped at a small fixed
-   width instead of stretching to fill the row. Stretched strips were the
-   problem the legend exists to fix: they made the popup a wall of colour and
-   left no room for headings. `min()` lets the strip shrink on a narrow phone;
-   because the legend uses the same declaration inside the same-width row, it
-   shrinks by exactly the same amount and stays aligned. */
-.paletteStrip,
-.paletteLegendStrip {
+.appearanceSwatches {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  /* The gap lets the background colour show through as hairline dividers, so
-     adjacent near-identical colours still read as separate swatches. */
-  gap: 1px;
-  /* Wide enough that the longest heading, "Accent", fits its column. */
-  width: min(100%, 13rem);
-  border-radius: 0.3rem;
-  /* Transparent on the legend so both boxes measure the same. */
-  border: 1px solid transparent;
-}
-
-.paletteStrip {
-  height: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  width: 1.65rem;
+  height: 1.65rem;
   overflow: hidden;
-  border-color: var(--wx-line);
-  background: var(--wx-line);
+  border: 1px solid var(--wx-line);
+  border-radius: 999px;
 }
 
-.paletteSwatch {
+.appearanceSwatches span {
+  display: block;
+}
+
+.appearanceSwatchPage {
+  background: var(--wx-bg);
+}
+
+.appearanceSwatchCard {
+  background: var(--wx-surface);
+}
+
+.appearanceSwatchHigh {
+  background: var(--wx-high);
+}
+
+.appearanceSwatchLow {
+  background: var(--wx-low);
+}
+
+.appearanceIcon {
+  position: absolute;
+  right: 0.08rem;
+  bottom: 0.08rem;
+  display: grid;
+  place-items: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 999px;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+}
+
+.appearanceIcon svg {
+  width: 0.72rem;
+  height: 0.72rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.3;
+}
+
+.paletteCard {
+  display: block;
+  width: 100%;
+  padding: 0.45rem;
+  border-radius: 0.55rem;
+  background: var(--wx-bg);
+  color: var(--wx-ink);
+}
+
+.appearanceMode {
+  display: inline-block;
+  padding: 0.18rem 0.42rem;
+  margin: 0 0 0.35rem 0.15rem;
+  border: 1px solid color-mix(in srgb, var(--wx-ink) 18%, transparent);
+  border-radius: 999px;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.paletteCardPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'forecast details'
+    'temperatures temperatures';
+  gap: 0.4rem 0.75rem;
+  padding: 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--wx-ink) 14%, transparent);
+  border-radius: 0.45rem;
+  background: var(--wx-surface);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 8%);
+}
+
+.paletteCardForecast {
+  grid-area: forecast;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
   min-width: 0;
+  color: var(--wx-ink);
+  font-size: 0.76rem;
 }
 
-/* Palette names stay in the accessibility tree but never on screen. */
+.paletteCardForecast strong {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.paletteCardDetails {
+  grid-area: details;
+  align-self: center;
+  color: var(--wx-accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.paletteCardTemperatures {
+  grid-area: temperatures;
+  display: flex;
+  gap: 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.paletteCardHigh {
+  color: var(--wx-high);
+}
+
+.paletteCardLow {
+  color: var(--wx-low);
+}
+
 .paletteSrName {
   position: absolute;
   width: 1px;
@@ -719,118 +771,170 @@
   border: 0;
 }
 
-/* Fixed trailing slot so rows stay aligned whether or not a check is drawn.
-   The strip no longer stretches, so `margin-left: auto` is what holds this
-   against the right edge. */
-.paletteCheck {
-  flex: 0 0 auto;
+.paletteBackdrop {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 0.9rem;
-  height: 0.9rem;
-  margin-left: auto;
-  color: var(--wx-ink-soft);
+  padding: 5vh 1rem;
+  background: rgb(4 12 20 / 62%);
+  backdrop-filter: blur(4px);
 }
 
-.paletteCaret {
-  margin-left: auto;
+.paletteDialog {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 46rem);
+  max-height: 90vh;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.85rem;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  box-shadow: 0 24px 70px rgb(0 0 0 / 38%);
 }
 
-.paletteCaret,
-.paletteCheck svg {
+.paletteDialogHeader,
+.paletteDialogFooter {
   flex: 0 0 auto;
-  width: 0.9rem;
-  height: 0.9rem;
-  color: var(--wx-ink-soft);
+  display: flex;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  background: var(--wx-surface);
+}
+
+.paletteDialogHeader {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--wx-line);
+}
+
+.paletteDialogHeader h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.paletteClose {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--wx-line);
+  border-radius: 999px;
+  background: var(--wx-surface-raised);
+  color: var(--wx-ink);
+  cursor: pointer;
+}
+
+.paletteClose svg {
+  width: 0.85rem;
+  height: 0.85rem;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.8;
   stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
-/* Popup shell. It owns the height cap and the chrome; the legend is pinned
-   inside it and only the listbox scrolls, so the column headings stay
-   readable while the user pages through thirteen palettes. */
-.palettePopup {
-  position: absolute;
-  z-index: 20;
-  top: calc(100% + 0.35rem);
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 0.3rem;
-  /* 13 palettes will not fit on a phone, so the popup scrolls instead of
-     growing past the viewport. */
-  max-height: min(60vh, 20rem);
-  border: 1px solid var(--wx-line);
-  border-radius: 0.55rem;
-  background: var(--wx-surface);
-  box-shadow: 0 12px 28px rgb(0 0 0 / 22%);
-}
-
-.paletteListbox {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  /* `min-height: 0` lets this shrink inside the capped flex column so the
-     scrollbar lands here rather than on the shell. */
+.paletteGrid {
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: 0.65rem;
   min-height: 0;
+  padding: 0.85rem;
   overflow-y: auto;
 }
 
-/* Not a row the user can act on: no hit target, no hover, no pointer. */
-.paletteLegend {
-  min-height: 0;
-  padding-top: 0;
-  padding-bottom: 0.25rem;
-  margin-bottom: 0.25rem;
-  border-bottom: 1px solid var(--wx-line);
-  border-radius: 0;
-  background: none;
-  cursor: default;
-}
-
-/* Deliberately not uppercased: at this size small caps cost about a third
-   more width than mixed case, which is the difference between "Accent" and
-   "Accen…" in a 2rem column. */
-.paletteLegendLabel {
-  min-width: 0;
-  color: var(--wx-muted);
-  font-size: 0.5625rem;
-  font-weight: 700;
-  line-height: 1.2;
-  text-align: center;
-  white-space: nowrap;
-}
-
-/* On a phone the strip has shrunk below its 13rem cap, so the headings step
-   down with it rather than letting "Accent" crowd "High". */
-@media (max-width: 26rem) {
-  .paletteLegendLabel {
-    font-size: 0.5rem;
-    letter-spacing: -0.01em;
-  }
+.appearancePair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
 }
 
 .paletteOption {
-  border: 1px solid transparent;
+  position: relative;
+  display: block;
+  min-width: 0;
+  border: 2px solid transparent;
+  border-radius: 0.7rem;
+  background: var(--wx-bg);
+  cursor: pointer;
 }
 
 .paletteOption:hover {
-  border-color: var(--wx-line);
+  border-color: color-mix(in srgb, var(--wx-accent) 45%, transparent);
 }
 
-/* Selection is a ring plus a checkmark, never colour alone. */
-.paletteOptionSelected {
+.paletteRadio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.paletteOption:has(.paletteRadio:checked) {
   border-color: var(--wx-accent);
-  box-shadow: inset 0 0 0 1px var(--wx-accent);
+  box-shadow: 0 0 0 1px var(--wx-accent);
 }
 
-.paletteOptionSelected .paletteCheck {
-  color: var(--wx-accent);
+.paletteCheck {
+  position: absolute;
+  top: 0.42rem;
+  right: 0.42rem;
+  display: none;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: var(--wx-accent);
+  color: var(--wx-surface);
+}
+
+.paletteCheck svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.2;
+}
+
+.paletteOption:has(.paletteRadio:checked) .paletteCheck {
+  display: grid;
+}
+
+.paletteDialogFooter {
+  justify-content: flex-end;
+  border-top: 1px solid var(--wx-line);
+}
+
+.paletteDone {
+  padding: 0.55rem 1.2rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background: var(--wx-accent);
+  color: var(--wx-accent-contrast);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (max-width: 24rem) {
+  .paletteBackdrop {
+    padding: 5vh 0.55rem;
+  }
+
+  .paletteGrid {
+    padding: 0.65rem;
+  }
+
+  .appearancePair {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Layout ───────────────────────────────────────────────────────────── */

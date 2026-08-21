@@ -12,7 +12,7 @@ import HourlyRoute from './HourlyRoute'
 import WeeklyRoute from './WeeklyRoute'
 
 export default function WeatherRoute(): ReactElement {
-  const { theme, toggleTheme, palette, setPalette } = useTheme()
+  const { theme, palette, setAppearance } = useTheme()
   const weather = useWeather()
 
   useLayoutEffect(() => {
@@ -40,28 +40,12 @@ export default function WeatherRoute(): ReactElement {
               Alerts
             </NavLink>
           </nav>
-          <button
-            type="button"
-            className={styles.themeToggle}
-            onClick={toggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          >
-            {theme === 'dark' ? (
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="3.5" />
-                <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4" />
-              </svg>
-            ) : (
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M20 15.3A8.5 8.5 0 0 1 8.7 4a8.5 8.5 0 1 0 11.3 11.3Z" />
-              </svg>
-            )}
-          </button>
+          <PalettePicker
+            value={palette}
+            theme={theme}
+            onChange={setAppearance}
+          />
         </header>
-        <div className={styles.paletteBar}>
-          <span className={styles.paletteLabel}>Colorway</span>
-          <PalettePicker value={palette} onChange={setPalette} />
-        </div>
         <WeatherPwa />
 
         <WeatherContext.Provider value={weather}>
