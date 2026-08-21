@@ -236,7 +236,7 @@ describe('weather hourly home route', () => {
     expect(slider).toHaveAttribute('aria-valuenow', valueNow)
     expect(slider).toHaveAttribute('aria-valuetext', valueText)
 
-    await user.click(instructions)
+    await user.click(screen.getByRole('button', { name: 'Got it' }))
     expect(slider).toHaveAttribute('aria-valuenow', valueNow)
     expect(slider).toHaveAttribute('aria-valuetext', valueText)
   })
@@ -437,7 +437,7 @@ describe('weather weekly route', () => {
     expect(slider).toHaveAttribute('aria-valuenow', valueNow)
     expect(slider).toHaveAttribute('aria-valuetext', valueText)
 
-    await user.click(instructions)
+    await user.click(screen.getByRole('button', { name: 'Got it' }))
     expect(slider).toHaveAttribute('aria-valuenow', valueNow)
     expect(slider).toHaveAttribute('aria-valuetext', valueText)
   })

@@ -1089,25 +1089,73 @@
   border: 1px solid var(--wx-line);
 }
 
-.chartTip {
-  flex: 1 0 100%;
-  order: 2;
-  padding: 0.75rem 0.85rem;
+.chartTipBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(5, 12, 20, 0.62);
+}
+
+.chartTipDialog {
+  width: min(100%, 28rem);
+  overflow: hidden;
   border: 1px solid var(--wx-line);
-  border-radius: 0.75rem;
-  background: var(--wx-surface-raised);
+  border-radius: 0.9rem;
+  background: var(--wx-surface);
+  box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.3);
 }
 
-.chartTip h2 {
-  margin: 0 0 0.2rem;
-  font-size: 0.9rem;
+.chartTipDialogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--wx-line);
 }
 
-.chartTip p {
+.chartTipDialog h2,
+.chartTipDialog p {
   margin: 0;
+}
+
+.chartTipDialog h2 {
+  font-size: 1rem;
+}
+
+.chartTipDialog p {
+  padding: 1rem;
   color: var(--wx-ink-soft);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   line-height: 1.45;
+}
+
+.chartTipDialog footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--wx-line);
+}
+
+.chartTipDialog button {
+  min-height: 36px;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.55rem;
+  background: var(--wx-surface-raised);
+  color: var(--wx-ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chartTipDialog button:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: 2px;
 }
 
 .chartTitle {
