@@ -1,0 +1,32 @@
+{
+  "name": "Broad Channel",
+  "short_name": "Broad Channel",
+  "description": "Live NYC subway arrival times for Broad Channel.",
+  "id": "/previews/pr-269/sub-wait/pwa/station/H04",
+  "start_url": "/previews/pr-269/sub-wait/station/H04",
+  "scope": "/previews/pr-269/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-269/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-269/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-269/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
