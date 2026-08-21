@@ -3,7 +3,7 @@ import type { WeatherState } from './useWeather'
 
 /**
  * Shares one useWeather instance (fetched by the route shell) across the
- * home, week, and day pages so navigating between them never refetches.
+ * hourly, weekly, and day pages so navigating between them never refetches.
  */
 export const WeatherContext = createContext<WeatherState | null>(null)
 

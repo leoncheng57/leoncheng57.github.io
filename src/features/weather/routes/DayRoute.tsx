@@ -81,7 +81,7 @@ export default function DayRoute(): ReactElement {
     <main className={styles.main}>
       <StatusBanner />
       <p className={styles.backLink}>
-        <Link to="/weather/trends">← 14-day trends</Link>
+        <Link to="/weather/weekly">← Weekly</Link>
       </p>
 
       <div className={styles.dayPager}>

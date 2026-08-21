@@ -21,10 +21,10 @@ const AQI_BANDS = [
 ]
 
 /**
- * 14-day trends: the daily high/low, rain and AQI charts over 7 past and 7
- * forecast days. Tapping a day opens its hourly detail.
+ * Weekly: the daily high/low, rain and AQI charts over 7 past and 7 forecast
+ * days. Tapping a day opens its hourly detail.
  */
-export default function TrendsRoute(): ReactElement {
+export default function WeeklyRoute(): ReactElement {
   const { status, data } = useWeatherContext()
   const navigate = useNavigate()
   const [scrubIndex, setScrubIndex] = useState<number | null>(null)
@@ -99,7 +99,7 @@ export default function TrendsRoute(): ReactElement {
     <main className={styles.main}>
       <StatusBanner />
 
-      <h1 className={styles.pageTitle}>14-day trends</h1>
+      <h1 className={styles.pageTitle}>Weekly</h1>
       <section className={styles.current} aria-label="Current conditions">
         <p className={styles.currentAqi}>
           Now {Math.round(current.temp)}°F · {condition.emoji}{' '}

@@ -1,5 +1,4 @@
 import type { ReactElement } from 'react'
-import { Link } from 'react-router-dom'
 import HourlyCharts from '../components/HourlyCharts'
 import StatusBanner from '../components/StatusBanner'
 import { useWeatherContext } from '../hooks/WeatherContext'
@@ -124,10 +123,6 @@ export default function HourlyRoute(): ReactElement {
       ) : (
         <p>Hourly data is unavailable right now.</p>
       )}
-
-      <p className={styles.windowNote}>
-        <Link to="/weather/trends">See 14-day trends →</Link>
-      </p>
     </main>
   )
 }
