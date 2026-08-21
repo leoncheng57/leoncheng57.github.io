@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { PALETTES } from '../palettes'
+import { PALETTES, SWATCH_ROLES } from '../palettes'
 import {
   addDays,
   formatDayLong,
@@ -590,9 +590,11 @@ describe('colorway picker', () => {
     expect(screen.getByText('Colorway: Classic Navy')).toHaveClass(
       styles.paletteSrName,
     )
-    expect(
-      trigger.querySelectorAll(`.${styles.paletteSwatch}`).length,
-    ).toBeGreaterThanOrEqual(4)
+    expect(trigger.querySelectorAll(`.${styles.paletteSwatch}`)).toHaveLength(
+      SWATCH_ROLES.length,
+    )
+    // The trigger shares the option strip but not the column legend.
+    expect(trigger.querySelector(`.${styles.paletteLegend}`)).toBeNull()
     expect(trigger).toHaveAttribute('aria-haspopup', 'listbox')
     expect(trigger).toHaveAttribute('aria-expanded', 'false')
   })
@@ -618,10 +620,46 @@ describe('colorway picker', () => {
       expect(within(option).getByText(palette.label)).toHaveClass(
         styles.paletteSrName,
       )
-      expect(option.querySelectorAll(`.${styles.paletteSwatch}`)).toHaveLength(
-        palette.swatches.length,
-      )
+      // Every row draws the same six columns, so they line up under the
+      // legend and a reader can compare straight down a column.
+      const swatches = option.querySelectorAll(`.${styles.paletteSwatch}`)
+      expect(swatches).toHaveLength(SWATCH_ROLES.length)
+      SWATCH_ROLES.forEach((role, column) => {
+        expect(swatches[column]).toHaveStyle({
+          backgroundColor: palette.swatches[role],
+        })
+      })
     })
+  })
+
+  it('labels the swatch columns once, outside the listbox and hidden from AT', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const { listbox } = await openPicker(user)
+
+    const legend = document.querySelector(`.${styles.paletteLegend}`)
+    expect(legend).not.toBeNull()
+    expect(legend).toHaveAttribute('aria-hidden', 'true')
+    expect(
+      legend?.querySelectorAll(`.${styles.paletteLegendLabel}`).length,
+    ).toBe(SWATCH_ROLES.length)
+    expect(
+      [...(legend?.querySelectorAll(`.${styles.paletteLegendLabel}`) ?? [])].map(
+        (label) => label.textContent,
+      ),
+    ).toEqual(['Page', 'Card', 'Text', 'Accent', 'High', 'Low'])
+
+    // One legend for the whole list, not one per row.
+    expect(document.querySelectorAll(`.${styles.paletteLegend}`)).toHaveLength(1)
+
+    // It must not sit inside the listbox: the listbox owns exactly the
+    // thirteen options, and the headings are never announced as a row.
+    expect(listbox.contains(legend)).toBe(false)
+    expect(within(listbox).getAllByRole('option')).toHaveLength(PALETTES.length)
+    expect(within(listbox).queryByText('Accent')).toBeNull()
   })
 
   it('marks the current palette selected and flags it non-chromatically', async () => {

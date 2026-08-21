@@ -641,10 +641,13 @@
   min-width: 0;
 }
 
-/* Trigger and options share a 44px-high row: colour strip, then a fixed
-   trailing slot for the caret / selected checkmark. */
+/* Trigger, options and the column legend share one row box model: colour
+   strip first at a fixed width, then a fixed trailing slot for the caret /
+   selected checkmark. Identical padding and gap on all three is what keeps
+   the legend's headings sitting exactly over the columns they name. */
 .paletteTrigger,
-.paletteOption {
+.paletteOption,
+.paletteLegend {
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -669,23 +672,36 @@
   outline-offset: 2px;
 }
 
-/* The colour strip is the whole visible content: no palette name is drawn. */
-.paletteStrip {
-  display: flex;
-  flex: 1;
-  min-width: 0;
-  height: 1.35rem;
-  border-radius: 0.3rem;
-  overflow: hidden;
-  border: 1px solid var(--wx-line);
-  /* The gap lets the border colour show through as hairline dividers, so
+/* The colour strip is the only palette content drawn: no name on screen.
+
+   Six equal columns, one per role in `SWATCH_ROLES`, capped at a small fixed
+   width instead of stretching to fill the row. Stretched strips were the
+   problem the legend exists to fix: they made the popup a wall of colour and
+   left no room for headings. `min()` lets the strip shrink on a narrow phone;
+   because the legend uses the same declaration inside the same-width row, it
+   shrinks by exactly the same amount and stays aligned. */
+.paletteStrip,
+.paletteLegendStrip {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  /* The gap lets the background colour show through as hairline dividers, so
      adjacent near-identical colours still read as separate swatches. */
   gap: 1px;
+  /* Wide enough that the longest heading, "Accent", fits its column. */
+  width: min(100%, 13rem);
+  border-radius: 0.3rem;
+  /* Transparent on the legend so both boxes measure the same. */
+  border: 1px solid transparent;
+}
+
+.paletteStrip {
+  height: 1rem;
+  overflow: hidden;
+  border-color: var(--wx-line);
   background: var(--wx-line);
 }
 
 .paletteSwatch {
-  flex: 1;
   min-width: 0;
 }
 
@@ -703,7 +719,9 @@
   border: 0;
 }
 
-/* Fixed trailing slot so rows stay aligned whether or not a check is drawn. */
+/* Fixed trailing slot so rows stay aligned whether or not a check is drawn.
+   The strip no longer stretches, so `margin-left: auto` is what holds this
+   against the right edge. */
 .paletteCheck {
   flex: 0 0 auto;
   display: flex;
@@ -711,7 +729,12 @@
   justify-content: center;
   width: 0.9rem;
   height: 0.9rem;
+  margin-left: auto;
   color: var(--wx-ink-soft);
+}
+
+.paletteCaret {
+  margin-left: auto;
 }
 
 .paletteCaret,
@@ -727,7 +750,10 @@
   stroke-linejoin: round;
 }
 
-.paletteListbox {
+/* Popup shell. It owns the height cap and the chrome; the legend is pinned
+   inside it and only the listbox scrolls, so the column headings stay
+   readable while the user pages through thirteen palettes. */
+.palettePopup {
   position: absolute;
   z-index: 20;
   top: calc(100% + 0.35rem);
@@ -735,16 +761,58 @@
   right: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
   padding: 0.3rem;
   /* 13 palettes will not fit on a phone, so the popup scrolls instead of
      growing past the viewport. */
   max-height: min(60vh, 20rem);
-  overflow-y: auto;
   border: 1px solid var(--wx-line);
   border-radius: 0.55rem;
   background: var(--wx-surface);
   box-shadow: 0 12px 28px rgb(0 0 0 / 22%);
+}
+
+.paletteListbox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  /* `min-height: 0` lets this shrink inside the capped flex column so the
+     scrollbar lands here rather than on the shell. */
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Not a row the user can act on: no hit target, no hover, no pointer. */
+.paletteLegend {
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--wx-line);
+  border-radius: 0;
+  background: none;
+  cursor: default;
+}
+
+/* Deliberately not uppercased: at this size small caps cost about a third
+   more width than mixed case, which is the difference between "Accent" and
+   "Accen…" in a 2rem column. */
+.paletteLegendLabel {
+  min-width: 0;
+  color: var(--wx-muted);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* On a phone the strip has shrunk below its 13rem cap, so the headings step
+   down with it rather than letting "Accent" crowd "High". */
+@media (max-width: 26rem) {
+  .paletteLegendLabel {
+    font-size: 0.5rem;
+    letter-spacing: -0.01em;
+  }
 }
 
 .paletteOption {
