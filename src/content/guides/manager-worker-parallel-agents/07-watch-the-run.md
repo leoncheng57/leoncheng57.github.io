@@ -44,7 +44,7 @@ To be clear about scope: the board is not a scheduler or a supervisor — it rea
 
 On every phase change, a worker rewrites `.agent-status.json` at the root of its own worktree:
 
-```json
+```file:.agent-status.json
 {
   "task": "agent-dashboard",
   "phase": "working",
@@ -58,11 +58,7 @@ On every phase change, a worker rewrites `.agent-status.json` at the root of its
 
 It is deliberately flat: one object per worker, no nesting, no history. Two fields do the real work — `phase` is what you scan for, and `updated_at` is what makes silence detectable. Six phases cover the normal path, and one covers trouble:
 
-```text
-assigned -> working -> verifying -> pushed -> pr-open -> done
-                 \
-                  `-> blocked (from any phase, and back again)
-```
+![The worker phase lifecycle: six normal phases connect from assigned through working, verifying, pushed, pull request open, and done. A blocked side state has a bidirectional connection showing that a worker can become blocked from any phase and return to any phase.](/guides/manager-worker-parallel-agents/phase-lifecycle.svg "Blocked is a side state, not a dead end: workers can enter it from any phase and return to the appropriate phase.")
 
 Keep the vocabulary short and closed. A list that grows per task stops being scannable, which is the only thing it was for. `blocked` is the phase that earns the whole protocol.
 

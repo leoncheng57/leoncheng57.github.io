@@ -832,7 +832,8 @@
   opacity: 1;
 }
 
-/* Code blocks get the same terminal chrome as the guides index card. */
+/* Terminal blocks get the same chrome as the guides index card. File fences
+   opt into a filename header without the terminal traffic lights. */
 .articleBody pre {
   position: relative;
   margin: 0 0 1.25rem;
@@ -843,7 +844,7 @@
   background: var(--gd-code-bg);
 }
 
-.articleBody pre::before {
+.articleBody pre:not(:has(> code[data-kind='file']))::before {
   content: '';
   position: absolute;
   top: 0;
@@ -855,7 +856,7 @@
   border-bottom: 1px solid var(--gd-line);
 }
 
-.articleBody pre::after {
+.articleBody pre:not(:has(> code[data-kind='file']))::after {
   content: '';
   position: absolute;
   top: 0.6rem;
@@ -884,6 +885,28 @@
   background: none;
   color: var(--gd-ink);
   line-height: 1.6;
+}
+
+.articleBody pre:has(> code[data-kind='file']) {
+  padding-top: 2.75rem;
+}
+
+.articleBody code[data-kind='file'] > [data-file-label] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  height: 1.85rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--gd-line);
+  border-radius: 9px 9px 0 0;
+  background: var(--gd-surface-raised);
+  color: var(--gd-ink-soft);
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .articleBody table {
