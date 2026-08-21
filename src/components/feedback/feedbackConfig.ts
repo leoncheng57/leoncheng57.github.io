@@ -3,6 +3,12 @@
 // (dropdown, entry.1233029295), Current page (short answer,
 // entry.201088765), "Describe your comment" (paragraph, entry.1675638029),
 // and Rating (1-5 linear scale, entry.1796631476).
+//
+// DUPLICATED ACROSS REPOS — the same form is used by
+// leoncheng57/agent-skills:src/components/feedback/feedbackConfig.ts, which
+// vendored this module for the agent-skills catalogue site. There is no
+// shared package; if the form URL or its entry IDs change, both copies must
+// be updated.
 export const FEEDBACK_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSe3vmUWVzBh74mpxOz9TXMkqoyAiTeP2B7h9FIzYx19oAtTUA/viewform'
 
