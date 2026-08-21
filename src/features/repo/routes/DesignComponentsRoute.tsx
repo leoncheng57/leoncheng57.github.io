@@ -220,9 +220,11 @@ export default function DesignComponentsRoute(): ReactElement {
           <p>
             In a guide the frame breaks out to the full page width; hosts
             outside a guide pass <code>inline</code> to keep it in the flow,
-            as here:
+            as here. The shell follows the guide theme &mdash; the light
+            variant is shown, since this page is light &mdash; while the
+            window inside it stays dark either way:
           </p>
-          <div className={guidesStyles.theme} data-theme="dark">
+          <div className={guidesStyles.theme} data-theme="light">
             <OpenHandsIdeWalkthrough
               ariaLabel="Live specimen of the simulated application walkthrough"
               inline
