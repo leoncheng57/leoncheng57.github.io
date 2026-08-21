@@ -9,6 +9,12 @@
  */
 
 .walkthrough {
+  /* The overview prose is capped at 74ch, which is far too narrow for a
+     three-column application mock. Break out to the page frame instead:
+     .page pads 1rem either side and .frame caps at 78rem, and the prose
+     column starts at the frame's left edge, so this spans it exactly. */
+  width: min(78rem, calc(100vw - 2rem));
+  max-width: none;
   display: flex;
   flex-direction: column;
   gap: 0.9rem;

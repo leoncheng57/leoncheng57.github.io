@@ -7,6 +7,7 @@ import TagList from '../../../components/markdown/TagList'
 import ChaptersNav from '../components/ChaptersNav'
 import CmuxTrialWalkthrough from '../components/CmuxTrialWalkthrough'
 import GuideNotFound from '../components/GuideNotFound'
+import GuideVideo from '../components/GuideVideo'
 import ManagerWorkerSimulator, {
   SIMULATOR_GUIDE_SLUG,
 } from '../components/ManagerWorkerSimulator'
@@ -29,6 +30,20 @@ const SIMULATOR_CHAPTER_SLUG = 'simulator'
  */
 const GUIDE_EMBEDS = {
   'openhands-ide-walkthrough': (alt: string) => <OpenHandsIdeWalkthrough ariaLabel={alt} />,
+  'desktop-tour': (alt: string) => (
+    <GuideVideo
+      recording="desktop-tour"
+      label={alt}
+      caption="A real session in the browser: picking a project, steering the agent, and reading the diff, commands, and pull-request panels beside the transcript. Silent; the project list is blurred."
+    />
+  ),
+  'mobile-tour': (alt: string) => (
+    <GuideVideo
+      recording="mobile-tour"
+      label={alt}
+      caption="The same conversation from a phone on the tailnet: the panels collapse to a bottom rail, and the composer keeps the Build/Plan switch. Silent; the address bar is blurred."
+    />
+  ),
 }
 
 /**

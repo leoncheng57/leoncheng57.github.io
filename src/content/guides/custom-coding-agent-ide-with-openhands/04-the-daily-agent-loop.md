@@ -31,3 +31,7 @@ A BFF restart can drop the live stream without losing the conversation. The brow
 For frontend work, the BFF also reverse-proxies a dev server from the agent container to a conversation-scoped URL, started from a server-side command template rather than anything the browser supplies. I can watch the agent edit, inspect its command output and diff, then open the result beside the conversation without publishing a Docker port per task.
 
 Notifications close the loop when I leave: browser banners and sound run client-side; optional push notifications cover finished, error, stuck, and input-needed states.
+
+Put together, one pass through the app looks like this:
+
+![A screen recording of the custom OpenHands IDE running in a desktop browser.](component:desktop-tour)
