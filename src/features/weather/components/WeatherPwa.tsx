@@ -24,9 +24,10 @@ export function shouldShowInstallHint(
 
 function hasCollapsedHint(): boolean {
   try {
-    return window.localStorage.getItem(COLLAPSED_KEY) === 'true'
+    const stored = window.localStorage.getItem(COLLAPSED_KEY)
+    return stored === null ? true : stored === 'true'
   } catch {
-    return false
+    return true
   }
 }
 
@@ -47,7 +48,7 @@ export default function WeatherPwa(): ReactElement | null {
   )
   const [collapsed, setCollapsed] = useState(hasCollapsedHint)
   const [installHelpOpen, setInstallHelpOpen] = useState(false)
-  const installButtonRef = useRef<HTMLButtonElement>(null)
+  const helpButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const manifest = document.createElement('link')
@@ -105,15 +106,27 @@ export default function WeatherPwa(): ReactElement | null {
           aria-label="Install NYC Weather"
         >
           <button
-            ref={installButtonRef}
             type="button"
-            onClick={() => setInstallHelpOpen(true)}
+            className={styles.installHintPreview}
+            onClick={() => setHintCollapsed(false)}
+            aria-label="Expand install instructions"
           >
             <span className={styles.installHintCollapsedIcon} aria-hidden="true">
               <img src={assetUrl('weather/icon.svg')} alt="" width={28} height={28} />
               <span>+</span>
             </span>
-            <span>Add NYC Weather to home screen</span>
+            <span className={styles.installHintPreviewCopy}>
+              <strong>Install app</strong>
+              <small>Add NYC Weather to your home screen</small>
+            </span>
+          </button>
+          <button
+            ref={helpButtonRef}
+            type="button"
+            className={styles.installHintHelp}
+            onClick={() => setInstallHelpOpen(true)}
+          >
+            Help
           </button>
         </aside>
         {installHelpOpen ? (
@@ -122,7 +135,7 @@ export default function WeatherPwa(): ReactElement | null {
             guidePath="/weather/install"
             iconSrc={assetUrl('weather/icon.svg')}
             onClose={() => setInstallHelpOpen(false)}
-            returnFocusTo={installButtonRef.current}
+            returnFocusTo={helpButtonRef.current}
           />
         ) : null}
       </>
@@ -144,7 +157,7 @@ export default function WeatherPwa(): ReactElement | null {
           <span>Get a full-screen forecast from your home screen, no app store.</span>
           <span className={styles.installHintLinks}>
             <button
-              ref={installButtonRef}
+              ref={helpButtonRef}
               type="button"
               onClick={() => setInstallHelpOpen(true)}
             >
@@ -170,7 +183,7 @@ export default function WeatherPwa(): ReactElement | null {
           guidePath="/weather/install"
           iconSrc={assetUrl('weather/icon.svg')}
           onClose={() => setInstallHelpOpen(false)}
-          returnFocusTo={installButtonRef.current}
+          returnFocusTo={helpButtonRef.current}
         />
       ) : null}
     </>

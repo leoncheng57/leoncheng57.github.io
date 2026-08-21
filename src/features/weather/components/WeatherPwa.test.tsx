@@ -74,36 +74,46 @@ describe('WeatherPwa', () => {
     )
   })
 
-  it('persists collapsed state and opens help instead of expanding', () => {
+  it('starts collapsed, expands on demand, and persists either state', () => {
     const first = renderPwa()
+
+    expect(
+      screen.getByRole('button', { name: 'Expand install instructions' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Install app')).toBeInTheDocument()
+    expect(screen.getByText('Add NYC Weather to your home screen')).toBeInTheDocument()
+    expect(screen.queryByText('Get a full-screen forecast')).not.toBeInTheDocument()
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Expand install instructions' }),
+    )
+
+    expect(window.localStorage.getItem('nyc-weather-install-hint-collapsed')).toBe(
+      'false',
+    )
+    expect(
+      screen.getByText('Get a full-screen forecast from your home screen, no app store.'),
+    ).toBeInTheDocument()
     fireEvent.click(
       screen.getByRole('button', { name: 'Collapse install instructions' }),
     )
-
     expect(window.localStorage.getItem('nyc-weather-install-hint-collapsed')).toBe(
       'true',
     )
-    expect(
-      screen.getByRole('button', { name: 'Add NYC Weather to home screen' }),
-    ).toBeInTheDocument()
     first.unmount()
 
     renderPwa()
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Add NYC Weather to home screen' }),
-    )
-
-    expect(screen.getByRole('dialog')).toHaveAccessibleName(
-      'Install NYC Weather',
-    )
+    expect(
+      screen.getByRole('button', { name: 'Expand install instructions' }),
+    ).toBeInTheDocument()
     expect(screen.queryByText('Get a full-screen forecast')).not.toBeInTheDocument()
-    expect(window.localStorage.getItem('nyc-weather-install-hint-collapsed')).toBe(
-      'true',
-    )
   })
 
   it('offers Help and an internal More details link from the expanded hint', () => {
     renderPwa()
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Expand install instructions' }),
+    )
 
     expect(screen.getByRole('button', { name: 'Help' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'More details' })).toHaveAttribute(
@@ -115,10 +125,9 @@ describe('WeatherPwa', () => {
   })
 
   it('manages modal focus, scrolling, Escape, backdrop, close, and restoration', () => {
-    window.localStorage.setItem('nyc-weather-install-hint-collapsed', 'true')
     renderPwa()
     const trigger = screen.getByRole('button', {
-      name: 'Add NYC Weather to home screen',
+      name: 'Help',
     })
 
     fireEvent.click(trigger)
