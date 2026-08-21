@@ -388,6 +388,46 @@ describe('guide one-pager', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders the status example as a file while preserving real terminal blocks', () => {
+    render(
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const statusExample = document.querySelector('code[data-kind="file"]')!
+    expect(statusExample).toHaveTextContent('"task": "agent-dashboard"')
+    expect(statusExample).toHaveAttribute('data-kind', 'file')
+    expect(statusExample).toHaveAttribute('data-filename', '.agent-status.json')
+    expect(within(statusExample).getByText('.agent-status.json')).toBeInTheDocument()
+
+    const cliInvocation = screen.getByText((content) => content.includes('cli.mjs --once'), {
+      selector: 'code',
+    })
+    const boardOutput = screen.getByText((content) => content.includes('CHILD') && content.includes('PHASE'), {
+      selector: 'code',
+    })
+    expect(cliInvocation).not.toHaveAttribute('data-kind')
+    expect(boardOutput).not.toHaveAttribute('data-kind')
+  })
+
+  it('renders the phase lifecycle SVG with meaningful alternative text', () => {
+    render(
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('img', {
+        name: /six normal phases connect from assigned through working.*blocked side state/i,
+      })
+    ).toHaveAttribute(
+      'src',
+      '/guides/manager-worker-parallel-agents/phase-lifecycle.svg'
+    )
+  })
+
   it('renders chapter tables inside the one-pager body', () => {
     render(
       <MemoryRouter initialEntries={[GUIDE_PATH]}>

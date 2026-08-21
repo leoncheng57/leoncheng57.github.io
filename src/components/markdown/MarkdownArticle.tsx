@@ -9,6 +9,7 @@ import HeadingLink from './HeadingLink'
 import type { ArticleStyles } from './types'
 
 const EMBED_PROTOCOL = 'component:'
+const FILE_LANGUAGE_PREFIX = 'language-file:'
 
 interface MarkdownArticleProps {
   content: string
@@ -90,6 +91,22 @@ export default function MarkdownArticle({ content, styles, embeds }: MarkdownArt
               <div className={styles.calloutBox}>{props.children}</div>
             </aside>
           ),
+          code: ({ node: _node, className, children, ...props }) => {
+            const filename = className?.startsWith(FILE_LANGUAGE_PREFIX)
+              ? className.slice(FILE_LANGUAGE_PREFIX.length)
+              : null
+
+            return filename ? (
+              <code className={className} data-kind="file" data-filename={filename} {...props}>
+                <span data-file-label>{filename}</span>
+                {children}
+              </code>
+            ) : (
+              <code className={className} {...props}>
+                {children}
+              </code>
+            )
+          },
         }}
       >
         {content}
