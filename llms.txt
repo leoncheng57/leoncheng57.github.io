@@ -44,6 +44,8 @@ Guide frontmatter contains the title, description, intended audience, tags, and 
 The guides index also links out to material that lives in its own repository rather than in `src/content/guides`. These entries have no Markdown under this repository; read the linked repository instead.
 
 - Agent Skills — a catalogue of portable agent skills: reusable, on-demand workflow instructions for coding agents, written for OpenCode and compatible with any agent that reads a `SKILL.md` file. Served at [https://leoncheng.dev/agent-skills/](https://leoncheng.dev/agent-skills/) from [github.com/leoncheng57/agent-skills](https://github.com/leoncheng57/agent-skills).
+- Customizable DCA live simulator — the real React UI running against invented in-browser fixtures: [https://leoncheng.dev/Customizable-DCA-OpenHands/openhands/native/](https://leoncheng.dev/Customizable-DCA-OpenHands/openhands/native/).
+- Customizable DCA docs — architecture, setup, operation, and extension guides: [https://leoncheng.dev/Customizable-DCA-OpenHands/openhands/contributing](https://leoncheng.dev/Customizable-DCA-OpenHands/openhands/contributing).
 
 ## Recent articles
 
