@@ -2,93 +2,217 @@
  * Single source of truth for the beta theme-preview palettes.
  *
  * Each entry pairs a stable `id` (also the `data-palette` attribute value and
- * the persisted localStorage value) with an accessible `label` and four to six
- * representative `swatches`. Keeping all three together lets a swatch-based
- * picker render every palette without activating it, and stops the ID/label
- * list from drifting away from the colors.
+ * the persisted localStorage value) with an accessible `label` and one swatch
+ * per semantic role. Keeping all three together lets a swatch-based picker
+ * render every palette without activating it, and stops the ID/label list
+ * from drifting away from the colors.
+ *
+ * `swatches` is keyed by role rather than positional so a palette can never
+ * silently omit a role or reorder the strip. Render order is fixed by
+ * `SWATCH_ROLES`, which the picker maps over to build both its column headers
+ * and every row, so headers and colors cannot fall out of alignment.
  *
  * The full token sets live in `weather.module.css` as `[data-palette='...']`
- * blocks, one for light and one for dark. The swatches below are the
- * palette's identity colors pulled from those blocks — background, surface,
- * ink, accent, and the two temperature series — in the mode the palette is
- * designed around (light-leaning palettes quote their light tokens,
- * dark-leaning palettes quote their dark tokens).
+ * blocks, one for light and one for dark. Every swatch below is the literal
+ * value of the matching `--wx-*` token, all six taken from the same mode: the
+ * one the palette is designed around (light-leaning palettes quote their light
+ * tokens, dark-leaning palettes quote their dark tokens). `palettes.test.ts`
+ * enforces both halves of that rule.
  */
+
+/**
+ * Swatch roles, in the order the picker paints them.
+ *
+ * - `bg` — page background (`--wx-bg`)
+ * - `surface` — card background (`--wx-surface`)
+ * - `ink` — body text (`--wx-ink`)
+ * - `accent` — links, controls and selection (`--wx-accent`)
+ * - `high` — warm temperature series (`--wx-high`)
+ * - `low` — cool temperature / precipitation series (`--wx-low`)
+ */
+export const SWATCH_ROLES = [
+  'bg',
+  'surface',
+  'ink',
+  'accent',
+  'high',
+  'low',
+] as const
+
+export type SwatchRole = (typeof SWATCH_ROLES)[number]
+
+/** One hex color per role. Every role is required — no partial strips. */
+export type PaletteSwatches = Readonly<Record<SwatchRole, string>>
 
 export type PaletteDefinition = {
   /** Stable ID: `data-palette` value and localStorage value. */
   readonly id: string
   /** Human-readable name announced by the picker. */
   readonly label: string
-  /** Four to six representative colors, ordered light-to-dark surfaces first. */
-  readonly swatches: readonly string[]
+  /** One representative color per semantic role. */
+  readonly swatches: PaletteSwatches
 }
 
 export const PALETTES = [
   {
     id: 'classic',
     label: 'Classic Navy',
-    swatches: ['#f4f7fb', '#ffffff', '#0f2a43', '#d9534f', '#2f7bbf'],
+    // The base `.page` rule; classic's accent is the same navy as its ink.
+    swatches: {
+      bg: '#f4f7fb',
+      surface: '#ffffff',
+      ink: '#0f2a43',
+      accent: '#0f2a43',
+      high: '#d9534f',
+      low: '#2f7bbf',
+    },
   },
   {
     id: 'sky',
     label: 'Electric Sky',
-    swatches: ['#eef6fd', '#ffffff', '#0f2a43', '#0369a1', '#e11d48', '#0284c7'],
+    swatches: {
+      bg: '#eef6fd',
+      surface: '#ffffff',
+      ink: '#0f2a43',
+      accent: '#0369a1',
+      high: '#e11d48',
+      low: '#0284c7',
+    },
   },
   {
     id: 'sunset',
     label: 'Sunset Coral',
-    swatches: ['#fdf3ee', '#ffffff', '#0f2a43', '#c2410c', '#dc2626', '#0e7490'],
+    swatches: {
+      bg: '#fdf3ee',
+      surface: '#ffffff',
+      ink: '#0f2a43',
+      accent: '#c2410c',
+      high: '#dc2626',
+      low: '#0e7490',
+    },
   },
   {
     id: 'forest',
     label: 'Forest Green',
-    swatches: ['#f1f7f2', '#ffffff', '#0f2a43', '#166534', '#b45309', '#0d9488'],
+    swatches: {
+      bg: '#f1f7f2',
+      surface: '#ffffff',
+      ink: '#0f2a43',
+      accent: '#166534',
+      high: '#b45309',
+      low: '#0d9488',
+    },
   },
   {
     id: 'plum',
     label: 'Plum Punch',
-    swatches: ['#f8f2fb', '#ffffff', '#0f2a43', '#7e22ce', '#db2777', '#2563eb'],
+    swatches: {
+      bg: '#f8f2fb',
+      surface: '#ffffff',
+      ink: '#0f2a43',
+      accent: '#7e22ce',
+      high: '#db2777',
+      low: '#2563eb',
+    },
   },
   {
     id: 'harbor-fog',
     label: 'Harbor Fog',
-    swatches: ['#f2f7f6', '#ffffff', '#173b3f', '#00545c', '#983329', '#14577d'],
+    swatches: {
+      bg: '#f2f7f6',
+      surface: '#ffffff',
+      ink: '#173b3f',
+      accent: '#00545c',
+      high: '#983329',
+      low: '#14577d',
+    },
   },
   {
     id: 'brownstone-heat',
     label: 'Brownstone Heat',
-    swatches: ['#f8efe5', '#fffaf4', '#442b26', '#8f3f2d', '#923026', '#11575d'],
+    swatches: {
+      bg: '#f8efe5',
+      surface: '#fffaf4',
+      ink: '#442b26',
+      accent: '#8f3f2d',
+      high: '#923026',
+      low: '#11575d',
+    },
   },
   {
     id: 'taxi-midnight',
     label: 'Taxi After Midnight',
-    swatches: ['#080b0f', '#151a20', '#f7fafc', '#ffd400', '#ff6b5e', '#45c7f0'],
+    // Designed dark: these are the `[data-theme='dark']` tokens.
+    swatches: {
+      bg: '#080b0f',
+      surface: '#151a20',
+      ink: '#f7fafc',
+      accent: '#ffd400',
+      high: '#ff6b5e',
+      low: '#45c7f0',
+    },
   },
   {
     id: 'park-avenue-patina',
     label: 'Park Avenue Patina',
-    swatches: ['#eeede7', '#f8f7f2', '#283430', '#40574f', '#803f38', '#315d6a'],
+    swatches: {
+      bg: '#eeede7',
+      surface: '#f8f7f2',
+      ink: '#283430',
+      accent: '#40574f',
+      high: '#803f38',
+      low: '#315d6a',
+    },
   },
   {
     id: 'coney-island-neon',
     label: 'Coney Island Neon',
-    swatches: ['#111023', '#1c1930', '#f5f1ff', '#c8ff3d', '#ff5c8a', '#47d7e8'],
+    // Designed dark: these are the `[data-theme='dark']` tokens.
+    swatches: {
+      bg: '#111023',
+      surface: '#1c1930',
+      ink: '#f5f1ff',
+      accent: '#c8ff3d',
+      high: '#ff5c8a',
+      low: '#47d7e8',
+    },
   },
   {
     id: 'subway-mosaic',
     label: 'Subway Mosaic',
-    swatches: ['#f4f1e8', '#fffdf7', '#192f44', '#005a70', '#96303d', '#006c67'],
+    swatches: {
+      bg: '#f4f1e8',
+      surface: '#fffdf7',
+      ink: '#192f44',
+      accent: '#005a70',
+      high: '#96303d',
+      low: '#006c67',
+    },
   },
   {
     id: 'guggenheim-paper',
     label: 'Guggenheim Paper',
-    swatches: ['#f5f2e9', '#fffefa', '#171717', '#2448b8', '#a82e25', '#006c7a'],
+    swatches: {
+      bg: '#f5f2e9',
+      surface: '#fffefa',
+      ink: '#171717',
+      accent: '#2448b8',
+      high: '#a82e25',
+      low: '#006c7a',
+    },
   },
   {
     id: 'queens-night-market',
     label: 'Queens Night Market',
-    swatches: ['#11111a', '#1d1a29', '#f7f2ff', '#f6c453', '#ff6f91', '#55d6be'],
+    // Designed dark: these are the `[data-theme='dark']` tokens.
+    swatches: {
+      bg: '#11111a',
+      surface: '#1d1a29',
+      ink: '#f7f2ff',
+      accent: '#f6c453',
+      high: '#ff6f91',
+      low: '#55d6be',
+    },
   },
 ] as const satisfies readonly PaletteDefinition[]
 
