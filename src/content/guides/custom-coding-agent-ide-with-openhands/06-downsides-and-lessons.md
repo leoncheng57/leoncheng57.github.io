@@ -9,7 +9,7 @@ part: "Decide"
 Owning the control plane means owning its failures.
 
 - **Maintenance:** React, Express, Docker, optional Postgres, streaming, CI, and packaging all need care. Upgrading the pinned agent image means rechecking the BFF's upstream API assumptions.
-- **Safety:** conversations currently use `NeverConfirm`. The container can reach mounted projects, network, and configured credentials. Treat this as a trusted, local, single-user tool—not a public service.
+- **Safety:** Plan mode gates writes behind an explicit approval, but Build mode—plain `NeverConfirm`—is still the default for a new conversation and the only mode manager workers get. The container can reach mounted projects, network, and configured credentials. Treat this as a trusted, local, single-user tool—not a public service.
 - **Isolation:** worktrees prevent edit collisions, but workers still share one agent process, resource pool, and credential set.
 - **Latency and cost:** long histories repeatedly send growing context. Streaming and condensation improve the experience, not the underlying economics.
 - **Review distance:** more workers create more spend, branches, and integration risk. The draft pull request remains the review boundary.

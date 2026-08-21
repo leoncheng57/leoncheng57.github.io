@@ -23,7 +23,7 @@ The custom IDE is better for me when I need:
 | Multi-task view | Custom conversation + run board | Native session surfaces | Native sessions and clients |
 | Workspaces | Local folder, auto-worktree, or clone | Native project workflow | Native project workflow |
 | Review | Files, diffs, audit, preview, PR/MR panel | Strong terminal/IDE surfaces | Strong terminal/TUI surfaces |
-| Permissions | Currently too permissive | Mature permission modes | Configurable allow/ask/deny |
+| Permissions | Plan/Build modes, but Build is the default | Mature permission modes | Configurable allow/ask/deny |
 | Maintenance | I own the full stack | Vendor maintained | Project maintained |
 
 Claude Code is the easier choice for a polished Anthropic-centered experience and mature permissions. OpenCode is the easier choice for open-source, broad model-provider support, and maintained clients without building another app.
