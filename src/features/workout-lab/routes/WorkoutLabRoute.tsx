@@ -540,23 +540,25 @@ export default function WorkoutLabRoute(): ReactElement {
             <span className={styles.wordmark}>Workout Lab</span>
             <span className={styles.betaBadge}>BETA</span>
           </div>
-          <nav className={styles.mastheadNav} aria-label="Workout Lab">
-            <NavLink
-              end
-              className={`${styles.mastheadLink} ${styles.mastheadLinkPrimary}`}
-              to="/workout-lab/"
-            >
-              Builder
-            </NavLink>
-            <NavLink className={styles.mastheadLink} to="/workout-lab/exercises">
-              Exercises
-            </NavLink>
-            <NavLink className={styles.mastheadLink} to="/workout-lab/guide">
-              Guide
-            </NavLink>
-          </nav>
+          <div className={styles.mastheadTools}>
+            <nav className={styles.mastheadNav} aria-label="Workout Lab">
+              <NavLink
+                end
+                className={`${styles.mastheadLink} ${styles.mastheadLinkPrimary}`}
+                to="/workout-lab/"
+              >
+                Builder
+              </NavLink>
+              <NavLink className={styles.mastheadLink} to="/workout-lab/exercises">
+                Exercises
+              </NavLink>
+              <NavLink className={styles.mastheadLink} to="/workout-lab/guide">
+                Guide
+              </NavLink>
+            </nav>
+            <WorkoutLabPwa />
+          </div>
         </header>
-        <WorkoutLabPwa />
 
         <Routes>
           <Route index element={<SessionBuilderPage onOpenExercise={openExercise} />} />
