@@ -159,6 +159,24 @@ describe('guides index route', () => {
     expect(card.queryByText(/updated 20/)).not.toBeInTheDocument()
     expect(card.queryByText(/min read/)).not.toBeInTheDocument()
   })
+
+  it('leads the index with the agent skills card, ahead of the date-sorted guides', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const skillsCard = screen.getByRole('link', { name: 'Agent Skills' }).closest('article')!
+    const cards = Array.from(skillsCard.parentElement!.querySelectorAll(':scope > article'))
+
+    // Deliberate placement, not a sorting bug: the catalogue outranks the
+    // markdown guides even though those are sorted by updatedAt descending.
+    // Pinned here so a future refactor cannot quietly re-sort it back down.
+    expect(cards.length).toBeGreaterThan(1)
+    expect(cards[0]).toBe(skillsCard)
+    expect(cards.indexOf(screen.getByRole('link', { name: GUIDE_TITLE }).closest('article')!)).toBeGreaterThan(0)
+  })
 })
 
 describe('guide site chrome', () => {
