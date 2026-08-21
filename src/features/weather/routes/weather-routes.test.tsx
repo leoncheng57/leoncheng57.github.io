@@ -151,6 +151,35 @@ function freezeNycHour(date: string, hour: number): void {
   vi.setSystemTime(utcInstantForNycHour(date, hour))
 }
 
+describe('weather shell', () => {
+  it('groups the primary navigation and uses the shared site footer', () => {
+    mockFetch()
+    renderAt('/weather/')
+
+    const navigation = within(screen.getByRole('banner')).getByRole(
+      'navigation',
+      { name: 'NYC Weather' },
+    )
+    expect(
+      within(navigation).getAllByRole('link').map((link) => link.textContent),
+    ).toEqual(['Hourly', 'Weekly', 'Alerts'])
+
+    const footer = screen.getByRole('contentinfo')
+    expect(
+      within(footer).getByRole('link', { name: 'leoncheng.dev' }),
+    ).toHaveAttribute('href', '/')
+    expect(
+      within(footer).getByRole('button', { name: 'Send feedback' }),
+    ).toBeInTheDocument()
+    expect(
+      within(footer).queryByRole('link', { name: 'Weekly' }),
+    ).not.toBeInTheDocument()
+    expect(
+      within(footer).queryByRole('link', { name: 'Alerts' }),
+    ).not.toBeInTheDocument()
+  })
+})
+
 describe('weather hourly home route', () => {
   it('lands on an inclusive window of the past 12 and next 24 hours', async () => {
     mockFetch()
