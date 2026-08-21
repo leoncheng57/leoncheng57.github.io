@@ -217,7 +217,7 @@ describe('guide one-pager', () => {
       screen.getByLabelText('A screen recording of the custom OpenHands IDE running in a mobile browser.')
     ).toBeInTheDocument()
     expect(
-      screen.getByText(/cd ~\/Documents\/Projects\/custom-dca-ide-with-openhands/)
+      screen.getByText(/git clone https:\/\/github\.com\/leoncheng57\/Customizable-DCA-OpenHands/)
     ).toBeInTheDocument()
     // Scoped to the overview's code block: the mobile chapter mentions the
     // same command inline, so a bare match is ambiguous.

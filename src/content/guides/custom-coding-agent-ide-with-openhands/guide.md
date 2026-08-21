@@ -13,16 +13,17 @@ tags:
 
 # Building a Custom Coding-Agent IDE with OpenHands
 
-I wanted one browser view for long-running coding work: conversations, branches, diffs, commands, previews, pull requests, and parallel workers. The result is [`custom-dca-ide-with-openhands`](https://github.com/leoncheng57/custom-dca-ide-with-openhands), a local-first React and Express control plane around the headless [OpenHands agent server](https://docs.openhands.dev/sdk/guides/agent-server/overview).
+I wanted one browser view for long-running coding work: conversations, branches, diffs, commands, previews, pull requests, and parallel workers. The result is [Customizable DCA](https://github.com/leoncheng57/Customizable-DCA-OpenHands), a local-first React and Express control plane around the headless [OpenHands agent server](https://docs.openhands.dev/sdk/guides/agent-server/overview).
 
 ![A guided walkthrough of the custom OpenHands IDE: picking a project, the plan-mode approval gate, the diff and preview panels, and the draft pull request.](component:openhands-ide-walkthrough)
 
 ## Start it
 
-After configuring `.env` as described in the repository README:
+Clone it, configure `.env` as the README describes, then:
 
 ```bash
-cd ~/Documents/Projects/custom-dca-ide-with-openhands
+git clone https://github.com/leoncheng57/Customizable-DCA-OpenHands
+cd Customizable-DCA-OpenHands
 bash scripts/dev.sh          # add --tailscale for phone access
 ```
 
@@ -45,4 +46,4 @@ Open `http://localhost:5173`. The command starts the headless agent in Docker, t
 
 > **OpenHands is the execution engine; this repository is the control plane.**
 
-The Guide opens with the question worth asking first — why not just use Claude Code or OpenCode? — then covers how the boundary was built and what it costs to maintain. The source repository is currently private, so links require collaborator access.
+The Guide opens with the question worth asking first — why not just use Claude Code or OpenCode? — then covers how the boundary was built and what it costs to maintain. The source is [MIT-licensed on GitHub](https://github.com/leoncheng57/Customizable-DCA-OpenHands), so everything described here can be read, run, or forked.
