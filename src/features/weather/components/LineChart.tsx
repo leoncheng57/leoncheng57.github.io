@@ -58,9 +58,17 @@ type LineChartProps = {
 }
 
 const WIDTH = 360
-const HEIGHT = 186
-const PLOT = { left: 34, right: 354, top: 12, bottom: 148 }
-const LABEL_Y = 168
+// The band above the plot holds the always-visible scrub readout, so the
+// label never sits on top of the top gridline or the series.
+const READOUT_BAND = 14
+const HEIGHT = 186 + READOUT_BAND
+const PLOT = {
+  left: 34,
+  right: 354,
+  top: 12 + READOUT_BAND,
+  bottom: 148 + READOUT_BAND,
+}
+const LABEL_Y = 168 + READOUT_BAND
 
 function niceStep(roughStep: number): number {
   const power = 10 ** Math.floor(Math.log10(roughStep))
@@ -172,6 +180,13 @@ export default function LineChart({
     scrubbable && scrubIndex !== null && scrubIndex !== undefined
       ? Math.max(0, Math.min(scrubIndex, count - 1))
       : null
+
+  const hasMarker =
+    markerIndex !== undefined && markerIndex >= 0 && markerIndex < count
+  // The scrubber starts on the marker, so drawing both would stack two lines
+  // on the same pixel. The scrubber's readout says strictly more, so it wins.
+  const visibleMarker =
+    hasMarker && activeScrub !== markerIndex ? (markerIndex as number) : null
 
   const indexFromClientX = (clientX: number): number => {
     const svg = svgRef.current
@@ -311,19 +326,19 @@ export default function LineChart({
         </g>
       ) : null}
 
-      {markerIndex !== undefined && markerIndex >= 0 && markerIndex < count ? (
+      {visibleMarker !== null ? (
         <g>
           <line
             className={styles.chartMarker}
-            x1={x(markerIndex)}
-            x2={x(markerIndex)}
+            x1={x(visibleMarker)}
+            x2={x(visibleMarker)}
             y1={PLOT.top - 4}
             y2={PLOT.bottom}
           />
           {markerLabel ? (
             <text
               className={styles.chartMarkerLabel}
-              x={x(markerIndex)}
+              x={x(visibleMarker)}
               y={PLOT.top - 6}
             >
               {markerLabel}
@@ -410,7 +425,7 @@ export default function LineChart({
             <text
               className={styles.scrubberLabel}
               x={x(activeScrub) > (PLOT.left + PLOT.right) / 2 ? x(activeScrub) - 8 : x(activeScrub) + 8}
-              y={PLOT.top + 8}
+              y={PLOT.top - 5}
               textAnchor={
                 x(activeScrub) > (PLOT.left + PLOT.right) / 2 ? 'end' : 'start'
               }
