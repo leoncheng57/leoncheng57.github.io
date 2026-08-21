@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import ChartScrubberTip from '../components/ChartScrubberTip'
 import HourlyCharts from '../components/HourlyCharts'
 import StatusBanner from '../components/StatusBanner'
 import { useWeatherContext } from '../hooks/WeatherContext'
@@ -110,6 +111,7 @@ export default function HourlyRoute(): ReactElement {
       {hours.length > 0 ? (
         <>
           <h1 className={styles.pageTitle}>Past 12 hours and next 24 hours</h1>
+          <ChartScrubberTip period="hour" />
           <HourlyCharts
             hours={hours}
             nowIndex={nowIndex}

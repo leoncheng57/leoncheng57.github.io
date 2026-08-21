@@ -211,6 +211,36 @@ describe('weather hourly home route', () => {
       expect(slider).toHaveAttribute('aria-valuemax', '36')
       expect(slider).toHaveAttribute('aria-valuenow', '12')
     })
+    expect(
+      screen.getByText(
+        'Drag the vertical line across a chart to inspect each hour. You can also focus the chart and use the arrow keys.',
+      ),
+    ).toBeInTheDocument()
+    expect(screen.queryByText(/drag to scrub/)).not.toBeInTheDocument()
+  })
+
+  it('does not reset the scrubber when chart instructions toggle', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    const slider = await screen.findByRole('slider', {
+      name: 'Scrub through hours on the temperature chart',
+    })
+    slider.focus()
+    await user.keyboard('{ArrowRight}')
+    const valueNow = slider.getAttribute('aria-valuenow')
+    const valueText = slider.getAttribute('aria-valuetext')
+
+    await user.click(
+      screen.getByRole('button', { name: 'Collapse chart instructions' }),
+    )
+    expect(slider).toHaveAttribute('aria-valuenow', valueNow)
+    expect(slider).toHaveAttribute('aria-valuetext', valueText)
+
+    await user.click(screen.getByRole('button', { name: 'How to read charts' }))
+    expect(slider).toHaveAttribute('aria-valuenow', valueNow)
+    expect(slider).toHaveAttribute('aria-valuetext', valueText)
   })
 
   it('marks the current hour mid-window once the scrubber moves off it', async () => {
@@ -383,6 +413,37 @@ describe('weather weekly route', () => {
         name: 'Daily high and low temperature, past 7 days and next 7 days',
       }),
     ).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'Drag the vertical line across a chart to inspect each day. You can also focus the chart and use the arrow keys.',
+      ),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/tap a day for hourly/)).toBeInTheDocument()
+    expect(screen.queryByText(/drag to scrub/)).not.toBeInTheDocument()
+  })
+
+  it('does not reset the scrubber when chart instructions toggle', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/weekly')
+
+    const slider = await screen.findByRole('slider', {
+      name: 'Scrub through days on the temperature chart',
+    })
+    slider.focus()
+    await user.keyboard('{ArrowRight}')
+    const valueNow = slider.getAttribute('aria-valuenow')
+    const valueText = slider.getAttribute('aria-valuetext')
+
+    await user.click(
+      screen.getByRole('button', { name: 'Collapse chart instructions' }),
+    )
+    expect(slider).toHaveAttribute('aria-valuenow', valueNow)
+    expect(slider).toHaveAttribute('aria-valuetext', valueText)
+
+    await user.click(screen.getByRole('button', { name: 'How to read charts' }))
+    expect(slider).toHaveAttribute('aria-valuenow', valueNow)
+    expect(slider).toHaveAttribute('aria-valuetext', valueText)
   })
 
   it('navigates to the hourly page when a day is tapped', async () => {
@@ -419,6 +480,11 @@ describe('weather day route', () => {
       }),
     ).toBeInTheDocument()
     expect(screen.getByText(/Rain likely 2 PM–5 PM/)).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'Drag the vertical line across a chart to inspect each hour. You can also focus the chart and use the arrow keys.',
+      ),
+    ).toBeInTheDocument()
   })
 
   it('keeps the every-fourth-hour axis of a single-day window', async () => {

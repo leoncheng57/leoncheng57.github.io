@@ -1089,6 +1089,69 @@
   border: 1px solid var(--wx-line);
 }
 
+.chartTip {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.75rem;
+  background: var(--wx-surface-raised);
+}
+
+.chartTip h2 {
+  margin: 0 0 0.2rem;
+  font-size: 0.9rem;
+}
+
+.chartTip p {
+  margin: 0;
+  color: var(--wx-ink-soft);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.chartTipCollapse,
+.chartTipReopen {
+  min-height: 44px;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.55rem;
+  background: var(--wx-surface);
+  color: var(--wx-accent);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chartTipCollapse {
+  max-width: 6.5rem;
+  padding: 0.45rem 0.65rem;
+}
+
+.chartTipReopen {
+  align-self: flex-start;
+  padding: 0.45rem 0.8rem;
+}
+
+.chartTipCollapse:focus-visible,
+.chartTipReopen:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: 2px;
+}
+
+@media (max-width: 24rem) {
+  .chartTip {
+    grid-template-columns: 1fr;
+  }
+
+  .chartTipCollapse {
+    max-width: none;
+    width: 100%;
+  }
+}
+
 .chartTitle {
   margin: 0 0.35rem 0.35rem;
   font-size: 0.8rem;
