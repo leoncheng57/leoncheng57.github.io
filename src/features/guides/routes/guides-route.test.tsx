@@ -53,9 +53,9 @@ describe('guides index route', () => {
     const guideLink = screen.getByRole('link', { name: OPENHANDS_GUIDE_TITLE })
     expect(guideLink).toHaveAttribute('href', OPENHANDS_GUIDE_PATH)
     expect(within(guideLink.closest('article')!).getByText('BETA')).toBeInTheDocument()
+    expect(screen.getByText('Why not just use Claude Code or OpenCode?')).toBeInTheDocument()
     expect(screen.getByText('Why build a control plane?')).toBeInTheDocument()
     expect(screen.getByText('How it was built, layer by layer')).toBeInTheDocument()
-    expect(screen.getByText('Worktrees, streaming, and live previews')).toBeInTheDocument()
   })
 
   it('lists the bespoke personal config setup guides', () => {
@@ -206,11 +206,8 @@ describe('guide one-pager', () => {
       screen.getByRole('heading', { level: 1, name: OPENHANDS_GUIDE_TITLE })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('img', { name: /The custom OpenHands IDE during a live session/ })
-    ).toHaveAttribute(
-      'src',
-      '/guides/custom-coding-agent-ide-with-openhands/interface.webp'
-    )
+      screen.getByRole('region', { name: /guided walkthrough of the custom OpenHands IDE/i })
+    ).toBeInTheDocument()
     expect(
       screen.getByText(/cd ~\/Documents\/Projects\/custom-dca-ide-with-openhands/)
     ).toBeInTheDocument()
@@ -227,13 +224,35 @@ describe('guide one-pager', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: 'Downsides, decision guide, and lessons',
+        name: 'Downsides and lessons',
       })
     ).toBeInTheDocument()
 
     const chapters = screen.getByRole('navigation', { name: 'Guide chapters' })
     await user.click(within(chapters).getByRole('button', { name: /Chapters/ }))
     expect(within(chapters).getAllByRole('link')).toHaveLength(6)
+
+    // The comparison leads: readers decide whether to build this at all before
+    // reading how it was built. Chapter slugs are prefix-independent, so the
+    // anchors are stable even though the file numbering changed.
+    expect(
+      within(chapters)
+        .getAllByRole('link')
+        .map((link) => link.getAttribute('href'))
+    ).toEqual([
+      '#vs-claude-code-and-opencode',
+      '#why-build-a-control-plane',
+      '#how-it-was-built',
+      '#the-daily-agent-loop',
+      '#manager-runs-and-dogfooding',
+      '#downsides-and-lessons',
+    ])
+
+    // "Start reading" follows the reorder automatically.
+    expect(screen.getByRole('link', { name: /Start reading/ })).toHaveAttribute(
+      'href',
+      '#vs-claude-code-and-opencode'
+    )
   })
 
   it('renders the hero with exactly two CTAs: start reading and the simulator', () => {

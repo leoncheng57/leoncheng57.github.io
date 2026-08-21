@@ -10,6 +10,7 @@ import GuideNotFound from '../components/GuideNotFound'
 import ManagerWorkerSimulator, {
   SIMULATOR_GUIDE_SLUG,
 } from '../components/ManagerWorkerSimulator'
+import OpenHandsIdeWalkthrough from '../components/OpenHandsIdeWalkthrough'
 import { getGuideBySlug } from '../content'
 import useScrollSpy from '../hooks/useScrollSpy'
 import { splitMarkdownSections } from '../markdownSections'
@@ -18,6 +19,17 @@ import trialStyles from '../components/CmuxTrialWalkthrough/CmuxTrialWalkthrough
 
 /** The chapter slug whose section embeds the interactive simulator inline. */
 const SIMULATOR_CHAPTER_SLUG = 'simulator'
+
+/**
+ * Interactive figures a guide can embed inline via
+ * `![alt](component:<name>)`, the same mechanism blog posts use. Unlike the
+ * simulator below — which the route appends after a specific chapter — these
+ * render exactly where the markdown places them, so a walkthrough can stand
+ * in for a screenshot mid-paragraph.
+ */
+const GUIDE_EMBEDS = {
+  'openhands-ide-walkthrough': (alt: string) => <OpenHandsIdeWalkthrough ariaLabel={alt} />,
+}
 
 /**
  * The whole guide reads as a single page: hero, then every chapter in order
@@ -88,7 +100,7 @@ export default function GuideOverviewRoute(): ReactElement {
         <div className={styles.overview}>
           {intro ? (
             <div className={styles.intro}>
-              <MarkdownArticle content={intro} styles={styles} />
+              <MarkdownArticle content={intro} styles={styles} embeds={GUIDE_EMBEDS} />
             </div>
           ) : null}
 
@@ -97,7 +109,7 @@ export default function GuideOverviewRoute(): ReactElement {
               <div className={styles.sectionHead}>
                 <h2 className={styles.sectionTitle}>{section.title}</h2>
               </div>
-              <MarkdownArticle content={section.body} styles={styles} />
+              <MarkdownArticle content={section.body} styles={styles} embeds={GUIDE_EMBEDS} />
             </section>
           ))}
         </div>
@@ -139,7 +151,7 @@ export default function GuideOverviewRoute(): ReactElement {
                     <p className={styles.chapterSectionDescription}>{chapter.description}</p>
                   ) : null}
                 </header>
-                <MarkdownArticle content={chapter.content} styles={styles} />
+                <MarkdownArticle content={chapter.content} styles={styles} embeds={GUIDE_EMBEDS} />
                 {hasSimulator && chapter.slug === SIMULATOR_CHAPTER_SLUG ? (
                   <>
                     <h3 className={trialStyles.sectionHeading}>Try a run (guided)</h3>
