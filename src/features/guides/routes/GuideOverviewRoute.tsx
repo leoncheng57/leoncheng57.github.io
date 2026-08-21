@@ -8,6 +8,7 @@ import ChaptersNav from '../components/ChaptersNav'
 import CmuxTrialWalkthrough from '../components/CmuxTrialWalkthrough'
 import GuideNotFound from '../components/GuideNotFound'
 import GuideVideo from '../components/GuideVideo'
+import LiveIdeFrame from '../components/LiveIdeFrame'
 import ManagerWorkerSimulator, {
   SIMULATOR_GUIDE_SLUG,
 } from '../components/ManagerWorkerSimulator'
@@ -31,6 +32,7 @@ const SIMULATOR_CHAPTER_SLUG = 'simulator'
  */
 const GUIDE_EMBEDS = {
   'openhands-ide-walkthrough': (alt: string) => <OpenHandsIdeWalkthrough ariaLabel={alt} />,
+  'live-ide': (alt: string) => <LiveIdeFrame label={alt} />,
   'desktop-tour': (alt: string) => (
     <GuideVideo
       recording="desktop-tour"

@@ -1,0 +1,140 @@
+.frame {
+  width: min(78rem, calc(100vw - 2rem));
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--gd-line, #d0d0d0);
+  border-radius: 12px;
+  background: var(--gd-surface, #fff);
+  box-shadow: var(--gd-shadow, 0 8px 24px rgba(0, 0, 0, 0.18));
+  color: var(--gd-ink-soft, #383f3c);
+  font-family: var(--gd-body, system-ui, sans-serif);
+  box-sizing: border-box;
+}
+
+.inline {
+  width: auto;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.header p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.badge {
+  flex: none;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--gd-accent, #16825a);
+  color: var(--gd-accent-contrast, #fff);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.newTabLink {
+  flex: none;
+  color: var(--gd-accent, #16825a);
+  font-size: 0.78rem;
+  text-underline-offset: 0.2em;
+  white-space: nowrap;
+}
+
+.poster {
+  position: relative;
+  display: grid;
+  min-height: clamp(320px, 58vw, 720px);
+  overflow: hidden;
+  place-items: center;
+  border: 1px solid var(--gd-line, #d0d0d0);
+  border-radius: 9px;
+  background: #141617;
+}
+
+.poster img,
+.posterShade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.poster img {
+  object-fit: cover;
+  object-position: top center;
+}
+
+.posterShade {
+  background: rgba(5, 10, 8, 0.42);
+}
+
+.loadButton {
+  position: relative;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid #7df0bd;
+  border-radius: 8px;
+  background: #24b47e;
+  color: #042b1d;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.loadButton:hover {
+  background: #49c99a;
+}
+
+.loadButton:focus-visible,
+.newTabLink:focus-visible {
+  outline: 2px solid var(--gd-accent, #16825a);
+  outline-offset: 3px;
+}
+
+.iframe {
+  display: block;
+  width: 100%;
+  height: clamp(520px, 78vh, 820px);
+  min-width: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--gd-line, #d0d0d0);
+  border-radius: 9px;
+  background: #141617;
+}
+
+@media (max-width: 640px) {
+  .frame {
+    padding: 0.75rem;
+  }
+
+  .header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .header p {
+    flex-basis: calc(100% - 5rem);
+  }
+
+  .newTabLink {
+    margin-left: auto;
+  }
+
+  .poster {
+    min-height: 320px;
+  }
+}

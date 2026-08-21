@@ -29,4 +29,12 @@ describe('ToolGrid', () => {
       expect(diagram).toHaveAttribute('aria-hidden', 'true')
     }
   })
+
+  it('renders the package prerelease link', () => {
+    render(<ToolGrid />)
+    expect(screen.getByRole('link', { name: /View v0\.0\.1 prerelease/ })).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/Customizable-DCA-OpenHands/releases/tag/v0.0.1'
+    )
+  })
 })

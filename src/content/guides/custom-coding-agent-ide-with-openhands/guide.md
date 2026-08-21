@@ -12,9 +12,11 @@ tags:
 
 # Building a Custom Coding-Agent IDE with OpenHands
 
-I wanted one browser view for long-running coding work: conversations, branches, diffs, commands, previews, pull requests, and parallel workers. The result is [🔗 Customizable DCA](https://github.com/leoncheng57/Customizable-DCA-OpenHands), a local-first React and Express control plane around the headless [OpenHands agent server](https://docs.openhands.dev/sdk/guides/agent-server/overview).
+I wanted one browser view for long-running coding work: conversations, branches, diffs, commands, previews, pull requests, and parallel workers. The result is [Customizable DCA](https://github.com/leoncheng57/Customizable-DCA-OpenHands), a local-first React and Express control plane around the headless [OpenHands agent server](https://docs.openhands.dev/sdk/guides/agent-server/overview). You can [explore the live browser simulator](https://leoncheng.dev/Customizable-DCA-OpenHands/openhands/native/), inspect the [public repository](https://github.com/leoncheng57/Customizable-DCA-OpenHands), or follow the [project docs](https://leoncheng.dev/Customizable-DCA-OpenHands/openhands/contributing).
 
-![A guided walkthrough of the custom OpenHands IDE: picking a project, the plan-mode approval gate, the diff and preview panels, and the draft pull request.](component:openhands-ide-walkthrough)
+![A narrated scripted preview of the custom OpenHands IDE: one fictional task from project selection through plan approval, review, and a draft pull request.](component:openhands-ide-walkthrough)
+
+![An independently explorable live app UI running on fake in-browser data, separate from the scripted walkthrough above.](component:live-ide)
 
 ## The system in one picture
 
@@ -33,4 +35,4 @@ I wanted one browser view for long-running coding work: conversations, branches,
 
 > **OpenHands is the execution engine; this repository is the control plane.**
 
-The Guide opens with the question worth asking first — why not just use Claude Code or OpenCode? — then covers how the boundary was built and what it costs to maintain. The source is [MIT-licensed on GitHub](https://github.com/leoncheng57/Customizable-DCA-OpenHands), so everything described here can be read, run, or forked.
+The Guide opens with the question worth asking first — why not just use Claude Code or OpenCode? — then covers how the boundary was built and what it costs to maintain. Choose the door that fits: [explore the browser simulator](https://leoncheng.dev/Customizable-DCA-OpenHands/openhands/native/), [read or fork the public repo](https://github.com/leoncheng57/Customizable-DCA-OpenHands), or [use the docs to run it](https://leoncheng.dev/Customizable-DCA-OpenHands/openhands/contributing).
