@@ -7,6 +7,7 @@ import TopNav from '../../../components/top-nav/TopNav'
 import ChaptersNav from '../../guides/components/ChaptersNav'
 import GuideCard from '../../guides/components/GuideCard'
 import GuideVideo from '../../guides/components/GuideVideo'
+import LiveIdeFrame from '../../guides/components/LiveIdeFrame'
 import OpenHandsIdeWalkthrough from '../../guides/components/OpenHandsIdeWalkthrough'
 import ToolGrid from '../../guides/components/ToolGrid'
 import { getAllGuides } from '../../guides/content'
@@ -229,6 +230,20 @@ export default function DesignComponentsRoute(): ReactElement {
           <div className={guidesStyles.theme} data-theme="light">
             <OpenHandsIdeWalkthrough
               ariaLabel="Live specimen of the simulated application walkthrough"
+              inline
+            />
+          </div>
+          <h3>Live application frame</h3>
+          <p>
+            The companion frame uses the same dashed green shell and guide
+            tokens, but its poster is a dormant iframe facade rather than a
+            scripted sequence. A shimmer, status pulse, and explicit launch
+            control communicate that the heavy live app has not loaded yet.
+            Clicking replaces the facade with the real embedded app.
+          </p>
+          <div className={guidesStyles.theme} data-theme="light">
+            <LiveIdeFrame
+              label="Live specimen of the unloaded application iframe"
               inline
             />
           </div>
