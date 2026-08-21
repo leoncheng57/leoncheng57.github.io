@@ -12,6 +12,7 @@ import ManagerWorkerSimulator, {
   SIMULATOR_GUIDE_SLUG,
 } from '../components/ManagerWorkerSimulator'
 import OpenHandsIdeWalkthrough from '../components/OpenHandsIdeWalkthrough'
+import ToolGrid from '../components/ToolGrid'
 import { getGuideBySlug } from '../content'
 import useScrollSpy from '../hooks/useScrollSpy'
 import { splitMarkdownSections } from '../markdownSections'
@@ -37,6 +38,7 @@ const GUIDE_EMBEDS = {
       caption="A real session in the browser: picking a project, steering the agent, and reading the diff, commands, and pull-request panels beside the transcript. Silent; the project list is blurred."
     />
   ),
+  'tool-grid': (alt: string) => <ToolGrid label={alt} />,
   'mobile-tour': (alt: string) => (
     <GuideVideo
       recording="mobile-tour"
