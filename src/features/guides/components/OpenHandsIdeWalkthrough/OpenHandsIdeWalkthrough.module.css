@@ -29,6 +29,10 @@
   color: var(--gd-ink, #1a1a1a);
 }
 
+.inline {
+  width: auto;
+}
+
 .walkthrough:focus-visible {
   outline: 2px solid var(--gd-accent, #16825a);
   outline-offset: 2px;

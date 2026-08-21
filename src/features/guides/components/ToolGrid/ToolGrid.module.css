@@ -1,0 +1,65 @@
+/*
+ * The tools catalogue: one card per capability, two columns on desktop and
+ * one on narrow viewports. Cards borrow the guide's surface language
+ * (--gd-line / --gd-surface / --gd-shadow) so they read as article furniture
+ * rather than a second design system.
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px solid var(--gd-line, #d0d0d0);
+  border-radius: 12px;
+  background: var(--gd-surface, #fff);
+  box-shadow: var(--gd-shadow, 0 1px 2px rgba(15, 18, 16, 0.06));
+  padding: 1rem 1.1rem 1.1rem;
+}
+
+.name {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  color: var(--gd-ink, #1a1a1a);
+}
+
+.blurb {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--gd-ink-soft, #383f3c);
+}
+
+/*
+ * Pushed to the bottom so cards of differing text length still line their
+ * sketches up. Slightly smaller than the article's code blocks because the
+ * card is roughly half the article width.
+ */
+.diagram {
+  margin: auto 0 0;
+  padding: 0.6rem 0.7rem;
+  overflow-x: auto;
+  border: 1px solid var(--gd-line, #d0d0d0);
+  border-radius: 8px;
+  background: var(--gd-code-bg, #f2f4f3);
+  color: var(--gd-ink-soft, #383f3c);
+  font-family: var(--gd-mono, ui-monospace, monospace);
+  font-size: 0.66rem;
+  line-height: 1.5;
+  white-space: pre;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

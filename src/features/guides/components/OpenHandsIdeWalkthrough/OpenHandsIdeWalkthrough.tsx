@@ -326,8 +326,16 @@ function ConversationBody({ frame }: { frame: IdeFrame }): ReactElement {
  */
 export default function OpenHandsIdeWalkthrough({
   ariaLabel = 'Guided walkthrough of the custom OpenHands IDE',
+  inline = false,
 }: {
   ariaLabel?: string
+  /**
+   * Neutralises the breakout width. In a guide the walkthrough deliberately
+   * spans the page frame, which only works because the prose column starts at
+   * that frame's left edge; anywhere else (the component catalogue, say) it
+   * would misalign, so hosts outside a guide pass `inline`.
+   */
+  inline?: boolean
 }): ReactElement {
   const [step, setStep] = useState(0)
   const frame = IDE_FRAMES[step]
@@ -350,7 +358,11 @@ export default function OpenHandsIdeWalkthrough({
   }
 
   return (
-    <section className={styles.walkthrough} aria-label={ariaLabel} onKeyDown={onKeyDown}>
+    <section
+      className={inline ? `${styles.walkthrough} ${styles.inline}` : styles.walkthrough}
+      aria-label={ariaLabel}
+      onKeyDown={onKeyDown}
+    >
       <p className={styles.banner}>
         <span className={styles.bannerTag}>Simulation</span>
         <span>

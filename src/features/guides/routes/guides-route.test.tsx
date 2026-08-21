@@ -250,6 +250,10 @@ describe('guide one-pager', () => {
     ).toBeInTheDocument()
     // The walkthrough must be unmistakably a mock-up rather than a recording.
     expect(screen.getByText('Simulation')).toBeInTheDocument()
+    // The tools chapter is a card grid embedded through the same registry.
+    expect(
+      screen.getByRole('list', { name: /tools built on top of the agent server/i })
+    ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 2, name: 'How it was built, layer by layer' })
     ).toBeInTheDocument()

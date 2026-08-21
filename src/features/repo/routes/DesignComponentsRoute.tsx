@@ -6,6 +6,9 @@ import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import ChaptersNav from '../../guides/components/ChaptersNav'
 import GuideCard from '../../guides/components/GuideCard'
+import GuideVideo from '../../guides/components/GuideVideo'
+import OpenHandsIdeWalkthrough from '../../guides/components/OpenHandsIdeWalkthrough'
+import ToolGrid from '../../guides/components/ToolGrid'
 import { getAllGuides } from '../../guides/content'
 import guidesStyles from '../../guides/guides.module.css'
 import RemoteControlStoryboard from '../../opencode-remote-control/components/RemoteControlStoryboard'
@@ -197,6 +200,66 @@ export default function DesignComponentsRoute(): ReactElement {
               <p>Segmented build</p>
               <div className={`${styles.loadingBar} ${styles.segmentedBar}`} role="progressbar" aria-label="Segmented progress" />
             </div>
+          </div>
+        </section>
+
+        <section className={styles.showcase} aria-labelledby="simulation-heading">
+          <h2 id="simulation-heading">Simulation frame</h2>
+          <p>
+            When an article needs to show an application it cannot embed, it
+            uses a scripted mock instead of a screenshot: a dark fake window
+            inside a dashed accent frame, announced by a{' '}
+            <strong>SIMULATION</strong> pill so it is never mistaken for a
+            recording. The window is deliberately dark in both guide themes,
+            because it stands in for an app screenshot rather than page
+            furniture; only the outer shell follows <code>--gd-*</code>.
+            Frames advance on Back/Next or the arrow keys, scoped to the
+            section so they never hijack page scrolling, and the caption
+            doubles as an <code>aria-live</code> region. Nothing autoplays.
+          </p>
+          <p>
+            In a guide the frame breaks out to the full page width; hosts
+            outside a guide pass <code>inline</code> to keep it in the flow,
+            as here:
+          </p>
+          <div className={guidesStyles.theme} data-theme="dark">
+            <OpenHandsIdeWalkthrough
+              ariaLabel="Live specimen of the simulated application walkthrough"
+              inline
+            />
+          </div>
+        </section>
+
+        <section className={styles.showcase} aria-labelledby="tool-grid-heading">
+          <h2 id="tool-grid-heading">Catalogue cards</h2>
+          <p>
+            A grid of short capability cards, two up on desktop and one on
+            narrow viewports. Each card is a heading, a sentence, and a small
+            monospace sketch pinned to the bottom so sketches line up across a
+            row regardless of how long the copy runs. Markdown cannot express
+            a grid, so chapters embed this through the same{' '}
+            <code>component:</code> marker used for figures.
+          </p>
+          <div className={guidesStyles.theme} data-theme="dark">
+            <ToolGrid label="Live specimen of the catalogue card grid" />
+          </div>
+        </section>
+
+        <section className={styles.showcase} aria-labelledby="guide-video-heading">
+          <h2 id="guide-video-heading">Screen recording figure</h2>
+          <p>
+            Silent screen recordings ship as a webm/mp4 pair behind a poster
+            frame, click-to-play with <code>preload=&quot;metadata&quot;</code>{' '}
+            so nothing downloads until a reader asks. Landscape captures fill
+            the column; portrait phone captures are height-capped and centred
+            so a tall frame does not run off the screen.
+          </p>
+          <div className={guidesStyles.theme} data-theme="dark">
+            <GuideVideo
+              recording="mobile-tour"
+              label="Live specimen of the screen recording figure"
+              caption="Portrait variant: height-capped and centred."
+            />
           </div>
         </section>
 

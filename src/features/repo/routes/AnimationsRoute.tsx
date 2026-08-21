@@ -239,11 +239,14 @@ export default function AnimationsRoute(): ReactElement {
         <section className={styles.showcase} aria-labelledby="embed-heading">
           <h2 id="embed-heading">Embedding in articles</h2>
           <p>
-            Blog posts are markdown, so interactive figures are addressed with
-            an image whose <code>src</code> uses a <code>component:</code>{' '}
-            marker. The markdown renderer keeps the marker through URL
-            sanitization and swaps in the registered React component; unknown
-            names fall back to a plain image, so a typo cannot break an article.
+            Blog posts and guides are markdown, so interactive figures are
+            addressed with an image whose <code>src</code> uses a{' '}
+            <code>component:</code> marker. The markdown renderer keeps the
+            marker through URL sanitization and swaps in the registered React
+            component; unknown names fall back to a plain image, so a typo
+            cannot break an article. Each surface registers its own set — blog
+            posts embed storyboards, guides embed the simulation frame, the
+            catalogue cards, and screen recordings.
           </p>
           <pre className={styles.codeBlock}>
             <code>{EMBED_SNIPPET}</code>
