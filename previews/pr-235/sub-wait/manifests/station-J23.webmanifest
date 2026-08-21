@@ -1,0 +1,32 @@
+{
+  "name": "Van Siclen Av",
+  "short_name": "Van Siclen Av",
+  "description": "Live NYC subway arrival times for Van Siclen Av.",
+  "id": "/previews/pr-235/sub-wait/pwa/station/J23",
+  "start_url": "/previews/pr-235/sub-wait/station/J23",
+  "scope": "/previews/pr-235/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-235/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-235/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-235/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
