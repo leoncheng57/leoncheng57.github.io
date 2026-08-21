@@ -351,10 +351,13 @@ export default function OpenHandsIdeWalkthrough({
 
   return (
     <section className={styles.walkthrough} aria-label={ariaLabel} onKeyDown={onKeyDown}>
-      <p className={styles.hint}>
-        A simulation of the real interface, not a live app: one task from the project picker to a
-        draft pull request. Step through it with the buttons, or the arrow keys while a button is
-        focused.
+      <p className={styles.banner}>
+        <span className={styles.bannerTag}>Simulation</span>
+        <span>
+          This is a scripted mock-up, not the running app and not a video. One task from the
+          project picker to a draft pull request — step through it with the buttons, or the arrow
+          keys while a button is focused.
+        </span>
       </p>
 
       <div className={styles.window}>

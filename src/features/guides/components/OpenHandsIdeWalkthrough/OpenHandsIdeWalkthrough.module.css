@@ -18,9 +18,12 @@
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-  border: 1px solid var(--gd-line, #d0d0d0);
+  /* Deliberately unlike the surrounding article: a dashed accent frame and a
+     tinted ground, so nobody mistakes the mock-up for a screenshot of the
+     real app or for the embedded screen recordings further down. */
+  border: 2px dashed var(--gd-accent, #16825a);
   border-radius: 12px;
-  background: var(--gd-surface, #fff);
+  background: var(--gd-callout-bg, #e3f7ec);
   padding: 1.25rem;
   font-family: var(--gd-body, system-ui, sans-serif);
   color: var(--gd-ink, #1a1a1a);
@@ -31,10 +34,27 @@
   outline-offset: 2px;
 }
 
-.hint {
+.banner {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
   margin: 0;
-  font-size: 0.78rem;
-  color: var(--gd-muted, #666);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--gd-ink-soft, #383f3c);
+}
+
+.bannerTag {
+  flex: none;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--gd-accent, #16825a);
+  color: var(--gd-accent-contrast, #fff);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 
 /* ------------------------------------------------------------ mock window */

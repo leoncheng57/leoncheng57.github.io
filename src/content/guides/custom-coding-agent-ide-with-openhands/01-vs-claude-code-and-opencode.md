@@ -19,7 +19,16 @@ part: "Compare"
      one task, one repo              a portfolio of tasks
 ```
 
-Owning that top box is the whole trade. It buys one portfolio view across projects, conversations, workers, cost, and health; a worktree policy applied at task creation rather than remembered; diffs, command audit, preview, and pull-request state in the same window; programmable manager commands with wave gates; phone supervision while execution stays on my machine; and one server-side model and credential policy. It costs me everything in the next chapter.
+Owning that top box is the whole trade. It buys:
+
+- **Portfolio view:** one place showing every project, conversation, worker, cost, and health signal.
+- **Workspace policy:** a worktree applied at task creation rather than remembered.
+- **Review in one window:** diffs, command audit, preview, and pull-request state beside the transcript.
+- **Orchestration:** programmable manager commands with wave gates.
+- **Remote supervision:** a phone can steer a run while execution stays on my machine.
+- **One policy surface:** server-side model and credential rules, set once.
+
+It costs me everything in **Downsides and lessons**.
 
 | Dimension | Custom OpenHands IDE | Claude Code | OpenCode |
 | --- | --- | --- | --- |
@@ -29,19 +38,3 @@ Owning that top box is the whole trade. It buys one portfolio view across projec
 | Review | Files, diffs, audit, preview, PR/MR panel | Strong terminal/IDE surfaces | Strong terminal/TUI surfaces |
 | Permissions | Plan/Build modes, but Build is the default | Mature permission modes | Configurable allow/ask/deny |
 | Maintenance | I own the full stack | Vendor maintained | Project maintained |
-
-Claude Code is the easier choice for a polished Anthropic-centered experience and mature permissions. OpenCode is the easier choice for open-source, broad model-provider support, and maintained clients without building another app. For one focused task in one repository, I reach for either of them, not for this.
-
-So the honest decision is narrow:
-
-```text
-One agent in one repo? ── yes ─► use Claude Code or OpenCode directly
-          │ no
-          ▼
-Repeated custom workflow? ─ no ─► use upstream clients + small scripts
-          │ yes
-          ▼
-Willing to own security + full stack? ─ yes ─► custom control plane
-```
-
-Two "no"s out of three end outside this repository, and that is the correct answer for most people. The rest of this Guide is what the third path actually involves.
