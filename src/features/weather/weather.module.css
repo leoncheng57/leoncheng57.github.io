@@ -24,6 +24,19 @@
     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
     sans-serif;
 
+  /* Theme the shared feedback dialog and design-system footer. */
+  --fb-surface: var(--wx-surface);
+  --fb-surface-raised: var(--wx-surface-raised);
+  --fb-ink: var(--wx-ink);
+  --fb-line: var(--wx-line);
+  --fb-muted: var(--wx-muted);
+  --fb-accent: var(--wx-accent-strong);
+  --fb-focus: var(--wx-focus);
+  --sf-line: var(--wx-line);
+  --sf-ink: var(--wx-ink);
+  --sf-muted: var(--wx-muted);
+  --sf-border-width: 1px;
+
   min-height: 100vh;
   background: var(--wx-bg);
   color: var(--wx-ink);
@@ -572,8 +585,32 @@
 }
 
 @media (max-width: 24rem) {
+  .masthead {
+    grid-template-columns: 1fr auto;
+  }
+
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .palettePicker {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
   .mastheadNav {
-    gap: 0.55rem;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  .mastheadLink {
+    flex: 1;
+    text-align: center;
   }
 }
 
@@ -1411,24 +1448,4 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* ── Footer ───────────────────────────────────────────────────────────── */
-
-.footer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  align-items: center;
-  text-align: center;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--wx-line);
-  color: var(--wx-muted);
-  font-size: 0.78rem;
-}
-
-.footer a {
-  color: inherit;
-  font-weight: 600;
 }

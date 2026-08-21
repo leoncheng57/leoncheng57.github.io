@@ -1,5 +1,6 @@
 import { useLayoutEffect, type ReactElement } from 'react'
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
+import SiteFooter from '../../../components/site-footer/SiteFooter'
 import PalettePicker from '../components/PalettePicker'
 import WeatherPwa from '../components/WeatherPwa'
 import { WeatherContext } from '../hooks/WeatherContext'
@@ -57,17 +58,13 @@ export default function WeatherRoute(): ReactElement {
           </Routes>
         </WeatherContext.Provider>
 
-        <footer className={styles.footer}>
-          <span>
-            NYC Weather · <Link to="/weather/weekly">Weekly</Link> ·{' '}
-            <Link to="/weather/alerts">Alerts</Link>
-          </span>
+        <SiteFooter>
           <span>
             Weather and air quality by{' '}
             <a href="https://open-meteo.com/">Open-Meteo</a> · Alerts from{' '}
             <a href="https://www.weather.gov/">NWS</a>
           </span>
-        </footer>
+        </SiteFooter>
       </div>
     </div>
   )
