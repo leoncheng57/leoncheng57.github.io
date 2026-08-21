@@ -194,7 +194,7 @@ describe('guide site chrome', () => {
 })
 
 describe('guide one-pager', () => {
-  it('renders the custom OpenHands IDE guide as a six-chapter one-pager', async () => {
+  it('renders the custom OpenHands IDE guide as a seven-chapter one-pager', async () => {
     const user = userEvent.setup()
     render(
       <MemoryRouter initialEntries={[OPENHANDS_GUIDE_PATH]}>
@@ -208,10 +208,22 @@ describe('guide one-pager', () => {
     expect(
       screen.getByRole('region', { name: /guided walkthrough of the custom OpenHands IDE/i })
     ).toBeInTheDocument()
+    // Both screen recordings are embedded from markdown via the component
+    // registry, and both are redacted at encode time.
+    expect(
+      screen.getByLabelText('A screen recording of the custom OpenHands IDE running in a desktop browser.')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('A screen recording of the custom OpenHands IDE running in a mobile browser.')
+    ).toBeInTheDocument()
     expect(
       screen.getByText(/cd ~\/Documents\/Projects\/custom-dca-ide-with-openhands/)
     ).toBeInTheDocument()
-    expect(screen.getByText(/bash scripts\/dev\.sh/)).toBeInTheDocument()
+    // Scoped to the overview's code block: the mobile chapter mentions the
+    // same command inline, so a bare match is ambiguous.
+    expect(
+      screen.getByText(/bash scripts\/dev\.sh\s+# add --tailscale for phone access/)
+    ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 2, name: 'How it was built, layer by layer' })
     ).toBeInTheDocument()
@@ -230,7 +242,7 @@ describe('guide one-pager', () => {
 
     const chapters = screen.getByRole('navigation', { name: 'Guide chapters' })
     await user.click(within(chapters).getByRole('button', { name: /Chapters/ }))
-    expect(within(chapters).getAllByRole('link')).toHaveLength(6)
+    expect(within(chapters).getAllByRole('link')).toHaveLength(7)
 
     // The comparison leads: readers decide whether to build this at all before
     // reading how it was built. Chapter slugs are prefix-independent, so the
@@ -245,6 +257,7 @@ describe('guide one-pager', () => {
       '#how-it-was-built',
       '#the-daily-agent-loop',
       '#manager-runs-and-dogfooding',
+      '#supervising-from-a-phone',
       '#downsides-and-lessons',
     ])
 
