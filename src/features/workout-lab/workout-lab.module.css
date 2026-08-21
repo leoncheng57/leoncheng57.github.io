@@ -14,6 +14,15 @@
   --wl-line-light: rgba(247, 246, 243, 0.3);
   --wl-display: 'Anton', 'Arial Narrow', 'Helvetica Neue', sans-serif;
   --wl-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --pi-backdrop: rgba(16, 16, 16, 0.7);
+  --pi-surface: var(--wl-paper-raised);
+  --pi-surface-raised: var(--wl-paper);
+  --pi-ink: var(--wl-ink);
+  --pi-muted: var(--wl-muted);
+  --pi-line: var(--wl-ink);
+  --pi-accent: var(--wl-accent);
+  --pi-accent-contrast: var(--wl-paper-raised);
+  --pi-focus: var(--wl-accent-dark);
 
   min-height: 100vh;
   background: var(--wl-paper);
@@ -77,6 +86,12 @@
   gap: 1rem;
 }
 
+.mastheadTools {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .mastheadLink {
   padding-bottom: 0.15rem;
   border-bottom: 2px solid var(--wl-accent);
@@ -121,54 +136,50 @@
 }
 
 .mastheadLink:focus-visible,
-.statLink:focus-visible {
+.statLink:focus-visible,
+.installReminder:focus-visible {
   outline: 3px solid var(--wl-accent-dark);
   outline-offset: 3px;
 }
 
-.installHint {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1.25rem;
-  margin-top: 1rem;
-  padding: 1rem;
-  border: 2px solid var(--wl-ink);
-  border-left: 6px solid var(--wl-accent);
-  background: var(--wl-paper-raised);
-}
-
-.installHint strong {
-  font-family: var(--wl-display);
-  font-size: 1rem;
-  text-transform: uppercase;
-}
-
-.installHint p {
-  max-width: 36rem;
-  margin: 0.3rem 0 0;
-  color: var(--wl-muted);
-  font-size: 0.78rem;
-  line-height: 1.5;
-}
-
-.installHint button {
+.installReminder {
+  position: relative;
+  display: grid;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  place-items: center;
   padding: 0;
-  border: 0;
-  border-bottom: 1px solid var(--wl-ink);
-  background: transparent;
+  border: 2px solid var(--wl-ink);
+  background: var(--wl-accent-light);
   color: var(--wl-ink);
-  font-family: var(--wl-body);
-  font-size: 0.62rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   cursor: pointer;
 }
 
-.installHint button:focus-visible {
-  outline: 3px solid var(--wl-accent-dark);
-  outline-offset: 3px;
+.installReminder:hover {
+  background: var(--wl-accent);
+  color: var(--wl-paper-raised);
+}
+
+.installReminder svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 1.8;
+}
+
+.installReminderDot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--wl-paper);
+  border-radius: 50%;
+  background: #c62828;
 }
 
 /* ── Shared type ──────────────────────────────────────────────────────── */
@@ -1474,8 +1485,9 @@
     box-shadow: 5px 5px 0 var(--wl-accent);
   }
 
-  .installHint {
-    align-items: flex-start;
+  .mastheadTools {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .builderFooter {

@@ -1,7 +1,8 @@
-import { useEffect, useState, type ReactElement } from 'react'
+import { useEffect, useRef, useState, type ReactElement } from 'react'
+import InstallHelpModal from '../../../components/pwa-install/InstallHelpModal'
 import styles from '../workout-lab.module.css'
 
-const DISMISS_KEY = 'workout-lab-install-hint-dismissed'
+const ACKNOWLEDGEMENT_KEY = 'workout-lab:pwa-install-reminder-ack:v1'
 
 interface StandaloneNavigator extends Navigator {
   standalone?: boolean
@@ -9,15 +10,14 @@ interface StandaloneNavigator extends Navigator {
 
 export function shouldShowIosInstallHint(
   userAgent: string,
-  standalone: boolean,
-  dismissed: boolean
+  standalone: boolean
 ): boolean {
-  return /iphone|ipad|ipod/i.test(userAgent) && !standalone && !dismissed
+  return /iphone|ipad|ipod/i.test(userAgent) && !standalone
 }
 
-function hasDismissedHint(): boolean {
+function hasAcknowledgedReminder(): boolean {
   try {
-    return window.localStorage.getItem(DISMISS_KEY) === 'true'
+    return window.localStorage.getItem(ACKNOWLEDGEMENT_KEY) === 'true'
   } catch {
     return false
   }
@@ -27,9 +27,10 @@ export default function WorkoutLabPwa(): ReactElement | null {
   const isStandalone =
     window.matchMedia?.('(display-mode: standalone)').matches ||
     Boolean((navigator as StandaloneNavigator).standalone)
-  const [showInstallHint, setShowInstallHint] = useState(() =>
-    shouldShowIosInstallHint(navigator.userAgent, isStandalone, hasDismissedHint())
-  )
+  const showInstallHint = shouldShowIosInstallHint(navigator.userAgent, isStandalone)
+  const [acknowledged, setAcknowledged] = useState(hasAcknowledgedReminder)
+  const [installHelpOpen, setInstallHelpOpen] = useState(false)
+  const installButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const manifest = document.createElement('link')
@@ -76,28 +77,44 @@ export default function WorkoutLabPwa(): ReactElement | null {
   if (!showInstallHint) return null
 
   return (
-    <aside className={styles.installHint} aria-label="Install Workout Lab">
-      <div>
-        <strong>Put Workout Lab on your home screen</strong>
-        <p>
-          Tap the Share button in Safari, then choose Add to Home Screen for a
-          fullscreen, offline-ready app.
-        </p>
-      </div>
+    <>
       <button
+        ref={installButtonRef}
         type="button"
+        className={styles.installReminder}
         onClick={() => {
           try {
-            window.localStorage.setItem(DISMISS_KEY, 'true')
+            window.localStorage.setItem(ACKNOWLEDGEMENT_KEY, 'true')
           } catch {
-            // The hint can still be dismissed for this session when storage is blocked.
+            // Keep the control usable and acknowledge it for this session.
           }
-          setShowInstallHint(false)
+          setAcknowledged(true)
+          setInstallHelpOpen(true)
         }}
-        aria-label="Dismiss install instructions"
+        aria-label="Install Workout Lab on your phone"
       >
-        Dismiss
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="6.5" y="2.5" width="11" height="19" rx="1.5" />
+          <path d="M9.5 5h5M10.5 18.5h3" />
+          <path d="M12 8v6m-2.5-2.5L12 14l2.5-2.5" />
+        </svg>
+        {!acknowledged ? (
+          <span
+            className={styles.installReminderDot}
+            data-testid="install-reminder-dot"
+            aria-hidden="true"
+          />
+        ) : null}
       </button>
-    </aside>
+      {installHelpOpen ? (
+        <InstallHelpModal
+          appName="Workout Lab"
+          guidePath="/workout-lab/guide"
+          iconSrc="/workout-lab/icon.svg"
+          onClose={() => setInstallHelpOpen(false)}
+          returnFocusTo={installButtonRef.current}
+        />
+      ) : null}
+    </>
   )
 }
