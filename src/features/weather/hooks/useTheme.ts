@@ -1,16 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
+import { DEFAULT_PALETTE, isPalette, type Palette } from '../palettes'
 
 export type Theme = 'light' | 'dark'
 
-export const PALETTES = [
-  { id: 'classic', label: 'Classic Navy' },
-  { id: 'sky', label: 'Electric Sky' },
-  { id: 'sunset', label: 'Sunset Coral' },
-  { id: 'forest', label: 'Forest Green' },
-  { id: 'plum', label: 'Plum Punch' },
-] as const
-
-export type Palette = (typeof PALETTES)[number]['id']
+// The palette registry lives in `../palettes` so a picker can read IDs, names
+// and swatches without applying a palette. The type is re-exported because it
+// is part of this hook's signature; import the registry itself from there.
+export type { Palette } from '../palettes'
 
 const STORAGE_KEY = 'nyc-weather-theme'
 const PALETTE_KEY = 'nyc-weather-palette'
@@ -38,27 +34,22 @@ function storedTheme(): Theme | null {
 function storedPalette(): Palette {
   try {
     const value = window.localStorage.getItem(PALETTE_KEY)
-    return PALETTES.some((palette) => palette.id === value)
-      ? (value as Palette)
-      : 'classic'
+    return isPalette(value) ? value : DEFAULT_PALETTE
   } catch {
-    return 'classic'
+    return DEFAULT_PALETTE
   }
 }
 
-/**
- * NYC Weather theme: defaults to the system color scheme, and a manual toggle
- * persists the override in localStorage. The palette is a temporary beta
- * picker for evaluating candidate color themes; it persists the same way.
- */
+/** Keeps the selected palette and light/dark mode in one persisted state. */
 export default function useTheme(): {
   theme: Theme
-  toggleTheme: () => void
   palette: Palette
-  setPalette: (_palette: Palette) => void
+  setAppearance: (_palette: Palette, _theme: Theme) => void
 } {
-  const [theme, setTheme] = useState<Theme>(() => storedTheme() ?? systemTheme())
-  const [palette, setPaletteState] = useState<Palette>(storedPalette)
+  const [appearance, setAppearanceState] = useState(() => ({
+    theme: storedTheme() ?? systemTheme(),
+    palette: storedPalette(),
+  }))
 
   useEffect(() => {
     if (typeof window.matchMedia !== 'function') return undefined
@@ -66,33 +57,25 @@ export default function useTheme(): {
     const onChange = (event: MediaQueryListEvent) => {
       // Follow the system unless the user has chosen explicitly.
       if (storedTheme() === null) {
-        setTheme(event.matches ? 'dark' : 'light')
+        setAppearanceState((current) => ({
+          ...current,
+          theme: event.matches ? 'dark' : 'light',
+        }))
       }
     }
     query.addEventListener('change', onChange)
     return () => query.removeEventListener('change', onChange)
   }, [])
 
-  const toggleTheme = useCallback(() => {
-    setTheme((current) => {
-      const next: Theme = current === 'dark' ? 'light' : 'dark'
-      try {
-        window.localStorage.setItem(STORAGE_KEY, next)
-      } catch {
-        // localStorage unavailable (private browsing); theme still toggles.
-      }
-      return next
-    })
-  }, [])
-
-  const setPalette = useCallback((next: Palette) => {
-    setPaletteState(next)
+  const setAppearance = useCallback((palette: Palette, theme: Theme) => {
+    setAppearanceState({ palette, theme })
     try {
-      window.localStorage.setItem(PALETTE_KEY, next)
+      window.localStorage.setItem(PALETTE_KEY, palette)
+      window.localStorage.setItem(STORAGE_KEY, theme)
     } catch {
-      // localStorage unavailable (private browsing); palette still switches.
+      // localStorage unavailable; the selected appearance still applies.
     }
   }, [])
 
-  return { theme, toggleTheme, palette, setPalette }
+  return { ...appearance, setAppearance }
 }

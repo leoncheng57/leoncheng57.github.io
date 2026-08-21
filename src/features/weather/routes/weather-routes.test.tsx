@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { PALETTES } from '../palettes'
 import {
   addDays,
   formatDayLong,
@@ -9,6 +10,7 @@ import {
   nycNowHour,
   nycToday,
 } from '../utils/format'
+import styles from '../weather.module.css'
 import WeatherRoute from './WeatherRoute'
 
 const TODAY = nycToday()
@@ -567,8 +569,114 @@ describe('chart scrubber', () => {
   })
 })
 
-describe('theme preview picker', () => {
-  it('switches palettes and persists the choice', async () => {
+describe('appearance picker', () => {
+  async function openPicker(user: ReturnType<typeof userEvent.setup>) {
+    const trigger = screen.getByRole('button', { name: /^Choose appearance: / })
+    await user.click(trigger)
+    return {
+      trigger,
+      dialog: screen.getByRole('dialog', { name: 'Choose an appearance' }),
+    }
+  }
+
+  it('has one compact masthead appearance button and no separate controls', async () => {
+    mockFetch()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const masthead = screen.getByRole('banner')
+    const trigger = screen.getByRole('button', {
+      name: 'Choose appearance: Classic Navy, Light mode',
+    })
+
+    expect(within(masthead).getAllByRole('button')).toEqual([trigger])
+    expect(
+      screen.queryByRole('button', { name: /Switch to (dark|light) mode/ }),
+    ).not.toBeInTheDocument()
+    expect(screen.queryByText('Colorway')).not.toBeInTheDocument()
+    expect(trigger.querySelector(`.${styles.appearanceSwatches}`)).not.toBeNull()
+    expect(trigger.querySelector(`.${styles.appearanceIcon}`)).not.toBeNull()
+    expect(trigger).toHaveAttribute('aria-haspopup', 'dialog')
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('opens 26 named Light and Dark options with truthful preview attributes', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+
+    const { trigger, dialog } = await openPicker(user)
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(within(dialog).getByRole('heading')).toHaveTextContent(
+      'Choose an appearance',
+    )
+    expect(dialog).toHaveAttribute('aria-modal', 'true')
+    expect(document.body.style.overflow).toBe('hidden')
+
+    const radios = within(dialog).getAllByRole('radio')
+    expect(radios).toHaveLength(PALETTES.length * 2)
+
+    PALETTES.forEach((palette) => {
+      for (const mode of ['Light', 'Dark'] as const) {
+        const radio = within(dialog).getByRole('radio', {
+          name: `${palette.label}, ${mode} mode`,
+        })
+        expect(radio.closest('label')).toHaveAttribute('data-palette', palette.id)
+        expect(radio.closest('label')).toHaveAttribute(
+          'data-theme',
+          mode.toLowerCase(),
+        )
+        expect(
+          within(dialog).getByText(`${palette.label}, ${mode} mode`),
+        ).toHaveClass(styles.paletteSrName)
+        expect(radio.closest('label')?.querySelector(`.${styles.paletteCard}`)).not.toBeNull()
+      }
+    })
+
+    expect(
+      radios.filter(
+        (radio) => radio.closest('label')?.getAttribute('data-theme') === 'light',
+      ),
+    ).toHaveLength(PALETTES.length)
+    expect(
+      radios.filter(
+        (radio) => radio.closest('label')?.getAttribute('data-theme') === 'dark',
+      ),
+    ).toHaveLength(PALETTES.length)
+    expect(within(dialog).getAllByText('Light')).toHaveLength(PALETTES.length)
+    expect(within(dialog).getAllByText('Dark')).toHaveLength(PALETTES.length)
+  })
+
+  it('checks, rings, marks, and focuses the persisted appearance', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    window.localStorage.setItem('nyc-weather-palette', 'forest')
+    window.localStorage.setItem('nyc-weather-theme', 'dark')
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    await openPicker(user)
+
+    const selected = screen.getByRole('radio', {
+      name: 'Forest Green, Dark mode',
+    })
+    expect(selected).toBeChecked()
+    expect(selected).toHaveFocus()
+    expect(
+      screen
+        .getAllByRole('radio')
+        .filter((radio) => (radio as HTMLInputElement).checked),
+    ).toHaveLength(1)
+    expect(selected.closest('label')).toHaveClass(styles.paletteOption)
+    expect(
+      selected.closest('label')?.querySelector(`.${styles.paletteCheck} svg`),
+    ).not.toBeNull()
+  })
+
+  it('atomically applies and persists dark and light appearance choices', async () => {
     mockFetch()
     const user = userEvent.setup()
     const { container } = renderAt('/weather/')
@@ -576,19 +684,134 @@ describe('theme preview picker', () => {
     await screen.findByText(/72°F/)
     const page = container.querySelector('[data-palette]')
     expect(page).toHaveAttribute('data-palette', 'classic')
+    expect(page).toHaveAttribute('data-theme', 'light')
 
-    await user.selectOptions(
-      screen.getByLabelText('Theme preview'),
-      'Sunset Coral',
+    const { dialog } = await openPicker(user)
+    await user.click(
+      screen.getByRole('radio', {
+        name: 'Taxi After Midnight, Dark mode',
+      }),
     )
 
+    expect(page).toHaveAttribute('data-palette', 'taxi-midnight')
+    expect(page).toHaveAttribute('data-theme', 'dark')
+    expect(window.localStorage.getItem('nyc-weather-palette')).toBe(
+      'taxi-midnight',
+    )
+    expect(window.localStorage.getItem('nyc-weather-theme')).toBe('dark')
+    expect(dialog).toBeInTheDocument()
+    expect(
+      screen.getByRole('radio', {
+        name: 'Taxi After Midnight, Dark mode',
+      }),
+    ).toBeChecked()
+    expect(
+      screen.getByRole('button', { name: /^Choose appearance: / }),
+    ).toHaveAccessibleName(
+      'Choose appearance: Taxi After Midnight, Dark mode',
+    )
+
+    await user.click(
+      screen.getByRole('radio', { name: 'Sunset Coral, Light mode' }),
+    )
     expect(page).toHaveAttribute('data-palette', 'sunset')
+    expect(page).toHaveAttribute('data-theme', 'light')
     expect(window.localStorage.getItem('nyc-weather-palette')).toBe('sunset')
+    expect(window.localStorage.getItem('nyc-weather-theme')).toBe('light')
+    expect(dialog).toBeInTheDocument()
   })
 
-  it('restores a stored palette on load', async () => {
+  it('Done closes the modal and restores focus', async () => {
     mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const { trigger } = await openPicker(user)
+    await user.click(screen.getByRole('button', { name: 'Done' }))
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(trigger).toHaveFocus()
+  })
+
+  it('the close button closes the modal and restores focus', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const { trigger } = await openPicker(user)
+    await user.click(
+      screen.getByRole('button', { name: 'Close appearance chooser' }),
+    )
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(trigger).toHaveFocus()
+  })
+
+  it('Escape closes, restores focus, and keeps the latest choice', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const { trigger } = await openPicker(user)
+    await user.click(
+      screen.getByRole('radio', {
+        name: 'Taxi After Midnight, Dark mode',
+      }),
+    )
+    await user.keyboard('{Escape}')
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(trigger).toHaveFocus()
+    expect(container.querySelector('[data-palette]')).toHaveAttribute(
+      'data-palette',
+      'taxi-midnight',
+    )
+    expect(window.localStorage.getItem('nyc-weather-palette')).toBe(
+      'taxi-midnight',
+    )
+    expect(window.localStorage.getItem('nyc-weather-theme')).toBe('dark')
+  })
+
+  it('backdrop click closes and restores focus', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const { trigger } = await openPicker(user)
+    await user.click(screen.getByTestId('appearance-backdrop'))
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(trigger).toHaveFocus()
+  })
+
+  it('traps Tab and Shift+Tab inside the modal', async () => {
+    mockFetch()
+    const user = userEvent.setup()
+    renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    await openPicker(user)
+    const closeButton = screen.getByRole('button', {
+      name: 'Close appearance chooser',
+    })
+    const doneButton = screen.getByRole('button', { name: 'Done' })
+
+    doneButton.focus()
+    await user.tab()
+    expect(closeButton).toHaveFocus()
+    await user.tab({ shift: true })
+    expect(doneButton).toHaveFocus()
+  })
+
+  it('restores the exact stored palette and theme pair', async () => {
+    mockFetch()
+    const user = userEvent.setup()
     window.localStorage.setItem('nyc-weather-palette', 'forest')
+    window.localStorage.setItem('nyc-weather-theme', 'dark')
     const { container } = renderAt('/weather/')
 
     await screen.findByText(/72°F/)
@@ -596,5 +819,60 @@ describe('theme preview picker', () => {
       'data-palette',
       'forest',
     )
+    expect(container.querySelector('[data-palette]')).toHaveAttribute(
+      'data-theme',
+      'dark',
+    )
+    expect(
+      screen.getByRole('button', {
+        name: 'Choose appearance: Forest Green, Dark mode',
+      }),
+    ).toBeInTheDocument()
+    await openPicker(user)
+    expect(
+      screen.getByRole('radio', { name: 'Forest Green, Dark mode' }),
+    ).toBeChecked()
+  })
+
+  it('falls back to classic for an invalid palette while preserving valid theme', async () => {
+    mockFetch()
+    window.localStorage.setItem('nyc-weather-palette', 'midtown-mystery')
+    window.localStorage.setItem('nyc-weather-theme', 'dark')
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    const page = container.querySelector('[data-palette]')
+    expect(page).toHaveAttribute('data-theme', 'dark')
+    expect(page).toHaveAttribute('data-palette', 'classic')
+    expect(
+      screen.getByRole('button', {
+        name: 'Choose appearance: Classic Navy, Dark mode',
+      }),
+    ).toBeInTheDocument()
+  })
+
+  it('uses the system theme until an explicit appearance is stored', async () => {
+    mockFetch()
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn().mockReturnValue({
+        matches: true,
+        media: '(prefers-color-scheme: dark)',
+        onchange: null,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      }),
+    )
+    const { container } = renderAt('/weather/')
+
+    await screen.findByText(/72°F/)
+    expect(container.querySelector('[data-palette]')).toHaveAttribute(
+      'data-theme',
+      'dark',
+    )
+    expect(window.localStorage.getItem('nyc-weather-theme')).toBeNull()
   })
 })
