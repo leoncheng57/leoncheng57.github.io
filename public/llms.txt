@@ -39,6 +39,12 @@ Guide frontmatter contains the title, description, intended audience, tags, and 
 - [Building a Custom Coding-Agent IDE with OpenHands](https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/guides/custom-coding-agent-ide-with-openhands/guide.md)
 - [Running Parallel Coding Agents with a Manager and Workers](https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/guides/manager-worker-parallel-agents/guide.md)
 
+### Externally hosted entries
+
+The guides index also links out to material that lives in its own repository rather than in `src/content/guides`. These entries have no Markdown under this repository; read the linked repository instead.
+
+- Agent Skills — a catalogue of portable agent skills: reusable, on-demand workflow instructions for coding agents, written for OpenCode and compatible with any agent that reads a `SKILL.md` file. Served at [https://leoncheng.dev/agent-skills/](https://leoncheng.dev/agent-skills/) from [github.com/leoncheng57/agent-skills](https://github.com/leoncheng57/agent-skills).
+
 ## Recent articles
 
 - [PWA Good Practices: What I Learned Shipping Installable Web Apps](https://raw.githubusercontent.com/leoncheng57/leoncheng57.github.io/main/src/content/blog/pwa-good-practices.md)
