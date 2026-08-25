@@ -47,6 +47,11 @@ describe('blog routes', () => {
     expect(
       screen.getByRole('link', { name: 'AI Coding Agent Desktop App Comparison (April 2026)' })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', {
+        name: 'Building Hedwig: From One AI Workflow to an Internal Platform',
+      })
+    ).toBeInTheDocument()
     expect(screen.getByText('meta')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Back home' })).toBeInTheDocument()
   })

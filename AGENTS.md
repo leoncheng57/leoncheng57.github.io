@@ -70,8 +70,9 @@ pull request description with one page path per line:
 description edit. It builds the app, captures each listed path with
 Playwright (`scripts/ci-screenshots.mjs`), publishes the PNGs to `gh-pages`
 under `previews/pr-<number>/screenshots/`, and maintains a single sticky PR
-comment embedding the images. The images are removed automatically when the
-pull request closes.
+comment embedding the images. Captures are full-page desktop images at a
+1280px viewport width, not viewport-only screenshots. The images are removed
+automatically when the pull request closes.
 
 Rules for the block:
 
@@ -156,6 +157,7 @@ EOF
 - Do not rely on local-only `.playwright-cli/` image paths in PR descriptions.
 - Do not add unnecessary screenshots; include only the views that help reviewers understand the UI change.
 - Prefer naming screenshot assets after the page or state they represent, such as `blog-index.png` or `blog-article.png`.
+- For new published blog posts, verify both the article route and the `/blog` listing route. Published posts also affect the home-page recent-work ordering tests.
 
 ## Deployment Note
 
