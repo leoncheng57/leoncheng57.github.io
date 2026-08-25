@@ -1,8 +1,14 @@
 [
   {
+    "path": "/blog",
+    "file": "blog.png",
+    "fullFile": null,
+    "title": "Blog listing includes Hedwig"
+  },
+  {
     "path": "/blog/building-hedwig-ai-tooling-hub",
     "file": "blog--building-hedwig-ai-tooling-hub.png",
-    "fullFile": null,
-    "title": null
+    "fullFile": "blog--building-hedwig-ai-tooling-hub--full.png",
+    "title": "Hedwig retrospective"
   }
 ]
