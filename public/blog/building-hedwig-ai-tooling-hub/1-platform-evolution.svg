@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1020" role="img" aria-labelledby="title desc">
+  <title id="title">Evolution from one workflow to a shared AI tooling platform</title>
+  <desc id="desc">A vertical three-step diagram moves from a focused investigation workflow, through shared capabilities, to several independently owned applications.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0l10 5-10 5z" fill="#56d6e5"/></marker>
+    <style>
+      text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.k{fill:#56d6e5;font-size:18px;font-weight:800;letter-spacing:2px}.h{fill:#fff8e8;font-size:34px;font-weight:800}.n{fill:#fff8e8;font-size:23px;font-weight:750}.b{fill:#c9d6df;font-size:19px}.tag{fill:#0b2239;font-size:18px;font-weight:800}.line{stroke:#56d6e5;stroke-width:4;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="800" height="1020" rx="28" fill="#091b2d"/>
+  <text x="48" y="58" class="k">PLATFORM EVOLUTION</text><text x="48" y="105" class="h">Reuse followed real demand</text>
+  <rect x="48" y="150" width="704" height="190" rx="22" fill="#112b43" stroke="#31516b" stroke-width="2"/>
+  <circle cx="92" cy="198" r="24" fill="#f4ad62"/><text x="92" y="206" text-anchor="middle" class="tag">1</text>
+  <text x="132" y="207" class="n">One bounded workflow</text><text x="78" y="252" class="b">A person reviews a structured investigation.</text><text x="78" y="286" class="b">The first value comes from one real job.</text>
+  <line x1="400" y1="340" x2="400" y2="400" class="line"/>
+  <rect x="48" y="408" width="704" height="220" rx="22" fill="#12334b" stroke="#56d6e5" stroke-width="2"/>
+  <circle cx="92" cy="456" r="24" fill="#56d6e5"/><text x="92" y="464" text-anchor="middle" class="tag">2</text>
+  <text x="132" y="465" class="n">Shared platform capabilities</text>
+  <rect x="78" y="505" width="200" height="72" rx="14" fill="#0b2239"/><text x="178" y="549" text-anchor="middle" class="b">Identity + policy</text>
+  <rect x="300" y="505" width="200" height="72" rx="14" fill="#0b2239"/><text x="400" y="549" text-anchor="middle" class="b">Runs + records</text>
+  <rect x="522" y="505" width="200" height="72" rx="14" fill="#0b2239"/><text x="622" y="549" text-anchor="middle" class="b">UI + releases</text>
+  <line x1="400" y1="628" x2="400" y2="688" class="line"/>
+  <rect x="48" y="696" width="704" height="250" rx="22" fill="#112b43" stroke="#31516b" stroke-width="2"/>
+  <circle cx="92" cy="744" r="24" fill="#9bdb8f"/><text x="92" y="752" text-anchor="middle" class="tag">3</text>
+  <text x="132" y="753" class="n">Many focused applications</text>
+  <rect x="78" y="795" width="200" height="94" rx="14" fill="#193b55"/><text x="178" y="833" text-anchor="middle" class="n">Investigate</text><text x="178" y="864" text-anchor="middle" class="b">bounded context</text>
+  <rect x="300" y="795" width="200" height="94" rx="14" fill="#193b55"/><text x="400" y="833" text-anchor="middle" class="n">Build</text><text x="400" y="864" text-anchor="middle" class="b">guided artifacts</text>
+  <rect x="522" y="795" width="200" height="94" rx="14" fill="#193b55"/><text x="622" y="833" text-anchor="middle" class="n">Explore</text><text x="622" y="864" text-anchor="middle" class="b">isolated work</text>
+  <text x="400" y="985" text-anchor="middle" class="b">Shared foundations; separate outcomes and owners.</text>
+</svg>

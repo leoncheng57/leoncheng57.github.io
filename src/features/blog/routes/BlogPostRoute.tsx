@@ -5,14 +5,32 @@ import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import BlogMeta from '../components/BlogMeta'
 import SessionStoryboard from '../components/SessionStoryboard'
+import HedwigToolsSimulation from '../components/HedwigToolsSimulation'
+import type { HedwigToolId } from '../components/HedwigToolsSimulation'
 import FontSizeControls from '../../../components/markdown/FontSizeControls'
 import MarkdownArticle from '../../../components/markdown/MarkdownArticle'
 import { getBlogPostBySlug } from '../content'
 import styles from '../blog.module.css'
 
 /** Interactive figures blog posts can embed via ![alt](component:<name>). */
+const HEDWIG_COMPACT_EMBEDS: Record<string, HedwigToolId> = {
+  'hedwig-tool-on-call': 'on-call',
+  'hedwig-tool-remote-code': 'remote-code',
+  'hedwig-tool-customer-api': 'customer-api',
+  'hedwig-tool-data-helper': 'data-helper',
+  'hedwig-tool-databricks-mcp': 'databricks-mcp',
+  'hedwig-tool-slack-builder': 'slack-builder',
+}
+
 const BLOG_EMBEDS = {
   'session-storyboard': (alt: string) => <SessionStoryboard ariaLabel={alt} />,
+  'hedwig-tools-simulation': (alt: string) => <HedwigToolsSimulation ariaLabel={alt} />,
+  ...Object.fromEntries(
+    Object.entries(HEDWIG_COMPACT_EMBEDS).map(([name, toolId]) => [
+      name,
+      (alt: string) => <HedwigToolsSimulation mode="compact" toolId={toolId} ariaLabel={alt} />,
+    ])
+  ),
 }
 
 export default function BlogPostRoute(): ReactElement {

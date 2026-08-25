@@ -186,4 +186,16 @@ describe('blog routes', () => {
       screen.getByRole('heading', { name: 'Why I am calling these Desktop Coding Agents' })
     ).toBeInTheDocument()
   })
+
+  it('renders the Hedwig tools simulation in the Hedwig article', () => {
+    render(
+      <MemoryRouter initialEntries={['/blog/building-hedwig-ai-tooling-hub']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('region', { name: /full interactive tour of six fictional AI tools/i })
+    ).toBeInTheDocument()
+  })
 })
