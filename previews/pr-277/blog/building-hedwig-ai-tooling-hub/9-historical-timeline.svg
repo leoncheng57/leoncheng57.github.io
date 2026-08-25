@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1180" role="img" aria-labelledby="title desc">
+  <title id="title">Historical progression from workflow to maintained platform</title>
+  <desc id="desc">A privacy-safe vertical timeline from March through August 2026 distinguishes building, releasing, expanding, platformizing, generalizing, delegating ownership, and adding durable workspaces.</desc>
+  <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.k{fill:#56d6e5;font-size:18px;font-weight:800;letter-spacing:2px}.h{fill:#fff8e8;font-size:34px;font-weight:800}.date{fill:#f4ad62;font-size:19px;font-weight:800}.n{fill:#fff8e8;font-size:23px;font-weight:800}.b{fill:#c9d6df;font-size:18px}</style>
+  <rect width="800" height="1180" rx="28" fill="#091b2d"/><text x="48" y="58" class="k">HISTORICAL TIMELINE</text><text x="48" y="105" class="h">Different events, different claims</text>
+  <line x1="108" y1="168" x2="108" y2="1075" stroke="#31516b" stroke-width="6"/>
+  <g><circle cx="108" cy="195" r="16" fill="#56d6e5"/><text x="148" y="186" class="date">MARCH 2026</text><text x="148" y="220" class="n">Built and released</text><text x="148" y="251" class="b">A focused workflow gained a release path.</text></g>
+  <g><circle cx="108" cy="333" r="16" fill="#56d6e5"/><text x="148" y="324" class="date">APRIL 2026</text><text x="148" y="358" class="n">Expanded foundations</text><text x="148" y="389" class="b">Persistence moved beyond local development.</text></g>
+  <g><circle cx="108" cy="471" r="16" fill="#56d6e5"/><text x="148" y="462" class="date">MAY 2026</text><text x="148" y="496" class="n">Observed and reframed</text><text x="148" y="527" class="b">Usage evidence informed a multi-app shell.</text></g>
+  <g><circle cx="108" cy="609" r="16" fill="#56d6e5"/><text x="148" y="600" class="date">LATE MAY 2026</text><text x="148" y="634" class="n">Platformized</text><text x="148" y="665" class="b">Registries replaced manual application wiring.</text></g>
+  <g><circle cx="108" cy="747" r="16" fill="#9bdb8f"/><text x="148" y="738" class="date">JUNE 2026</text><text x="148" y="772" class="n">Generalized execution</text><text x="148" y="803" class="b">Isolated work became a platform capability.</text></g>
+  <g><circle cx="108" cy="885" r="16" fill="#9bdb8f"/><text x="148" y="876" class="date">JULY 2026</text><text x="148" y="910" class="n">Extended and delegated</text><text x="148" y="941" class="b">Reusable integrations met distributed ownership.</text></g>
+  <g><circle cx="108" cy="1023" r="16" fill="#f4ad62"/><text x="148" y="1014" class="date">AUGUST 2026</text><text x="148" y="1048" class="n">Added durable workspaces</text><text x="148" y="1079" class="b">A maintained interface supported follow-up work.</text></g>
+  <rect x="48" y="1110" width="704" height="48" rx="12" fill="#12334b"/><text x="400" y="1141" text-anchor="middle" class="b">Built is not released is not deployed or adopted</text>
+</svg>

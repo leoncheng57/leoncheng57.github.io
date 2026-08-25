@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1040" role="img" aria-labelledby="title desc">
+  <title id="title">Distributed ownership model for a shared platform</title>
+  <desc id="desc">A platform team owns shared contracts, domain teams own application outcomes, and contributors use explicit review and release paths.</desc>
+  <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.k{fill:#56d6e5;font-size:18px;font-weight:800;letter-spacing:2px}.h{fill:#fff8e8;font-size:34px;font-weight:800}.n{fill:#fff8e8;font-size:24px;font-weight:800}.b{fill:#c9d6df;font-size:19px}.dark{fill:#0b2239;font-size:19px;font-weight:800}</style>
+  <rect width="800" height="1040" rx="28" fill="#091b2d"/><text x="48" y="58" class="k">OWNERSHIP MODEL</text><text x="48" y="105" class="h">Share the platform, not every decision</text>
+  <rect x="48" y="160" width="704" height="224" rx="22" fill="#12334b" stroke="#56d6e5" stroke-width="2"/>
+  <text x="78" y="210" class="k">PLATFORM TEAM</text><text x="78" y="253" class="n">Protect shared contracts</text><text x="78" y="298" class="b">Identity / runtime / policy / release path</text><text x="78" y="335" class="b">Review changes that affect every application.</text>
+  <rect x="48" y="420" width="704" height="270" rx="22" fill="#112b43" stroke="#31516b" stroke-width="2"/>
+  <text x="78" y="470" class="k">DOMAIN TEAMS</text><text x="78" y="513" class="n">Own workflow value and support</text>
+  <rect x="78" y="550" width="196" height="92" rx="14" fill="#193b55"/><text x="176" y="586" text-anchor="middle" class="b">Application A</text><text x="176" y="617" text-anchor="middle" class="b">named owner</text>
+  <rect x="302" y="550" width="196" height="92" rx="14" fill="#193b55"/><text x="400" y="586" text-anchor="middle" class="b">Application B</text><text x="400" y="617" text-anchor="middle" class="b">success test</text>
+  <rect x="526" y="550" width="196" height="92" rx="14" fill="#193b55"/><text x="624" y="586" text-anchor="middle" class="b">Application C</text><text x="624" y="617" text-anchor="middle" class="b">support path</text>
+  <rect x="48" y="726" width="704" height="218" rx="22" fill="#f4ad62"/>
+  <text x="78" y="777" class="dark">CONTRIBUTION CONTRACT</text><text x="78" y="822" class="dark">Path ownership / review gates / documentation</text><text x="78" y="861" class="dark">Feature controls / release practice / handoff</text><text x="78" y="906" class="dark">Responsibility travels with the application.</text>
+  <text x="400" y="998" text-anchor="middle" class="b">Technical stability is not organizational durability.</text>
+</svg>
