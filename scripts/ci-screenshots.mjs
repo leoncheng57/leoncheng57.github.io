@@ -78,7 +78,7 @@ async function main() {
       const outputPath = path.join(OUTPUT_DIR, fileName);
       console.log(`Capturing ${pagePath} -> ${outputPath}`);
       await page.goto(`${baseUrl}${pagePath}`, { waitUntil: 'networkidle' });
-      await page.screenshot({ path: outputPath, fullPage: false });
+      await page.screenshot({ path: outputPath, fullPage: true });
       captured.push({ path: pagePath, file: fileName });
     }
   } finally {
