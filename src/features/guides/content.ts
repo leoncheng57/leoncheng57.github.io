@@ -66,6 +66,7 @@ function parseChapter(fileName: string, rawContent: string, path: string): Guide
     description: frontmatter.description,
     order: orderMatch ? Number(orderMatch[1]) : Number.MAX_SAFE_INTEGER,
     part: frontmatter.part,
+    beta: frontmatter.beta,
     readingTimeMinutes: calculateReadingTime(normalizedContent),
     content: normalizedContent,
   }
@@ -115,6 +116,10 @@ export function loadGuidesFromFiles(files: Record<string, string>): Guide[] {
       audience: frontmatter.audience,
       tags: frontmatter.tags ?? [],
       draft: frontmatter.draft,
+      beta: frontmatter.beta,
+      repoUrl: frontmatter.repoUrl,
+      repoAccess: frontmatter.repoAccess,
+      repoScope: frontmatter.repoScope,
       overview,
       readingTimeMinutes:
         calculateReadingTime(overview) +

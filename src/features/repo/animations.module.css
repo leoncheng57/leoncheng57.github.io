@@ -1,0 +1,68 @@
+.showcase {
+  margin-top: 2.5rem;
+}
+
+.showcase h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+.showcase h3 {
+  font-size: 0.95rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+/* The storyboard is a dark card; give it a quiet frame on the light page. */
+.specimenFrame {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.legend {
+  color: var(--text-secondary, #4b5563);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-top: 1rem;
+  padding-left: 1.25rem;
+}
+
+.legend li {
+  margin-bottom: 0.35rem;
+}
+
+.recipe {
+  align-items: center;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(120px, 180px) 1fr;
+  margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  .recipe {
+    grid-template-columns: 1fr;
+  }
+}
+
+.demoBox {
+  align-items: center;
+  background: #1a1b26;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  min-height: 96px;
+  padding: 0.75rem;
+}
+
+.codeBlock {
+  background: var(--surface-raised, #f1f5f9);
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  margin: 0;
+  overflow-x: auto;
+  padding: 0.9rem 1rem;
+  white-space: pre;
+}

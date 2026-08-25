@@ -2,6 +2,7 @@ import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import styles from '../guides-index.module.css'
 import type { Guide } from '../types'
+import GuideRepoReference from './GuideRepoReference'
 
 interface GuideCardProps {
   guide: Guide
@@ -31,9 +32,16 @@ export default function GuideCard({ guide }: GuideCardProps): ReactElement {
             $
           </span>
           <Link to={guidePath}>{guide.title}</Link>
+          {guide.beta ? <span className={styles.betaBadge}>BETA</span> : null}
         </h2>
 
         <p className={styles.description}>{guide.description}</p>
+
+        <GuideRepoReference
+          repoUrl={guide.repoUrl}
+          repoAccess={guide.repoAccess}
+          repoScope={guide.repoScope}
+        />
 
         <p className={styles.cardMeta}>
           <span>updated {guide.updatedAt}</span>

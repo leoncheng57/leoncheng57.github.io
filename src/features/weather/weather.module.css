@@ -1,0 +1,1627 @@
+.page {
+  /* Light theme (default). A cool blue accent distinguishes this app from
+     Sub-Wait's monochrome palette while keeping the same structure. */
+  --wx-bg: #f4f7fb;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #eaf1f8;
+  --wx-ink: #0f2a43;
+  --wx-ink-soft: #35526b;
+  --wx-muted: #6b7f93;
+  --wx-accent: #0f2a43;
+  --wx-accent-strong: #0a1c2e;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(15, 42, 67, 0.14);
+  --wx-focus: #0f2a43;
+  --wx-high: #d9534f;
+  --wx-low: #2f7bbf;
+  --wx-precip: #2f7bbf;
+  --wx-aqi: #1a1a1a;
+  --wx-good: #2e7d32;
+  --wx-moderate: #b8860b;
+  --wx-sensitive: #d2691e;
+  --wx-unhealthy: #c62828;
+  --wx-body:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
+    sans-serif;
+
+  /* Theme the shared feedback dialog and design-system footer. */
+  --fb-surface: var(--wx-surface);
+  --fb-surface-raised: var(--wx-surface-raised);
+  --fb-ink: var(--wx-ink);
+  --fb-line: var(--wx-line);
+  --fb-muted: var(--wx-muted);
+  --fb-accent: var(--wx-accent-strong);
+  --fb-focus: var(--wx-focus);
+  --sf-line: var(--wx-line);
+  --sf-ink: var(--wx-ink);
+  --sf-muted: var(--wx-muted);
+  --sf-border-width: 1px;
+  --pi-backdrop: rgba(3, 12, 20, 0.68);
+  --pi-surface: var(--wx-surface);
+  --pi-surface-raised: var(--wx-surface-raised);
+  --pi-ink: var(--wx-ink);
+  --pi-muted: var(--wx-ink-soft);
+  --pi-line: var(--wx-line);
+  --pi-accent: var(--wx-accent-strong);
+  --pi-accent-contrast: var(--wx-accent-contrast);
+  --pi-focus: var(--wx-focus);
+
+  min-height: 100vh;
+  background: var(--wx-bg);
+  color: var(--wx-ink);
+  font-family: var(--wx-body);
+  padding: 1rem 0.85rem 3rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.page[data-theme='dark'] {
+  --wx-bg: #0b1420;
+  --wx-surface: #142234;
+  --wx-surface-raised: #1c2e44;
+  --wx-ink: #eaf1f8;
+  --wx-ink-soft: #c3d3e2;
+  --wx-muted: #8ba0b5;
+  --wx-accent: #eaf1f8;
+  --wx-accent-strong: #ffffff;
+  --wx-accent-contrast: #0b1420;
+  --wx-line: rgba(234, 241, 248, 0.16);
+  --wx-focus: #eaf1f8;
+  --wx-high: #ff8a80;
+  --wx-low: #6fb3f2;
+  --wx-precip: #6fb3f2;
+  --wx-aqi: #eaf1f8;
+  --wx-good: #66bb6a;
+  --wx-moderate: #d4b106;
+  --wx-sensitive: #e08a3c;
+  --wx-unhealthy: #ef5350;
+}
+
+/* ── Temporary beta palettes (theme-preview picker) ───────────────────── */
+/* 'classic' is the default palette above; each candidate below overrides
+   the accent/series colors while inheriting the light/dark structure. */
+
+.page[data-palette='sky'] {
+  --wx-bg: #eef6fd;
+  --wx-surface-raised: #ddeefc;
+  --wx-accent: #0369a1;
+  --wx-accent-strong: #075985;
+  --wx-focus: #0369a1;
+  --wx-low: #0284c7;
+  --wx-precip: #0284c7;
+  --wx-high: #e11d48;
+}
+
+.page[data-palette='sky'][data-theme='dark'] {
+  --wx-bg: #071825;
+  --wx-surface: #0d2536;
+  --wx-surface-raised: #133249;
+  --wx-accent: #7dd3fc;
+  --wx-accent-strong: #bae6fd;
+  --wx-accent-contrast: #071825;
+  --wx-focus: #7dd3fc;
+  --wx-low: #38bdf8;
+  --wx-precip: #38bdf8;
+  --wx-high: #fb7185;
+}
+
+.page[data-palette='sunset'] {
+  --wx-bg: #fdf3ee;
+  --wx-surface-raised: #fbe4d8;
+  --wx-accent: #c2410c;
+  --wx-accent-strong: #9a3412;
+  --wx-focus: #c2410c;
+  --wx-high: #dc2626;
+  --wx-low: #0e7490;
+  --wx-precip: #0e7490;
+}
+
+.page[data-palette='sunset'][data-theme='dark'] {
+  --wx-bg: #1c1210;
+  --wx-surface: #2a1b17;
+  --wx-surface-raised: #38241e;
+  --wx-accent: #fdba74;
+  --wx-accent-strong: #fed7aa;
+  --wx-accent-contrast: #1c1210;
+  --wx-focus: #fdba74;
+  --wx-high: #f87171;
+  --wx-low: #67e8f9;
+  --wx-precip: #67e8f9;
+}
+
+.page[data-palette='forest'] {
+  --wx-bg: #f1f7f2;
+  --wx-surface-raised: #dfeee2;
+  --wx-accent: #166534;
+  --wx-accent-strong: #14532d;
+  --wx-focus: #166534;
+  --wx-low: #0d9488;
+  --wx-precip: #0d9488;
+  --wx-high: #b45309;
+}
+
+.page[data-palette='forest'][data-theme='dark'] {
+  --wx-bg: #0c1712;
+  --wx-surface: #14231b;
+  --wx-surface-raised: #1b3125;
+  --wx-accent: #86efac;
+  --wx-accent-strong: #bbf7d0;
+  --wx-accent-contrast: #0c1712;
+  --wx-focus: #86efac;
+  --wx-low: #5eead4;
+  --wx-precip: #5eead4;
+  --wx-high: #fbbf24;
+}
+
+.page[data-palette='plum'] {
+  --wx-bg: #f8f2fb;
+  --wx-surface-raised: #efe0f7;
+  --wx-accent: #7e22ce;
+  --wx-accent-strong: #6b21a8;
+  --wx-focus: #7e22ce;
+  --wx-low: #2563eb;
+  --wx-precip: #2563eb;
+  --wx-high: #db2777;
+}
+
+.page[data-palette='plum'][data-theme='dark'] {
+  --wx-bg: #150d1c;
+  --wx-surface: #22152e;
+  --wx-surface-raised: #2e1d3e;
+  --wx-accent: #d8b4fe;
+  --wx-accent-strong: #e9d5ff;
+  --wx-accent-contrast: #150d1c;
+  --wx-focus: #d8b4fe;
+  --wx-low: #93c5fd;
+  --wx-precip: #93c5fd;
+  --wx-high: #f472b6;
+}
+
+/* ── NYC-inspired colorways ────────────────────────────────────────────── */
+/* Each of these defines a full light and dark token set rather than
+   inheriting from classic, so the accent, series and status colors stay
+   deliberate in both modes. IDs, names and swatches live in palettes.ts. */
+
+/* Harbor Fog — maritime gray/teal; light-leaning, restrained brick red and harbor blue series. */
+.page[data-palette='harbor-fog'] {
+  --wx-bg: #f2f7f6;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #e2eeec;
+  --wx-ink: #173b3f;
+  --wx-ink-soft: #33575b;
+  --wx-muted: #5b7377;
+  --wx-accent: #00545c;
+  --wx-accent-strong: #003b41;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(23, 59, 63, 0.16);
+  --wx-focus: #00545c;
+  --wx-high: #983329;
+  --wx-low: #14577d;
+  --wx-precip: #14577d;
+  --wx-aqi: #173b3f;
+  --wx-good: #1f6b41;
+  --wx-moderate: #7f6209;
+  --wx-sensitive: #a3541b;
+  --wx-unhealthy: #a32a22;
+}
+
+.page[data-palette='harbor-fog'][data-theme='dark'] {
+  --wx-bg: #071417;
+  --wx-surface: #0f2226;
+  --wx-surface-raised: #173136;
+  --wx-ink: #e4f1f0;
+  --wx-ink-soft: #bcd3d3;
+  --wx-muted: #8ba7a9;
+  --wx-accent: #7ed4d8;
+  --wx-accent-strong: #b3e9eb;
+  --wx-accent-contrast: #071417;
+  --wx-line: rgba(228, 241, 240, 0.16);
+  --wx-focus: #7ed4d8;
+  --wx-high: #ff9e90;
+  --wx-low: #74c0ef;
+  --wx-precip: #74c0ef;
+  --wx-aqi: #e4f1f0;
+  --wx-good: #6cc48f;
+  --wx-moderate: #d9b64a;
+  --wx-sensitive: #ef9a5a;
+  --wx-unhealthy: #ff7a70;
+}
+
+/* Brownstone Heat — warm limestone and brick, with oxidized copper for the cool series. */
+.page[data-palette='brownstone-heat'] {
+  --wx-bg: #f8efe5;
+  --wx-surface: #fffaf4;
+  --wx-surface-raised: #f1e1d2;
+  --wx-ink: #442b26;
+  --wx-ink-soft: #63443b;
+  --wx-muted: #7a5b50;
+  --wx-accent: #8f3f2d;
+  --wx-accent-strong: #6d2d1f;
+  --wx-accent-contrast: #fffaf4;
+  --wx-line: rgba(68, 43, 38, 0.16);
+  --wx-focus: #8f3f2d;
+  --wx-high: #923026;
+  --wx-low: #11575d;
+  --wx-precip: #11575d;
+  --wx-aqi: #442b26;
+  --wx-good: #2c6b39;
+  --wx-moderate: #7d5f08;
+  --wx-sensitive: #a1521a;
+  --wx-unhealthy: #a52a22;
+}
+
+.page[data-palette='brownstone-heat'][data-theme='dark'] {
+  --wx-bg: #17100d;
+  --wx-surface: #241813;
+  --wx-surface-raised: #33231c;
+  --wx-ink: #f6e9dd;
+  --wx-ink-soft: #d8c1b2;
+  --wx-muted: #a88f82;
+  --wx-accent: #f0a184;
+  --wx-accent-strong: #f8c4b0;
+  --wx-accent-contrast: #17100d;
+  --wx-line: rgba(246, 233, 221, 0.16);
+  --wx-focus: #f0a184;
+  --wx-high: #ff8f7f;
+  --wx-low: #63c8d2;
+  --wx-precip: #63c8d2;
+  --wx-aqi: #f6e9dd;
+  --wx-good: #74c98a;
+  --wx-moderate: #e0b84e;
+  --wx-sensitive: #f0a05c;
+  --wx-unhealthy: #ff8072;
+}
+
+/* Taxi After Midnight — designed dark; the light set keeps the cab identity in the raised
+   surface and drops the accent to a readable deep amber (#ffd400 text is ~1.4:1 on white). */
+.page[data-palette='taxi-midnight'] {
+  --wx-bg: #f5f4f0;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #ffefa8;
+  --wx-ink: #10141a;
+  --wx-ink-soft: #333a44;
+  --wx-muted: #5f6773;
+  --wx-accent: #6b5200;
+  --wx-accent-strong: #4d3b00;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(16, 20, 26, 0.16);
+  --wx-focus: #6b5200;
+  --wx-high: #b03024;
+  --wx-low: #0d5f80;
+  --wx-precip: #0d5f80;
+  --wx-aqi: #10141a;
+  --wx-good: #2c6b39;
+  --wx-moderate: #7d6008;
+  --wx-sensitive: #a3541b;
+  --wx-unhealthy: #b0231c;
+}
+
+.page[data-palette='taxi-midnight'][data-theme='dark'] {
+  --wx-bg: #080b0f;
+  --wx-surface: #151a20;
+  --wx-surface-raised: #1f262f;
+  --wx-ink: #f7fafc;
+  --wx-ink-soft: #ccd6e0;
+  --wx-muted: #96a3b2;
+  --wx-accent: #ffd400;
+  --wx-accent-strong: #ffe45c;
+  --wx-accent-contrast: #0a0d11;
+  --wx-line: rgba(247, 250, 252, 0.16);
+  --wx-focus: #ffd400;
+  --wx-high: #ff6b5e;
+  --wx-low: #45c7f0;
+  --wx-precip: #45c7f0;
+  --wx-aqi: #f7fafc;
+  --wx-good: #57cc80;
+  --wx-moderate: #f2c14e;
+  --wx-sensitive: #ff9838;
+  --wx-unhealthy: #ff5747;
+}
+
+/* Park Avenue Patina — muted stone and aged metal for information-dense views. */
+.page[data-palette='park-avenue-patina'] {
+  --wx-bg: #eeede7;
+  --wx-surface: #f8f7f2;
+  --wx-surface-raised: #e2e1d9;
+  --wx-ink: #283430;
+  --wx-ink-soft: #43504b;
+  --wx-muted: #5c6863;
+  --wx-accent: #40574f;
+  --wx-accent-strong: #2c3d37;
+  --wx-accent-contrast: #f8f7f2;
+  --wx-line: rgba(40, 52, 48, 0.16);
+  --wx-focus: #40574f;
+  --wx-high: #803f38;
+  --wx-low: #315d6a;
+  --wx-precip: #315d6a;
+  --wx-aqi: #283430;
+  --wx-good: #2c6741;
+  --wx-moderate: #755b0a;
+  --wx-sensitive: #99501c;
+  --wx-unhealthy: #992e26;
+}
+
+.page[data-palette='park-avenue-patina'][data-theme='dark'] {
+  --wx-bg: #101513;
+  --wx-surface: #1b221f;
+  --wx-surface-raised: #26302c;
+  --wx-ink: #eceee8;
+  --wx-ink-soft: #cbd2cc;
+  --wx-muted: #98a49e;
+  --wx-accent: #9dbdb0;
+  --wx-accent-strong: #c3d9cf;
+  --wx-accent-contrast: #101513;
+  --wx-line: rgba(236, 238, 232, 0.16);
+  --wx-focus: #9dbdb0;
+  --wx-high: #e79489;
+  --wx-low: #7fb8c9;
+  --wx-precip: #7fb8c9;
+  --wx-aqi: #eceee8;
+  --wx-good: #79c48f;
+  --wx-moderate: #d4b457;
+  --wx-sensitive: #e79a5f;
+  --wx-unhealthy: #f0857a;
+}
+
+/* Coney Island Neon — designed dark; the light set trades the lime accent for a deep
+   olive-lime so it stays readable as link/button text. */
+.page[data-palette='coney-island-neon'] {
+  --wx-bg: #f7f4ff;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #eae2ff;
+  --wx-ink: #221c3d;
+  --wx-ink-soft: #443a6b;
+  --wx-muted: #615889;
+  --wx-accent: #4a6b00;
+  --wx-accent-strong: #354d00;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(34, 28, 61, 0.16);
+  --wx-focus: #4a6b00;
+  --wx-high: #bb1f5c;
+  --wx-low: #0d6f80;
+  --wx-precip: #0d6f80;
+  --wx-aqi: #221c3d;
+  --wx-good: #2c6b45;
+  --wx-moderate: #7a5f08;
+  --wx-sensitive: #a05019;
+  --wx-unhealthy: #b02420;
+}
+
+.page[data-palette='coney-island-neon'][data-theme='dark'] {
+  --wx-bg: #111023;
+  --wx-surface: #1c1930;
+  --wx-surface-raised: #272242;
+  --wx-ink: #f5f1ff;
+  --wx-ink-soft: #d5cdf0;
+  --wx-muted: #a29ac7;
+  --wx-accent: #c8ff3d;
+  --wx-accent-strong: #dcff8a;
+  --wx-accent-contrast: #131022;
+  --wx-line: rgba(245, 241, 255, 0.16);
+  --wx-focus: #c8ff3d;
+  --wx-high: #ff5c8a;
+  --wx-low: #47d7e8;
+  --wx-precip: #47d7e8;
+  --wx-aqi: #f5f1ff;
+  --wx-good: #6ee7a0;
+  --wx-moderate: #ffd84d;
+  --wx-sensitive: #ff9f4a;
+  --wx-unhealthy: #ff5d5d;
+}
+
+/* Subway Mosaic — off-white tile, navy lettering, station red, enamel green-blue. */
+.page[data-palette='subway-mosaic'] {
+  --wx-bg: #f4f1e8;
+  --wx-surface: #fffdf7;
+  --wx-surface-raised: #e9e4d6;
+  --wx-ink: #192f44;
+  --wx-ink-soft: #36506a;
+  --wx-muted: #5f6d7b;
+  --wx-accent: #005a70;
+  --wx-accent-strong: #003f4f;
+  --wx-accent-contrast: #fffdf7;
+  --wx-line: rgba(25, 47, 68, 0.16);
+  --wx-focus: #005a70;
+  --wx-high: #96303d;
+  --wx-low: #006c67;
+  --wx-precip: #006c67;
+  --wx-aqi: #192f44;
+  --wx-good: #2b6b3c;
+  --wx-moderate: #7c5f08;
+  --wx-sensitive: #a1531a;
+  --wx-unhealthy: #a32d33;
+}
+
+.page[data-palette='subway-mosaic'][data-theme='dark'] {
+  --wx-bg: #0a1522;
+  --wx-surface: #12212f;
+  --wx-surface-raised: #1b2f41;
+  --wx-ink: #eef2e9;
+  --wx-ink-soft: #cbd6cf;
+  --wx-muted: #94a4ae;
+  --wx-accent: #6fd0e0;
+  --wx-accent-strong: #a6e6f0;
+  --wx-accent-contrast: #0a1522;
+  --wx-line: rgba(238, 242, 233, 0.16);
+  --wx-focus: #6fd0e0;
+  --wx-high: #f4919c;
+  --wx-low: #55c9ba;
+  --wx-precip: #55c9ba;
+  --wx-aqi: #eef2e9;
+  --wx-good: #6fc987;
+  --wx-moderate: #d9bb52;
+  --wx-sensitive: #ec9a5b;
+  --wx-unhealthy: #ff8087;
+}
+
+/* Guggenheim Paper — modernist near-monochrome base with crisp cobalt, red and teal data. */
+.page[data-palette='guggenheim-paper'] {
+  --wx-bg: #f5f2e9;
+  --wx-surface: #fffefa;
+  --wx-surface-raised: #ebe7d9;
+  --wx-ink: #171717;
+  --wx-ink-soft: #3d3d3a;
+  --wx-muted: #66665f;
+  --wx-accent: #2448b8;
+  --wx-accent-strong: #17348c;
+  --wx-accent-contrast: #fffefa;
+  --wx-line: rgba(23, 23, 23, 0.16);
+  --wx-focus: #2448b8;
+  --wx-high: #a82e25;
+  --wx-low: #006c7a;
+  --wx-precip: #006c7a;
+  --wx-aqi: #171717;
+  --wx-good: #2b6b3a;
+  --wx-moderate: #7a5e08;
+  --wx-sensitive: #9d5019;
+  --wx-unhealthy: #b3261e;
+}
+
+.page[data-palette='guggenheim-paper'][data-theme='dark'] {
+  --wx-bg: #121212;
+  --wx-surface: #1c1c1b;
+  --wx-surface-raised: #272725;
+  --wx-ink: #f5f2e9;
+  --wx-ink-soft: #d3d0c8;
+  --wx-muted: #9c9a92;
+  --wx-accent: #8fb0ff;
+  --wx-accent-strong: #bcd0ff;
+  --wx-accent-contrast: #121212;
+  --wx-line: rgba(245, 242, 233, 0.16);
+  --wx-focus: #8fb0ff;
+  --wx-high: #f58a80;
+  --wx-low: #58c8d6;
+  --wx-precip: #58c8d6;
+  --wx-aqi: #f5f2e9;
+  --wx-good: #6fc98a;
+  --wx-moderate: #d7b84f;
+  --wx-sensitive: #eb9d5d;
+  --wx-unhealthy: #ff8177;
+}
+
+/* Queens Night Market — designed dark; the light set keeps the jewel tones but darkens
+   the gold accent for text legibility. */
+.page[data-palette='queens-night-market'] {
+  --wx-bg: #faf6f2;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #f1e9e0;
+  --wx-ink: #241f33;
+  --wx-ink-soft: #453e5c;
+  --wx-muted: #6a627f;
+  --wx-accent: #8a5a00;
+  --wx-accent-strong: #684400;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(36, 31, 51, 0.16);
+  --wx-focus: #8a5a00;
+  --wx-high: #b32455;
+  --wx-low: #0b6f60;
+  --wx-precip: #0b6f60;
+  --wx-aqi: #241f33;
+  --wx-good: #2c6b45;
+  --wx-moderate: #7b5f08;
+  --wx-sensitive: #a0521c;
+  --wx-unhealthy: #ad2531;
+}
+
+.page[data-palette='queens-night-market'][data-theme='dark'] {
+  --wx-bg: #11111a;
+  --wx-surface: #1d1a29;
+  --wx-surface-raised: #292538;
+  --wx-ink: #f7f2ff;
+  --wx-ink-soft: #d8d0e8;
+  --wx-muted: #a79ebd;
+  --wx-accent: #f6c453;
+  --wx-accent-strong: #ffdd8f;
+  --wx-accent-contrast: #14111c;
+  --wx-line: rgba(247, 242, 255, 0.16);
+  --wx-focus: #f6c453;
+  --wx-high: #ff6f91;
+  --wx-low: #55d6be;
+  --wx-precip: #55d6be;
+  --wx-aqi: #f7f2ff;
+  --wx-good: #62d69b;
+  --wx-moderate: #f0b429;
+  --wx-sensitive: #ff9a5c;
+  --wx-unhealthy: #ff5f70;
+}
+
+.frame {
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+/* ── Masthead ─────────────────────────────────────────────────────────── */
+
+.masthead {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 3px solid var(--wx-accent);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.wordmark {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.betaBadge {
+  padding: 0.22rem 0.4rem 0.18rem;
+  border-radius: 999px;
+  background: var(--wx-accent);
+  color: var(--wx-accent-contrast);
+  font-size: 0.55rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mastheadNav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+@media (max-width: 24rem) {
+  .masthead {
+    grid-template-columns: 1fr auto;
+  }
+
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .palettePicker {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .mastheadNav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  .mastheadLink {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+.mastheadLink {
+  color: var(--wx-ink-soft);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.1rem;
+}
+
+.mastheadLink:global(.active) {
+  color: var(--wx-ink);
+  border-bottom: 2px solid var(--wx-accent);
+}
+
+/* ── Temporary theme-preview picker ───────────────────────────────────── */
+
+.palettePicker {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+.palettePreview {
+  min-height: 0;
+  padding: 0;
+  transition: none;
+}
+
+.appearanceTrigger {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0.3rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 999px;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  cursor: pointer;
+}
+
+.appearanceTrigger:focus-visible,
+.paletteClose:focus-visible,
+.paletteDone:focus-visible,
+.paletteRadio:focus-visible + .paletteSrName + .paletteCard {
+  outline: 2px solid var(--wx-accent);
+  outline-offset: 2px;
+}
+
+.appearanceSwatches {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 1.65rem;
+  height: 1.65rem;
+  overflow: hidden;
+  border: 1px solid var(--wx-line);
+  border-radius: 999px;
+}
+
+.appearanceSwatches span {
+  display: block;
+}
+
+.appearanceSwatchPage {
+  background: var(--wx-bg);
+}
+
+.appearanceSwatchCard {
+  background: var(--wx-surface);
+}
+
+.appearanceSwatchHigh {
+  background: var(--wx-high);
+}
+
+.appearanceSwatchLow {
+  background: var(--wx-low);
+}
+
+.appearanceIcon {
+  position: absolute;
+  right: 0.08rem;
+  bottom: 0.08rem;
+  display: grid;
+  place-items: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 999px;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+}
+
+.appearanceIcon svg {
+  width: 0.72rem;
+  height: 0.72rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.3;
+}
+
+.paletteCard {
+  display: block;
+  width: 100%;
+  padding: 0.45rem;
+  border-radius: 0.55rem;
+  background: var(--wx-bg);
+  color: var(--wx-ink);
+}
+
+.appearanceMode {
+  display: inline-block;
+  padding: 0.18rem 0.42rem;
+  margin: 0 0 0.35rem 0.15rem;
+  border: 1px solid color-mix(in srgb, var(--wx-ink) 18%, transparent);
+  border-radius: 999px;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.paletteCardPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'forecast details'
+    'temperatures temperatures';
+  gap: 0.4rem 0.75rem;
+  padding: 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--wx-ink) 14%, transparent);
+  border-radius: 0.45rem;
+  background: var(--wx-surface);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 8%);
+}
+
+.paletteCardForecast {
+  grid-area: forecast;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  min-width: 0;
+  color: var(--wx-ink);
+  font-size: 0.76rem;
+}
+
+.paletteCardForecast strong {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.paletteCardDetails {
+  grid-area: details;
+  align-self: center;
+  color: var(--wx-accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.paletteCardTemperatures {
+  grid-area: temperatures;
+  display: flex;
+  gap: 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.paletteCardHigh {
+  color: var(--wx-high);
+}
+
+.paletteCardLow {
+  color: var(--wx-low);
+}
+
+.paletteSrName {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.paletteBackdrop {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 1rem;
+  background: rgb(4 12 20 / 62%);
+  backdrop-filter: blur(4px);
+}
+
+.paletteDialog {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 46rem);
+  max-height: 90vh;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.85rem;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  box-shadow: 0 24px 70px rgb(0 0 0 / 38%);
+}
+
+.paletteDialogHeader,
+.paletteDialogFooter {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  background: var(--wx-surface);
+}
+
+.paletteDialogHeader {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--wx-line);
+}
+
+.paletteDialogHeader h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.paletteClose {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--wx-line);
+  border-radius: 999px;
+  background: var(--wx-surface-raised);
+  color: var(--wx-ink);
+  cursor: pointer;
+}
+
+.paletteClose svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 1.8;
+}
+
+.paletteGrid {
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: 0.65rem;
+  min-height: 0;
+  padding: 0.85rem;
+  overflow-y: auto;
+}
+
+.appearancePair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.paletteOption {
+  position: relative;
+  display: block;
+  min-width: 0;
+  border: 2px solid transparent;
+  border-radius: 0.7rem;
+  background: var(--wx-bg);
+  cursor: pointer;
+}
+
+.paletteOption:hover {
+  border-color: color-mix(in srgb, var(--wx-accent) 45%, transparent);
+}
+
+.paletteRadio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.paletteOption:has(.paletteRadio:checked) {
+  border-color: var(--wx-accent);
+  box-shadow: 0 0 0 1px var(--wx-accent);
+}
+
+.paletteCheck {
+  position: absolute;
+  top: 0.42rem;
+  right: 0.42rem;
+  display: none;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: var(--wx-accent);
+  color: var(--wx-surface);
+}
+
+.paletteCheck svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.2;
+}
+
+.paletteOption:has(.paletteRadio:checked) .paletteCheck {
+  display: grid;
+}
+
+.paletteDialogFooter {
+  justify-content: flex-end;
+  border-top: 1px solid var(--wx-line);
+}
+
+.paletteDone {
+  padding: 0.55rem 1.2rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background: var(--wx-accent);
+  color: var(--wx-accent-contrast);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (max-width: 24rem) {
+  .paletteBackdrop {
+    padding: 5vh 0.55rem;
+  }
+
+  .paletteGrid {
+    padding: 0.65rem;
+  }
+
+  .appearancePair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Layout ───────────────────────────────────────────────────────────── */
+
+.main {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.pageTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.backLink {
+  margin: 0;
+}
+
+.backLink a {
+  color: var(--wx-ink-soft);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.loading,
+.updatedAt,
+.sourceNote {
+  color: var(--wx-muted);
+  font-size: 0.85rem;
+}
+
+/* ── Status banners ───────────────────────────────────────────────────── */
+
+.staleBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.6rem;
+  background: var(--wx-surface-raised);
+  color: var(--wx-ink-soft);
+  font-size: 0.85rem;
+}
+
+.staleBanner button,
+.errorPanel button {
+  border: 1px solid var(--wx-line);
+  border-radius: 0.4rem;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.errorPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  background: var(--wx-surface-raised);
+}
+
+/* ── Current conditions ───────────────────────────────────────────────── */
+
+.current {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.currentTemp {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.currentCondition {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--wx-ink-soft);
+}
+
+.currentAqi {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--wx-ink-soft);
+}
+
+/* ── Charts ───────────────────────────────────────────────────────────── */
+
+.chartSection {
+  background: var(--wx-surface);
+  border-radius: 0.75rem;
+  padding: 0.85rem 0.6rem 0.6rem;
+  border: 1px solid var(--wx-line);
+}
+
+.chartTipBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(5, 12, 20, 0.62);
+}
+
+.chartTipDialog {
+  width: min(100%, 28rem);
+  overflow: hidden;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.9rem;
+  background: var(--wx-surface);
+  box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.3);
+}
+
+.chartTipDialogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--wx-line);
+}
+
+.chartTipDialog h2,
+.chartTipDialog p {
+  margin: 0;
+}
+
+.chartTipDialog h2 {
+  font-size: 1rem;
+}
+
+.chartTipDialog p {
+  padding: 1rem;
+  color: var(--wx-ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.chartTipDialog footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--wx-line);
+}
+
+.chartTipDialog button {
+  min-height: 36px;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.55rem;
+  background: var(--wx-surface-raised);
+  color: var(--wx-ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chartTipDialog button:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: 2px;
+}
+
+.chartTitle {
+  margin: 0 0.35rem 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--wx-muted);
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chartGrid {
+  stroke: var(--wx-line);
+  stroke-width: 1;
+}
+
+.chartTickLabel {
+  fill: var(--wx-muted);
+  font-size: 9px;
+  text-anchor: end;
+  dominant-baseline: middle;
+}
+
+.chartAxisLabel {
+  fill: var(--wx-muted);
+  font-size: 9px;
+  text-anchor: middle;
+}
+
+.chartBar {
+  fill: var(--wx-precip);
+  opacity: 0.55;
+}
+
+.barAxisLabel {
+  fill: var(--wx-precip);
+  font-size: 9px;
+  opacity: 0.85;
+}
+
+.barPeakLabel {
+  fill: var(--wx-precip);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.legendBar {
+  color: var(--wx-precip);
+  font-weight: 600;
+}
+
+.chartMarker {
+  stroke: var(--wx-muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+}
+
+.chartMarkerLabel {
+  fill: var(--wx-muted);
+  font-size: 9px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.chartLinePast {
+  fill: none;
+  stroke-width: 2.25;
+}
+
+.chartLineFuture {
+  fill: none;
+  stroke-width: 2.25;
+  stroke-dasharray: 4 3;
+  opacity: 0.85;
+}
+
+.chartTapTarget {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.chartTapTarget:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: -2px;
+}
+
+.scrubTarget {
+  fill: transparent;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.scrubTarget:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: -2px;
+}
+
+.scrubberLine {
+  stroke: var(--wx-accent);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.scrubberDot {
+  fill: var(--wx-accent);
+  stroke: var(--wx-surface);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.scrubberLabel {
+  fill: var(--wx-ink);
+  font-size: 10px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.seriesHigh .chartLinePast,
+.seriesHigh .chartLineFuture {
+  stroke: var(--wx-high);
+}
+
+.seriesLow .chartLinePast,
+.seriesLow .chartLineFuture {
+  stroke: var(--wx-low);
+}
+
+.seriesPrecip .chartLinePast,
+.seriesPrecip .chartLineFuture {
+  stroke: var(--wx-precip);
+}
+
+.seriesAqi .chartLinePast,
+.seriesAqi .chartLineFuture {
+  stroke: var(--wx-aqi);
+}
+
+.chartLegend {
+  margin: 0.35rem 0.35rem 0;
+  font-size: 0.75rem;
+  color: var(--wx-muted);
+}
+
+.legendHigh {
+  color: var(--wx-high);
+  font-weight: 700;
+}
+
+.legendLow {
+  color: var(--wx-low);
+  font-weight: 700;
+}
+
+.bandGood {
+  fill: var(--wx-good);
+  opacity: 0.08;
+}
+
+.bandModerate {
+  fill: var(--wx-moderate);
+  opacity: 0.08;
+}
+
+.bandSensitive {
+  fill: var(--wx-sensitive);
+  opacity: 0.1;
+}
+
+.bandUnhealthy {
+  fill: var(--wx-unhealthy);
+  opacity: 0.1;
+}
+
+.good {
+  color: var(--wx-good);
+  font-weight: 700;
+}
+
+.moderate {
+  color: var(--wx-moderate);
+  font-weight: 700;
+}
+
+.sensitive {
+  color: var(--wx-sensitive);
+  font-weight: 700;
+}
+
+.unhealthy,
+.veryUnhealthy,
+.hazardous {
+  color: var(--wx-unhealthy);
+  font-weight: 700;
+}
+
+.windowNote {
+  text-align: center;
+  color: var(--wx-muted);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+/* ── Day detail ───────────────────────────────────────────────────────── */
+
+.dayPager {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dayPager button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.5rem;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.dayPager button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.dayPager h1 {
+  text-align: center;
+}
+
+.tip {
+  background: var(--wx-surface-raised);
+  border-radius: 0.6rem;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ── Alerts ───────────────────────────────────────────────────────────── */
+
+.alertList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.alertCard {
+  background: var(--wx-surface);
+  border: 1px solid var(--wx-line);
+  border-radius: 0.75rem;
+  padding: 0.85rem;
+}
+
+.alertEvent {
+  margin: 0 0 0.2rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.alertMeta {
+  margin: 0 0 0.4rem;
+  font-size: 0.8rem;
+  color: var(--wx-muted);
+}
+
+.alertHeadline {
+  margin: 0 0 0.5rem;
+  font-size: 0.88rem;
+  color: var(--wx-ink-soft);
+}
+
+.alertToggle {
+  border: none;
+  background: none;
+  color: var(--wx-accent);
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 0.3rem 0;
+  cursor: pointer;
+}
+
+.alertDetails {
+  margin-top: 0.4rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--wx-line);
+  font-size: 0.85rem;
+  color: var(--wx-ink-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  white-space: pre-line;
+}
+
+.emptyAlerts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--wx-ink-soft);
+}
+
+.emptyAlertsIcon {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+/* ── Onboarding controls ──────────────────────────────────────────────── */
+
+.onboardingControls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.55rem 0 0.8rem;
+}
+
+.onboardingButton {
+  min-height: 32px;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 999px;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.onboardingButton[aria-expanded='true'] {
+  border-color: var(--wx-accent);
+  background: var(--wx-surface-raised);
+}
+
+.onboardingButton:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: 2px;
+}
+
+/* ── Install guide ────────────────────────────────────────────────────── */
+
+.backLink {
+  margin: 1.25rem 0;
+}
+
+.backLink a {
+  color: var(--wx-accent);
+  font-weight: 700;
+}
+
+.installGuideHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.installGuideHeader h1,
+.installGuideHeader p,
+.installPlatform h2,
+.installPlatform h3,
+.installPlatform p,
+.installCompatibility h2 {
+  margin: 0;
+}
+
+.installGuideHeader h1 {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  line-height: 1;
+}
+
+.installGuideHeader p {
+  max-width: 42rem;
+  margin-top: 0.45rem;
+  color: var(--wx-ink-soft);
+}
+
+.installPlatform {
+  margin-top: 2rem;
+}
+
+.installPlatformNote {
+  margin-top: 0.35rem !important;
+  color: var(--wx-ink-soft);
+}
+
+.installSteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.installStep {
+  overflow: hidden;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.9rem;
+  background: var(--wx-surface);
+}
+
+.installStep img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid var(--wx-line);
+  background: var(--wx-surface-raised);
+}
+
+.installStep div {
+  padding: 1rem;
+}
+
+.installStep h3 {
+  font-size: 1rem;
+}
+
+.installStep p {
+  margin-top: 0.45rem;
+  color: var(--wx-ink-soft);
+  font-size: 0.9rem;
+}
+
+.installCompatibility {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.9rem;
+  background: var(--wx-surface-raised);
+}
+
+.installCompatibility ul {
+  margin-bottom: 0;
+}
+
+.installIllustrationNote {
+  color: var(--wx-muted);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 700px) {
+  .installSteps {
+    grid-template-columns: 1fr;
+  }
+
+  .installStep {
+    display: grid;
+    grid-template-columns: minmax(7rem, 38%) 1fr;
+  }
+
+  .installStep img {
+    height: 100%;
+    border-right: 1px solid var(--wx-line);
+    border-bottom: 0;
+    object-fit: cover;
+    object-position: top;
+  }
+}

@@ -1,0 +1,113 @@
+/* Page-specific visuals for /guides/cmux-personal-config.
+   Shared primitives live in src/styles/setup-guide.module.css;
+   the route merges both exports via { ...shared, ...local }. */
+
+/* --- cmux window mockup --------------------------------------------------- */
+
+.window {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  font-family: 'DM Mono', monospace;
+  font-size: .68rem;
+}
+
+.windowBar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+}
+.windowBar i { width: 9px; height: 9px; border-radius: 50%; background: #ff826e; }
+.windowBar i:nth-child(2) { background: #f0c95c; }
+.windowBar i:nth-child(3) { background: #8edc82; }
+.windowBar span { margin-left: 8px; }
+
+.windowBody {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1.15fr) 160px minmax(0, .85fr);
+  min-height: 340px;
+}
+
+.wsSidebar {
+  position: relative;
+  padding: 12px 10px;
+  border-right: 1px solid var(--line);
+}
+
+.wsGroup {
+  margin: 10px 4px 6px;
+  color: var(--muted);
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.wsGroup:first-of-type { margin-top: 0; }
+
+.wsItem { padding: 7px 8px; }
+.wsItem b { display: block; font-weight: 500; }
+.wsItem span { color: var(--muted); font-size: .6rem; }
+.wsItemActive { border-left: 2px solid var(--accent); background: var(--panel-2); }
+.wsNeedsInput { color: var(--accent) !important; }
+
+.wsTerminal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  background: #191c17;
+}
+
+.wsTabs {
+  display: flex;
+  gap: 2px;
+  padding: 8px 10px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+}
+.wsTabs span { padding: 5px 12px 7px; }
+.wsTabActive { border: 1px solid var(--line); border-bottom: 0; background: #191c17; color: var(--text); }
+
+.wsTermLines { padding: 12px 14px; }
+.wsTermLines p { margin: 0 0 7px; line-height: 1.5; }
+.wsTermLines b { color: var(--accent); font-weight: 500; }
+
+.wsContext {
+  position: relative;
+  padding: 12px;
+  border-right: 1px solid var(--line);
+  color: var(--muted);
+}
+.wsContext p { margin: 0 0 6px; line-height: 1.5; }
+.wsContext em { color: var(--text); font-style: normal; }
+.wsCtxTitle { margin-top: 12px !important; color: var(--text); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; }
+.wsCtxTitle:first-child { margin-top: 0 !important; }
+
+.wsBrowser { position: relative; padding: 12px; background: var(--panel-2); }
+.wsUrlBar {
+  margin-bottom: 10px;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.wsPageBlock { height: 110px; margin-bottom: 10px; background: rgb(236 235 226 / 10%); }
+.wsPageLine { height: 8px; margin-bottom: 8px; background: rgb(236 235 226 / 10%); }
+.wsPageLineShort { width: 55%; }
+
+/* --- notification matrix with the extra ntfy push column -------------------- */
+
+.matrix4 > div { grid-template-columns: 1.2fr .5fr .5fr .5fr; }
+
+@media (max-width: 900px) {
+  .windowBody { grid-template-columns: 170px minmax(0, 1fr); }
+  .wsContext { border-top: 1px solid var(--line); border-right: 0; }
+  .wsBrowser { border-top: 1px solid var(--line); }
+}
+
+@media (max-width: 640px) {
+  .windowBody { grid-template-columns: 1fr; }
+  .wsSidebar, .wsTerminal { border-right: 0; border-bottom: 1px solid var(--line); }
+  .matrix4 > div { grid-template-columns: 1.1fr .55fr .55fr .5fr; padding: 0 10px; }
+}

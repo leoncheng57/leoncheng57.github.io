@@ -26,16 +26,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Parse screenshot paths from pull request description
         id: parse
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const body = context.payload.pull_request.body ?? '';
-            const match = body.match(/```screenshots\s*\n([\s\S]*?)```/);
-            const paths = [];
+
+            // Prefer the explicitly marked CI region so the machine-parsed
+            // block is isolated from the rest of the description. When both
+            // markers are present, only that region is searched; otherwise
+            // fall back to scanning the whole body (backward compatible).
+            // Markers only count when they sit alone on their own line, so
+            // prose that merely mentions the marker strings is ignored.
+            const startMarker = /^\s*<!--\s*ci:screenshots:start\s*-->\s*$/m;
+            const region = body.match(/^\s*<!--\s*ci:screenshots:start\s*-->\s*$([\s\S]*?)^\s*<!--\s*ci:screenshots:end\s*-->\s*$/m);
+            if (startMarker.test(body) && !region) {
+              core.setFailed('Found a ci:screenshots:start marker without a matching <!-- ci:screenshots:end --> marker on its own line in the pull request description.');
+              return;
+            }
+            const searchText = region ? region[1] : body;
+            if (region) {
+              core.info('Parsing screenshots from the ci:screenshots marker region.');
+            }
+
+            const match = searchText.match(/```screenshots\s*\n([\s\S]*?)```/);
+            const targets = [];
 
             if (match) {
               for (const rawLine of match[1].split('\n')) {
@@ -43,21 +61,22 @@ jobs:
                 if (!line || line.startsWith('#')) {
                   continue;
                 }
-                if (!line.startsWith('/') || /\s/.test(line)) {
-                  core.setFailed(`Invalid screenshot path "${line}". Paths must start with "/" and contain no whitespace.`);
+                const parsed = line.match(/^((?:with-full:)?\/\S*)(?: -- (\S.*))?$/);
+                if (!parsed) {
+                  core.setFailed(`Invalid screenshot line "${line}". Expected "[with-full:]/path[ -- Title]" with a path that starts with "/" and contains no whitespace.`);
                   return;
                 }
-                paths.push(line);
+                targets.push({ arg: parsed[1], title: parsed[2]?.trim() ?? null });
               }
             }
 
-            core.setOutput('paths', paths.join(' '));
-            core.setOutput('has_paths', paths.length > 0 ? 'true' : 'false');
-            core.info(paths.length > 0 ? `Screenshot paths: ${paths.join(' ')}` : 'No ```screenshots block found in the pull request description.');
+            core.setOutput('targets', JSON.stringify(targets));
+            core.setOutput('has_paths', targets.length > 0 ? 'true' : 'false');
+            core.info(targets.length > 0 ? `Screenshot targets: ${targets.map((t) => t.arg).join(' ')}` : 'No ```screenshots block found in the pull request description.');
 
       - name: Set up Node.js
         if: steps.parse.outputs.has_paths == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20
           cache: npm
@@ -78,7 +97,9 @@ jobs:
 
       - name: Capture screenshots
         if: steps.parse.outputs.has_paths == 'true'
-        run: node scripts/ci-screenshots.mjs ${{ steps.parse.outputs.paths }}
+        env:
+          SCREENSHOT_TARGETS: ${{ steps.parse.outputs.targets }}
+        run: node scripts/ci-screenshots.mjs
 
       - name: Publish screenshots to gh-pages
         if: steps.parse.outputs.has_paths == 'true'
@@ -92,7 +113,7 @@ jobs:
           attempt-limit: 10
 
       - name: Update screenshots comment on pull request
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
@@ -105,14 +126,37 @@ jobs:
             if (hasPaths) {
               const manifest = JSON.parse(fs.readFileSync('screenshot-output/manifest.json', 'utf8'));
               for (const entry of manifest) {
-                lines.push(`### \`${entry.path}\``);
+                const label = entry.title ?? entry.path;
+                lines.push(entry.title ? `### ${entry.title}` : `### \`${entry.path}\``);
                 lines.push('');
-                lines.push(`![${entry.path}](${baseUrl}/${entry.file}?sha=${shortSha})`);
+                if (entry.title) {
+                  lines.push(`\`${entry.path}\``);
+                  lines.push('');
+                }
+                lines.push(`![${label}](${baseUrl}/${entry.file}?sha=${shortSha})`);
                 lines.push('');
+                if (entry.fullFile) {
+                  lines.push(`<details><summary>📸 Full page — <code>${entry.path}</code> <em>(click to expand)</em></summary>`);
+                  lines.push('');
+                  lines.push(`![${label} (full page)](${baseUrl}/${entry.fullFile}?sha=${shortSha})`);
+                  lines.push('');
+                  lines.push('</details>');
+                  lines.push('');
+                }
               }
-              lines.push(`_Captured at ${shortSha}. Screenshots refresh on every push and description edit, and are removed when the pull request closes._`);
+              const now = new Date();
+              const updatedUtc = now.toISOString().replace('T', ' ').slice(0, 16);
+              const easternParts = new Intl.DateTimeFormat('en-CA', {
+                timeZone: 'America/New_York',
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', hour12: false,
+                timeZoneName: 'short',
+              }).formatToParts(now);
+              const part = (type) => easternParts.find((p) => p.type === type).value;
+              const updatedEastern = `${part('year')}-${part('month')}-${part('day')} ${part('hour')}:${part('minute')} ${part('timeZoneName')}`;
+              lines.push(`_Captured at ${shortSha}, updated ${updatedEastern} / ${updatedUtc} UTC. Screenshots refresh on every push and description edit, and are removed when the pull request closes._`);
             } else {
-              lines.push('No screenshots requested. Add a ```screenshots fenced block with one page path per line to the pull request description to capture pages.');
+              lines.push('No screenshots requested. Add a ```screenshots fenced block to the pull request description with one `[with-full:]/path[ -- Title]` line per page to capture. Prefix a path with `with-full:` to also capture the entire scroll height; add ` -- Title` to label what the capture shows. Prefer wrapping the block between `<!-- ci:screenshots:start -->` and `<!-- ci:screenshots:end -->` markers under a "## CI: screenshots" heading so the CI-parsed region stands apart from prose.');
             }
             const body = lines.join('\n');
 

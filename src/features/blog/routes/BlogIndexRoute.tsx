@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import TagList from '../../../components/markdown/TagList'
 import { getAllBlogPosts } from '../content'
@@ -153,6 +154,7 @@ export default function BlogIndexRoute(): ReactElement {
           {visiblePosts.length === 0 ? <p className={styles.emptyState}>No posts match those tags.</p> : null}
         </div>
       </main>
+      <SiteFooter />
     </div>
   )
 }

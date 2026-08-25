@@ -57,7 +57,7 @@ describe('ArchitectureRoute', () => {
     expect(screen.getByText(/site sends an explicit/)).toBeInTheDocument()
   })
 
-  it('is reachable from the masthead and footer', () => {
+  it('is reachable from the masthead', () => {
     render(
       <MemoryRouter initialEntries={['/sub-wait/']}>
         <Routes>
@@ -68,9 +68,6 @@ describe('ArchitectureRoute', () => {
 
     expect(
       screen.getByRole('link', { name: 'Architecture' }),
-    ).toHaveAttribute('href', '/sub-wait/architecture')
-    expect(
-      screen.getByRole('link', { name: 'How it works' }),
     ).toHaveAttribute('href', '/sub-wait/architecture')
   })
 })

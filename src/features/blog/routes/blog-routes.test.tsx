@@ -29,6 +29,11 @@ describe('blog routes', () => {
         name: /Building Hedwig: From One AI Workflow to an Internal Platform/i,
       })
     ).toHaveAttribute('href', '/blog/building-hedwig-ai-tooling-hub')
+    expect(
+      screen.getByRole('link', {
+        name: /Building House Party Photo Hunt/i,
+      })
+    ).toHaveAttribute('href', '/blog/building-house-party-photo-hunt')
   })
 
   it('renders the blog index route', () => {

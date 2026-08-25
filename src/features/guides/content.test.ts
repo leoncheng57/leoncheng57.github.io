@@ -104,6 +104,67 @@ draft: true
     expect(guides[0]).toMatchObject({ slug: 'draft', draft: true })
   })
 
+  it('passes the beta frontmatter flag through to guides', () => {
+    const [guide] = loadGuidesFromFiles({
+      '/src/content/guides/beta/guide.md': GUIDE_FILE.replace(
+        'tags:',
+        'beta: true\ntags:'
+      ),
+    })
+
+    expect(guide.beta).toBe(true)
+  })
+
+  it('passes repository frontmatter through to guides', () => {
+    const [guide] = loadGuidesFromFiles({
+      '/src/content/guides/repository/guide.md': GUIDE_FILE.replace(
+        'tags:',
+        'repoUrl: "https://github.com/leoncheng57/example/tree/main/demo"\nrepoAccess: "private"\nrepoScope: "this-site"\ntags:'
+      ),
+    })
+
+    expect(guide).toMatchObject({
+      repoUrl: 'https://github.com/leoncheng57/example/tree/main/demo',
+      repoAccess: 'private',
+      repoScope: 'this-site',
+    })
+  })
+
+  it('passes the beta frontmatter flag through to chapters', () => {
+    const [guide] = loadGuidesFromFiles({
+      '/src/content/guides/sample/guide.md': GUIDE_FILE,
+      '/src/content/guides/sample/01-stable.md': `---
+title: "Stable Chapter"
+---
+
+# Stable Chapter
+
+Stable body.
+`,
+      '/src/content/guides/sample/02-experimental.md': `---
+title: "Experimental Chapter"
+beta: true
+---
+
+# Experimental Chapter
+
+Experimental body.
+`,
+    })
+
+    expect(guide.chapters[0].beta).toBeUndefined()
+    expect(guide.chapters[1].beta).toBe(true)
+  })
+
+  it('flags the watch-the-run chapter of the real guide as beta', () => {
+    const guide = getAllGuides().find(
+      (candidate) => candidate.slug === 'manager-worker-parallel-agents'
+    )
+
+    expect(guide).toBeDefined()
+    expect(getGuideChapter(guide!, 'watch-the-run')?.chapter.beta).toBe(true)
+  })
+
   it('resolves a chapter and its position within a guide', () => {
     const [guide] = loadGuidesFromFiles({
       '/src/content/guides/sample/guide.md': GUIDE_FILE,
@@ -135,9 +196,10 @@ title: "Second Chapter"
       expect(guide.description).toBeTruthy()
       expect(guide.updatedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/)
       expect(guide.tags.length).toBeLessThanOrEqual(3)
-      expect(guide.overview.length).toBeGreaterThan(0)
-      // A guide is either multi-chapter or a single substantial page.
+      // A guide is either multi-chapter (overview may be empty; chapters carry
+      // the content) or a single substantial overview page.
       if (guide.chapters.length === 0) {
+        expect(guide.overview.length).toBeGreaterThan(0)
         expect(guide.readingTimeMinutes).toBeGreaterThan(3)
       }
 

@@ -23,7 +23,19 @@ describe('getRouteTitle', () => {
       '/guides/manager-worker-parallel-agents',
       "Running Parallel Coding Agents with a Manager and Workers | Guides | Leon's Website",
     ],
+    [
+      '/guides/custom-coding-agent-ide-with-openhands',
+      "Building a Custom Coding-Agent IDE with OpenHands | Guides | Leon's Website",
+    ],
     ['/guides/missing-guide', "Guide Not Found | Leon's Website"],
+    [
+      '/guides/cmux-personal-config',
+      "cmux personal config | Guides | Leon's Website",
+    ],
+    [
+      '/guides/opencode-personal-config',
+      "opencode personal config | Guides | Leon's Website",
+    ],
     ['/apps', "Apps | Leon's Website"],
     ['/apps/whoops-hoops/privacy', 'Privacy Policy | Whoops Hoops'],
     ['/repo/alpha-projs', "Alpha Projects | Repo | Leon's Website"],
@@ -52,6 +64,12 @@ describe('getRouteTitle', () => {
     ['/sub-wait/station/unknown', 'Station Not Found | Sub-Wait'],
     ['/tuzi', 'Tuzi'],
     ['/tuzi/how-ranking-works', 'How Ranking Works | Tuzi'],
+    ['/weather/', 'NYC Weather'],
+    ['/weather/weekly', 'Weekly | NYC Weather'],
+    ['/weather/alerts', 'Alerts | NYC Weather'],
+    ['/weather/install', 'Install | NYC Weather'],
+    ['/weather/day/2026-08-20', '2026-08-20 | NYC Weather'],
+    ['/weather/day/not-a-date', 'Page Not Found | NYC Weather'],
   ])('returns a meaningful title for %s', (pathname, expected) => {
     expect(getRouteTitle(pathname)).toBe(expected)
   })
@@ -63,6 +81,8 @@ describe('getRouteContentGroup', () => {
     ['/blog', 'blog'],
     ['/blog/hello-blog', 'blog'],
     ['/guides', 'guides'],
+    ['/guides/cmux-personal-config', 'guides'],
+    ['/guides/opencode-personal-config', 'guides'],
     ['/apps', 'apps-index'],
     ['/apps/whoops-hoops/privacy', 'whoops-hoops'],
     ['/apps/whoops-hoops/support', 'whoops-hoops'],
@@ -73,6 +93,8 @@ describe('getRouteContentGroup', () => {
     ['/sub-wait/station/F16/N', 'sub-wait'],
     ['/workout-lab/exercises', 'workout-lab'],
     ['/tuzi/how-ranking-works', 'tuzi'],
+    ['/weather/', 'weather'],
+    ['/weather/day/2026-08-20', 'weather'],
     ['/georgies-board-game-nights', 'game-nights'],
     ['/game-nights', 'game-nights'],
     ['/unknown-path', 'other'],

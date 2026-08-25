@@ -14,7 +14,9 @@ function renderTuzi(path = '/tuzi/'): void {
 }
 
 describe('Tuzi route', () => {
-  it('renders the Elo comparison and complete static catalog', () => {
+  // Rendering the full 100+ book catalog takes >4s on CI runners, which
+  // brushes the default 5s timeout whenever the suite runs under load.
+  it('renders the Elo comparison and complete static catalog', { timeout: 15_000 }, () => {
     renderTuzi()
 
     expect(

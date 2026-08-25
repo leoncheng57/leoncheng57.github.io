@@ -2,6 +2,10 @@
   "name": "new-website-prototype",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "npm@10.8.2",
+  "engines": {
+    "node": ">=20 <21"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && cp docs/index.html docs/404.html",
@@ -13,11 +17,12 @@
   },
   "dependencies": {
     "classnames": "^2.3.1",
+    "framer-motion": "^13.1.0",
     "gtfs-realtime-bindings": "^2.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
-    "react-router-dom": "^7.14.0",
+    "react-router-dom": "^7.18.2",
     "rehype-raw": "^7.0.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1"
@@ -29,14 +34,14 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "@vitejs/plugin-react": "^4.0.0",
-    "eslint": "8.15.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "eslint": "8.57.1",
     "eslint-plugin-react": "^7.37.4",
     "ffmpeg-static": "^5.3.0",
     "jsdom": "^29.0.2",
     "playwright": "^1.62.1",
     "typescript": "^5.8.2",
-    "vite": "^6.0.0",
+    "vite": "^6.4.3",
     "vitest": "^4.1.4"
   }
 }

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import GtfsRealtimeBindings from 'gtfs-realtime-bindings'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
@@ -90,20 +90,27 @@ describe('SubWaitRoute', () => {
     expect(screen.getByRole('searchbox')).toBeInTheDocument()
   })
 
-  it('renders a feedback button in the masthead', () => {
+  it('renders feedback buttons in the masthead and the footer', () => {
     renderAt('/sub-wait/')
 
     expect(
-      screen.getByRole('button', { name: 'Send feedback' }),
+      screen.getAllByRole('button', { name: 'Send feedback' }),
+    ).toHaveLength(2)
+    expect(
+      within(screen.getByRole('contentinfo')).getByRole('button', {
+        name: 'Send feedback',
+      }),
     ).toBeInTheDocument()
   })
 
-  it('links back to LeonCheng.dev from the footer', () => {
+  it('links back to leoncheng.dev from the footer', () => {
     renderAt('/sub-wait/')
 
     expect(
-      screen.getByRole('link', { name: '← LeonCheng.dev' }),
-    ).toHaveAttribute('href', 'https://leoncheng.dev/')
+      within(screen.getByRole('contentinfo')).getByRole('link', {
+        name: 'leoncheng.dev',
+      }),
+    ).toHaveAttribute('href', '/')
   })
 
   it('renders a station page with live arrivals in both directions', async () => {

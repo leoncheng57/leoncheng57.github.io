@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 import Headline from '../components/headline/headline'
 import Social from '../components/social/social'
+import SiteFooter from '../components/site-footer/SiteFooter'
 import TopNav from '../components/top-nav/TopNav'
 import { getAllBlogPosts } from '../features/blog/content'
 import { getAllGuides } from '../features/guides/content'
@@ -20,6 +21,16 @@ type RecentItem = {
 }
 
 const APP_ITEMS: RecentItem[] = [
+  {
+    // Not a markdown guide, so it cannot come from getAllGuides().
+    key: 'guide-opencode-remote-control',
+    title: 'OpenCode Remote Control',
+    type: 'Guide',
+    date: '2026-08-13',
+    href: '/guides/opencode-remote-control',
+    cta: 'Read guide',
+    status: ['Beta'],
+  },
   {
     key: 'app-tuzi',
     title: 'Tuzi',
@@ -153,6 +164,7 @@ export default function HomeRoute(): ReactElement {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   )
 }
