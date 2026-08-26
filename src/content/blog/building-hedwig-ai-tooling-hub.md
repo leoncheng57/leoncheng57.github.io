@@ -23,9 +23,11 @@ Over the following months, contributors across disciplines added applications an
 
 This is a build retrospective, not a claim that every company should build its own AI platform. The strongest reason to build one is not that a chat interface looks easy to reproduce. It is that the work depends on internal context, controlled actions, repeatable workflows, and infrastructure that teams would otherwise rebuild separately.
 
-The interactive tour below makes that shape tangible. It presents seven tools, including a Playground and Skills surface, plus a Cmd/Ctrl+K search entry point that ties the tour together. It uses only scripted, fictional data and generic labels; it is an editorial simulation, not a reproduction of an internal UI, workflow, catalog, or dataset.
+The interactive tour below makes that shape tangible. It presents seven tools, including a Playground and Skills surface, plus a Cmd/Ctrl+K search entry point that ties the tour together.
 
-![A full interactive tour of seven fictional AI tools, including Playground and Skills, joined by Cmd/Ctrl+K and using only scripted example data.](component:hedwig-tools-simulation)
+> **Simulation note:** Every simulation in this article uses scripted, fictional, sanitized data. They illustrate workflow structure and interaction design only. They make no network calls, and they do not reproduce internal interfaces, catalogs, records, customers, or operational results.
+
+![An interactive tour of seven AI tools, including Playground and Skills, joined by Cmd/Ctrl+K.](component:hedwig-tools-simulation)
 
 ```mermaid
 %% title: Platform evolution from one workflow to shared foundations
@@ -70,9 +72,9 @@ flowchart TD
   Policy --> Operations["Tracing, identity, and releases"]
 ```
 
-The first compact simulation shows the original pattern at its safest: a fictional event, bounded evidence, visible progress, and a report that still requires human review. Every name, status, and result in it is scripted example data, not internal UI or operational information.
+The first compact simulation shows the original pattern at its safest: an event, bounded evidence, visible progress, and a report that still requires human review.
 
-![A compact fictional on-call investigation simulation with scripted event context, progress, and a human-reviewed report.](component:hedwig-tool-on-call)
+![A compact on-call investigation simulation with event context, progress, and a human-reviewed report.](component:hedwig-tool-on-call)
 
 ### The pivot from application to platform
 
@@ -135,9 +137,9 @@ flowchart TD
   Workspace --> Review
 ```
 
-The fictional remote-code simulation illustrates both ends of that spectrum: an interactive workspace with a streamed transcript, side panels for files, changes, preview, and a command audit, plus a separate delegated queue that turns tickets into change requests. It is an editorial model, not a copy of an internal coding surface or repository.
+The remote-code simulation illustrates both ends of that spectrum: an interactive workspace with a streamed transcript, side panels for files, changes, preview, and a command audit, plus a separate delegated queue that turns tickets into change requests.
 
-![A compact fictional remote coding simulation with a scripted transcript, workspace side panels, a delegated job queue, and human merge controls.](component:hedwig-tool-remote-code)
+![A compact remote coding simulation with a transcript, workspace side panels, a delegated job queue, and human merge controls.](component:hedwig-tool-remote-code)
 
 #### Tracing, memory, and integrations
 
@@ -147,7 +149,17 @@ Memory followed the same evidence discipline. The platform implemented bounded r
 
 MCP support separated integration discovery from integration authority. A registry described available servers and capabilities, policy decided which applications or agents could request them, and a gateway provided a controlled execution boundary. Registration did not grant universal access. Typed inputs, scoped credentials, auditability, and application-level tool selection still determined what an agent could do.
 
-The design principle was that models supplied interpretation, exploration, and synthesis. Deterministic code owned routing, validation, permissions, formatting, persistence, state transitions, and side effects.
+The design principle was simple: use models where judgment is genuinely useful, and make everything around that judgment as deterministic as possible.
+
+Models interpreted ambiguous requests, explored bounded evidence, and synthesized explanations or proposals. Deterministic software owned the pipeline and the flow: routing each request, selecting the permitted tools and context, validating structured output, enforcing permissions, persisting state, formatting results, advancing lifecycle states, and performing side effects.
+
+Keeping the pipeline deterministic was the single most important decision for reliability. A model could propose a diagnosis, a query, or a change plan, but ordinary code decided whether the input was valid, whether the action was permitted, which state came next, and whether anything durable actually happened. Probabilistic reasoning stayed inside an observable, testable, reviewable flow instead of becoming the flow itself.
+
+The goal was never to eliminate model uncertainty. It was to confine it, so the surrounding system stayed predictable: typed inputs, explicit transitions, bounded retries, durable records, automated checks, and human gates on consequential actions. Whenever we found ourselves debugging unpredictable behavior, the cause was almost always a step we had left to the model that should have been plain code.
+
+CI/CD made that boundary practical during delivery. Each change request was automatically tagged with risk and domain labels, then routed through checks proportionate to those labels. The pipeline also deployed a frontend preview for review and generated automated AI reviewer comments alongside the usual validation.
+
+That combination made iteration and review noticeably faster while holding a slightly higher quality bar. Contributors could inspect a real preview, respond to targeted review comments before a human opened the change, and give reviewers better evidence. Automation covered the repeatable checks and the first review pass; people kept responsibility for domain judgment, risky changes, and final acceptance.
 
 That division is easy to state and hard to preserve. Every time we let prose stand in for an output contract, a downstream system had to guess what the agent meant. Every time we relied on prompt text as an authorization boundary, we created a policy that could not be reliably enforced. Structured tool calls and validated output added constraints, but they also made systems easier to test, observe, and safely connect to real workflows.
 
@@ -164,9 +176,9 @@ flowchart TD
   Software --> Trace["Tracing and feedback"]
 ```
 
-The fictional customer-API simulation applies that boundary to a per-customer health view: a typeahead customer search, region traffic cards, availability and latency targets, and a weekly attainment matrix with visible misses. Every value is scripted; the simulation is not connected to a real customer, service, endpoint, or internal interface.
+The customer-API simulation applies that boundary to a per-customer health view: a typeahead customer search, region traffic cards, availability and latency targets, and a weekly attainment matrix with visible misses.
 
-![A compact fictional customer health dashboard with scripted search, region cards, SLO targets, and a weekly attainment matrix.](component:hedwig-tool-customer-api)
+![A compact customer health dashboard with search, region cards, SLO targets, and a weekly attainment matrix.](component:hedwig-tool-customer-api)
 
 ### Playgrounds are a stage, not a product claim
 
@@ -176,9 +188,9 @@ Experiments had a clearer path when they remained visibly experimental and featu
 
 This was one reason shared infrastructure paid off. A contributor could work on a narrowly defined application without first building login, deployment, observability, agent invocation, or the basic interface shell. The platform lowered the cost of trying an idea, while the application boundaries made it possible to stop trying one.
 
-The fictional Playgrounds and Skills simulation uses scripted status pills, an instant filter beside an AI topic search, a sandboxed tryout, and a human-merged publication path to illustrate experimentation and packaging. It is not based on an internal playground, skill, catalog entry, workflow, or production result.
+The Playgrounds and Skills simulation uses status pills, an instant filter beside an AI topic search, a sandboxed tryout, and a human-merged publication path to illustrate experimentation and packaging.
 
-![A compact fictional Playgrounds and Skills simulation with scripted status pills, dual search paths, a sandboxed tryout, and a reviewed publication flow.](component:hedwig-tool-playgrounds-skills)
+![A compact Playgrounds and Skills simulation with status pills, dual search paths, a sandboxed tryout, and a reviewed publication flow.](component:hedwig-tool-playgrounds-skills)
 
 ### A Skills Marketplace packages behavior
 
@@ -207,9 +219,9 @@ These layers also prevented an easy measurement mistake. Catalog footprint measu
 
 Discoverability had a maintenance cost. Stale entries, ambiguous names, missing owners, and incompatible versions made a large catalog worse rather than better. Review and deprecation were therefore part of search quality, not administrative work around it.
 
-The fictional Cmd/Ctrl+K simulation uses scripted queries, instant local results, supplementary catalog groups, and visible lifecycle labels. It is not connected to an internal search index, application catalog, skill registry, integration, or usage record.
+The Cmd/Ctrl+K simulation shows a fixed query, instant local results, supplementary catalog groups, and visible lifecycle labels on every hit.
 
-![A compact fictional Cmd/Ctrl+K discovery simulation with instant local results, supplementary catalog groups, and lifecycle labels.](component:hedwig-tool-cmd-k-discovery)
+![A compact Cmd/Ctrl+K discovery simulation with instant local results, supplementary catalog groups, and lifecycle labels.](component:hedwig-tool-cmd-k-discovery)
 
 ## What did not work
 
@@ -243,9 +255,9 @@ flowchart TD
   Parallel --> Workspaces["Correction: limits, cancellation, and cleanup"]
 ```
 
-The fictional query-companion simulation shows a narrower correction: one read-only SQL tool with labeled, copyable calls, a polled lifecycle, capped rows, and a blocked-write error keep the contract inspectable. It contains no real workspace, catalog, schema, query, or operational metric and is not an internal UI.
+The query-companion simulation shows a narrower correction: one read-only SQL tool with labeled calls, a polled lifecycle, capped rows, and a blocked-write error that keeps the contract inspectable.
 
-![A compact fictional data-query companion with labeled read-only tool calls, a capped result table, and a blocked-write example.](component:hedwig-tool-databricks-mcp)
+![A compact data-query companion with labeled read-only tool calls, a capped result table, and a blocked-write example.](component:hedwig-tool-databricks-mcp)
 
 ### Adoption was uneven, and that was useful information
 
@@ -260,9 +272,9 @@ Pageviews, sessions, and agent runs are signals, not outcomes. They can be domin
 
 Those questions also helped separate the platform from its applications. Hedwig could make an application easier to build and operate; that did not prove the application was useful. Domain teams still needed to own that judgment.
 
-The fictional Slackbot operations simulation makes the same distinction for a collaboration workflow. It follows an existing bot through operational routes for channels, simulated conversations, bounded memory, logs, ratings, and threads; every name, message, and status is scripted and it does not connect to a real workspace, conversation, coworker, or internal bot.
+The Slackbot operations simulation makes the same distinction for a collaboration workflow. It follows an existing bot through operational routes for channels, simulated conversations, bounded memory, logs, ratings, and threads.
 
-![A compact fictional Slackbot profile with operational routes for channels, simulation, memory, logs, ratings, and threads.](component:hedwig-tool-slack-builder)
+![A compact Slackbot profile with operational routes for channels, simulation, memory, logs, ratings, and threads.](component:hedwig-tool-slack-builder)
 
 ## Ownership is part of the architecture
 
@@ -327,7 +339,7 @@ The broad catalog footprint around Pigwidgeon is evidence that it was widely ado
 
 This evidence-qualified chronology separates milestones from the caveats that qualify them. Its version labels are editorial maturity markers, not source-control tags or completion claims; the underlying records are intentionally not published.
 
-![A dark vertical source-backed timeline of Hedwig milestones, stages, and evidence.](component:hedwig-historical-timeline)
+![A dark vertical timeline of Hedwig milestones, stages, and supporting records.](component:hedwig-historical-timeline)
 
 ### What I learned
 

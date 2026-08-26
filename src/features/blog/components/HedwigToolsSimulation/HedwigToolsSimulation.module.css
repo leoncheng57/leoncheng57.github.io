@@ -145,7 +145,7 @@
 .controls button:last-child::after { right: 0; left: auto; transform: translate(0, 0.25rem); }
 .controls button:hover::after, .controls button:focus-visible::after { transform: translate(-50%, 0); opacity: 1; }
 .controls button:first-child:hover::after, .controls button:first-child:focus-visible::after, .controls button:last-child:hover::after, .controls button:last-child:focus-visible::after { transform: translate(0, 0); }
-.disclosure, .motionNote { margin: 0; padding: 0 1.25rem 1rem; color: var(--text-muted); font-size: 0.72rem; }
+.motionNote { margin: 0; padding: 0 1.25rem 1rem; color: var(--text-muted); font-size: 0.72rem; }
 .motionNote { color: var(--text-primary); }
 .compact .stage { grid-template-columns: 1fr; }
 

@@ -35,7 +35,7 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     summary: 'Collect a bounded incident snapshot before a human decides what to do.',
     kind: 'on-call',
     events: [
-      { label: 'Alert received', detail: 'A fictional pager alert opens a pending investigation with service and team labels.' },
+      { label: 'Alert received', detail: 'A pager alert opens a pending investigation with service and team labels.' },
       { label: 'Triage posted', detail: 'Phase one assigns a demo severity and scores region and customer impact.' },
       { label: 'Evidence linked', detail: 'Metrics, logs, traces, and dashboards stream into one investigation log.' },
       { label: 'Root cause proposed', detail: 'A configuration-change hypothesis lists its supporting evidence.' },
@@ -66,7 +66,7 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     summary: 'Turn a sanitized usage series into an accessible operational overview.',
     kind: 'customer-api',
     events: [
-      { label: 'Customer scoped', detail: 'A typeahead search picks one fictional org; region cards split its traffic.' },
+      { label: 'Customer scoped', detail: 'A typeahead search picks one org; region cards split its traffic.' },
       { label: 'Health summarized', detail: 'Availability, latency p99, and requests compare against demo targets.' },
       { label: 'Attainment matrixed', detail: 'A weekly resource matrix pairs availability and latency with visible misses.' },
       { label: 'Usage reviewed', detail: 'Billing-period usage, limits, and exports stay deterministic; AI only drafts SQL.' },
@@ -77,7 +77,7 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     number: '04',
     title: 'Read-only Databricks MCP',
     shortTitle: 'Databricks MCP',
-    summary: 'Inspect fictional catalog metadata and query results through a read-only boundary.',
+    summary: 'Inspect catalog metadata and query results through a read-only boundary.',
     kind: 'databricks-mcp',
     events: [
       { label: 'Integration scoped', detail: 'One read-only SQL tool is exposed; catalog browsing uses safe statements.' },
@@ -95,7 +95,7 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     summary: 'Inspect a bot through its channels, simulation, memory, logs, ratings, and threads.',
     kind: 'slack-builder',
     events: [
-      { label: 'Bot profile opened', detail: 'A fictional production bot exposes its operational subpages.' },
+      { label: 'Bot profile opened', detail: 'A production bot exposes its operational subpages.' },
       { label: 'Channels refreshed', detail: 'Public channel membership is visible; private channels stay undisclosed.' },
       { label: 'Thread simulated', detail: 'A recorded demo thread runs the same review-safe bot workflow.' },
       { label: 'Memory inspected', detail: 'Bounded feedback and resolved patterns remain visible as prior context.' },
@@ -109,7 +109,7 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     number: '06',
     title: 'Playgrounds & Skills Marketplace',
     shortTitle: 'Playgrounds',
-    summary: 'Move a fictional idea through a gated experiment and evidence-led human review.',
+    summary: 'Move an idea through a gated experiment and evidence-led human review.',
     kind: 'playgrounds-skills',
     events: [
       { label: 'Hub browsed', detail: 'Experiment cards carry active, WIP, and coming-soon pills with updated dates.' },

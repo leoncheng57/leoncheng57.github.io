@@ -203,17 +203,17 @@ describe('blog routes', () => {
       screen.getByRole('link', { name: 'A Skills Marketplace packages behavior', hidden: true })
     ).toHaveAttribute('href', '#a-skills-marketplace-packages-behavior')
     expect(
-      screen.getByRole('region', { name: /full interactive tour of seven fictional AI tools/i })
+      screen.getByRole('region', { name: /interactive tour of seven AI tools/i })
     ).toBeInTheDocument()
     expect(tableOfContents).toHaveTextContent('Important features to showcase')
     expect(tableOfContents).toHaveTextContent('Historical Timeline')
     expect(screen.getAllByRole('button', { name: /Playgrounds/i })).not.toHaveLength(0)
     expect(screen.getAllByRole('button', { name: /Cmd\+K/i })).not.toHaveLength(0)
     expect(
-      screen.getByRole('region', { name: /compact fictional Playgrounds and Skills simulation/i })
+      screen.getByRole('region', { name: /compact Playgrounds and Skills simulation/i })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('region', { name: /compact fictional Cmd\/Ctrl\+K discovery simulation/i })
+      screen.getByRole('region', { name: /compact Cmd\/Ctrl\+K discovery simulation/i })
     ).toBeInTheDocument()
     expect(screen.getByRole('region', { name: 'Hedwig historical timeline' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Historical Timeline' })).toBeInTheDocument()

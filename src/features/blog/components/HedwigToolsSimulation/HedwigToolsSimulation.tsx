@@ -4,8 +4,10 @@ import {
   advanceSimulation,
   completeSimulation,
   createSimulationState,
+  getEventBounds,
   getSimulationProgress,
   selectTool,
+  stepEvent,
   summarizeSimulation,
 } from './simulation'
 import type { HedwigSimulationState, SimulationScope } from './simulation'
@@ -64,7 +66,7 @@ function OnCallView({ stage }: { stage: number }): ReactElement {
   return (
     <div className={styles.panelGrid}>
       <div className={styles.signalCard}>
-        <span className={styles.pulse} /> SEV-3 demo · high urgency · fictional
+        <span className={styles.pulse} /> SEV-3 demo · high urgency
       </div>
       <ol className={styles.checkList} aria-label="Investigation phases">
         {items.map((item, index) => (
@@ -116,7 +118,7 @@ function ApiGraphView({ stage }: { stage: number }): ReactElement {
         ))}
       </div>
       <figcaption>
-        Accessible summary: fictional weekly requests rise overall from 42k to 68k, with a
+        Accessible summary: weekly requests rise overall from 42k to 68k, with a
         dip in week 3.
       </figcaption>
     </figure>
@@ -252,7 +254,7 @@ export default function HedwigToolsSimulation({
     setState(initial)
   }, [compactToolIndex, reducedMotion, scope])
 
-  const playing = visible && documentVisible && !reducedMotion && !state.completed
+  const playing = visible && documentVisible && !reducedMotion && !state.completed && !state.steered
   useEffect(() => {
     if (!playing) return undefined
     const timer = window.setTimeout(
@@ -270,6 +272,41 @@ export default function HedwigToolsSimulation({
   const chooseTool = (index: number): void => {
     setState(reducedMotion ? completeSimulation(HEDWIG_TOOLS, 'single', index) : selectTool(index))
   }
+  const stepStage = (delta: number): void => {
+    setState((current) => stepEvent(HEDWIG_TOOLS, current, delta))
+  }
+
+  // Compact embeds walk the stages of the one tool they show; the catalog tour
+  // keeps its cross-tool arrows because it is the aggregate walkthrough.
+  const stageBounds = getEventBounds(HEDWIG_TOOLS, state)
+  const controls =
+    mode === 'compact'
+      ? {
+          groupLabel: `Step through ${tool.title} stages`,
+          previous: {
+            onClick: () => stepStage(-1),
+            disabled: stageBounds.atFirst,
+            label: `Previous stage of ${tool.title}`,
+          },
+          next: {
+            onClick: () => stepStage(1),
+            disabled: stageBounds.atLast,
+            label: `Next stage of ${tool.title}`,
+          },
+        }
+      : {
+          groupLabel: 'Browse the tool tour',
+          previous: {
+            onClick: () => chooseTool(Math.max(0, state.toolIndex - 1)),
+            disabled: state.toolIndex === 0,
+            label: `Previous tool: ${previousTitle}`,
+          },
+          next: {
+            onClick: () => chooseTool(Math.min(HEDWIG_TOOLS.length - 1, state.toolIndex + 1)),
+            disabled: state.toolIndex === HEDWIG_TOOLS.length - 1,
+            label: `Next tool: ${nextTitle}`,
+          },
+        }
 
   return (
     <section
@@ -304,8 +341,8 @@ export default function HedwigToolsSimulation({
             <p>{tool.summary}</p>
           </header>
           {mode === 'compact' ? (
-            <fieldset disabled className={styles.staticView} aria-label="Autoplaying fictional tool view">
-              <p className={styles.staticNotice} role="note">Autoplay preview · controls shown for context</p>
+            <fieldset disabled className={styles.staticView} aria-label="Autoplaying tool view">
+              <p className={styles.staticNotice} role="note">Autoplays · arrows step through this tool&apos;s stages</p>
               <CompactToolView toolId={tool.id} stage={state.eventIndex} />
             </fieldset>
           ) : <ToolView tool={tool} stage={state.eventIndex} />}
@@ -321,24 +358,23 @@ export default function HedwigToolsSimulation({
           </div>
           <span aria-hidden="true">{progress.current}/{progress.total}</span>
         </div>
-        <p className={styles.disclosure}>All names, metrics, incidents, queries, and results shown here are fictional and sanitized. This simulation makes no network calls.</p>
       </div>
-      <div className={styles.controls} aria-label="Browse the tool tour">
+      <div className={styles.controls} aria-label={controls.groupLabel}>
           <button
             type="button"
-            onClick={() => chooseTool(Math.max(0, state.toolIndex - 1))}
-            disabled={state.toolIndex === 0}
-            aria-label={`Previous tool: ${previousTitle}`}
-            data-tooltip={`Previous tool: ${previousTitle}`}
+            onClick={controls.previous.onClick}
+            disabled={controls.previous.disabled}
+            aria-label={controls.previous.label}
+            data-tooltip={controls.previous.label}
           >
             <Icon name="previous" />
           </button>
           <button
             type="button"
-            onClick={() => chooseTool(Math.min(HEDWIG_TOOLS.length - 1, state.toolIndex + 1))}
-            disabled={state.toolIndex === HEDWIG_TOOLS.length - 1}
-            aria-label={`Next tool: ${nextTitle}`}
-            data-tooltip={`Next tool: ${nextTitle}`}
+            onClick={controls.next.onClick}
+            disabled={controls.next.disabled}
+            aria-label={controls.next.label}
+            data-tooltip={controls.next.label}
           >
             <Icon name="next" />
           </button>

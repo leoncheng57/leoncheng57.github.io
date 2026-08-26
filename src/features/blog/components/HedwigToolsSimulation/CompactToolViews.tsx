@@ -51,7 +51,7 @@ function OnCallCompact({ stage }: { stage: number }): ReactElement {
         <section>
           <h3>Triage</h3>
           <Pill tone="warn">SEV-3 demo</Pill>
-          <p>Checkout latency rose after a fictional release. Region scope: single-region. Customer scope: could not determine.</p>
+          <p>Checkout latency rose after a release. Region scope: single-region. Customer scope: could not determine.</p>
         </section>
         <section>
           <h3>Root cause &amp; evidence</h3>
@@ -66,7 +66,7 @@ function OnCallCompact({ stage }: { stage: number }): ReactElement {
         </section>
         <section>
           <h3>Teams to contact</h3>
-          <p><Pill tone="danger">Immediate</Pill> Demo service stewards · On-call: duty engineer (fictional)</p>
+          <p><Pill tone="danger">Immediate</Pill> Demo service stewards · On-call: duty engineer</p>
           <p><Pill tone="neutral">Informational</Pill> Payments demo team</p>
         </section>
       </div>
@@ -207,7 +207,7 @@ function CustomerApiCompact({ stage }: { stage: number }): ReactElement {
       <div className={styles.viewHeader}>
         <label className={styles.searchField}>
           Customer
-          <input readOnly value="acorn demo org" aria-label="Customer typeahead search (fictional)" />
+          <input readOnly value="acorn demo org" aria-label="Customer typeahead search" />
         </label>
         <span className={styles.staticControl}>All customers</span>
       </div>
@@ -317,17 +317,17 @@ function SlackCompact({ stage }: { stage: number }): ReactElement {
   const route = routes[Math.min(stage, routes.length - 1)]
   const routeDetails: Record<string, ReactElement> = {
     Channels: <><p className={styles.sectionLabel}>Public channel membership</p><ul className={styles.routeList}><li><strong>#demo-support</strong><span>Member</span></li><li><strong>#demo-updates</strong><span>Member</span></li></ul><button type="button">Refresh</button><small className={styles.gateNote}>Private-channel membership is intentionally not listed.</small></>,
-    Simulator: <><p>Ask as a chat user</p><div className={styles.fakeComposer}>Why did the demo request slow down?<button type="button">Simulate thread</button></div><p className={styles.sectionLabel}>Recorded thread</p><div className={styles.slackMsg}><span aria-hidden="true">◆</span><p><strong>Demo support bot</strong> <span className={styles.appTag}>SIMULATED</span><br />I found a fictional release timing change and posted a reviewable summary.</p></div></>,
-    Memory: <><p>Bounded memories supply prior context only when relevant to a fictional thread.</p><ul className={styles.routeList}><li><strong>Human feedback</strong><span>retained</span></li><li><strong>Resolved demo pattern</strong><span>reviewed</span></li></ul><small className={styles.gateNote}>No memory is written by this simulator.</small></>,
+    Simulator: <><p>Ask as a chat user</p><div className={styles.fakeComposer}>Why did the demo request slow down?<button type="button">Simulate thread</button></div><p className={styles.sectionLabel}>Recorded thread</p><div className={styles.slackMsg}><span aria-hidden="true">◆</span><p><strong>Demo support bot</strong> <span className={styles.appTag}>SIMULATED</span><br />I found a release timing change and posted a reviewable summary.</p></div></>,
+    Memory: <><p>Bounded memories supply prior context only when relevant to the thread.</p><ul className={styles.routeList}><li><strong>Human feedback</strong><span>retained</span></li><li><strong>Resolved demo pattern</strong><span>reviewed</span></li></ul><small className={styles.gateNote}>No memory is written by this simulator.</small></>,
     Logs: <><p className={styles.sectionLabel}>Recent agent activity</p><ul className={styles.logList}><li><strong>trigger</strong><span>message matched demo channel scope</span><small>09:14</small></li><li><strong>tool</strong><span>read bounded demo context</span><small>09:14</small></li><li><strong>response</strong><span>posted simulated summary</span><small>09:15</small></li></ul></>,
-    Ratings: <><p>Thread outcome feedback keeps the bot maintainable.</p><div className={styles.ratingRow}><button type="button">Correct</button><button type="button">Partly correct</button><button type="button">Wrong</button></div><small className={styles.gateNote}>Ratings are fictional and stay on this page.</small></>,
+    Ratings: <><p>Thread outcome feedback keeps the bot maintainable.</p><div className={styles.ratingRow}><button type="button">Correct</button><button type="button">Partly correct</button><button type="button">Wrong</button></div><small className={styles.gateNote}>Ratings stay on this page.</small></>,
     Threads: <><p className={styles.sectionLabel}>Recent threads</p><ul className={styles.threadList}><li><Pill tone="ok">answered</Pill><strong>Weekly update request</strong><small>3 messages · 9m ago</small></li><li><Pill tone="info">working</Pill><strong>Demo incident question</strong><small>2 messages · now</small></li><li><Pill tone="neutral">resolved</Pill><strong>Access guide lookup</strong><small>5 messages · yesterday</small></li></ul></>,
   }
   return (
     <div className={styles.compactView} data-compact-view="slack-builder">
       <div className={styles.botProfileHeader}>
         <span className={styles.botAvatar} aria-hidden="true">◆</span>
-        <div><strong>Demo support bot</strong><p>Answers fictional support questions with bounded context and visible review controls.</p></div>
+        <div><strong>Demo support bot</strong><p>Answers support questions with bounded context and visible review controls.</p></div>
         <Pill tone="ok">Production</Pill>
       </div>
       <div className={styles.routeTabs} role="tablist" aria-label="Slackbot profile routes">

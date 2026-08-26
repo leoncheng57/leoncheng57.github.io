@@ -6,10 +6,11 @@ export interface HedwigSimulationState {
   toolIndex: number
   eventIndex: number
   completed: boolean
+  steered: boolean
 }
 
 export function createSimulationState(toolIndex = 0): HedwigSimulationState {
-  return { toolIndex, eventIndex: 0, completed: false }
+  return { toolIndex, eventIndex: 0, completed: false, steered: false }
 }
 
 export function completeSimulation(
@@ -22,6 +23,7 @@ export function completeSimulation(
     toolIndex: finalToolIndex,
     eventIndex: tools[finalToolIndex].events.length - 1,
     completed: true,
+    steered: false,
   }
 }
 
@@ -34,13 +36,41 @@ export function advanceSimulation(
   const eventCount = tools[state.toolIndex].events.length
   if (state.eventIndex < eventCount - 1) return { ...state, eventIndex: state.eventIndex + 1 }
   if (scope === 'catalog' && state.toolIndex < tools.length - 1) {
-    return { toolIndex: state.toolIndex + 1, eventIndex: 0, completed: false }
+    return { toolIndex: state.toolIndex + 1, eventIndex: 0, completed: false, steered: state.steered }
   }
   return { ...state, completed: true }
 }
 
 export function selectTool(toolIndex: number): HedwigSimulationState {
   return createSimulationState(toolIndex)
+}
+
+/**
+ * Moves one scripted stage within the currently selected tool.
+ *
+ * Compact embeds use this so their arrows walk that single tool's stages
+ * instead of jumping to a neighbouring tool. Manual stepping marks the state
+ * as steered, which stops autoplay from overriding the reader's position.
+ */
+export function stepEvent(
+  tools: readonly HedwigTool[],
+  state: HedwigSimulationState,
+  delta: number
+): HedwigSimulationState {
+  const lastEventIndex = tools[state.toolIndex].events.length - 1
+  const eventIndex = Math.min(lastEventIndex, Math.max(0, state.eventIndex + delta))
+  if (eventIndex === state.eventIndex && state.steered) return state
+  return { ...state, eventIndex, completed: eventIndex === lastEventIndex, steered: true }
+}
+
+export function getEventBounds(
+  tools: readonly HedwigTool[],
+  state: HedwigSimulationState
+): { atFirst: boolean; atLast: boolean } {
+  return {
+    atFirst: state.eventIndex === 0,
+    atLast: state.eventIndex === tools[state.toolIndex].events.length - 1,
+  }
 }
 
 export function getSimulationProgress(
