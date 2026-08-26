@@ -46,7 +46,7 @@
 .selector { border-bottom: 1px solid var(--border); background: #0e100f; }
 .selector ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
 .selector li { min-width: 0; }
-.selector button {
+.selector > ol > li > span {
   display: grid;
   gap: 0.15rem;
   width: 100%;
@@ -62,9 +62,9 @@
   overflow-wrap: anywhere;
   cursor: pointer;
 }
-.selector button span { color: #929b95; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.65rem; }
-.selector button[aria-current='step'] { background: var(--panel-raised); color: var(--text-primary); box-shadow: inset 0 -2px var(--accent); }
-.selector button[aria-current='step'] span { color: var(--accent); }
+.selector > ol > li > span > span { color: #929b95; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.65rem; }
+.selector > ol > li > span[aria-current='step'] { background: var(--panel-raised); color: var(--text-primary); box-shadow: inset 0 -2px var(--accent); }
+.selector > ol > li > span[aria-current='step'] > span { color: var(--accent); }
 .selector button:focus-visible, .controls button:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
 
 .stage { display: grid; grid-template-columns: minmax(12rem, 0.8fr) minmax(18rem, 1.4fr); gap: 1.25rem; padding: 1.25rem; }
@@ -151,6 +151,7 @@
 .compact .stage { grid-template-columns: 1fr; }
 
 .compactView { display: grid; min-width: 0; gap: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 0.6rem; background: var(--panel); box-shadow: inset 0 1px #272c29; }
+.staticView { min-width: 0; margin: 0; padding: 0; border: 0; }
 .compactView h3 { margin: 0 0 0.45rem; color: var(--text-primary); font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
 .compactView p { margin: 0; color: var(--text-muted); }
 .compactView button, .compactView select, .compactView input { min-height: 2.4rem; border: 1px solid var(--border-strong); border-radius: 0.35rem; background: #101311; color: var(--text-primary); font: inherit; }
@@ -246,8 +247,10 @@
 .tableScroll td[data-miss] { background: #2b1412; color: #ffb5af; }
 .integrationChip { padding: 0.25rem 0.55rem; border: 1px solid #8f3b36; border-radius: 999px; color: #ffb5af; font-size: 0.68rem; }
 .toolChip { padding: 0.55rem 0.65rem; border: 1px solid var(--border); border-radius: 0.4rem; background: var(--panel-raised); }
-.toolChip summary { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; color: var(--text-primary); font-size: 0.76rem; cursor: pointer; }
+.toolChipTitle { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; color: var(--text-primary); font-size: 0.76rem; }
 .toolChip code { display: block; margin-top: 0.5rem; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.3rem; background: #090b0a; color: #d7ded9; font-size: 0.7rem; overflow-wrap: anywhere; }
+.staticDisclosure { padding: 0.65rem; border: 1px solid var(--border); border-radius: 0.4rem; }
+.staticDisclosure > h3 { margin-bottom: 0.55rem; }
 .resultTable { display: block; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.3rem; background: #090b0a; color: #d7ded9 !important; font-size: 0.72rem; white-space: pre !important; overflow-x: auto; }
 .blockedText { color: #ffb5af !important; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }

@@ -74,7 +74,7 @@ The first compact simulation shows the original pattern at its safest: a fiction
 
 ![A compact fictional on-call investigation simulation with scripted event context, progress, and a human-reviewed report.](component:hedwig-tool-on-call)
 
-## The pivot from application to platform
+### The pivot from application to platform
 
 The original on-call workflow needed a surprisingly large amount of supporting software. An agent needed a defined job, bounded tools, a way to report progress, a durable record of what happened, feedback, and a safe path to hand work back to a person.
 
@@ -103,13 +103,15 @@ flowchart TD
 
 A modular monolith was the right tradeoff for this stage. It made integration cheap, kept the operational surface manageable, and let teams iterate quickly. The cost was shared deployment risk and more coordination as the platform grew. The answer was not to claim that the boundaries were perfect. It was to make them visible with application manifests, ownership rules, scoped data, and review gates.
 
-### Code boundaries and deployment boundaries
+#### Code boundaries and deployment boundaries
 
 The modular monolith was one codebase producing one deployable artifact. That artifact was promoted into separate long-lived environment deployments, while workspace agents created disposable runtimes for individual tasks. The long-lived deployments served the platform; the disposable workspaces contained task execution and were expected to be bounded, observable, and cleaned up.
 
 Those were different boundaries for different risks. Code boundaries kept applications from importing one another's assumptions. Deployment boundaries separated durable service operation. Workspace boundaries limited the files, credentials, lifetime, and compute attached to one run. This is intentionally an abstract topology: the durable lesson is the separation of responsibilities, not the particulars of an internal setup.
 
-## Build the environment, not just the prompt
+## Important features to showcase
+
+### Build the environment, not just the prompt
 
 The most reusable Hedwig feature was not a model wrapper. It was the environment around the model.
 
@@ -137,7 +139,7 @@ The fictional remote-code simulation illustrates both ends of that spectrum: an 
 
 ![A compact fictional remote coding simulation with a scripted transcript, workspace side panels, a delegated job queue, and human merge controls.](component:hedwig-tool-remote-code)
 
-### Tracing, memory, and integrations
+#### Tracing, memory, and integrations
 
 Langfuse tracing gave the platform a common place to inspect model calls and agent spans when telemetry was actually emitted. That qualifier matters: configuration and instrumentation are prerequisites, not proof of observed traces. A correctly configured environment could still emit no traces because a path was not exercised, instrumentation was incomplete, or delivery failed. We treated trace presence as something to verify rather than infer from settings.
 
@@ -166,7 +168,7 @@ The fictional customer-API simulation applies that boundary to a per-customer he
 
 ![A compact fictional customer health dashboard with scripted search, region cards, SLO targets, and a weekly attainment matrix.](component:hedwig-tool-customer-api)
 
-## Playgrounds are a stage, not a product claim
+### Playgrounds are a stage, not a product claim
 
 The platform made it cheap to trial an idea. That was useful, but it was not automatically a virtue.
 
@@ -197,7 +199,7 @@ flowchart TD
   Skill --> Maintain
 ```
 
-## From available to discoverable
+### From available to discoverable
 
 A platform can accumulate useful capabilities that remain effectively invisible. Application navigation, a Skills Marketplace, an MCP registry, documentation, and Cmd/Ctrl+K addressed different parts of that problem. Search provided one entry point across local routes and selected remote catalogs; the catalogs supplied metadata; owners supplied descriptions and examples; policy determined whether discovery could become use.
 
@@ -245,7 +247,7 @@ The fictional query-companion simulation shows a narrower correction: one read-o
 
 ![A compact fictional data-query companion with labeled read-only tool calls, a capped result table, and a blocked-write example.](component:hedwig-tool-databricks-mcp)
 
-## Adoption was uneven, and that was useful information
+### Adoption was uneven, and that was useful information
 
 The original assistant gained broad awareness, but the data also showed that its most intensive usage was concentrated. That is a healthier finding than a vague claim that an internal tool was "adopted."
 
@@ -288,11 +290,11 @@ flowchart TD
   Lifecycle --> Durable
 ```
 
-## Two comparisons, two different questions
+### Two comparisons, two different questions
 
 Comparisons are only useful when they preserve the organizing question behind each system. One comparison asks how deeply a platform can optimize a single demanding workload. The other asks how much autonomy teams retain when the hosting path is federated.
 
-### Ramp Inspect: depth in one workload
+#### Ramp Inspect: depth in one workload
 
 [Ramp Inspect](https://builders.ramp.com/post/why-we-built-our-background-agent) is a useful comparison, but it is not the same product category.
 
@@ -311,7 +313,7 @@ Hedwig addressed a broader question: how can teams build and govern many types o
 
 Inspect looks like the stronger reference point for a company whose primary goal is a best-in-class background coding agent. Hedwig's lesson was different: an internal platform can make focused AI applications cheaper to build, provided the platform stays opinionated about safety, ownership, and the distinction between experimentation and a maintained product.
 
-### Pigwidgeon: autonomy through federation
+#### Pigwidgeon: autonomy through federation
 
 **Pigwidgeon is a pseudonym for another mature internal platform at the same company.** It is discussed only at the level needed for an architectural comparison.
 
@@ -327,7 +329,7 @@ This source-backed timeline separates milestones from the evidence and caveats t
 
 ![A dark vertical source-backed timeline of Hedwig milestones, stages, and evidence.](component:hedwig-historical-timeline)
 
-## What I learned
+### What I learned
 
 Hedwig grew from a useful workflow rather than a clean platform plan. That is probably why it acquired the abstractions it actually needed.
 

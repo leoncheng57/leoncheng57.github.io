@@ -205,8 +205,10 @@ describe('blog routes', () => {
     expect(
       screen.getByRole('region', { name: /full interactive tour of seven fictional AI tools/i })
     ).toBeInTheDocument()
-    expect(screen.getAllByRole('button', { name: /Playgrounds/i })).not.toHaveLength(0)
-    expect(screen.getAllByRole('button', { name: /Cmd\+K/i })).not.toHaveLength(0)
+    expect(tableOfContents).toHaveTextContent('Important features to showcase')
+    expect(tableOfContents).toHaveTextContent('Historical Timeline')
+    expect(screen.queryByRole('button', { name: /Playgrounds/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Cmd\+K/i })).not.toBeInTheDocument()
     expect(
       screen.getByRole('region', { name: /compact fictional Playgrounds and Skills simulation/i })
     ).toBeInTheDocument()

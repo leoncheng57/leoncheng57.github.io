@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { KeyboardEvent, ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import type { HedwigToolId } from './tools'
 import styles from './HedwigToolsSimulation.module.css'
 
@@ -91,8 +91,8 @@ function OnCallCompact({ stage }: { stage: number }): ReactElement {
           <button type="button">Create ticket</button>
         </p>
       </section>
-      <details open>
-        <summary>Slack discussion</summary>
+      <section className={styles.staticDisclosure}>
+        <h3>Slack discussion</h3>
         <ol className={styles.slackStream} aria-label="Fictional streamed Slack discussion">
           {slackMessages.slice(0, Math.min(stage + 1, slackMessages.length)).map(([time, author, message, isApp]) => (
             <li key={time}>
@@ -105,15 +105,15 @@ function OnCallCompact({ stage }: { stage: number }): ReactElement {
           ))}
           {stage < slackMessages.length - 1 ? <li className={styles.slackTyping}><span aria-hidden="true">•••</span> Streaming discussion updates…</li> : null}
         </ol>
-      </details>
-      <details>
-        <summary>Investigation log</summary>
+      </section>
+      <section className={styles.staticDisclosure}>
+        <h3>Investigation log</h3>
         <ul className={styles.logList} aria-label="Agent activity log">
           <li><strong>query_metrics</strong><span>latency p99 by release</span><small>3 series</small></li>
           <li><strong>search_logs</strong><span>error patterns since release</span><small>1 pattern</small></li>
           <li><strong>submit_report</strong><span>structured report</span><small>accepted</small></li>
         </ul>
-      </details>
+      </section>
     </div>
   )
 }
@@ -296,14 +296,14 @@ function DatabricksCompact(): ReactElement {
       </div>
       {tab === 'Chat' ? (
         <>
-          <details className={styles.toolChip}>
-            <summary>▸ List demo tables · execute_sql 1 <CopyButton payload="SHOW TABLES IN demo_catalog" /></summary>
+          <section className={styles.toolChip}>
+            <div className={styles.toolChipTitle}>List demo tables · execute_sql 1 <CopyButton payload="SHOW TABLES IN demo_catalog" /></div>
             <code>SHOW TABLES IN demo_catalog</code>
-          </details>
-          <details className={styles.toolChip} open>
-            <summary>▸ Weekly usage totals · execute_sql 2 <CopyButton payload="SELECT week, total FROM demo_usage_summary LIMIT 4" /></summary>
+          </section>
+          <section className={styles.toolChip}>
+            <div className={styles.toolChipTitle}>Weekly usage totals · execute_sql 2 <CopyButton payload="SELECT week, total FROM demo_usage_summary LIMIT 4" /></div>
             <code>SELECT week, total FROM demo_usage_summary LIMIT 4</code>
-          </details>
+          </section>
           <p className={styles.monoNote}>Lifecycle: pending → running → succeeded (polled once per second)</p>
           <section className={styles.panel}>
             <h3>Result</h3>
@@ -335,8 +335,9 @@ function DatabricksCompact(): ReactElement {
   )
 }
 
-function SlackCompact(): ReactElement {
-  const [route, setRoute] = useState('Threads')
+function SlackCompact({ stage }: { stage: number }): ReactElement {
+  const routes = ['Channels', 'Simulator', 'Memory', 'Logs', 'Ratings', 'Threads']
+  const route = routes[Math.min(stage, routes.length - 1)]
   const routeDetails: Record<string, ReactElement> = {
     Channels: <><p className={styles.sectionLabel}>Public channel membership</p><ul className={styles.routeList}><li><strong>#demo-support</strong><span>Member</span></li><li><strong>#demo-updates</strong><span>Member</span></li></ul><button type="button">Refresh</button><small className={styles.gateNote}>Private-channel membership is intentionally not listed.</small></>,
     Simulator: <><p>Ask as a chat user</p><div className={styles.fakeComposer}>Why did the demo request slow down?<button type="button">Simulate thread</button></div><p className={styles.sectionLabel}>Recorded thread</p><div className={styles.slackMsg}><span aria-hidden="true">◆</span><p><strong>Demo support bot</strong> <span className={styles.appTag}>SIMULATED</span><br />I found a fictional release timing change and posted a reviewable summary.</p></div></>,
@@ -353,7 +354,7 @@ function SlackCompact(): ReactElement {
         <Pill tone="ok">Production</Pill>
       </div>
       <div className={styles.routeTabs} role="tablist" aria-label="Slackbot profile routes">
-        {Object.keys(routeDetails).map((item) => <button key={item} type="button" role="tab" aria-selected={route === item} onClick={() => setRoute(item)}>{item}</button>)}
+        {routes.map((item) => <button key={item} type="button" role="tab" aria-selected={route === item}>{item}</button>)}
       </div>
       <section className={styles.panel}><h3>{route}</h3>{routeDetails[route]}</section>
     </div>
@@ -415,19 +416,12 @@ const CMDK_RESULTS = [
 ] as const
 
 function CmdKCompact({ stage }: { stage: number }): ReactElement {
-  const [active, setActive] = useState(0)
-  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
-    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return
-    event.preventDefault()
-    setActive((current) => (current + (event.key === 'ArrowDown' ? 1 : -1) + CMDK_RESULTS.length) % CMDK_RESULTS.length)
-  }
+  const active = Math.min(stage, CMDK_RESULTS.length - 1)
   return (
     <div className={styles.compactView} data-compact-view="cmd-k-discovery">
       <div
         className={styles.commandPalette}
-        tabIndex={0}
-        onKeyDown={onKeyDown}
-        aria-label="Scripted command palette; use arrow keys to navigate"
+        aria-label="Scripted command palette with autoplaying highlighted result"
       >
         <div className={styles.commandQuery}>
           <kbd>⌘K</kbd>
@@ -449,7 +443,7 @@ function CmdKCompact({ stage }: { stage: number }): ReactElement {
         </ul>
       </div>
       <p className={styles.resultNote}>
-        Local results are instant; catalog groups add up to three results each. Keyboard navigation only · fixed local data · no input or network request
+        Local results are instant; catalog groups add up to three results each. Autoplaying highlight · fixed local data · no input or network request
       </p>
     </div>
   )
@@ -460,7 +454,7 @@ export default function CompactToolView({ toolId, stage }: { toolId: HedwigToolI
   if (toolId === 'remote-code') return <RemoteCompact />
   if (toolId === 'customer-api') return <CustomerApiCompact />
   if (toolId === 'databricks-mcp') return <DatabricksCompact />
-  if (toolId === 'slack-builder') return <SlackCompact />
+  if (toolId === 'slack-builder') return <SlackCompact stage={stage} />
   if (toolId === 'playgrounds-skills') return <PlaygroundsCompact />
   return <CmdKCompact stage={stage} />
 }

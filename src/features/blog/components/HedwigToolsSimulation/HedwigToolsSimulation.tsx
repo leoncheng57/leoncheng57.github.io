@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CSSProperties, KeyboardEvent, ReactElement, RefObject } from 'react'
+import type { CSSProperties, ReactElement, RefObject } from 'react'
 import {
   advanceSimulation,
   completeSimulation,
@@ -237,12 +237,10 @@ export default function HedwigToolsSimulation({
   const scope: SimulationScope = mode === 'catalog' ? 'catalog' : 'single'
   const compactToolIndex = HEDWIG_TOOLS.indexOf(getHedwigTool(toolId))
   const rootRef = useRef<HTMLElement>(null)
-  const selectorButtonRefs = useRef<Array<HTMLButtonElement | null>>([])
   const visible = usePlaybackVisibility(rootRef)
   const reducedMotion = useReducedMotion()
   const [documentVisible, setDocumentVisible] = useState(() => document.visibilityState !== 'hidden')
   const [state, setState] = useState<HedwigSimulationState>(() => createSimulationState(compactToolIndex))
-  const [wantsPlayback, setWantsPlayback] = useState(true)
 
   useEffect(() => {
     const update = (): void => setDocumentVisible(document.visibilityState !== 'hidden')
@@ -255,10 +253,9 @@ export default function HedwigToolsSimulation({
       ? completeSimulation(HEDWIG_TOOLS, scope, compactToolIndex)
       : createSimulationState(compactToolIndex)
     setState(initial)
-    setWantsPlayback(!reducedMotion)
   }, [compactToolIndex, reducedMotion, scope])
 
-  const playing = wantsPlayback && visible && documentVisible && !reducedMotion && !state.completed
+  const playing = visible && documentVisible && !reducedMotion && !state.completed
   useEffect(() => {
     if (!playing) return undefined
     const timer = window.setTimeout(
@@ -275,32 +272,6 @@ export default function HedwigToolsSimulation({
   const nextTitle = HEDWIG_TOOLS[Math.min(HEDWIG_TOOLS.length - 1, state.toolIndex + 1)].title
   const chooseTool = (index: number): void => {
     setState(reducedMotion ? completeSimulation(HEDWIG_TOOLS, 'single', index) : selectTool(index))
-  }
-  const handleSelectorKeyDown = (
-    event: KeyboardEvent<HTMLButtonElement>,
-    index: number
-  ): void => {
-    let targetIndex: number | undefined
-
-    if (event.key === 'ArrowLeft') {
-      targetIndex = (index - 1 + HEDWIG_TOOLS.length) % HEDWIG_TOOLS.length
-    }
-    if (event.key === 'ArrowRight') targetIndex = (index + 1) % HEDWIG_TOOLS.length
-    if (event.key === 'Home') targetIndex = 0
-    if (event.key === 'End') targetIndex = HEDWIG_TOOLS.length - 1
-    if (targetIndex === undefined) return
-
-    event.preventDefault()
-    chooseTool(targetIndex)
-    selectorButtonRefs.current[targetIndex]?.focus()
-  }
-  const restart = (): void => {
-    setState(
-      reducedMotion
-        ? completeSimulation(HEDWIG_TOOLS, scope, compactToolIndex)
-        : createSimulationState(scope === 'single' ? compactToolIndex : 0)
-    )
-    setWantsPlayback(!reducedMotion)
   }
 
   return (
@@ -319,18 +290,10 @@ export default function HedwigToolsSimulation({
             <ol>
               {HEDWIG_TOOLS.map((candidate, index) => (
                 <li key={candidate.id}>
-                  <button
-                    ref={(node) => {
-                      selectorButtonRefs.current[index] = node
-                    }}
-                    type="button"
-                    onClick={() => chooseTool(index)}
-                    onKeyDown={(event) => handleSelectorKeyDown(event, index)}
-                    aria-current={index === state.toolIndex ? 'step' : undefined}
-                  >
+                  <span aria-current={index === state.toolIndex ? 'step' : undefined}>
                     <span>{candidate.number}</span>
                     {candidate.shortTitle}
-                  </button>
+                  </span>
                 </li>
               ))}
             </ol>
@@ -342,7 +305,11 @@ export default function HedwigToolsSimulation({
             <p className={styles.toolTitle}>{tool.title}</p>
             <p>{tool.summary}</p>
           </header>
-          {mode === 'compact' ? <CompactToolView toolId={tool.id} stage={state.eventIndex} /> : <ToolView tool={tool} stage={state.eventIndex} />}
+          {mode === 'compact' ? (
+            <fieldset disabled className={styles.staticView} aria-label="Autoplaying fictional tool view">
+              <CompactToolView toolId={tool.id} stage={state.eventIndex} />
+            </fieldset>
+          ) : <ToolView tool={tool} stage={state.eventIndex} />}
           <div className={styles.eventCard}>
             <span>{state.completed ? 'Complete' : `Step ${state.eventIndex + 1} of ${tool.events.length}`}</span>
             <strong>{event.label}</strong>
@@ -358,8 +325,8 @@ export default function HedwigToolsSimulation({
         <p className={styles.disclosure}>All names, metrics, incidents, queries, and results shown here are fictional and sanitized. This simulation makes no network calls.</p>
         {reducedMotion && <p className={styles.motionNote}>Reduced motion is enabled; the simulation is shown completed and does not autoplay.</p>}
       </div>
-      <div className={styles.controls}>
-        {mode === 'catalog' && (
+      {mode === 'catalog' && (
+        <div className={styles.controls} aria-label="Browse the tool tour">
           <button
             type="button"
             onClick={() => chooseTool(Math.max(0, state.toolIndex - 1))}
@@ -369,18 +336,6 @@ export default function HedwigToolsSimulation({
           >
             <Icon name="previous" />
           </button>
-        )}
-        <button
-          type="button"
-          onClick={() => setWantsPlayback((current) => !current)}
-          disabled={reducedMotion || state.completed}
-          aria-label={wantsPlayback ? 'Pause simulation' : 'Play simulation'}
-          data-tooltip={wantsPlayback ? 'Pause simulation' : 'Play simulation'}
-        >
-          <Icon name={wantsPlayback ? 'pause' : 'play'} />
-        </button>
-        <button type="button" onClick={restart} aria-label="Restart simulation" data-tooltip="Restart simulation"><Icon name="restart" /></button>
-        {mode === 'catalog' && (
           <button
             type="button"
             onClick={() => chooseTool(Math.min(HEDWIG_TOOLS.length - 1, state.toolIndex + 1))}
@@ -390,8 +345,8 @@ export default function HedwigToolsSimulation({
           >
             <Icon name="next" />
           </button>
-        )}
-      </div>
+        </div>
+      )}
       <p className={styles.visuallyHidden} aria-live="polite" aria-atomic="true">
         {summarizeSimulation(HEDWIG_TOOLS, state)}
       </p>
