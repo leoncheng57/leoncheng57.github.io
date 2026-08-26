@@ -198,3 +198,19 @@
   background: var(--link-color);
   color: #ffffff;
 }
+
+.tableOfContentsSpecimen {
+  position: relative;
+  min-width: 0;
+  padding: 1.25rem;
+  overflow: clip;
+  border: 2px solid var(--text-primary);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+@media (min-width: 64rem) {
+  .tableOfContentsSpecimen {
+    min-height: 18rem;
+  }
+}

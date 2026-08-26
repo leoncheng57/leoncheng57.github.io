@@ -120,6 +120,21 @@ describe('repo subpages', () => {
     expect(within(timeline).getAllByRole('article')).toHaveLength(3)
     expect(within(timeline).getByText('Research notes').tagName).toBe('CODE')
     expect(
+      screen.getByRole('heading', { name: 'Table of contents' })
+    ).toBeInTheDocument()
+    const tableOfContentsControls = screen.getByRole('group', {
+      name: 'Simulate the active table of contents heading',
+    })
+    expect(within(tableOfContentsControls).getAllByRole('button')).toHaveLength(5)
+    fireEvent.click(within(tableOfContentsControls).getByRole('button', { name: '04' }))
+    const tableOfContents = screen.getByRole('navigation', { name: 'Table of contents' })
+    expect(
+      within(tableOfContents).getByRole('link', { name: 'Historical timeline', hidden: true })
+    ).toHaveAttribute('aria-current', 'location')
+    expect(
+      within(tableOfContents).getByRole('link', { name: 'Useful and descriptive', hidden: true })
+    ).toHaveAttribute('href', '#catalog-card-heading')
+    expect(
       screen.getByRole('heading', { name: 'Terminal card' })
     ).toBeInTheDocument()
 

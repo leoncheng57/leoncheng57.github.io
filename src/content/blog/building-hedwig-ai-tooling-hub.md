@@ -27,7 +27,14 @@ The interactive tour below makes that shape tangible. It presents seven tools, i
 
 ![A full interactive tour of seven fictional AI tools, including Playground and Skills, joined by Cmd/Ctrl+K and using only scripted example data.](component:hedwig-tools-simulation)
 
-![A vertical three-stage diagram showing one bounded workflow becoming shared platform capabilities and then several focused applications.](/blog/building-hedwig-ai-tooling-hub/1-platform-evolution.svg "The platform followed demonstrated reuse: one useful workflow first, shared foundations second, and independently owned applications third.")
+```mermaid
+%% title: Platform evolution from one workflow to shared foundations
+flowchart TD
+  Workflow["One bounded workflow"] --> Evidence["Real users and evidence"]
+  Evidence --> Foundations["Shared platform foundations"]
+  Foundations --> Applications["Several focused applications"]
+  Applications --> Owners["Independent workflow owners"]
+```
 
 ## What Hedwig became
 
@@ -48,7 +55,20 @@ The platform vocabulary eventually needed sharper boundaries: **applications own
 
 Discoverability became another shared concern. Cmd/Ctrl+K joined local navigation with results from remote catalogs, so a user could move from a known application toward an available skill or integration without learning several separate interfaces. It did not search literally everything, and a result appearing in a catalog established availability, not adoption or quality.
 
-![A platform map showing seven fictional tools above Cmd/Ctrl+K, catalogs, Skills, MCP policy, bounded memory, tracing, identity, and release foundations.](/blog/building-hedwig-ai-tooling-hub/2-platform-map.svg "The application map is intentionally fictional: focused tools share governed foundations without becoming one universal agent.")
+```mermaid
+%% title: Seven focused tools sharing governed platform foundations
+flowchart TD
+  Incident["Incident assistant"] --> Entry["Search and discovery"]
+  Planning["Planning tool"] --> Entry
+  Dashboard["Dashboard builder"] --> Entry
+  Collaboration["Collaboration helper"] --> Entry
+  Coding["Coding workspace"] --> Entry
+  Playground["Playground"] --> Entry
+  Skills["Skills catalog"] --> Entry
+  Entry --> Catalogs["Application, skill, and integration catalogs"]
+  Catalogs --> Policy["Tool policy and bounded memory"]
+  Policy --> Operations["Tracing, identity, and releases"]
+```
 
 The first compact simulation shows the original pattern at its safest: a fictional event, bounded evidence, visible progress, and a report that still requires human review. Every name, status, and result in it is scripted example data, not internal UI or operational information.
 
@@ -70,7 +90,16 @@ The natural response would have been a collection of independent services. We we
 
 The dependency rule was simple: applications could depend on core and platform, but not on one another. That was not architectural purity for its own sake. It kept reuse intentional. A new application inherited the platform capabilities it needed instead of importing another application's accidental assumptions.
 
-![A stacked architecture diagram with downward code dependencies and an abstract flow from one artifact to long-lived deployments and disposable workspaces.](/blog/building-hedwig-ai-tooling-hub/3-layered-architecture.svg "The modular monolith made code boundaries visible while deployment and workspace boundaries addressed different operational risks.")
+```mermaid
+%% title: Layered code architecture and deployment boundaries
+flowchart TD
+  Applications["Applications: focused workflows"] --> Platform["Platform: runtimes, tools, data, and shared UI"]
+  Platform --> Core["Core: identity, configuration, health, and transport"]
+  Core --> Artifact["One deployable artifact"]
+  Artifact --> Durable["Long-lived platform deployments"]
+  Artifact --> Workspace["Disposable task workspaces"]
+  Workspace --> Cleanup["Bounded access, lifetime, and cleanup"]
+```
 
 A modular monolith was the right tradeoff for this stage. It made integration cheap, kept the operational surface manageable, and let teams iterate quickly. The cost was shared deployment risk and more coordination as the platform grew. The answer was not to claim that the boundaries were perfect. It was to make them visible with application manifests, ownership rules, scoped data, and review gates.
 
@@ -92,7 +121,17 @@ Each agent declared its execution mode, selected tools, prompt builder, output c
 
 This made it possible to meet a workflow where it actually lived. Some jobs were better as a web application. Some were better in a collaboration tool. Some needed a durable workspace that could be watched and corrected while it ran.
 
-![A vertical comparison of interactive, background-task, and isolated-workspace execution modes by duration, steering, and output.](/blog/building-hedwig-ai-tooling-hub/4-execution-modes.svg "Execution mode followed the shape of the work, including how a person would steer it and what the run needed to leave behind.")
+```mermaid
+%% title: Execution modes selected by the shape of the work
+flowchart TD
+  Work["Work request"] --> Steering{"How is the work steered?"}
+  Steering -->|Continuous conversation| Interactive["Interactive: short, user-steered, conversational"]
+  Steering -->|Asynchronous result| Background["Background: bounded, queued, structured output"]
+  Steering -->|Files and follow-up| Workspace["Workspace: isolated, observable, durable artifacts"]
+  Interactive --> Review["Human review"]
+  Background --> Review
+  Workspace --> Review
+```
 
 The fictional remote-code simulation illustrates the workspace end of that spectrum: a scripted task produces reviewable files and a preview inside an isolated environment. It is an editorial model, not a copy of an internal coding surface or repository.
 
@@ -110,7 +149,18 @@ The design principle was that models supplied interpretation, exploration, and s
 
 That division is easy to state and hard to preserve. Every time we let prose stand in for an output contract, a downstream system had to guess what the agent meant. Every time we relied on prompt text as an authorization boundary, we created a policy that could not be reliably enforced. Structured tool calls and validated output added constraints, but they also made systems easier to test, observe, and safely connect to real workflows.
 
-![A boundary diagram showing AI judgment passing through typed contracts while software enforces MCP policy, scoped memory, tracing, state, and side effects.](/blog/building-hedwig-ai-tooling-hub/5-deterministic-ai-boundary.svg "Models contributed judgment inside enforceable rails; software retained authority over integrations, context, observability, and external effects.")
+```mermaid
+%% title: Deterministic software boundary around AI judgment
+flowchart TD
+  Request["Validated request"] --> Context["Scoped tools and prior context"]
+  Context --> Model["AI: interpret, explore, synthesize"]
+  Model --> Contract["Typed output contract"]
+  Contract --> Validation{"Valid and permitted?"}
+  Validation -->|No| Review["Return for correction or human review"]
+  Validation -->|Yes| Software["Software: state, persistence, and formatting"]
+  Software --> Effects["Audited external effects"]
+  Software --> Trace["Tracing and feedback"]
+```
 
 The fictional customer-API simulation applies that boundary to a simple weekly usage graph. Its four invented request totals and accessible text summary are scripted; the simulation is not connected to a real customer, service, endpoint, or internal interface.
 
@@ -134,7 +184,18 @@ Skills captured reusable instructions, examples, and evaluation expectations as 
 
 Prompt-only skills supported tryouts; tool-bearing skills were simulated rather than executed. Publication remained reviewed, requiring a named owner, bounded purpose, version information, and a deprecation path. Simulation helped review behavior, but it did not validate live permissions or integration effects.
 
-![A vertical experiment lifecycle moving from a framed hypothesis through a playground and evidence review to graduation as an application or governed skill, or deliberate retirement.](/blog/building-hedwig-ai-tooling-hub/6-experiment-lifecycle.svg "A playground lowered trial cost, but evidence, review, and a named owner were still required before an application or skill graduated.")
+```mermaid
+%% title: Experiment lifecycle from hypothesis to graduation or retirement
+flowchart TD
+  Hypothesis["Frame a bounded hypothesis"] --> Trial["Feature-gated playground trial"]
+  Trial --> Evidence["Collect repeat-use and outcome evidence"]
+  Evidence --> Decision{"Useful, governed, and owned?"}
+  Decision -->|Workflow product| Application["Graduate to an application"]
+  Decision -->|Reusable behavior| Skill["Publish as a governed skill"]
+  Decision -->|Not demonstrated| Retire["Retire the experiment"]
+  Application --> Maintain["Review, measure, and maintain"]
+  Skill --> Maintain
+```
 
 ## From available to discoverable
 
@@ -166,7 +227,19 @@ We learned to delete features. An experiment that receives little repeat use sho
 
 We also learned that concurrency changes the problem. More parallel agent work can move the bottleneck to review, queues, infrastructure capacity, and coordination. Isolated workspaces helped, but they also required cancellation, limits, cleanup, stuck-run detection, and careful credential boundaries.
 
-![Five vertically stacked failure patterns corrected by explicit tool scope, streamed events, verified traces, evaluated memory, and bounded workspaces.](/blog/building-hedwig-ai-tooling-hub/7-failure-corrections.svg "The durable fixes turned recurring failure modes into constraints and evidence checks enforced by the platform.")
+```mermaid
+%% title: Recurring failure patterns and their durable corrections
+flowchart TD
+  Broad["Broad tool access"] --> Scope["Correction: explicit per-agent scope"]
+  Scope --> Polling["Opaque polling"]
+  Polling --> Streaming["Correction: streamed lifecycle events"]
+  Streaming --> Assumed["Configured telemetry assumed to work"]
+  Assumed --> Verified["Correction: verify traces from exercised paths"]
+  Verified --> Context["Unbounded prior context"]
+  Context --> Memory["Correction: bounded and evaluated memory"]
+  Memory --> Parallel["Unbounded parallel work"]
+  Parallel --> Workspaces["Correction: limits, cancellation, and cleanup"]
+```
 
 The fictional query-companion simulation shows a narrower correction: the model can help shape an analysis, while typed inputs and a read-only scripted result keep the contract inspectable. It contains no real workspace, catalog, schema, query, or operational metric and is not an internal UI.
 
@@ -201,7 +274,19 @@ The handoff work made this especially clear. A platform with a thin maintainer g
 
 If I were starting again, I would establish the minimum maintainer model and application ownership earlier. It is much easier to add a new application than to create sustainable responsibility for it after people depend on it.
 
-![An ownership model separating shared-contract stewardship, workflow outcomes, skill lifecycle duties, and an explicit contribution contract.](/blog/building-hedwig-ai-tooling-hub/8-ownership-model.svg "The platform team protected common contracts while domain owners retained responsibility for application value and skill review, versions, and deprecation.")
+```mermaid
+%% title: Distributed ownership with an explicit contribution contract
+flowchart TD
+  Contract["Contribution contract"] --> Platform["Platform stewards"]
+  Contract --> Workflow["Workflow owners"]
+  Contract --> Skill["Skill publishers"]
+  Platform --> Shared["Protect shared contracts and release paths"]
+  Workflow --> Outcomes["Own user outcomes and application maintenance"]
+  Skill --> Lifecycle["Own review, versions, evaluation, and deprecation"]
+  Shared --> Durable["Durable shared platform"]
+  Outcomes --> Durable
+  Lifecycle --> Durable
+```
 
 ## Two comparisons, two different questions
 

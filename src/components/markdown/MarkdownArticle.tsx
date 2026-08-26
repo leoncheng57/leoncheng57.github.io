@@ -6,10 +6,13 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 import ArticleImage from './ArticleImage'
 import HeadingLink from './HeadingLink'
+import MermaidDiagram from './MermaidDiagram'
 import type { ArticleStyles } from './types'
 
 const EMBED_PROTOCOL = 'component:'
 const FILE_LANGUAGE_PREFIX = 'language-file:'
+const MERMAID_LANGUAGE = 'language-mermaid'
+const MERMAID_TITLE = /^%%\s*title:\s*(.+?)\s*(?:\r?\n|$)/i
 
 interface MarkdownArticleProps {
   content: string
@@ -31,6 +34,20 @@ function isImageParagraph(node?: Element): boolean {
       node.children[0].type === 'element' &&
       node.children[0].tagName === 'img'
   )
+}
+
+function isMermaidClassName(className?: string): boolean {
+  return className?.split(/\s+/).includes(MERMAID_LANGUAGE) ?? false
+}
+
+function parseMermaidSource(value: string): { source: string; title: string } {
+  const source = value.replace(/\r?\n$/, '')
+  const directive = source.match(MERMAID_TITLE)
+
+  return {
+    source: directive ? source.slice(directive[0].length) : source,
+    title: directive?.[1].trim() || 'Architecture diagram',
+  }
 }
 
 export default function MarkdownArticle({ content, styles, embeds }: MarkdownArticleProps): ReactElement {
@@ -91,7 +108,24 @@ export default function MarkdownArticle({ content, styles, embeds }: MarkdownArt
               <div className={styles.calloutBox}>{props.children}</div>
             </aside>
           ),
+          pre: ({ node, children, ...props }) => {
+            const codeNode = node?.children[0]
+            const isMermaid =
+              codeNode?.type === 'element' &&
+              isMermaidClassName(
+                Array.isArray(codeNode.properties.className)
+                  ? codeNode.properties.className.join(' ')
+                  : String(codeNode.properties.className ?? '')
+              )
+
+            return isMermaid ? <>{children}</> : <pre {...props}>{children}</pre>
+          },
           code: ({ node: _node, className, children, ...props }) => {
+            if (isMermaidClassName(className)) {
+              const diagram = parseMermaidSource(String(children))
+              return <MermaidDiagram source={diagram.source} title={diagram.title} />
+            }
+
             const filename = className?.startsWith(FILE_LANGUAGE_PREFIX)
               ? className.slice(FILE_LANGUAGE_PREFIX.length)
               : null

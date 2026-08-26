@@ -1,0 +1,61 @@
+.figure {
+  margin: 1.75rem 0;
+}
+
+.diagram {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: 1rem;
+  background: #f7f8f5;
+  box-shadow: 0 16px 36px rgba(20, 30, 24, 0.12);
+}
+
+.diagram svg {
+  display: block;
+  width: 100%;
+  min-width: 28rem;
+  height: auto;
+  margin: 0 auto;
+}
+
+.fallback {
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.fallback strong {
+  display: block;
+  margin-bottom: 0.65rem;
+}
+
+.fallback pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.caption {
+  margin-top: 0.75rem;
+  color: var(--text-muted, #59635d);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 36rem) {
+  .diagram svg {
+    min-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diagram *,
+  .diagram *::before,
+  .diagram *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}

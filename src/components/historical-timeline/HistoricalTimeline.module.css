@@ -4,8 +4,7 @@
   --timeline-border: #33454e;
   --timeline-text: #f3f8fa;
   --timeline-muted: #bac9cf;
-  --timeline-cyan: #5ee4f1;
-  --timeline-green: #8aefad;
+  --timeline-accent: #62e6a5;
   width: 100%;
   padding: clamp(1.25rem, 4vw, 2.5rem);
   border: 1px solid var(--timeline-border);
@@ -18,7 +17,6 @@
 .entries {
   position: relative;
   display: grid;
-  gap: 1.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -30,12 +28,13 @@
   bottom: 0.8rem;
   left: 0.45rem;
   width: 2px;
-  background: linear-gradient(var(--timeline-cyan), var(--timeline-green));
+  background: var(--timeline-accent);
   content: "";
 }
 
 .entry {
   position: relative;
+  margin-top: var(--timeline-gap);
   padding-left: 2.25rem;
 }
 
@@ -48,27 +47,18 @@
   height: 0.9rem;
   border: 3px solid var(--timeline-bg);
   border-radius: 50%;
-  background: var(--timeline-cyan);
-  box-shadow: 0 0 0 2px var(--timeline-cyan);
+  background: var(--timeline-accent);
+  box-shadow: 0 0 0 2px var(--timeline-accent);
   content: "";
-}
-
-.entry:nth-child(even)::before {
-  background: var(--timeline-green);
-  box-shadow: 0 0 0 2px var(--timeline-green);
 }
 
 .card {
   padding: clamp(1rem, 3vw, 1.35rem);
   border: 1px solid var(--timeline-border);
-  border-left: 3px solid var(--timeline-cyan);
+  border-left: 3px solid var(--timeline-accent);
   border-radius: 0.5rem;
   background: var(--timeline-card);
   box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 25%);
-}
-
-.entry:nth-child(even) .card {
-  border-left-color: var(--timeline-green);
 }
 
 .metadata {
@@ -93,11 +83,7 @@
   padding: 0.25rem 0.5rem;
   border: 1px solid currentColor;
   border-radius: 999px;
-  color: var(--timeline-cyan);
-}
-
-.entry:nth-child(even) .stage {
-  color: var(--timeline-green);
+  color: var(--timeline-accent);
 }
 
 .card h3 {
@@ -126,10 +112,10 @@
   display: inline-block;
   max-width: 100%;
   padding: 0.35rem 0.55rem;
-  border: 1px solid #42606c;
+  border: 1px solid var(--timeline-border);
   border-radius: 0.25rem;
   background: #19262d;
-  color: #d9f8fb;
+  color: var(--timeline-text);
   font-size: 0.78rem;
   line-height: 1.45;
   overflow-wrap: anywhere;

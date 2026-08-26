@@ -1,22 +1,60 @@
 .tableOfContents {
+  position: sticky;
+  z-index: 20;
+  top: 0.625rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   margin: 0 0 2rem;
+  overflow: hidden;
   border: 1px solid var(--hr-color);
   border-radius: 0.85rem;
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  box-shadow: 0 0.45rem 1.25rem rgb(16 35 61 / 18%);
+  backdrop-filter: blur(0.75rem);
 }
 
 .toggle {
   display: flex;
   width: 100%;
+  min-width: 0;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   padding: 0.8rem 1rem;
   border: 0;
   background: transparent;
   color: var(--text-primary);
   font: inherit;
-  font-weight: 650;
+  text-align: left;
   cursor: pointer;
+}
+
+.toggleText {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 0.65rem;
+}
+
+.toggleLabel {
+  flex: 0 0 auto;
+  font-weight: 650;
+}
+
+.activeHeading {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon {
+  flex: 0 0 auto;
+  font-size: 1.15rem;
+  line-height: 1;
 }
 
 .railLabel {
@@ -37,6 +75,9 @@
 
 .list {
   display: none;
+  max-height: 60vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 0 1rem 1rem;
 }
 
@@ -57,6 +98,7 @@
   border-left: 2px solid transparent;
   color: var(--text-muted);
   line-height: 1.35;
+  overflow-wrap: anywhere;
   text-decoration: none;
 }
 
@@ -77,21 +119,17 @@
   font-weight: 650;
 }
 
-.orphanSubsection {
-  margin-left: 0;
-}
-
 @media (min-width: 64rem) {
   .tableOfContents {
-    position: sticky;
     top: 2rem;
     width: 14rem;
-    max-height: calc(100vh - 4rem);
     margin: 0;
-    overflow-y: auto;
+    overflow: visible;
     border: 0;
     border-radius: 0;
     background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
   }
 
   .toggle {
@@ -106,7 +144,9 @@
   .list,
   .list[data-open] {
     display: grid;
+    max-height: none;
     gap: 0.35rem;
+    overflow: visible;
     padding: 0;
   }
 }

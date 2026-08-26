@@ -82,7 +82,7 @@ const entries: HistoricalTimelineEntry[] = [
   },
   {
     date: 'June 2026',
-    dateTime: '2026-06',
+    dateTime: '2026-06-12',
     stage: 'Discoverable',
     milestone: 'Source history shows skills discovery becoming a platform capability.',
     evidence: ['Versioned source history; no exact release claimed'],

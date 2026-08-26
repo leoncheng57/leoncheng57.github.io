@@ -1,6 +1,34 @@
 import { render, screen, within } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import HistoricalTimeline from './HistoricalTimeline'
+import HistoricalTimeline, { timelineGapDays, timelineGapRem } from './HistoricalTimeline'
+
+describe('timeline spacing', () => {
+  it('gives a 20-day interval more space than a 2-day interval', () => {
+    const twoDays = timelineGapDays('2026-01-01', '2026-01-03')
+    const twentyDays = timelineGapDays('2026-01-01', '2026-01-21')
+
+    expect(timelineGapRem(twentyDays)).toBeGreaterThan(timelineGapRem(twoDays))
+  })
+
+  it('uses the minimum gap for equal dates', () => {
+    expect(timelineGapRem(timelineGapDays('2026-01-08', '2026-01-08'))).toBe(
+      timelineGapRem(0)
+    )
+  })
+
+  it.each([
+    ['invalid date', 'not-a-date', '2026-01-08'],
+    ['invalid calendar date', '2026-02-30', '2026-03-01'],
+    ['nonmonotonic dates', '2026-01-08', '2026-01-07'],
+  ])('treats %s as a zero-day interval', (_case, previous, current) => {
+    expect(timelineGapDays(previous, current)).toBe(0)
+    expect(timelineGapRem(timelineGapDays(previous, current))).toBe(timelineGapRem(0))
+  })
+
+  it('normalizes month-only dates to the first day of the month', () => {
+    expect(timelineGapDays('2026-01', '2026-01-21')).toBe(20)
+  })
+})
 
 describe('HistoricalTimeline', () => {
   it('renders labelled semantic entries with machine-readable dates', () => {
@@ -34,5 +62,6 @@ describe('HistoricalTimeline', () => {
     expect(screen.getByText('The team documented constraints before implementation.')).toBeInTheDocument()
     expect(screen.getByText('Research notes').tagName).toBe('CODE')
     expect(screen.queryByText('Evidence', { selector: 'ul' })).not.toBeInTheDocument()
+    expect(timeline.querySelectorAll('li')[0]).toHaveStyle({ '--timeline-gap': '0rem' })
   })
 })
