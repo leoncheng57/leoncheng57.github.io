@@ -9,6 +9,12 @@
     "path": "/blog/building-hedwig-ai-tooling-hub",
     "file": "blog--building-hedwig-ai-tooling-hub.png",
     "fullFile": "blog--building-hedwig-ai-tooling-hub--full.png",
-    "title": "Hedwig expanded platform retrospective"
+    "title": "Hedwig final interactive retrospective"
+  },
+  {
+    "path": "/repo/design-components",
+    "file": "repo--design-components.png",
+    "fullFile": null,
+    "title": "HistoricalTimeline design component"
   }
 ]
