@@ -325,7 +325,7 @@ The broad catalog footprint around Pigwidgeon is evidence that it was widely ado
 
 ## Historical Timeline
 
-This source-backed timeline separates milestones from the evidence and caveats that qualify them.
+This evidence-qualified chronology separates milestones from the caveats that qualify them. Its version labels are editorial maturity markers, not source-control tags or completion claims; the underlying records are intentionally not published.
 
 ![A dark vertical source-backed timeline of Hedwig milestones, stages, and evidence.](component:hedwig-historical-timeline)
 

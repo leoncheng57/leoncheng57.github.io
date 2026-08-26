@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import type { ReactElement } from 'react'
 import type { HedwigToolId } from './tools'
 import styles from './HedwigToolsSimulation.module.css'
@@ -9,20 +8,7 @@ const Pill = ({ tone = 'ok', children }: { tone?: Tone; children: string }): Rea
   <span className={styles.pill} data-tone={tone}>{children}</span>
 )
 
-function CopyButton({ payload }: { payload: string }): ReactElement {
-  const [copied, setCopied] = useState(false)
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        void navigator.clipboard?.writeText(payload).catch(() => undefined)
-        setCopied(true)
-      }}
-    >
-      {copied ? 'Copied' : 'Copy'}
-    </button>
-  )
-}
+const CopyLabel = (): ReactElement => <span className={styles.staticControl}>Copy</span>
 
 const ONCALL_MILESTONES = [
   ['Started', 0], ['Detected', 0], ['Acknowledged', 0],
@@ -118,21 +104,21 @@ function OnCallCompact({ stage }: { stage: number }): ReactElement {
   )
 }
 
-function RemoteCompact(): ReactElement {
-  const [tab, setTab] = useState<'interactive' | 'delegated'>('interactive')
-  const [panel, setPanel] = useState('Files')
+function RemoteCompact({ stage }: { stage: number }): ReactElement {
+  const tab = stage >= 4 ? 'delegated' : 'interactive'
   const panelCopy: Record<string, string> = {
     Files: 'Workspace directories scoped to this conversation.',
     Changes: 'Read-only diffs: 2 updated files, 1 added test. Working tree stays inspectable.',
     Preview: 'A demo dev server runs in the sandbox. Status: running · reload and logs stay local.',
     Commands: '3 commands audited: ✔ install · ✔ checks · ✔ package. Export stays local.',
-    'Merge request': 'Draft change request !14 · pipeline: success · description links back to this session.',
+    'Merge request': 'Draft change request · pipeline: success · description links back to this session.',
   }
+  const panel = Object.keys(panelCopy)[Math.min(stage, Object.keys(panelCopy).length - 1)]
   return (
     <div className={styles.compactView} data-compact-view="remote-code">
-      <div className={styles.tabs} role="tablist" aria-label="Remote runner modes">
-        <button role="tab" aria-selected={tab === 'interactive'} onClick={() => setTab('interactive')}>Interactive workspace</button>
-        <button role="tab" aria-selected={tab === 'delegated'} onClick={() => setTab('delegated')}>Delegated jobs</button>
+      <div className={styles.tabs} aria-label="Remote runner modes">
+        <span data-selected={tab === 'interactive' || undefined}>Interactive workspace</span>
+        <span data-selected={tab === 'delegated' || undefined}>Delegated jobs</span>
       </div>
       {tab === 'interactive' ? (
         <>
@@ -168,14 +154,14 @@ function RemoteCompact(): ReactElement {
             </section>
             <section>
               <h3>Result handoff</h3>
-              <p>Draft change request !14 · pipeline: success · state gated on review.</p>
-              <button type="button">Confirm merge</button>
+              <p>Draft change request · pipeline: success · state gated on review.</p>
+              <span className={styles.staticControl}>Confirm merge</span>
               <small className={styles.gateNote}>A person confirms every merge.</small>
             </section>
           </div>
-          <div className={styles.tabs} role="tablist" aria-label="Workspace side panels">
+          <div className={styles.tabs} aria-label="Workspace side panels">
             {Object.keys(panelCopy).map((item) => (
-              <button key={item} role="tab" aria-selected={panel === item} onClick={() => setPanel(item)}>{item}</button>
+              <span key={item} data-selected={panel === item || undefined}>{item}</span>
             ))}
           </div>
           <section className={styles.panel}>
@@ -188,9 +174,9 @@ function RemoteCompact(): ReactElement {
           <section>
             <h3>Job queue</h3>
             <ul className={styles.convoList} aria-label="Fictional delegated jobs">
-              <li><Pill tone="ok">success</Pill><span>Ticket 101 · change request merged</span><small>stage: merged</small></li>
-              <li><Pill tone="info">running</Pill><span>Ticket 102 · fixture refresh</span><small>stage: running</small></li>
-              <li><Pill tone="neutral">pending</Pill><span>Ticket 103 · docs sweep</span><small>stage: dispatched</small></li>
+              <li><Pill tone="ok">success</Pill><span>Demo ticket A · change request merged</span><small>stage: merged</small></li>
+              <li><Pill tone="info">running</Pill><span>Demo ticket B · fixture refresh</span><small>stage: running</small></li>
+              <li><Pill tone="neutral">pending</Pill><span>Demo ticket C · docs sweep</span><small>stage: dispatched</small></li>
             </ul>
           </section>
           <section>
@@ -204,8 +190,13 @@ function RemoteCompact(): ReactElement {
   )
 }
 
-function CustomerApiCompact(): ReactElement {
-  const [region, setRegion] = useState('All regions')
+function CustomerApiCompact({ stage }: { stage: number }): ReactElement {
+  const regions = [
+    ['All regions', '208k requests'],
+    ['East demo', '61% of total'],
+    ['West demo', '39% of total'],
+  ] as const
+  const region = regions[Math.min(stage, regions.length - 1)][0]
   const matrix = [
     ['Availability %', '99.95', '99.88', '99.97', '99.99'],
     ['Latency p99 ms', '420', '510', '431', '405'],
@@ -218,18 +209,14 @@ function CustomerApiCompact(): ReactElement {
           Customer
           <input readOnly value="acorn demo org" aria-label="Customer typeahead search (fictional)" />
         </label>
-        <button type="button">All customers</button>
+        <span className={styles.staticControl}>All customers</span>
       </div>
       <div className={styles.regionChips} role="group" aria-label="Region traffic cards">
-        {[
-          ['All regions', '208k requests'],
-          ['East demo', '61% of total'],
-          ['West demo', '39% of total'],
-        ].map(([name, share]) => (
-          <button key={name} type="button" aria-pressed={region === name} onClick={() => setRegion(name)}>
+        {regions.map(([name, share]) => (
+          <span key={name} data-selected={region === name || undefined}>
             <strong>{name}</strong>
             <small>{share}</small>
-          </button>
+          </span>
         ))}
       </div>
       <p className={styles.sectionLabel}>Health · {region}</p>
@@ -270,38 +257,34 @@ function CustomerApiCompact(): ReactElement {
           <div className={styles.limitBar} role="img" aria-label="Fictional limit usage: 62 percent used">
             <span style={{ width: '62%' }} />
           </div>
-          <p className={styles.metaText}>62% of limit used · <button type="button">CSV</button></p>
+          <p className={styles.metaText}>62% of limit used · <span className={styles.staticControl}>CSV</span></p>
         </section>
       </div>
       <p className={styles.gateNote} role="note">
-        Filters live in the page address for sharing. Ask-AI drafts read-only SQL for custom graphs; a human runs it.
+        The production design supports shareable filters. This static preview illustrates the selected scope; AI can draft read-only SQL for custom graphs.
       </p>
     </div>
   )
 }
 
-function DatabricksCompact(): ReactElement {
-  const [tab, setTab] = useState<'Chat' | 'History'>('Chat')
-  const [blocked, setBlocked] = useState(false)
+function DatabricksCompact({ stage }: { stage: number }): ReactElement {
+  const blocked = stage >= 4
   return (
     <div className={styles.compactView} data-compact-view="databricks-mcp">
       <p className={styles.traceNotice}>Simulated MCP trace — not a live Databricks interface</p>
       <div className={styles.viewHeader}>
-        <div className={styles.tabs} role="tablist" aria-label="Chat panel tabs">
-          {(['Chat', 'History'] as const).map((item) => (
-            <button key={item} role="tab" aria-selected={tab === item} onClick={() => setTab(item)}>{item}</button>
-          ))}
+        <div className={styles.tabs} aria-label="Chat panel tabs">
+          <span data-selected>Chat</span><span>History</span>
         </div>
         <span className={styles.integrationChip}>Databricks — SQL queries (read-only)</span>
       </div>
-      {tab === 'Chat' ? (
-        <>
+      <>
           <section className={styles.toolChip}>
-            <div className={styles.toolChipTitle}>List demo tables · execute_sql 1 <CopyButton payload="SHOW TABLES IN demo_catalog" /></div>
+            <div className={styles.toolChipTitle}>List demo tables · execute_sql 1 <CopyLabel /></div>
             <code>SHOW TABLES IN demo_catalog</code>
           </section>
           <section className={styles.toolChip}>
-            <div className={styles.toolChipTitle}>Weekly usage totals · execute_sql 2 <CopyButton payload="SELECT week, total FROM demo_usage_summary LIMIT 4" /></div>
+            <div className={styles.toolChipTitle}>Weekly usage totals · execute_sql 2 <CopyLabel /></div>
             <code>SELECT week, total FROM demo_usage_summary LIMIT 4</code>
           </section>
           <p className={styles.monoNote}>Lifecycle: pending → running → succeeded (polled once per second)</p>
@@ -321,16 +304,10 @@ function DatabricksCompact(): ReactElement {
             ) : (
               <p>One tool is exposed. Catalog browsing happens through safe SHOW and DESCRIBE statements.</p>
             )}
-            <button type="button" onClick={() => setBlocked(true)}>Try blocked write</button>
+            <span className={styles.staticControl}>Try blocked write</span>
             <small>Copy the SQL into a custom graph card and press Run — charts never render themselves.</small>
           </section>
-        </>
-      ) : (
-        <section className={styles.panel}>
-          <h3>Recent chats</h3>
-          <p>Demo session · 2 messages · Continue forks a copy. Nothing here leaves the page.</p>
-        </section>
-      )}
+      </>
     </div>
   )
 }
@@ -354,7 +331,7 @@ function SlackCompact({ stage }: { stage: number }): ReactElement {
         <Pill tone="ok">Production</Pill>
       </div>
       <div className={styles.routeTabs} role="tablist" aria-label="Slackbot profile routes">
-        {routes.map((item) => <button key={item} type="button" role="tab" aria-selected={route === item}>{item}</button>)}
+        {routes.map((item) => <span key={item} data-selected={route === item || undefined}>{item}</span>)}
       </div>
       <section className={styles.panel}><h3>{route}</h3>{routeDetails[route]}</section>
     </div>
@@ -367,8 +344,9 @@ const MARKET_SKILLS = {
   'Status formatter': ['v2.0.0', 'status · formatting', 'plugin install status-formatter'],
 } as const
 
-function PlaygroundsCompact(): ReactElement {
-  const [detail, setDetail] = useState<keyof typeof MARKET_SKILLS>('Incident recap')
+function PlaygroundsCompact({ stage }: { stage: number }): ReactElement {
+  const details = Object.keys(MARKET_SKILLS) as Array<keyof typeof MARKET_SKILLS>
+  const detail = details[Math.min(stage, details.length - 1)]
   const [version, keywords, install] = MARKET_SKILLS[detail]
   return (
     <div className={styles.compactView} data-compact-view="playgrounds-skills">
@@ -382,18 +360,18 @@ function PlaygroundsCompact(): ReactElement {
         <section>
           <h3>Marketplace browse</h3>
           <label>Instant filter<input value="triage" readOnly /></label>
-          <button type="button">AI search</button>
+          <span className={styles.staticControl}>AI search</span>
           <p className={styles.banner} role="status">AI results for triage — 2 matches</p>
-          {(Object.keys(MARKET_SKILLS) as Array<keyof typeof MARKET_SKILLS>).map((item) => (
-            <button type="button" key={item} aria-pressed={detail === item} onClick={() => setDetail(item)}>{item}</button>
+          {details.map((item) => (
+            <span className={styles.staticControl} key={item} data-selected={detail === item || undefined}>{item}</span>
           ))}
         </section>
         <section>
           <h3>{detail} <Pill tone="neutral">{version}</Pill></h3>
           <p className={styles.reasonChip}>Matches: summarizes demo incidents for weekly review</p>
           <p className={styles.metaText}>{keywords}</p>
-          <p className={styles.installRow}><code>{install}</code><CopyButton payload={install} /></p>
-          <button type="button">Try it in chat</button>
+          <p className={styles.installRow}><code>{install}</code><CopyLabel /></p>
+          <span className={styles.staticControl}>Try it in chat</span>
           <small className={styles.gateNote}>Sandboxed tryout · no install, no tool calls</small>
         </section>
         <section>
@@ -451,10 +429,10 @@ function CmdKCompact({ stage }: { stage: number }): ReactElement {
 
 export default function CompactToolView({ toolId, stage }: { toolId: HedwigToolId; stage: number }): ReactElement {
   if (toolId === 'on-call') return <OnCallCompact stage={stage} />
-  if (toolId === 'remote-code') return <RemoteCompact />
-  if (toolId === 'customer-api') return <CustomerApiCompact />
-  if (toolId === 'databricks-mcp') return <DatabricksCompact />
+  if (toolId === 'remote-code') return <RemoteCompact stage={stage} />
+  if (toolId === 'customer-api') return <CustomerApiCompact stage={stage} />
+  if (toolId === 'databricks-mcp') return <DatabricksCompact stage={stage} />
   if (toolId === 'slack-builder') return <SlackCompact stage={stage} />
-  if (toolId === 'playgrounds-skills') return <PlaygroundsCompact />
+  if (toolId === 'playgrounds-skills') return <PlaygroundsCompact stage={stage} />
   return <CmdKCompact stage={stage} />
 }

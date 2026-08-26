@@ -60,7 +60,6 @@
   font: inherit;
   text-align: left;
   overflow-wrap: anywhere;
-  cursor: pointer;
 }
 .selector > ol > li > span > span { color: #929b95; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.65rem; }
 .selector > ol > li > span[aria-current='step'] { background: var(--panel-raised); color: var(--text-primary); box-shadow: inset 0 -2px var(--accent); }
@@ -171,7 +170,9 @@
 .detailGrid code { color: #b8e8d2; font-size: 0.72rem; white-space: normal; }
 .compactView details { padding: 0.65rem; border: 1px solid var(--border); border-radius: 0.4rem; }
 .compactView summary { color: var(--text-primary); cursor: pointer; }
-.tabs button[aria-selected='true'], .stepButtons button[aria-current='step'] { border-color: var(--accent); background: var(--accent-dark); color: #aaf1d0; }
+.tabs [data-selected], .stepButtons button[aria-current='step'] { border-color: var(--accent); background: var(--accent-dark); color: #aaf1d0; }
+.tabs > span, .routeTabs > span { display: inline-flex; min-height: 2.4rem; align-items: center; padding: 0.4rem 0.65rem; border: 1px solid var(--border-strong); border-radius: 0.35rem; color: var(--text-primary); font: inherit; }
+.staticControl { display: inline-flex; min-height: 2.4rem; align-items: center; justify-content: center; padding: 0.4rem 0.65rem; border: 1px solid var(--border-strong); border-radius: 0.35rem; color: var(--text-primary); font: inherit; }
 .panel { display: grid; gap: 0.6rem; }
 .panel small { color: var(--warning); }
 .filters label { display: grid; flex: 1 1 9rem; gap: 0.25rem; color: var(--text-muted); font-size: 0.7rem; }
@@ -238,8 +239,8 @@
 .searchField { display: grid; flex: 1 1 12rem; gap: 0.25rem; color: var(--text-muted); font-size: 0.7rem; }
 .searchField input { width: 100%; padding: 0.35rem 0.5rem; box-sizing: border-box; }
 .regionChips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
-.regionChips button { display: grid; gap: 0.15rem; min-width: 0; text-align: left; }
-.regionChips button[aria-pressed='true'] { border-color: var(--accent); background: var(--accent-dark); }
+.regionChips > span { display: grid; gap: 0.15rem; min-width: 0; padding: 0.4rem 0.65rem; border: 1px solid var(--border-strong); border-radius: 0.35rem; text-align: left; }
+.regionChips > span[data-selected] { border-color: var(--accent); background: var(--accent-dark); }
 .regionChips strong { color: var(--text-primary); font-size: 0.78rem; }
 .regionChips small { color: var(--text-muted); font-size: 0.68rem; }
 .sectionLabel { color: var(--text-muted) !important; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -283,8 +284,8 @@
 .botProfileHeader p { margin-top: 0.15rem; font-size: 0.74rem; }
 .botAvatar { display: grid; width: 2.2rem; height: 2.2rem; place-items: center; border: 1px solid var(--accent); border-radius: 0.45rem; background: var(--accent-dark); color: var(--accent); }
 .routeTabs { display: flex; flex-wrap: wrap; gap: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 0.4rem; }
-.routeTabs button { border: 0; border-right: 1px solid var(--border); border-radius: 0; }
-.routeTabs button[aria-selected='true'] { background: var(--accent-dark); color: #aaf1d0; box-shadow: inset 0 -2px var(--accent); }
+.routeTabs > span { border: 0; border-right: 1px solid var(--border); border-radius: 0; }
+.routeTabs > span[data-selected] { background: var(--accent-dark); color: #aaf1d0; box-shadow: inset 0 -2px var(--accent); }
 .routeList, .threadList { display: grid; gap: 0.4rem; margin: 0.45rem 0; padding: 0; list-style: none; }
 .routeList li { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.45rem 0.55rem; border: 1px solid var(--border); border-radius: 0.3rem; background: #101311; }
 .routeList strong { color: var(--text-primary); }

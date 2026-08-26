@@ -75,9 +75,11 @@ describe('HedwigToolsSimulation', () => {
     expect(screen.getByText(new RegExp(expected, 'i'))).toBeInTheDocument()
   })
 
-  it('disables compact controls so autoplay is the only in-view progression', () => {
+  it('renders compact control labels as static content while arrows remain external', () => {
     render(<HedwigToolsSimulation mode="compact" toolId="slack-builder" />)
-    expect(screen.getByRole('tab', { name: 'Channels' })).toBeDisabled()
-    expect(screen.getByRole('tab', { name: 'Threads' })).toBeDisabled()
+    expect(screen.getAllByText('Channels')).not.toHaveLength(0)
+    expect(screen.getByText('Threads')).toBeInTheDocument()
+    expect(screen.queryByRole('tab')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Previous tool: Read-only Databricks MCP' })).toBeInTheDocument()
   })
 })

@@ -343,7 +343,7 @@ export default function HedwigToolsSimulation({
             <Icon name="next" />
           </button>
       </div>
-      <p className={styles.visuallyHidden} aria-live="polite" aria-atomic="true">
+      <p className={styles.visuallyHidden}>
         {summarizeSimulation(HEDWIG_TOOLS, state)}
       </p>
     </section>
