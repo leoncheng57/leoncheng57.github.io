@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import MermaidDiagram from './MermaidDiagram'
 
@@ -35,6 +35,16 @@ describe('MermaidDiagram', () => {
         reducedMotion: true,
       })
     )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Zoom diagram: System flow' }))
+
+    const dialog = screen.getByRole('dialog', { name: 'Zoomed diagram: System flow' })
+    const zoomedImage = within(dialog).getByRole('img', { name: 'System flow' })
+    expect(dialog).toContainElement(zoomedImage)
+    expect(zoomedImage).toHaveAttribute('src', expect.stringMatching(/^data:image\/svg\+xml/))
+
+    fireEvent.keyDown(window, { key: 'Escape' })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('keeps the source readable when Mermaid rejects invalid input', async () => {

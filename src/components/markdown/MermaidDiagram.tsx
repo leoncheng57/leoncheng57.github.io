@@ -55,6 +55,7 @@ export default function MermaidDiagram({ source, title }: MermaidDiagramProps): 
   const reactId = useId()
   const diagramId = `mermaid-${reactId.replace(/[^a-zA-Z0-9_-]/g, '')}`
   const [renderState, setRenderState] = useState<RenderState>({ status: 'loading' })
+  const [isZoomed, setIsZoomed] = useState(false)
 
   useEffect(() => {
     let active = true
@@ -113,26 +114,74 @@ export default function MermaidDiagram({ source, title }: MermaidDiagramProps): 
     }
   }, [diagramId, source, title])
 
+  useEffect(() => {
+    if (!isZoomed) return undefined
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsZoomed(false)
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isZoomed])
+
+  const zoomedSvgSrc = renderState.status === 'ready'
+    ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(renderState.svg)}`
+    : ''
+
   return (
-    <figure className={styles.figure}>
-      {renderState.status === 'ready' ? (
+    <>
+      <figure className={styles.figure}>
+        {renderState.status === 'ready' ? (
+          <button
+            type="button"
+            className={styles.zoomButton}
+            aria-label={`Zoom diagram: ${title}`}
+            title="Open zoomed diagram"
+            onClick={() => setIsZoomed(true)}
+          >
+            <span
+              className={styles.diagram}
+              // Mermaid generated this SVG under strict mode, and sanitizeSvg removes
+              // executable content before it reaches the DOM.
+              dangerouslySetInnerHTML={{ __html: renderState.svg }}
+            />
+          </button>
+        ) : (
+          <div className={styles.fallback} role={renderState.status === 'error' ? 'alert' : 'status'}>
+            <strong>
+              {renderState.status === 'error' ? 'Diagram could not be rendered.' : 'Rendering diagram...'}
+            </strong>
+            <pre>
+              <code>{source}</code>
+            </pre>
+          </div>
+        )}
+        <figcaption className={styles.caption}>{title}</figcaption>
+      </figure>
+
+      {isZoomed ? (
         <div
-          className={styles.diagram}
-          // Mermaid generated this SVG under strict mode, and sanitizeSvg removes
-          // executable content before it reaches the DOM.
-          dangerouslySetInnerHTML={{ __html: renderState.svg }}
-        />
-      ) : (
-        <div className={styles.fallback} role={renderState.status === 'error' ? 'alert' : 'status'}>
-          <strong>
-            {renderState.status === 'error' ? 'Diagram could not be rendered.' : 'Rendering diagram...'}
-          </strong>
-          <pre>
-            <code>{source}</code>
-          </pre>
+          className={styles.overlay}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Zoomed diagram: ${title}`}
+          onClick={() => setIsZoomed(false)}
+        >
+          <div className={styles.overlayInner} onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              className={styles.close}
+              aria-label="Close diagram zoom"
+              autoFocus
+              onClick={() => setIsZoomed(false)}
+            >
+              Close
+            </button>
+            <img src={zoomedSvgSrc} alt={title} className={styles.zoomedDiagram} />
+          </div>
         </div>
-      )}
-      <figcaption className={styles.caption}>{title}</figcaption>
-    </figure>
+      ) : null}
+    </>
   )
 }
