@@ -219,12 +219,9 @@ function ToolView({ tool, stage }: { tool: HedwigTool; stage: number }): ReactEl
   return <CmdKDiscoveryView stage={stage} />
 }
 
-type ControlIcon = 'previous' | 'play' | 'pause' | 'restart' | 'next'
+type ControlIcon = 'previous' | 'next'
 
 function Icon({ name }: { name: ControlIcon }): ReactElement {
-  if (name === 'play') return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
-  if (name === 'pause') return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zm6 0h4v14h-4z" /></svg>
-  if (name === 'restart') return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5a7 7 0 1 1-6.3 4H3l4-4 4 4H7.8A5 5 0 1 0 12 7z" /></svg>
   if (name === 'previous') return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15.5 5-7 7 7 7z" /></svg>
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8.5 5 7 7-7 7z" /></svg>
 }
@@ -277,9 +274,10 @@ export default function HedwigToolsSimulation({
   return (
     <section
       ref={rootRef}
-      className={`${styles.simulation} ${mode === 'compact' ? styles.compact : ''}`}
-      aria-label={ariaLabel}
+    className={`${styles.simulation} ${mode === 'compact' ? styles.compact : ''}`}
+    aria-label={ariaLabel}
     >
+      {reducedMotion && <p className={styles.motionNote} role="status">Reduced motion is enabled; the simulation is shown completed and does not autoplay.</p>}
       <div className={styles.simulationFrame}>
         <div className={styles.topLine}>
           <span>HEDWIG · TOOL SANDBOX</span>
@@ -307,6 +305,7 @@ export default function HedwigToolsSimulation({
           </header>
           {mode === 'compact' ? (
             <fieldset disabled className={styles.staticView} aria-label="Autoplaying fictional tool view">
+              <p className={styles.staticNotice} role="note">Autoplay preview · controls shown for context</p>
               <CompactToolView toolId={tool.id} stage={state.eventIndex} />
             </fieldset>
           ) : <ToolView tool={tool} stage={state.eventIndex} />}
@@ -317,13 +316,12 @@ export default function HedwigToolsSimulation({
           </div>
         </div>
         <div className={styles.progressRow}>
-          <div className={styles.progressTrack} role="progressbar" aria-label="Simulation progress" aria-valuemin={0} aria-valuemax={progress.total} aria-valuenow={progress.current}>
+          <div className={styles.progressTrack} role="progressbar" aria-label={`Simulation progress: ${progress.current} of ${progress.total}`} aria-valuemin={0} aria-valuemax={progress.total} aria-valuenow={progress.current}>
             <span style={{ width: `${progress.percent}%` }} />
           </div>
-          <span>{progress.current}/{progress.total}</span>
+          <span aria-hidden="true">{progress.current}/{progress.total}</span>
         </div>
         <p className={styles.disclosure}>All names, metrics, incidents, queries, and results shown here are fictional and sanitized. This simulation makes no network calls.</p>
-        {reducedMotion && <p className={styles.motionNote}>Reduced motion is enabled; the simulation is shown completed and does not autoplay.</p>}
       </div>
       {mode === 'catalog' && (
         <div className={styles.controls} aria-label="Browse the tool tour">

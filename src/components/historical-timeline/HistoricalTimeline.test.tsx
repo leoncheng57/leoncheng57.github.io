@@ -16,6 +16,11 @@ describe('timeline spacing', () => {
     )
   })
 
+  it('caps spacing at the compact maximum', () => {
+    expect(timelineGapRem(0)).toBe(0.45)
+    expect(timelineGapRem(35)).toBe(2.1)
+  })
+
   it.each([
     ['invalid date', 'not-a-date', '2026-01-08'],
     ['invalid calendar date', '2026-02-30', '2026-03-01'],

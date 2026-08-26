@@ -152,6 +152,7 @@
 
 .compactView { display: grid; min-width: 0; gap: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: 0.6rem; background: var(--panel); box-shadow: inset 0 1px #272c29; }
 .staticView { min-width: 0; margin: 0; padding: 0; border: 0; }
+.staticNotice { margin: 0 0 0.55rem; color: var(--accent); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.67rem; letter-spacing: 0.06em; text-transform: uppercase; }
 .compactView h3 { margin: 0 0 0.45rem; color: var(--text-primary); font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
 .compactView p { margin: 0; color: var(--text-muted); }
 .compactView button, .compactView select, .compactView input { min-height: 2.4rem; border: 1px solid var(--border-strong); border-radius: 0.35rem; background: #101311; color: var(--text-primary); font: inherit; }

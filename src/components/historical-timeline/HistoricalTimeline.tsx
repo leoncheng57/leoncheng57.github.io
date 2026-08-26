@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactElement } from 'react'
 import styles from './HistoricalTimeline.module.css'
 
-const MIN_GAP_REM = 0.75
-const MAX_GAP_REM = 3.5
+const MIN_GAP_REM = 0.45
+const MAX_GAP_REM = 2.1
 const CLUSTER_DAYS = 2
 const MAX_PROPORTIONAL_DAYS = 35
 
