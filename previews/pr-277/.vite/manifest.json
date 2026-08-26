@@ -1,17 +1,705 @@
 {
+  "_arc-kxyM-ASc.js": {
+    "file": "assets/arc-kxyM-ASc.js",
+    "name": "arc",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js"
+    ]
+  },
+  "_channel-C1K3f_s5.js": {
+    "file": "assets/channel-C1K3f_s5.js",
+    "name": "channel",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js"
+    ]
+  },
+  "_chunk-2Q5K7J3B-B6guldTm.js": {
+    "file": "assets/chunk-2Q5K7J3B-B6guldTm.js",
+    "name": "chunk-2Q5K7J3B",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js"
+    ]
+  },
+  "_chunk-5VM5RSS4-CcQ5mu-h.js": {
+    "file": "assets/chunk-5VM5RSS4-CcQ5mu-h.js",
+    "name": "chunk-5VM5RSS4",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js"
+    ]
+  },
+  "_chunk-F27PBJKO-Prfid8xP.js": {
+    "file": "assets/chunk-F27PBJKO-Prfid8xP.js",
+    "name": "chunk-F27PBJKO",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js"
+    ]
+  },
+  "_chunk-IMKFNOWR-CAFGAZ9P.js": {
+    "file": "assets/chunk-IMKFNOWR-CAFGAZ9P.js",
+    "name": "chunk-IMKFNOWR",
+    "imports": [
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_chunk-F27PBJKO-Prfid8xP.js"
+    ]
+  },
+  "_chunk-JWPE2WC7-3QQJX98j.js": {
+    "file": "assets/chunk-JWPE2WC7-3QQJX98j.js",
+    "name": "chunk-JWPE2WC7",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js"
+    ]
+  },
+  "_chunk-POPQ4Y6H-CQ_D8YSc.js": {
+    "file": "assets/chunk-POPQ4Y6H-CQ_D8YSc.js",
+    "name": "chunk-POPQ4Y6H",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js"
+    ]
+  },
+  "_chunk-SVP7TREG-UIsSm4FW.js": {
+    "file": "assets/chunk-SVP7TREG-UIsSm4FW.js",
+    "name": "chunk-SVP7TREG",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js"
+    ]
+  },
+  "_chunk-TICWLB2K-BQZ5ZbD_.js": {
+    "file": "assets/chunk-TICWLB2K-BQZ5ZbD_.js",
+    "name": "chunk-TICWLB2K",
+    "imports": [
+      "_chunk-5VM5RSS4-CcQ5mu-h.js",
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_chunk-F27PBJKO-Prfid8xP.js"
+    ]
+  },
+  "_chunk-XXDRQBXY-DKcpAPfF.js": {
+    "file": "assets/chunk-XXDRQBXY-DKcpAPfF.js",
+    "name": "chunk-XXDRQBXY",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js"
+    ]
+  },
+  "_cynefin-OW5HDTMX-B-L10USv.js": {
+    "file": "assets/cynefin-OW5HDTMX-B-L10USv.js",
+    "name": "cynefin-OW5HDTMX",
+    "imports": [
+      "index.html"
+    ]
+  },
+  "_cytoscape.esm-Bch-eiPH.js": {
+    "file": "assets/cytoscape.esm-Bch-eiPH.js",
+    "name": "cytoscape.esm"
+  },
+  "_defaultLocale-DX6XiGOO.js": {
+    "file": "assets/defaultLocale-DX6XiGOO.js",
+    "name": "defaultLocale"
+  },
+  "_flowDiagram-HODETNUW-DnFPrzif.js": {
+    "file": "assets/flowDiagram-HODETNUW-DnFPrzif.js",
+    "name": "flowDiagram-HODETNUW",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-5VM5RSS4-CcQ5mu-h.js",
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_chunk-F27PBJKO-Prfid8xP.js",
+      "_channel-C1K3f_s5.js"
+    ]
+  },
+  "_init-Gi6I4Gst.js": {
+    "file": "assets/init-Gi6I4Gst.js",
+    "name": "init"
+  },
+  "_layout-DCosoPWi.js": {
+    "file": "assets/layout-DCosoPWi.js",
+    "name": "layout",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js"
+    ]
+  },
+  "_linear-BGfm-J0J.js": {
+    "file": "assets/linear-BGfm-J0J.js",
+    "name": "linear",
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "_init-Gi6I4Gst.js",
+      "_defaultLocale-DX6XiGOO.js"
+    ]
+  },
+  "_mermaid.core-DfnP3-s9.js": {
+    "file": "assets/mermaid.core-DfnP3-s9.js",
+    "name": "mermaid.core",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "dynamicImports": [
+      "node_modules/katex/dist/katex.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/sizeCapture-INFHLROL.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/dagre-GXQ25YYZ.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/swimlanes-42K2YHIH.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/cose-bilkent-JH36ORCC.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/c4Diagram-7LVT6UL2.mjs",
+      "_flowDiagram-HODETNUW-DnFPrzif.js",
+      "_flowDiagram-HODETNUW-DnFPrzif.js",
+      "node_modules/mermaid/dist/chunks/mermaid.core/swimlanesDiagram-VR7AAH4N.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/erDiagram-RLTQ6QDP.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/gitGraphDiagram-WWUBYQGX.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/ganttDiagram-EL5Y4UJY.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/infoDiagram-27XIBGKW.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/pieDiagram-E7YTZNPT.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/quadrantDiagram-AXDQQJYC.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/xychartDiagram-S5SC5T6Z.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/requirementDiagram-BXWQKSXE.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/sequenceDiagram-WJ2MYXX4.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/classDiagram-ZZMXUADV.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/classDiagram-v2-VYDZK3BY.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/stateDiagram-D77RDMKH.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/stateDiagram-v2-MP3YSRHH.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/journeyDiagram-3NMN7TZE.mjs",
+      "_flowDiagram-HODETNUW-DnFPrzif.js",
+      "node_modules/mermaid/dist/chunks/mermaid.core/timeline-definition-24CTP7MA.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/mindmap-definition-YA3MSWOX.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/kanban-definition-UXKFOSKX.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/sankeyDiagram-P5KCCOFB.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/diagram-Z3DM3KII.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/diagram-UQ7AKVKN.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/blockDiagram-I7D4REHJ.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/diagram-S7CK7UJ4.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/architectureDiagram-5GKGNRK7.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/diagram-VSXAHHWV.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/ishikawaDiagram-5VMMS53U.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/vennDiagram-4TSXK5OY.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/diagram-VX7I27RA.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/wardleyDiagram-VM6X3IG4.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/cynefinDiagram-5FMLGOSQ.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/railroadDiagram-O6MQD6OU.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/ebnfDiagram-PWID7BFC.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/abnfDiagram-VCTEODGH.mjs",
+      "node_modules/mermaid/dist/chunks/mermaid.core/pegDiagram-XKGWAZYB.mjs"
+    ]
+  },
+  "_ordinal-Cboi1Yqb.js": {
+    "file": "assets/ordinal-Cboi1Yqb.js",
+    "name": "ordinal",
+    "imports": [
+      "_init-Gi6I4Gst.js"
+    ]
+  },
   "index.html": {
-    "file": "assets/index-CEEkF_1o.js",
+    "file": "assets/index-Cfha0-4G.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
+      "_mermaid.core-DfnP3-s9.js",
       "src/features/workout-lab/data/exercise-details.ts",
       "src/features/workout-lab/data/exercise-videos.ts",
       "src/features/workout-lab/data/exercise-details.ts",
       "src/features/workout-lab/data/exercise-videos.ts"
     ],
     "css": [
-      "assets/index-JSdVn5Sb.css"
+      "assets/index-4tC5nCQz.css"
+    ]
+  },
+  "node_modules/katex/dist/katex.mjs": {
+    "file": "assets/katex-C5jXJg4s.js",
+    "name": "katex",
+    "src": "node_modules/katex/dist/katex.mjs",
+    "isDynamicEntry": true
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/abnfDiagram-VCTEODGH.mjs": {
+    "file": "assets/abnfDiagram-VCTEODGH-B0Uo67mj.js",
+    "name": "abnfDiagram-VCTEODGH",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/abnfDiagram-VCTEODGH.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-SVP7TREG-UIsSm4FW.js",
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/architectureDiagram-5GKGNRK7.mjs": {
+    "file": "assets/architectureDiagram-5GKGNRK7-BdHYzATP.js",
+    "name": "architectureDiagram-5GKGNRK7",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/architectureDiagram-5GKGNRK7.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "_cytoscape.esm-Bch-eiPH.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/blockDiagram-I7D4REHJ.mjs": {
+    "file": "assets/blockDiagram-I7D4REHJ-Dq1OLW6I.js",
+    "name": "blockDiagram-I7D4REHJ",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/blockDiagram-I7D4REHJ.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-5VM5RSS4-CcQ5mu-h.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_channel-C1K3f_s5.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/c4Diagram-7LVT6UL2.mjs": {
+    "file": "assets/c4Diagram-7LVT6UL2-C0WTleOR.js",
+    "name": "c4Diagram-7LVT6UL2",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/c4Diagram-7LVT6UL2.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-F27PBJKO-Prfid8xP.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/classDiagram-ZZMXUADV.mjs": {
+    "file": "assets/classDiagram-ZZMXUADV-Z5xg4XGZ.js",
+    "name": "classDiagram-ZZMXUADV",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/classDiagram-ZZMXUADV.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-TICWLB2K-BQZ5ZbD_.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_chunk-5VM5RSS4-CcQ5mu-h.js",
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_chunk-F27PBJKO-Prfid8xP.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/classDiagram-v2-VYDZK3BY.mjs": {
+    "file": "assets/classDiagram-v2-VYDZK3BY-Z5xg4XGZ.js",
+    "name": "classDiagram-v2-VYDZK3BY",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/classDiagram-v2-VYDZK3BY.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-TICWLB2K-BQZ5ZbD_.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_chunk-5VM5RSS4-CcQ5mu-h.js",
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_chunk-F27PBJKO-Prfid8xP.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/cose-bilkent-JH36ORCC.mjs": {
+    "file": "assets/cose-bilkent-JH36ORCC-Blh6v4H-.js",
+    "name": "cose-bilkent-JH36ORCC",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/cose-bilkent-JH36ORCC.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "_cytoscape.esm-Bch-eiPH.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/cynefinDiagram-5FMLGOSQ.mjs": {
+    "file": "assets/cynefinDiagram-5FMLGOSQ-Sw2YSiXH.js",
+    "name": "cynefinDiagram-5FMLGOSQ",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/cynefinDiagram-5FMLGOSQ.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/dagre-GXQ25YYZ.mjs": {
+    "file": "assets/dagre-GXQ25YYZ-CegOajgk.js",
+    "name": "dagre-GXQ25YYZ",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/dagre-GXQ25YYZ.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "_layout-DCosoPWi.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/diagram-S7CK7UJ4.mjs": {
+    "file": "assets/diagram-S7CK7UJ4-aAqVnxsW.js",
+    "name": "diagram-S7CK7UJ4",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/diagram-S7CK7UJ4.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-2Q5K7J3B-B6guldTm.js",
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/diagram-UQ7AKVKN.mjs": {
+    "file": "assets/diagram-UQ7AKVKN-DqpYuwFO.js",
+    "name": "diagram-UQ7AKVKN",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/diagram-UQ7AKVKN.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/diagram-VSXAHHWV.mjs": {
+    "file": "assets/diagram-VSXAHHWV-B9hLwINO.js",
+    "name": "diagram-VSXAHHWV",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/diagram-VSXAHHWV.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/diagram-VX7I27RA.mjs": {
+    "file": "assets/diagram-VX7I27RA-CLd5YMp1.js",
+    "name": "diagram-VX7I27RA",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/diagram-VX7I27RA.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "_defaultLocale-DX6XiGOO.js",
+      "_ordinal-Cboi1Yqb.js",
+      "index.html",
+      "_init-Gi6I4Gst.js"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/diagram-Z3DM3KII.mjs": {
+    "file": "assets/diagram-Z3DM3KII-CTko1qa4.js",
+    "name": "diagram-Z3DM3KII",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/diagram-Z3DM3KII.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/ebnfDiagram-PWID7BFC.mjs": {
+    "file": "assets/ebnfDiagram-PWID7BFC-B-sLONZQ.js",
+    "name": "ebnfDiagram-PWID7BFC",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/ebnfDiagram-PWID7BFC.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-SVP7TREG-UIsSm4FW.js",
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/erDiagram-RLTQ6QDP.mjs": {
+    "file": "assets/erDiagram-RLTQ6QDP-CrsCwu3K.js",
+    "name": "erDiagram-RLTQ6QDP",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/erDiagram-RLTQ6QDP.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_channel-C1K3f_s5.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/ganttDiagram-EL5Y4UJY.mjs": {
+    "file": "assets/ganttDiagram-EL5Y4UJY-YYOWdEws.js",
+    "name": "ganttDiagram-EL5Y4UJY",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/ganttDiagram-EL5Y4UJY.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "index.html",
+      "_linear-BGfm-J0J.js",
+      "_init-Gi6I4Gst.js",
+      "_defaultLocale-DX6XiGOO.js"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/gitGraphDiagram-WWUBYQGX.mjs": {
+    "file": "assets/gitGraphDiagram-WWUBYQGX-B26IFFnP.js",
+    "name": "gitGraphDiagram-WWUBYQGX",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/gitGraphDiagram-WWUBYQGX.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-2Q5K7J3B-B6guldTm.js",
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/infoDiagram-27XIBGKW.mjs": {
+    "file": "assets/infoDiagram-27XIBGKW-DUAEty-R.js",
+    "name": "infoDiagram-27XIBGKW",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/infoDiagram-27XIBGKW.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/ishikawaDiagram-5VMMS53U.mjs": {
+    "file": "assets/ishikawaDiagram-5VMMS53U-CW0yY_U2.js",
+    "name": "ishikawaDiagram-5VMMS53U",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/ishikawaDiagram-5VMMS53U.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/journeyDiagram-3NMN7TZE.mjs": {
+    "file": "assets/journeyDiagram-3NMN7TZE-BliMzyUA.js",
+    "name": "journeyDiagram-3NMN7TZE",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/journeyDiagram-3NMN7TZE.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-5VM5RSS4-CcQ5mu-h.js",
+      "_chunk-F27PBJKO-Prfid8xP.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_arc-kxyM-ASc.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/kanban-definition-UXKFOSKX.mjs": {
+    "file": "assets/kanban-definition-UXKFOSKX-Dqra6yKu.js",
+    "name": "kanban-definition-UXKFOSKX",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/kanban-definition-UXKFOSKX.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "_chunk-5VM5RSS4-CcQ5mu-h.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/mindmap-definition-YA3MSWOX.mjs": {
+    "file": "assets/mindmap-definition-YA3MSWOX-Dn8EsuPG.js",
+    "name": "mindmap-definition-YA3MSWOX",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/mindmap-definition-YA3MSWOX.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/pegDiagram-XKGWAZYB.mjs": {
+    "file": "assets/pegDiagram-XKGWAZYB-BomLzFqV.js",
+    "name": "pegDiagram-XKGWAZYB",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/pegDiagram-XKGWAZYB.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-SVP7TREG-UIsSm4FW.js",
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/pieDiagram-E7YTZNPT.mjs": {
+    "file": "assets/pieDiagram-E7YTZNPT-DkGuorez.js",
+    "name": "pieDiagram-E7YTZNPT",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/pieDiagram-E7YTZNPT.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "_arc-kxyM-ASc.js",
+      "_ordinal-Cboi1Yqb.js",
+      "index.html",
+      "_init-Gi6I4Gst.js"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/quadrantDiagram-AXDQQJYC.mjs": {
+    "file": "assets/quadrantDiagram-AXDQQJYC-BaOCwPVb.js",
+    "name": "quadrantDiagram-AXDQQJYC",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/quadrantDiagram-AXDQQJYC.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "_linear-BGfm-J0J.js",
+      "index.html",
+      "_init-Gi6I4Gst.js",
+      "_defaultLocale-DX6XiGOO.js"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/railroadDiagram-O6MQD6OU.mjs": {
+    "file": "assets/railroadDiagram-O6MQD6OU-BFrw0GkB.js",
+    "name": "railroadDiagram-O6MQD6OU",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/railroadDiagram-O6MQD6OU.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-SVP7TREG-UIsSm4FW.js",
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/requirementDiagram-BXWQKSXE.mjs": {
+    "file": "assets/requirementDiagram-BXWQKSXE-CT3iipFK.js",
+    "name": "requirementDiagram-BXWQKSXE",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/requirementDiagram-BXWQKSXE.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/sankeyDiagram-P5KCCOFB.mjs": {
+    "file": "assets/sankeyDiagram-P5KCCOFB-7wLmZ120.js",
+    "name": "sankeyDiagram-P5KCCOFB",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/sankeyDiagram-P5KCCOFB.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "_ordinal-Cboi1Yqb.js",
+      "index.html",
+      "_init-Gi6I4Gst.js"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/sequenceDiagram-WJ2MYXX4.mjs": {
+    "file": "assets/sequenceDiagram-WJ2MYXX4-CF90v043.js",
+    "name": "sequenceDiagram-WJ2MYXX4",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/sequenceDiagram-WJ2MYXX4.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-2Q5K7J3B-B6guldTm.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_chunk-F27PBJKO-Prfid8xP.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/sizeCapture-INFHLROL.mjs": {
+    "file": "assets/sizeCapture-INFHLROL-D1mlvvD-.js",
+    "name": "sizeCapture-INFHLROL",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/sizeCapture-INFHLROL.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/stateDiagram-D77RDMKH.mjs": {
+    "file": "assets/stateDiagram-D77RDMKH-DI95Txpd.js",
+    "name": "stateDiagram-D77RDMKH",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/stateDiagram-D77RDMKH.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-IMKFNOWR-CAFGAZ9P.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_layout-DCosoPWi.js",
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_chunk-F27PBJKO-Prfid8xP.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/stateDiagram-v2-MP3YSRHH.mjs": {
+    "file": "assets/stateDiagram-v2-MP3YSRHH-DxNf89ij.js",
+    "name": "stateDiagram-v2-MP3YSRHH",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/stateDiagram-v2-MP3YSRHH.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-IMKFNOWR-CAFGAZ9P.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_chunk-F27PBJKO-Prfid8xP.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/swimlanes-42K2YHIH.mjs": {
+    "file": "assets/swimlanes-42K2YHIH-DOHy7PgF.js",
+    "name": "swimlanes-42K2YHIH",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/swimlanes-42K2YHIH.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/swimlanesDiagram-VR7AAH4N.mjs": {
+    "file": "assets/swimlanesDiagram-VR7AAH4N-BhgNWWhW.js",
+    "name": "swimlanesDiagram-VR7AAH4N",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/swimlanesDiagram-VR7AAH4N.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_flowDiagram-HODETNUW-DnFPrzif.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_chunk-5VM5RSS4-CcQ5mu-h.js",
+      "_chunk-XXDRQBXY-DKcpAPfF.js",
+      "_chunk-POPQ4Y6H-CQ_D8YSc.js",
+      "_chunk-F27PBJKO-Prfid8xP.js",
+      "_channel-C1K3f_s5.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/timeline-definition-24CTP7MA.mjs": {
+    "file": "assets/timeline-definition-24CTP7MA-CzDKKwh-.js",
+    "name": "timeline-definition-24CTP7MA",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/timeline-definition-24CTP7MA.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "_arc-kxyM-ASc.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/vennDiagram-4TSXK5OY.mjs": {
+    "file": "assets/vennDiagram-4TSXK5OY-Ce1_CP6G.js",
+    "name": "vennDiagram-4TSXK5OY",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/vennDiagram-4TSXK5OY.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/wardleyDiagram-VM6X3IG4.mjs": {
+    "file": "assets/wardleyDiagram-VM6X3IG4-CdJ8Pem8.js",
+    "name": "wardleyDiagram-VM6X3IG4",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/wardleyDiagram-VM6X3IG4.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_chunk-JWPE2WC7-3QQJX98j.js",
+      "_mermaid.core-DfnP3-s9.js",
+      "_cynefin-OW5HDTMX-B-L10USv.js",
+      "index.html"
+    ]
+  },
+  "node_modules/mermaid/dist/chunks/mermaid.core/xychartDiagram-S5SC5T6Z.mjs": {
+    "file": "assets/xychartDiagram-S5SC5T6Z-B11T1F7K.js",
+    "name": "xychartDiagram-S5SC5T6Z",
+    "src": "node_modules/mermaid/dist/chunks/mermaid.core/xychartDiagram-S5SC5T6Z.mjs",
+    "isDynamicEntry": true,
+    "imports": [
+      "_mermaid.core-DfnP3-s9.js",
+      "_init-Gi6I4Gst.js",
+      "_ordinal-Cboi1Yqb.js",
+      "_linear-BGfm-J0J.js",
+      "index.html",
+      "_defaultLocale-DX6XiGOO.js"
     ]
   },
   "src/features/workout-lab/data/exercise-details.ts": {
@@ -21,7 +709,7 @@
     "isDynamicEntry": true
   },
   "src/features/workout-lab/data/exercise-videos.ts": {
-    "file": "assets/exercise-videos-DbnNTyaT.js",
+    "file": "assets/exercise-videos-o9YJ4WP2.js",
     "name": "exercise-videos",
     "src": "src/features/workout-lab/data/exercise-videos.ts",
     "isDynamicEntry": true,
