@@ -12,7 +12,10 @@ describe('HedwigToolsSimulation', () => {
   it('renders the full keyboard-accessible catalog and disclosure', () => {
     render(<HedwigToolsSimulation />)
     expect(screen.getByRole('region', { name: 'Hedwig tools simulation' })).toBeInTheDocument()
-    expect(screen.getAllByRole('button', { name: /On-call|Remote code|API graphs|Data helper|Databricks MCP|Slack builder/ })).toHaveLength(6)
+    expect(screen.getByRole('navigation', { name: 'Hedwig tool selector' }).querySelectorAll('button')).toHaveLength(8)
+    expect(screen.getByRole('button', { name: /Playgrounds/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Cmd\+K/ })).toBeInTheDocument()
+    expect(screen.getByText('Tool 01 / 08')).toBeInTheDocument()
     expect(screen.getByText(/fictional and sanitized/i)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /Remote code/ }))
     expect(screen.getByText('Mode A · async delegation')).toBeInTheDocument()
@@ -57,17 +60,32 @@ describe('HedwigToolsSimulation', () => {
     expect(remoteCode).toHaveAttribute('aria-current', 'step')
 
     await user.keyboard('{End}')
-    const slackBuilder = screen.getByRole('button', { name: /Slack builder/ })
-    expect(slackBuilder).toHaveFocus()
-    expect(slackBuilder).toHaveAttribute('aria-current', 'step')
+    const cmdK = screen.getByRole('button', { name: /Cmd\+K/ })
+    expect(cmdK).toHaveFocus()
+    expect(cmdK).toHaveAttribute('aria-current', 'step')
 
     await user.keyboard('{Home}')
     expect(onCall).toHaveFocus()
     expect(onCall).toHaveAttribute('aria-current', 'step')
 
     await user.keyboard('{ArrowLeft}')
-    expect(slackBuilder).toHaveFocus()
-    expect(slackBuilder).toHaveAttribute('aria-current', 'step')
+    expect(cmdK).toHaveFocus()
+    expect(cmdK).toHaveAttribute('aria-current', 'step')
+  })
+
+  it('renders accessible review and permission-safe discovery output without inputs', async () => {
+    const user = userEvent.setup()
+    render(<HedwigToolsSimulation />)
+
+    await user.click(screen.getByRole('button', { name: /Playgrounds/ }))
+    expect(screen.getByLabelText('Playground and marketplace review flow')).toBeInTheDocument()
+    expect(screen.getByText(/never automatically published/i)).toHaveAttribute('role', 'status')
+
+    await user.click(screen.getByRole('button', { name: /Cmd\+K/ }))
+    expect(screen.getByLabelText('Scripted discovery results')).toBeInTheDocument()
+    expect(screen.getByLabelText(/Permission-safe results/).children).toHaveLength(4)
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
   })
 
   it('restarts the catalog from the first tool and resumes playback intent', async () => {

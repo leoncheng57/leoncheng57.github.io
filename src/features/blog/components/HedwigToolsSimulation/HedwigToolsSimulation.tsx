@@ -165,13 +165,71 @@ function SlackBuilderView({ stage }: { stage: number }): ReactElement {
   )
 }
 
+function PlaygroundsSkillsView({ stage }: { stage: number }): ReactElement {
+  const steps = [
+    ['Idea', 'Fictional triage helper'],
+    ['Playground', stage >= 1 ? 'Feature gate enabled' : 'Awaiting gate'],
+    ['Evidence', stage >= 1 ? 'Review packet ready' : 'Collection queued'],
+    ['Outcome', stage >= 2 ? 'Skill review selected' : 'Application or skill review'],
+  ]
+
+  return (
+    <div className={styles.reviewFlow} aria-label="Playground and marketplace review flow">
+      <ol>
+        {steps.map(([label, detail], index) => (
+          <li key={label} data-ready={index <= stage + 1}>
+            <span>{label}</span>
+            <strong>{detail}</strong>
+          </li>
+        ))}
+      </ol>
+      <p className={styles.reviewBoundary} role="status">
+        Human review required · never automatically published
+      </p>
+    </div>
+  )
+}
+
+function CmdKDiscoveryView({ stage }: { stage: number }): ReactElement {
+  const sources = [
+    ['Apps', 'Triage overview', 'Approved'],
+    ['MCPs', 'Read-only signals', 'Permitted'],
+    ['Skills', 'Incident summary', 'In review'],
+    ['Docs', 'Response guide', 'Current'],
+  ]
+
+  return (
+    <div className={styles.discovery} aria-label="Scripted discovery results">
+      <div className={styles.commandQuery}>
+        <kbd>⌘K</kbd>
+        <span>approved incident triage</span>
+        <strong>FIXED QUERY</strong>
+      </div>
+      <ul aria-label="Permission-safe results across Apps, MCPs, Skills, and Docs">
+        {sources.map(([source, result, status], index) => (
+          <li key={source} data-ready={index <= stage + 1}>
+            <span>{source}</span>
+            <strong>{result}</strong>
+            <small>{index <= stage + 1 ? status : 'Checking'}</small>
+          </li>
+        ))}
+      </ul>
+      <p className={styles.resultNote} role="status">
+        Generic results only · lifecycle and permission checks applied
+      </p>
+    </div>
+  )
+}
+
 function ToolView({ tool, stage }: { tool: HedwigTool; stage: number }): ReactElement {
   if (tool.kind === 'on-call') return <OnCallView stage={stage} />
   if (tool.kind === 'remote-code') return <RemoteCodeView stage={stage} />
   if (tool.kind === 'customer-api') return <ApiGraphView stage={stage} />
   if (tool.kind === 'data-helper') return <DataHelperView stage={stage} />
   if (tool.kind === 'databricks-mcp') return <DatabricksView stage={stage} />
-  return <SlackBuilderView stage={stage} />
+  if (tool.kind === 'slack-builder') return <SlackBuilderView stage={stage} />
+  if (tool.kind === 'playgrounds-skills') return <PlaygroundsSkillsView stage={stage} />
+  return <CmdKDiscoveryView stage={stage} />
 }
 
 export default function HedwigToolsSimulation({
@@ -280,7 +338,7 @@ export default function HedwigToolsSimulation({
       )}
       <div className={styles.stage}>
         <header className={styles.toolHeader}>
-          <p>Tool {tool.number} / 06</p>
+          <p>Tool {tool.number} / {String(HEDWIG_TOOLS.length).padStart(2, '0')}</p>
           <p className={styles.toolTitle}>{tool.title}</p>
           <p>{tool.summary}</p>
         </header>

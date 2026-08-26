@@ -6,7 +6,12 @@ export type HedwigToolId =
   | 'databricks-mcp'
   | 'slack-builder'
 
-export type HedwigToolKind = HedwigToolId
+export type HedwigCatalogToolId =
+  | HedwigToolId
+  | 'playgrounds-skills'
+  | 'cmd-k-discovery'
+
+export type HedwigToolKind = HedwigCatalogToolId
 
 export interface HedwigToolEvent {
   label: string
@@ -14,7 +19,7 @@ export interface HedwigToolEvent {
 }
 
 export interface HedwigTool {
-  id: HedwigToolId
+  id: HedwigCatalogToolId
   number: string
   title: string
   shortTitle: string
@@ -103,9 +108,35 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
       { label: 'Submit for review', detail: 'Simulation stops here. No bot is provisioned.' },
     ],
   },
+  {
+    id: 'playgrounds-skills',
+    number: '07',
+    title: 'Playgrounds & Skills Marketplace',
+    shortTitle: 'Playgrounds',
+    summary: 'Move a fictional idea through a gated experiment and evidence-led human review.',
+    kind: 'playgrounds-skills',
+    events: [
+      { label: 'Idea framed', detail: 'A fictional triage-helper idea is scoped with a fixed success measure.' },
+      { label: 'Playground gated', detail: 'The experiment stays private while access and evidence are reviewed.' },
+      { label: 'Review route selected', detail: 'Evidence supports skill review; publication is never automatic.' },
+    ],
+  },
+  {
+    id: 'cmd-k-discovery',
+    number: '08',
+    title: 'Cmd+K Discovery',
+    shortTitle: 'Cmd+K',
+    summary: 'Run a fixed discovery query across four sources with lifecycle and permission boundaries.',
+    kind: 'cmd-k-discovery',
+    events: [
+      { label: 'Scripted query opened', detail: 'The fixed query asks for approved incident-triage resources.' },
+      { label: 'Sources checked', detail: 'Apps, MCPs, Skills, and Docs return only generic permitted matches.' },
+      { label: 'Safe results ranked', detail: 'Lifecycle state and permission checks remain visible in every result.' },
+    ],
+  },
 ] as const
 
-export function getHedwigTool(id: HedwigToolId): HedwigTool {
+export function getHedwigTool(id: HedwigCatalogToolId): HedwigTool {
   const tool = HEDWIG_TOOLS.find((candidate) => candidate.id === id)
   if (!tool) throw new Error(`Unknown Hedwig tool: ${id}`)
   return tool

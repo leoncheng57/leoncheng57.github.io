@@ -2,19 +2,19 @@ import { describe, expect, it } from 'vitest'
 import { getHedwigTool, HEDWIG_TOOLS } from './tools'
 
 describe('Hedwig tool catalog', () => {
-  it('contains exactly the six sanitized tools in presentation order', () => {
-    expect(HEDWIG_TOOLS).toHaveLength(6)
+  it('contains exactly the eight sanitized tools in presentation order', () => {
+    expect(HEDWIG_TOOLS).toHaveLength(8)
     expect(HEDWIG_TOOLS.map((tool) => tool.id)).toEqual([
       'on-call', 'remote-code', 'customer-api', 'data-helper', 'databricks-mcp', 'slack-builder',
+      'playgrounds-skills', 'cmd-k-discovery',
     ])
-    expect(new Set(HEDWIG_TOOLS.map((tool) => tool.id)).size).toBe(6)
+    expect(new Set(HEDWIG_TOOLS.map((tool) => tool.id)).size).toBe(8)
   })
 
   it('keeps every scenario complete, fictional, and sanitized', () => {
     const denylist = [
-      /\bhelix\b/i,
-      /\bowl\b/i,
       /\bdeepl\b/i,
+      /\bsupabase\b/i,
       /deepl\.dev/i,
       /gitlab\.com/i,
       /https?:\/\//i,
@@ -53,5 +53,10 @@ describe('Hedwig tool catalog', () => {
       label: 'Submit for review',
       detail: 'Simulation stops here. No bot is provisioned.',
     })
+  })
+
+  it('keeps playground publication and discovery results behind safe boundaries', () => {
+    expect(getHedwigTool('playgrounds-skills').events.at(-1)?.detail).toMatch(/never automatic/i)
+    expect(getHedwigTool('cmd-k-discovery').events.at(-1)?.detail).toMatch(/permission/i)
   })
 })

@@ -195,7 +195,9 @@ describe('blog routes', () => {
     )
 
     expect(
-      screen.getByRole('region', { name: /full interactive tour of six fictional AI tools/i })
+      screen.getByRole('region', { name: /full interactive tour of eight fictional AI tools/i })
     ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Playgrounds/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Cmd\+K/i })).toBeInTheDocument()
   })
 })

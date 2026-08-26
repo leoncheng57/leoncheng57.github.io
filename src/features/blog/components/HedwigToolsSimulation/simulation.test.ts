@@ -9,6 +9,12 @@ describe('Hedwig simulation engine', () => {
       state = advanceSimulation(HEDWIG_TOOLS, state, 'catalog')
     }
     expect(state).toEqual(completeSimulation(HEDWIG_TOOLS, 'catalog'))
+    expect(state.toolIndex).toBe(7)
+    expect(getSimulationProgress(HEDWIG_TOOLS, state, 'catalog')).toEqual({
+      current: 24,
+      total: 24,
+      percent: 100,
+    })
     expect(advanceSimulation(HEDWIG_TOOLS, state, 'catalog')).toBe(state)
   })
 
