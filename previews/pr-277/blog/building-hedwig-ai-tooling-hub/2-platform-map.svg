@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1220" role="img" aria-labelledby="title desc">
   <title id="title">Map of focused applications on shared platform foundations</title>
-  <desc id="desc">Eight fictional tool cards sit above Cmd or Control K search, catalogs, skills, governed MCP integrations, bounded memory, tracing, and operational foundations.</desc>
+  <desc id="desc">Seven fictional tool cards sit above Cmd or Control K discovery, catalogs, skills, governed MCP integrations, bounded memory, tracing, and operational foundations.</desc>
   <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.k{fill:#56d6e5;font-size:18px;font-weight:800;letter-spacing:2px}.h{fill:#fff8e8;font-size:34px;font-weight:800}.n{fill:#fff8e8;font-size:22px;font-weight:750}.b{fill:#c9d6df;font-size:18px}.s{fill:#0b2239;font-size:19px;font-weight:800}</style>
   <rect width="800" height="1220" rx="28" fill="#091b2d"/><text x="48" y="58" class="k">PLATFORM MAP</text><text x="48" y="105" class="h">Focused tools, common foundations</text>
   <text x="48" y="151" class="b">Each fictional tool keeps its own purpose and success test.</text>
@@ -8,13 +8,13 @@
     <rect x="48" y="190" width="338" height="120" rx="18"/><rect x="414" y="190" width="338" height="120" rx="18"/>
     <rect x="48" y="334" width="338" height="120" rx="18"/><rect x="414" y="334" width="338" height="120" rx="18"/>
     <rect x="48" y="478" width="338" height="120" rx="18"/><rect x="414" y="478" width="338" height="120" rx="18"/>
-    <rect x="48" y="622" width="338" height="120" rx="18"/><rect x="414" y="622" width="338" height="120" rx="18"/>
+    <rect x="48" y="622" width="704" height="120" rx="18"/>
   </g>
-  <g class="n"><text x="76" y="235">Signal desk</text><text x="442" y="235">Workspace runner</text><text x="76" y="379">API guide</text><text x="442" y="379">Data helper</text><text x="76" y="523">Query companion</text><text x="442" y="523">Message builder</text><text x="76" y="667">Playground</text><text x="442" y="667">Skills</text></g>
-  <g class="b"><text x="76" y="275">Review an event</text><text x="442" y="275">Prepare a draft</text><text x="76" y="419">Explain a request</text><text x="442" y="419">Shape a dataset</text><text x="76" y="563">Explore safely</text><text x="442" y="563">Compose a workflow</text><text x="76" y="707">Test an idea</text><text x="442" y="707">Package behavior</text></g>
+  <g class="n"><text x="76" y="235">Signal desk</text><text x="442" y="235">Workspace runner</text><text x="76" y="379">API guide</text><text x="442" y="379">Query companion</text><text x="76" y="523">Message builder</text><text x="442" y="523">Playground</text><text x="76" y="667">Skills</text></g>
+  <g class="b"><text x="76" y="275">Review an event</text><text x="442" y="275">Prepare a draft</text><text x="76" y="419">Explain a request</text><text x="442" y="419">Explore safely</text><text x="76" y="563">Compose a workflow</text><text x="442" y="563">Test an idea</text><text x="76" y="707">Package reusable behavior</text></g>
   <path d="M400 756v38" stroke="#56d6e5" stroke-width="4"/><circle cx="400" cy="807" r="13" fill="#56d6e5"/>
   <rect x="48" y="836" width="704" height="130" rx="20" fill="#12334b" stroke="#56d6e5" stroke-width="2"/>
-  <text x="76" y="880" class="k">CMD/CTRL+K + CATALOGS</text><text x="76" y="920" class="n">Local navigation / selected remote results</text>
+  <text x="76" y="880" class="k">CMD/CTRL+K DISCOVERY + CATALOGS</text><text x="76" y="920" class="n">Local navigation / selected remote results</text>
   <rect x="48" y="988" width="704" height="138" rx="20" fill="#f4ad62"/>
   <text x="76" y="1032" class="s">GOVERNED FOUNDATIONS</text><text x="76" y="1072" class="s">MCP / bounded memory / tracing</text><text x="76" y="1106" class="s">Identity / policy / records / releases</text>
   <text x="400" y="1175" text-anchor="middle" class="b">Availability in a catalog is not evidence of adoption.</text>
