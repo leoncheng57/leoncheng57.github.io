@@ -323,8 +323,7 @@ export default function HedwigToolsSimulation({
         </div>
         <p className={styles.disclosure}>All names, metrics, incidents, queries, and results shown here are fictional and sanitized. This simulation makes no network calls.</p>
       </div>
-      {mode === 'catalog' && (
-        <div className={styles.controls} aria-label="Browse the tool tour">
+      <div className={styles.controls} aria-label="Browse the tool tour">
           <button
             type="button"
             onClick={() => chooseTool(Math.max(0, state.toolIndex - 1))}
@@ -343,8 +342,7 @@ export default function HedwigToolsSimulation({
           >
             <Icon name="next" />
           </button>
-        </div>
-      )}
+      </div>
       <p className={styles.visuallyHidden} aria-live="polite" aria-atomic="true">
         {summarizeSimulation(HEDWIG_TOOLS, state)}
       </p>

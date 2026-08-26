@@ -31,7 +31,8 @@ describe('HedwigToolsSimulation', () => {
     expect(screen.queryByRole('navigation', { name: 'Hedwig tool selector' })).not.toBeInTheDocument()
     expect(screen.getByText('Slackbot operations')).toBeInTheDocument()
     expect(screen.getByText(/channels, simulation, memory, logs, ratings, and threads/i)).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /Previous tool:/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Previous tool: Read-only Databricks MCP' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Next tool: Playgrounds & Skills Marketplace' })).toBeInTheDocument()
   })
 
   it('does not autoplay and starts complete when reduced motion is requested', () => {
@@ -42,7 +43,7 @@ describe('HedwigToolsSimulation', () => {
     }))
     render(<HedwigToolsSimulation mode="compact" toolId="customer-api" />)
     expect(screen.getByText('Complete')).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /Next tool:/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Next tool: Read-only Databricks MCP' })).toBeInTheDocument()
     expect(screen.getByText(/does not autoplay/i)).toBeInTheDocument()
   })
 
