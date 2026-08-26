@@ -22,6 +22,7 @@ import repoStyles from '../repo.module.css'
 
 const timelineSpecimenEntries: HistoricalTimelineEntry[] = [
   {
+    version: 'v0.0.1',
     date: 'January 8, 2026',
     dateTime: '2026-01-08',
     stage: 'Explored',
@@ -30,6 +31,7 @@ const timelineSpecimenEntries: HistoricalTimelineEntry[] = [
     evidence: ['Research notes'],
   },
   {
+    version: 'v0.1.0',
     date: 'February 19, 2026',
     dateTime: '2026-02-19',
     stage: 'Built',
@@ -37,6 +39,7 @@ const timelineSpecimenEntries: HistoricalTimelineEntry[] = [
     evidence: ['Change set 0142', 'Review summary'],
   },
   {
+    version: 'v0.2.0',
     date: 'March 2026',
     dateTime: '2026-03',
     stage: 'Released',

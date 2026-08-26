@@ -42,6 +42,7 @@ describe('HistoricalTimeline', () => {
         ariaLabel="Example project history"
         entries={[
           {
+            version: 'v0.0.1',
             date: 'January 8, 2026',
             dateTime: '2026-01-08',
             stage: 'Explored',
@@ -64,6 +65,7 @@ describe('HistoricalTimeline', () => {
     expect(timeline.querySelector('ol')).toBeInTheDocument()
     expect(within(timeline).getAllByRole('listitem')).toHaveLength(4)
     expect(container.querySelector('time')).toHaveAttribute('datetime', '2026-01-08')
+    expect(screen.getByText('v0.0.1')).toBeInTheDocument()
     expect(screen.getByText('The team documented constraints before implementation.')).toBeInTheDocument()
     expect(screen.getByText('Research notes').tagName).toBe('CODE')
     expect(screen.queryByText('Evidence', { selector: 'ul' })).not.toBeInTheDocument()

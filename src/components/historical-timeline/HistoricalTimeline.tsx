@@ -11,6 +11,8 @@ type TimelineEntryStyle = CSSProperties & {
 }
 
 export interface HistoricalTimelineEntry {
+  /** A human-readable progression marker; it does not imply completion. */
+  version?: string
   date: string
   dateTime: string
   stage: string
@@ -77,6 +79,8 @@ export default function HistoricalTimeline({
             className={styles.entry}
             style={entryStyle}
           >
+            <span className={styles.version}>{entry.version ?? entry.date}</span>
+            <span className={styles.marker} aria-hidden="true" />
             <article className={styles.card}>
               <div className={styles.metadata}>
                 <time dateTime={entry.dateTime}>{entry.date}</time>

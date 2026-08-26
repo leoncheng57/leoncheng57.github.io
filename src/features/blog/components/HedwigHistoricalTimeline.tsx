@@ -4,6 +4,7 @@ import type { HistoricalTimelineEntry } from '../../../components/historical-tim
 
 const entries: HistoricalTimelineEntry[] = [
   {
+    version: 'v0.0.1',
     date: 'March 11, 2026',
     dateTime: '2026-03-11',
     stage: 'Built',
@@ -11,6 +12,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Initial platform implementation'],
   },
   {
+    version: 'v0.1.0',
     date: 'March 16, 2026',
     dateTime: '2026-03-16',
     stage: 'Released',
@@ -18,6 +20,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Early release milestone'],
   },
   {
+    version: 'v0.1.1',
     date: 'March 18, 2026',
     dateTime: '2026-03-18',
     stage: 'Released',
@@ -25,6 +28,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Release milestone and implementation record'],
   },
   {
+    version: 'v0.1.2',
     date: 'March 20, 2026',
     dateTime: '2026-03-20',
     stage: 'Deployed',
@@ -32,6 +36,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Deployment record'],
   },
   {
+    version: 'v0.2.0',
     date: 'April 9, 2026',
     dateTime: '2026-04-09',
     stage: 'Instrumented',
@@ -39,6 +44,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Tracing implementation record'],
   },
   {
+    version: 'v0.2.1',
     date: 'April 23, 2026',
     dateTime: '2026-04-23',
     stage: 'Expanded',
@@ -46,6 +52,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Storage implementation record'],
   },
   {
+    version: 'v0.3.0',
     date: 'May 20, 2026',
     dateTime: '2026-05-20',
     stage: 'Observed',
@@ -53,6 +60,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Usage snapshot from May 2026'],
   },
   {
+    version: 'v0.4.0',
     date: 'May 21, 2026',
     dateTime: '2026-05-21',
     stage: 'Reframed',
@@ -60,6 +68,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Platform reframing release record'],
   },
   {
+    version: 'v0.4.1',
     date: 'May 21, 2026',
     dateTime: '2026-05-21',
     stage: 'Expanded',
@@ -67,6 +76,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Application implementation record'],
   },
   {
+    version: 'v0.4.2',
     date: 'May 21-26, 2026',
     dateTime: '2026-05-21',
     stage: 'Platformized',
@@ -74,6 +84,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Navigation and manifest implementation records'],
   },
   {
+    version: 'v0.5.0',
     date: 'June 2-5, 2026',
     dateTime: '2026-06-02',
     stage: 'Expanded',
@@ -81,6 +92,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Planning and workspace implementation records'],
   },
   {
+    version: 'v0.5.1',
     date: 'June 2026',
     dateTime: '2026-06-12',
     stage: 'Discoverable',
@@ -88,6 +100,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Feature development visible in June 2026 source history'],
   },
   {
+    version: 'v0.6.0',
     date: 'June 30, 2026',
     dateTime: '2026-06-30',
     stage: 'Generalized',
@@ -95,6 +108,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Shared workspace implementation record'],
   },
   {
+    version: 'v0.6.1',
     date: 'July 10-12, 2026',
     dateTime: '2026-07-10',
     stage: 'Extended',
@@ -102,6 +116,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Collaboration and isolated-workspace implementation records'],
   },
   {
+    version: 'v0.7.0',
     date: 'July 27, 2026',
     dateTime: '2026-07-27',
     stage: 'Delegated',
@@ -109,6 +124,7 @@ const entries: HistoricalTimelineEntry[] = [
     evidence: ['Code ownership record'],
   },
   {
+    version: 'v0.8.0',
     date: 'August 8-12, 2026',
     dateTime: '2026-08-08',
     stage: 'Added',

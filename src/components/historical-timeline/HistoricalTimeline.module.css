@@ -1,12 +1,11 @@
 .timeline {
   --timeline-bg: #080d11;
-  --timeline-card: #10191f;
-  --timeline-border: #33454e;
+  --timeline-border: #31454e;
   --timeline-text: #f3f8fa;
-  --timeline-muted: #bac9cf;
+  --timeline-muted: #aebfc6;
   --timeline-accent: #62e6a5;
   width: 100%;
-  padding: clamp(0.875rem, 2.5vw, 1.5rem);
+  padding: clamp(1rem, 3vw, 1.5rem);
   border: 1px solid var(--timeline-border);
   border-radius: 0.75rem;
   background: var(--timeline-bg);
@@ -24,9 +23,9 @@
 
 .entries::before {
   position: absolute;
-  top: 0.6rem;
-  bottom: 0.6rem;
-  left: 0.45rem;
+  top: 0.45rem;
+  bottom: 0.45rem;
+  left: 5.45rem;
   width: 2px;
   background: var(--timeline-accent);
   content: "";
@@ -34,76 +33,81 @@
 
 .entry {
   position: relative;
+  display: grid;
+  grid-template-columns: 4.65rem 1rem minmax(0, 1fr);
+  gap: 0.45rem;
+  align-items: start;
   margin-top: var(--timeline-gap);
-  padding-left: 2rem;
 }
 
-.entry::before {
-  position: absolute;
+.version {
+  padding-top: 0.2rem;
+  color: var(--timeline-accent);
+  font: 700 0.72rem/1.2 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.02em;
+  text-align: right;
+}
+
+.marker {
   z-index: 1;
-  top: 1rem;
-  left: 0;
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-top: 0.1rem;
   border: 3px solid var(--timeline-bg);
   border-radius: 50%;
   background: var(--timeline-accent);
   box-shadow: 0 0 0 2px var(--timeline-accent);
-  content: "";
 }
 
 .card {
-  padding: clamp(0.75rem, 2vw, 1rem);
-  border: 1px solid var(--timeline-border);
-  border-left: 3px solid var(--timeline-accent);
-  border-radius: 0.5rem;
-  background: var(--timeline-card);
-  box-shadow: 0 0.45rem 1.25rem rgb(0 0 0 / 22%);
+  min-width: 0;
+  padding: 0 0 0.65rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--timeline-border) 80%, transparent);
+}
+
+.entry:last-child .card {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
 .metadata {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.4rem 0.75rem;
-  margin-bottom: 0.4rem;
+  gap: 0.35rem 0.65rem;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.metadata time {
-  color: var(--timeline-muted);
-}
+.metadata time { color: var(--timeline-muted); }
 
 .stage {
-  padding: 0.15rem 0.4rem;
-  border: 1px solid currentColor;
-  border-radius: 999px;
   color: var(--timeline-accent);
 }
 
 .card h3 {
   margin: 0;
   color: var(--timeline-text);
-  font-size: clamp(1rem, 3vw, 1.2rem);
-  line-height: 1.35;
+  font-size: clamp(0.95rem, 2.5vw, 1.08rem);
+  line-height: 1.3;
 }
 
 .detail {
-  margin: 0.5rem 0 0;
+  margin: 0.35rem 0 0;
   color: var(--timeline-muted);
-  line-height: 1.5;
+  font-size: 0.9em;
+  line-height: 1.45;
 }
 
 .evidence {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
-  margin: 0.5rem 0 0;
+  gap: 0.3rem;
+  margin: 0.4rem 0 0;
   padding: 0;
   list-style: none;
 }
@@ -111,36 +115,32 @@
 .evidence code {
   display: inline-block;
   max-width: 100%;
-  padding: 0.25rem 0.45rem;
-  border: 1px solid var(--timeline-border);
-  border-radius: 0.25rem;
-  background: #19262d;
-  color: var(--timeline-text);
-  font-size: 0.78rem;
-  line-height: 1.35;
+  color: #b7dccc;
+  font-size: 0.68rem;
+  line-height: 1.25;
   overflow-wrap: anywhere;
   white-space: normal;
 }
 
+.evidence code::before {
+  color: #62867a;
+  content: "source: ";
+}
+
 @media (max-width: 560px) {
-  .timeline {
-    padding: 0.875rem;
-  }
+  .timeline { padding: 0.9rem; }
+
+  .entries::before { left: 4.6rem; }
 
   .entry {
-    padding-left: 1.75rem;
+    grid-template-columns: 3.9rem 0.9rem minmax(0, 1fr);
+    gap: 0.4rem;
   }
 
-  .entries::before {
-    left: 0.35rem;
-  }
+  .version { font-size: 0.65rem; }
 
-  .entry::before {
-    top: 0.9rem;
-    left: -0.05rem;
-    width: 0.75rem;
-    height: 0.75rem;
+  .marker {
+    width: 0.7rem;
+    height: 0.7rem;
   }
-
-  .metadata { gap: 0.4rem 0.5rem; }
 }
