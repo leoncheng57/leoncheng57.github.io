@@ -30,6 +30,13 @@ const ONCALL_MILESTONES = [
 ] as const
 
 function OnCallCompact({ stage }: { stage: number }): ReactElement {
+  const slackMessages = [
+    ['9:12', 'Alert bot', 'Demo checkout latency crossed its review threshold.', true],
+    ['9:14', 'Duty engineer', 'Acknowledged. Checking the latest demo release.', false],
+    ['9:17', 'Investigation bot', 'Triage posted: SEV-3 demo. Gathering metrics and logs.', true],
+    ['9:21', 'Duty engineer', 'The cache setting changed in the matching release.', false],
+    ['9:24', 'Investigation bot', 'Report ready. Reproduction and action items are attached for review.', true],
+  ] as const
   return (
     <div className={styles.compactView} data-compact-view="on-call">
       <div className={styles.viewHeader}>
@@ -84,9 +91,20 @@ function OnCallCompact({ stage }: { stage: number }): ReactElement {
           <button type="button">Create ticket</button>
         </p>
       </section>
-      <details>
+      <details open>
         <summary>Slack discussion</summary>
-        <p>Duty engineer: taking a look now · Bot <span className={styles.appTag}>APP</span>: report posted for review.</p>
+        <ol className={styles.slackStream} aria-label="Fictional streamed Slack discussion">
+          {slackMessages.slice(0, Math.min(stage + 1, slackMessages.length)).map(([time, author, message, isApp]) => (
+            <li key={time}>
+              <span className={styles.slackAvatar} aria-hidden="true">{isApp ? '◆' : '●'}</span>
+              <p>
+                <strong>{author}</strong>{isApp ? <span className={styles.appTag}>APP</span> : null} <small>{time}</small>
+                <br />{message}
+              </p>
+            </li>
+          ))}
+          {stage < slackMessages.length - 1 ? <li className={styles.slackTyping}><span aria-hidden="true">•••</span> Streaming discussion updates…</li> : null}
+        </ol>
       </details>
       <details>
         <summary>Investigation log</summary>
@@ -317,111 +335,27 @@ function DatabricksCompact(): ReactElement {
   )
 }
 
-const SLACK_STEPS = ['Basics', 'Personality', 'Knowledge', 'Channels', 'Test', 'Review'] as const
-
-function SlackStepPanel({ step }: { step: number }): ReactElement {
-  if (step === 0) {
-    return (
-      <>
-        <p>Bot name: <strong>Weekly helper</strong> · how it appears in chat.</p>
-        <div className={styles.chips} role="group" aria-label="Avatar choices">
-          {['🧭', '🤖', '🎓'].map((emoji, index) => (
-            <button key={emoji} type="button" aria-pressed={index === 0}>{emoji}</button>
-          ))}
-        </div>
-      </>
-    )
-  }
-  if (step === 1) {
-    return (
-      <>
-        <p>What should this bot do? Summarize canned demo updates every week, in plain language.</p>
-        <div className={styles.chips} role="group" aria-label="Tone choices">
-          {['Friendly', 'Concise', 'Formal', 'Playful'].map((tone, index) => (
-            <button key={tone} type="button" aria-pressed={index < 2}>{tone}</button>
-          ))}
-        </div>
-      </>
-    )
-  }
-  if (step === 2) {
-    return (
-      <ul className={styles.toggleList} aria-label="Knowledge sources the bot may read">
-        <li><span>Demo handbook space · 140 pages · synced 2h ago</span><Pill tone="ok">On</Pill></li>
-        <li><span>Service catalog · read-only</span><Pill tone="neutral">Off</Pill></li>
-      </ul>
-    )
-  }
-  if (step === 3) {
-    return (
-      <div className={styles.chips} role="group" aria-label="Channel choices">
-        {['#demo-updates', '#new-joiners', '#general-demo'].map((channel, index) => (
-          <button key={channel} type="button" aria-pressed={index < 2}>{channel}</button>
-        ))}
-      </div>
-    )
-  }
-  if (step === 4) {
-    return (
-      <>
-        <p>You: Show this week · Weekly helper: Three invented updates are ready.</p>
-        <p className={styles.sectionLabel}>Simulated request log</p>
-        <p className={styles.monoNote}>test call → 200 · 843 ms (simulated)</p>
-      </>
-    )
-  }
-  return (
-    <>
-      <dl className={styles.reviewList}>
-        <div><dt>Name</dt><dd>🧭 Weekly helper</dd></div>
-        <div><dt>Tone</dt><dd>Friendly · Concise</dd></div>
-        <div><dt>Knowledge</dt><dd>1 source</dd></div>
-        <div><dt>Channels</dt><dd>#demo-updates, #new-joiners</dd></div>
-      </dl>
-      <p>Demo submission is ready. There is no reviewer, manifest, or bot.</p>
-      <button type="button">Submit for review</button>
-    </>
-  )
-}
-
 function SlackCompact(): ReactElement {
-  const [step, setStep] = useState(0)
+  const [route, setRoute] = useState('Threads')
+  const routeDetails: Record<string, ReactElement> = {
+    Channels: <><p className={styles.sectionLabel}>Public channel membership</p><ul className={styles.routeList}><li><strong>#demo-support</strong><span>Member</span></li><li><strong>#demo-updates</strong><span>Member</span></li></ul><button type="button">Refresh</button><small className={styles.gateNote}>Private-channel membership is intentionally not listed.</small></>,
+    Simulator: <><p>Ask as a chat user</p><div className={styles.fakeComposer}>Why did the demo request slow down?<button type="button">Simulate thread</button></div><p className={styles.sectionLabel}>Recorded thread</p><div className={styles.slackMsg}><span aria-hidden="true">◆</span><p><strong>Demo support bot</strong> <span className={styles.appTag}>SIMULATED</span><br />I found a fictional release timing change and posted a reviewable summary.</p></div></>,
+    Memory: <><p>Bounded memories supply prior context only when relevant to a fictional thread.</p><ul className={styles.routeList}><li><strong>Human feedback</strong><span>retained</span></li><li><strong>Resolved demo pattern</strong><span>reviewed</span></li></ul><small className={styles.gateNote}>No memory is written by this simulator.</small></>,
+    Logs: <><p className={styles.sectionLabel}>Recent agent activity</p><ul className={styles.logList}><li><strong>trigger</strong><span>message matched demo channel scope</span><small>09:14</small></li><li><strong>tool</strong><span>read bounded demo context</span><small>09:14</small></li><li><strong>response</strong><span>posted simulated summary</span><small>09:15</small></li></ul></>,
+    Ratings: <><p>Thread outcome feedback keeps the bot maintainable.</p><div className={styles.ratingRow}><button type="button">Correct</button><button type="button">Partly correct</button><button type="button">Wrong</button></div><small className={styles.gateNote}>Ratings are fictional and stay on this page.</small></>,
+    Threads: <><p className={styles.sectionLabel}>Recent threads</p><ul className={styles.threadList}><li><Pill tone="ok">answered</Pill><strong>Weekly update request</strong><small>3 messages · 9m ago</small></li><li><Pill tone="info">working</Pill><strong>Demo incident question</strong><small>2 messages · now</small></li><li><Pill tone="neutral">resolved</Pill><strong>Access guide lookup</strong><small>5 messages · yesterday</small></li></ul></>,
+  }
   return (
     <div className={styles.compactView} data-compact-view="slack-builder">
-      <div className={styles.stepButtons}>
-        {SLACK_STEPS.map((item, index) => (
-          <button type="button" key={item} aria-current={step === index ? 'step' : undefined} onClick={() => setStep(index)}>
-            <span>{index + 1}</span>{item}
-          </button>
-        ))}
+      <div className={styles.botProfileHeader}>
+        <span className={styles.botAvatar} aria-hidden="true">◆</span>
+        <div><strong>Demo support bot</strong><p>Answers fictional support questions with bounded context and visible review controls.</p></div>
+        <Pill tone="ok">Production</Pill>
       </div>
-      <div className={styles.builderGrid}>
-        <section className={styles.panel}>
-          <h3>{SLACK_STEPS[step]}</h3>
-          <SlackStepPanel step={step} />
-        </section>
-        <div className={styles.previewRail}>
-          <section>
-            <h3>Live preview</h3>
-            <div className={styles.slackMsg}>
-              <span aria-hidden="true">🧭</span>
-              <p>
-                <strong>Weekly helper</strong> <span className={styles.appTag}>APP</span> <small>9:14 AM</small>
-                <br />Three invented updates are ready for this week.
-              </p>
-            </div>
-          </section>
-          <section>
-            <h3>Summary</h3>
-            <dl className={styles.reviewList}>
-              <div><dt>Sources</dt><dd>1 connected</dd></div>
-              <div><dt>Channels</dt><dd>2 selected</dd></div>
-              <div><dt>Status</dt><dd>Draft</dd></div>
-            </dl>
-          </section>
-        </div>
+      <div className={styles.routeTabs} role="tablist" aria-label="Slackbot profile routes">
+        {Object.keys(routeDetails).map((item) => <button key={item} type="button" role="tab" aria-selected={route === item} onClick={() => setRoute(item)}>{item}</button>)}
       </div>
-      <p className={styles.gateNote}>Step {step + 1} of 6 · A teammate with admin rights approves before launch.</p>
+      <section className={styles.panel}><h3>{route}</h3>{routeDetails[route]}</section>
     </div>
   )
 }

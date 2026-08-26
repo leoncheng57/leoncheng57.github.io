@@ -258,9 +258,9 @@ Pageviews, sessions, and agent runs are signals, not outcomes. They can be domin
 
 Those questions also helped separate the platform from its applications. Hedwig could make an application easier to build and operate; that did not prove the application was useful. Domain teams still needed to own that judgment.
 
-The fictional bot-configuration simulation makes the same distinction for a collaboration workflow. Its personality, knowledge sources, channels, and review summary are scripted examples; it stops at an admin-gated review and does not depict or provision a real workspace, conversation, coworker, or internal bot.
+The fictional Slackbot operations simulation makes the same distinction for a collaboration workflow. It follows an existing bot through operational routes for channels, simulated conversations, bounded memory, logs, ratings, and threads; every name, message, and status is scripted and it does not connect to a real workspace, conversation, coworker, or internal bot.
 
-![A compact fictional Slack bot-configuration wizard with scripted personality, knowledge, channels, a simulated test chat, and an admin-gated review.](component:hedwig-tool-slack-builder)
+![A compact fictional Slackbot profile with operational routes for channels, simulation, memory, logs, ratings, and threads.](component:hedwig-tool-slack-builder)
 
 ## Ownership is part of the architecture
 

@@ -50,10 +50,10 @@ describe('Hedwig tool catalog', () => {
     }
   })
 
-  it('makes the Slack builder review boundary explicit', () => {
+  it('keeps Slackbot operations focused on maintained routes', () => {
     expect(getHedwigTool('slack-builder').events.at(-1)).toEqual({
-      label: 'Submit for review',
-      detail: 'Simulation stops here. No bot is provisioned.',
+      label: 'Threads triaged',
+      detail: 'Recent conversation status guides the next human review step.',
     })
   })
 

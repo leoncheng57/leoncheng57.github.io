@@ -26,8 +26,8 @@ describe('HedwigToolsSimulation', () => {
   it('renders only the selected tool in compact mode', () => {
     render(<HedwigToolsSimulation mode="compact" toolId="slack-builder" ariaLabel="Slack builder demo" />)
     expect(screen.queryByRole('navigation', { name: 'Hedwig tool selector' })).not.toBeInTheDocument()
-    expect(screen.getByText('Slack bot builder')).toBeInTheDocument()
-    expect(screen.getByText(/stop before anything can be provisioned/i)).toBeInTheDocument()
+    expect(screen.getByText('Slackbot operations')).toBeInTheDocument()
+    expect(screen.getByText(/channels, simulation, memory, logs, ratings, and threads/i)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Previous tool:/ })).not.toBeInTheDocument()
   })
 
@@ -137,7 +137,7 @@ describe('HedwigToolsSimulation', () => {
     ['remote-code', 'Delegated jobs'],
     ['customer-api', 'Weekly SLO attainment'],
     ['databricks-mcp', 'Simulated MCP trace'],
-    ['slack-builder', 'Live preview'],
+    ['slack-builder', 'Weekly update request'],
     ['playgrounds-skills', 'Marketplace browse'],
     ['cmd-k-discovery', 'no input or network request'],
   ] as const)('renders the detailed %s compact view', (toolId, expected) => {
@@ -152,7 +152,7 @@ describe('HedwigToolsSimulation', () => {
     expect(screen.getByRole('tab', { name: 'Files' })).toBeInTheDocument()
 
     rerender(<HedwigToolsSimulation mode="compact" toolId="slack-builder" />)
-    await user.click(screen.getByRole('button', { name: /6Review/ }))
-    expect(screen.getByText(/no reviewer, manifest, or bot/i)).toBeInTheDocument()
+    await user.click(screen.getByRole('tab', { name: 'Channels' }))
+    expect(screen.getByText(/private-channel membership is intentionally not listed/i)).toBeInTheDocument()
   })
 })
