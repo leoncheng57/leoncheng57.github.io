@@ -23,9 +23,9 @@ Over the following months, contributors across disciplines added applications an
 
 This is a build retrospective, not a claim that every company should build its own AI platform. The strongest reason to build one is not that a chat interface looks easy to reproduce. It is that the work depends on internal context, controlled actions, repeatable workflows, and infrastructure that teams would otherwise rebuild separately.
 
-The interactive tour below makes that shape tangible. It presents eight tools, including a Playground and Skills surface, plus a Cmd/Ctrl+K search entry point that ties the tour together. It uses only scripted, fictional data and generic labels; it is an editorial simulation, not a reproduction of an internal UI, workflow, catalog, or dataset.
+The interactive tour below makes that shape tangible. It presents seven tools, including a Playground and Skills surface, plus a Cmd/Ctrl+K search entry point that ties the tour together. It uses only scripted, fictional data and generic labels; it is an editorial simulation, not a reproduction of an internal UI, workflow, catalog, or dataset.
 
-![A full interactive tour of eight fictional AI tools, including Playground and Skills, joined by Cmd/Ctrl+K and using only scripted example data.](component:hedwig-tools-simulation)
+![A full interactive tour of seven fictional AI tools, including Playground and Skills, joined by Cmd/Ctrl+K and using only scripted example data.](component:hedwig-tools-simulation)
 
 ![A vertical three-stage diagram showing one bounded workflow becoming shared platform capabilities and then several focused applications.](/blog/building-hedwig-ai-tooling-hub/1-platform-evolution.svg "The platform followed demonstrated reuse: one useful workflow first, shared foundations second, and independently owned applications third.")
 
@@ -48,7 +48,7 @@ The platform vocabulary eventually needed sharper boundaries: **applications own
 
 Discoverability became another shared concern. Cmd/Ctrl+K joined local navigation with results from remote catalogs, so a user could move from a known application toward an available skill or integration without learning several separate interfaces. It did not search literally everything, and a result appearing in a catalog established availability, not adoption or quality.
 
-![A platform map showing eight fictional tools above Cmd/Ctrl+K, catalogs, Skills, MCP policy, bounded memory, tracing, identity, and release foundations.](/blog/building-hedwig-ai-tooling-hub/2-platform-map.svg "The application map is intentionally fictional: focused tools share governed foundations without becoming one universal agent.")
+![A platform map showing seven fictional tools above Cmd/Ctrl+K, catalogs, Skills, MCP policy, bounded memory, tracing, identity, and release foundations.](/blog/building-hedwig-ai-tooling-hub/2-platform-map.svg "The application map is intentionally fictional: focused tools share governed foundations without becoming one universal agent.")
 
 The first compact simulation shows the original pattern at its safest: a fictional event, bounded evidence, visible progress, and a report that still requires human review. Every name, status, and result in it is scripted example data, not internal UI or operational information.
 
@@ -124,9 +124,9 @@ Experiments had a clearer path when they remained visibly experimental and featu
 
 This was one reason shared infrastructure paid off. A contributor could work on a narrowly defined application without first building login, deployment, observability, agent invocation, or the basic interface shell. The platform lowered the cost of trying an idea, while the application boundaries made it possible to stop trying one.
 
-The fictional data-helper simulation represents that playground stage. It uses a tiny scripted dataset and generic fields to test an interaction pattern; it is not based on an internal schema, customer record, query, or production result.
+The fictional Playgrounds and Skills simulation uses scripted prompts, metadata, and preview output to illustrate experimentation and packaging. It is not based on an internal playground, skill, catalog entry, workflow, or production result.
 
-![A compact fictional data-helper experiment using a small scripted dataset and generic fields.](component:hedwig-tool-data-helper)
+![A compact fictional Playgrounds and Skills simulation with scripted prompts, metadata, and preview output.](component:hedwig-tool-playgrounds-skills)
 
 ### A Skills Marketplace packages behavior
 
@@ -143,6 +143,10 @@ A platform can accumulate useful capabilities that remain effectively invisible.
 These layers also prevented an easy measurement mistake. Catalog footprint measured what could be found. Search impressions measured what people encountered. Launches and repeat runs measured use. Accepted outputs and completed work offered stronger evidence of value. Availability was not adoption, and adoption was not quality.
 
 Discoverability had a maintenance cost. Stale entries, ambiguous names, missing owners, and incompatible versions made a large catalog worse rather than better. Review and deprecation were therefore part of search quality, not administrative work around it.
+
+The fictional Cmd/Ctrl+K simulation uses scripted queries, routes, catalog results, and availability states. It is not connected to an internal search index, application catalog, skill registry, integration, or usage record.
+
+![A compact fictional Cmd/Ctrl+K discovery simulation with scripted local and catalog results.](component:hedwig-tool-cmd-k-discovery)
 
 ## What did not work
 
@@ -234,30 +238,9 @@ The broad catalog footprint around Pigwidgeon is evidence that it was widely ado
 
 ## Historical Timeline
 
-The timeline below is based on the project's versioned source history. It deliberately uses the Hedwig pseudonym, omits internal links and repository names, and distinguishes between implementation, release, deployment, adoption, and ownership. Those are different events and should not be collapsed into a single "launched" date.
+This source-backed timeline separates milestones from the evidence and caveats that qualify them.
 
-![A privacy-safe vertical timeline from March through August 2026 distinguishing building, tracing, reframing, skills discovery, generalized execution, ownership, and durable workspaces.](/blog/building-hedwig-ai-tooling-hub/9-historical-timeline.svg "The visual chronology separates different kinds of evidence; the source-backed table below preserves the precise milestones and caveats.")
-
-| Date | Stage | Milestone | Evidence |
-| --- | --- | --- | --- |
-| March 11, 2026 | Built | The first investigation engine, queue, server, and basic UI were implemented. | Initial source commit `fa920e1e` |
-| March 16, 2026 | Released | The release path added version tags, image builds, and controlled promotion. | Release `v0.1.0`, commit `1124a7c3` |
-| March 18, 2026 | Released | The original on-call application first shipped with a visible product identity and a containerized local workflow. | Release `v0.13.0`, implementation `7a25576d` |
-| March 20, 2026 | Deployed | A source revision was explicitly recorded as deployed through the long-lived release path. | Release `v0.15.1`, commit `9a146f55` |
-| April 9, 2026 | Instrumented | Langfuse tracing support entered the versioned platform source. | Release `v0.27.0`, commit `1831bcb1` |
-| April 23, 2026 | Expanded | Persistent storage gained a durable database option alongside the local path. | Release `v0.63.0`, implementation `ce92b504` |
-| May 20, 2026 | Observed | A checked-in usage snapshot showed broad awareness of the original application, while also showing that hands-on use was concentrated. | Dated internal analytics report |
-| May 21, 2026 | Reframed | The UI changed from a single product into Hedwig, with the original assistant retained as its first application. | Release `v0.136.0`, commit `b36e0327` |
-| May 21, 2026 | Expanded | The first clearly separate vertical application was added, proving the shell could support more than its original domain. | Release `v0.141.0`, implementation `eb88cf55` |
-| May 21-26, 2026 | Platformized | Registry-driven client navigation and a server-side application manifest replaced manual application wiring. | Releases `v0.145.0` and `v0.158.0`, commits `3b43e8e6` and `982d1177` |
-| June 2-5, 2026 | Expanded | Planning and coding-agent applications joined the platform, including the first isolated workspace workflow. | Releases `v0.188.0` and `v0.202.0`, commits `94395de7` and `aff56718` |
-| June 2026 | Discoverable | Source history shows skills discovery becoming a platform capability. | Versioned source history; no exact release claimed |
-| June 30, 2026 | Generalized | A shared workspace-agent manager made isolated execution a platform capability rather than application-specific plumbing. | Release `v1.95.0`, commit `ae508f50` |
-| July 10-12, 2026 | Extended | A reusable collaboration-agent framework shipped, followed by a dark launch that moved another workload onto isolated workspace execution. | Releases `v1.177.0` and `v1.181.0`, commits `089f34d5` and `40d92511` |
-| July 27, 2026 | Delegated | Application-level code ownership was expanded so the platform did not depend on one central maintainer for every change. | Release `v1.257.0`, commit `8bd4c2dd` |
-| August 8-12, 2026 | Added | An interactive coding-agent experience entered beta with durable server-side workspaces, live previews, and a native interface. | Releases `v1.317.0` and `v1.329.0`, commits `b43219fe` and `d41207af` |
-
-There are two deliberate cautions in this table. First, a release proves that code reached the release process; it does not by itself prove a rollout. Second, an adoption snapshot is evidence of use at a point in time, not proof of long-term value. Those distinctions became important when deciding what to keep investing in.
+![A dark vertical source-backed timeline of Hedwig milestones, stages, and evidence.](component:hedwig-historical-timeline)
 
 ## What I learned
 

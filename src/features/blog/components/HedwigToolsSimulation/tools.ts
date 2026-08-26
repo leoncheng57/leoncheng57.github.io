@@ -2,16 +2,13 @@ export type HedwigToolId =
   | 'on-call'
   | 'remote-code'
   | 'customer-api'
-  | 'data-helper'
   | 'databricks-mcp'
   | 'slack-builder'
-
-export type HedwigCatalogToolId =
-  | HedwigToolId
   | 'playgrounds-skills'
   | 'cmd-k-discovery'
 
-export type HedwigToolKind = HedwigCatalogToolId
+export type HedwigCatalogToolId = HedwigToolId
+export type HedwigToolKind = HedwigToolId
 
 export interface HedwigToolEvent {
   label: string
@@ -39,8 +36,11 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     kind: 'on-call',
     events: [
       { label: 'Signal grouped', detail: 'Three fictional alerts share the same demo service label.' },
+      { label: 'Triage opened', detail: 'Impact and current status are placed beside safe response actions.' },
       { label: 'Evidence assembled', detail: 'Recent changes, logs, and runbook checks are summarized.' },
-      { label: 'Handoff ready', detail: 'A read-only investigation brief is ready for the on-call engineer.' },
+      { label: 'Cause proposed', detail: 'A synthetic configuration mismatch is marked as a hypothesis.' },
+      { label: 'Reproduction checked', detail: 'A local reproduction records expected and observed behavior.' },
+      { label: 'Handoff ready', detail: 'Contacts and action items wait for the on-call engineer.' },
     ],
   },
   {
@@ -53,7 +53,9 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     events: [
       { label: 'Modes compared', detail: 'Async delegation and interactive workspace are separate choices.' },
       { label: 'Sandbox prepared', detail: 'The fictional repository snapshot is isolated for this demonstration.' },
+      { label: 'Run observed', detail: 'A fixed transcript and invented file changes make progress visible.' },
       { label: 'Result packaged', detail: 'A patch summary or workspace transcript is ready for human review.' },
+      { label: 'Confirmation required', detail: 'Review and merge remain local human decisions.' },
     ],
   },
   {
@@ -66,25 +68,13 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     events: [
       { label: 'Demo range loaded', detail: 'Four weeks of invented request totals are selected.' },
       { label: 'Series compared', detail: 'The fictional trend rises from 42 to 68 thousand requests.' },
+      { label: 'Attainment checked', detail: 'A weekly matrix shows target state in visible text.' },
       { label: 'Summary prepared', detail: 'The graph and its equivalent text summary are complete.' },
     ],
   },
   {
-    id: 'data-helper',
-    number: '04',
-    title: 'Data team helper',
-    shortTitle: 'Data helper',
-    summary: 'Translate a common data question into a reviewable, bounded request.',
-    kind: 'data-helper',
-    events: [
-      { label: 'Question classified', detail: 'The fictional request is recognized as a metric-definition lookup.' },
-      { label: 'Context attached', detail: 'Ownership and freshness notes are added from a demo catalog.' },
-      { label: 'Answer drafted', detail: 'A concise response is ready for a data teammate to verify.' },
-    ],
-  },
-  {
     id: 'databricks-mcp',
-    number: '05',
+    number: '04',
     title: 'Read-only Databricks MCP',
     shortTitle: 'Databricks MCP',
     summary: 'Inspect fictional catalog metadata and query results through a read-only boundary.',
@@ -92,25 +82,31 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     events: [
       { label: 'Read-only scope checked', detail: 'Mutation operations are unavailable in this simulation.' },
       { label: 'Demo query validated', detail: 'A sanitized aggregate query passes the read-only policy check.' },
+      { label: 'Lifecycle recorded', detail: 'Queued, running, and completed states are shown as synthetic trace events.' },
       { label: 'Rows summarized', detail: 'Three fictional aggregate rows are returned with no customer records.' },
+      { label: 'Local review gate', detail: 'Generated query text can only be copied into a local review draft.' },
     ],
   },
   {
     id: 'slack-builder',
-    number: '06',
+    number: '05',
     title: 'Slack bot builder',
     shortTitle: 'Slack builder',
     summary: 'Draft a bot configuration, then stop before anything can be provisioned.',
     kind: 'slack-builder',
     events: [
-      { label: 'Purpose selected', detail: 'A fictional weekly digest use case is selected from fixed options.' },
+      { label: 'Basics entered', detail: 'A fictional assistant name and description are selected.' },
+      { label: 'Purpose selected', detail: 'A weekly digest use case is selected from fixed options.' },
+      { label: 'Knowledge scoped', detail: 'Only canned demonstration material is available.' },
+      { label: 'Destination previewed', detail: 'A fictional channel destination is shown without connection.' },
+      { label: 'Local test complete', detail: 'A canned conversation makes expected behavior reviewable.' },
       { label: 'Permissions reviewed', detail: 'Requested capabilities are displayed for a human reviewer.' },
       { label: 'Submit for review', detail: 'Simulation stops here. No bot is provisioned.' },
     ],
   },
   {
     id: 'playgrounds-skills',
-    number: '07',
+    number: '06',
     title: 'Playgrounds & Skills Marketplace',
     shortTitle: 'Playgrounds',
     summary: 'Move a fictional idea through a gated experiment and evidence-led human review.',
@@ -118,12 +114,14 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     events: [
       { label: 'Idea framed', detail: 'A fictional triage-helper idea is scoped with a fixed success measure.' },
       { label: 'Playground gated', detail: 'The experiment stays private while access and evidence are reviewed.' },
+      { label: 'Marketplace searched', detail: 'Synthetic skills are browsed without loading external data.' },
+      { label: 'Detail reviewed', detail: 'Permissions, lifecycle, and evidence remain visible before selection.' },
       { label: 'Review route selected', detail: 'Evidence supports skill review; publication is never automatic.' },
     ],
   },
   {
     id: 'cmd-k-discovery',
-    number: '08',
+    number: '07',
     title: 'Cmd+K Discovery',
     shortTitle: 'Cmd+K',
     summary: 'Run a fixed discovery query across four sources with lifecycle and permission boundaries.',
@@ -131,6 +129,7 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     events: [
       { label: 'Scripted query opened', detail: 'The fixed query asks for approved incident-triage resources.' },
       { label: 'Sources checked', detail: 'Apps, MCPs, Skills, and Docs return only generic permitted matches.' },
+      { label: 'Keyboard selection moved', detail: 'A local active result changes with arrow-key navigation.' },
       { label: 'Safe results ranked', detail: 'Lifecycle state and permission checks remain visible in every result.' },
     ],
   },

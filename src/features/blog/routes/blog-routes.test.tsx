@@ -187,17 +187,35 @@ describe('blog routes', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the Hedwig tools simulation in the Hedwig article', () => {
+  it('renders the Hedwig article navigation and interactive figures', () => {
     render(
       <MemoryRouter initialEntries={['/blog/building-hedwig-ai-tooling-hub']}>
         <App />
       </MemoryRouter>
     )
 
+    const tableOfContents = screen.getByRole('navigation', { name: 'Table of contents' })
+    expect(tableOfContents).toBeInTheDocument()
     expect(
-      screen.getByRole('region', { name: /full interactive tour of eight fictional AI tools/i })
+      screen.getByRole('link', { name: 'What Hedwig became', hidden: true })
+    ).toHaveAttribute('href', '#what-hedwig-became')
+    expect(
+      screen.getByRole('link', { name: 'A Skills Marketplace packages behavior', hidden: true })
+    ).toHaveAttribute('href', '#a-skills-marketplace-packages-behavior')
+    expect(
+      screen.getByRole('region', { name: /full interactive tour of seven fictional AI tools/i })
     ).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /Playgrounds/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /Cmd\+K/i })).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: /Playgrounds/i })).not.toHaveLength(0)
+    expect(screen.getAllByRole('button', { name: /Cmd\+K/i })).not.toHaveLength(0)
+    expect(
+      screen.getByRole('region', { name: /compact fictional Playgrounds and Skills simulation/i })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: /compact fictional Cmd\/Ctrl\+K discovery simulation/i })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('region', { name: 'Hedwig historical timeline' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Historical Timeline' })).toBeInTheDocument()
+    expect(screen.queryByText(/Data team helper/i)).not.toBeInTheDocument()
+    expect(screen.queryByRole('row', { name: /Data team helper/i })).not.toBeInTheDocument()
   })
 })

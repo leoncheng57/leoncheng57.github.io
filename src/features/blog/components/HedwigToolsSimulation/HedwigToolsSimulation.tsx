@@ -11,6 +11,7 @@ import {
 import type { HedwigSimulationState, SimulationScope } from './simulation'
 import { getHedwigTool, HEDWIG_TOOLS } from './tools'
 import type { HedwigTool, HedwigToolId } from './tools'
+import CompactToolView from './CompactToolViews'
 import styles from './HedwigToolsSimulation.module.css'
 
 const EVENT_INTERVAL_MS = 1600
@@ -122,19 +123,6 @@ function ApiGraphView({ stage }: { stage: number }): ReactElement {
   )
 }
 
-function DataHelperView({ stage }: { stage: number }): ReactElement {
-  return (
-    <div className={styles.conversation}>
-      <div><span>Fixed demo question</span><strong>How is “active workspace” defined?</strong></div>
-      <div data-visible={stage > 0}>
-        <span>Helper draft</span>
-        <strong>Definition found · owner and freshness attached</strong>
-      </div>
-      <p>{stage > 1 ? 'Ready for data-team verification' : 'Checking the fictional catalog…'}</p>
-    </div>
-  )
-}
-
 function DatabricksView({ stage }: { stage: number }): ReactElement {
   return (
     <div className={styles.queryPanel}>
@@ -225,11 +213,20 @@ function ToolView({ tool, stage }: { tool: HedwigTool; stage: number }): ReactEl
   if (tool.kind === 'on-call') return <OnCallView stage={stage} />
   if (tool.kind === 'remote-code') return <RemoteCodeView stage={stage} />
   if (tool.kind === 'customer-api') return <ApiGraphView stage={stage} />
-  if (tool.kind === 'data-helper') return <DataHelperView stage={stage} />
   if (tool.kind === 'databricks-mcp') return <DatabricksView stage={stage} />
   if (tool.kind === 'slack-builder') return <SlackBuilderView stage={stage} />
   if (tool.kind === 'playgrounds-skills') return <PlaygroundsSkillsView stage={stage} />
   return <CmdKDiscoveryView stage={stage} />
+}
+
+type ControlIcon = 'previous' | 'play' | 'pause' | 'restart' | 'next'
+
+function Icon({ name }: { name: ControlIcon }): ReactElement {
+  if (name === 'play') return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+  if (name === 'pause') return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zm6 0h4v14h-4z" /></svg>
+  if (name === 'restart') return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5a7 7 0 1 1-6.3 4H3l4-4 4 4H7.8A5 5 0 1 0 12 7z" /></svg>
+  if (name === 'previous') return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15.5 5-7 7 7 7z" /></svg>
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8.5 5 7 7-7 7z" /></svg>
 }
 
 export default function HedwigToolsSimulation({
@@ -274,6 +271,8 @@ export default function HedwigToolsSimulation({
   const tool = HEDWIG_TOOLS[state.toolIndex]
   const event = tool.events[state.eventIndex]
   const progress = getSimulationProgress(HEDWIG_TOOLS, state, scope)
+  const previousTitle = HEDWIG_TOOLS[Math.max(0, state.toolIndex - 1)].title
+  const nextTitle = HEDWIG_TOOLS[Math.min(HEDWIG_TOOLS.length - 1, state.toolIndex + 1)].title
   const chooseTool = (index: number): void => {
     setState(reducedMotion ? completeSimulation(HEDWIG_TOOLS, 'single', index) : selectTool(index))
   }
@@ -310,57 +309,54 @@ export default function HedwigToolsSimulation({
       className={`${styles.simulation} ${mode === 'compact' ? styles.compact : ''}`}
       aria-label={ariaLabel}
     >
-      <div className={styles.topLine}>
-        <span>HEDWIG · TOOL SANDBOX</span>
-        <span>FICTIONAL DATA</span>
-      </div>
-      {mode === 'catalog' && (
-        <nav aria-label="Hedwig tool selector" className={styles.selector}>
-          <ol>
-            {HEDWIG_TOOLS.map((candidate, index) => (
-              <li key={candidate.id}>
-                <button
-                  ref={(node) => {
-                    selectorButtonRefs.current[index] = node
-                  }}
-                  type="button"
-                  onClick={() => chooseTool(index)}
-                  onKeyDown={(event) => handleSelectorKeyDown(event, index)}
-                  aria-current={index === state.toolIndex ? 'step' : undefined}
-                >
-                  <span>{candidate.number}</span>
-                  {candidate.shortTitle}
-                </button>
-              </li>
-            ))}
-          </ol>
-        </nav>
-      )}
-      <div className={styles.stage}>
-        <header className={styles.toolHeader}>
-          <p>Tool {tool.number} / {String(HEDWIG_TOOLS.length).padStart(2, '0')}</p>
-          <p className={styles.toolTitle}>{tool.title}</p>
-          <p>{tool.summary}</p>
-        </header>
-        <ToolView tool={tool} stage={state.eventIndex} />
-        <div className={styles.eventCard}>
-          <span>{state.completed ? 'Complete' : `Step ${state.eventIndex + 1} of ${tool.events.length}`}</span>
-          <strong>{event.label}</strong>
-          <p>{event.detail}</p>
+      <div className={styles.simulationFrame}>
+        <div className={styles.topLine}>
+          <span>HEDWIG · TOOL SANDBOX</span>
+          <span>FICTIONAL DATA</span>
         </div>
-      </div>
-      <div className={styles.progressRow}>
-        <div
-          className={styles.progressTrack}
-          role="progressbar"
-          aria-label="Simulation progress"
-          aria-valuemin={0}
-          aria-valuemax={progress.total}
-          aria-valuenow={progress.current}
-        >
-          <span style={{ width: `${progress.percent}%` }} />
+        {mode === 'catalog' && (
+          <nav aria-label="Hedwig tool selector" className={styles.selector}>
+            <ol>
+              {HEDWIG_TOOLS.map((candidate, index) => (
+                <li key={candidate.id}>
+                  <button
+                    ref={(node) => {
+                      selectorButtonRefs.current[index] = node
+                    }}
+                    type="button"
+                    onClick={() => chooseTool(index)}
+                    onKeyDown={(event) => handleSelectorKeyDown(event, index)}
+                    aria-current={index === state.toolIndex ? 'step' : undefined}
+                  >
+                    <span>{candidate.number}</span>
+                    {candidate.shortTitle}
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+        <div className={styles.stage}>
+          <header className={styles.toolHeader}>
+            <p>Tool {tool.number} / {String(HEDWIG_TOOLS.length).padStart(2, '0')}</p>
+            <p className={styles.toolTitle}>{tool.title}</p>
+            <p>{tool.summary}</p>
+          </header>
+          {mode === 'compact' ? <CompactToolView toolId={tool.id} stage={state.eventIndex} /> : <ToolView tool={tool} stage={state.eventIndex} />}
+          <div className={styles.eventCard}>
+            <span>{state.completed ? 'Complete' : `Step ${state.eventIndex + 1} of ${tool.events.length}`}</span>
+            <strong>{event.label}</strong>
+            <p>{event.detail}</p>
+          </div>
         </div>
-        <span>{progress.current}/{progress.total}</span>
+        <div className={styles.progressRow}>
+          <div className={styles.progressTrack} role="progressbar" aria-label="Simulation progress" aria-valuemin={0} aria-valuemax={progress.total} aria-valuenow={progress.current}>
+            <span style={{ width: `${progress.percent}%` }} />
+          </div>
+          <span>{progress.current}/{progress.total}</span>
+        </div>
+        <p className={styles.disclosure}>All names, metrics, incidents, queries, and results shown here are fictional and sanitized. This simulation makes no network calls.</p>
+        {reducedMotion && <p className={styles.motionNote}>Reduced motion is enabled; the simulation is shown completed and does not autoplay.</p>}
       </div>
       <div className={styles.controls}>
         {mode === 'catalog' && (
@@ -368,37 +364,34 @@ export default function HedwigToolsSimulation({
             type="button"
             onClick={() => chooseTool(Math.max(0, state.toolIndex - 1))}
             disabled={state.toolIndex === 0}
+            aria-label={`Previous tool: ${previousTitle}`}
+            data-tooltip={`Previous tool: ${previousTitle}`}
           >
-            Previous tool
+            <Icon name="previous" />
           </button>
         )}
         <button
           type="button"
           onClick={() => setWantsPlayback((current) => !current)}
           disabled={reducedMotion || state.completed}
+          aria-label={wantsPlayback ? 'Pause simulation' : 'Play simulation'}
+          data-tooltip={wantsPlayback ? 'Pause simulation' : 'Play simulation'}
         >
-          {wantsPlayback ? 'Pause' : 'Resume'}
+          <Icon name={wantsPlayback ? 'pause' : 'play'} />
         </button>
-        <button type="button" onClick={restart}>Restart</button>
+        <button type="button" onClick={restart} aria-label="Restart simulation" data-tooltip="Restart simulation"><Icon name="restart" /></button>
         {mode === 'catalog' && (
           <button
             type="button"
             onClick={() => chooseTool(Math.min(HEDWIG_TOOLS.length - 1, state.toolIndex + 1))}
             disabled={state.toolIndex === HEDWIG_TOOLS.length - 1}
+            aria-label={`Next tool: ${nextTitle}`}
+            data-tooltip={`Next tool: ${nextTitle}`}
           >
-            Next tool
+            <Icon name="next" />
           </button>
         )}
       </div>
-      <p className={styles.disclosure}>
-        All names, metrics, incidents, queries, and results shown here are fictional and
-        sanitized. This simulation makes no network calls.
-      </p>
-      {reducedMotion && (
-        <p className={styles.motionNote}>
-          Reduced motion is enabled; the simulation is shown completed and does not autoplay.
-        </p>
-      )}
       <p className={styles.visuallyHidden} aria-live="polite" aria-atomic="true">
         {summarizeSimulation(HEDWIG_TOOLS, state)}
       </p>

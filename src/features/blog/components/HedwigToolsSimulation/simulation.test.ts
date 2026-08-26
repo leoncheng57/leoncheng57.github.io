@@ -9,10 +9,11 @@ describe('Hedwig simulation engine', () => {
       state = advanceSimulation(HEDWIG_TOOLS, state, 'catalog')
     }
     expect(state).toEqual(completeSimulation(HEDWIG_TOOLS, 'catalog'))
-    expect(state.toolIndex).toBe(7)
+    expect(state.toolIndex).toBe(HEDWIG_TOOLS.length - 1)
+    const total = HEDWIG_TOOLS.reduce((sum, tool) => sum + tool.events.length, 0)
     expect(getSimulationProgress(HEDWIG_TOOLS, state, 'catalog')).toEqual({
-      current: 24,
-      total: 24,
+      current: total,
+      total,
       percent: 100,
     })
     expect(advanceSimulation(HEDWIG_TOOLS, state, 'catalog')).toBe(state)
@@ -20,9 +21,9 @@ describe('Hedwig simulation engine', () => {
 
   it('keeps compact progression inside its selected tool', () => {
     let state = createSimulationState(2)
-    state = advanceSimulation(HEDWIG_TOOLS, state, 'single')
-    state = advanceSimulation(HEDWIG_TOOLS, state, 'single')
-    state = advanceSimulation(HEDWIG_TOOLS, state, 'single')
+    for (let index = 0; index < HEDWIG_TOOLS[2].events.length; index += 1) {
+      state = advanceSimulation(HEDWIG_TOOLS, state, 'single')
+    }
     expect(state.toolIndex).toBe(2)
     expect(state.completed).toBe(true)
     expect(getSimulationProgress(HEDWIG_TOOLS, state, 'single').percent).toBe(100)

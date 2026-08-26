@@ -112,6 +112,14 @@ describe('repo subpages', () => {
     ).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Cards' })).toBeInTheDocument()
     expect(
+      screen.getByRole('heading', { name: 'Historical timeline' })
+    ).toBeInTheDocument()
+    const timeline = screen.getByRole('region', {
+      name: 'Generic project history specimen',
+    })
+    expect(within(timeline).getAllByRole('article')).toHaveLength(3)
+    expect(within(timeline).getByText('Research notes').tagName).toBe('CODE')
+    expect(
       screen.getByRole('heading', { name: 'Terminal card' })
     ).toBeInTheDocument()
 

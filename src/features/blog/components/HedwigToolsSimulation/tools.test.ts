@@ -2,13 +2,15 @@ import { describe, expect, it } from 'vitest'
 import { getHedwigTool, HEDWIG_TOOLS } from './tools'
 
 describe('Hedwig tool catalog', () => {
-  it('contains exactly the eight sanitized tools in presentation order', () => {
-    expect(HEDWIG_TOOLS).toHaveLength(8)
+  it('contains exactly the seven sanitized tools in presentation order', () => {
+    expect(HEDWIG_TOOLS).toHaveLength(7)
     expect(HEDWIG_TOOLS.map((tool) => tool.id)).toEqual([
-      'on-call', 'remote-code', 'customer-api', 'data-helper', 'databricks-mcp', 'slack-builder',
+      'on-call', 'remote-code', 'customer-api', 'databricks-mcp', 'slack-builder',
       'playgrounds-skills', 'cmd-k-discovery',
     ])
-    expect(new Set(HEDWIG_TOOLS.map((tool) => tool.id)).size).toBe(8)
+    expect(new Set(HEDWIG_TOOLS.map((tool) => tool.id)).size).toBe(7)
+    expect(JSON.stringify(HEDWIG_TOOLS).toLowerCase()).not.toContain('data-helper')
+    expect(JSON.stringify(HEDWIG_TOOLS).toLowerCase()).not.toContain('data team helper')
   })
 
   it('keeps every scenario complete, fictional, and sanitized', () => {
@@ -28,7 +30,7 @@ describe('Hedwig tool catalog', () => {
     ]
 
     for (const tool of HEDWIG_TOOLS) {
-      expect(tool.events).toHaveLength(3)
+      expect(tool.events.length).toBeGreaterThanOrEqual(4)
 
       for (const event of tool.events) {
         expect(event.label.trim()).not.toBe('')
@@ -53,6 +55,12 @@ describe('Hedwig tool catalog', () => {
       label: 'Submit for review',
       detail: 'Simulation stops here. No bot is provisioned.',
     })
+  })
+
+  it('uses workflow-specific event counts and a dynamic catalog total', () => {
+    const counts = HEDWIG_TOOLS.map((tool) => tool.events.length)
+    expect(new Set(counts).size).toBeGreaterThan(1)
+    expect(counts.reduce((total, count) => total + count, 0)).toBe(36)
   })
 
   it('keeps playground publication and discovery results behind safe boundaries', () => {

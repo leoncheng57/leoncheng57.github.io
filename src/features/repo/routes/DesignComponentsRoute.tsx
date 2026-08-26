@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import HistoricalTimeline from '../../../components/historical-timeline'
+import type { HistoricalTimelineEntry } from '../../../components/historical-timeline'
 import PlaceholderBanner from '../../../components/placeholder-banner/PlaceholderBanner'
 import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
@@ -15,6 +17,30 @@ import guidesStyles from '../../guides/guides.module.css'
 import RemoteControlStoryboard from '../../opencode-remote-control/components/RemoteControlStoryboard'
 import styles from '../design-components.module.css'
 import repoStyles from '../repo.module.css'
+
+const timelineSpecimenEntries: HistoricalTimelineEntry[] = [
+  {
+    date: 'January 8, 2026',
+    dateTime: '2026-01-08',
+    stage: 'Explored',
+    milestone: 'The team validated the first workflow.',
+    detail: 'Early findings established the constraints for a focused prototype.',
+    evidence: ['Research notes'],
+  },
+  {
+    date: 'February 19, 2026',
+    dateTime: '2026-02-19',
+    stage: 'Built',
+    milestone: 'A reusable foundation entered review.',
+    evidence: ['Change set 0142', 'Review summary'],
+  },
+  {
+    date: 'March 2026',
+    dateTime: '2026-03',
+    stage: 'Released',
+    milestone: 'The workflow became available to its first audience.',
+  },
+]
 
 export default function DesignComponentsRoute(): ReactElement {
   // Live specimens: rendered from real guide data so the reference never
@@ -97,6 +123,18 @@ export default function DesignComponentsRoute(): ReactElement {
               <p>Best for recent work and high-signal destinations.</p>
             </article>
           </div>
+        </section>
+
+        <section className={styles.showcase} aria-labelledby="timeline-heading">
+          <h2 id="timeline-heading">Historical timeline</h2>
+          <p>
+            A semantic, single-column chronology for milestones and their
+            supporting evidence.
+          </p>
+          <HistoricalTimeline
+            ariaLabel="Generic project history specimen"
+            entries={timelineSpecimenEntries}
+          />
         </section>
 
         {featuredGuide && specimenChapters.length > 0 ? (
