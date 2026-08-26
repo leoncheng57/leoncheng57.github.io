@@ -65,6 +65,6 @@ describe('Hedwig tool catalog', () => {
 
   it('keeps playground publication and discovery results behind safe boundaries', () => {
     expect(getHedwigTool('playgrounds-skills').events.at(-1)?.detail).toMatch(/never automatic/i)
-    expect(getHedwigTool('cmd-k-discovery').events.at(-1)?.detail).toMatch(/permission/i)
+    expect(getHedwigTool('cmd-k-discovery').events.at(-1)?.detail).toMatch(/lifecycle/i)
   })
 })

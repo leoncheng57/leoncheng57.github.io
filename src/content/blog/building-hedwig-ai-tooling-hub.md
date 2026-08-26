@@ -133,9 +133,9 @@ flowchart TD
   Workspace --> Review
 ```
 
-The fictional remote-code simulation illustrates the workspace end of that spectrum: a scripted task produces reviewable files and a preview inside an isolated environment. It is an editorial model, not a copy of an internal coding surface or repository.
+The fictional remote-code simulation illustrates both ends of that spectrum: an interactive workspace with a streamed transcript, side panels for files, changes, preview, and a command audit, plus a separate delegated queue that turns tickets into change requests. It is an editorial model, not a copy of an internal coding surface or repository.
 
-![A compact fictional remote coding simulation using scripted files, logs, preview state, and review controls.](component:hedwig-tool-remote-code)
+![A compact fictional remote coding simulation with a scripted transcript, workspace side panels, a delegated job queue, and human merge controls.](component:hedwig-tool-remote-code)
 
 ### Tracing, memory, and integrations
 
@@ -162,9 +162,9 @@ flowchart TD
   Software --> Trace["Tracing and feedback"]
 ```
 
-The fictional customer-API simulation applies that boundary to a simple weekly usage graph. Its four invented request totals and accessible text summary are scripted; the simulation is not connected to a real customer, service, endpoint, or internal interface.
+The fictional customer-API simulation applies that boundary to a per-customer health view: a typeahead customer search, region traffic cards, availability and latency targets, and a weekly attainment matrix with visible misses. Every value is scripted; the simulation is not connected to a real customer, service, endpoint, or internal interface.
 
-![A compact fictional weekly API usage graph with four invented request totals and an accessible text summary.](component:hedwig-tool-customer-api)
+![A compact fictional customer health dashboard with scripted search, region cards, SLO targets, and a weekly attainment matrix.](component:hedwig-tool-customer-api)
 
 ## Playgrounds are a stage, not a product claim
 
@@ -174,9 +174,9 @@ Experiments had a clearer path when they remained visibly experimental and featu
 
 This was one reason shared infrastructure paid off. A contributor could work on a narrowly defined application without first building login, deployment, observability, agent invocation, or the basic interface shell. The platform lowered the cost of trying an idea, while the application boundaries made it possible to stop trying one.
 
-The fictional Playgrounds and Skills simulation uses scripted prompts, metadata, and preview output to illustrate experimentation and packaging. It is not based on an internal playground, skill, catalog entry, workflow, or production result.
+The fictional Playgrounds and Skills simulation uses scripted status pills, an instant filter beside an AI topic search, a sandboxed tryout, and a human-merged publication path to illustrate experimentation and packaging. It is not based on an internal playground, skill, catalog entry, workflow, or production result.
 
-![A compact fictional Playgrounds and Skills simulation with scripted prompts, metadata, and preview output.](component:hedwig-tool-playgrounds-skills)
+![A compact fictional Playgrounds and Skills simulation with scripted status pills, dual search paths, a sandboxed tryout, and a reviewed publication flow.](component:hedwig-tool-playgrounds-skills)
 
 ### A Skills Marketplace packages behavior
 
@@ -205,9 +205,9 @@ These layers also prevented an easy measurement mistake. Catalog footprint measu
 
 Discoverability had a maintenance cost. Stale entries, ambiguous names, missing owners, and incompatible versions made a large catalog worse rather than better. Review and deprecation were therefore part of search quality, not administrative work around it.
 
-The fictional Cmd/Ctrl+K simulation uses scripted queries, routes, catalog results, and availability states. It is not connected to an internal search index, application catalog, skill registry, integration, or usage record.
+The fictional Cmd/Ctrl+K simulation uses scripted queries, instant local results, supplementary catalog groups, and visible lifecycle labels. It is not connected to an internal search index, application catalog, skill registry, integration, or usage record.
 
-![A compact fictional Cmd/Ctrl+K discovery simulation with scripted local and catalog results.](component:hedwig-tool-cmd-k-discovery)
+![A compact fictional Cmd/Ctrl+K discovery simulation with instant local results, supplementary catalog groups, and lifecycle labels.](component:hedwig-tool-cmd-k-discovery)
 
 ## What did not work
 
@@ -241,9 +241,9 @@ flowchart TD
   Parallel --> Workspaces["Correction: limits, cancellation, and cleanup"]
 ```
 
-The fictional query-companion simulation shows a narrower correction: the model can help shape an analysis, while typed inputs and a read-only scripted result keep the contract inspectable. It contains no real workspace, catalog, schema, query, or operational metric and is not an internal UI.
+The fictional query-companion simulation shows a narrower correction: one read-only SQL tool with labeled, copyable calls, a polled lifecycle, capped rows, and a blocked-write error keep the contract inspectable. It contains no real workspace, catalog, schema, query, or operational metric and is not an internal UI.
 
-![A compact fictional data-query companion with scripted metadata, typed inputs, and a read-only example result.](component:hedwig-tool-databricks-mcp)
+![A compact fictional data-query companion with labeled read-only tool calls, a capped result table, and a blocked-write example.](component:hedwig-tool-databricks-mcp)
 
 ## Adoption was uneven, and that was useful information
 
@@ -258,9 +258,9 @@ Pageviews, sessions, and agent runs are signals, not outcomes. They can be domin
 
 Those questions also helped separate the platform from its applications. Hedwig could make an application easier to build and operate; that did not prove the application was useful. Domain teams still needed to own that judgment.
 
-The fictional bot-configuration simulation makes the same distinction for a collaboration workflow. Its purpose, permissions, and review steps are scripted examples; it stops at review and does not depict or provision a real workspace, conversation, coworker, or internal bot.
+The fictional bot-configuration simulation makes the same distinction for a collaboration workflow. Its personality, knowledge sources, channels, and review summary are scripted examples; it stops at an admin-gated review and does not depict or provision a real workspace, conversation, coworker, or internal bot.
 
-![A compact fictional Slack bot-configuration draft showing scripted purpose and permissions before stopping at human review.](component:hedwig-tool-slack-builder)
+![A compact fictional Slack bot-configuration wizard with scripted personality, knowledge, channels, a simulated test chat, and an admin-gated review.](component:hedwig-tool-slack-builder)
 
 ## Ownership is part of the architecture
 

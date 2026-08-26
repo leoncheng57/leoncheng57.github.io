@@ -18,8 +18,8 @@ describe('HedwigToolsSimulation', () => {
     expect(screen.getByText('Tool 01 / 07')).toBeInTheDocument()
     expect(screen.getByText(/fictional and sanitized/i)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /^02Remote code$/ }))
-    expect(screen.getByText('Mode A · async delegation')).toBeInTheDocument()
-    expect(screen.getByText('Mode B · interactive workspace')).toBeInTheDocument()
+    expect(screen.getByText('Mode A · interactive workspace')).toBeInTheDocument()
+    expect(screen.getByText('Mode B · delegated jobs')).toBeInTheDocument()
     expect(screen.queryByRole('heading')).not.toBeInTheDocument()
   })
 
@@ -73,7 +73,7 @@ describe('HedwigToolsSimulation', () => {
     expect(cmdK).toHaveAttribute('aria-current', 'step')
   })
 
-  it('renders accessible review and permission-safe discovery output without inputs', async () => {
+  it('renders accessible review and lifecycle-labeled discovery output without inputs', async () => {
     const user = userEvent.setup()
     render(<HedwigToolsSimulation />)
 
@@ -83,7 +83,7 @@ describe('HedwigToolsSimulation', () => {
 
     await user.click(screen.getByRole('button', { name: /^07Cmd\+K$/ }))
     expect(screen.getByLabelText('Scripted discovery results')).toBeInTheDocument()
-    expect(screen.getByLabelText(/Permission-safe results/).children).toHaveLength(4)
+    expect(screen.getByLabelText(/Lifecycle-labeled results/).children).toHaveLength(4)
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
     expect(screen.queryByRole('heading')).not.toBeInTheDocument()
   })
@@ -133,9 +133,9 @@ describe('HedwigToolsSimulation', () => {
   })
 
   it.each([
-    ['on-call', 'Contacts and action items'],
+    ['on-call', 'Teams to contact'],
     ['remote-code', 'Delegated jobs'],
-    ['customer-api', 'Weekly attainment matrix'],
+    ['customer-api', 'Weekly SLO attainment'],
     ['databricks-mcp', 'Simulated MCP trace'],
     ['slack-builder', 'Live preview'],
     ['playgrounds-skills', 'Marketplace browse'],

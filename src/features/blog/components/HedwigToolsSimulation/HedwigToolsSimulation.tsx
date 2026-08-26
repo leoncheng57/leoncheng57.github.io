@@ -60,13 +60,13 @@ function usePlaybackVisibility(ref: RefObject<HTMLElement | null>): boolean {
 }
 
 function OnCallView({ stage }: { stage: number }): ReactElement {
-  const items = ['Demo alert cluster', 'Recent change summary', 'Runbook checks']
+  const items = ['Triage posted with severity', 'Evidence linked in one log', 'Report ready for handoff']
   return (
     <div className={styles.panelGrid}>
       <div className={styles.signalCard}>
-        <span className={styles.pulse} /> Priority 2 · fictional
+        <span className={styles.pulse} /> SEV-3 demo · high urgency · fictional
       </div>
-      <ol className={styles.checkList} aria-label="Investigation evidence">
+      <ol className={styles.checkList} aria-label="Investigation phases">
         {items.map((item, index) => (
           <li key={item} data-ready={index <= stage}>
             {item}
@@ -82,16 +82,16 @@ function RemoteCodeView({ stage }: { stage: number }): ReactElement {
   return (
     <div className={styles.modeGrid} aria-label="Two separate remote runner modes">
       <section className={styles.modeCard}>
-        <p className={styles.modeType}>Mode A · async delegation</p>
-        <p className={styles.modeHeading}>Send and return later</p>
-        <p>Fixed task brief → isolated run → reviewable result</p>
-        <span className={styles.statusPill}>{stage < 2 ? 'delegated run' : 'result ready'}</span>
+        <p className={styles.modeType}>Mode A · interactive workspace</p>
+        <p className={styles.modeHeading}>Watch, steer, approve</p>
+        <p>Start agent → streamed transcript → files, changes, preview, commands</p>
+        <span className={styles.statusPill}>{stage < 2 ? 'running' : 'waiting for confirmation'}</span>
       </section>
       <section className={styles.modeCard}>
-        <p className={styles.modeType}>Mode B · interactive workspace</p>
-        <p className={styles.modeHeading}>Stay and steer live</p>
-        <p>Open workspace → observe steps → guide the session</p>
-        <span className={styles.statusPill}>{stage < 2 ? 'workspace active' : 'session summary'}</span>
+        <p className={styles.modeType}>Mode B · delegated jobs</p>
+        <p className={styles.modeHeading}>Ticket in, change request out</p>
+        <p>Dispatched → running → change request opened → human merge</p>
+        <span className={styles.statusPill}>{stage < 2 ? 'running' : 'success'}</span>
       </section>
     </div>
   )
@@ -127,11 +127,11 @@ function DatabricksView({ stage }: { stage: number }): ReactElement {
   return (
     <div className={styles.queryPanel}>
       <div><span className={styles.readOnly}>READ ONLY</span><span>sanitized demo</span></div>
-      <code>SELECT week, total FROM demo.usage_summary</code>
+      <code>execute_sql · SELECT week, total FROM demo_usage_summary</code>
       <ul aria-label="Read-only query checks">
-        <li>Mutation operations unavailable</li>
-        <li>{stage > 0 ? 'Policy check passed' : 'Policy check pending'}</li>
-        <li>{stage > 1 ? '3 aggregate rows summarized' : 'No rows requested yet'}</li>
+        <li>Only SELECT, SHOW, DESCRIBE, WITH, EXPLAIN allowed</li>
+        <li>{stage > 0 ? 'Lifecycle: pending → running → succeeded' : 'Lifecycle: pending'}</li>
+        <li>{stage > 1 ? 'Rows capped with a truncation footer' : 'No rows requested yet'}</li>
       </ul>
     </div>
   )
@@ -141,9 +141,9 @@ function SlackBuilderView({ stage }: { stage: number }): ReactElement {
   return (
     <div className={styles.builder}>
       <ol aria-label="Bot builder review steps">
-        <li data-ready={stage >= 0}><span>1</span>Purpose: fictional weekly digest</li>
-        <li data-ready={stage >= 1}><span>2</span>Permissions: display for review</li>
-        <li data-ready={stage >= 2}><span>3</span>Submit for review</li>
+        <li data-ready={stage >= 0}><span>1</span>Personality: plain-language purpose</li>
+        <li data-ready={stage >= 1}><span>2</span>Test: simulated replies only</li>
+        <li data-ready={stage >= 2}><span>3</span>Review: admin approves before launch</li>
       </ol>
       <div className={styles.stopGate}>
         <strong>STOP</strong>
@@ -155,10 +155,10 @@ function SlackBuilderView({ stage }: { stage: number }): ReactElement {
 
 function PlaygroundsSkillsView({ stage }: { stage: number }): ReactElement {
   const steps = [
-    ['Idea', 'Fictional triage helper'],
-    ['Playground', stage >= 1 ? 'Feature gate enabled' : 'Awaiting gate'],
-    ['Evidence', stage >= 1 ? 'Review packet ready' : 'Collection queued'],
-    ['Outcome', stage >= 2 ? 'Skill review selected' : 'Application or skill review'],
+    ['Hub', 'Status pills gate visibility'],
+    ['Search', stage >= 1 ? 'Instant filter + AI reasons' : 'Instant filter only'],
+    ['Tryout', stage >= 1 ? 'Sandboxed chat, no install' : 'Awaiting selection'],
+    ['Publish', stage >= 2 ? 'Draft → pending review → published' : 'Draft only'],
   ]
 
   return (
@@ -172,7 +172,7 @@ function PlaygroundsSkillsView({ stage }: { stage: number }): ReactElement {
         ))}
       </ol>
       <p className={styles.reviewBoundary} role="status">
-        Human review required · never automatically published
+        Human-merged change request · never automatically published
       </p>
     </div>
   )
@@ -180,30 +180,30 @@ function PlaygroundsSkillsView({ stage }: { stage: number }): ReactElement {
 
 function CmdKDiscoveryView({ stage }: { stage: number }): ReactElement {
   const sources = [
-    ['Apps', 'Triage overview', 'Approved'],
-    ['MCPs', 'Read-only signals', 'Permitted'],
-    ['Skills', 'Incident summary', 'In review'],
-    ['Docs', 'Response guide', 'Current'],
+    ['Apps', 'Triage overview', 'production'],
+    ['Pages', 'Attainment matrix', 'local'],
+    ['MCP servers', 'Read-only SQL', 'production'],
+    ['Skills', 'Incident recap', 'experimental'],
   ]
 
   return (
     <div className={styles.discovery} aria-label="Scripted discovery results">
       <div className={styles.commandQuery}>
         <kbd>⌘K</kbd>
-        <span>approved incident triage</span>
+        <span>triage — search apps and pages</span>
         <strong>FIXED QUERY</strong>
       </div>
-      <ul aria-label="Permission-safe results across Apps, MCPs, Skills, and Docs">
-        {sources.map(([source, result, status], index) => (
+      <ul aria-label="Lifecycle-labeled results across Apps, Pages, MCP servers, and Skills">
+        {sources.map(([source, result, lifecycle], index) => (
           <li key={source} data-ready={index <= stage + 1}>
             <span>{source}</span>
             <strong>{result}</strong>
-            <small>{index <= stage + 1 ? status : 'Checking'}</small>
+            <small>{index <= stage + 1 ? lifecycle : 'Searching catalog…'}</small>
           </li>
         ))}
       </ul>
       <p className={styles.resultNote} role="status">
-        Generic results only · lifecycle and permission checks applied
+        Local results instant · catalog adds up to three per group · lifecycle labels on every hit
       </p>
     </div>
   )
