@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1010" role="img" aria-labelledby="title desc">
   <title id="title">Boundary between AI judgment and deterministic software</title>
-  <desc id="desc">AI handles interpretation, exploration, and synthesis while deterministic software controls permissions, validation, state, and side effects through typed contracts.</desc>
+  <desc id="desc">AI handles interpretation, exploration, and synthesis while deterministic software controls validation, MCP policy, scoped memory, tracing, state, and side effects.</desc>
   <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0l10 5-10 5z" fill="#56d6e5"/></marker></defs>
   <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.k{fill:#56d6e5;font-size:18px;font-weight:800;letter-spacing:2px}.h{fill:#fff8e8;font-size:34px;font-weight:800}.n{fill:#fff8e8;font-size:25px;font-weight:800}.b{fill:#c9d6df;font-size:19px}.dark{fill:#0b2239;font-size:20px;font-weight:800}</style>
   <rect width="800" height="1010" rx="28" fill="#091b2d"/><text x="48" y="58" class="k">CONTROL BOUNDARY</text><text x="48" y="105" class="h">Judgment inside enforceable rails</text>
@@ -9,10 +9,10 @@
   <text x="78" y="305" class="b">Propose meaning where judgment adds value.</text><text x="78" y="340" class="b">Return a structured request, never direct authority.</text>
   <path d="M400 400v75" stroke="#56d6e5" stroke-width="4" marker-end="url(#a)"/>
   <rect x="100" y="485" width="600" height="116" rx="18" fill="#56d6e5"/>
-  <text x="400" y="530" text-anchor="middle" class="dark">TYPED + VALIDATED CONTRACT</text><text x="400" y="568" text-anchor="middle" class="dark">Known fields / limits / errors</text>
+  <text x="400" y="530" text-anchor="middle" class="dark">TYPED + VALIDATED CONTRACT</text><text x="400" y="568" text-anchor="middle" class="dark">Known fields / limits / errors / trace context</text>
   <path d="M400 601v75" stroke="#56d6e5" stroke-width="4" marker-end="url(#a)"/>
   <rect x="48" y="686" width="704" height="240" rx="22" fill="#12334b" stroke="#f4ad62" stroke-width="2"/>
-  <text x="78" y="737" class="k">SOFTWARE ENFORCES</text><text x="78" y="784" class="n">Authorize / validate / persist</text>
-  <text x="78" y="831" class="b">Own routing, state transitions, and formatting.</text><text x="78" y="866" class="b">Gate every external effect with explicit policy.</text>
+  <text x="78" y="737" class="k">SOFTWARE ENFORCES</text><text x="78" y="784" class="n">Authorize / validate / persist / observe</text>
+  <text x="78" y="831" class="b">MCP policy / scoped memory / tracing.</text><text x="78" y="866" class="b">Gate state changes and external effects.</text>
   <text x="400" y="973" text-anchor="middle" class="b">A prompt is not a permission boundary.</text>
 </svg>
