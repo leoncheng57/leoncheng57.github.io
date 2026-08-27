@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
+import HistoricalTimeline from '../../../components/historical-timeline'
+import type { HistoricalTimelineEntry } from '../../../components/historical-timeline'
 import PlaceholderBanner from '../../../components/placeholder-banner/PlaceholderBanner'
 import SiteFooter from '../../../components/site-footer/SiteFooter'
+import TableOfContents from '../../../components/table-of-contents'
+import type { TableOfContentsItem } from '../../../components/table-of-contents'
 import TopNav from '../../../components/top-nav/TopNav'
 import ChaptersNav from '../../guides/components/ChaptersNav'
 import GuideCard from '../../guides/components/GuideCard'
@@ -16,6 +20,41 @@ import RemoteControlStoryboard from '../../opencode-remote-control/components/Re
 import styles from '../design-components.module.css'
 import repoStyles from '../repo.module.css'
 
+const timelineSpecimenEntries: HistoricalTimelineEntry[] = [
+  {
+    version: 'v0.0.1',
+    date: 'January 8, 2026',
+    dateTime: '2026-01-08',
+    stage: 'Explored',
+    milestone: 'The team validated the first workflow.',
+    detail: 'Early findings established the constraints for a focused prototype.',
+    evidence: ['Research notes'],
+  },
+  {
+    version: 'v0.1.0',
+    date: 'February 19, 2026',
+    dateTime: '2026-02-19',
+    stage: 'Built',
+    milestone: 'A reusable foundation entered review.',
+    evidence: ['Change set 0142', 'Review summary'],
+  },
+  {
+    version: 'v0.2.0',
+    date: 'March 2026',
+    dateTime: '2026-03',
+    stage: 'Released',
+    milestone: 'The workflow became available to its first audience.',
+  },
+]
+
+const tableOfContentsSpecimenItems: TableOfContentsItem[] = [
+  { id: 'cards-heading', text: 'Cards', level: 2 },
+  { id: 'catalog-card-heading', text: 'Useful and descriptive', level: 3 },
+  { id: 'poster-card-heading', text: 'Graphic and compact', level: 3 },
+  { id: 'timeline-heading', text: 'Historical timeline', level: 2 },
+  { id: 'chapters-nav-heading', text: 'Chapters bar & scrollspy', level: 2 },
+]
+
 export default function DesignComponentsRoute(): ReactElement {
   // Live specimens: rendered from real guide data so the reference never
   // drifts from the shipped components.
@@ -23,6 +62,9 @@ export default function DesignComponentsRoute(): ReactElement {
   const specimenChapters = featuredGuide?.chapters ?? []
   const [specimenActiveSlug, setSpecimenActiveSlug] = useState<string | null>(
     specimenChapters[1]?.slug ?? specimenChapters[0]?.slug ?? null
+  )
+  const [specimenActiveHeading, setSpecimenActiveHeading] = useState(
+    tableOfContentsSpecimenItems[1].id
   )
 
   return (
@@ -85,7 +127,7 @@ export default function DesignComponentsRoute(): ReactElement {
           <div className={styles.cardGrid}>
             <article className={styles.catalogCard}>
               <span className={styles.cardKicker}>Catalog card</span>
-              <h3>Useful and descriptive</h3>
+              <h3 id="catalog-card-heading">Useful and descriptive</h3>
               <p>Raised surfaces organize content without losing the heavy outline.</p>
               <a href="#loading-heading">Explore component</a>
             </article>
@@ -93,9 +135,57 @@ export default function DesignComponentsRoute(): ReactElement {
               <span className={styles.posterNumber}>02</span>
               <span className={styles.cardKicker}>Poster card</span>
               <div className={styles.posterShapes} aria-hidden="true"><span /><span /></div>
-              <h3>Graphic and compact</h3>
+              <h3 id="poster-card-heading">Graphic and compact</h3>
               <p>Best for recent work and high-signal destinations.</p>
             </article>
+          </div>
+        </section>
+
+        <section className={styles.showcase} aria-labelledby="timeline-heading">
+          <h2 id="timeline-heading">Historical timeline</h2>
+          <p>
+            A semantic, single-column chronology for milestones and their
+            supporting evidence.
+          </p>
+          <HistoricalTimeline
+            ariaLabel="Generic project history specimen"
+            entries={timelineSpecimenEntries}
+          />
+        </section>
+
+        <section className={styles.showcase} aria-labelledby="table-of-contents-heading">
+          <h2 id="table-of-contents-heading">Table of contents</h2>
+          <p>
+            A reusable sticky page index with nested subsections, active-location
+            feedback, and a compact disclosure on narrow screens. These links point
+            to real sections on this page; use the buttons to simulate scrollspy state.
+          </p>
+          <div
+            className={styles.simulateRow}
+            role="group"
+            aria-label="Simulate the active table of contents heading"
+          >
+            {tableOfContentsSpecimenItems.map((item, index) => (
+              <button
+                key={item.id}
+                type="button"
+                className={
+                  item.id === specimenActiveHeading
+                    ? styles.simulateButtonActive
+                    : styles.simulateButton
+                }
+                aria-pressed={item.id === specimenActiveHeading}
+                onClick={() => setSpecimenActiveHeading(item.id)}
+              >
+                {String(index + 1).padStart(2, '0')}
+              </button>
+            ))}
+          </div>
+          <div className={styles.tableOfContentsSpecimen}>
+            <TableOfContents
+              items={tableOfContentsSpecimenItems}
+              activeId={specimenActiveHeading}
+            />
           </div>
         </section>
 

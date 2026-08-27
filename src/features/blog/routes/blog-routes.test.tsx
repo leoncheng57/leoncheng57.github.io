@@ -26,6 +26,11 @@ describe('blog routes', () => {
     ).toHaveAttribute('href', '/guides/manager-worker-parallel-agents')
     expect(
       screen.getByRole('link', {
+        name: /Building Hedwig: From One AI Workflow to an Internal Platform/i,
+      })
+    ).toHaveAttribute('href', '/blog/building-hedwig-ai-tooling-hub')
+    expect(
+      screen.getByRole('link', {
         name: /Building House Party Photo Hunt/i,
       })
     ).toHaveAttribute('href', '/blog/building-house-party-photo-hunt')
@@ -46,6 +51,11 @@ describe('blog routes', () => {
     expect(screen.getByRole('link', { name: 'Hello Blog' })).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'AI Coding Agent Desktop App Comparison (April 2026)' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', {
+        name: 'Building Hedwig: From One AI Workflow to an Internal Platform',
+      })
     ).toBeInTheDocument()
     expect(screen.getByText('meta')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Back home' })).toBeInTheDocument()
@@ -175,5 +185,42 @@ describe('blog routes', () => {
     expect(
       screen.getByRole('heading', { name: 'Why I am calling these Desktop Coding Agents' })
     ).toBeInTheDocument()
+  })
+
+  it('renders the Hedwig article navigation and interactive figures', () => {
+    render(
+      <MemoryRouter initialEntries={['/blog/building-hedwig-ai-tooling-hub']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const tableOfContents = screen.getByRole('navigation', { name: 'Table of contents' })
+    expect(tableOfContents).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'What Hedwig became', hidden: true })
+    ).toHaveAttribute('href', '#what-hedwig-became')
+    expect(
+      screen.getByRole('link', { name: 'A Skills Marketplace packages behavior', hidden: true })
+    ).toHaveAttribute('href', '#a-skills-marketplace-packages-behavior')
+    expect(
+      screen.getByRole('region', { name: /interactive control-panel tour of eight AI tools/i })
+    ).toBeInTheDocument()
+    expect(tableOfContents).toHaveTextContent('Important features to showcase')
+    expect(tableOfContents).toHaveTextContent('Historical Timeline')
+    expect(screen.getAllByRole('button', { name: /Playgrounds/i })).not.toHaveLength(0)
+    expect(screen.getAllByRole('button', { name: /Cmd\+K/i })).not.toHaveLength(0)
+    expect(
+      screen.getByRole('region', { name: /compact Playgrounds and Skills simulation/i })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: /compact Cmd\/Ctrl\+K discovery simulation/i })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: /compact MCP tools-library simulation/i })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('region', { name: 'Hedwig historical timeline' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Historical Timeline' })).toBeInTheDocument()
+    expect(screen.queryByText(/Data team helper/i)).not.toBeInTheDocument()
+    expect(screen.queryByRole('row', { name: /Data team helper/i })).not.toBeInTheDocument()
   })
 })

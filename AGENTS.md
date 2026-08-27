@@ -90,8 +90,9 @@ marker strings does not count.
 description edit. It builds the app, captures each listed path with
 Playwright (`scripts/ci-screenshots.mjs`), publishes the PNGs to `gh-pages`
 under `previews/pr-<number>/screenshots/`, and maintains a single sticky PR
-comment embedding the images. The images are removed automatically when the
-pull request closes.
+comment embedding the images. Every route gets a 1280x800 viewport capture;
+routes prefixed with `with-full:` also get a full-page desktop image at 1280px
+wide. The images are removed automatically when the pull request closes.
 
 Prefer this workflow over manually captured and committed screenshot
 assets: it keeps image files out of the repository and cleans up after the
@@ -194,6 +195,7 @@ EOF
 - Do not rely on local-only `.playwright-cli/` image paths in PR descriptions.
 - Do not add unnecessary screenshots; include only the views that help reviewers understand the UI change.
 - Prefer naming screenshot assets after the page or state they represent, such as `blog-index.png` or `blog-article.png`.
+- For new published blog posts, verify both the article route and the `/blog` listing route. Published posts also affect the home-page recent-work ordering tests.
 
 ## Deployment Note
 

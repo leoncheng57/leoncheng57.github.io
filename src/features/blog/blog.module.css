@@ -19,6 +19,30 @@
   margin: 0 auto;
 }
 
+.articleWithToc {
+  width: min(100%, 68rem);
+  margin: 0 auto;
+}
+
+.articleHeaderColumn,
+.articleReadingGrid {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+}
+
+.articleReadingGrid {
+  display: flex;
+  flex-direction: column;
+}
+
+.articleReadingGrid > nav {
+  order: -1;
+}
+
+.articleBodyColumn {
+  min-width: 0;
+}
+
 .pageHeader {
   margin-bottom: 2rem;
 }
@@ -318,6 +342,7 @@
 .articleBody table > tbody {
   display: table;
   width: 100%;
+  min-width: 40rem;
   table-layout: fixed;
 }
 
@@ -463,4 +488,28 @@
 .zoomedImage {
   max-height: calc(100vh - 8rem);
   object-fit: contain;
+}
+
+@media (min-width: 64rem) {
+  .articleHeaderColumn {
+    margin-right: 0;
+  }
+
+  .articleReadingGrid {
+    display: grid;
+    grid-template-columns: 14rem minmax(0, 52rem);
+    gap: 2rem;
+    width: 100%;
+    align-items: start;
+  }
+
+  .articleReadingGrid > nav {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .articleBodyColumn {
+    grid-column: 2;
+    grid-row: 1;
+  }
 }

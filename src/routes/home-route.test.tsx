@@ -16,18 +16,18 @@ describe('home route recent work', () => {
 
     expect(cards).toHaveLength(6)
     expect(cards.map((card) => card.getAttribute('href'))).toEqual([
+      '/blog/building-hedwig-ai-tooling-hub',
       '/guides/custom-coding-agent-ide-with-openhands',
       '/blog/how-openhands-was-integrated',
       '/blog/building-house-party-photo-hunt',
       '/blog/pwa-good-practices',
       '/guides/manager-worker-parallel-agents',
-      '/guides/opencode-remote-control',
     ])
     expect(within(recentWork).queryAllByText('Project')).toHaveLength(0)
     expect(within(recentWork).queryAllByText('App')).toHaveLength(0)
-    expect(within(recentWork).getAllByText('Blog')).toHaveLength(3)
-    expect(within(recentWork).getAllByText('Guide')).toHaveLength(3)
+    expect(within(recentWork).getAllByText('Blog')).toHaveLength(4)
+    expect(within(recentWork).getAllByText('Guide')).toHaveLength(2)
     expect(within(recentWork).queryAllByText('Alpha')).toHaveLength(0)
-    expect(within(recentWork).getAllByText('Beta')).toHaveLength(1)
+    expect(within(recentWork).queryAllByText('Beta')).toHaveLength(0)
   })
 })

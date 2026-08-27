@@ -1,0 +1,131 @@
+.figure {
+  margin: 1.75rem 0;
+}
+
+.compact { max-width: 34rem; margin-right: auto; margin-left: auto; }
+.medium { max-width: 48rem; margin-right: auto; margin-left: auto; }
+.full { max-width: 100%; }
+
+.zoomButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 1rem;
+  background: transparent;
+  color: inherit;
+  cursor: zoom-in;
+  font: inherit;
+  text-align: inherit;
+}
+
+.zoomButton:focus-visible {
+  outline: 3px solid var(--link-color, #315f89);
+  outline-offset: 0.25rem;
+}
+
+.diagram {
+  display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: 1rem;
+  background: #f7f8f5;
+  box-shadow: 0 16px 36px rgba(20, 30, 24, 0.12);
+}
+
+.diagram svg {
+  display: block;
+  width: 100%;
+  min-width: 28rem;
+  height: auto;
+  margin: 0 auto;
+}
+
+.fallback {
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.fallback strong {
+  display: block;
+  margin-bottom: 0.65rem;
+}
+
+.fallback pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.caption {
+  margin-top: 0.75rem;
+  color: var(--text-muted, #59635d);
+  font-size: 0.95rem;
+}
+
+.overlay {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(9, 14, 11, 0.88);
+  cursor: zoom-out;
+}
+
+.overlayInner {
+  display: grid;
+  max-width: 96vw;
+  max-height: 94vh;
+  gap: 0.5rem;
+  cursor: default;
+}
+
+.close {
+  justify-self: end;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  background: #f7f8f5;
+  color: #1f2923;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.close:focus-visible {
+  outline: 3px solid #8fd9b2;
+  outline-offset: 0.2rem;
+}
+
+.zoomedDiagram {
+  display: block;
+  width: min(90rem, 92vw);
+  height: min(78rem, 84vh);
+  border-radius: 1rem;
+  background: #f7f8f5;
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.45);
+  object-fit: contain;
+}
+
+@media (max-width: 36rem) {
+  .diagram svg {
+    min-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diagram *,
+  .diagram *::before,
+  .diagram *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
