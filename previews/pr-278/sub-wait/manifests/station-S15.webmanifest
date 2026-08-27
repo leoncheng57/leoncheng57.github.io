@@ -1,0 +1,32 @@
+{
+  "name": "Prince's Bay",
+  "short_name": "Prince's Bay",
+  "description": "Live NYC subway arrival times for Prince's Bay.",
+  "id": "/previews/pr-278/sub-wait/pwa/station/S15",
+  "start_url": "/previews/pr-278/sub-wait/station/S15",
+  "scope": "/previews/pr-278/sub-wait/",
+  "display": "standalone",
+  "background_color": "#f6f6f6",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/previews/pr-278/sub-wait/icon-v2-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-278/sub-wait/icon-v2-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/previews/pr-278/sub-wait/icon-v2-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
