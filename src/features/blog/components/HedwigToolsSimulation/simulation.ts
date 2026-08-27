@@ -63,6 +63,40 @@ export function stepEvent(
   return { ...state, eventIndex, completed: eventIndex === lastEventIndex, steered: true }
 }
 
+export function stepSimulation(
+  tools: readonly HedwigTool[],
+  state: HedwigSimulationState,
+  scope: SimulationScope,
+  delta: number
+): HedwigSimulationState {
+  if (scope === 'single') return stepEvent(tools, state, delta)
+
+  const lastEventIndex = tools[state.toolIndex].events.length - 1
+  if (delta > 0) {
+    if (state.eventIndex < lastEventIndex) {
+      return { ...state, eventIndex: state.eventIndex + 1, completed: false, steered: true }
+    }
+    if (state.toolIndex < tools.length - 1) {
+      return { toolIndex: state.toolIndex + 1, eventIndex: 0, completed: false, steered: true }
+    }
+    return { ...state, completed: true, steered: true }
+  }
+
+  if (state.eventIndex > 0) {
+    return { ...state, eventIndex: state.eventIndex - 1, completed: false, steered: true }
+  }
+  if (state.toolIndex > 0) {
+    const toolIndex = state.toolIndex - 1
+    return {
+      toolIndex,
+      eventIndex: tools[toolIndex].events.length - 1,
+      completed: false,
+      steered: true,
+    }
+  }
+  return { ...state, completed: false, steered: true }
+}
+
 export function getEventBounds(
   tools: readonly HedwigTool[],
   state: HedwigSimulationState

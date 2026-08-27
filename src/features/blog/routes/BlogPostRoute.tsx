@@ -20,6 +20,7 @@ const HEDWIG_COMPACT_EMBEDS: Record<string, HedwigToolId> = {
   'hedwig-tool-remote-code': 'remote-code',
   'hedwig-tool-customer-api': 'customer-api',
   'hedwig-tool-databricks-mcp': 'databricks-mcp',
+  'hedwig-tool-mcp-library': 'mcp-library',
   'hedwig-tool-slack-builder': 'slack-builder',
   'hedwig-tool-playgrounds-skills': 'playgrounds-skills',
   'hedwig-tool-cmd-k-discovery': 'cmd-k-discovery',

@@ -6,8 +6,7 @@ import {
   createSimulationState,
   getEventBounds,
   getSimulationProgress,
-  selectTool,
-  stepEvent,
+  stepSimulation,
   summarizeSimulation,
 } from './simulation'
 import type { HedwigSimulationState, SimulationScope } from './simulation'
@@ -139,6 +138,19 @@ function DatabricksView({ stage }: { stage: number }): ReactElement {
   )
 }
 
+function McpLibraryView({ stage }: { stage: number }): ReactElement {
+  const stages = ['Cataloged with an owner', 'Policy and permission inspected', 'Application scope selected', 'Human confirmation required']
+  return (
+    <div className={styles.queryPanel}>
+      <div><span className={styles.readOnly}>GOVERNED</span><span>MCP tools library</span></div>
+      <code>tool metadata · owner · risk · permission · lifecycle</code>
+      <ul aria-label="MCP library stages">
+        {stages.map((item, index) => <li key={item}>{index <= stage ? item : 'Waiting for the prior review stage'}</li>)}
+      </ul>
+    </div>
+  )
+}
+
 function SlackBuilderView({ stage }: { stage: number }): ReactElement {
   return (
     <div className={styles.builder}>
@@ -216,6 +228,7 @@ function ToolView({ tool, stage }: { tool: HedwigTool; stage: number }): ReactEl
   if (tool.kind === 'remote-code') return <RemoteCodeView stage={stage} />
   if (tool.kind === 'customer-api') return <ApiGraphView stage={stage} />
   if (tool.kind === 'databricks-mcp') return <DatabricksView stage={stage} />
+  if (tool.kind === 'mcp-library') return <McpLibraryView stage={stage} />
   if (tool.kind === 'slack-builder') return <SlackBuilderView stage={stage} />
   if (tool.kind === 'playgrounds-skills') return <PlaygroundsSkillsView stage={stage} />
   return <CmdKDiscoveryView stage={stage} />
@@ -267,46 +280,38 @@ export default function HedwigToolsSimulation({
   const tool = HEDWIG_TOOLS[state.toolIndex]
   const event = tool.events[state.eventIndex]
   const progress = getSimulationProgress(HEDWIG_TOOLS, state, scope)
-  const previousTitle = HEDWIG_TOOLS[Math.max(0, state.toolIndex - 1)].title
-  const nextTitle = HEDWIG_TOOLS[Math.min(HEDWIG_TOOLS.length - 1, state.toolIndex + 1)].title
-  const chooseTool = (index: number): void => {
-    setState(reducedMotion ? completeSimulation(HEDWIG_TOOLS, 'single', index) : selectTool(index))
-  }
   const stepStage = (delta: number): void => {
-    setState((current) => stepEvent(HEDWIG_TOOLS, current, delta))
+    setState((current) => stepSimulation(HEDWIG_TOOLS, current, scope, delta))
   }
 
-  // Compact embeds walk the stages of the one tool they show; the catalog tour
-  // keeps its cross-tool arrows because it is the aggregate walkthrough.
   const stageBounds = getEventBounds(HEDWIG_TOOLS, state)
-  const controls =
-    mode === 'compact'
-      ? {
-          groupLabel: `Step through ${tool.title} stages`,
-          previous: {
-            onClick: () => stepStage(-1),
-            disabled: stageBounds.atFirst,
-            label: `Previous stage of ${tool.title}`,
-          },
-          next: {
-            onClick: () => stepStage(1),
-            disabled: stageBounds.atLast,
-            label: `Next stage of ${tool.title}`,
-          },
-        }
-      : {
-          groupLabel: 'Browse the tool tour',
-          previous: {
-            onClick: () => chooseTool(Math.max(0, state.toolIndex - 1)),
-            disabled: state.toolIndex === 0,
-            label: `Previous tool: ${previousTitle}`,
-          },
-          next: {
-            onClick: () => chooseTool(Math.min(HEDWIG_TOOLS.length - 1, state.toolIndex + 1)),
-            disabled: state.toolIndex === HEDWIG_TOOLS.length - 1,
-            label: `Next tool: ${nextTitle}`,
-          },
-        }
+  const controls = mode === 'catalog'
+    ? {
+        groupLabel: 'Step through the complete control-panel tour',
+        previous: {
+          onClick: () => stepStage(-1),
+          disabled: state.toolIndex === 0 && stageBounds.atFirst,
+          label: 'Previous frame in control-panel tour',
+        },
+        next: {
+          onClick: () => stepStage(1),
+          disabled: state.toolIndex === HEDWIG_TOOLS.length - 1 && stageBounds.atLast,
+          label: 'Next frame in control-panel tour',
+        },
+      }
+    : {
+        groupLabel: `Step through ${tool.title} stages`,
+        previous: {
+          onClick: () => stepStage(-1),
+          disabled: stageBounds.atFirst,
+          label: `Previous stage of ${tool.title}`,
+        },
+        next: {
+          onClick: () => stepStage(1),
+          disabled: stageBounds.atLast,
+          label: `Next stage of ${tool.title}`,
+        },
+      }
 
   return (
     <section
@@ -319,6 +324,33 @@ export default function HedwigToolsSimulation({
         <div className={styles.topLine}>
           <span>HEDWIG · TOOL SANDBOX</span>
           <span>FICTIONAL DATA</span>
+        </div>
+        <div className={styles.playbackBar}>
+          <div className={styles.controls} aria-label={controls.groupLabel}>
+            <button
+              type="button"
+              onClick={controls.previous.onClick}
+              disabled={controls.previous.disabled}
+              aria-label={controls.previous.label}
+              data-tooltip={controls.previous.label}
+            >
+              <Icon name="previous" />
+            </button>
+            <button
+              type="button"
+              onClick={controls.next.onClick}
+              disabled={controls.next.disabled}
+              aria-label={controls.next.label}
+              data-tooltip={controls.next.label}
+            >
+              <Icon name="next" />
+            </button>
+          </div>
+          <div className={styles.eventCard}>
+            <span>{state.completed ? 'Complete' : `Step ${state.eventIndex + 1} of ${tool.events.length}`}</span>
+            <strong>{event.label}</strong>
+            <p>{event.detail}</p>
+          </div>
         </div>
         {mode === 'catalog' && (
           <nav aria-label="Hedwig tool selector" className={styles.selector}>
@@ -346,11 +378,6 @@ export default function HedwigToolsSimulation({
               <CompactToolView toolId={tool.id} stage={state.eventIndex} />
             </fieldset>
           ) : <ToolView tool={tool} stage={state.eventIndex} />}
-          <div className={styles.eventCard}>
-            <span>{state.completed ? 'Complete' : `Step ${state.eventIndex + 1} of ${tool.events.length}`}</span>
-            <strong>{event.label}</strong>
-            <p>{event.detail}</p>
-          </div>
         </div>
         <div className={styles.progressRow}>
           <div className={styles.progressTrack} role="progressbar" aria-label={`Simulation progress: ${progress.current} of ${progress.total}`} aria-valuemin={0} aria-valuemax={progress.total} aria-valuenow={progress.current}>
@@ -358,26 +385,6 @@ export default function HedwigToolsSimulation({
           </div>
           <span aria-hidden="true">{progress.current}/{progress.total}</span>
         </div>
-      </div>
-      <div className={styles.controls} aria-label={controls.groupLabel}>
-          <button
-            type="button"
-            onClick={controls.previous.onClick}
-            disabled={controls.previous.disabled}
-            aria-label={controls.previous.label}
-            data-tooltip={controls.previous.label}
-          >
-            <Icon name="previous" />
-          </button>
-          <button
-            type="button"
-            onClick={controls.next.onClick}
-            disabled={controls.next.disabled}
-            aria-label={controls.next.label}
-            data-tooltip={controls.next.label}
-          >
-            <Icon name="next" />
-          </button>
       </div>
       <p className={styles.visuallyHidden}>
         {summarizeSimulation(HEDWIG_TOOLS, state)}

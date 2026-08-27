@@ -5,6 +5,7 @@ import styles from './MermaidDiagram.module.css'
 interface MermaidDiagramProps {
   source: string
   title: string
+  size?: 'compact' | 'medium' | 'full'
 }
 
 type RenderState =
@@ -51,7 +52,7 @@ function sanitizeSvg(svg: string, title: string): string | null {
   return new XMLSerializer().serializeToString(root)
 }
 
-export default function MermaidDiagram({ source, title }: MermaidDiagramProps): ReactElement {
+export default function MermaidDiagram({ source, title, size = 'full' }: MermaidDiagramProps): ReactElement {
   const reactId = useId()
   const diagramId = `mermaid-${reactId.replace(/[^a-zA-Z0-9_-]/g, '')}`
   const [renderState, setRenderState] = useState<RenderState>({ status: 'loading' })
@@ -131,7 +132,7 @@ export default function MermaidDiagram({ source, title }: MermaidDiagramProps): 
 
   return (
     <>
-      <figure className={styles.figure}>
+      <figure className={`${styles.figure} ${styles[size]}`}>
         {renderState.status === 'ready' ? (
           <button
             type="button"

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { HEDWIG_TOOLS } from './tools'
-import { advanceSimulation, completeSimulation, createSimulationState, getSimulationProgress } from './simulation'
+import { advanceSimulation, completeSimulation, createSimulationState, getSimulationProgress, stepSimulation } from './simulation'
 
 describe('Hedwig simulation engine', () => {
   it('deterministically advances through every event and then stops', () => {
@@ -27,5 +27,20 @@ describe('Hedwig simulation engine', () => {
     expect(state.toolIndex).toBe(2)
     expect(state.completed).toBe(true)
     expect(getSimulationProgress(HEDWIG_TOOLS, state, 'single').percent).toBe(100)
+  })
+
+  it('manually steps across catalog tool boundaries in both directions', () => {
+    let state = createSimulationState()
+    for (let frame = 0; frame < HEDWIG_TOOLS[0].events.length; frame += 1) {
+      state = stepSimulation(HEDWIG_TOOLS, state, 'catalog', 1)
+    }
+    expect(state).toMatchObject({ toolIndex: 1, eventIndex: 0, steered: true })
+
+    state = stepSimulation(HEDWIG_TOOLS, state, 'catalog', -1)
+    expect(state).toMatchObject({
+      toolIndex: 0,
+      eventIndex: HEDWIG_TOOLS[0].events.length - 1,
+      steered: true,
+    })
   })
 })

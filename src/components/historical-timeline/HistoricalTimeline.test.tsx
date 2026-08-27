@@ -48,6 +48,7 @@ describe('HistoricalTimeline', () => {
             stage: 'Explored',
             milestone: 'The initial workflow was evaluated.',
             detail: 'The team documented constraints before implementation.',
+            highlights: ['A bounded prototype was tested.', 'The ownership boundary was documented.'],
             evidence: ['Research notes', 'Decision record'],
           },
           {
@@ -63,10 +64,11 @@ describe('HistoricalTimeline', () => {
     const timeline = screen.getByRole('region', { name: 'Example project history' })
     expect(timeline.tagName).toBe('SECTION')
     expect(timeline.querySelector('ol')).toBeInTheDocument()
-    expect(within(timeline).getAllByRole('listitem')).toHaveLength(4)
+    expect(within(timeline).getAllByRole('listitem')).toHaveLength(6)
     expect(container.querySelector('time')).toHaveAttribute('datetime', '2026-01-08')
     expect(screen.getByText('v0.0.1')).toBeInTheDocument()
     expect(screen.getByText('The team documented constraints before implementation.')).toBeInTheDocument()
+    expect(screen.getByRole('list', { name: 'Milestone details' })).toHaveTextContent('A bounded prototype was tested.')
     expect(screen.getByText('Research notes').tagName).toBe('CODE')
     expect(screen.queryByText('Evidence', { selector: 'ul' })).not.toBeInTheDocument()
     expect(timeline.querySelectorAll('li')[0]).toHaveStyle({ '--timeline-gap': '0rem' })

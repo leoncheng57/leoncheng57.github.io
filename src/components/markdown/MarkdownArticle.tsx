@@ -12,7 +12,8 @@ import type { ArticleStyles } from './types'
 const EMBED_PROTOCOL = 'component:'
 const FILE_LANGUAGE_PREFIX = 'language-file:'
 const MERMAID_LANGUAGE = 'language-mermaid'
-const MERMAID_TITLE = /^%%\s*title:\s*(.+?)\s*(?:\r?\n|$)/i
+const MERMAID_TITLE = /^%%\s*title:\s*(.+?)\s*(?:\r?\n|$)/im
+const MERMAID_SIZE = /^%%\s*size:\s*(compact|medium|full)\s*(?:\r?\n|$)/im
 
 interface MarkdownArticleProps {
   content: string
@@ -40,13 +41,15 @@ function isMermaidClassName(className?: string): boolean {
   return className?.split(/\s+/).includes(MERMAID_LANGUAGE) ?? false
 }
 
-function parseMermaidSource(value: string): { source: string; title: string } {
+function parseMermaidSource(value: string): { source: string; title: string; size: 'compact' | 'medium' | 'full' } {
   const source = value.replace(/\r?\n$/, '')
-  const directive = source.match(MERMAID_TITLE)
+  const titleDirective = source.match(MERMAID_TITLE)
+  const sizeDirective = source.match(MERMAID_SIZE)
 
   return {
-    source: directive ? source.slice(directive[0].length) : source,
-    title: directive?.[1].trim() || 'Architecture diagram',
+    source: source.replace(MERMAID_TITLE, '').replace(MERMAID_SIZE, ''),
+    title: titleDirective?.[1].trim() || 'Architecture diagram',
+    size: (sizeDirective?.[1].toLowerCase() as 'compact' | 'medium' | 'full' | undefined) ?? 'full',
   }
 }
 
@@ -123,7 +126,7 @@ export default function MarkdownArticle({ content, styles, embeds }: MarkdownArt
           code: ({ node: _node, className, children, ...props }) => {
             if (isMermaidClassName(className)) {
               const diagram = parseMermaidSource(String(children))
-              return <MermaidDiagram source={diagram.source} title={diagram.title} />
+              return <MermaidDiagram source={diagram.source} title={diagram.title} size={diagram.size} />
             }
 
             const filename = className?.startsWith(FILE_LANGUAGE_PREFIX)

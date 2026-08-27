@@ -18,6 +18,7 @@ export interface HistoricalTimelineEntry {
   stage: string
   milestone: string
   detail?: string
+  highlights?: string[]
   evidence?: string[]
 }
 
@@ -88,6 +89,11 @@ export default function HistoricalTimeline({
               </div>
               <h3>{entry.milestone}</h3>
               {entry.detail ? <p className={styles.detail}>{entry.detail}</p> : null}
+              {entry.highlights?.length ? (
+                <ul className={styles.highlights} aria-label="Milestone details">
+                  {entry.highlights.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              ) : null}
               {entry.evidence?.length ? (
                 <ul className={styles.evidence} aria-label="Evidence">
                   {entry.evidence.map((item) => (

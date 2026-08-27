@@ -23,20 +23,11 @@ Over the following months, contributors across disciplines added applications an
 
 This is a build retrospective, not a claim that every company should build its own AI platform. The strongest reason to build one is not that a chat interface looks easy to reproduce. It is that the work depends on internal context, controlled actions, repeatable workflows, and infrastructure that teams would otherwise rebuild separately.
 
-The interactive tour below makes that shape tangible. It presents seven tools, including a Playground and Skills surface, plus a Cmd/Ctrl+K search entry point that ties the tour together.
+The control-panel tour below introduces the eight tool categories as one connected platform. It advances through each tool's frames while keeping the shared identity, policy, delivery, and review foundations visible.
 
 > **Simulation note:** Every simulation in this article uses scripted, fictional, sanitized data. They illustrate workflow structure and interaction design only. They make no network calls, and they do not reproduce internal interfaces, catalogs, records, customers, or operational results.
 
-![An interactive tour of seven AI tools, including Playground and Skills, joined by Cmd/Ctrl+K.](component:hedwig-tools-simulation)
-
-```mermaid
-%% title: Platform evolution from one workflow to shared foundations
-flowchart TD
-  Workflow["One bounded workflow"] --> Evidence["Real users and evidence"]
-  Evidence --> Foundations["Shared platform foundations"]
-  Foundations --> Applications["Several focused applications"]
-  Applications --> Owners["Independent workflow owners"]
-```
+![An interactive control-panel tour of eight AI tools, including Playground and Skills, joined by Cmd/Ctrl+K.](component:hedwig-tools-simulation)
 
 ## What Hedwig became
 
@@ -58,7 +49,7 @@ The platform vocabulary eventually needed sharper boundaries: **applications own
 Discoverability became another shared concern. Cmd/Ctrl+K joined local navigation with results from remote catalogs, so a user could move from a known application toward an available skill or integration without learning several separate interfaces. It did not search literally everything, and a result appearing in a catalog established availability, not adoption or quality.
 
 ```mermaid
-%% title: Seven focused tools sharing governed platform foundations
+%% title: Focused tools sharing governed platform foundations
 flowchart TD
   Incident["Incident assistant"] --> Entry["Search and discovery"]
   Planning["Planning tool"] --> Entry
@@ -71,10 +62,6 @@ flowchart TD
   Catalogs --> Policy["Tool policy and bounded memory"]
   Policy --> Operations["Tracing, identity, and releases"]
 ```
-
-The first compact simulation shows the original pattern at its safest: an event, bounded evidence, visible progress, and a report that still requires human review.
-
-![A compact on-call investigation simulation with event context, progress, and a human-reviewed report.](component:hedwig-tool-on-call)
 
 ### The pivot from application to platform
 
@@ -92,24 +79,31 @@ The natural response would have been a collection of independent services. We we
 
 The dependency rule was simple: applications could depend on core and platform, but not on one another. That was not architectural purity for its own sake. It kept reuse intentional. A new application inherited the platform capabilities it needed instead of importing another application's accidental assumptions.
 
+A modular monolith was the right tradeoff for this stage. It made integration cheap, kept the operational surface manageable, and let teams iterate quickly. The cost was shared deployment risk and more coordination as the platform grew. The answer was not to claim that the boundaries were perfect. It was to make them visible with application manifests, ownership rules, scoped data, and review gates.
+
 ```mermaid
-%% title: Layered code architecture and deployment boundaries
+%% title: A modular monolith keeps application boundaries inside one codebase
+%% size: medium
 flowchart TD
-  Applications["Applications: focused workflows"] --> Platform["Platform: runtimes, tools, data, and shared UI"]
-  Platform --> Core["Core: identity, configuration, health, and transport"]
-  Core --> Artifact["One deployable artifact"]
-  Artifact --> Durable["Long-lived platform deployments"]
+  subgraph Codebase["One modular monolith codebase"]
+    direction TD
+    Applications["Application modules: focused workflows and independent owners"] --> Platform["Platform modules: runtimes, tools, data, and shared UI"]
+    Platform --> Core["Core modules: identity, configuration, health, and transport"]
+  end
+  Codebase --> Artifact["One versioned deployable artifact"]
+  Artifact --> Dev["Automatic development deployment"]
+  Dev --> Production["Manual blue-green production promotion"]
   Artifact --> Workspace["Disposable task workspaces"]
   Workspace --> Cleanup["Bounded access, lifetime, and cleanup"]
 ```
-
-A modular monolith was the right tradeoff for this stage. It made integration cheap, kept the operational surface manageable, and let teams iterate quickly. The cost was shared deployment risk and more coordination as the platform grew. The answer was not to claim that the boundaries were perfect. It was to make them visible with application manifests, ownership rules, scoped data, and review gates.
 
 #### Code boundaries and deployment boundaries
 
 The modular monolith was one codebase producing one deployable artifact. That artifact was promoted into separate long-lived environment deployments, while workspace agents created disposable runtimes for individual tasks. The long-lived deployments served the platform; the disposable workspaces contained task execution and were expected to be bounded, observable, and cleaned up.
 
 Those were different boundaries for different risks. Code boundaries kept applications from importing one another's assumptions. Deployment boundaries separated durable service operation. Workspace boundaries limited the files, credentials, lifetime, and compute attached to one run. This is intentionally an abstract topology: the durable lesson is the separation of responsibilities, not the particulars of an internal setup.
+
+The delivery path made that separation concrete. Approved changes deployed automatically to the development environment, where a short, memorable internal URL gave contributors and reviewers one dependable place to inspect the current build. Production promotion remained a manual decision after the relevant checks, preview, and review evidence were complete. Blue-green deployment kept that production transition reversible: the next version could be verified alongside the current one before traffic moved, then rolled back cleanly if the evidence did not hold.
 
 ## Important features to showcase
 
@@ -125,8 +119,13 @@ Each agent declared its execution mode, selected tools, prompt builder, output c
 
 This made it possible to meet a workflow where it actually lived. Some jobs were better as a web application. Some were better in a collaboration tool. Some needed a durable workspace that could be watched and corrected while it ran.
 
+**Errol** is the pseudonym I use here for Hedwig's background coding agent. It became a popular workflow because it turned a bounded engineering request into a reviewable change request without requiring a person to hold an interactive session open. Its value came from continuous operational improvements, not a single agent prompt: capacity controls kept queues useful under parallel demand; resilient Kubernetes jobs isolated and retried work; automated merge-request comments shortened the first review pass; and Slackbot thread triggers made it possible to start or follow a task where the discussion was already happening.
+
+Errol also remained an experimentation surface. OpenHands-informed experiments helped test agent execution patterns, while the surrounding deterministic pipeline kept permissions, state transitions, previews, automated checks, and merge gates outside the model. That separation let the coding workflow iterate quickly without granting the agent authority to complete consequential actions on its own.
+
 ```mermaid
 %% title: Execution modes selected by the shape of the work
+%% size: medium
 flowchart TD
   Work["Work request"] --> Steering{"How is the work steered?"}
   Steering -->|Continuous conversation| Interactive["Interactive: short, user-steered, conversational"]
@@ -136,10 +135,6 @@ flowchart TD
   Background --> Review
   Workspace --> Review
 ```
-
-The remote-code simulation illustrates both ends of that spectrum: an interactive workspace with a streamed transcript, side panels for files, changes, preview, and a command audit, plus a separate delegated queue that turns tickets into change requests.
-
-![A compact remote coding simulation with a transcript, workspace side panels, a delegated job queue, and human merge controls.](component:hedwig-tool-remote-code)
 
 #### Tracing, memory, and integrations
 
@@ -165,6 +160,7 @@ That division is easy to state and hard to preserve. Every time we let prose sta
 
 ```mermaid
 %% title: Deterministic software boundary around AI judgment
+%% size: medium
 flowchart TD
   Request["Validated request"] --> Context["Scoped tools and prior context"]
   Context --> Model["AI: interpret, explore, synthesize"]
@@ -176,10 +172,6 @@ flowchart TD
   Software --> Trace["Tracing and feedback"]
 ```
 
-The customer-API simulation applies that boundary to a per-customer health view: a typeahead customer search, region traffic cards, availability and latency targets, and a weekly attainment matrix with visible misses.
-
-![A compact customer health dashboard with search, region cards, SLO targets, and a weekly attainment matrix.](component:hedwig-tool-customer-api)
-
 ### Playgrounds are a stage, not a product claim
 
 The platform made it cheap to trial an idea. That was useful, but it was not automatically a virtue.
@@ -188,9 +180,7 @@ Experiments had a clearer path when they remained visibly experimental and featu
 
 This was one reason shared infrastructure paid off. A contributor could work on a narrowly defined application without first building login, deployment, observability, agent invocation, or the basic interface shell. The platform lowered the cost of trying an idea, while the application boundaries made it possible to stop trying one.
 
-The Playgrounds and Skills simulation uses status pills, an instant filter beside an AI topic search, a sandboxed tryout, and a human-merged publication path to illustrate experimentation and packaging.
-
-![A compact Playgrounds and Skills simulation with status pills, dual search paths, a sandboxed tryout, and a reviewed publication flow.](component:hedwig-tool-playgrounds-skills)
+Playgrounds were not merely disposable experiments. Some became maintained, widely used features once they showed repeat use, a clear owner, and a workflow worth supporting. The conversion rate was deliberately low, around 15%: most ideas should remain bounded trials or be retired. That was a feature of the model, not a failure. The platform made exploration cheap while reserving the maintenance, reliability, and ownership commitment for the small set of ideas that earned it.
 
 ### A Skills Marketplace packages behavior
 
@@ -200,6 +190,7 @@ Prompt-only skills supported tryouts; tool-bearing skills were simulated rather 
 
 ```mermaid
 %% title: Experiment lifecycle from hypothesis to graduation or retirement
+%% size: compact
 flowchart TD
   Hypothesis["Frame a bounded hypothesis"] --> Trial["Feature-gated playground trial"]
   Trial --> Evidence["Collect repeat-use and outcome evidence"]
@@ -219,10 +210,6 @@ These layers also prevented an easy measurement mistake. Catalog footprint measu
 
 Discoverability had a maintenance cost. Stale entries, ambiguous names, missing owners, and incompatible versions made a large catalog worse rather than better. Review and deprecation were therefore part of search quality, not administrative work around it.
 
-The Cmd/Ctrl+K simulation shows a fixed query, instant local results, supplementary catalog groups, and visible lifecycle labels on every hit.
-
-![A compact Cmd/Ctrl+K discovery simulation with instant local results, supplementary catalog groups, and lifecycle labels.](component:hedwig-tool-cmd-k-discovery)
-
 ## What did not work
 
 The useful history is not just the list of features that survived.
@@ -241,24 +228,6 @@ We learned to delete features. An experiment that receives little repeat use sho
 
 We also learned that concurrency changes the problem. More parallel agent work can move the bottleneck to review, queues, infrastructure capacity, and coordination. Isolated workspaces helped, but they also required cancellation, limits, cleanup, stuck-run detection, and careful credential boundaries.
 
-```mermaid
-%% title: Recurring failure patterns and their durable corrections
-flowchart TD
-  Broad["Broad tool access"] --> Scope["Correction: explicit per-agent scope"]
-  Scope --> Polling["Opaque polling"]
-  Polling --> Streaming["Correction: streamed lifecycle events"]
-  Streaming --> Assumed["Configured telemetry assumed to work"]
-  Assumed --> Verified["Correction: verify traces from exercised paths"]
-  Verified --> Context["Unbounded prior context"]
-  Context --> Memory["Correction: bounded and evaluated memory"]
-  Memory --> Parallel["Unbounded parallel work"]
-  Parallel --> Workspaces["Correction: limits, cancellation, and cleanup"]
-```
-
-The query-companion simulation shows a narrower correction: one read-only SQL tool with labeled calls, a polled lifecycle, capped rows, and a blocked-write error that keeps the contract inspectable.
-
-![A compact data-query companion with labeled read-only tool calls, a capped result table, and a blocked-write example.](component:hedwig-tool-databricks-mcp)
-
 ### Adoption was uneven, and that was useful information
 
 The original assistant gained broad awareness, but the data also showed that its most intensive usage was concentrated. That is a healthier finding than a vague claim that an internal tool was "adopted."
@@ -271,10 +240,6 @@ Pageviews, sessions, and agent runs are signals, not outcomes. They can be domin
 - Did the system reduce the time or coordination needed for a real job?
 
 Those questions also helped separate the platform from its applications. Hedwig could make an application easier to build and operate; that did not prove the application was useful. Domain teams still needed to own that judgment.
-
-The Slackbot operations simulation makes the same distinction for a collaboration workflow. It follows an existing bot through operational routes for channels, simulated conversations, bounded memory, logs, ratings, and threads.
-
-![A compact Slackbot profile with operational routes for channels, simulation, memory, logs, ratings, and threads.](component:hedwig-tool-slack-builder)
 
 ## Ownership is part of the architecture
 
@@ -290,6 +255,7 @@ If I were starting again, I would establish the minimum maintainer model and app
 
 ```mermaid
 %% title: Distributed ownership with an explicit contribution contract
+%% size: compact
 flowchart TD
   Contract["Contribution contract"] --> Platform["Platform stewards"]
   Contract --> Workflow["Workflow owners"]
@@ -302,11 +268,9 @@ flowchart TD
   Lifecycle --> Durable
 ```
 
-### Two comparisons, two different questions
+### Comparison with Ramp Inspect
 
-Comparisons are only useful when they preserve the organizing question behind each system. One comparison asks how deeply a platform can optimize a single demanding workload. The other asks how much autonomy teams retain when the hosting path is federated.
-
-#### Ramp Inspect: depth in one workload
+Comparisons are only useful when they preserve the organizing question behind each system. Ramp Inspect asks how deeply a platform can optimize one demanding coding workload.
 
 [Ramp Inspect](https://builders.ramp.com/post/why-we-built-our-background-agent) is a useful comparison, but it is not the same product category.
 
@@ -323,9 +287,21 @@ Hedwig addressed a broader question: how can teams build and govern many types o
 | Verification | Structured output, tracing, domain tools, and application-specific checks | Tests, telemetry, screenshots, previews, and pull-request workflows |
 | Tradeoff | Broad platform surface and shared coordination cost | Substantial investment in a coding-specific runtime and client experience |
 
+The overlap is real, especially around isolated execution and review, but the systems make different things first-class:
+
+| Capability | Similar or shared | Hedwig emphasis | Ramp Inspect emphasis |
+| --- | --- | --- | --- |
+| Isolated execution | Yes | Supports workspace agents alongside other application modes | Purpose-built remote development environment per coding session |
+| Agent workflow | Yes | Governed tools, typed output, and application-specific flows | End-to-end software-development task execution |
+| Review evidence | Yes | Domain checks, structured output, and workflow-specific human gates | Tests, telemetry, screenshots, previews, and pull-request review |
+| Frontend preview | Yes | A delivery artifact for reviewing an application change | A core part of visual coding-agent verification |
+| Integrations | Yes | Shared tool policy, MCP governance, memory, and internal application contexts | Coding context and repository-environment integrations |
+| Product scope | Different | Multiple internal AI application categories | One deeply optimized coding workflow |
+| Ownership model | Different | Application teams own domain workflows on shared foundations | The coding-agent runtime owns the complete development loop |
+
 Inspect looks like the stronger reference point for a company whose primary goal is a best-in-class background coding agent. Hedwig's lesson was different: an internal platform can make focused AI applications cheaper to build, provided the platform stays opinionated about safety, ownership, and the distinction between experimentation and a maintained product.
 
-#### Pigwidgeon: autonomy through federation
+### Comparison with Pigwidgeon
 
 **Pigwidgeon is a pseudonym for another mature internal platform at the same company.** It is discussed only at the level needed for an architectural comparison.
 
@@ -334,6 +310,58 @@ Where Hedwig used a monorepo and a shared AI runtime to make application integra
 That made the two platforms answers to different coordination problems. Hedwig optimized reuse inside an opinionated AI application environment: common agents, interfaces, policy, tracing, catalogs, and execution modes. Pigwidgeon optimized team autonomy around a common hosting path: each service could choose its own internals while conforming to shared operational expectations.
 
 The broad catalog footprint around Pigwidgeon is evidence that it was widely adopted as a hosting path. It is not evidence of monthly active users, application quality, or business impact. As with Hedwig's catalogs, the existence and availability of entries support a narrower claim than sustained use or valuable outcomes.
+
+### Feature tour
+
+The eight focused exhibits below gather the domain surfaces in one place, moving from the original on-call workflow through delivery, discovery, and governed integrations. Each one expands a single category from the control-panel tour above.
+
+#### On-call investigations and weekly operations review
+
+The on-call flow turns an alert into bounded evidence, a reviewable diagnosis, and owned follow-up work. Its final frame shows the automatically generated weekly operations review, which saved teams substantial preparation time; with clearer ownership, tracking, and UX, the action-item completion rate rose sharply.
+
+![A compact on-call investigation simulation with event context, progress, reviewed action items, and an automatically generated weekly operations review.](component:hedwig-tool-on-call)
+
+#### Remote code runners: Errol and interactive workspaces
+
+This exhibit separates Errol's resilient background jobs from live workspaces that a person can steer. Capacity controls, Kubernetes jobs, previews, automated reviewer comments, Slack updates, and human merge gates form the delivery path around the coding model.
+
+![A compact remote-coding simulation contrasting Errol background jobs with interactive workspaces, capacity controls, automated review comments, Slack updates, and human merge controls.](component:hedwig-tool-remote-code)
+
+#### Customer API usage graphs
+
+The customer view combines deterministic usage and SLO calculations with AI-assisted query drafting. Region cards and the weekly attainment matrix keep misses visible instead of hiding them inside a generated narrative.
+
+![A compact customer health dashboard with search, region cards, SLO targets, and a weekly attainment matrix.](component:hedwig-tool-customer-api)
+
+#### Playgrounds and Skills Marketplace
+
+The playground makes a bounded idea cheap to try without presenting it as a maintained product. Skills then provide a reviewed path for packaging useful behavior with an owner, lifecycle, compatibility, and deprecation expectations.
+
+![A compact Playgrounds and Skills simulation with status pills, dual search paths, a sandboxed tryout, and a reviewed publication flow.](component:hedwig-tool-playgrounds-skills)
+
+#### Cmd/Ctrl+K discovery
+
+The command palette joins instant local navigation with selected catalog results. Lifecycle labels explain whether a result is maintained, experimental, or local before a user opens it.
+
+![A compact Cmd/Ctrl+K discovery simulation with instant local results, supplementary catalog groups, and lifecycle labels.](component:hedwig-tool-cmd-k-discovery)
+
+#### Read-only Databricks MCP
+
+The data-query companion demonstrates a deliberately narrow MCP contract: one read-only SQL tool with a visible lifecycle and capped results. Deterministic validation rejects writes before they can become side effects.
+
+![A compact data-query companion with labeled read-only tool calls, a capped result table, and a blocked-write example.](component:hedwig-tool-databricks-mcp)
+
+#### MCP tools library
+
+The library makes governed integrations discoverable without confusing discovery with authority. Useful MCPs included Slack, Backstage, Confluence, Grafana, GitLab, and incident-operations surfaces; every tool carried purpose, ownership, risk, permission, and lifecycle metadata, while consequential actions retained an explicit human gate.
+
+![A compact MCP tools-library simulation listing Slack, Backstage, Confluence, Grafana, GitLab, and incident operations with ownership, risk labels, permission scope, and human-gated consequential actions.](component:hedwig-tool-mcp-library)
+
+#### Slackbot operations
+
+The Slackbot surface follows a maintained collaboration agent after launch rather than stopping at a creation wizard. Channels, simulated threads, bounded memory, logs, ratings, and recent conversations give owners one operational view.
+
+![A compact Slackbot profile with operational routes for channels, simulation, memory, logs, ratings, and threads.](component:hedwig-tool-slack-builder)
 
 ## Historical Timeline
 

@@ -9,20 +9,34 @@ describe('HedwigToolsSimulation', () => {
     vi.unstubAllGlobals()
   })
 
-  it('renders a static catalog with arrow-only tool navigation', async () => {
+  it('renders a static catalog with arrows that step the visible tool', async () => {
     const user = userEvent.setup()
     render(<HedwigToolsSimulation />)
     expect(screen.getByRole('region', { name: 'Hedwig tools simulation' })).toBeInTheDocument()
     const selector = screen.getByRole('navigation', { name: 'Hedwig tool selector' })
     expect(selector.querySelectorAll('button')).toHaveLength(0)
-    expect(selector.querySelectorAll('li')).toHaveLength(7)
+    expect(selector.querySelectorAll('li')).toHaveLength(8)
     expect(selector).toHaveTextContent('Playgrounds')
     expect(selector).toHaveTextContent('Cmd+K')
-    expect(screen.getByText('Tool 01 / 07')).toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: 'Next tool: Remote code runners' }))
-    expect(screen.getByText('Mode A · interactive workspace')).toBeInTheDocument()
-    expect(screen.getByText('Mode B · delegated jobs')).toBeInTheDocument()
+    expect(screen.getByText('Tool 01 / 08')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Next frame in control-panel tour' }))
+    expect(screen.getByText('Step 2 of 7')).toBeInTheDocument()
+    expect(screen.getByText('On-call investigations')).toBeInTheDocument()
     expect(screen.queryByRole('heading')).not.toBeInTheDocument()
+  })
+
+  it('moves the aggregate tour from one tool final frame to the next tool first frame', async () => {
+    const user = userEvent.setup()
+    render(<HedwigToolsSimulation />)
+    const next = screen.getByRole('button', { name: 'Next frame in control-panel tour' })
+    for (let frame = 0; frame < 7; frame += 1) await user.click(next)
+    expect(screen.getByText('Tool 02 / 08')).toBeInTheDocument()
+    expect(screen.getByText('Remote code runners')).toBeInTheDocument()
+    expect(screen.getByText('Step 1 of 6')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Previous frame in control-panel tour' }))
+    expect(screen.getByText('Tool 01 / 08')).toBeInTheDocument()
+    expect(screen.getByText('Step 7 of 7')).toBeInTheDocument()
   })
 
   it('renders only the selected tool in compact mode', () => {
@@ -74,19 +88,36 @@ describe('HedwigToolsSimulation', () => {
     expect(screen.getByText(/does not autoplay/i)).toBeInTheDocument()
   })
 
-  it('keeps the arrow-only toolbar outside the simulation frame', () => {
+  it('shows the generated weekly operations review at the end of the on-call flow', () => {
+    vi.stubGlobal('matchMedia', () => ({
+      matches: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }))
+    render(<HedwigToolsSimulation mode="compact" toolId="on-call" />)
+    expect(screen.getByText('Weekly operations review')).toBeInTheDocument()
+    expect(screen.getByText('Action-item completion')).toBeInTheDocument()
+    expect(screen.getByText('42% → 81%')).toBeInTheDocument()
+  })
+
+  it('keeps the arrow-only toolbar at the top of the simulation frame', () => {
     const { container } = render(<HedwigToolsSimulation />)
     const frame = container.querySelector('[class*="simulationFrame"]')
     const controls = container.querySelector('[class*="controls"]')
+    const playbackBar = container.querySelector('[class*="playbackBar"]')
     const selector = screen.getByRole('navigation', { name: 'Hedwig tool selector' })
     expect(frame).toBeTruthy()
     expect(controls).toBeTruthy()
-    expect(frame?.contains(controls)).toBe(false)
+    expect(playbackBar).toBeTruthy()
+    expect(frame?.contains(controls)).toBe(true)
+    expect(playbackBar?.contains(controls)).toBe(true)
+    expect(playbackBar).toHaveTextContent('Step 1 of 7')
+    expect(playbackBar).toHaveTextContent('Alert received')
     expect(frame?.contains(selector)).toBe(true)
-    expect(selector.querySelector('ol')?.children).toHaveLength(7)
+    expect(selector.querySelector('ol')?.children).toHaveLength(8)
     expect(controls?.querySelectorAll('button')).toHaveLength(2)
-    expect(screen.getByRole('button', { name: 'Previous tool: On-call investigations' })).toHaveAttribute('data-tooltip', 'Previous tool: On-call investigations')
-    expect(screen.getByRole('button', { name: 'Next tool: Remote code runners' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Previous frame in control-panel tour' })).toHaveAttribute('data-tooltip', 'Previous frame in control-panel tour')
+    expect(screen.getByRole('button', { name: 'Next frame in control-panel tour' })).toBeInTheDocument()
   })
 
   it.each([
@@ -94,12 +125,22 @@ describe('HedwigToolsSimulation', () => {
     ['remote-code', 'Delegated jobs'],
     ['customer-api', 'Weekly SLO attainment'],
     ['databricks-mcp', 'Simulated MCP trace'],
+    ['mcp-library', 'Selected tool policy'],
     ['slack-builder', 'Public channel membership'],
     ['playgrounds-skills', 'Marketplace browse'],
     ['cmd-k-discovery', 'no input or network request'],
   ] as const)('renders the detailed %s compact view', (toolId, expected) => {
     render(<HedwigToolsSimulation mode="compact" toolId={toolId} />)
     expect(screen.getByText(new RegExp(expected, 'i'))).toBeInTheDocument()
+  })
+
+  it('shows recognizable governed integrations in the MCP library', () => {
+    render(<HedwigToolsSimulation mode="compact" toolId="mcp-library" />)
+    expect(screen.getByText(/Slack · search threads/i)).toBeInTheDocument()
+    expect(screen.getByText(/Backstage · service catalog/i)).toBeInTheDocument()
+    expect(screen.getByText(/Confluence · search pages/i)).toBeInTheDocument()
+    expect(screen.getByText(/Grafana · query dashboards/i)).toBeInTheDocument()
+    expect(screen.getByText(/GitLab · draft MR comment/i)).toBeInTheDocument()
   })
 
   it('renders compact control labels as static content while arrows remain external', () => {

@@ -3,6 +3,7 @@ export type HedwigToolId =
   | 'remote-code'
   | 'customer-api'
   | 'databricks-mcp'
+  | 'mcp-library'
   | 'slack-builder'
   | 'playgrounds-skills'
   | 'cmd-k-discovery'
@@ -25,7 +26,7 @@ export interface HedwigTool {
   events: readonly HedwigToolEvent[]
 }
 
-/** Fictional, sanitized scenarios used by every simulation view. */
+/** Scripted scenarios used by every simulation view. */
 export const HEDWIG_TOOLS: readonly HedwigTool[] = [
   {
     id: 'on-call',
@@ -41,6 +42,7 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
       { label: 'Root cause proposed', detail: 'A configuration-change hypothesis lists its supporting evidence.' },
       { label: 'Report completed', detail: 'Reproduce commands, teams to contact, and action items are ready to review.' },
       { label: 'Handoff to human', detail: 'Ticket drafts, re-investigation, and incident creation stay human decisions.' },
+      { label: 'Weekly operations review generated', detail: 'The review groups completed and overdue actions, recurring patterns, and ownership for the weekly team discussion.' },
     ],
   },
   {
@@ -48,13 +50,14 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     number: '02',
     title: 'Remote code runners',
     shortTitle: 'Remote code',
-    summary: 'Choose between delegation and a live workspace without blending their workflows.',
+    summary: 'Keep Errol background jobs distinct from live, interactive coding workspaces.',
     kind: 'remote-code',
     events: [
-      { label: 'Task started', detail: 'A plain-language brief, a model choice, and a repository seed the agent run.' },
-      { label: 'Transcript streamed', detail: 'Tool calls, a task list, and status pills report progress as it happens.' },
+      { label: 'Task started', detail: 'A plain-language brief, model choice, and repository seed the resilient job.' },
+      { label: 'Capacity assigned', detail: 'Queue controls keep parallel work bounded and visible before the job starts.' },
       { label: 'Workspace inspected', detail: 'Files, changes, a preview, and a command audit sit beside the transcript.' },
-      { label: 'Change request opened', detail: 'A draft change request links back to the session that produced it.' },
+      { label: 'Change request opened', detail: 'A draft change request links back to the session, with automated reviewer comments.' },
+      { label: 'Slack thread updated', detail: 'The originating discussion receives a status update and reviewable handoff.' },
       { label: 'Human merge decision', detail: 'Checks and a person gate the merge; delegated tickets run in a separate queue.' },
     ],
   },
@@ -88,8 +91,22 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
     ],
   },
   {
-    id: 'slack-builder',
+    id: 'mcp-library',
     number: '05',
+    title: 'MCP tools library',
+    shortTitle: 'MCP library',
+    summary: 'Discover governed tools through clear ownership, risk, permission, and lifecycle metadata.',
+    kind: 'mcp-library',
+    events: [
+      { label: 'Library opened', detail: 'A searchable tool catalog presents purpose, owner, and lifecycle before selection.' },
+      { label: 'Policy inspected', detail: 'Risk tier and required permission make the tool boundary explicit.' },
+      { label: 'Tool scoped', detail: 'An application requests only the named tool and the smallest permitted context.' },
+      { label: 'Action gated', detail: 'Consequential operations require a human confirmation before execution.' },
+    ],
+  },
+  {
+    id: 'slack-builder',
+    number: '06',
     title: 'Slackbot operations',
     shortTitle: 'Slackbots',
     summary: 'Inspect a bot through its channels, simulation, memory, logs, ratings, and threads.',
@@ -106,7 +123,7 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
   },
   {
     id: 'playgrounds-skills',
-    number: '06',
+    number: '07',
     title: 'Playgrounds & Skills Marketplace',
     shortTitle: 'Playgrounds',
     summary: 'Move an idea through a gated experiment and evidence-led human review.',
@@ -121,7 +138,7 @@ export const HEDWIG_TOOLS: readonly HedwigTool[] = [
   },
   {
     id: 'cmd-k-discovery',
-    number: '07',
+    number: '08',
     title: 'Cmd+K Discovery',
     shortTitle: 'Cmd+K',
     summary: 'Run a fixed discovery query across local and catalog sources with visible lifecycle labels.',

@@ -34,7 +34,7 @@ function OnCallCompact({ stage }: { stage: number }): ReactElement {
         </span>
       </div>
       <div className={styles.metaRow}>
-        <Pill tone={stage >= 4 ? 'ok' : 'info'}>{stage >= 4 ? 'completed' : 'running'}</Pill>
+        <Pill tone={stage >= 6 ? 'ok' : 'info'}>{stage >= 6 ? 'completed' : 'running'}</Pill>
         <Pill tone="danger">high urgency</Pill>
         <span className={styles.metaText}>demo-checkout / payments demo team</span>
       </div>
@@ -76,7 +76,23 @@ function OnCallCompact({ stage }: { stage: number }): ReactElement {
           <Pill tone="danger">fix</Pill> <Pill tone="warn">High</Pill> Revert the demo cache setting
           <button type="button">Create ticket</button>
         </p>
+        <p><Pill tone="ok">done</Pill> Add a guardrail check to the release checklist</p>
       </section>
+      {stage >= 6 ? (
+        <section className={styles.weeklyReview}>
+          <div>
+            <h3>Weekly operations review</h3>
+            <Pill tone="ok">auto-generated</Pill>
+          </div>
+          <p>Recurring cache regressions grouped with owners, completed work, and overdue follow-ups for the weekly review.</p>
+          <ul>
+            <li><strong>Action-item completion</strong><span>42% → 81%</span></li>
+            <li><strong>Completed this week</strong><span>6 actions</span></li>
+            <li><strong>Needs owner review</strong><span>2 actions</span></li>
+          </ul>
+          <small>Structured tracking and clearer action-item UX make follow-through easier to review.</small>
+        </section>
+      ) : null}
       <section className={styles.staticDisclosure}>
         <h3>Slack discussion</h3>
         <ol className={styles.slackStream} aria-label="Fictional streamed Slack discussion">
@@ -104,6 +120,39 @@ function OnCallCompact({ stage }: { stage: number }): ReactElement {
   )
 }
 
+function McpLibraryCompact({ stage }: { stage: number }): ReactElement {
+  const tools = [
+    ['Slack · search threads', 'Read-only', 'Collaboration', 'Active', 0],
+    ['Backstage · service catalog', 'Read-only', 'Developer experience', 'Active', 0],
+    ['Confluence · search pages', 'Read-only', 'Knowledge systems', 'Active', 1],
+    ['Grafana · query dashboards', 'Read-only', 'Observability', 'Active', 1],
+    ['GitLab · draft MR comment', 'Review-gated', 'Developer experience', 'Preview', 2],
+    ['Incident ops · create draft', 'Human-gated', 'Operations', 'Preview', 3],
+  ] as const
+  return (
+    <div className={styles.compactView} data-compact-view="mcp-library">
+      <div className={styles.viewHeader}>
+        <strong className={styles.viewTitle}>MCP tools library</strong>
+        <Pill tone="info">governed catalog</Pill>
+      </div>
+      <div className={styles.libraryTable} role="table" aria-label="MCP tools library">
+        <div role="row" className={styles.libraryHeader}><span role="columnheader">Tool</span><span role="columnheader">Risk</span><span role="columnheader">Owner</span><span role="columnheader">Lifecycle</span></div>
+        {tools.map(([name, risk, owner, lifecycle, readyAt]) => (
+          <div role="row" key={name} data-ready={stage >= readyAt}>
+            <strong role="cell">{name}</strong><span role="cell">{risk}</span><span role="cell">{owner}</span><span role="cell">{stage >= readyAt ? lifecycle : 'Discovering'}</span>
+          </div>
+        ))}
+      </div>
+      <section className={styles.policyCard}>
+        <h3>Selected tool policy</h3>
+        <p><strong>Scope:</strong> one named application · least-privilege context</p>
+        <p><strong>Permission:</strong> {stage >= 1 ? 'reviewed application role required' : 'inspect a tool to see requirements'}</p>
+        <p><strong>Action:</strong> {stage >= 3 ? 'human confirmation required before execution' : 'no consequential action selected'}</p>
+      </section>
+    </div>
+  )
+}
+
 function RemoteCompact({ stage }: { stage: number }): ReactElement {
   const tab = stage >= 4 ? 'delegated' : 'interactive'
   const panelCopy: Record<string, string> = {
@@ -111,7 +160,7 @@ function RemoteCompact({ stage }: { stage: number }): ReactElement {
     Changes: 'Read-only diffs: 2 updated files, 1 added test. Working tree stays inspectable.',
     Preview: 'A demo dev server runs in the sandbox. Status: running · reload and logs stay local.',
     Commands: '3 commands audited: ✔ install · ✔ checks · ✔ package. Export stays local.',
-    'Merge request': 'Draft change request · pipeline: success · description links back to this session.',
+    'Merge request': 'Draft change request · pipeline: success · risk and domain labels applied · AI reviewer comments posted.',
   }
   const panel = Object.keys(panelCopy)[Math.min(stage, Object.keys(panelCopy).length - 1)]
   return (
@@ -154,7 +203,7 @@ function RemoteCompact({ stage }: { stage: number }): ReactElement {
             </section>
             <section>
               <h3>Result handoff</h3>
-              <p>Draft change request · pipeline: success · state gated on review.</p>
+              <p>Draft change request · pipeline: success · automated reviewer comments ready · state gated on review.</p>
               <span className={styles.staticControl}>Confirm merge</span>
               <small className={styles.gateNote}>A person confirms every merge.</small>
             </section>
@@ -172,7 +221,7 @@ function RemoteCompact({ stage }: { stage: number }): ReactElement {
       ) : (
         <div className={styles.detailGrid}>
           <section>
-            <h3>Job queue</h3>
+            <h3>Errol job queue</h3>
             <ul className={styles.convoList} aria-label="Fictional delegated jobs">
               <li><Pill tone="ok">success</Pill><span>Demo ticket A · change request merged</span><small>stage: merged</small></li>
               <li><Pill tone="info">running</Pill><span>Demo ticket B · fixture refresh</span><small>stage: running</small></li>
@@ -181,8 +230,8 @@ function RemoteCompact({ stage }: { stage: number }): ReactElement {
           </section>
           <section>
             <h3>Isolation</h3>
-            <p>One disposable workspace per ticket: dispatched → running → change request opened → merged.</p>
-            <p className={styles.gateNote}>Logs stream out; review happens on the change request, after the fact.</p>
+            <p>One resilient Kubernetes job per ticket: dispatched → running → change request opened → merged.</p>
+            <p className={styles.gateNote}>Capacity stays bounded; retries, logs, MR comments, and Slack thread updates survive beyond the initiating session.</p>
           </section>
         </div>
       )}
@@ -432,6 +481,7 @@ export default function CompactToolView({ toolId, stage }: { toolId: HedwigToolI
   if (toolId === 'remote-code') return <RemoteCompact stage={stage} />
   if (toolId === 'customer-api') return <CustomerApiCompact stage={stage} />
   if (toolId === 'databricks-mcp') return <DatabricksCompact stage={stage} />
+  if (toolId === 'mcp-library') return <McpLibraryCompact stage={stage} />
   if (toolId === 'slack-builder') return <SlackCompact stage={stage} />
   if (toolId === 'playgrounds-skills') return <PlaygroundsCompact stage={stage} />
   return <CmdKCompact stage={stage} />

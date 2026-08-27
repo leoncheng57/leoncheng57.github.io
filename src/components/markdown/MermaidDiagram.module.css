@@ -2,6 +2,10 @@
   margin: 1.75rem 0;
 }
 
+.compact { max-width: 34rem; margin-right: auto; margin-left: auto; }
+.medium { max-width: 48rem; margin-right: auto; margin-left: auto; }
+.full { max-width: 100%; }
+
 .zoomButton {
   display: block;
   width: 100%;
