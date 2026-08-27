@@ -144,6 +144,8 @@ Memory followed the same evidence discipline. The platform implemented bounded r
 
 MCP support separated integration discovery from integration authority. A registry described available servers and capabilities, policy decided which applications or agents could request them, and a gateway provided a controlled execution boundary. Registration did not grant universal access. Typed inputs, scoped credentials, auditability, and application-level tool selection still determined what an agent could do.
 
+### Make the pipeline more deterministic
+
 The design principle was simple: use models where judgment is genuinely useful, and make everything around that judgment as deterministic as possible.
 
 Models interpreted ambiguous requests, explored bounded evidence, and synthesized explanations or proposals. Deterministic software owned the pipeline and the flow: routing each request, selecting the permitted tools and context, validating structured output, enforcing permissions, persisting state, formatting results, advancing lifecycle states, and performing side effects.
@@ -311,7 +313,7 @@ That made the two platforms answers to different coordination problems. Hedwig o
 
 The broad catalog footprint around Pigwidgeon is evidence that it was widely adopted as a hosting path. It is not evidence of monthly active users, application quality, or business impact. As with Hedwig's catalogs, the existence and availability of entries support a narrower claim than sustained use or valuable outcomes.
 
-### Feature tour
+## Feature tour
 
 The eight focused exhibits below gather the domain surfaces in one place, moving from the original on-call workflow through delivery, discovery, and governed integrations. Each one expands a single category from the control-panel tour above.
 
