@@ -206,6 +206,9 @@ describe('blog routes', () => {
       screen.getByRole('region', { name: /interactive control-panel tour of eight AI tools/i })
     ).toBeInTheDocument()
     expect(tableOfContents).toHaveTextContent('Important features to showcase')
+    expect(
+      screen.getByRole('link', { name: 'Feature tour', hidden: true })
+    ).toHaveAttribute('href', '#feature-tour')
     expect(tableOfContents).toHaveTextContent('Historical Timeline')
     expect(screen.getAllByRole('button', { name: /Playgrounds/i })).not.toHaveLength(0)
     expect(screen.getAllByRole('button', { name: /Cmd\+K/i })).not.toHaveLength(0)

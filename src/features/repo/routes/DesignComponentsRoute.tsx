@@ -15,6 +15,7 @@ import LiveIdeFrame from '../../guides/components/LiveIdeFrame'
 import OpenHandsIdeWalkthrough from '../../guides/components/OpenHandsIdeWalkthrough'
 import ToolGrid from '../../guides/components/ToolGrid'
 import { getAllGuides } from '../../guides/content'
+import HedwigToolsSimulation from '../../blog/components/HedwigToolsSimulation'
 import guidesStyles from '../../guides/guides.module.css'
 import RemoteControlStoryboard from '../../opencode-remote-control/components/RemoteControlStoryboard'
 import styles from '../design-components.module.css'
@@ -48,6 +49,7 @@ const timelineSpecimenEntries: HistoricalTimelineEntry[] = [
 ]
 
 const tableOfContentsSpecimenItems: TableOfContentsItem[] = [
+  { id: 'playback-controls-heading', text: 'Simulation playback controls', level: 2 },
   { id: 'cards-heading', text: 'Cards', level: 2 },
   { id: 'catalog-card-heading', text: 'Useful and descriptive', level: 3 },
   { id: 'poster-card-heading', text: 'Graphic and compact', level: 3 },
@@ -120,6 +122,21 @@ export default function DesignComponentsRoute(): ReactElement {
             <span className={styles.betaBadge}>Beta</span>
             <span className={styles.soonBadge}>Coming soon</span>
           </div>
+        </section>
+
+        <section className={styles.showcase} aria-labelledby="playback-controls-heading">
+          <h2 id="playback-controls-heading">Simulation playback controls</h2>
+          <p>
+            Article simulations use this shared playback pattern: previous and next
+            frame controls, the current step and narration in one top bar, and a
+            persistent progress track below the simulated surface. The arrows are
+            the only controls required to follow the scripted sequence.
+          </p>
+          <HedwigToolsSimulation
+            mode="compact"
+            toolId="remote-code"
+            ariaLabel="Simulation playback controls specimen"
+          />
         </section>
 
         <section className={styles.showcase} aria-labelledby="cards-heading">

@@ -111,6 +111,16 @@ describe('repo subpages', () => {
       screen.getByRole('heading', { name: 'Color palette' })
     ).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Cards' })).toBeInTheDocument()
+    const playbackSpecimen = screen.getByRole('region', {
+      name: 'Simulation playback controls specimen',
+    })
+    expect(
+      screen.getByRole('heading', { name: 'Simulation playback controls' })
+    ).toBeInTheDocument()
+    expect(
+      within(playbackSpecimen).getByRole('button', { name: 'Next stage of Remote code runners' })
+    ).toBeInTheDocument()
+    expect(within(playbackSpecimen).getByRole('progressbar')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { name: 'Historical timeline' })
     ).toBeInTheDocument()
@@ -125,8 +135,8 @@ describe('repo subpages', () => {
     const tableOfContentsControls = screen.getByRole('group', {
       name: 'Simulate the active table of contents heading',
     })
-    expect(within(tableOfContentsControls).getAllByRole('button')).toHaveLength(5)
-    fireEvent.click(within(tableOfContentsControls).getByRole('button', { name: '04' }))
+    expect(within(tableOfContentsControls).getAllByRole('button')).toHaveLength(6)
+    fireEvent.click(within(tableOfContentsControls).getByRole('button', { name: '05' }))
     const tableOfContents = screen.getByRole('navigation', { name: 'Table of contents' })
     expect(
       within(tableOfContents).getByRole('link', { name: 'Historical timeline', hidden: true })
@@ -161,7 +171,7 @@ describe('repo subpages', () => {
     expect(
       screen.getByRole('heading', { name: 'Loading bars' })
     ).toBeInTheDocument()
-    expect(screen.getAllByRole('progressbar')).toHaveLength(4)
+    expect(screen.getAllByRole('progressbar')).toHaveLength(5)
     expect(screen.getByText(/authored pacing, low weight/)).toBeInTheDocument()
     expect(
       screen.getByRole('region', { name: 'Live specimen of the simulated application walkthrough' })
