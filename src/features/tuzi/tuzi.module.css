@@ -407,7 +407,8 @@
 .mobileDock a { display: flex; min-height: 4rem; align-items: center; justify-content: center; gap: 0.3rem; color: white; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.02em; text-decoration: none; text-transform: uppercase; }
 .mobileDock a:first-child { background: var(--lime); color: var(--ink); }
 .mobileDock span { font-size: 1rem; }
-.page footer { display: none; }
+/* The footer was hidden while Tuzi had nothing to put there; #198 brings it
+   back with the home link and the shared feedback trigger. */
 
 .explainer { width: min(100% - 1.5rem, 34rem); margin: 0 auto; padding: 2rem 0 4rem; }
 .backLink { display: block; width: fit-content; margin-bottom: 2.5rem; color: var(--ink); font-size: 0.9rem; font-weight: 700; text-underline-offset: 0.2em; }

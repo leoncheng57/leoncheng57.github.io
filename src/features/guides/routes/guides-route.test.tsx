@@ -6,6 +6,19 @@ import App from '../../../App'
 
 const GUIDE_TITLE = 'Running Parallel Coding Agents with a Manager and Workers'
 const GUIDE_PATH = '/guides/manager-worker-parallel-agents'
+const OPENHANDS_GUIDE_TITLE = 'Building a Custom Coding-Agent IDE with OpenHands'
+const OPENHANDS_GUIDE_PATH = '/guides/custom-coding-agent-ide-with-openhands'
+
+const CHAPTER_TITLES = [
+  'Overview',
+  'Run simulator',
+  'Plan the work and set up workers',
+  'Configure worker autonomy',
+  'Launch, review, and land the work',
+  'Workers versus subagents',
+  'Watch the run: a status protocol and a live board',
+  'Reference: contract template and checklists',
+]
 
 describe('guides index route', () => {
   it('lists published guides as cards with chapter previews', () => {
@@ -18,7 +31,7 @@ describe('guides index route', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Guides' })).toBeInTheDocument()
 
     expect(screen.getByRole('link', { name: GUIDE_TITLE })).toHaveAttribute('href', GUIDE_PATH)
-    expect(screen.getByText(/6 chapters/)).toBeInTheDocument()
+    expect(screen.getByText(/8 chapters/)).toBeInTheDocument()
     expect(screen.getAllByText(/updated 2026-/).length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: /read guide/ })[0]).toHaveAttribute(
       'href',
@@ -27,19 +40,52 @@ describe('guides index route', () => {
 
     // The card previews the first chapters without listing all of them.
     expect(screen.getByText('Plan the work and set up workers')).toBeInTheDocument()
-    expect(screen.getByText(/\+3 more/)).toBeInTheDocument()
+    expect(screen.getByText(/\+5 more/)).toBeInTheDocument()
   })
 
-  it('redirects the retired agent-dashboard guide to the watch-the-run chapter', () => {
+  it('lists the custom OpenHands IDE guide with its chapter preview', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const guideLink = screen.getByRole('link', { name: OPENHANDS_GUIDE_TITLE })
+    expect(guideLink).toHaveAttribute('href', OPENHANDS_GUIDE_PATH)
+    // This guide is out of beta; the pill must not come back by accident.
+    expect(within(guideLink.closest('article')!).queryByText('BETA')).toBeNull()
+    expect(screen.getByText('Why not just use Claude Code or OpenCode?')).toBeInTheDocument()
+    expect(screen.getByText('Why build a control plane?')).toBeInTheDocument()
+    expect(screen.getByText('How it was built, layer by layer')).toBeInTheDocument()
+  })
+
+  it('lists the bespoke personal config setup guides', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const cmuxLink = screen.getByRole('link', { name: 'cmux personal config' })
+    expect(cmuxLink).toHaveAttribute('href', '/guides/cmux-personal-config')
+    expect(within(cmuxLink.closest('article')!).getByText('PRIVATE ACCESS')).toBeInTheDocument()
+
+    const opencodeLink = screen.getByRole('link', { name: 'opencode personal config' })
+    expect(opencodeLink).toHaveAttribute('href', '/guides/opencode-personal-config')
+    expect(within(opencodeLink.closest('article')!).getByText('PRIVATE ACCESS')).toBeInTheDocument()
+  })
+
+  it('redirects the retired agent-dashboard guide to the one-pager watch-the-run anchor', () => {
     render(
       <MemoryRouter initialEntries={['/guides/agent-dashboard']}>
         <App />
       </MemoryRouter>
     )
 
+    expect(screen.getByRole('heading', { level: 1, name: GUIDE_TITLE })).toBeInTheDocument()
     expect(
       screen.getByRole('heading', {
-        level: 1,
+        level: 2,
         name: /Watch the run: a status protocol and a live board/,
       })
     ).toBeInTheDocument()
@@ -64,7 +110,102 @@ describe('guides index route', () => {
       </MemoryRouter>
     )
 
-    expect(screen.getByText('BETA')).toBeInTheDocument()
+    // Section badge plus the OpenCode Remote Control card badge.
+    expect(screen.getAllByText('BETA').length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('lists the OpenCode Remote Control interactive guide', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const guideLink = screen.getByRole('link', { name: 'OpenCode Remote Control' })
+    expect(guideLink).toHaveAttribute('href', '/guides/opencode-remote-control')
+
+    const card = within(guideLink.closest('article')!)
+    expect(card.getByRole('link', {
+      name: 'GitHub repository leoncheng57/opencode-remote-control-and-notifications',
+    })).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/opencode-remote-control-and-notifications'
+    )
+  })
+
+  it('links out to the externally hosted agent skills catalogue', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const titleLink = screen.getByRole('link', { name: 'Agent Skills' })
+    expect(titleLink).toHaveAttribute('href', 'https://leoncheng.dev/agent-skills/')
+
+    // A plain anchor, not a router Link: the catalogue is a separate Pages
+    // site, so following it is a full page navigation out of the SPA.
+    const card = within(titleLink.closest('article')!)
+    expect(card.getByRole('link', { name: 'browse skills ↗' })).toHaveAttribute(
+      'href',
+      'https://leoncheng.dev/agent-skills/'
+    )
+    expect(card.getByRole('link', {
+      name: 'GitHub repository leoncheng57/agent-skills',
+    })).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/agent-skills'
+    )
+
+    // No invented review date or reading time for a site this repo does not own.
+    expect(card.getByText('external site')).toBeInTheDocument()
+    expect(card.queryByText(/updated 20/)).not.toBeInTheDocument()
+    expect(card.queryByText(/min read/)).not.toBeInTheDocument()
+  })
+
+  it('leads the index with the agent skills card, ahead of the date-sorted guides', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const skillsCard = screen.getByRole('link', { name: 'Agent Skills' }).closest('article')!
+    const cards = Array.from(skillsCard.parentElement!.querySelectorAll(':scope > article'))
+
+    // Deliberate placement, not a sorting bug: the catalogue outranks the
+    // markdown guides even though those are sorted by updatedAt descending.
+    // Pinned here so a future refactor cannot quietly re-sort it back down.
+    expect(cards.length).toBeGreaterThan(1)
+    expect(cards[0]).toBe(skillsCard)
+    expect(cards.indexOf(screen.getByRole('link', { name: GUIDE_TITLE }).closest('article')!)).toBeGreaterThan(0)
+  })
+
+  it('shows exactly one repository reference on every guide card', () => {
+    render(
+      <MemoryRouter initialEntries={['/guides']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const repoLinks = screen.getAllByRole('link', { name: /^GitHub repository / })
+    const cards = Array.from(document.querySelectorAll('main article'))
+
+    expect(cards).toHaveLength(6)
+    expect(repoLinks).toHaveLength(cards.length)
+    for (const card of cards) {
+      expect(within(card).getAllByRole('link', { name: /^GitHub repository / })).toHaveLength(1)
+      expect(within(card).getByText('AUTHOR-OWNED')).toBeInTheDocument()
+    }
+
+    const managerCard = screen.getByRole('link', { name: GUIDE_TITLE }).closest('article')!
+    expect(within(managerCard).getByText('SOURCE IN THIS REPO')).toBeInTheDocument()
+    expect(within(managerCard).getByRole('link', {
+      name: 'GitHub repository leoncheng57/leoncheng57.github.io',
+    })).toHaveAttribute(
+      'href',
+      'https://github.com/leoncheng57/leoncheng57.github.io/tree/main/alpha-projs/agent-dashboard'
+    )
   })
 })
 
@@ -95,7 +236,7 @@ describe('guide site chrome', () => {
     expect(screen.getByText('BETA')).toBeInTheDocument()
     unmount()
 
-    // Chapter pages share the masthead, so the badge follows them.
+    // Legacy chapter URLs redirect to the one-pager, which shares the masthead.
     render(
       <MemoryRouter initialEntries={[`${GUIDE_PATH}/configure-autonomy`]}>
         <App />
@@ -132,8 +273,85 @@ describe('guide site chrome', () => {
   })
 })
 
-describe('guide overview route', () => {
-  it('renders the guide landing page as a hero with chapter cards', () => {
+describe('guide one-pager', () => {
+  it('renders the custom OpenHands IDE guide as a seven-chapter one-pager', async () => {
+    const user = userEvent.setup()
+    render(
+      <MemoryRouter initialEntries={[OPENHANDS_GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: OPENHANDS_GUIDE_TITLE })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: /narrated scripted preview of the custom OpenHands IDE/i })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: /independently explorable live app UI/i })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Load live simulator' })).toBeInTheDocument()
+    expect(screen.queryByTitle('Customizable DCA — live interactive demo')).not.toBeInTheDocument()
+    // Both screen recordings are embedded from markdown via the component
+    // registry, and both are redacted at encode time.
+    expect(
+      screen.getByLabelText('A screen recording of the custom OpenHands IDE running in a desktop browser.')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('A screen recording of the custom OpenHands IDE running in a mobile browser.')
+    ).toBeInTheDocument()
+    // The walkthrough must be unmistakably a mock-up rather than a recording.
+    expect(screen.getByText('Simulation')).toBeInTheDocument()
+    // The tools chapter is a card grid embedded through the same registry.
+    expect(
+      screen.getByRole('list', { name: /tools built on top of the agent server/i })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'How it was built, layer by layer' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Why not just use Claude Code or OpenCode?',
+      })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Downsides and lessons',
+      })
+    ).toBeInTheDocument()
+
+    const chapters = screen.getByRole('navigation', { name: 'Guide chapters' })
+    await user.click(within(chapters).getByRole('button', { name: /Chapters/ }))
+    expect(within(chapters).getAllByRole('link')).toHaveLength(7)
+
+    // The comparison leads: readers decide whether to build this at all before
+    // reading how it was built. Chapter slugs are prefix-independent, so the
+    // anchors are stable even though the file numbering changed.
+    expect(
+      within(chapters)
+        .getAllByRole('link')
+        .map((link) => link.getAttribute('href'))
+    ).toEqual([
+      '#vs-claude-code-and-opencode',
+      '#why-build-a-control-plane',
+      '#how-it-was-built',
+      '#the-tools-i-built',
+      '#manager-runs-and-dogfooding',
+      '#supervising-from-a-phone',
+      '#downsides-and-lessons',
+    ])
+
+    // "Start reading" follows the reorder automatically.
+    expect(screen.getByRole('link', { name: /Start reading/ })).toHaveAttribute(
+      'href',
+      '#vs-claude-code-and-opencode'
+    )
+  })
+
+  it('renders the hero with exactly two CTAs: start reading and the simulator', () => {
     render(
       <MemoryRouter initialEntries={[GUIDE_PATH]}>
         <App />
@@ -145,48 +363,176 @@ describe('guide overview route', () => {
     expect(screen.getByText(/Last reviewed 2026-/)).toBeInTheDocument()
     expect(screen.getByText(/min read/)).toBeInTheDocument()
 
-    // Hero CTAs
+    // Start reading scrolls to the first chapter anchor on the same page.
     expect(screen.getByRole('link', { name: /Start reading/ })).toHaveAttribute(
       'href',
-      `${GUIDE_PATH}/plan-and-set-up`
+      '#overview'
     )
-    expect(screen.getByRole('link', { name: 'Contents' })).toHaveAttribute(
+    // The simulator CTA carries the waving hand and anchors to its chapter.
+    expect(screen.getByRole('link', { name: /Open the simulator/ })).toHaveAttribute(
       'href',
-      '#guide-contents'
+      '#simulator'
     )
 
-    // The landing page is intro + diagram + contents; detail lives in chapters.
+    // The Contents button and chapter-card contents section are gone.
+    expect(screen.queryByRole('link', { name: 'Contents' })).not.toBeInTheDocument()
     expect(
-      screen.getByText(/A procedure for running several coding agents at once/)
-    ).toBeInTheDocument()
-    expect(screen.queryByRole('heading', { level: 2, name: 'What you get' })).not.toBeInTheDocument()
-
-    const contents = screen.getByRole('navigation', { name: 'Guide contents' })
-    expect(within(contents).getByRole('link', { name: /Plan the work and set up workers/ })).toHaveAttribute(
-      'href',
-      `${GUIDE_PATH}/plan-and-set-up`
-    )
-    expect(
-      within(contents).getByRole('link', { name: /Reference: contract template/ })
-    ).toHaveAttribute('href', `${GUIDE_PATH}/reference`)
-
-    // Chapters 1-3 are grouped separately from the rest.
-    expect(within(contents).getByText('The Procedure')).toBeInTheDocument()
-    expect(within(contents).getByText('Beyond the Basics')).toBeInTheDocument()
-    expect(within(contents).getByText('Watcher Tool')).toBeInTheDocument()
-    expect(within(contents).getByText('Reference')).toBeInTheDocument()
+      screen.queryByRole('navigation', { name: 'Guide contents' })
+    ).not.toBeInTheDocument()
   })
 
-  it('renders the manager/worker ascii diagram on the overview', () => {
+  it('renders the overview intro and every chapter on a single page', () => {
     render(
       <MemoryRouter initialEntries={[GUIDE_PATH]}>
         <App />
       </MemoryRouter>
     )
 
-    expect(screen.getByText((content) => content.includes('manager') && content.includes('worker'), {
-      selector: 'pre code',
-    })).toBeInTheDocument()
+    expect(
+      screen.getByText(/A procedure for running several coding agents at once/)
+    ).toBeInTheDocument()
+
+    for (const title of CHAPTER_TITLES) {
+      expect(screen.getByRole('heading', { level: 2, name: new RegExp(title.slice(0, 24)) })).toBeInTheDocument()
+    }
+
+    // Each chapter section is anchored by its legacy slug for deep links.
+    expect(document.getElementById('plan-and-set-up')).toBeInTheDocument()
+    expect(document.getElementById('watch-the-run')).toBeInTheDocument()
+    expect(document.getElementById('reference')).toBeInTheDocument()
+  })
+
+  it('renders the manager/worker ascii diagram and chapter diagrams together', () => {
+    render(
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getAllByText((content) => content.includes('manager') && content.includes('worker'), {
+        selector: 'pre code',
+      }).length
+    ).toBeGreaterThan(0)
+    expect(
+      screen.getByText(
+        (content) =>
+          content.includes('wave 1') && content.includes('wave 2') && content.includes('wave 3'),
+        { selector: 'pre code' }
+      )
+    ).toBeInTheDocument()
+  })
+
+  it('renders the status example as a file while preserving real terminal blocks', () => {
+    render(
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const statusExample = document.querySelector('code[data-kind="file"]')!
+    expect(statusExample).toHaveTextContent('"task": "agent-dashboard"')
+    expect(statusExample).toHaveAttribute('data-kind', 'file')
+    expect(statusExample).toHaveAttribute('data-filename', '.agent-status.json')
+    expect(within(statusExample).getByText('.agent-status.json')).toBeInTheDocument()
+
+    const cliInvocation = screen.getByText((content) => content.includes('cli.mjs --once'), {
+      selector: 'code',
+    })
+    const boardOutput = screen.getByText((content) => content.includes('CHILD') && content.includes('PHASE'), {
+      selector: 'code',
+    })
+    expect(cliInvocation).not.toHaveAttribute('data-kind')
+    expect(boardOutput).not.toHaveAttribute('data-kind')
+  })
+
+  it('renders the phase lifecycle SVG with meaningful alternative text', () => {
+    render(
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('img', {
+        name: /six normal phases connect from assigned through working.*blocked side state/i,
+      })
+    ).toHaveAttribute(
+      'src',
+      '/guides/manager-worker-parallel-agents/phase-lifecycle.svg'
+    )
+  })
+
+  it('renders chapter tables inside the one-pager body', () => {
+    render(
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const tables = screen.getAllByRole('table')
+    expect(tables.length).toBeGreaterThan(0)
+    expect(within(tables[0]).getAllByRole('row').length).toBeGreaterThan(1)
+  })
+
+  it('exposes a collapsible chapter list of in-page anchors', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
+    const toggle = within(sidebar).getByRole('button', { name: /Chapters/ })
+
+    // Collapsed by default; the button controls the chapter list container.
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    const listId = toggle.getAttribute('aria-controls')
+    expect(listId).toBeTruthy()
+    expect(document.getElementById(listId!)).toBeInTheDocument()
+    expect(
+      within(sidebar).queryByRole('link', { name: /Configure worker autonomy/ })
+    ).not.toBeInTheDocument()
+
+    await user.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      within(sidebar).getByRole('link', { name: /Configure worker autonomy/ })
+    ).toHaveAttribute('href', '#configure-autonomy')
+    expect(within(sidebar).getByText('Start Here')).toBeInTheDocument()
+    expect(within(sidebar).getByText('The Procedure')).toBeInTheDocument()
+    expect(within(sidebar).getByText('Beyond the Basics')).toBeInTheDocument()
+    expect(within(sidebar).getByText('Watcher Tool')).toBeInTheDocument()
+
+    // Choosing a chapter collapses the list again (mobile behavior).
+    await user.click(within(sidebar).getByRole('link', { name: /Configure worker autonomy/ }))
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('marks beta chapters with a pill in the section header and a sidebar marker', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <MemoryRouter initialEntries={[GUIDE_PATH]}>
+        <App />
+      </MemoryRouter>
+    )
+
+    const heading = screen.getByRole('heading', { level: 2, name: /Watch the run/ })
+    expect(within(heading).getByText('Beta')).toBeInTheDocument()
+
+    const stableHeading = screen.getByRole('heading', {
+      level: 2,
+      name: /Configure worker autonomy/,
+    })
+    expect(within(stableHeading).queryByText('Beta')).not.toBeInTheDocument()
+
+    const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
+    await user.click(within(sidebar).getByRole('button', { name: /Chapters/ }))
+    const betaLink = within(sidebar).getByRole('link', { name: /Watch the run/ })
+    expect(within(betaLink).getByText('beta')).toBeInTheDocument()
   })
 
   it('renders a not found state for unknown guides', () => {
@@ -200,78 +546,20 @@ describe('guide overview route', () => {
   })
 })
 
-describe('guide chapter route', () => {
-  it('renders chapter content with sidebar navigation and a pager', () => {
+describe('legacy guide chapter urls', () => {
+  it('redirects chapter urls to the one-pager anchor', () => {
     render(
       <MemoryRouter initialEntries={[`${GUIDE_PATH}/configure-autonomy`]}>
         <App />
       </MemoryRouter>
     )
 
+    // Lands on the one-pager with the chapter present as an anchored section.
+    expect(screen.getByRole('heading', { level: 1, name: GUIDE_TITLE })).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { level: 1, name: 'Configure worker autonomy' })
+      screen.getByRole('heading', { level: 2, name: 'Configure worker autonomy' })
     ).toBeInTheDocument()
-
-    const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
-    const activeLink = within(sidebar).getByRole('link', { name: /Configure worker autonomy/ })
-    expect(activeLink).toHaveAttribute('aria-current', 'page')
-    expect(within(sidebar).getByText('The Procedure')).toBeInTheDocument()
-    expect(within(sidebar).getByText('Beyond the Basics')).toBeInTheDocument()
-    expect(within(sidebar).getByText('Watcher Tool')).toBeInTheDocument()
-
-    expect(screen.getByRole('link', { name: /Previous/ })).toHaveAttribute(
-      'href',
-      `${GUIDE_PATH}/plan-and-set-up`
-    )
-    expect(screen.getByRole('link', { name: /Next/ })).toHaveAttribute(
-      'href',
-      `${GUIDE_PATH}/run-and-review`
-    )
-  })
-
-  it('renders chapter tables inside the article body', () => {
-    render(
-      <MemoryRouter initialEntries={[`${GUIDE_PATH}/configure-autonomy`]}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const tables = screen.getAllByRole('table')
-    expect(tables.length).toBeGreaterThan(0)
-    expect(within(tables[0]).getAllByRole('row').length).toBeGreaterThan(1)
-  })
-
-  it('renders the three-wave split diagram in the first chapter', () => {
-    render(
-      <MemoryRouter initialEntries={[`${GUIDE_PATH}/plan-and-set-up`]}>
-        <App />
-      </MemoryRouter>
-    )
-
-    expect(
-      screen.getByText(
-        (content) =>
-          content.includes('wave 1') && content.includes('wave 2') && content.includes('wave 3'),
-        { selector: 'pre code' }
-      )
-    ).toBeInTheDocument()
-  })
-
-  it('navigates between chapters from the sidebar', async () => {
-    const user = userEvent.setup()
-
-    render(
-      <MemoryRouter initialEntries={[`${GUIDE_PATH}/plan-and-set-up`]}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const sidebar = screen.getByRole('navigation', { name: 'Guide chapters' })
-    await user.click(within(sidebar).getByRole('link', { name: /Workers versus subagents/ }))
-
-    expect(
-      screen.getByRole('heading', { level: 1, name: 'Workers versus subagents' })
-    ).toBeInTheDocument()
+    expect(document.getElementById('configure-autonomy')).toBeInTheDocument()
   })
 
   it('renders a not found state for unknown chapters', () => {

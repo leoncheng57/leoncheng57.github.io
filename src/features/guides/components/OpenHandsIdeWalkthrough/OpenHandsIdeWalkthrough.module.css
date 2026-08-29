@@ -1,0 +1,920 @@
+/*
+ * Styles for the OpenHands IDE walkthrough: a mock of the real browser
+ * control plane (top nav, conversation header, transcript, task list, side
+ * panel, composer, status bar) advanced frame by frame.
+ *
+ * The outer shell follows the guide theme via --gd-*; the window itself is
+ * deliberately dark in both themes, because it is standing in for an
+ * application screenshot rather than for page furniture.
+ */
+
+.walkthrough {
+  /* The overview prose is capped at 74ch, which is far too narrow for a
+     three-column application mock. Break out to the page frame instead:
+     .page pads 1rem either side and .frame caps at 78rem, and the prose
+     column starts at the frame's left edge, so this spans it exactly. */
+  width: min(78rem, calc(100vw - 2rem));
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  /* Deliberately unlike the surrounding article: a dashed accent frame and a
+     tinted ground, so nobody mistakes the mock-up for a screenshot of the
+     real app or for the embedded screen recordings further down. */
+  border: 2px dashed var(--gd-accent, #16825a);
+  border-radius: 12px;
+  background: var(--gd-callout-bg, #e3f7ec);
+  padding: 1.25rem;
+  font-family: var(--gd-body, system-ui, sans-serif);
+  color: var(--gd-ink, #1a1a1a);
+}
+
+.inline {
+  width: auto;
+}
+
+.walkthrough:focus-visible {
+  outline: 2px solid var(--gd-accent, #16825a);
+  outline-offset: 2px;
+}
+
+.banner {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--gd-ink-soft, #383f3c);
+}
+
+.bannerTag {
+  flex: none;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--gd-accent, #16825a);
+  color: var(--gd-accent-contrast, #fff);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------ mock window */
+
+.window {
+  position: relative;
+  border: 1px solid #2c2f33;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #141617;
+  color: #d7dce1;
+  font-family: var(--gd-body, system-ui, sans-serif);
+  box-shadow: var(--gd-shadow, 0 8px 24px rgba(0, 0, 0, 0.18));
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.75rem;
+  background: #1d2023;
+  border-bottom: 1px solid #2c2f33;
+}
+
+.trafficLights {
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.trafficLights span {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+}
+
+.trafficLights span:nth-child(1) {
+  background: #f2564d;
+}
+
+.trafficLights span:nth-child(2) {
+  background: #f5b02f;
+}
+
+.trafficLights span:nth-child(3) {
+  background: #3ac569;
+}
+
+.chromeTitle {
+  font-size: 0.7rem;
+  color: #9aa3ab;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ------------------------------------------------------------- top nav bar */
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid #24272a;
+  background: #17191b;
+}
+
+.brand {
+  font-size: 0.72rem;
+  color: #9aa3ab;
+  margin-right: 0.5rem;
+}
+
+.brand strong {
+  color: #edeef0;
+}
+
+.navItem,
+.navItemActive {
+  font-size: 0.66rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.navItem {
+  color: #8b949c;
+}
+
+.navItemActive {
+  background: #3ecf8e;
+  color: #052e16;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------- conversation UI */
+
+.convHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid #24272a;
+}
+
+.backLink {
+  font-size: 0.66rem;
+  color: #8b949c;
+  text-decoration: underline;
+}
+
+.convTitle {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #edeef0;
+  margin-right: 0.15rem;
+}
+
+.pill {
+  font-size: 0.62rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.pillBusy {
+  background: #10305a;
+  color: #7bb7ff;
+}
+
+.pillWarn {
+  background: #4a3410;
+  color: #f3c266;
+}
+
+.pillOk {
+  background: #10381f;
+  color: #5fd08a;
+}
+
+.planBadge,
+.workspaceBadge {
+  font-size: 0.62rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid #33383d;
+  color: #a8b0b7;
+}
+
+.planBadge {
+  border-color: #2a4a6b;
+  color: #8ec2f5;
+}
+
+.headerButtons {
+  display: inline-flex;
+  gap: 0.3rem;
+  margin-left: auto;
+}
+
+.ghostButton {
+  font-size: 0.62rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #33383d;
+  color: #b9bec2;
+  white-space: nowrap;
+}
+
+.primaryChip {
+  font-size: 0.62rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  background: #3ecf8e;
+  color: #052e16;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------- plan banner + gate strip */
+
+.planBanner,
+.confirmStrip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.7rem;
+  line-height: 1.45;
+  border-bottom: 1px solid #24272a;
+}
+
+.planBanner {
+  background: #0f2436;
+  color: #bcd9f2;
+}
+
+.confirmStrip {
+  background: #33260c;
+  color: #f0d194;
+}
+
+.planActions {
+  display: inline-flex;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+/* ------------------------------------------------------------- work area */
+
+.workArea {
+  display: flex;
+  align-items: stretch;
+  min-height: 15rem;
+}
+
+.transcript {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.6rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.toolRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-size: 0.66rem;
+  color: #9aa3ab;
+  min-width: 0;
+}
+
+.chevron {
+  color: #6d757c;
+}
+
+.bullet {
+  color: #6ea8fe;
+  font-size: 0.55rem;
+}
+
+.toolName {
+  font-weight: 600;
+  color: #c6ccd2;
+  font-family: var(--gd-mono, monospace);
+}
+
+.toolGroupLabel {
+  color: #9aa3ab;
+}
+
+.toolDetail {
+  font-family: var(--gd-mono, monospace);
+  color: #8b949c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.riskBadge {
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  padding: 0 0.3rem;
+  border-radius: 4px;
+  background: #4a3410;
+  color: #f3c266;
+}
+
+.rowTime {
+  margin-left: auto;
+  font-size: 0.6rem;
+  color: #6d757c;
+  white-space: nowrap;
+}
+
+.agentRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.agentText {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: #d7dce1;
+}
+
+.userRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.userBubble {
+  font-size: 0.72rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 10px;
+  background: #24272a;
+  color: #e3e6e9;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.35rem 0;
+}
+
+.separatorRule {
+  flex: 1;
+  height: 1px;
+  background: #2c2f33;
+}
+
+.separatorText {
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #767f87;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------- task list + side panels */
+
+.taskColumn,
+.panelColumn {
+  flex: 0 0 11.5rem;
+  border-left: 1px solid #24272a;
+  padding: 0.6rem;
+  min-width: 0;
+}
+
+.columnHeading {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0 0 0.45rem;
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #767f87;
+}
+
+.taskCounter {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.taskList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.taskItem {
+  display: flex;
+  gap: 0.35rem;
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+.taskGlyph {
+  flex: none;
+}
+
+.taskGlyphDone {
+  color: #5fd08a;
+}
+
+.taskGlyphActive {
+  color: #6ea8fe;
+}
+
+.taskGlyphTodo {
+  color: #6d757c;
+}
+
+.taskTitle {
+  color: #c6ccd2;
+}
+
+.taskTitleDone {
+  color: #767f87;
+  text-decoration: line-through;
+}
+
+/* changes panel */
+
+.changeList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.changeItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  font-size: 0.62rem;
+}
+
+.changePath {
+  font-family: var(--gd-mono, monospace);
+  color: #c6ccd2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.changeStat {
+  font-family: var(--gd-mono, monospace);
+  font-size: 0.58rem;
+}
+
+.added {
+  color: #5fd08a;
+}
+
+.removed {
+  color: #e8796f;
+}
+
+/* preview panel */
+
+.previewStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.64rem;
+  color: #c6ccd2;
+}
+
+.previewDot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #3ac569;
+}
+
+.previewPort {
+  margin-left: auto;
+  font-family: var(--gd-mono, monospace);
+  color: #767f87;
+}
+
+.previewFrame {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem;
+  border: 1px solid #2c2f33;
+  border-radius: 6px;
+  background: #101213;
+}
+
+.previewBar,
+.previewBarWide {
+  height: 0.4rem;
+  border-radius: 3px;
+  background: #24272a;
+}
+
+.previewBarWide {
+  width: 100%;
+}
+
+.previewBar {
+  width: 65%;
+}
+
+.panelFootnote {
+  margin: 0.45rem 0 0;
+  font-size: 0.58rem;
+  color: #6d757c;
+}
+
+/* merge requests panel */
+
+.mrCard {
+  border: 1px solid #2c2f33;
+  border-radius: 6px;
+  padding: 0.5rem;
+  background: #101213;
+}
+
+.mrTitle {
+  margin: 0;
+  font-size: 0.66rem;
+  color: #e3e6e9;
+  line-height: 1.35;
+}
+
+.mrRef {
+  margin: 0.15rem 0 0.4rem;
+  font-size: 0.58rem;
+  color: #767f87;
+  font-family: var(--gd-mono, monospace);
+}
+
+.mrRow {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0 0 0.4rem;
+}
+
+.pipelineChip {
+  font-size: 0.55rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+  border: 1px solid #2f6b45;
+  color: #5fd08a;
+}
+
+.mergeButton,
+.mergeButtonOff {
+  margin-left: auto;
+  font-size: 0.58rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 5px;
+  border: 1px solid #33383d;
+}
+
+.mergeButton {
+  color: #c6ccd2;
+}
+
+.mergeButtonOff {
+  color: #5b6167;
+}
+
+.mrSection {
+  margin: 0.2rem 0 0;
+  font-size: 0.6rem;
+  color: #8b949c;
+}
+
+/* --------------------------------------------------------------- icon rail */
+
+.rail {
+  flex: 0 0 1.6rem;
+  border-left: 1px solid #24272a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0;
+}
+
+.railIcon {
+  font-size: 0.7rem;
+  line-height: 1;
+  color: #6d757c;
+}
+
+/* ---------------------------------------------------------------- composer */
+
+.composer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.7rem;
+  border-top: 1px solid #24272a;
+  background: #17191b;
+}
+
+.composerPlaceholder {
+  flex: 1 1 8rem;
+  font-size: 0.7rem;
+  color: #6d757c;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #2c2f33;
+  border-radius: 8px;
+  min-width: 0;
+}
+
+.composerControls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.modeChip,
+.modeChipActive {
+  font-size: 0.62rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.modeChip {
+  color: #8b949c;
+  border: 1px solid #2c2f33;
+}
+
+.modeChipActive {
+  background: #24272a;
+  color: #edeef0;
+  border: 1px solid #3a4046;
+  font-weight: 600;
+}
+
+.modelSelect {
+  font-size: 0.6rem;
+  color: #8b949c;
+  border: 1px solid #2c2f33;
+  border-radius: 6px;
+  padding: 0.15rem 0.45rem;
+  white-space: nowrap;
+}
+
+.sendButton {
+  font-size: 0.62rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 6px;
+  background: #2f6b45;
+  color: #d7f0e0;
+}
+
+/* -------------------------------------------------------------- status bar */
+
+.statusBar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  border-top: 1px solid #24272a;
+  font-family: var(--gd-mono, monospace);
+  font-size: 0.58rem;
+  color: #767f87;
+}
+
+.statusSpacer {
+  flex: 1;
+}
+
+/* -------------------------------------------------------------- hub screen */
+
+.hubBody {
+  padding: 0.9rem 0.9rem 1.1rem;
+}
+
+.hubHeading {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #edeef0;
+}
+
+.hubSub {
+  margin: 0.2rem 0 0.8rem;
+  font-size: 0.7rem;
+  color: #8b949c;
+}
+
+.hubLabel {
+  margin: 0 0 0.35rem;
+  font-size: 0.62rem;
+  color: #767f87;
+}
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+  margin: 0 0 0.7rem;
+  padding: 0;
+  list-style: none;
+}
+
+.projectCard,
+.projectCardActive {
+  font-size: 0.64rem;
+  padding: 0.3rem 0.45rem;
+  border-radius: 7px;
+  border: 1px solid #2c2f33;
+  color: #b9bec2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.projectCardActive {
+  border-color: #3ecf8e;
+  background: #12291f;
+  color: #d7f0e0;
+}
+
+.worktreeRow {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0 0 0.7rem;
+}
+
+.checkbox {
+  color: #3ecf8e;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.worktreeLabel {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: #e3e6e9;
+}
+
+.worktreeHelp {
+  display: block;
+  font-size: 0.6rem;
+  color: #767f87;
+  line-height: 1.45;
+}
+
+.promptBox {
+  margin: 0 0 0.7rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #2c2f33;
+  border-radius: 8px;
+  font-size: 0.68rem;
+  color: #c6ccd2;
+}
+
+.hubActions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.startButton {
+  margin-left: auto;
+  font-size: 0.64rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  background: #3ecf8e;
+  color: #052e16;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------- toast */
+
+.toast {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 3.4rem;
+  max-width: 15rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #33383d;
+  background: #1d2023;
+  color: #d7dce1;
+  font-size: 0.62rem;
+  line-height: 1.4;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.toastTitle {
+  display: block;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7f888f;
+  margin-bottom: 0.15rem;
+}
+
+/* ---------------------------------------------------------------- controls */
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stepButton,
+.stepButtonPrimary {
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--gd-line, #d0d0d0);
+  background: var(--gd-surface-raised, #f3f5f4);
+  color: var(--gd-ink, #1a1a1a);
+}
+
+.stepButtonPrimary {
+  border-color: var(--gd-accent, #16825a);
+  background: var(--gd-accent, #16825a);
+  color: var(--gd-accent-contrast, #fff);
+  font-weight: 600;
+}
+
+.stepButton:disabled,
+.stepButtonPrimary:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.stepCounter {
+  margin-left: auto;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--gd-muted, #666);
+}
+
+.caption {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--gd-ink-soft, #383f3c);
+}
+
+.captionTitle {
+  display: block;
+  font-weight: 600;
+  color: var(--gd-ink, #1a1a1a);
+  margin-bottom: 0.15rem;
+}
+
+/* --------------------------------------------------- motion & small screens */
+
+@media (max-width: 640px) {
+  .workArea {
+    flex-direction: column;
+  }
+
+  .taskColumn,
+  .panelColumn {
+    flex: none;
+    border-left: none;
+    border-top: 1px solid #24272a;
+  }
+
+  .rail {
+    display: none;
+  }
+
+  .projectGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

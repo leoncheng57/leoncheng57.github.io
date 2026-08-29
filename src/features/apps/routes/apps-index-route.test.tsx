@@ -18,7 +18,7 @@ describe('apps index route', () => {
     const container = renderAppsIndex()
 
     const cards = container.querySelectorAll('article')
-    expect(cards).toHaveLength(5)
+    expect(cards).toHaveLength(6)
 
     cards.forEach((card) => {
       const icon = card.querySelector('img')
@@ -37,6 +37,7 @@ describe('apps index route', () => {
 
     expect(iconSources).toEqual([
       '/app-icons/sub-wait-v2.svg',
+      '/app-icons/weather.svg',
       '/app-icons/game-nights.svg',
       '/app-icons/whoops-hoops.png',
       '/app-icons/house-party-photo-hunt.svg',
@@ -66,6 +67,9 @@ describe('apps index route', () => {
     expect(
       screen.getByRole('heading', { level: 2, name: 'Sub-Wait BETA' })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'NYC Weather BETA' })
+    ).toBeInTheDocument()
   })
 
   it('links to the Game Nights page', () => {
@@ -85,6 +89,7 @@ describe('apps index route', () => {
 
     expect(headings).toEqual([
       'Sub-WaitBETA',
+      'NYC WeatherBETA',
       "Georgie's Game Nights",
       'Whoops Hoops',
       'House Party Photo Hunt',

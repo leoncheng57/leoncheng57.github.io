@@ -6,6 +6,7 @@ import {
   type ReactElement,
 } from 'react'
 import { Link, Route, Routes } from 'react-router-dom'
+import FeedbackTrigger from '../../../components/feedback/FeedbackTrigger'
 import TuziPwa from '../components/TuziPwa'
 import { books, type Book } from '../data/books'
 import { applyComparison, INITIAL_RATING, K_FACTOR, type Ratings } from '../elo'
@@ -342,8 +343,10 @@ export default function TuziRoute(): ReactElement {
       </nav>
 
       <footer>
+        <Link to="/">← LeonCheng.dev</Link>
         <span>Tuzi · an early experiment by Leon</span>
         <Link to="/tuzi/how-ranking-works">How ranking works</Link>
+        <FeedbackTrigger />
       </footer>
     </div>
   )

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { ReactElement } from 'react'
+import { publicAssetUrl } from '../../utils/publicAssetUrl'
 import type { ArticleStyles } from './types'
 
 interface ArticleImageProps {
@@ -11,6 +12,7 @@ interface ArticleImageProps {
 
 export default function ArticleImage({ alt, src, title, styles }: ArticleImageProps): ReactElement {
   const [isOpen, setIsOpen] = useState(false)
+  const resolvedSrc = publicAssetUrl(src)
 
   useEffect(() => {
     if (!isOpen) {
@@ -38,7 +40,7 @@ export default function ArticleImage({ alt, src, title, styles }: ArticleImagePr
           aria-label={`Zoom image: ${alt}`}
           onClick={() => setIsOpen(true)}
         >
-          <img src={src} alt={alt} title={title} className={styles.articleImage} />
+          <img src={resolvedSrc} alt={alt} title={title} className={styles.articleImage} />
         </button>
         {alt ? <figcaption className={styles.figureCaption}>{alt}</figcaption> : null}
       </figure>
@@ -60,7 +62,7 @@ export default function ArticleImage({ alt, src, title, styles }: ArticleImagePr
             >
               Close
             </button>
-            <img src={src} alt={alt} title={title} className={styles.zoomedImage} />
+            <img src={resolvedSrc} alt={alt} title={title} className={styles.zoomedImage} />
           </div>
         </div>
       ) : null}

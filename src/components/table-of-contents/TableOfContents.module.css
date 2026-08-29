@@ -1,0 +1,152 @@
+.tableOfContents {
+  position: sticky;
+  z-index: 20;
+  top: 0.625rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0 0 2rem;
+  overflow: hidden;
+  border: 1px solid var(--hr-color);
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  box-shadow: 0 0.45rem 1.25rem rgb(16 35 61 / 18%);
+  backdrop-filter: blur(0.75rem);
+}
+
+.toggle {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.toggleText {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 0.65rem;
+}
+
+.toggleLabel {
+  flex: 0 0 auto;
+  font-weight: 650;
+}
+
+.activeHeading {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon {
+  flex: 0 0 auto;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.railLabel {
+  display: none;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.list,
+.subsectionList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list {
+  display: none;
+  max-height: 60vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 1rem 1rem;
+}
+
+.list[data-open] {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.subsectionList {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.sectionLink,
+.subsectionLink {
+  display: block;
+  border-left: 2px solid transparent;
+  color: var(--text-muted);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.sectionLink {
+  padding: 0.35rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+.subsectionLink {
+  padding: 0.25rem 0.5rem 0.25rem 1.25rem;
+  font-size: 0.82rem;
+}
+
+.sectionLink[aria-current='location'],
+.subsectionLink[aria-current='location'] {
+  border-left-color: var(--link-color);
+  color: var(--text-primary);
+  font-weight: 650;
+}
+
+@media (min-width: 64rem) {
+  .tableOfContents {
+    top: 2rem;
+    width: 14rem;
+    margin: 0;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .toggle {
+    display: none;
+  }
+
+  .railLabel {
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+
+  .list,
+  .list[data-open] {
+    display: grid;
+    max-height: none;
+    gap: 0.35rem;
+    overflow: visible;
+    padding: 0;
+  }
+}

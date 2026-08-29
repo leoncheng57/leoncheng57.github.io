@@ -10,6 +10,16 @@
   letter-spacing: -0.045em;
 }
 
+.footerSpecimen {
+  margin-top: 1rem;
+  padding: 0 1rem 1rem;
+  border: 2px dashed var(--text-muted);
+}
+
+.footerSpecimen footer {
+  margin-top: 1rem;
+}
+
 .swatchGrid,
 .cardGrid,
 .surfaceGrid {
@@ -152,4 +162,55 @@
   .swatchGrid, .surfaceGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cardGrid { grid-template-columns: 1fr; }
   .catalogCard, .posterCard { grid-column: auto; }
+}
+
+/* Chapters bar & scrollspy specimen: opts into the guide theme variables via
+   guides.module.css .theme so the component renders exactly as shipped. */
+.chaptersNavSpecimen {
+  padding: 1.25rem;
+  border: 2px solid var(--text-primary);
+  border-radius: 4px;
+  background: var(--gd-bg);
+  color: var(--gd-ink);
+  font-family: var(--gd-body);
+}
+
+.simulateRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.9rem;
+}
+
+.simulateButton,
+.simulateButtonActive {
+  min-width: 2.4rem;
+  padding: 0.35rem 0.5rem;
+  border: 2px solid var(--text-primary);
+  border-radius: 4px;
+  background: var(--surface-raised);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.simulateButtonActive {
+  background: var(--link-color);
+  color: #ffffff;
+}
+
+.tableOfContentsSpecimen {
+  position: relative;
+  min-width: 0;
+  padding: 1.25rem;
+  overflow: clip;
+  border: 2px solid var(--text-primary);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+@media (min-width: 64rem) {
+  .tableOfContentsSpecimen {
+    min-height: 18rem;
+  }
 }

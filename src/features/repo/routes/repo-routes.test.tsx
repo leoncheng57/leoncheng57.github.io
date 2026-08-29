@@ -46,6 +46,9 @@ describe('repo navigation', () => {
       within(repoPages).getByText('Design Components').closest('a')
     ).toHaveAttribute('href', '/repo/design-components')
     expect(
+      within(repoPages).getByText('Animations').closest('a')
+    ).toHaveAttribute('href', '/repo/animations')
+    expect(
       within(repoPages).getByText('Alpha Projs').closest('a')
     ).toHaveAttribute('href', '/repo/alpha-projs')
 
@@ -65,6 +68,35 @@ describe('repo navigation', () => {
 })
 
 describe('repo subpages', () => {
+  it('documents the motion system at /repo/animations', () => {
+    render(
+      <MemoryRouter initialEntries={['/repo/animations']}>
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Animations' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'The stack' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Live specimen: the session storyboard' })
+    ).toBeInTheDocument()
+    // The real blog component is rendered as the specimen, not a copy.
+    expect(
+      screen.getByRole('img', { name: 'A session, from idea to merged MR' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Recipes' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Path traveler (SMIL)' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Reduced motion' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Embedding in articles' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Verifying motion' })).toBeInTheDocument()
+  })
+
   it('showcases the visual system at /repo/design-components', () => {
     render(
       <MemoryRouter initialEntries={['/repo/design-components']}>
@@ -79,12 +111,59 @@ describe('repo subpages', () => {
       screen.getByRole('heading', { name: 'Color palette' })
     ).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Cards' })).toBeInTheDocument()
+    const playbackSpecimen = screen.getByRole('region', {
+      name: 'Simulation playback controls specimen',
+    })
+    expect(
+      screen.getByRole('heading', { name: 'Simulation playback controls' })
+    ).toBeInTheDocument()
+    expect(
+      within(playbackSpecimen).getByRole('button', { name: 'Next stage of Remote code runners' })
+    ).toBeInTheDocument()
+    expect(within(playbackSpecimen).getByRole('progressbar')).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Historical timeline' })
+    ).toBeInTheDocument()
+    const timeline = screen.getByRole('region', {
+      name: 'Generic project history specimen',
+    })
+    expect(within(timeline).getAllByRole('article')).toHaveLength(3)
+    expect(within(timeline).getByText('Research notes').tagName).toBe('CODE')
+    expect(
+      screen.getByRole('heading', { name: 'Table of contents' })
+    ).toBeInTheDocument()
+    const tableOfContentsControls = screen.getByRole('group', {
+      name: 'Simulate the active table of contents heading',
+    })
+    expect(within(tableOfContentsControls).getAllByRole('button')).toHaveLength(6)
+    fireEvent.click(within(tableOfContentsControls).getByRole('button', { name: '05' }))
+    const tableOfContents = screen.getByRole('navigation', { name: 'Table of contents' })
+    expect(
+      within(tableOfContents).getByRole('link', { name: 'Historical timeline', hidden: true })
+    ).toHaveAttribute('aria-current', 'location')
+    expect(
+      within(tableOfContents).getByRole('link', { name: 'Useful and descriptive', hidden: true })
+    ).toHaveAttribute('href', '#catalog-card-heading')
     expect(
       screen.getByRole('heading', { name: 'Terminal card' })
     ).toBeInTheDocument()
+
+    // Chapters bar & scrollspy specimen: the live guide TOC with a simulated
+    // scrolled-to chapter controlled by the numbered buttons.
+    expect(
+      screen.getByRole('heading', { name: 'Chapters bar & scrollspy' })
+    ).toBeInTheDocument()
+    const simulateRow = screen.getByRole('group', {
+      name: 'Simulate the scrolled-to chapter',
+    })
+    expect(within(simulateRow).getAllByRole('button').length).toBeGreaterThan(2)
+    const specimenNav = screen.getByRole('navigation', { name: 'Guide chapters' })
+    expect(
+      within(specimenNav).getByRole('button', { name: /Chapters/ })
+    ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /read guide/ })).toHaveAttribute(
       'href',
-      '/guides/manager-worker-parallel-agents'
+      '/guides/custom-coding-agent-ide-with-openhands'
     )
     expect(
       screen.getByRole('heading', { level: 3, name: 'Still taking shape' })
@@ -92,7 +171,18 @@ describe('repo subpages', () => {
     expect(
       screen.getByRole('heading', { name: 'Loading bars' })
     ).toBeInTheDocument()
-    expect(screen.getAllByRole('progressbar')).toHaveLength(4)
+    expect(screen.getAllByRole('progressbar')).toHaveLength(5)
+    expect(screen.getByText(/authored pacing, low weight/)).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: 'Live specimen of the simulated application walkthrough' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Live application frame' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: 'Live specimen of the unloaded application iframe' })
+    ).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: 'Load live simulator' })).toHaveLength(1)
   })
 
   it('documents Google Analytics at /repo/google-analytics', () => {

@@ -1,5 +1,6 @@
 import { useLayoutEffect, useState, type ReactElement } from 'react'
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
+import FeedbackTrigger from '../../../components/feedback/FeedbackTrigger'
 import ChoiceGroup from '../components/ChoiceGroup'
 import ExerciseIllustration from '../components/ExerciseIllustration'
 import ExerciseNameButton from '../components/ExerciseNameButton'
@@ -570,6 +571,7 @@ export default function WorkoutLabRoute(): ReactElement {
           <a href="https://leoncheng.dev/">← LeonCheng.dev</a>
           <span>Workout Lab</span>
           <span>Deterministic sessions · Same inputs, same workout</span>
+          <FeedbackTrigger />
         </footer>
       </div>
       {modal}

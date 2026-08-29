@@ -7,13 +7,17 @@ import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
 import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
 import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
 import BlogPostRoute from './features/blog/routes/BlogPostRoute'
+import CmuxPersonalConfigRoute from './features/cmux-personal-config/routes/CmuxPersonalConfigRoute'
 import GameNightsRoute from './features/game-nights/routes/GameNightsRoute'
 import GuidesIndexRoute from './features/guides/routes/GuidesIndexRoute'
 import GuidesRoute from './features/guides/routes/GuidesRoute'
+import OpencodePersonalConfigRoute from './features/opencode-personal-config/routes/OpencodePersonalConfigRoute'
+import OpenCodeRemoteControlRoute from './features/opencode-remote-control/routes/OpenCodeRemoteControlRoute'
 import AlphaProjsRoute from './features/repo/routes/AlphaProjsRoute'
 import CiRoute from './features/repo/routes/CiRoute'
 import GaTrafficDashboardRoute from './features/repo/routes/GaTrafficDashboardRoute'
 import GmailReaderRoute from './features/repo/routes/GmailReaderRoute'
+import AnimationsRoute from './features/repo/routes/AnimationsRoute'
 import DesignComponentsRoute from './features/repo/routes/DesignComponentsRoute'
 import GoogleAnalyticsRoute from './features/repo/routes/GoogleAnalyticsRoute'
 import PlanningRoute from './features/repo/routes/PlanningRoute'
@@ -21,8 +25,10 @@ import PreviewsRoute from './features/repo/routes/PreviewsRoute'
 import ProductionRoute from './features/repo/routes/ProductionRoute'
 import SubWaitRoute from './features/sub-wait/routes/SubWaitRoute'
 import TuziRoute from './features/tuzi/routes/TuziRoute'
+import WeatherRoute from './features/weather/routes/WeatherRoute'
 import WorkoutLabRoute from './features/workout-lab/routes/WorkoutLabRoute'
 import HomeRoute from './routes/HomeRoute'
+import NotFoundRoute from './routes/NotFoundRoute'
 
 export default function App(): ReactElement {
   return (
@@ -38,10 +44,23 @@ export default function App(): ReactElement {
         <Route
           path="/guides/agent-dashboard/*"
           element={
-            <Navigate to="/guides/manager-worker-parallel-agents/watch-the-run" replace />
+            <Navigate to="/guides/manager-worker-parallel-agents#watch-the-run" replace />
           }
         />
+        {/* Bespoke setup-guide pages; static segments outrank the :slug catch-all. */}
+        <Route
+          path="/guides/cmux-personal-config"
+          element={<CmuxPersonalConfigRoute />}
+        />
+        <Route
+          path="/guides/opencode-personal-config"
+          element={<OpencodePersonalConfigRoute />}
+        />
         <Route path="/guides/:slug/*" element={<GuidesRoute />} />
+        <Route
+          path="/guides/opencode-remote-control"
+          element={<OpenCodeRemoteControlRoute />}
+        />
         <Route
           path="/georgies-board-game-nights"
           element={<GameNightsRoute />}
@@ -52,6 +71,11 @@ export default function App(): ReactElement {
           element={<Navigate to="/georgies-board-game-nights" replace />}
         />
         <Route path="/apps" element={<AppsIndexRoute />} />
+        {/* The page shipped briefly at /opencode-remote-control; keep old links working. */}
+        <Route
+          path="/opencode-remote-control"
+          element={<Navigate to="/guides/opencode-remote-control" replace />}
+        />
         <Route path="/repo" element={<Navigate to="/" replace />} />
         <Route path="/repo/alpha-projs" element={<AlphaProjsRoute />} />
         <Route
@@ -63,6 +87,7 @@ export default function App(): ReactElement {
           element={<GmailReaderRoute />}
         />
         <Route path="/repo/ci" element={<CiRoute />} />
+        <Route path="/repo/animations" element={<AnimationsRoute />} />
         <Route path="/repo/design-components" element={<DesignComponentsRoute />} />
         <Route path="/repo/google-analytics" element={<GoogleAnalyticsRoute />} />
         <Route path="/repo/production" element={<ProductionRoute />} />
@@ -79,6 +104,8 @@ export default function App(): ReactElement {
         <Route path="/workout-lab/*" element={<WorkoutLabRoute />} />
         <Route path="/sub-wait/*" element={<SubWaitRoute />} />
         <Route path="/tuzi/*" element={<TuziRoute />} />
+        <Route path="/weather/*" element={<WeatherRoute />} />
+        <Route path="*" element={<NotFoundRoute />} />
       </Routes>
     </>
   )

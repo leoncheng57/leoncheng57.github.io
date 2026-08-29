@@ -18,16 +18,16 @@ describe('home route recent work', () => {
     expect(cards.map((card) => card.getAttribute('href'))).toEqual([
       '/blog/how-to-work-in-parallel',
       '/blog/practical-dca-workflows',
-      '/guides/manager-worker-parallel-agents',
-      '/tuzi/',
-      '/georgies-board-game-nights',
-      '/sub-wait',
+      '/blog/building-hedwig-ai-tooling-hub',
+      '/guides/custom-coding-agent-ide-with-openhands',
+      '/blog/how-openhands-was-integrated',
+      '/blog/building-house-party-photo-hunt',
     ])
-    expect(within(recentWork).getAllByText('Project')).toHaveLength(1)
-    expect(within(recentWork).getAllByText('App')).toHaveLength(2)
-    expect(within(recentWork).getAllByText('Blog')).toHaveLength(2)
+    expect(within(recentWork).queryAllByText('Project')).toHaveLength(0)
+    expect(within(recentWork).queryAllByText('App')).toHaveLength(0)
+    expect(within(recentWork).getAllByText('Blog')).toHaveLength(5)
     expect(within(recentWork).getAllByText('Guide')).toHaveLength(1)
-    expect(within(recentWork).getAllByText('Alpha')).toHaveLength(1)
-    expect(within(recentWork).getAllByText('Beta')).toHaveLength(1)
+    expect(within(recentWork).queryAllByText('Alpha')).toHaveLength(0)
+    expect(within(recentWork).queryAllByText('Beta')).toHaveLength(0)
   })
 })

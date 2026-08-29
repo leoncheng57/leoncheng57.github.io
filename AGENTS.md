@@ -47,6 +47,14 @@ npm run build
 - Rebuild with `npm run build` when you need updated deployment artifacts in `docs/`.
 - Keep changes small and consistent with the existing simple site structure.
 
+## Filing GitHub Issues
+
+- Use the single issue template at `.github/ISSUE_TEMPLATE/issue.md`
+  (sections: Goal, Context, Scope, Acceptance criteria). Blank issues are
+  disabled, so this template is the default.
+- When creating issues with `gh issue create`, structure the body with the
+  same section headings so issues stay consistent with the template.
+
 ## PR / MR Notes
 
 - When a change has a visible UI impact, include screenshots in the PR/MR description whenever possible.
@@ -56,27 +64,58 @@ npm run build
 ### Automated PR Screenshots (preferred)
 
 CI can capture screenshots for you. Add a fenced `screenshots` block to the
-pull request description with one page path per line:
+pull request description with one `[with-full:]/path[ -- Title]` line per
+page. Wrap it in `ci:screenshots` markers under a `## CI: screenshots`
+heading so the machine-parsed region is clearly separated from prose:
 
 ````md
+<!-- ci:screenshots:start -->
+## CI: screenshots
+
 ```screenshots
-/blog
+/blog -- Blog index with the new card layout
 /blog/some-article
-/workout-lab
+with-full:/blog/some-long-article -- Full article, header through footer
 ```
+<!-- ci:screenshots:end -->
 ````
+
+When both markers are present, the workflow only parses inside that region
+(a stray ```screenshots block elsewhere in the description is ignored). A
+bare block without markers still works for backward compatibility. Each
+marker must sit alone on its own line; prose that merely mentions the
+marker strings does not count.
 
 `.github/workflows/pr-screenshots.yml` runs on every PR open, push, and
 description edit. It builds the app, captures each listed path with
 Playwright (`scripts/ci-screenshots.mjs`), publishes the PNGs to `gh-pages`
 under `previews/pr-<number>/screenshots/`, and maintains a single sticky PR
-comment embedding the images. The images are removed automatically when the
-pull request closes.
+comment embedding the images. Every route gets a 1280x800 viewport capture;
+routes prefixed with `with-full:` also get a full-page desktop image at 1280px
+wide. The images are removed automatically when the pull request closes.
+
+Prefer this workflow over manually captured and committed screenshot
+assets: it keeps image files out of the repository and cleans up after the
+pull request closes. Only commit screenshot assets when CI capture is not
+possible (for example, a state that cannot be reached from a plain URL).
+List only the routes affected by visible UI changes; skip the block
+entirely for pull requests with no UI impact.
 
 Rules for the block:
 
 - Paths must start with `/` and contain no whitespace.
+- Every path gets a 1280x800 viewport capture rendered inline in the sticky
+  comment. Prefix a path with `with-full:` to additionally capture the
+  entire scroll height into a second file with a `--full` suffix; the
+  full-page capture renders collapsed in a `<details>` block under the same
+  section. Use this sparingly: long pages produce large PNGs.
+- Append ` -- Title` (space, two dashes, space) to label a capture. The
+  title becomes the heading in the sticky comment, making it clear what
+  each screenshot shows; without one, the path is used instead. Add titles
+  when the path alone does not explain why the page is listed.
 - Lines starting with `#` are treated as comments and ignored.
+- A `ci:screenshots:start` marker without a matching
+  `<!-- ci:screenshots:end -->` marker fails the workflow.
 - Removing the block (or all paths) updates the sticky comment to say no
   screenshots are requested.
 
@@ -84,7 +123,7 @@ To run the capture locally:
 
 ```bash
 npm run build
-node scripts/ci-screenshots.mjs /blog /apps
+node scripts/ci-screenshots.mjs "/blog -- Blog index" with-full:/apps
 ```
 
 Output lands in `screenshot-output/` (untracked).
@@ -156,6 +195,7 @@ EOF
 - Do not rely on local-only `.playwright-cli/` image paths in PR descriptions.
 - Do not add unnecessary screenshots; include only the views that help reviewers understand the UI change.
 - Prefer naming screenshot assets after the page or state they represent, such as `blog-index.png` or `blog-article.png`.
+- For new published blog posts, verify both the article route and the `/blog` listing route. Published posts also affect the home-page recent-work ordering tests.
 
 ## Deployment Note
 

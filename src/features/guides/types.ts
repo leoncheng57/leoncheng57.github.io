@@ -6,6 +6,8 @@ export interface GuideChapter {
   order: number
   /** Optional group label; consecutive chapters sharing a part render together. */
   part?: string
+  /** Marks a chapter that is still stabilizing; renders a Beta pill. */
+  beta?: boolean
   readingTimeMinutes: number
   content: string
 }
@@ -21,6 +23,11 @@ export interface Guide {
   audience?: string
   tags: string[]
   draft?: boolean
+  /** Marks the full guide as still stabilizing; renders a Beta badge on its card. */
+  beta?: boolean
+  repoUrl?: string
+  repoAccess?: 'public' | 'private'
+  repoScope?: 'standalone' | 'this-site'
   /** Landing-page body, from the guide's `guide.md` file. */
   overview: string
   /** Reading time for the overview plus every chapter. */
@@ -36,10 +43,15 @@ export interface GuideFrontmatter {
   audience?: string
   tags?: string[]
   draft?: boolean
+  beta?: boolean
+  repoUrl?: string
+  repoAccess?: 'public' | 'private'
+  repoScope?: 'standalone' | 'this-site'
 }
 
 export interface GuideChapterFrontmatter {
   title?: string
   description?: string
   part?: string
+  beta?: boolean
 }

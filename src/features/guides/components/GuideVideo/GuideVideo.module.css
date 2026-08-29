@@ -1,0 +1,43 @@
+/*
+ * Silent screen recordings embedded in guide chapters. Landscape captures
+ * fill the article column; portrait phone captures are capped so a 9:19.5
+ * frame does not run off the bottom of the screen.
+ */
+
+.figure {
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--gd-line, #d0d0d0);
+  border-radius: 10px;
+  background: #0d0f10;
+}
+
+.landscape .video {
+  max-width: 100%;
+}
+
+.portrait .video {
+  width: auto;
+  max-width: 100%;
+  max-height: 34rem;
+  align-self: center;
+}
+
+.caption {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--gd-muted, #666);
+}
+
+.portrait .caption {
+  text-align: center;
+}
