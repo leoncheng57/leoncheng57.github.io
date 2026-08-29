@@ -1,6 +1,6 @@
 ---
-title: "Practical DCA Workflows"
-description: "The tactical half of a post about agent latency: how I scope a question worth delegating, which events earn an interruption, what a phone is actually good for, and why a cited file reference should open where I am already reading."
+title: "Early Learnings While Building My Own Desktop Coding Agent (DCA)"
+description: "Four decisions from building my own desktop coding agent: how I scope a question worth delegating, which events earn an interruption, what a phone is actually good for, and why a cited file reference should open where I am already reading."
 publishedAt: "2026-08-30"
 estimateTimeToRead: 7
 tags:
@@ -9,13 +9,15 @@ tags:
   - mobile
 ---
 
-# Practical DCA Workflows
+# Early Learnings While Building My Own Desktop Coding Agent (DCA)
+
+> **The agent itself is not public yet.** This post is a set of early learnings, not an announcement. A fuller write-up of what I am building, with an interactive simulation of the workflows below, is coming once it is ready to show.
 
 I wrote recently about [the cost of waiting on agents](/blog/the-cost-of-waiting-on-agents). The argument there was that latency is not expensive because of the lost minutes. It is expensive because waiting produces frustration, frustration produces an unplanned context switch, and the switch has to be paid back later as context reconstruction.
 
-That post named the problem and stopped. This one is the tactical half: four things I actually do, and the reasoning behind each.
+That post named the problem and stopped. This one is the tactical half: four things I have actually built or changed, and the reasoning behind each.
 
-All of it happens in what I started calling a [desktop coding agent](/blog/ai-coding-agent-desktop-app-comparison-april-2026), or DCA, back when I was comparing them. The specific product matters less than the four decisions.
+All of it comes from building my own [desktop coding agent](/blog/ai-coding-agent-desktop-app-comparison-april-2026), or DCA, which is the label I settled on back when I was comparing the ones that already existed. These four decisions have shaped it more than anything else so far.
 
 ## TL;DR
 
@@ -100,3 +102,5 @@ None of these are about making the agent faster. Three of the four are about not
 That is the pattern I did not see until I wrote them down next to each other. The tempo problem is not really latency. It is that the default arrangement of the work asks me to pay attention at moments the work chose, instead of moments I chose. Each of these moves one of those moments back under my control.
 
 I do not think any of this is finished. But it is the version I would set up again on a new machine tomorrow.
+
+The agent these came out of is still early, and I would rather show it working than describe it. When it is ready there will be a proper write-up, with a simulation you can click through instead of four sections of me asserting things.
