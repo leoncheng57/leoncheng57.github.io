@@ -6,9 +6,8 @@ updatedAt: "2026-08-29"
 estimateTimeToRead: 8
 tags:
   - workflows
-  - parallel-sessions
-  - productivity
   - dca
+  - productivity
 ---
 
 # How to Work in Parallel So You Never Stop and Get Angry Waiting

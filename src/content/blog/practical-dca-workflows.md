@@ -7,9 +7,7 @@ estimateTimeToRead: 7
 tags:
   - workflows
   - dca
-  - productivity
-  - mobile-coding
-  - code-review
+  - mobile
 ---
 
 # Practical DCA Workflows

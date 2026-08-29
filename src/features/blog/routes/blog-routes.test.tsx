@@ -21,14 +21,14 @@ describe('blog routes', () => {
     expect(screen.queryByRole('link', { name: 'Read the blog' })).not.toBeInTheDocument()
     expect(
       screen.getByRole('link', {
-        name: /Running Parallel Coding Agents with a Manager and Workers/i,
+        name: /How to Work in Parallel So You Never Stop and Get Angry Waiting/i,
       })
-    ).toHaveAttribute('href', '/guides/manager-worker-parallel-agents')
+    ).toHaveAttribute('href', '/blog/how-to-work-in-parallel')
     expect(
       screen.getByRole('link', {
-        name: /Worktrees, Remote Coding Agents, and Choosing the Right Kind of Isolation/i,
+        name: /Practical DCA Workflows/i,
       })
-    ).toHaveAttribute('href', '/blog/worktrees-vs-remote-coding-agents')
+    ).toHaveAttribute('href', '/blog/practical-dca-workflows')
   })
 
   it('renders the blog index route', () => {
