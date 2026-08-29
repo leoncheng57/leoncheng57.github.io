@@ -1,5 +1,5 @@
 ---
-title: "How to Work in Parallel So You Never Stop and Get Angry Waiting"
+title: "The Cost of Waiting on Agents"
 description: "Agent latency turns waiting into frustration, and frustration into context switching. A look at where that happens, what it costs, and the practices I am still experimenting with."
 publishedAt: "2026-08-29"
 estimateTimeToRead: 7
@@ -9,7 +9,7 @@ tags:
   - mental-models
 ---
 
-# How to Work in Parallel So You Never Stop and Get Angry Waiting
+# The Cost of Waiting on Agents
 
 Agent sessions changed the tempo of my work. A single instruction can take thirty seconds, or five minutes, or longer. That is fine in isolation. The problem is what I do with those minutes, and what those minutes do to me.
 

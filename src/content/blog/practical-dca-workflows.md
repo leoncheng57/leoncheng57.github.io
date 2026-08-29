@@ -28,7 +28,7 @@ This post will share concise, experience-led insights with enough product contex
 ## References
 
 - GitHub Issue: [#242](https://github.com/leoncheng57/custom-dca-opencode/issues/242)
-- Related: [How to Work in Parallel](./how-to-work-in-parallel.md)
+- Related: [The Cost of Waiting on Agents](./the-cost-of-waiting-on-agents.md)
 
 ---
 

@@ -16,8 +16,8 @@ describe('home route recent work', () => {
 
     expect(cards).toHaveLength(6)
     expect(cards.map((card) => card.getAttribute('href'))).toEqual([
-      '/blog/how-to-work-in-parallel',
       '/blog/practical-dca-workflows',
+      '/blog/the-cost-of-waiting-on-agents',
       '/blog/building-hedwig-ai-tooling-hub',
       '/guides/custom-coding-agent-ide-with-openhands',
       '/blog/how-openhands-was-integrated',

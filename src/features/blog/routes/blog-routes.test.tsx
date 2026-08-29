@@ -21,9 +21,9 @@ describe('blog routes', () => {
     expect(screen.queryByRole('link', { name: 'Read the blog' })).not.toBeInTheDocument()
     expect(
       screen.getByRole('link', {
-        name: /How to Work in Parallel So You Never Stop and Get Angry Waiting/i,
+        name: /The Cost of Waiting on Agents/i,
       })
-    ).toHaveAttribute('href', '/blog/how-to-work-in-parallel')
+    ).toHaveAttribute('href', '/blog/the-cost-of-waiting-on-agents')
     expect(
       screen.getByRole('link', {
         name: /Building Hedwig: From One AI Workflow to an Internal Platform/i,
