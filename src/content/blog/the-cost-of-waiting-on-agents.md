@@ -41,13 +41,19 @@ Then the answer comes back, and I have to rebuild the context I abandoned. I rer
 
 Repeat that a few dozen times a day and the effect is not a slower day. It is a day where I never held a single thought for very long, ended tired, and cannot point to what tired me out. That pattern, sustained, is how work stops being enjoyable.
 
+![The frustration spiral: wait, frustration attaches to the task, forced switch to something else, lose the thread, rebuild context, repeat — sustained, this leads to burnout, not a slower day but a day with no thought held for long.](/blog/the-cost-of-waiting-on-agents/frustration-spiral.svg)
+
 ## What has helped so far
 
 None of these solve it. They reduce how often I hit the worst version of it.
 
+![Interleaved vs. delegated waiting modes: an interactive figure showing two questions interleaved in one thread against a parent session kept free by a background child agent.](component:waiting-modes-simulator)
+
 ### Push the long work into a background child agent
 
 The most useful change has been separating the slow thread from the interactive one. I hand the heavy work to a background child agent — the refactor, the migration, the multi-file change — and keep the parent session free.
+
+![The parent session stays free for quick questions while a background child agent runs the long task and notifies the parent when it needs input.](/blog/the-cost-of-waiting-on-agents/parent-child-split.svg)
 
 The parent session is then available for exactly the thing I used to do badly: quick questions. I can ask something small, get an answer, and ask the next thing, without either blocking the real work or polluting the main context with a digression.
 
