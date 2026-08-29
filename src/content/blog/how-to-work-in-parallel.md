@@ -5,9 +5,9 @@ publishedAt: "2026-08-29"
 updatedAt: "2026-08-29"
 estimateTimeToRead: 8
 tags:
-  - workflows
-  - dca
-  - productivity
+  - workflow
+  - agents
+  - mental-models
 ---
 
 # How to Work in Parallel So You Never Stop and Get Angry Waiting

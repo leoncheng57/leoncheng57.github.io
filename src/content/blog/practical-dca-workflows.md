@@ -5,8 +5,8 @@ publishedAt: "2026-08-29"
 updatedAt: "2026-08-29"
 estimateTimeToRead: 7
 tags:
-  - workflows
-  - dca
+  - workflow
+  - agents
   - mobile
 ---
 
