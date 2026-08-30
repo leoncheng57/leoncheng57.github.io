@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import RouteMetadata from './components/route-metadata/RouteMetadata'
 import ScrollToTop from './components/scroll-to-top/ScrollToTop'
 import AppsIndexRoute from './features/apps/routes/AppsIndexRoute'
@@ -30,6 +30,20 @@ import WorkoutLabRoute from './features/workout-lab/routes/WorkoutLabRoute'
 import HomeRoute from './routes/HomeRoute'
 import NotFoundRoute from './routes/NotFoundRoute'
 
+const DCA_LEARNINGS_ROUTE =
+  '/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca'
+
+function LegacyPracticalDcaWorkflowsRedirect(): ReactElement {
+  const { search, hash } = useLocation()
+
+  return (
+    <Navigate
+      to={{ pathname: DCA_LEARNINGS_ROUTE, search, hash }}
+      replace
+    />
+  )
+}
+
 export default function App(): ReactElement {
   return (
     <>
@@ -38,6 +52,10 @@ export default function App(): ReactElement {
       <Routes>
         <Route path="/" element={<HomeRoute />} />
         <Route path="/blog" element={<BlogIndexRoute />} />
+        <Route
+          path="/blog/practical-dca-workflows"
+          element={<LegacyPracticalDcaWorkflowsRedirect />}
+        />
         <Route path="/blog/:slug" element={<BlogPostRoute />} />
         <Route path="/guides" element={<GuidesIndexRoute />} />
         {/* The standalone agent-dashboard guide was folded into the manager-worker guide. */}

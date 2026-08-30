@@ -1,7 +1,12 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { MemoryRouter, useLocation } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import App from '../../../App'
+
+function LocationProbe() {
+  const { pathname, search, hash } = useLocation()
+  return <output data-testid="location">{`${pathname}${search}${hash}`}</output>
+}
 
 describe('blog routes', () => {
   it('renders the shared top navbar on the home route', () => {
@@ -57,6 +62,14 @@ describe('blog routes', () => {
         name: 'Building Hedwig: From One AI Workflow to an Internal Platform',
       })
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', {
+        name: 'Early Learnings While Building My Own Desktop Coding Agent (DCA)',
+      })
+    ).toHaveAttribute(
+      'href',
+      '/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca'
+    )
     expect(screen.getByText('meta')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Back home' })).toBeInTheDocument()
   })
@@ -184,6 +197,49 @@ describe('blog routes', () => {
     ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { name: 'Why I am calling these Desktop Coding Agents' })
+    ).toBeInTheDocument()
+  })
+
+  it('renders the DCA learnings article at its canonical slug', () => {
+    render(
+      <MemoryRouter
+        initialEntries={[
+          '/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca',
+        ]}
+      >
+        <App />
+      </MemoryRouter>
+    )
+
+    expect(
+      screen.getByRole('heading', {
+        name: 'Early Learnings While Building My Own Desktop Coding Agent (DCA)',
+      })
+    ).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Post not found' })).not.toBeInTheDocument()
+  })
+
+  it('redirects the old DCA article slug while preserving query and hash', async () => {
+    render(
+      <MemoryRouter
+        initialEntries={[
+          '/blog/practical-dca-workflows?from=legacy#sticky-code-review',
+        ]}
+      >
+        <App />
+        <LocationProbe />
+      </MemoryRouter>
+    )
+
+    await waitFor(() => {
+      expect(screen.getByTestId('location')).toHaveTextContent(
+        '/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca?from=legacy#sticky-code-review'
+      )
+    })
+    expect(
+      screen.getByRole('heading', {
+        name: 'Early Learnings While Building My Own Desktop Coding Agent (DCA)',
+      })
     ).toBeInTheDocument()
   })
 

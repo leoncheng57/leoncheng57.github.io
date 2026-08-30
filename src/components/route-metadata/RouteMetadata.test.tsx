@@ -17,6 +17,10 @@ describe('getRouteTitle', () => {
     ['/', "Leon's Website"],
     ['/blog', "Blog | Leon's Website"],
     ['/blog/hello-blog', "Hello Blog | Leon's Website"],
+    [
+      '/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca',
+      "Early Learnings While Building My Own Desktop Coding Agent (DCA) | Leon's Website",
+    ],
     ['/blog/missing-post', "Post Not Found | Leon's Website"],
     ['/guides', "Guides | Leon's Website"],
     [

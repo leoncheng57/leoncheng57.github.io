@@ -16,7 +16,7 @@ describe('home route recent work', () => {
 
     expect(cards).toHaveLength(6)
     expect(cards.map((card) => card.getAttribute('href'))).toEqual([
-      '/blog/practical-dca-workflows',
+      '/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca',
       '/blog/the-cost-of-waiting-on-agents',
       '/blog/building-hedwig-ai-tooling-hub',
       '/guides/custom-coding-agent-ide-with-openhands',

@@ -16,12 +16,12 @@ export default function MobileScreenshotPair({
     <div className={styles.grid} role="region" aria-label={ariaLabel} data-testid="mobile-screenshot-pair">
       <ArticleImage
         alt="Mobile attention queue"
-        src="/blog/practical-dca-workflows/mobile-attention-home.png"
+        src="/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca/mobile-attention-home.png"
         styles={pairStyles}
       />
       <ArticleImage
         alt="Mobile conversation and composer"
-        src="/blog/practical-dca-workflows/mobile-conversation.png"
+        src="/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca/mobile-conversation.png"
         styles={pairStyles}
       />
     </div>

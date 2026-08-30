@@ -52,7 +52,7 @@ A quick lookup can run on a faster, cheaper model. A deeper investigation can us
 
 Foreground and background answer a separate question. A foreground sub-agent blocks the parent when its result is required before the parent can continue. A background sub-agent leaves the parent available while the work continues. The child-sessions panel shows both, and it can move a blocking agent into the background when I realize the parent does not actually need to wait.
 
-![A session with delegated tasks tagged Background or Foreground and labelled with their agent and model, beside a child-sessions panel showing running, launched, failed, and completed children plus a control for moving blocking sub-agents into the background.](/blog/practical-dca-workflows/subagents-panel.png "Model choice and foreground or background execution are properties of each sub-agent; a blocking child can be moved to the background when the parent should stay available.")
+![A session with delegated tasks tagged Background or Foreground and labelled with their agent and model, beside a child-sessions panel showing running, launched, failed, and completed children plus a control for moving blocking sub-agents into the background.](/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca/subagents-panel.png "Model choice and foreground or background execution are properties of each sub-agent; a blocking child can be moved to the background when the parent should stay available.")
 
 Sub-agent notifications also need their own policy. Ordinary child activity and completion are recorded, but not delivered as notifications; otherwise one parent turn can multiply into a stream of low-value interruptions. A permission request is the exception because a child stalled on permission needs a human just as much as a stalled root session does. If auto-permissions can answer it, that event can still be handled and suppressed silently. This is narrower than the notification policy for root sessions, not a replacement for it.
 
@@ -64,13 +64,13 @@ The plumbing for this is not interesting and I have already covered it in [my cm
 
 The mistake I made first was treating "notify" as one switch. What I wanted was a deliberate notification system that alerts me only when something is blocked or ready for my attention, while still keeping a passive record of everything the policy chose not to deliver.
 
-![A dark flowchart beginning with an OpenCode event, checking whether it is a supported notification kind, suppressing non-permission child-session noise and auto-approved permissions while recording both, checking configured channels, and either recording only or recording and delivering through desktop, ntfy, or web push.](/blog/practical-dca-workflows/notification-decision-flow.svg "Every supported event is recorded. Delivery happens only after sub-agent noise, auto-permissions, and channel preferences have been evaluated.")
+![A dark flowchart beginning with an OpenCode event, checking whether it is a supported notification kind, suppressing non-permission child-session noise and auto-approved permissions while recording both, checking configured channels, and either recording only or recording and delivering through desktop, ntfy, or web push.](/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca/notification-decision-flow.svg "Every supported event is recorded. Delivery happens only after sub-agent noise, auto-permissions, and channel preferences have been evaluated.")
 
 The rule underneath it: a finished run can wait, and a blocked one cannot. A completed turn costs nothing by sitting there for ten minutes. A run stalled on a permission prompt is burning the whole reason I delegated it.
 
 The key detail in that flow is that suppressed does not mean forgotten. Supported events are recorded before the delivery decision is applied. The notification popover is therefore an auditable inbox: active permission requests, questions, and ready sessions stay visible, while auto-approved events and ordinary sub-agent noise start folded away. I can unfold either category when I need to understand what happened without letting it train me to ignore the bell.
 
-![A compact dark notification popover with three active rows for a permission, a question, and an idle session, while checked filters report one hidden auto-approved event and one hidden sub-agent event.](/blog/practical-dca-workflows/notification-popover.png "The popover keeps active work visible and suppressed categories auditable. Auto-approved and sub-agent records are folded away by default, not discarded.")
+![A compact dark notification popover with three active rows for a permission, a question, and an idle session, while checked filters report one hidden auto-approved event and one hidden sub-agent event.](/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca/notification-popover.png "The popover keeps active work visible and suppressed categories auditable. Auto-approved and sub-agent records are folded away by default, not discarded.")
 
 This is also why "notify on everything" fails in a specific way rather than a general one. It is not that the volume is annoying. It is that completions teach me to ignore interruptions. Then I ignore the blocking ones too.
 
@@ -86,7 +86,7 @@ The problem is what it costs to check one. A cited reference used to mean leavin
 
 So the fix is to make following a citation not a departure. A file reference opens in a reader beside the conversation, scrolled to the cited range with those lines highlighted. I read it, I close it, I am still in the same paragraph of the same explanation.
 
-![A dark DCA conversation on the left with clickable file citations, beside an in-app workspace file viewer on the right opened to src/index.ts and highlighting the four cited lines from 8 through 11.](/blog/practical-dca-workflows/file-references.png "Clicking src/index.ts:8-11 keeps the transcript in place and opens a read-only sidebar with all four cited lines highlighted.")
+![A dark DCA conversation on the left with clickable file citations, beside an in-app workspace file viewer on the right opened to src/index.ts and highlighting the four cited lines from 8 through 11.](/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca/file-references.png "Clicking src/index.ts:8-11 keeps the transcript in place and opens a read-only sidebar with all four cited lines highlighted.")
 
 Getting this right turned out to be mostly about what *not* to linkify. A path that does not exist, one that escapes the workspace, a dotfile, a generated artifact, a URL that merely looks like a path: every one of those is a control that would waste a click or leak something. The rule I landed on is that a reference becomes a control only when it resolves to a real file inside the project.
 
@@ -106,13 +106,13 @@ A conversation summary is a claim about what happened. Even a good one is compre
 
 That makes it an activity trail rather than another version of the answer. I can filter it to reads, edits, commands, or failures, then jump from an entry back to the exact action in the transcript. When a summary is incomplete, or an old session has already been compacted, I do not have to ask the agent to reconstruct its own history.
 
-![A completed DCA session in dark mode with the Run log open beside the conversation, showing filters for all activity, edits, commands, reads, and failures plus rows for a file read, a two-file edit, and a failed web request.](/blog/practical-dca-workflows/run-log.png "In dark mode, the run log keeps a filterable record of the agent's actual activity beside the transcript and links each entry back to its action.")
+![A completed DCA session in dark mode with the Run log open beside the conversation, showing filters for all activity, edits, commands, reads, and failures plus rows for a file read, a two-file edit, and a failed web request.](/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca/run-log.png "In dark mode, the run log keeps a filterable record of the agent's actual activity beside the transcript and links each entry back to its action.")
 
 I plan to improve this surface. I am somewhat inspired by the detail in DeepSeek Harness's transcript and trajectory view: turns and steps, request metadata and messages, paired tool calls and results, compaction, child lineage, timing, usage, failures, and what replaced an earlier surface. The current Run log does not match that depth. It is a useful activity trail today, and that trajectory is a good reference for the richer audit detail I would like it to accumulate over time.
 
 The related pull request belongs in the same category. Once a session has opened a PR or MR, its link, state, checks, description, review comments, and approval status should remain visible beside the active work. Otherwise I end up scrolling through the transcript to find the link, prompting the agent to repeat it, or leaving the app just to learn whether review has moved.
 
-![A completed DCA session dimmed behind a dark Reviews drawer showing an open mock pull request, checks status, expanded description, discussion comment, approval, and test job.](/blog/practical-dca-workflows/related-pull-request.png "The dark Reviews drawer keeps the related pull request's status, checks, description, and comments beside the session instead of burying them in its transcript.")
+![A completed DCA session dimmed behind a dark Reviews drawer showing an open mock pull request, checks status, expanded description, discussion comment, approval, and test job.](/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca/related-pull-request.png "The dark Reviews drawer keeps the related pull request's status, checks, description, and comments beside the session instead of burying them in its transcript.")
 
 Neither surface replaces reviewing the code or checking the underlying evidence. They make that evidence and status cheap to retrieve. That is a smaller claim, and a more useful one.
 
@@ -124,7 +124,7 @@ I initially treated every piece of repeatable agent behavior as roughly the same
 
 The picker sits beside the composer, and one reminder applies to the next message only. `Cite File Lines` is a concrete example: attach it when the next answer should point back to verifiable source locations, then let it clear after that message is sent.
 
-![A compact dark reminder picker filtered to Cite File Lines, with its details control and a footer explaining that one reminder applies to the next message only.](/blog/practical-dca-workflows/reminder-picker.png "The reminder picker stays beside the composer and scopes Cite File Lines to the next message only.")
+![A compact dark reminder picker filtered to Cite File Lines, with its details control and a footer explaining that one reminder applies to the next message only.](/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca/reminder-picker.png "The reminder picker stays beside the composer and scopes Cite File Lines to the next message only.")
 
 **Workflows guide recurring multi-step actions.** They can collect and validate inputs, show the sequence that will run, and preview what will be sent before anything starts. That is useful for recurring coordination where the shape of the action matters, not just the wording of a prompt snippet. The flow stays inspectable instead of being hidden inside one large instruction.
 
