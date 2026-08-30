@@ -36,11 +36,9 @@ I can drive a session from my phone over a private tailnet. The honest version o
 
 What works is returning to a small list of sessions that need attention, opening one, reading enough context to make a short decision, then getting out again. The home screen makes that first step explicit rather than asking me to remember which agent was waiting.
 
-![A phone-width DCA home screen with the main heading, a Needs attention panel containing two sessions waiting on permission or a question, and a Recently active list directly below.](/blog/practical-dca-workflows/mobile-attention-home.png "The mobile home screen puts sessions that need attention above the ordinary recent-session list, so returning to blocked work takes one tap.")
-
 Inside a session, the useful actions are similarly narrow: read the latest turn, steer the next one, switch between Plan and Build, change the model, attach a reminder, or start a known workflow. The mobile UI is not pretending that a phone is a spacious workstation. It makes short supervision possible without reducing the conversation and composer to a desktop layout squeezed into 390 pixels.
 
-![A clean DCA conversation at phone width, showing the end of an agent transcript and a composer with Plan and Build modes, model selection, attachment, reminder, workflow, and send controls.](/blog/practical-dca-workflows/mobile-conversation.png "A clean mobile conversation keeps the transcript and the small set of steering controls in one view, which is enough for short supervision without claiming to replace desk work.")
+![The mobile home attention queue and a clean mobile conversation with its composer shown side by side.](component:mobile-screenshot-pair)
 
 Installing the site as a PWA is a particularly good fit for this limited job. It launches from the home screen, uses the whole screen, and stays separate from the pile of normal browser tabs. There is no App Store release to install or keep in sync: it is still the same responsive browser app, with the same sessions, delivered in a form that makes checking a blocked run feel like opening a tool instead of recovering an old tab.
 
@@ -123,6 +121,10 @@ Neither surface replaces reviewing the code or checking the underlying evidence.
 I initially treated every piece of repeatable agent behavior as roughly the same kind of prompt. The two mechanisms I now reach for here have different jobs.
 
 **Reminders keep operating context visible at the right moment.** A reminder is a small instruction attached to a message or situation where it matters. It might restate a safety boundary or a local convention before a run. It is not a reusable capability, and loading it everywhere would turn a timely nudge into permanent prompt noise.
+
+The picker sits beside the composer, and one reminder applies to the next message only. `Cite File Lines` is a concrete example: attach it when the next answer should point back to verifiable source locations, then let it clear after that message is sent.
+
+![A compact dark reminder picker filtered to Cite File Lines, with its details control and a footer explaining that one reminder applies to the next message only.](/blog/practical-dca-workflows/reminder-picker.png "The reminder picker stays beside the composer and scopes Cite File Lines to the next message only.")
 
 **Workflows guide recurring multi-step actions.** They can collect and validate inputs, show the sequence that will run, and preview what will be sent before anything starts. That is useful for recurring coordination where the shape of the action matters, not just the wording of a prompt snippet. The flow stays inspectable instead of being hidden inside one large instruction.
 
