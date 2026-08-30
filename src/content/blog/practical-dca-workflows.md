@@ -15,6 +15,8 @@ tags:
 
 Most [desktop coding agents](/blog/ai-coding-agent-desktop-app-comparison-april-2026) are good products that I cannot change. What the model picker offers, when a notification fires, what happens when a run finishes, what a file reference does when I click it: all decided by someone else, and sensible defaults for most people. I kept wanting different answers than the ones I was given.
 
+I tried the alternatives first. Claude Desktop, the Codex app, Cursor's agent mode. Each one is well built, and each one is still someone else's five decisions, not mine.
+
 So I started building my own on top of `opencode serve`. A browser UI, a small server beside it, and the agent running on my machine with my tools.
 
 The screenshots below are the real interface running against a mock backend, so nothing in them is a real repository of mine.
