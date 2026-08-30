@@ -1,8 +1,8 @@
 ---
 title: "Early Learnings While Building My Own Desktop Coding Agent (DCA)"
-description: "Early workflow and customization lessons from building my own desktop coding agent: mobile supervision, delegation, interruptions, evidence, Playbooks, and local execution."
+description: "Early customization lessons from building my own desktop coding agent: mobile supervision, sub-agents, deliberate notifications, sticky review, audit trails, and playbooks beside chat."
 publishedAt: "2026-08-30"
-estimateTimeToRead: 11
+estimateTimeToRead: 13
 tags:
   - workflow
   - agents
@@ -24,68 +24,55 @@ The screenshots below are the real interface running against a mock backend, so 
 ## TL;DR
 
 - From a phone, steer and unblock rather than author. Installing the responsive app as a PWA makes that narrow job feel natural.
-- Delegate a bounded side question when I do not need to watch the answer arrive.
-- Interrupt me when a run is blocked, not when it is finished.
-- A cited `file:line` belongs where I am already reading, not in a second application.
+- Customize each sub-agent's model and whether it runs in the foreground, background, or as a manually prompted Managed Child.
+- Create a deliberate notification system that alerts me only when something is blocked or ready for my attention.
+- Make every cited `file:line` open an in-app file viewer with the relevant changes highlighted, without leaving what I am already reading.
 - Keep the run log and related pull request evidence beside the work, so status does not disappear into the transcript.
-- Keep reminders, reusable skills, and guided workflows separate. They solve different context and coordination problems.
+- Keep reminders, workflows, and other playbooks beside the chat input so recurring patterns are faster to find and run.
 
 ## What a phone is actually good for
 
 I can drive a session from my phone over a private tailnet. The honest version of what that buys me is narrower than it sounds. I wrote up the setup separately in the [remote control guide](/guides/opencode-remote-control).
 
-What works: answering a permission prompt, replying to a question that is blocking a run, reading a final summary, and queueing the next instruction. All of these are short. All of them are unblocking rather than authoring.
+What works is returning to a small list of sessions that need attention, opening one, reading enough context to make a short decision, then getting out again. The home screen makes that first step explicit rather than asking me to remember which agent was waiting.
 
-![The same session on a phone-width screen: a banner saying the run did not finish, a bash needs approval prompt with Allow once, Always and Reject buttons, and a blocking question asking which environment to deploy to.](/blog/practical-dca-workflows/phone-unblock.png "Everything a phone is good for is on this screen: approve, answer, resume. Nothing here asks me to write anything.")
+![A phone-width DCA home screen with the main heading, a Needs attention panel containing two sessions waiting on permission or a question, and a Recently active list directly below.](/blog/practical-dca-workflows/mobile-attention-home.png "The mobile home screen puts sessions that need attention above the ordinary recent-session list, so returning to blocked work takes one tap.")
 
-What does not work: anything that needs me to hold a lot on screen at once. I am not going to plan an architecture from a phone. Until recently I would have said the same about reviewing a diff of any size. The [supervising from a phone chapter](/guides/custom-coding-agent-ide-with-openhands/supervising-from-a-phone) puts a large diff firmly in the "better at a desk" column, and that was true when I wrote it.
+Inside a session, the useful actions are similarly narrow: read the latest turn, steer the next one, switch between Plan and Build, change the model, attach a reminder, or start a known workflow. The mobile UI is not pretending that a phone is a spacious workstation. It makes short supervision possible without reducing the conversation and composer to a desktop layout squeezed into 390 pixels.
 
-Installing the site as a PWA is a particularly good fit for this limited job. It launches from the home screen, gets a full-screen app feel, and stays separate from the pile of normal browser tabs. There is no App Store release to install or keep in sync. It is still the same responsive browser app, just presented in a way that makes a quick approval or reply feel like opening a tool rather than finding an old tab.
+![A clean DCA conversation at phone width, showing the end of an agent transcript and a composer with Plan and Build modes, model selection, attachment, reminder, workflow, and send controls.](/blog/practical-dca-workflows/mobile-conversation.png "A clean mobile conversation keeps the transcript and the small set of steering controls in one view, which is enough for short supervision without claiming to replace desk work.")
+
+Installing the site as a PWA is a particularly good fit for this limited job. It launches from the home screen, uses the whole screen, and stays separate from the pile of normal browser tabs. There is no App Store release to install or keep in sync: it is still the same responsive browser app, with the same sessions, delivered in a form that makes checking a blocked run feel like opening a tool instead of recovering an old tab.
 
 What makes the phone worth setting up is that a blocked run is the expensive state. A two-minute reply from a supermarket queue can restart something that would otherwise sit blocked until evening. That is most of the value. It is the difference between supervising a run and babysitting one.
 
-## Scoping a side question worth delegating
+## Customizing how sub-agents run
 
-The [previous post](/blog/the-cost-of-waiting-on-agents) left an open question: how small does a question have to be before delegating it costs more than answering it myself?
+The useful thing about sub-agents in this setup is not simply that there can be more than one. It is that each one can have a different job, agent, model, and relationship to the parent session.
 
-I have a working answer now, and it is not about size. It is about whether I need to watch.
+A quick lookup can run on a faster, cheaper model. A deeper investigation can use a more capable model without moving the whole parent conversation onto it. The choice belongs to the delegated task rather than becoming a global setting I have to keep changing back.
 
-A question is worth delegating when the answer is bounded, mostly read-only, and useful to me whole. "Which components import this hook" is a good delegation. So is "summarize what this migration changed" and "find every place we set this header". Each has an end state I can recognize when it arrives, and none of them need my judgment partway through.
+Foreground and background answer a separate question. A foreground sub-agent blocks the parent when its result is required before the parent can continue. A background sub-agent leaves the parent available while the work continues. The child-sessions panel shows both, and it can move a blocking agent into the background when I realize the parent does not actually need to wait.
 
-A question is not worth delegating when I would have to supervise the middle of it. Anything where the second step depends on my reaction to the first is cheaper to just do. The delegation cost is not the tokens. It is writing a prompt precise enough to survive without me.
+![A session with delegated tasks tagged Background or Foreground and labelled with their agent and model, beside a child-sessions panel showing running, launched, failed, and completed children plus a control for moving blocking sub-agents into the background.](/blog/practical-dca-workflows/subagents-panel.png "Model choice and foreground or background execution are properties of each sub-agent; a blocking child can be moved to the background when the parent should stay available.")
 
-Two details make this work in practice.
+Sub-agent notifications also need their own policy. Ordinary child activity and completion are recorded, but not delivered as notifications; otherwise one parent turn can multiply into a stream of low-value interruptions. A permission request is the exception because a child stalled on permission needs a human just as much as a stalled root session does. If auto-permissions can answer it, that event can still be handled and suppressed silently. This is narrower than the notification policy for root sessions, not a replacement for it.
 
-**Give the digression its own session.** The point is not parallelism. It is that the question leaves my main thread without leaving a residue in it. A side question answered inline is still a topic change in the transcript I have to read past later.
-
-**Use a cheaper model for it.** Bounded lookups do not need the expensive model. Reserve that for work where the reasoning is the product.
-
-![A session with four delegated tasks, each tagged either Background or Foreground with its agent and model, beside a child-sessions panel showing running, launched, failed and completed counts and a prompt to move blocking sub-agents into the background.](/blog/practical-dca-workflows/subagents-panel.png "Foreground sub-agents block the session they were launched from. The panel offers to move them to the background so the parent stays answerable.")
-
-The distinction the interface ended up needing was foreground against background, not parent against child. A foreground sub-agent blocks the session that launched it, which is occasionally what I want and usually not.
-
-Sometimes a bounded lookup is really a persistent worker wearing a disguise. I wrote up that distinction in [the workers versus subagents chapter](/guides/manager-worker-parallel-agents/workers-vs-subagents) of the parallel agents guide.
+I can also launch a **Managed Child** manually. It gets its own promptable conversation, agent, model, and creation-time policy. That is useful when a side investigation or behavior check is likely to need follow-up questions rather than one answer handed back to the parent. The important distinction is not just how the child started; it is whether I want a one-shot result or another conversation I can continue steering independently.
 
 ## Deciding what earns an interruption
 
 The plumbing for this is not interesting and I have already covered it in [my cmux setup](/blog/my-cmux-setup-for-parallel-ai-coding). The policy is the part worth arguing about.
 
-The mistake I made first was treating "notify" as one switch. It is at least two. There is a passive signal, which I will see whenever I next look. And there is an interrupting signal, which takes my attention now whether or not I was ready.
+The mistake I made first was treating "notify" as one switch. What I wanted was a deliberate notification system that alerts me only when something is blocked or ready for my attention, while still keeping a passive record of everything the policy chose not to deliver.
 
-Sorting events by which one they deserve produces a table that has stayed stable for months:
-
-| Event | Passive signal | Interrupts me |
-| --- | --- | --- |
-| Turn complete | Yes | No |
-| Permission requested | Yes | Yes |
-| Plan needs review | Yes | Yes |
-| Question asked | Yes | Yes |
+![A dark flowchart beginning with an OpenCode event, checking whether it is a supported notification kind, suppressing non-permission child-session noise and auto-approved permissions while recording both, checking configured channels, and either recording only or recording and delivering through desktop, ntfy, or web push.](/blog/practical-dca-workflows/notification-decision-flow.svg "Every supported event is recorded. Delivery happens only after sub-agent noise, auto-permissions, and channel preferences have been evaluated.")
 
 The rule underneath it: a finished run can wait, and a blocked one cannot. A completed turn costs nothing by sitting there for ten minutes. A run stalled on a permission prompt is burning the whole reason I delegated it.
 
-![The project hub with a Needs attention banner pinned above the session lists, showing one running session that requires input, while idle sessions sit below it in a recently active list.](/blog/practical-dca-workflows/needs-attention-hub.png "The passive half: a Needs attention list I read when I choose to, rather than a notification that decides for me.")
+The key detail in that flow is that suppressed does not mean forgotten. Supported events are recorded before the delivery decision is applied. The notification popover is therefore an auditable inbox: active permission requests, questions, and ready sessions stay visible, while auto-approved events and ordinary sub-agent noise start folded away. I can unfold either category when I need to understand what happened without letting it train me to ignore the bell.
 
-The passive signal needed somewhere to live, which turned into a "needs attention" list at the top of the hub. It answers the question I actually have when I come back to the desk, which is not "what happened" but "which one of these is waiting on me".
+![A compact dark notification popover with three active rows for a permission, a question, and an idle session, while checked filters report one hidden auto-approved event and one hidden sub-agent event.](/blog/practical-dca-workflows/notification-popover.png "The popover keeps active work visible and suppressed categories auditable. Auto-approved and sub-agent records are folded away by default, not discarded.")
 
 This is also why "notify on everything" fails in a specific way rather than a general one. It is not that the volume is annoying. It is that completions teach me to ignore interruptions. Then I ignore the blocking ones too.
 
@@ -101,7 +88,7 @@ The problem is what it costs to check one. A cited reference used to mean leavin
 
 So the fix is to make following a citation not a departure. A file reference opens in a reader beside the conversation, scrolled to the cited range with those lines highlighted. I read it, I close it, I am still in the same paragraph of the same explanation.
 
-![An agent message where src/index.ts:12, src/index.ts:8-11 and docs/guide.md#L1-L3 are rendered as clickable controls, while a missing path, a traversal path, a dotfile, a generated file, an external URL and a prose mention of the same filename are all left as plain text.](/blog/practical-dca-workflows/file-references.png "Only real, in-workspace paths become controls. A missing file, a traversal attempt, a dotfile, an external URL and a prose mention of the same name all stay inert.")
+![A dark DCA conversation on the left with clickable file citations, beside an in-app workspace file viewer on the right opened to src/index.ts and highlighting the four cited lines from 8 through 11.](/blog/practical-dca-workflows/file-references.png "Clicking src/index.ts:8-11 keeps the transcript in place and opens a read-only sidebar with all four cited lines highlighted.")
 
 Getting this right turned out to be mostly about what *not* to linkify. A path that does not exist, one that escapes the workspace, a dotfile, a generated artifact, a URL that merely looks like a path: every one of those is a control that would waste a click or leak something. The rule I landed on is that a reference becomes a control only when it resolves to a real file inside the project.
 
@@ -121,27 +108,42 @@ A conversation summary is a claim about what happened. Even a good one is compre
 
 That makes it an activity trail rather than another version of the answer. I can filter it to reads, edits, commands, or failures, then jump from an entry back to the exact action in the transcript. When a summary is incomplete, or an old session has already been compacted, I do not have to ask the agent to reconstruct its own history.
 
-![A completed DCA session with the Run log tab open beside the conversation, showing filters for all activity, edits, commands, reads and failures, plus timestamped rows for a file read, a two-file edit, and a failed web request.](/blog/practical-dca-workflows/run-log.png "The run log records the agent's actual activity and links each entry back to the corresponding transcript action.")
+![A completed DCA session in dark mode with the Run log open beside the conversation, showing filters for all activity, edits, commands, reads, and failures plus rows for a file read, a two-file edit, and a failed web request.](/blog/practical-dca-workflows/run-log.png "In dark mode, the run log keeps a filterable record of the agent's actual activity beside the transcript and links each entry back to its action.")
+
+I plan to improve this surface. I am somewhat inspired by the detail in DeepSeek Harness's transcript and trajectory view: turns and steps, request metadata and messages, paired tool calls and results, compaction, child lineage, timing, usage, failures, and what replaced an earlier surface. The current Run log does not match that depth. It is a useful activity trail today, and that trajectory is a good reference for the richer audit detail I would like it to accumulate over time.
 
 The related pull request belongs in the same category. Once a session has opened a PR or MR, its link, state, checks, description, review comments, and approval status should remain visible beside the active work. Otherwise I end up scrolling through the transcript to find the link, prompting the agent to repeat it, or leaving the app just to learn whether review has moved.
 
-![A DCA review drawer beside a completed session, showing an open mock pull request with checks status, expanded review notes, a discussion comment, an approval, and a failed test job.](/blog/practical-dca-workflows/related-pull-request.png "Related pull requests keep review status, checks, and comments beside the session instead of burying them in its transcript.")
+![A completed DCA session dimmed behind a dark Reviews drawer showing an open mock pull request, checks status, expanded description, discussion comment, approval, and test job.](/blog/practical-dca-workflows/related-pull-request.png "The dark Reviews drawer keeps the related pull request's status, checks, description, and comments beside the session instead of burying them in its transcript.")
 
 Neither surface replaces reviewing the code or checking the underlying evidence. They make that evidence and status cheap to retrieve. That is a smaller claim, and a more useful one.
 
-## Playbooks are three different things
+## Reminders and workflows beside the chat
 
-I initially treated every piece of repeatable agent behavior as roughly the same kind of prompt. That is convenient until there are enough of them to manage. Reminders, skills, and workflows have different jobs.
+I initially treated every piece of repeatable agent behavior as roughly the same kind of prompt. The two mechanisms I now reach for here have different jobs.
 
 **Reminders keep operating context visible at the right moment.** A reminder is a small instruction attached to a message or situation where it matters. It might restate a safety boundary or a local convention before a run. It is not a reusable capability, and loading it everywhere would turn a timely nudge into permanent prompt noise.
 
-**Skills and commands package reusable instructions or capabilities.** I invoke them intentionally when a task needs a known procedure. They can have zero or very low at-rest context because the full instructions load only when needed. That makes a skill suitable for something I want to reuse without paying for it, or asking the model to notice it, in every unrelated conversation.
-
 **Workflows guide recurring multi-step actions.** They can collect and validate inputs, show the sequence that will run, and preview what will be sent before anything starts. That is useful for recurring coordination where the shape of the action matters, not just the wording of a prompt snippet. The flow stays inspectable instead of being hidden inside one large instruction.
 
-![The DCA Playbooks catalogue at 1280 by 900 pixels, with a work-in-progress warning, counts for commands, workflows and at-rest tokens, filters for each category, and the first reusable command cards.](/blog/practical-dca-workflows/playbooks-catalog.png "The Playbooks catalogue separates intentionally invoked commands from guided workflows and reports their at-rest context cost. Its UI is still work in progress.")
+Both live beside the chat input, because that is where I notice that a situation needs context or a recurring action needs structure. Hiding them in a separate catalogue would make the reusable behavior harder to find at the moment it is useful.
 
-The screenshot says it plainly: the Playbooks UI is still work in progress. The separation is the part I already trust. These three mechanisms have different lifecycles, scope, and review needs. A reminder changes with the situation, a skill changes with a reusable practice, and a workflow changes with a coordinated process. Combining all of them into one giant prompt makes each harder to find, trust, and change.
+```text
+                               beside the chat input
+
+  situation needs context                         recurring action needs structure
+            |                                                   |
+            v                                                   v
+      +-----------+                                      +--------------+
+      | reminder  |                                      | workflow     |
+      | short rule|                                      | guided steps |
+      +-----------+                                      +--------------+
+            |                                                   |
+            +---------------------> next prompt <---------------+
+                                  visible first
+```
+
+The diagram is deliberately simple: both mechanisms shape the next prompt, and both stay visible before anything is sent. Their scope and lifecycles are still different. A reminder changes with the situation; a workflow changes with the recurring process. Combining them into one giant prompt would make each harder to find, inspect, trust, and change.
 
 ## What ties these together
 
