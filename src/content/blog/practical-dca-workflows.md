@@ -1,8 +1,8 @@
 ---
 title: "Early Learnings While Building My Own Desktop Coding Agent (DCA)"
-description: "Five decisions from building my own desktop coding agent, because the interesting ones are exactly the ones a product has to make for everybody: what gets delegated, what earns an interruption, what a phone is good for, what a citation does when you click it, and where the agent runs."
+description: "Early workflow and customization lessons from building my own desktop coding agent: mobile supervision, delegation, interruptions, evidence, Playbooks, and local execution."
 publishedAt: "2026-08-30"
-estimateTimeToRead: 8
+estimateTimeToRead: 11
 tags:
   - workflow
   - agents
@@ -15,7 +15,7 @@ tags:
 
 Most [desktop coding agents](/blog/ai-coding-agent-desktop-app-comparison-april-2026) are good products that I cannot change. What the model picker offers, when a notification fires, what happens when a run finishes, what a file reference does when I click it: all decided by someone else, and sensible defaults for most people. I kept wanting different answers than the ones I was given.
 
-I tried the alternatives first. Claude Desktop, the Codex app, Cursor's agent mode. Each one is well built, and each one is still someone else's five decisions, not mine.
+I tried the alternatives first. Claude Desktop, the Codex app, Cursor's agent mode. Each one is well built, and each one is still someone else's set of decisions, not mine.
 
 So I started building my own on top of `opencode serve`. A browser UI, a small server beside it, and the agent running on my machine with my tools.
 
@@ -23,11 +23,26 @@ The screenshots below are the real interface running against a mock backend, so 
 
 ## TL;DR
 
-- Delegate a side question when the answer is bounded and I do not need to watch it arrive.
+- From a phone, steer and unblock rather than author. Installing the responsive app as a PWA makes that narrow job feel natural.
+- Delegate a bounded side question when I do not need to watch the answer arrive.
 - Interrupt me when a run is blocked, not when it is finished.
-- From a phone, steer and unblock. Do not try to author.
 - A cited `file:line` belongs where I am already reading, not in a second application.
-- Keep execution on the machine that already has the credentials, the tools, and the uncommitted work.
+- Keep the run log and related pull request evidence beside the work, so status does not disappear into the transcript.
+- Keep reminders, reusable skills, and guided workflows separate. They solve different context and coordination problems.
+
+## What a phone is actually good for
+
+I can drive a session from my phone over a private tailnet. The honest version of what that buys me is narrower than it sounds. I wrote up the setup separately in the [remote control guide](/guides/opencode-remote-control).
+
+What works: answering a permission prompt, replying to a question that is blocking a run, reading a final summary, and queueing the next instruction. All of these are short. All of them are unblocking rather than authoring.
+
+![The same session on a phone-width screen: a banner saying the run did not finish, a bash needs approval prompt with Allow once, Always and Reject buttons, and a blocking question asking which environment to deploy to.](/blog/practical-dca-workflows/phone-unblock.png "Everything a phone is good for is on this screen: approve, answer, resume. Nothing here asks me to write anything.")
+
+What does not work: anything that needs me to hold a lot on screen at once. I am not going to plan an architecture from a phone. Until recently I would have said the same about reviewing a diff of any size. The [supervising from a phone chapter](/guides/custom-coding-agent-ide-with-openhands/supervising-from-a-phone) puts a large diff firmly in the "better at a desk" column, and that was true when I wrote it.
+
+Installing the site as a PWA is a particularly good fit for this limited job. It launches from the home screen, gets a full-screen app feel, and stays separate from the pile of normal browser tabs. There is no App Store release to install or keep in sync. It is still the same responsive browser app, just presented in a way that makes a quick approval or reply feel like opening a tool rather than finding an old tab.
+
+What makes the phone worth setting up is that a blocked run is the expensive state. A two-minute reply from a supermarket queue can restart something that would otherwise sit blocked until evening. That is most of the value. It is the difference between supervising a run and babysitting one.
 
 ## Scoping a side question worth delegating
 
@@ -76,18 +91,6 @@ This is also why "notify on everything" fails in a specific way rather than a ge
 
 One more rule worth having: auto-approved actions should be silent. If I already decided the agent may run tests without asking, a notification telling me it ran tests is me re-reviewing a decision I deliberately stopped making.
 
-## What a phone is actually good for
-
-I can drive a session from my phone over a private tailnet. The honest version of what that buys me is narrower than it sounds. I wrote up the setup separately in the [remote control guide](/guides/opencode-remote-control).
-
-What works: answering a permission prompt, replying to a question that is blocking a run, reading a final summary, and queueing the next instruction. All of these are short. All of them are unblocking rather than authoring.
-
-![The same session on a phone-width screen: a banner saying the run did not finish, a bash needs approval prompt with Allow once, Always and Reject buttons, and a blocking question asking which environment to deploy to.](/blog/practical-dca-workflows/phone-unblock.png "Everything a phone is good for is on this screen: approve, answer, resume. Nothing here asks me to write anything.")
-
-What does not work: anything that needs me to hold a lot on screen at once. I am not going to plan an architecture from a phone. Until recently I would have said the same about reviewing a diff of any size. The [supervising from a phone chapter](/guides/custom-coding-agent-ide-with-openhands/supervising-from-a-phone) puts a large diff firmly in the "better at a desk" column, and that was true when I wrote it.
-
-What makes the phone worth setting up is that a blocked run is the expensive state. A two-minute reply from a supermarket queue can restart something that would otherwise sit blocked until evening. That is most of the value. It is the difference between supervising a run and babysitting one.
-
 ## Sticky code review
 
 This is the one I have changed my mind about most recently.
@@ -112,22 +115,46 @@ The thing to be careful about is scope. This is a reader, not an editor. The mom
 
 That is also the honest limit on the phone claim above. Sticky review makes a cited range reviewable on a small screen, because a cited range is small by construction. It does not make a four hundred line diff reviewable on a phone. Those are different problems and only one of them is solved.
 
-## Why it runs on my machine
+## Keeping the run log and pull request beside the work
 
-The last decision is the one that made the other four possible.
+A conversation summary is a claim about what happened. Even a good one is compressed, and sometimes the most useful detail is exactly what compression removes. The run log records what the agent actually did: files read, commands run, edits made, failures returned, and when each action happened.
 
-The agent runs as a process on my laptop. The browser is only a window onto it, and holds no credentials of its own. That sounds like an implementation detail and is actually the whole point: it means the agent reaches the things that are already on this machine. My MCP servers. My SSH keys and logged-in CLIs. The Docker daemon. The repository as it exists right now, including the parts I have not pushed.
+That makes it an activity trail rather than another version of the answer. I can filter it to reads, edits, commands, or failures, then jump from an entry back to the exact action in the transcript. When a summary is incomplete, or an old session has already been compacted, I do not have to ask the agent to reconstruct its own history.
 
-A hosted product cannot give me that, and not because anyone built it badly. It cannot be given. The moment execution moves to someone else's machine, every local thing has to be re-supplied, re-authenticated, and re-approved, and most of it never is.
+![A completed DCA session with the Run log tab open beside the conversation, showing filters for all activity, edits, commands, reads and failures, plus timestamped rows for a file read, a two-file edit, and a failed web request.](/blog/practical-dca-workflows/run-log.png "The run log records the agent's actual activity and links each entry back to the corresponding transcript action.")
 
-The cost is that I own the safety. The browser never gets credentials, tool access is bounded to a canonicalised workspace root, and permissions stay off by default rather than on. Those are constraints I now have to maintain myself, which is a real tax and the honest downside of the whole approach.
+The related pull request belongs in the same category. Once a session has opened a PR or MR, its link, state, checks, description, review comments, and approval status should remain visible beside the active work. Otherwise I end up scrolling through the transcript to find the link, prompting the agent to repeat it, or leaving the app just to learn whether review has moved.
+
+![A DCA review drawer beside a completed session, showing an open mock pull request with checks status, expanded review notes, a discussion comment, an approval, and a failed test job.](/blog/practical-dca-workflows/related-pull-request.png "Related pull requests keep review status, checks, and comments beside the session instead of burying them in its transcript.")
+
+Neither surface replaces reviewing the code or checking the underlying evidence. They make that evidence and status cheap to retrieve. That is a smaller claim, and a more useful one.
+
+## Playbooks are three different things
+
+I initially treated every piece of repeatable agent behavior as roughly the same kind of prompt. That is convenient until there are enough of them to manage. Reminders, skills, and workflows have different jobs.
+
+**Reminders keep operating context visible at the right moment.** A reminder is a small instruction attached to a message or situation where it matters. It might restate a safety boundary or a local convention before a run. It is not a reusable capability, and loading it everywhere would turn a timely nudge into permanent prompt noise.
+
+**Skills and commands package reusable instructions or capabilities.** I invoke them intentionally when a task needs a known procedure. They can have zero or very low at-rest context because the full instructions load only when needed. That makes a skill suitable for something I want to reuse without paying for it, or asking the model to notice it, in every unrelated conversation.
+
+**Workflows guide recurring multi-step actions.** They can collect and validate inputs, show the sequence that will run, and preview what will be sent before anything starts. That is useful for recurring coordination where the shape of the action matters, not just the wording of a prompt snippet. The flow stays inspectable instead of being hidden inside one large instruction.
+
+![The DCA Playbooks catalogue at 1280 by 900 pixels, with a work-in-progress warning, counts for commands, workflows and at-rest tokens, filters for each category, and the first reusable command cards.](/blog/practical-dca-workflows/playbooks-catalog.png "The Playbooks catalogue separates intentionally invoked commands from guided workflows and reports their at-rest context cost. Its UI is still work in progress.")
+
+The screenshot says it plainly: the Playbooks UI is still work in progress. The separation is the part I already trust. These three mechanisms have different lifecycles, scope, and review needs. A reminder changes with the situation, a skill changes with a reusable practice, and a workflow changes with a coordinated process. Combining all of them into one giant prompt makes each harder to find, trust, and change.
 
 ## What ties these together
 
 Every one of these started as something I could not change in a tool I was already using.
 
-That is the actual reason the project exists. Not that the existing agents are bad, because they are not. It is that the interesting decisions are exactly the ones a product has to make once, for everybody: what interrupts you, what a citation does when you click it, whether a delegated task blocks the thing that spawned it. Reasonable defaults for most people are not the same as the right answer for how I work, and there was no setting for most of these.
+That is the actual reason the project exists. Not that the existing agents are bad, because they are not. It is that the interesting decisions are exactly the ones a product has to make once, for everybody: what interrupts you, what a citation does when you click it, whether a delegated task blocks the thing that spawned it, and how recurring instructions enter the conversation. Reasonable defaults for most people are not the same as the right answer for how I work, and there was no setting for most of these.
 
 Building my own has been slower than using a good one. What I get back is that when something in the loop annoys me, changing it is a task rather than a feature request.
+
+### One implementation choice underneath this
+
+The agent runs as a process on my laptop. The browser is only a window onto it, and holds no credentials of its own. That gives the agent access to the things already on this machine: my MCP servers, SSH keys and logged-in CLIs, the Docker daemon, and the repository as it exists right now, including work I have not pushed.
+
+A hosted product cannot inherit that environment without every local thing being re-supplied, re-authenticated, and re-approved. The cost of local execution is that I own the safety. The browser never gets credentials, tool access is bounded to a canonicalised workspace root, and permissions stay off by default. Maintaining those constraints is a real tax and the honest downside of the approach.
 
 I do not think any of this is finished. But it is the version I would set up again on a new machine tomorrow.
