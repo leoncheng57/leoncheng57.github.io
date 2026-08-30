@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 740" width="700" height="740" font-family="Inter, system-ui, sans-serif" style="background:#1a1b26">
+  <defs>
+    <marker id="loop-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a9b1d6" />
+    </marker>
+    <marker id="exit-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f7768e" />
+    </marker>
+  </defs>
+
+  <!-- Five-node cycle, same layout family as the flywheel diagram:
+       1. Wait                      - top          (350, 145)
+       2. Frustration attaches      - top right     (580, 315)
+       3. Forced switch             - bottom right  (510, 552)
+       4. Lose the thread           - bottom left   (190, 552)
+       5. Rebuild context           - top left      (120, 315)
+       then an exit arrow down to a BURNOUT box for what happens if this repeats all day. -->
+
+  <!-- Arrow: 1 (top) -> 2 (top-right) -->
+  <path d="M 440,170 C 500,190 545,235 565,285" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#loop-arrow)" />
+  <!-- Arrow: 2 (top-right) -> 3 (bottom-right) -->
+  <path d="M 580,350 C 575,420 555,480 525,520" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#loop-arrow)" />
+  <!-- Arrow: 3 (bottom-right) -> 4 (bottom-left) -->
+  <path d="M 420,570 C 370,590 310,590 280,570" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#loop-arrow)" />
+  <!-- Arrow: 4 (bottom-left) -> 5 (top-left) -->
+  <path d="M 145,520 C 125,480 115,420 120,350" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#loop-arrow)" />
+  <!-- Arrow: 5 (top-left) -> 1 (top), closing the loop -->
+  <path d="M 215,285 C 240,235 285,190 330,170" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#loop-arrow)" />
+
+  <!-- 1. Top: Wait -->
+  <rect x="260" y="113" width="180" height="64" rx="10" fill="#1f2a44" stroke="#7aa2f7" stroke-width="2" />
+  <text x="350" y="151" text-anchor="middle" font-size="15" font-weight="600" fill="#ffffff">Wait</text>
+
+  <!-- 2. Top-right: Frustration attaches to the task -->
+  <rect x="490" y="283" width="180" height="64" rx="10" fill="#4a3820" stroke="#e0af68" stroke-width="2" />
+  <text x="580" y="309" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Frustration</text>
+  <text x="580" y="329" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">attaches to task</text>
+
+  <!-- 3. Bottom-right: Forced switch -->
+  <rect x="420" y="520" width="180" height="64" rx="10" fill="#4a2430" stroke="#f7768e" stroke-width="2" />
+  <text x="510" y="546" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Forced switch to</text>
+  <text x="510" y="566" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">something else</text>
+
+  <!-- 4. Bottom-left: Lose the thread -->
+  <rect x="100" y="520" width="180" height="64" rx="10" fill="#3a2b52" stroke="#bb9af7" stroke-width="2" />
+  <text x="190" y="546" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Lose the</text>
+  <text x="190" y="566" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">thread</text>
+
+  <!-- 5. Top-left: Rebuild context -->
+  <rect x="25" y="283" width="190" height="64" rx="10" fill="#2c3e2a" stroke="#9ece6a" stroke-width="2" />
+  <text x="120" y="309" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Rebuild</text>
+  <text x="120" y="329" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">context</text>
+
+  <!-- Center label -->
+  <text x="350" y="390" text-anchor="middle" font-size="13" font-weight="400" fill="#565f89">The frustration</text>
+  <text x="350" y="408" text-anchor="middle" font-size="13" font-weight="400" fill="#565f89">spiral</text>
+
+  <!-- Exit arrow: what sustained repetition leads to. The label sits fully
+       above the arrow's own path (not centered on top of it) so the dashed
+       line never crosses through the text. -->
+  <text x="350" y="600" text-anchor="middle" font-size="11.5" fill="#565f89">repeated dozens of times a day</text>
+  <path d="M 350,606 C 350,616 350,624 350,634" fill="none" stroke="#f7768e" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#exit-arrow)" />
+
+  <!-- Burnout box -->
+  <rect x="210" y="640" width="280" height="76" rx="10" fill="#2a1520" stroke="#f7768e" stroke-width="2" stroke-dasharray="6 4" />
+  <text x="350" y="668" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">Burnout</text>
+  <text x="350" y="690" text-anchor="middle" font-size="11.5" fill="#a9b1d6">not a slower day —</text>
+  <text x="350" y="706" text-anchor="middle" font-size="11.5" fill="#a9b1d6">a day with no thought held for long</text>
+</svg>
