@@ -31,7 +31,7 @@ The screenshots below are the real interface running against a mock backend, so 
 
 ## Scoping a side question worth delegating
 
-The previous post left an open question: how small does a question have to be before delegating it costs more than answering it myself?
+The [previous post](/blog/the-cost-of-waiting-on-agents) left an open question: how small does a question have to be before delegating it costs more than answering it myself?
 
 I have a working answer now, and it is not about size. It is about whether I need to watch.
 
