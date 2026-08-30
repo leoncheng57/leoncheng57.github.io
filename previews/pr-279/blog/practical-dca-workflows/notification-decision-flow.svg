@@ -1,82 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 800" width="920" height="800" font-family="Inter, system-ui, sans-serif" style="background:#1a1b26">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 800" width="920" height="800" font-family="Inter, system-ui, sans-serif" style="background:#0b0d0e">
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#a9b1d6" />
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b949e" />
     </marker>
     <marker id="green-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#9ece6a" />
-    </marker>
-    <marker id="amber-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#e0af68" />
+      <polygon points="0 0, 10 3.5, 0 7" fill="#51cf66" />
     </marker>
   </defs>
 
-  <rect x="335" y="28" width="250" height="54" rx="10" fill="#1f2a44" stroke="#7aa2f7" stroke-width="2" />
+  <rect x="335" y="28" width="250" height="54" rx="10" fill="#15181a" stroke="#ffffff" stroke-width="2" />
   <text x="460" y="61" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff">OpenCode event</text>
 
-  <path d="M460 82 V112" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#arrow)" />
-  <polygon points="460,112 605,170 460,228 315,170" fill="#24283b" stroke="#bb9af7" stroke-width="2" />
+  <path d="M460 82 V112" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)" />
+  <polygon points="460,112 605,170 460,228 315,170" fill="#15181a" stroke="#ffffff" stroke-width="2" />
   <text x="460" y="166" text-anchor="middle" font-size="15" font-weight="600" fill="#ffffff">Supported notification</text>
   <text x="460" y="186" text-anchor="middle" font-size="15" font-weight="600" fill="#ffffff">kind?</text>
 
-  <rect x="638" y="110" width="250" height="120" rx="10" fill="#202235" stroke="#565f89" stroke-width="1.5" />
-  <text x="658" y="136" font-size="12" font-weight="700" fill="#7aa2f7">SUPPORTED KINDS</text>
-  <text x="658" y="160" font-size="13" fill="#c0caf5">session idle</text>
-  <text x="658" y="181" font-size="13" fill="#c0caf5">permission asked / question asked</text>
-  <text x="658" y="202" font-size="13" fill="#c0caf5">error / abort</text>
-  <path d="M605 170 H628" fill="none" stroke="#565f89" stroke-width="1.5" stroke-dasharray="5 4" />
+  <rect x="638" y="110" width="250" height="120" rx="10" fill="#1c2022" stroke="#6e7681" stroke-width="1.5" />
+  <text x="658" y="136" font-size="12" font-weight="700" fill="#d0d4d7">SUPPORTED KINDS</text>
+  <text x="658" y="160" font-size="13" fill="#b5bbc0">session idle</text>
+  <text x="658" y="181" font-size="13" fill="#b5bbc0">permission asked / question asked</text>
+  <text x="658" y="202" font-size="13" fill="#b5bbc0">error / abort</text>
+  <path d="M605 170 H628" fill="none" stroke="#6e7681" stroke-width="1.5" stroke-dasharray="5 4" />
 
-  <path d="M315 170 H212" fill="none" stroke="#f7768e" stroke-width="2" marker-end="url(#arrow)" />
-  <text x="269" y="158" text-anchor="middle" font-size="12" fill="#f7768e">no</text>
-  <rect x="32" y="137" width="180" height="66" rx="10" fill="#2a1520" stroke="#f7768e" stroke-width="2" />
+  <path d="M315 170 H212" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="269" y="158" text-anchor="middle" font-size="12" fill="#b5bbc0">no</text>
+  <rect x="32" y="137" width="180" height="66" rx="10" fill="#15181a" stroke="#6e7681" stroke-width="2" stroke-dasharray="7 5" />
   <text x="122" y="165" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Ignore</text>
-  <text x="122" y="186" text-anchor="middle" font-size="12" fill="#a9b1d6">not a notification event</text>
+  <text x="122" y="186" text-anchor="middle" font-size="12" fill="#b5bbc0">not a notification event</text>
 
-  <path d="M460 228 V260" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#arrow)" />
-  <text x="475" y="249" font-size="12" fill="#9ece6a">yes</text>
-  <polygon points="460,260 620,318 460,376 300,318" fill="#24283b" stroke="#bb9af7" stroke-width="2" />
+  <path d="M460 228 V260" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="488" y="249" font-size="12" fill="#b5bbc0">yes</text>
+  <polygon points="460,260 620,318 460,376 300,318" fill="#15181a" stroke="#ffffff" stroke-width="2" />
   <text x="460" y="313" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Child session and</text>
   <text x="460" y="333" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">not a permission?</text>
 
-  <path d="M300 318 H244" fill="none" stroke="#e0af68" stroke-width="2" marker-end="url(#amber-arrow)" />
-  <text x="274" y="306" text-anchor="middle" font-size="12" fill="#e0af68">yes</text>
-  <rect x="32" y="270" width="212" height="96" rx="10" fill="#4a3820" stroke="#e0af68" stroke-width="2" />
+  <path d="M300 318 H244" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="274" y="306" text-anchor="middle" font-size="12" fill="#b5bbc0">yes</text>
+  <rect x="32" y="270" width="212" height="96" rx="10" fill="#1c2022" stroke="#8b949e" stroke-width="2" stroke-dasharray="7 5" />
   <text x="138" y="299" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Record only</text>
-  <text x="138" y="321" text-anchor="middle" font-size="12.5" fill="#c0caf5">suppress delivery:</text>
-  <text x="138" y="343" text-anchor="middle" font-size="12.5" fill="#e0af68">sub-agent noise</text>
+  <text x="138" y="321" text-anchor="middle" font-size="12.5" fill="#b5bbc0">suppress delivery:</text>
+  <text x="138" y="343" text-anchor="middle" font-size="12.5" fill="#d0d4d7">sub-agent noise</text>
 
-  <path d="M460 376 V408" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#arrow)" />
-  <text x="475" y="397" font-size="12" fill="#a9b1d6">no</text>
-  <text x="650" y="392" font-size="11.5" fill="#565f89">child permission continues here</text>
-  <polygon points="460,408 640,466 460,524 280,466" fill="#24283b" stroke="#bb9af7" stroke-width="2" />
+  <path d="M460 376 V408" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="488" y="397" font-size="12" fill="#b5bbc0">no</text>
+  <text x="650" y="392" font-size="11.5" fill="#6e7681">child permission continues here</text>
+  <polygon points="460,408 640,466 460,524 280,466" fill="#15181a" stroke="#ffffff" stroke-width="2" />
   <text x="460" y="461" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Permission asked and</text>
   <text x="460" y="481" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">auto-permissions enabled?</text>
 
-  <path d="M280 466 H244" fill="none" stroke="#e0af68" stroke-width="2" marker-end="url(#amber-arrow)" />
-  <text x="260" y="454" text-anchor="middle" font-size="12" fill="#e0af68">yes</text>
-  <rect x="32" y="418" width="212" height="96" rx="10" fill="#4a3820" stroke="#e0af68" stroke-width="2" />
+  <path d="M280 466 H244" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="260" y="454" text-anchor="middle" font-size="12" fill="#b5bbc0">yes</text>
+  <rect x="32" y="418" width="212" height="96" rx="10" fill="#1c2022" stroke="#8b949e" stroke-width="2" stroke-dasharray="7 5" />
   <text x="138" y="447" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Record only</text>
-  <text x="138" y="469" text-anchor="middle" font-size="12.5" fill="#c0caf5">suppress delivery:</text>
-  <text x="138" y="491" text-anchor="middle" font-size="12.5" fill="#e0af68">auto-permissions</text>
+  <text x="138" y="469" text-anchor="middle" font-size="12.5" fill="#b5bbc0">suppress delivery:</text>
+  <text x="138" y="491" text-anchor="middle" font-size="12.5" fill="#d0d4d7">auto-permissions</text>
 
-  <path d="M460 524 V556" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#arrow)" />
-  <text x="475" y="545" font-size="12" fill="#a9b1d6">no</text>
-  <polygon points="460,556 640,614 460,672 280,614" fill="#24283b" stroke="#bb9af7" stroke-width="2" />
+  <path d="M460 524 V556" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="488" y="545" font-size="12" fill="#b5bbc0">no</text>
+  <polygon points="460,556 640,614 460,672 280,614" fill="#15181a" stroke="#ffffff" stroke-width="2" />
   <text x="460" y="609" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Enabled on any</text>
   <text x="460" y="629" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">configured channel?</text>
 
-  <path d="M280 614 H244" fill="none" stroke="#e0af68" stroke-width="2" marker-end="url(#amber-arrow)" />
-  <text x="260" y="602" text-anchor="middle" font-size="12" fill="#e0af68">no</text>
-  <rect x="32" y="566" width="212" height="96" rx="10" fill="#4a3820" stroke="#e0af68" stroke-width="2" />
+  <path d="M280 614 H244" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="260" y="602" text-anchor="middle" font-size="12" fill="#b5bbc0">no</text>
+  <rect x="32" y="566" width="212" height="96" rx="10" fill="#1c2022" stroke="#8b949e" stroke-width="2" stroke-dasharray="7 5" />
   <text x="138" y="595" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Record only</text>
-  <text x="138" y="617" text-anchor="middle" font-size="12.5" fill="#c0caf5">suppress delivery:</text>
-  <text x="138" y="639" text-anchor="middle" font-size="12.5" fill="#e0af68">preference off</text>
+  <text x="138" y="617" text-anchor="middle" font-size="12.5" fill="#b5bbc0">suppress delivery:</text>
+  <text x="138" y="639" text-anchor="middle" font-size="12.5" fill="#d0d4d7">preference off</text>
 
-  <path d="M640 614 H676 V713" fill="none" stroke="#9ece6a" stroke-width="2" marker-end="url(#green-arrow)" />
-  <text x="656" y="602" text-anchor="middle" font-size="12" fill="#9ece6a">yes</text>
-  <rect x="600" y="713" width="288" height="66" rx="10" fill="#2c3e2a" stroke="#9ece6a" stroke-width="2" />
+  <path d="M640 614 H676 V713" fill="none" stroke="#51cf66" stroke-width="2" marker-end="url(#green-arrow)" />
+  <text x="656" y="602" text-anchor="middle" font-size="12" fill="#51cf66">yes</text>
+  <rect x="600" y="713" width="288" height="66" rx="10" fill="#15181a" stroke="#51cf66" stroke-width="2" />
   <text x="744" y="740" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">Record + deliver</text>
-  <text x="744" y="762" text-anchor="middle" font-size="12.5" fill="#9ece6a">desktop / ntfy / web push</text>
+  <text x="744" y="762" text-anchor="middle" font-size="12.5" fill="#51cf66">desktop / ntfy / web push</text>
 
-  <text x="32" y="772" font-size="12" fill="#565f89">Recorded history stays auditable even when delivery is suppressed.</text>
+  <text x="32" y="772" font-size="12" fill="#6e7681">Recorded history stays auditable even when delivery is suppressed.</text>
 </svg>
