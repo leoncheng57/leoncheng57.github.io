@@ -161,9 +161,11 @@ describe('repo subpages', () => {
     expect(
       within(specimenNav).getByRole('button', { name: /Chapters/ })
     ).toBeInTheDocument()
+    // DesignComponentsRoute features `getAllGuides()[0]`, so this showcases
+    // whichever guide is newest rather than any particular one.
     expect(screen.getByRole('link', { name: /read guide/ })).toHaveAttribute(
       'href',
-      '/guides/custom-coding-agent-ide-with-openhands'
+      expect.stringMatching(/^\/guides\/.+/)
     )
     expect(
       screen.getByRole('heading', { level: 3, name: 'Still taking shape' })
