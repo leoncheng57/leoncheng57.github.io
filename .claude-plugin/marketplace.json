@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "leoncheng",
+  "description": "Leon Cheng's Claude Code plugins.",
+  "owner": {
+    "name": "Leon Cheng",
+    "email": "leonc@alum.mit.edu",
+    "url": "https://leoncheng.dev/"
+  },
+  "plugins": [
+    {
+      "name": "study-pack",
+      "source": "./plugins/study-pack",
+      "description": "Generate a tiered study pack that explains a PR stack or feature to someone reading the codebase for the first time — read at PR heads, never the working tree.",
+      "category": "learning"
+    }
+  ]
+}

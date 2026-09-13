@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{SUBJECT}} Quiz</title>
+<style>
+:root{
+  /* paper */
+  --bg:#f2efe4; --surface:#fbf9f2; --surface-2:#e8e2d2; --ink:#282419; --muted:#6b6353;
+  --rule:#dcd3bd; --rule-2:#bfb49a;
+  /* ink colours, as on printed paper */
+  --accent:#2e4a86; --accent-soft:#e7e2d2;
+  --ok:#3d6b46; --ok-s:#e2e9db; --t1:#3d6b46; --t1s:#e2e9db;
+  --warn:#8a5f12; --warn-s:#f0e7cf; --t2:#8a5f12; --t2s:#f0e7cf;
+  --bad:#9c3a42; --bad-s:#f2e1dc; --dead:#9c3a42; --dead-s:#f2e1dc;
+  --t4:#9c3a42; --t4s:#f2e1dc;
+  --t3:#6b4a7a; --t3s:#eae2ec;
+  --t5:#6b6353; --t5s:#e8e2d2;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --serif:Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:50rem;margin:0 auto;padding:clamp(1.25rem,3vw,2.5rem) clamp(1rem,4vw,2rem) 4rem}
+a{color:var(--accent)} .back{font-family:var(--mono);font-size:.75rem;text-decoration:none}
+h1{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2rem);margin:.6rem 0 .2rem;font-weight:600;letter-spacing:-.02em}
+.sub{color:var(--muted);font-size:.85rem;margin:0 0 1.4rem}
+h2{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+   margin:2rem 0 .2rem} h2+p.hint{margin:0 0 .8rem;font-size:.83rem;color:var(--muted)}
+code{font-family:var(--mono);background:var(--surface-2);padding:.1em .32em;border-radius:3px;font-size:.85em}
+.q{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:.9rem 1rem;margin-bottom:.6rem}
+.q .num{font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-right:.4rem}
+.q .text{font-weight:500;margin:0 0 .6rem}
+.opts{display:flex;flex-direction:column;gap:.3rem}
+.opt{display:flex;gap:.5rem;align-items:flex-start;padding:.4rem .55rem;border:1px solid var(--rule);
+  border-radius:6px;cursor:pointer;font-size:.9rem;background:var(--bg)}
+.opt:hover{border-color:var(--rule-2)}
+.opt input{margin:.25rem 0 0;flex:0 0 auto;accent-color:var(--accent)}
+.opt.correct{background:var(--ok-s);border-color:var(--ok)}
+.opt.wrong{background:var(--bad-s);border-color:var(--bad)}
+.tf{flex-direction:row;gap:.4rem}
+.tf .opt{flex:0 0 auto;min-width:5rem;justify-content:center}
+.exp{margin-top:.6rem;padding:.55rem .75rem;border-left:3px solid var(--accent);background:var(--accent-soft);
+  border-radius:0 5px 5px 0;font-size:.87rem;display:none}
+.exp.show{display:block}
+.exp b.verdict{display:block;margin-bottom:.2rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+.exp.right{border-left-color:var(--ok);background:var(--ok-s)} .exp.right b.verdict{color:var(--ok)}
+.exp.wrongx{border-left-color:var(--bad);background:var(--bad-s)} .exp.wrongx b.verdict{color:var(--bad)}
+details.sa{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:.9rem 1rem;margin-bottom:.6rem}
+details.sa summary{cursor:pointer;font-weight:500;list-style:none}
+details.sa summary::-webkit-details-marker{display:none}
+details.sa summary::before{content:"▸ ";color:var(--muted)}
+details.sa[open] summary::before{content:"▾ "}
+details.sa .ans{margin-top:.7rem;padding-top:.7rem;border-top:1px solid var(--rule);font-size:.9rem}
+.actions{display:flex;gap:.5rem;margin:1.5rem 0 .5rem;flex-wrap:wrap;align-items:center}
+button{font:inherit;font-size:.85rem;cursor:pointer;border:1px solid var(--rule-2);background:var(--surface);
+  color:var(--ink);padding:.4rem .85rem;border-radius:6px}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+#score{position:sticky;bottom:0;background:var(--surface);border:1px solid var(--rule-2);border-radius:8px;
+  padding:.7rem 1rem;margin-top:1.5rem;font-size:.9rem;display:none}
+#score.show{display:block}
+#score .big{font-family:var(--serif);font-size:1.6rem;font-weight:600}
+#score .rec{color:var(--muted);font-size:.85rem;margin-top:.3rem}
+.progress{height:3px;background:var(--surface-2);border-radius:2px;overflow:hidden;margin-top:.8rem}
+.progress i{display:block;height:100%;background:var(--accent);width:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="index.html">&larr; study pack</a>
+<h1>Quiz</h1>
+<p class="sub">{{SCORED}} auto-scored questions, plus {{UNSCORED}} to answer yourself.
+Aim for {{TARGET}}+ on the scored half · markdown: <a href="21-quiz.md">21-quiz.md</a></p>
+
+<h2>Section A · Multiple choice</h2>
+<p class="hint">Pick one. Explanations appear as you answer.</p>
+<div id="secA"></div>
+
+<h2>Section B · True or false</h2>
+<div id="secB"></div>
+
+<h2>Section C · Short answer</h2>
+<p class="hint">Answer out loud or in a scratch file first, then reveal. Not scored.</p>
+<div id="secC"></div>
+
+<h2>Section D · Judgment</h2>
+<p class="hint">No single right answer. The model answers show what full credit looks like.</p>
+<div id="secD"></div>
+
+<div class="actions">
+  <button id="reveal">Reveal all answers</button>
+  <button id="reset" class="primary">Reset</button>
+</div>
+
+<div id="score">
+  <span class="big" id="scoretext"></span>
+  <div class="rec" id="scorerec"></div>
+  <div class="progress"><i id="sbar"></i></div>
+</div>
+
+<script>
+// Four question banks. Sizes are free — numbering, scoring and the progress bar
+// are all derived from the array lengths, so add or remove questions freely.
+// q/o/e/a all accept inline HTML and are inserted with innerHTML.
+
+// Multiple choice. `c` is the 0-based index of the correct option.
+// A good distractor is something a careful reader might actually believe;
+// an obviously-wrong option teaches nothing.
+const MC=[
+{q:"{{Question — prefer 'what happens when…' over 'what is…'}}",
+ o:["{{plausible}}","{{plausible}}","{{plausible}}","{{correct}}"],c:3,
+ e:"{{Why the right answer is right AND why the tempting wrong one is wrong. The explanation is the part that teaches.}}"}
+];
+
+// True/false. `a` is the truth value. Reserve these for the beliefs a reader
+// is most likely to arrive with and be wrong about.
+const TF=[
+{q:"{{A statement someone would plausibly assert after skimming the code.}}",a:false,
+ e:"{{The distinction that makes it false.}}"}
+];
+
+// Short answer — not scored, revealed on demand.
+const SA=[
+{q:"{{A 'why' question. If it can be answered by quoting a line, it is too easy.}}",
+ a:"{{The model answer, including the general lesson if there is one.}}"}
+];
+
+// Judgment — no single right answer; the model answer shows full credit.
+const JD=[
+{q:"{{A question with a real trade-off: 'a colleague proposes X, argue both sides', 'name the two things you would block the merge on'.}}",
+ a:"{{<b>For:</b> … <b>Against:</b> … Full credit for also noticing …}}"}
+];
+
+const SCORED = MC.length + TF.length;
+let answered={}, n=0;
+const secA=document.getElementById("secA"), secB=document.getElementById("secB");
+
+MC.forEach((item,i)=>{
+  const id="a"+i; n++;
+  const d=document.createElement("div"); d.className="q";
+  d.innerHTML='<p class="text"><span class="num">'+(i+1)+'</span>'+item.q+'</p>';
+  const opts=document.createElement("div"); opts.className="opts";
+  item.o.forEach((o,j)=>{
+    const l=document.createElement("label"); l.className="opt";
+    l.innerHTML='<input type="radio" name="'+id+'"><span>'+o+'</span>';
+    l.querySelector("input").addEventListener("change",()=>{
+      if(answered[id]!==undefined) return;
+      answered[id]=(j===item.c);
+      opts.querySelectorAll(".opt").forEach((el,k)=>{
+        if(k===item.c) el.classList.add("correct");
+        else if(k===j) el.classList.add("wrong");
+        el.querySelector("input").disabled=true;
+      });
+      const e=d.querySelector(".exp");
+      e.classList.add("show", j===item.c?"right":"wrongx");
+      e.querySelector(".verdict").textContent=j===item.c?"Correct":"Not quite";
+      updateScore();
+    });
+    opts.appendChild(l);
+  });
+  d.appendChild(opts);
+  const e=document.createElement("div"); e.className="exp";
+  e.innerHTML='<b class="verdict"></b>'+item.e; d.appendChild(e);
+  secA.appendChild(d);
+});
+
+TF.forEach((item,i)=>{
+  const id="b"+i; n++;
+  const d=document.createElement("div"); d.className="q";
+  d.innerHTML='<p class="text"><span class="num">'+(i+1+MC.length)+'</span>'+item.q+'</p>';
+  const opts=document.createElement("div"); opts.className="opts tf";
+  [["True",true],["False",false]].forEach(([lab,val])=>{
+    const l=document.createElement("label"); l.className="opt";
+    l.innerHTML='<input type="radio" name="'+id+'"><span>'+lab+'</span>';
+    l.querySelector("input").addEventListener("change",()=>{
+      if(answered[id]!==undefined) return;
+      answered[id]=(val===item.a);
+      opts.querySelectorAll(".opt").forEach(el=>{
+        const t=el.textContent.trim()==="True";
+        if(t===item.a) el.classList.add("correct");
+        else if(t===val) el.classList.add("wrong");
+        el.querySelector("input").disabled=true;
+      });
+      const e=d.querySelector(".exp");
+      e.classList.add("show", val===item.a?"right":"wrongx");
+      e.querySelector(".verdict").textContent=(val===item.a?"Correct — ":"Not quite — ")+(item.a?"true":"false");
+      updateScore();
+    });
+    opts.appendChild(l);
+  });
+  d.appendChild(opts);
+  const e=document.createElement("div"); e.className="exp";
+  e.innerHTML='<b class="verdict"></b>'+item.e; d.appendChild(e);
+  secB.appendChild(d);
+});
+
+function reveal(list,host,offset){
+  list.forEach((item,i)=>{
+    const dt=document.createElement("details"); dt.className="sa";
+    const s=document.createElement("summary");
+    s.innerHTML='<span class="num">'+(i+offset)+'</span>'+item.q;
+    const a=document.createElement("div"); a.className="ans"; a.innerHTML=item.a;
+    dt.append(s,a); host.appendChild(dt);
+  });
+}
+reveal(SA,document.getElementById("secC"),SCORED+1);
+reveal(JD,document.getElementById("secD"),SCORED+1+SA.length);
+
+function updateScore(){
+  const vals=Object.values(answered);
+  const right=vals.filter(Boolean).length, done=vals.length;
+  const box=document.getElementById("score");
+  box.classList.add("show");
+  document.getElementById("scoretext").textContent=right+" / "+done+" correct";
+  document.getElementById("sbar").style.width=(SCORED?done/SCORED*100:0)+"%";
+  // Thresholds are fractions of the scored set, and each band names the document
+  // to go back to. "Re-read something" is useless advice; name the file.
+  let rec="";
+  if(done<SCORED) rec=(SCORED-done)+" scored questions left.";
+  else if(right>=SCORED*0.9) rec="You understand this. Try {{22 · deep questions}}.";
+  else if(right>=SCORED*0.75) rec="Solid. Re-read whichever section you lost points in.";
+  else if(right>=SCORED*0.5) rec="Re-read {{04 · write path}}, {{05 · read path}}, {{07 · data model}}.";
+  else rec="Start with {{25 · explained simply}}, then {{03 · architecture}}.";
+  document.getElementById("scorerec").textContent=rec;
+}
+
+document.getElementById("reveal").addEventListener("click",()=>{
+  document.querySelectorAll("details.sa").forEach(d=>d.open=true);
+  document.querySelectorAll(".exp").forEach(e=>e.classList.add("show"));
+});
+document.getElementById("reset").addEventListener("click",()=>location.reload());
+</script>
+</div>
+</body>
+</html>

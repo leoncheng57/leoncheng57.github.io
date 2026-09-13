@@ -1,0 +1,72 @@
+/* paper-theme.css — the committed light palette for every study-pack page.
+ *
+ * This is a reference copy, not a stylesheet anything links to. Study-pack
+ * pages are opened over file:// as often as over the local server, so every
+ * generated .html file inlines its own <style>. Paste the :root block verbatim
+ * into each page; paste the shared rules too and add page-specific ones after.
+ *
+ * The theme is deliberately light-only — `color-scheme: light`, no
+ * prefers-color-scheme block. It reads as printed paper: warm ground, dark
+ * brown-black ink, and four "ink colours" that carry meaning rather than
+ * decoration. Do not add a dark mode; the tier colours are calibrated against
+ * the paper ground and lose their meaning inverted.
+ */
+
+:root{
+  /* paper */
+  --bg:#f2efe4; --surface:#fbf9f2; --surface-2:#e8e2d2; --ink:#282419; --muted:#6b6353;
+  --rule:#dcd3bd; --rule-2:#bfb49a;
+  /* ink colours, as on printed paper */
+  --accent:#2e4a86; --accent-soft:#e7e2d2;
+  --ok:#3d6b46; --ok-s:#e2e9db; --t1:#3d6b46; --t1s:#e2e9db;
+  --warn:#8a5f12; --warn-s:#f0e7cf; --t2:#8a5f12; --t2s:#f0e7cf;
+  --bad:#9c3a42; --bad-s:#f2e1dc; --dead:#9c3a42; --dead-s:#f2e1dc;
+  --t4:#9c3a42; --t4s:#f2e1dc;
+  --t3:#6b4a7a; --t3s:#eae2ec;
+  --t5:#6b6353; --t5s:#e8e2d2;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --serif:Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+
+/* What each token means — use them for meaning, not for looks.
+ *
+ *   --accent / --accent-soft   links, the primary button, ordinary callouts
+ *   --ok  / --ok-s   (t1)      correct, current, confirmed
+ *   --warn/ --warn-s (t2)      stale, provisional, "this will confuse you later"
+ *   --bad / --bad-s  (t4)      wrong, dead code, a path that records nothing
+ *   --t3  / --t3s              a third neutral category — no severity implied
+ *   --t5  / --t5s              optional / skippable
+ *
+ * Tier numbers map onto those same tokens so a tier's colour is consistent
+ * between the index cards and the page it links to:
+ *   t1 feature · t2 surroundings · t3 repo orientation · t4 active recall · t5 optional
+ */
+
+/* ---- shared rules, common to every page ---- */
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+     font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.back{font-family:var(--mono);font-size:.75rem;text-decoration:none}
+h1{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2rem);margin:.6rem 0 .2rem;
+   font-weight:600;letter-spacing:-.02em}
+.sub{color:var(--muted);font-size:.85rem;margin:0 0 1.2rem}
+code{font-family:var(--mono);background:var(--surface-2);padding:.1em .32em;border-radius:3px;font-size:.85em}
+button,select{font:inherit;font-size:.85rem;cursor:pointer;border:1px solid var(--rule-2);
+  background:var(--surface);color:var(--ink);padding:.4rem .85rem;border-radius:6px}
+button:hover,select:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.scroller{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.86rem;margin-top:.6rem}
+th{text-align:left;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
+   color:var(--muted);font-weight:500;padding:0 .7rem .35rem 0;border-bottom:1px solid var(--rule-2)}
+td{padding:.4rem .7rem .4rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:.7rem .95rem;
+         border-radius:0 5px 5px 0;margin-top:1rem;font-size:.9rem}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-s)}
+.progress{height:3px;background:var(--surface-2);border-radius:2px;overflow:hidden;margin-top:.8rem}
+.progress i{display:block;height:100%;background:var(--accent);width:0}

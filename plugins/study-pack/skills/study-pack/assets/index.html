@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{SUBJECT}} Study Pack</title>
+<style>
+:root{
+  /* paper */
+  --bg:#f2efe4; --surface:#fbf9f2; --surface-2:#e8e2d2; --ink:#282419; --muted:#6b6353;
+  --rule:#dcd3bd; --rule-2:#bfb49a;
+  /* ink colours, as on printed paper */
+  --accent:#2e4a86; --accent-soft:#e7e2d2;
+  --ok:#3d6b46; --ok-s:#e2e9db; --t1:#3d6b46; --t1s:#e2e9db;
+  --warn:#8a5f12; --warn-s:#f0e7cf; --t2:#8a5f12; --t2s:#f0e7cf;
+  --bad:#9c3a42; --bad-s:#f2e1dc; --dead:#9c3a42; --dead-s:#f2e1dc;
+  --t4:#9c3a42; --t4s:#f2e1dc;
+  --t3:#6b4a7a; --t3s:#eae2ec;
+  --t5:#6b6353; --t5s:#e8e2d2;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --serif:Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+     font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:64rem;margin:0 auto;padding:clamp(1.5rem,3vw,3rem) clamp(1rem,4vw,2.5rem) 4rem}
+header{border-bottom:1px solid var(--rule);padding-bottom:1.25rem;margin-bottom:1.5rem}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;
+         color:var(--muted);display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.6rem}
+.eyebrow .dot{color:var(--rule-2)}
+h1{font-family:var(--serif);font-size:clamp(1.8rem,4.5vw,2.5rem);line-height:1.1;margin:0 0 .5rem;
+   letter-spacing:-.02em;font-weight:600}
+h1 .slash{color:var(--accent);font-style:italic;font-weight:400}
+.lede{color:var(--muted);max-width:56ch;margin:0}
+.warn{margin-top:1.1rem;border-left:3px solid var(--t2);background:var(--t2s);
+      padding:.7rem .95rem;border-radius:0 5px 5px 0;font-size:.88rem}
+.warn b{color:var(--t2)}
+.warn code{font-size:.85em}
+code{font-family:var(--mono);background:var(--surface-2);padding:.1em .32em;border-radius:3px;font-size:.85em}
+a{color:var(--accent)}
+.controls{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin:1.75rem 0 .5rem}
+.controls .lbl{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+               color:var(--muted);margin-right:.3rem}
+button.track{font:inherit;font-size:.84rem;cursor:pointer;border:1px solid var(--rule-2);
+  background:var(--surface);color:var(--ink);padding:.34rem .72rem;border-radius:999px;transition:none}
+button.track:hover{border-color:var(--accent)}
+button.track[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.count{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-left:auto}
+section.tier{margin-top:2rem}
+section.tier > h2{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 .2rem;display:flex;align-items:baseline;gap:.6rem}
+section.tier > p.tdesc{margin:0 0 .8rem;font-size:.86rem;color:var(--muted);max-width:60ch}
+.grid{display:grid;gap:.6rem;grid-template-columns:repeat(auto-fill,minmax(20rem,1fr))}
+.card{display:block;text-decoration:none;color:inherit;background:var(--surface);
+  border:1px solid var(--rule);border-radius:7px;padding:.75rem .85rem;position:relative}
+.card:hover{border-color:var(--accent)}
+.card .top{display:flex;align-items:baseline;gap:.5rem;margin-bottom:.25rem}
+.card .num{font-family:var(--mono);font-size:.7rem;color:var(--muted);flex:0 0 auto}
+.card .title{font-weight:600;font-size:.95rem;line-height:1.3}
+.card .desc{font-size:.845rem;color:var(--muted);margin:.15rem 0 .5rem}
+.card .meta{display:flex;gap:.35rem;flex-wrap:wrap;align-items:center;font-size:.68rem;font-family:var(--mono)}
+.pill{padding:.13rem .42rem;border-radius:3px;letter-spacing:.03em;white-space:nowrap}
+.pill.skill{background:var(--accent-soft);color:var(--accent)}
+.pill.time{background:var(--surface-2);color:var(--muted)}
+.pill.html{background:var(--t1s);color:var(--t1)}
+.pill.star{background:var(--t2s);color:var(--t2)}
+.t1 .num,.t1 .badge{color:var(--t1)} .t2 .num{color:var(--t2)}
+.t3 .num{color:var(--t3)} .t4 .num{color:var(--t4)} .t5 .num{color:var(--t5)}
+.badge{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;padding:.1rem .4rem;border-radius:3px}
+.t1 .badge{background:var(--t1s)} .t2 .badge{background:var(--t2s);color:var(--t2)}
+.t3 .badge{background:var(--t3s);color:var(--t3)} .t4 .badge{background:var(--t4s);color:var(--t4)}
+.t5 .badge{background:var(--t5s);color:var(--t5)}
+.hidden{display:none!important}
+footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--rule);font-size:.8rem;color:var(--muted)}
+footer p{max-width:64ch}
+.prs{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.8rem;font-family:var(--mono);font-size:.74rem}
+.prs a{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:.2rem .5rem;text-decoration:none}
+.prs a:hover{border-color:var(--accent)}
+@media (max-width:34rem){ .grid{grid-template-columns:1fr} .count{margin-left:0;width:100%} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">
+    <span>{{SUBJECT}}</span><span class="dot">/</span>
+    <span>{{TICKETS}}</span><span class="dot">/</span>
+    <span>{{AREA}}</span>
+  </div>
+  <h1><span class="slash">/</span>&#8202;Study pack — really understand the code</h1>
+  <p class="lede">{{ONE_SENTENCE_LEDE}}</p>
+
+  <!-- Staleness banner. Keep it if ANY branch is stale; delete the whole block
+       only when 10-local-vs-prhead reports every branch current. -->
+  <div class="warn">
+    <b>Everything here tracks the PR heads, not your working tree.</b>
+    {{STALENESS_ONE_LINER}} Read
+    <a href="10-local-vs-prhead.md">10 · local vs PR head</a> before trusting any local file.
+  </div>
+
+  <div class="prs">
+    <a href="{{PR_URL}}">{{repo}}#{{n}} · {{what it does}}</a>
+    <!-- one per PR, plus the tracker project if there is one -->
+  </div>
+</header>
+
+<div class="controls">
+  <span class="lbl">Reading track</span>
+  <button class="track" data-track="hour"  aria-pressed="false">1 hour</button>
+  <button class="track" data-track="half"  aria-pressed="false">Half day</button>
+  <button class="track" data-track="all"   aria-pressed="true">Everything</button>
+  <span class="count" id="count"></span>
+</div>
+
+<main id="docs"></main>
+
+<footer>
+  <p><b>How this was made.</b> Each document names the Claude skill that generated
+  it — legible provenance, and a recipe for regenerating any doc from the same
+  source. Sources: {{SOURCES — PR descriptions, the commit trail, any design doc,
+  and the code read at PR heads via <code>gh api …?ref=&lt;sha&gt;</code>}}.</p>
+  <p style="margin-top:.6rem">Markdown files open as plain text in a browser — readable, but
+  they're nicer in your editor. The <span class="pill html">html</span> documents are
+  meant to be opened here.</p>
+</footer>
+
+</div>
+
+<script>
+// One entry per document. Fields:
+//   t     tier number (0-5), matched against TIERS below
+//   n     the doc's number as shown on the card ("03", "06b", "index")
+//   f     the markdown filename — the card's href unless `html` is set
+//   title card title            d      one-line description
+//   skill the Claude skill that generated it (shown as a pill — provenance)
+//   time  reading estimate, or "ref" for lookup documents
+//   track "hour" | "half" | "all" — the shortest track this doc belongs to
+//   html  optional: an interactive HTML version; the card links here instead
+//   star  optional: 1 marks a "start here" document
+const DOCS = [
+ {t:0,n:"index",f:"00-README.md",title:"README (markdown index)",d:"The same index as this page, for the editor and for grep.",skill:"explain-x-outline",time:"2 min",track:"all"},
+
+ {t:1,n:"01",f:"01-exec-summary.md",title:"Executive summary",d:"What shipped, why it exists, what it deliberately does not do.",skill:"explain-x-executive-summary",time:"4 min",track:"hour",star:1},
+ {t:1,n:"03",f:"03-architecture.md",title:"Architecture",d:"The moving parts and where they meet.",skill:"artifact-diagramming",time:"8 min",track:"hour",html:"03-architecture.html",star:1},
+ {t:1,n:"10",f:"10-local-vs-prhead.md",title:"Your checkout is stale",d:"What differs, how it was found, and how to read a PR head without fetching.",skill:"explain-x-summarize-as-table",time:"4 min",track:"hour"},
+
+ {t:4,n:"20",f:"20-flashcards.md",title:"Flashcards",d:"Self-contained cards on the non-obvious bits.",skill:"teach-x-flashcards",time:"20 min",track:"all",html:"20-flashcards.html"},
+ {t:4,n:"21",f:"21-quiz.md",title:"Quiz",d:"Questions with full explanations.",skill:"teach-x-quiz",time:"30 min",track:"all",html:"21-quiz.html",star:1}
+ // …one entry per document actually written. Do not list a doc that does not exist.
+];
+
+// Drop any tier with no documents — `render` already skips empties, but keeping
+// the labels honest matters more than keeping all six.
+const TIERS = [
+ {n:0,label:"Tier 0 · Entry point",desc:""},
+ {n:1,label:"Tier 1 · The feature",desc:"The change itself, in depth. This is the main event."},
+ {n:2,label:"Tier 2 · Surroundings",desc:"The repo conventions this change exercises — each taught through how this code uses it."},
+ {n:3,label:"Tier 3 · Repo orientation",desc:"Wider context for someone new to the repo as a whole."},
+ {n:4,label:"Tier 4 · Active recall and challenge",desc:"Test yourself, then argue with the design."},
+ {n:5,label:"Tier 5 · Optional",desc:"Skippable."}
+];
+
+const TRACKS = { hour:["hour"], half:["hour","half"], all:["hour","half","all"] };
+
+function render(track){
+  const main = document.getElementById("docs");
+  main.textContent = "";
+  const allow = TRACKS[track];
+  let shown = 0;
+  for (const tier of TIERS){
+    const docs = DOCS.filter(d => d.t === tier.n && allow.includes(d.track));
+    if (!docs.length) continue;
+    const sec = document.createElement("section");
+    sec.className = "tier t" + tier.n;
+    const h = document.createElement("h2");
+    h.textContent = tier.label;
+    sec.appendChild(h);
+    if (tier.desc){
+      const p = document.createElement("p");
+      p.className = "tdesc"; p.textContent = tier.desc; sec.appendChild(p);
+    }
+    const grid = document.createElement("div");
+    grid.className = "grid";
+    for (const d of docs){
+      shown++;
+      const a = document.createElement("a");
+      a.className = "card"; a.href = d.html || d.f;
+      const top = document.createElement("div"); top.className = "top";
+      const num = document.createElement("span"); num.className = "num"; num.textContent = d.n;
+      const ti = document.createElement("span"); ti.className = "title"; ti.textContent = d.title;
+      top.append(num, ti); a.appendChild(top);
+      const de = document.createElement("p"); de.className = "desc"; de.textContent = d.d; a.appendChild(de);
+      const meta = document.createElement("div"); meta.className = "meta";
+      const sk = document.createElement("span"); sk.className = "pill skill"; sk.textContent = d.skill;
+      const tm = document.createElement("span"); tm.className = "pill time"; tm.textContent = d.time;
+      meta.append(sk, tm);
+      if (d.html){ const hp = document.createElement("span"); hp.className="pill html"; hp.textContent="interactive"; meta.appendChild(hp); }
+      if (d.star){ const sp = document.createElement("span"); sp.className="pill star"; sp.textContent="★ start here"; meta.appendChild(sp); }
+      a.appendChild(meta);
+      grid.appendChild(a);
+    }
+    sec.appendChild(grid);
+    main.appendChild(sec);
+  }
+  document.getElementById("count").textContent = shown + " of " + DOCS.length + " documents";
+}
+
+const STORE = "{{SLUG}}-track";   // one localStorage key per pack, so packs don't collide
+let current = "all";
+try { const s = localStorage.getItem(STORE); if (s && TRACKS[s]) current = s; } catch(e){}
+
+const btns = Array.from(document.querySelectorAll("button.track"));
+function setTrack(t){
+  current = t;
+  btns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.track === t)));
+  render(t);
+  try { localStorage.setItem(STORE, t); } catch(e){}
+}
+btns.forEach(b => b.addEventListener("click", () => setTrack(b.dataset.track)));
+setTrack(current);
+</script>
+</body>
+</html>
