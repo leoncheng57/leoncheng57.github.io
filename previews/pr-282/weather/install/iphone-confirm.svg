@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 520" role="img" aria-labelledby="title desc">
+  <title id="title">Confirm NYC Weather on iPhone</title>
+  <desc id="desc">An illustrated Add to Home Screen confirmation with the Add button highlighted.</desc>
+  <rect width="320" height="520" rx="28" fill="#0f2a43"/>
+  <rect x="14" y="18" width="292" height="484" rx="22" fill="#f4f7fb"/>
+  <text x="28" y="62" fill="#2f7bbf" font-family="system-ui" font-size="15">Cancel</text>
+  <text x="160" y="62" text-anchor="middle" fill="#0f2a43" font-family="system-ui" font-size="15" font-weight="700">Add to Home Screen</text>
+  <rect x="245" y="38" width="50" height="38" rx="18" fill="#2f7bbf"/>
+  <text x="270" y="63" text-anchor="middle" fill="#fff" font-family="system-ui" font-size="15" font-weight="700">Add</text>
+  <circle cx="270" cy="57" r="31" fill="none" stroke="#d9534f" stroke-width="4"/>
+  <rect x="37" y="120" width="76" height="76" rx="18" fill="#0f2a43"/>
+  <circle cx="75" cy="151" r="17" fill="#f6c945"/>
+  <path d="M53 176c17-20 34-20 50 0" fill="none" stroke="#8fc9ed" stroke-width="7"/>
+  <text x="132" y="147" fill="#0f2a43" font-family="system-ui" font-size="18" font-weight="700">NYC Weather</text>
+  <text x="132" y="174" fill="#6b7f93" font-family="system-ui" font-size="13">leoncheng.dev</text>
+  <rect x="30" y="240" width="260" height="76" rx="14" fill="#fff" stroke="#b9cada"/>
+  <text x="48" y="272" fill="#6b7f93" font-family="system-ui" font-size="12">HOME SCREEN NAME</text>
+  <text x="48" y="299" fill="#0f2a43" font-family="system-ui" font-size="16">NYC Weather</text>
+  <text x="160" y="372" text-anchor="middle" fill="#d9534f" font-family="system-ui" font-size="13" font-weight="700">Tap Add to finish</text>
+</svg>
