@@ -36,9 +36,9 @@ describe('blog routes', () => {
     ).toHaveAttribute('href', '/blog/building-hedwig-ai-tooling-hub')
     expect(
       screen.getByRole('link', {
-        name: /Building House Party Photo Hunt/i,
+        name: /Integrating OpenHands into an Internal Dev Portal/i,
       })
-    ).toHaveAttribute('href', '/blog/building-house-party-photo-hunt')
+    ).toHaveAttribute('href', '/blog/how-openhands-was-integrated')
   })
 
   it('renders the blog index route', () => {

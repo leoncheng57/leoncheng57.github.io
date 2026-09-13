@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "study-pack",
+  "description": "Generate a tiered study pack that explains a PR stack or feature to someone reading the codebase for the first time — read at PR heads, never the working tree.",
+  "author": {
+    "name": "Leon Cheng",
+    "email": "leonc@alum.mit.edu"
+  },
+  "repository": "https://github.com/leoncheng57/leoncheng57.github.io",
+  "license": "MIT",
+  "keywords": [
+    "onboarding",
+    "code-review",
+    "documentation",
+    "learning",
+    "pull-requests",
+    "github"
+  ],
+  "homepage": "https://github.com/leoncheng57/leoncheng57.github.io/tree/main/plugins/study-pack"
+}

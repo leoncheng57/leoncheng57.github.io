@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{SUBJECT}} Architecture</title>
+<style>
+:root{
+  /* paper */
+  --bg:#f2efe4; --surface:#fbf9f2; --surface-2:#e8e2d2; --ink:#282419; --muted:#6b6353;
+  --rule:#dcd3bd; --rule-2:#bfb49a;
+  /* ink colours, as on printed paper */
+  --accent:#2e4a86; --accent-soft:#e7e2d2;
+  --ok:#3d6b46; --ok-s:#e2e9db; --t1:#3d6b46; --t1s:#e2e9db;
+  --warn:#8a5f12; --warn-s:#f0e7cf; --t2:#8a5f12; --t2s:#f0e7cf;
+  --bad:#9c3a42; --bad-s:#f2e1dc; --dead:#9c3a42; --dead-s:#f2e1dc;
+  --t4:#9c3a42; --t4s:#f2e1dc;
+  --t3:#6b4a7a; --t3s:#eae2ec;
+  --t5:#6b6353; --t5s:#e8e2d2;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --serif:Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:60rem;margin:0 auto;padding:clamp(1.5rem,3vw,2.5rem) clamp(1rem,4vw,2.5rem) 4rem}
+a{color:var(--accent)}
+.back{font-family:var(--mono);font-size:.75rem;text-decoration:none}
+h1{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.2rem);margin:.6rem 0 .3rem;font-weight:600;letter-spacing:-.02em}
+.sub{color:var(--muted);font-size:.88rem;margin:0 0 1.5rem}
+h2{font-family:var(--serif);font-size:1.25rem;margin:2.2rem 0 .3rem;font-weight:600}
+p{max-width:66ch}
+.note{font-size:.87rem;color:var(--muted);max-width:66ch}
+code{font-family:var(--mono);background:var(--surface-2);padding:.1em .32em;border-radius:3px;font-size:.85em}
+figure{margin:1rem 0 0;background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:1rem;overflow-x:auto}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:.7rem;max-width:66ch}
+svg{display:block;width:100%;height:auto;min-width:44rem}
+.s-box{fill:var(--surface-2);stroke:var(--rule-2)}
+.s-acc{fill:var(--accent-soft);stroke:var(--accent)}
+.s-ok{fill:var(--ok-s);stroke:var(--ok)}
+.s-warn{fill:var(--warn-s);stroke:var(--warn)}
+.s-dead{fill:var(--dead-s);stroke:var(--dead)}
+.s-group{fill:none;stroke:var(--rule-2);stroke-dasharray:4 3}
+text{font-family:var(--sans);fill:var(--ink);font-size:12px}
+text.mono{font-family:var(--mono);font-size:10.5px}
+text.lbl{fill:var(--muted);font-size:10px;font-family:var(--mono);letter-spacing:.06em}
+text.small{fill:var(--muted);font-size:10px}
+.arrow{stroke:var(--rule-2);stroke-width:1.4;fill:none}
+.arrow-acc{stroke:var(--accent);stroke-width:1.6;fill:none}
+.arrow-d{stroke:var(--rule-2);stroke-width:1.4;fill:none;stroke-dasharray:4 3}
+table{width:100%;border-collapse:collapse;font-size:.86rem;margin-top:.6rem}
+th{text-align:left;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
+   color:var(--muted);font-weight:500;padding:0 .7rem .35rem 0;border-bottom:1px solid var(--rule-2)}
+td{padding:.4rem .7rem .4rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.scroller{overflow-x:auto}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:.7rem .95rem;
+         border-radius:0 5px 5px 0;margin-top:1rem;font-size:.9rem}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-s)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="index.html">&larr; study pack</a>
+<h1>Architecture</h1>
+<!-- Always name the refs the diagram was drawn against. An unstated ref is an
+     unverifiable claim. -->
+<p class="sub">{{SUBJECT}} · <code>{{sha}}</code> ({{repo}}) ·
+markdown version: <a href="03-architecture.md">03-architecture.md</a></p>
+
+<h2>The one thing to understand first</h2>
+<p>{{The single fact that makes everything else legible. If the reader retains one
+paragraph, this is the one — put it above the diagrams, not after them.}}</p>
+
+<div class="scroller">
+<table>
+<thead><tr><th></th><th>{{Thing A}}</th><th>{{Thing B}}</th></tr></thead>
+<tbody>
+<tr><td>{{dimension}}</td><td>{{…}}</td><td>{{…}}</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout warn"><b>The consequence that will confuse you later.</b>
+{{The thing that looks like a bug when you hit it in six months, and isn't.}}</div>
+
+<h2>{{The first path}}</h2>
+<figure>
+<!-- SVG conventions:
+     · viewBox with a fixed aspect; `svg{width:100%}` scales it. min-width keeps
+       it legible rather than letting labels crush on narrow screens.
+     · Colour by MEANING, using the .s-* classes: .s-acc is the path under
+       discussion, .s-box neutral infrastructure, .s-warn a caveat, .s-dead a
+       path that records nothing / is not exercised.
+     · Every box needs a label; use text.mono for identifiers and file paths.
+     · role="img" plus a full aria-label that states the whole flow in a
+       sentence — this is the only version a screen reader gets.
+     · No gradients, no shadows, no animation. It should print. -->
+<svg viewBox="0 0 880 470" role="img"
+     aria-label="{{One sentence describing the entire flow, start to finish.}}">
+  <defs>
+    <marker id="a" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <polygon points="0 0, 9 3.5, 0 7" fill="var(--rule-2)"/></marker>
+    <marker id="aa" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <polygon points="0 0, 9 3.5, 0 7" fill="var(--accent)"/></marker>
+  </defs>
+
+  <!-- a node -->
+  <rect class="s-acc" x="40" y="40" width="200" height="54" rx="6"/>
+  <text x="140" y="62" text-anchor="middle">{{Node label}}</text>
+  <text class="mono" x="140" y="80" text-anchor="middle">{{path/to/file.py}}</text>
+
+  <!-- an edge -->
+  <path class="arrow-acc" d="M240 67 H 340" marker-end="url(#aa)"/>
+  <text class="lbl" x="290" y="58" text-anchor="middle">{{EDGE LABEL}}</text>
+
+  <!-- a dashed group box for "these belong together" -->
+  <rect class="s-group" x="24" y="24" width="240" height="86" rx="8"/>
+</svg>
+<figcaption>{{What the diagram is claiming, in prose. A caption that only
+restates the title is wasted — say the thing the picture can't.}}</figcaption>
+</figure>
+
+<div class="callout"><b>{{A claim worth pulling out.}}</b> {{Why it is true.}}</div>
+
+<h2>{{The second path}}</h2>
+<figure>
+<svg viewBox="0 0 880 400" role="img" aria-label="{{…}}">
+  <defs>
+    <marker id="b" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <polygon points="0 0, 9 3.5, 0 7" fill="var(--rule-2)"/></marker>
+  </defs>
+  <!-- … -->
+</svg>
+<figcaption>{{…}}</figcaption>
+</figure>
+
+<h2>{{A reference table}}</h2>
+<div class="scroller">
+<table>
+<thead><tr><th>{{col}}</th><th>{{col}}</th></tr></thead>
+<tbody>
+<tr><td>{{…}}</td><td>{{…}}</td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="note">{{Anything that qualifies the diagrams — what is simplified, what
+is deliberately left out.}}</p>
+
+</div>
+</body>
+</html>

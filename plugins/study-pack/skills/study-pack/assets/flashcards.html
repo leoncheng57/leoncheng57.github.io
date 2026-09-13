@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{SUBJECT}} Flashcards</title>
+<style>
+:root{
+  /* paper */
+  --bg:#f2efe4; --surface:#fbf9f2; --surface-2:#e8e2d2; --ink:#282419; --muted:#6b6353;
+  --rule:#dcd3bd; --rule-2:#bfb49a;
+  /* ink colours, as on printed paper */
+  --accent:#2e4a86; --accent-soft:#e7e2d2;
+  --ok:#3d6b46; --ok-s:#e2e9db; --t1:#3d6b46; --t1s:#e2e9db;
+  --warn:#8a5f12; --warn-s:#f0e7cf; --t2:#8a5f12; --t2s:#f0e7cf;
+  --bad:#9c3a42; --bad-s:#f2e1dc; --dead:#9c3a42; --dead-s:#f2e1dc;
+  --t4:#9c3a42; --t4s:#f2e1dc;
+  --t3:#6b4a7a; --t3s:#eae2ec;
+  --t5:#6b6353; --t5s:#e8e2d2;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --serif:Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:48rem;margin:0 auto;padding:clamp(1.25rem,3vw,2.5rem) clamp(1rem,4vw,2rem) 3rem}
+a{color:var(--accent)} .back{font-family:var(--mono);font-size:.75rem;text-decoration:none}
+h1{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2rem);margin:.6rem 0 .2rem;font-weight:600;letter-spacing:-.02em}
+.sub{color:var(--muted);font-size:.85rem;margin:0 0 1.2rem}
+code{font-family:var(--mono);background:var(--surface-2);padding:.1em .32em;border-radius:3px;font-size:.85em}
+.bar{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-bottom:.8rem}
+select,button{font:inherit;font-size:.84rem;cursor:pointer;border:1px solid var(--rule-2);
+  background:var(--surface);color:var(--ink);padding:.34rem .7rem;border-radius:6px}
+button:hover,select:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.pos{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-left:auto}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:10px;
+  padding:1.6rem 1.4rem;min-height:15rem;display:flex;flex-direction:column;justify-content:center;
+  cursor:pointer;position:relative}
+.card:hover{border-color:var(--rule-2)}
+.card .sect{position:absolute;top:.7rem;left:1.1rem;font-family:var(--mono);font-size:.64rem;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.card .side{position:absolute;top:.7rem;right:1.1rem;font-family:var(--mono);font-size:.64rem;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.card .q{font-family:var(--serif);font-size:1.22rem;line-height:1.4;margin:0}
+.card .a{font-size:1rem;line-height:1.6;margin:0}
+.card.flipped{background:var(--ok-s);border-color:var(--ok)}
+.card.flipped .side{color:var(--ok)}
+.hint{text-align:center;font-size:.76rem;color:var(--muted);margin-top:.6rem}
+.nav{display:flex;gap:.4rem;margin-top:.8rem;align-items:center}
+.nav .spacer{flex:1}
+.marks{display:flex;gap:.4rem}
+.progress{height:3px;background:var(--surface-2);border-radius:2px;overflow:hidden;margin-top:1rem}
+.progress i{display:block;height:100%;background:var(--accent)}
+.stats{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:.5rem;display:flex;gap:1rem;flex-wrap:wrap}
+kbd{font-family:var(--mono);font-size:.7rem;background:var(--surface-2);border:1px solid var(--rule-2);
+  border-bottom-width:2px;border-radius:3px;padding:.05em .32em}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="index.html">&larr; study pack</a>
+<h1>Flashcards</h1>
+<p class="sub">{{N}} cards · answers reflect PR heads, not your working tree ·
+markdown: <a href="20-flashcards.md">20-flashcards.md</a></p>
+
+<div class="bar">
+  <select id="sect"><option value="">All sections</option></select>
+  <button id="shuffle">Shuffle</button>
+  <button id="known">Hide known</button>
+  <button id="reset">Reset</button>
+  <span class="pos" id="pos"></span>
+</div>
+
+<div class="card" id="card" tabindex="0" role="button" aria-label="Flashcard — click or press space to flip">
+  <span class="sect" id="csect"></span><span class="side" id="cside">Question</span>
+  <p class="q" id="ctext"></p>
+</div>
+<p class="hint"><kbd>space</kbd> flip · <kbd>&larr;</kbd><kbd>&rarr;</kbd> navigate ·
+<kbd>k</kbd> mark known · <kbd>s</kbd> shuffle</p>
+
+<div class="nav">
+  <button id="prev">&larr; Prev</button>
+  <button id="next" class="primary">Next &rarr;</button>
+  <span class="spacer"></span>
+  <div class="marks"><button id="mark">Mark known</button></div>
+</div>
+
+<div class="progress"><i id="bar" style="width:0%"></i></div>
+<div class="stats"><span id="kstat"></span><span id="fstat"></span></div>
+
+<script>
+// Cards, as JSON so the same array can be lifted straight out of / into the .md.
+//   s  section label — becomes an option in the section filter; keep the set small
+//   q  question — self-contained: it must make sense with no other card on screen
+//   a  answer — inline HTML allowed (<code>, <b>, <i>, <br>)
+// Both q and a are inserted with innerHTML, so do not paste untrusted text here.
+const CARDS =
+[
+{
+"s": "{{Section}}",
+"q": "{{A question that stands alone — no \"it\", no \"the above\".}}",
+"a": "{{The answer, and the reason it is the answer. A card that states a fact without its reason is a card you will forget.}}"
+},
+{
+"s": "{{Section}}",
+"q": "{{…}}",
+"a": "{{…}}"
+}
+]
+;
+const KEY="{{SLUG}}-cards-known";   // one localStorage key per pack
+let known=new Set(); try{const r=localStorage.getItem(KEY); if(r) known=new Set(JSON.parse(r));}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...known]));}catch(e){}};
+CARDS.forEach((c,i)=>c.id=i);
+
+const sectSel=document.getElementById("sect");
+[...new Set(CARDS.map(c=>c.s))].forEach(s=>{
+  const o=document.createElement("option"); o.value=s; o.textContent=s; sectSel.appendChild(o);});
+
+let deck=[], idx=0, flipped=false, hideKnown=false;
+function build(){
+  const s=sectSel.value;
+  deck=CARDS.filter(c=>(!s||c.s===s)&&(!hideKnown||!known.has(c.id)));
+  if(!deck.length) deck=CARDS.filter(c=>!s||c.s===s);
+  if(idx>=deck.length) idx=0;
+  draw();
+}
+function draw(){
+  const c=deck[idx]; if(!c) return;
+  flipped=false;
+  const card=document.getElementById("card");
+  card.classList.remove("flipped");
+  document.getElementById("csect").textContent=c.s;
+  document.getElementById("cside").textContent="Question";
+  const t=document.getElementById("ctext");
+  t.className="q"; t.innerHTML=c.q;
+  document.getElementById("pos").textContent=(idx+1)+" / "+deck.length;
+  document.getElementById("bar").style.width=(deck.length?((idx+1)/deck.length*100):0)+"%";
+  document.getElementById("mark").textContent=known.has(c.id)?"Known ✓":"Mark known";
+  document.getElementById("kstat").textContent=known.size+" of "+CARDS.length+" marked known";
+  document.getElementById("fstat").textContent=hideKnown?"hiding known":"";
+}
+function flip(){
+  const c=deck[idx]; if(!c) return;
+  flipped=!flipped;
+  const card=document.getElementById("card");
+  const t=document.getElementById("ctext");
+  card.classList.toggle("flipped",flipped);
+  document.getElementById("cside").textContent=flipped?"Answer":"Question";
+  t.className=flipped?"a":"q";
+  t.innerHTML=flipped?c.a:c.q;
+}
+const go=d=>{ if(!deck.length) return; idx=(idx+d+deck.length)%deck.length; draw(); };
+function shuffle(){ for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];} idx=0; draw(); }
+function toggleKnown(){ const c=deck[idx]; if(!c) return; known.has(c.id)?known.delete(c.id):known.add(c.id); save(); draw(); }
+
+document.getElementById("card").addEventListener("click",flip);
+document.getElementById("next").addEventListener("click",()=>go(1));
+document.getElementById("prev").addEventListener("click",()=>go(-1));
+document.getElementById("shuffle").addEventListener("click",shuffle);
+document.getElementById("mark").addEventListener("click",toggleKnown);
+document.getElementById("reset").addEventListener("click",()=>{known.clear();save();build();});
+document.getElementById("known").addEventListener("click",e=>{
+  hideKnown=!hideKnown; e.target.textContent=hideKnown?"Show all":"Hide known"; idx=0; build();});
+sectSel.addEventListener("change",()=>{idx=0;build();});
+document.addEventListener("keydown",e=>{
+  if(e.target.tagName==="SELECT") return;
+  if(e.key===" "){e.preventDefault();flip();}
+  else if(e.key==="ArrowRight")go(1);
+  else if(e.key==="ArrowLeft")go(-1);
+  else if(e.key==="k"||e.key==="K")toggleKnown();
+  else if(e.key==="s"||e.key==="S")shuffle();
+});
+build();
+</script>
+</div>
+</body>
+</html>
