@@ -1,13 +1,27 @@
 {
   "manifest_version": 3,
-  "name": "Pocket Weather",
-  "description": "New York City's weather and five-day forecast, a click away.",
-  "version": "1.0.1",
+  "name": "NYC Weather",
+  "description": "NYC's current weather, hourly charts, and live temperature in your toolbar.",
+  "version": "1.1.0",
   "action": {
-    "default_title": "Pocket Weather",
-    "default_popup": "popup.html"
+    "default_title": "NYC Weather",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "32": "icon-192.png"
+    }
   },
   "host_permissions": [
-    "https://api.open-meteo.com/*"
-  ]
+    "https://api.open-meteo.com/*",
+    "https://air-quality-api.open-meteo.com/*"
+  ],
+  "permissions": [
+    "alarms",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "128": "icon-192.png"
+  }
 }

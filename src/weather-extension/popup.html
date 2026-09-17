@@ -3,24 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pocket Weather</title>
+    <title>NYC Weather</title>
     <link rel="stylesheet" href="popup.css">
     <script src="popup.js" defer></script>
   </head>
-  <body>
-    <main>
-      <header><span class="brand">◒ Pocket Weather</span><button id="unit" aria-label="Switch to Celsius">°F / °C</button></header>
-      <section id="weather" aria-label="Weather" hidden>
-        <div class="location"><h1 id="location"></h1><p id="region"></p></div>
-        <div class="current"><span id="temperature"></span><span id="symbol" aria-hidden="true"></span></div>
-        <p id="condition"></p>
-        <p id="feels"></p>
-        <dl><div><dt>Humidity</dt><dd id="humidity"></dd></div><div><dt>Wind</dt><dd id="wind"></dd></div><div><dt>Rain today</dt><dd id="rain"></dd></div></dl>
-        <h2>Five-day forecast</h2>
-        <ul id="forecast"></ul>
-      </section>
-      <p id="status" role="status">Loading weather for New York City…</p>
-      <footer><a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Weather by Open-Meteo</a><button id="refresh" hidden>Refresh</button></footer>
-    </main>
-  </body>
+  <body><div id="root"></div></body>
 </html>
