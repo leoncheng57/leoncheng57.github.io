@@ -1,8 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Pocket Weather",
-  "description": "Your city's weather and five-day forecast, a click away.",
-  "version": "1.0.0",
-  "action": { "default_title": "Pocket Weather", "default_popup": "popup.html" },
-  "host_permissions": ["https://api.open-meteo.com/*", "https://geocoding-api.open-meteo.com/*"]
+  "description": "New York City's weather and five-day forecast, a click away.",
+  "version": "1.0.1",
+  "action": {
+    "default_title": "Pocket Weather",
+    "default_popup": "popup.html"
+  },
+  "host_permissions": [
+    "https://api.open-meteo.com/*"
+  ]
 }

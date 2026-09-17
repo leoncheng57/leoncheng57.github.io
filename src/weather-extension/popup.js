@@ -1,9 +1,8 @@
 const $ = (id) => document.getElementById(id);
 let unit = 'F';
-let location;
+const location = { name: 'New York City', admin1: 'New York', country: 'United States', latitude: 40.7128, longitude: -74.0060 };
 let weather;
 let forecastRequest;
-let searchRequest;
 
 function describe(code, day = true) {
   if (code === 0) return [day ? 'Clear sky' : 'Clear night', day ? '☀' : '☾'];
@@ -22,7 +21,7 @@ const temperature = (value) => number(Number.isFinite(value) ? (unit === 'F' ? v
 const region = (place) => [...new Set([place.admin1, place.country].filter(Boolean))].join(', ');
 
 function save() {
-  try { localStorage.setItem('pocket-weather', JSON.stringify({ unit, location })); }
+  try { localStorage.setItem('pocket-weather', JSON.stringify({ unit })); }
   catch { $('status').textContent += ' Preferences could not be saved.'; }
 }
 
@@ -80,7 +79,6 @@ async function loadWeather(place) {
     const data = await fetchJSON(`https://api.open-meteo.com/v1/forecast?${params}`, controller.signal);
     if (controller.signal.aborted) return;
     if (!data.current || !data.daily?.time?.length) throw new Error('Missing forecast');
-    location = place;
     weather = data;
     render();
     $('status').textContent = `Updated ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
@@ -99,46 +97,10 @@ async function loadWeather(place) {
   }
 }
 
-$('search').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const query = $('city').value.trim();
-  if (query.length < 2) { $('search-status').textContent = 'Enter at least two characters.'; return; }
-  searchRequest?.abort();
-  const controller = new AbortController();
-  searchRequest = controller;
-  $('results').hidden = true;
-  $('search-status').textContent = 'Searching…';
-  try {
-    const params = new URLSearchParams({ name: query, count: 5, language: 'en', format: 'json' });
-    const data = await fetchJSON(`https://geocoding-api.open-meteo.com/v1/search?${params}`, controller.signal);
-    if (controller.signal.aborted) return;
-    const places = data.results || [];
-    $('search-status').textContent = places.length ? 'Choose a city:' : 'No cities found. Try another name.';
-    $('results').replaceChildren(...places.map((place) => {
-      const row = document.createElement('li');
-      const button = document.createElement('button');
-      button.textContent = `${place.name}${region(place) ? `, ${region(place)}` : ''}`;
-      button.addEventListener('click', () => {
-        $('results').hidden = true;
-        $('search-status').textContent = '';
-        $('city').value = '';
-        $('city').focus();
-        loadWeather(place);
-      });
-      row.append(button);
-      return row;
-    }));
-    $('results').hidden = places.length === 0;
-  } catch {
-    if (!controller.signal.aborted) $('search-status').textContent = 'Search is unavailable. Check your connection and try again.';
-  }
-});
-
 $('unit').addEventListener('click', () => { unit = unit === 'F' ? 'C' : 'F'; render(); save(); });
 try {
   const saved = JSON.parse(localStorage.getItem('pocket-weather') || '{}');
   unit = saved.unit === 'C' ? 'C' : 'F';
-  if (typeof saved.location?.name === 'string' && Number.isFinite(saved.location.latitude) && Number.isFinite(saved.location.longitude)) location = saved.location;
 } catch { /* An invalid preference should not prevent opening the popup. */ }
 render();
-if (location) loadWeather(location);
+loadWeather(location);
