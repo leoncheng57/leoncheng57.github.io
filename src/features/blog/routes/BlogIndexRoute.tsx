@@ -3,11 +3,9 @@ import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
-import TagList from '../../../components/markdown/TagList'
 import { getBlogFeed } from '../feed'
-import GuideRepoReference from '../../guides/components/GuideRepoReference'
+import BlogFeedCard from '../components/BlogFeedCard'
 import styles from '../blog.module.css'
-import guideStyles from '../../guides/guides-index.module.css'
 
 export default function BlogIndexRoute(): ReactElement {
   const posts = getBlogFeed()
@@ -136,27 +134,7 @@ export default function BlogIndexRoute(): ReactElement {
         ) : null}
         <div className={styles.postList}>
           {visiblePosts.map((post) => (
-            <article key={post.href} className={`${styles.postCard} ${post.kind === 'Guide' ? `${guideStyles.guideCard} ${styles.feedGuide}` : ''}`}>
-              <h2>
-                {post.href.startsWith('https://') ? <a href={post.href}>{post.title}</a> : <Link to={post.href}>{post.title}</Link>}
-              </h2>
-              {post.guide ? (
-                <div className={styles.feedRepo}>
-                  <GuideRepoReference repoUrl={post.guide.repoUrl} repoAccess={post.guide.repoAccess} repoScope={post.guide.repoScope} />
-                </div>
-              ) : null}
-              <p>{post.description}</p>
-              <div className={styles.indexMeta}>
-                <p><time dateTime={post.date}>{post.date}</time></p>
-                {post.readingTimeMinutes ? <p>{post.readingTimeMinutes} min read</p> : null}
-              </div>
-              <TagList
-                tags={post.tags}
-                selectedTags={selectedTags}
-                onTagClick={addTag}
-                styles={styles}
-              />
-            </article>
+            <BlogFeedCard key={post.href} post={post} selectedTags={selectedTags} onTagClick={addTag} />
           ))}
           {visiblePosts.length === 0 ? <p className={styles.emptyState}>No posts match those tags.</p> : null}
         </div>

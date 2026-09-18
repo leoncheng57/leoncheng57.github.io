@@ -12,7 +12,7 @@ describe('home route recent work', () => {
     )
 
     const recentWork = screen.getByRole('region', { name: 'Recent work' })
-    const cards = within(recentWork).getAllByRole('link')
+    const cards = within(recentWork).getAllByRole('heading', { level: 3 }).map(heading => within(heading).getByRole('link'))
 
     expect(cards).toHaveLength(6)
     expect(cards.map((card) => card.getAttribute('href'))).toEqual([
@@ -23,11 +23,11 @@ describe('home route recent work', () => {
       '/blog/how-openhands-was-integrated',
       '/blog/building-house-party-photo-hunt',
     ])
-    expect(within(recentWork).queryAllByText('Project')).toHaveLength(0)
-    expect(within(recentWork).queryAllByText('App')).toHaveLength(0)
-    expect(within(recentWork).getAllByText('Blog')).toHaveLength(5)
-    expect(within(recentWork).getAllByText('Guide')).toHaveLength(1)
-    expect(within(recentWork).queryAllByText('Alpha')).toHaveLength(0)
-    expect(within(recentWork).queryAllByText('Beta')).toHaveLength(0)
+    const articles = recentWork.querySelectorAll('article')
+    expect(articles).toHaveLength(6)
+    articles.forEach(card => {
+      expect(card.children).toHaveLength(1)
+      expect(card.firstElementChild?.tagName).toBe('H3')
+    })
   })
 })

@@ -8,6 +8,9 @@ import TopNav from '../components/top-nav/TopNav'
 import { getAllBlogPosts } from '../features/blog/content'
 import { getAllGuides } from '../features/guides/content'
 import styles from '../App.module.css'
+import BlogFeedCard from '../features/blog/components/BlogFeedCard'
+import { getBlogFeed } from '../features/blog/feed'
+import appStyles from '../features/apps/apps.module.css'
 
 type RecentItem = {
   key: string
@@ -87,6 +90,7 @@ const APP_ITEMS: RecentItem[] = [
 ]
 
 export default function HomeRoute(): ReactElement {
+  const feed = getBlogFeed()
   const recentItems: RecentItem[] = [
     ...getAllGuides().map((guide) => ({
       key: `guide-${guide.slug}`,
@@ -121,44 +125,16 @@ export default function HomeRoute(): ReactElement {
             <h2 id="recent-work-title">Recent work</h2>
           </div>
           <div className={styles.recentGrid}>
-            {recentItems.map((item, index) => {
-              const cardContent = (
-                <>
-                  <span className={styles.recentNumber}>
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span className={styles.recentLabels}>
-                    <span className={styles.recentType}>{item.type}</span>
-                    {item.status?.map((status) => (
-                      <span
-                        className={
-                          status === 'Alpha'
-                            ? styles.recentStatusAlpha
-                            : styles.recentStatus
-                        }
-                        key={status}
-                      >
-                        {status}
-                      </span>
-                    ))}
-                  </span>
-                  <span className={styles.posterFrames} aria-hidden="true">
-                    <span className={styles.posterFrameBack} />
-                    <span className={styles.posterFrameFront} />
-                  </span>
-                  <span className={styles.recentTitle}>{item.title}</span>
-                  <span className={styles.recentCta}>{item.cta}</span>
-                </>
-              )
+            {recentItems.map((item) => {
+              const post = feed.find((entry) => entry.href === item.href)
+              if (post) return <BlogFeedCard key={item.key} post={post} headingLevel={3} titleOnly />
 
-              return item.external ? (
-                <a className={styles.recentCard} href={item.href} key={item.key}>
-                  {cardContent}
-                </a>
-              ) : (
-                <Link className={styles.recentCard} key={item.key} to={item.href}>
-                  {cardContent}
-                </Link>
+              return (
+                <article className={appStyles.appCard} key={item.key}>
+                  <h3>
+                    {item.external ? <a href={item.href}>{item.title}</a> : <Link to={item.href}>{item.title}</Link>}
+                  </h3>
+                </article>
               )
             })}
           </div>
