@@ -9,6 +9,20 @@ function LocationProbe() {
 }
 
 describe('blog routes', () => {
+  it('interleaves guides and posts newest first and filters both by tag', () => {
+    const { container } = render(<MemoryRouter initialEntries={['/blog']}><App /></MemoryRouter>)
+    const cards = Array.from(container.querySelectorAll('main article'))
+    const dates = cards.map(card => card.querySelector('time')!.dateTime)
+    expect(dates).toEqual([...dates].sort().reverse())
+    const kinds = cards.map(card => card.querySelector('h2 a')!.getAttribute('href')!.startsWith('/guides/'))
+    expect(kinds.filter(Boolean)).toHaveLength(5)
+    expect(kinds.some((isGuide, i) => isGuide && kinds.slice(0, i).includes(false) && kinds.slice(i + 1).includes(false))).toBe(true)
+    fireEvent.click(screen.getByRole('button', { name: 'Filter tags' }))
+    fireEvent.click(screen.getByRole('checkbox', { name: 'opencode' }))
+    expect(screen.getByRole('link', { name: 'opencode personal config' })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Hello Blog' })).not.toBeInTheDocument()
+  })
+
   it('renders the shared top navbar on the home route', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
