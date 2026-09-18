@@ -513,3 +513,28 @@
     grid-row: 1;
   }
 }
+
+/* Guides keep their terminal palette inside the shared chronological feed. */
+.postCard.feedGuide {
+  background: var(--term-bg);
+  color: var(--term-ink);
+  --link-color: var(--term-accent);
+  --link-hover-color: var(--term-accent-alt);
+}
+
+.feedGuide .indexMeta {
+  color: #a3aaa6;
+}
+
+.feedGuide .tag {
+  border-color: var(--term-line);
+  background: var(--term-chrome);
+  color: var(--term-accent-alt);
+}
+
+.feedGuide .tagButton:hover,
+.feedGuide .selectedTag {
+  border-color: var(--term-accent);
+  background: var(--term-accent);
+  color: var(--term-bg);
+}

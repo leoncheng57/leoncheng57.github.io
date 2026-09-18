@@ -7,6 +7,7 @@ import TagList from '../../../components/markdown/TagList'
 import { getBlogFeed } from '../feed'
 import GuideRepoReference from '../../guides/components/GuideRepoReference'
 import styles from '../blog.module.css'
+import guideStyles from '../../guides/guides-index.module.css'
 
 export default function BlogIndexRoute(): ReactElement {
   const posts = getBlogFeed()
@@ -135,7 +136,7 @@ export default function BlogIndexRoute(): ReactElement {
         ) : null}
         <div className={styles.postList}>
           {visiblePosts.map((post) => (
-            <article key={post.href} className={styles.postCard}>
+            <article key={post.href} className={`${styles.postCard} ${post.kind === 'Guide' ? `${guideStyles.guideCard} ${styles.feedGuide}` : ''}`}>
               <h2>
                 <Link to={post.href}>{post.title}</Link>
               </h2>
