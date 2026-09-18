@@ -6,23 +6,22 @@ const Social: NextPage = () => {
   return (
     <div className={classNames(styles.container, "GLOBALS-section")}>
       <div className={styles.innerContainer}>
-        <div className={styles.handle}>
-          <div className={styles.iconImageWrapper}>
-            <img alt="github icon" src="./icons/github-icon.svg" />
-          </div>
-          <p>
-            <a href="https://github.com/leoncheng57/">leoncheng57 </a>
-          </p>
-        </div>
-
-        <div className={styles.handle}>
-          <div className={styles.iconImageWrapper}>
-            <img alt="email icon" src="./icons/email-icon.svg" />
-          </div>
-          <p>
-            <a href="mailto:leonc@alum.mit.edu">leonc@alum.mit.edu</a>
-          </p>
-        </div>
+        <a
+          className={styles.handle}
+          href="https://github.com/leoncheng57/"
+          aria-label="Leon Cheng on GitHub"
+          title="GitHub"
+        >
+          <img alt="" src="./icons/github-icon.svg" />
+        </a>
+        <a
+          className={styles.handle}
+          href="mailto:leonc@alum.mit.edu"
+          aria-label="Email Leon Cheng"
+          title="leonc@alum.mit.edu"
+        >
+          <img alt="" src="./icons/email-icon.svg" />
+        </a>
       </div>
     </div>
   );
