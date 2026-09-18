@@ -18,7 +18,7 @@ describe('apps index route', () => {
     const container = renderAppsIndex()
 
     const cards = container.querySelectorAll('article')
-    expect(cards).toHaveLength(6)
+    expect(cards).toHaveLength(7)
 
     cards.forEach((card) => {
       const icon = card.querySelector('img')
@@ -37,6 +37,7 @@ describe('apps index route', () => {
 
     expect(iconSources).toEqual([
       '/app-icons/sub-wait-v2.svg',
+      '/app-icons/weather.svg',
       '/app-icons/weather.svg',
       '/app-icons/game-nights.svg',
       '/app-icons/whoops-hoops.png',
@@ -90,6 +91,7 @@ describe('apps index route', () => {
     expect(headings).toEqual([
       'Sub-WaitBETA',
       'NYC WeatherBETA',
+      'NYC Weather for Chrome',
       "Georgie's Game Nights",
       'Whoops Hoops',
       'House Party Photo Hunt',
