@@ -37,13 +37,13 @@ export default function HomeRoute(): ReactElement {
           <div className={styles.recentHeading}>
             <h2 id="recent-blogs-title">Blogs</h2>
           </div>
+          <p><Link to="/blog">See all blogs →</Link></p>
           <div className={styles.recentGrid}>
             {posts.map(post => (
               <BlogFeedCard key={post.href} post={post} headingLevel={3} titleOnly
                 footer={<p className={styles.recentDate}><RelativeDate date={post.date} /></p>} />
             ))}
           </div>
-          <p><Link to="/blog">See all blogs and guides →</Link></p>
         </section>
         <section className={styles.recentWriting} aria-labelledby="recent-apps-title">
           <div className={styles.recentHeading}>
