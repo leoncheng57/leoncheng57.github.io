@@ -1,0 +1,567 @@
+.page {
+  /* Light theme (default). A cool blue accent distinguishes this app from
+     Sub-Wait's monochrome palette while keeping the same structure. */
+  --wx-bg: #f4f7fb;
+  --wx-surface: #ffffff;
+  --wx-surface-raised: #eaf1f8;
+  --wx-ink: #0f2a43;
+  --wx-ink-soft: #35526b;
+  --wx-muted: #6b7f93;
+  --wx-accent: #0f2a43;
+  --wx-accent-strong: #0a1c2e;
+  --wx-accent-contrast: #ffffff;
+  --wx-line: rgba(15, 42, 67, 0.14);
+  --wx-focus: #0f2a43;
+  --wx-high: #d9534f;
+  --wx-low: #2f7bbf;
+  --wx-precip: #2f7bbf;
+  --wx-aqi: #1a1a1a;
+  --wx-good: #2e7d32;
+  --wx-moderate: #b8860b;
+  --wx-sensitive: #d2691e;
+  --wx-unhealthy: #c62828;
+  --wx-body:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
+    sans-serif;
+
+  /* Theme the shared feedback dialog and design-system footer. */
+  --fb-surface: var(--wx-surface);
+  --fb-surface-raised: var(--wx-surface-raised);
+  --fb-ink: var(--wx-ink);
+  --fb-line: var(--wx-line);
+  --fb-muted: var(--wx-muted);
+  --fb-accent: var(--wx-accent-strong);
+  --fb-focus: var(--wx-focus);
+  --sf-line: var(--wx-line);
+  --sf-ink: var(--wx-ink);
+  --sf-muted: var(--wx-muted);
+  --sf-border-width: 1px;
+  --pi-backdrop: rgba(3, 12, 20, 0.68);
+  --pi-surface: var(--wx-surface);
+  --pi-surface-raised: var(--wx-surface-raised);
+  --pi-ink: var(--wx-ink);
+  --pi-muted: var(--wx-ink-soft);
+  --pi-line: var(--wx-line);
+  --pi-accent: var(--wx-accent-strong);
+  --pi-accent-contrast: var(--wx-accent-contrast);
+  --pi-focus: var(--wx-focus);
+
+  min-height: 100vh;
+  background: var(--wx-bg);
+  color: var(--wx-ink);
+  font-family: var(--wx-body);
+  padding: 1rem 0.85rem 3rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.page[data-theme='dark'] {
+  --wx-bg: #0b1420;
+  --wx-surface: #142234;
+  --wx-surface-raised: #1c2e44;
+  --wx-ink: #eaf1f8;
+  --wx-ink-soft: #c3d3e2;
+  --wx-muted: #8ba0b5;
+  --wx-accent: #eaf1f8;
+  --wx-accent-strong: #ffffff;
+  --wx-accent-contrast: #0b1420;
+  --wx-line: rgba(234, 241, 248, 0.16);
+  --wx-focus: #eaf1f8;
+  --wx-high: #ff8a80;
+  --wx-low: #6fb3f2;
+  --wx-precip: #6fb3f2;
+  --wx-aqi: #eaf1f8;
+  --wx-good: #66bb6a;
+  --wx-moderate: #d4b106;
+  --wx-sensitive: #e08a3c;
+  --wx-unhealthy: #ef5350;
+}
+
+
+.frame {
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+/* ── Masthead ─────────────────────────────────────────────────────────── */
+
+.masthead {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 3px solid var(--wx-accent);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.wordmark {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.betaBadge {
+  padding: 0.22rem 0.4rem 0.18rem;
+  border-radius: 999px;
+  background: var(--wx-accent);
+  color: var(--wx-accent-contrast);
+  font-size: 0.55rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mastheadNav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+@media (max-width: 24rem) {
+  .masthead {
+    grid-template-columns: 1fr auto;
+  }
+
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .palettePicker {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .mastheadNav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  .mastheadLink {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+.mastheadLink {
+  color: var(--wx-ink-soft);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.1rem;
+}
+
+.mastheadLink[aria-current="page"] {
+  color: var(--wx-ink);
+  border-bottom: 2px solid var(--wx-accent);
+}
+
+
+/* ── Layout ───────────────────────────────────────────────────────────── */
+
+.main {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.pageTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.backLink {
+  margin: 0;
+}
+
+.backLink a {
+  color: var(--wx-ink-soft);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.loading,
+.updatedAt,
+.sourceNote {
+  color: var(--wx-muted);
+  font-size: 0.85rem;
+}
+
+/* ── Status banners ───────────────────────────────────────────────────── */
+
+.staleBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.6rem;
+  background: var(--wx-surface-raised);
+  color: var(--wx-ink-soft);
+  font-size: 0.85rem;
+}
+
+.staleBanner button,
+.errorPanel button {
+  border: 1px solid var(--wx-line);
+  border-radius: 0.4rem;
+  background: var(--wx-surface);
+  color: var(--wx-ink);
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.errorPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  background: var(--wx-surface-raised);
+}
+
+/* ── Current conditions ───────────────────────────────────────────────── */
+
+.current {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.currentTemp {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.currentCondition {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--wx-ink-soft);
+}
+
+.currentAqi {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--wx-ink-soft);
+}
+
+/* ── Charts ───────────────────────────────────────────────────────────── */
+
+.chartSection {
+  background: var(--wx-surface);
+  border-radius: 0.75rem;
+  padding: 0.85rem 0.6rem 0.6rem;
+  border: 1px solid var(--wx-line);
+}
+
+.chartTipBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(5, 12, 20, 0.62);
+}
+
+.chartTipDialog {
+  width: min(100%, 28rem);
+  overflow: hidden;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.9rem;
+  background: var(--wx-surface);
+  box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.3);
+}
+
+.chartTipDialogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--wx-line);
+}
+
+.chartTipDialog h2,
+.chartTipDialog p {
+  margin: 0;
+}
+
+.chartTipDialog h2 {
+  font-size: 1rem;
+}
+
+.chartTipDialog p {
+  padding: 1rem;
+  color: var(--wx-ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.chartTipDialog footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--wx-line);
+}
+
+.chartTipDialog button {
+  min-height: 36px;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--wx-line);
+  border-radius: 0.55rem;
+  background: var(--wx-surface-raised);
+  color: var(--wx-ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chartTipDialog button:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: 2px;
+}
+
+.chartTitle {
+  margin: 0 0.35rem 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--wx-muted);
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chartGrid {
+  stroke: var(--wx-line);
+  stroke-width: 1;
+}
+
+.chartTickLabel {
+  fill: var(--wx-muted);
+  font-size: 9px;
+  text-anchor: end;
+  dominant-baseline: middle;
+}
+
+.chartAxisLabel {
+  fill: var(--wx-muted);
+  font-size: 9px;
+  text-anchor: middle;
+}
+
+.chartBar {
+  fill: var(--wx-precip);
+  opacity: 0.55;
+}
+
+.barAxisLabel {
+  fill: var(--wx-precip);
+  font-size: 9px;
+  opacity: 0.85;
+}
+
+.barPeakLabel {
+  fill: var(--wx-precip);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.legendBar {
+  color: var(--wx-precip);
+  font-weight: 600;
+}
+
+.chartMarker {
+  stroke: var(--wx-muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+}
+
+.chartMarkerLabel {
+  fill: var(--wx-muted);
+  font-size: 9px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.chartLinePast {
+  fill: none;
+  stroke-width: 2.25;
+}
+
+.chartLineFuture {
+  fill: none;
+  stroke-width: 2.25;
+  stroke-dasharray: 4 3;
+  opacity: 0.85;
+}
+
+.chartTapTarget {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.chartTapTarget:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: -2px;
+}
+
+.scrubTarget {
+  fill: transparent;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.scrubTarget:focus-visible {
+  outline: 2px solid var(--wx-focus);
+  outline-offset: -2px;
+}
+
+.scrubberLine {
+  stroke: var(--wx-accent);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.scrubberDot {
+  fill: var(--wx-accent);
+  stroke: var(--wx-surface);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.scrubberLabel {
+  fill: var(--wx-ink);
+  font-size: 10px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.seriesHigh .chartLinePast,
+.seriesHigh .chartLineFuture {
+  stroke: var(--wx-high);
+}
+
+.seriesLow .chartLinePast,
+.seriesLow .chartLineFuture {
+  stroke: var(--wx-low);
+}
+
+.seriesPrecip .chartLinePast,
+.seriesPrecip .chartLineFuture {
+  stroke: var(--wx-precip);
+}
+
+.seriesAqi .chartLinePast,
+.seriesAqi .chartLineFuture {
+  stroke: var(--wx-aqi);
+}
+
+.chartLegend {
+  margin: 0.35rem 0.35rem 0;
+  font-size: 0.75rem;
+  color: var(--wx-muted);
+}
+
+.legendHigh {
+  color: var(--wx-high);
+  font-weight: 700;
+}
+
+.legendLow {
+  color: var(--wx-low);
+  font-weight: 700;
+}
+
+.bandGood {
+  fill: var(--wx-good);
+  opacity: 0.08;
+}
+
+.bandModerate {
+  fill: var(--wx-moderate);
+  opacity: 0.08;
+}
+
+.bandSensitive {
+  fill: var(--wx-sensitive);
+  opacity: 0.1;
+}
+
+.bandUnhealthy {
+  fill: var(--wx-unhealthy);
+  opacity: 0.1;
+}
+
+.good {
+  color: var(--wx-good);
+  font-weight: 700;
+}
+
+.moderate {
+  color: var(--wx-moderate);
+  font-weight: 700;
+}
+
+.sensitive {
+  color: var(--wx-sensitive);
+  font-weight: 700;
+}
+
+.unhealthy,
+.veryUnhealthy,
+.hazardous {
+  color: var(--wx-unhealthy);
+  font-weight: 700;
+}
+
+.windowNote {
+  text-align: center;
+  color: var(--wx-muted);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+
+:global(*) { box-sizing: border-box; }
+:global(body) { margin: 0; width: 440px; }
+.page { min-height: 0; padding-bottom: 1rem; }
+.masthead { grid-template-columns: 1fr auto; }
+.mastheadNav { grid-column: 1 / -1; grid-row: 2; }
+.controls { display: flex; gap: 0.4rem; }
+.control { font: inherit; font-size: 0.75rem; padding: 0.4rem; border: 1px solid var(--wx-line); border-radius: 0.45rem; background: var(--wx-surface); color: var(--wx-ink); cursor: pointer; }
+.control:disabled { opacity: 0.5; cursor: wait; }
+.control:focus-visible, .mastheadLink:focus-visible { outline: 2px solid var(--wx-focus); outline-offset: 2px; }
+.updatedAt { margin: 0.35rem 0 0; }
+.footer { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--wx-line); font-size: 0.72rem; color: var(--wx-muted); line-height: 1.6; }
+.footer a { color: var(--wx-ink-soft); }
+@media (prefers-reduced-motion: reduce) { .page { transition: none; } }
