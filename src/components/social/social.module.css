@@ -1,44 +1,97 @@
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
 }
 
-.container .innerContainer {
-  max-width: 600px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.innerContainer {
+  display: flex;
   gap: 1rem;
 }
 
 .handle {
-  padding: 0.8rem 1rem;
-  display: flex;
-  flex-direction: row;
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   border: 3px solid var(--text-primary);
   background: var(--surface);
   box-shadow: 5px 5px 0 var(--text-primary);
 }
 
-.handle p {
-  padding: 0 10px;
-  margin: 0;
+.handle:focus-visible {
+  outline: 3px solid var(--blue-emphasis);
+  outline-offset: 5px;
 }
 
-.handle .iconImageWrapper {
-  position: relative;
+.handle > img {
   width: 1.5rem;
   height: 1.5rem;
-}
-.handle .iconImageWrapper > img {
-  width: 100%;
-  height: 100%;
   filter: invert(12%) sepia(23%) saturate(1776%) hue-rotate(173deg) brightness(92%);
 }
 
-@media (max-width: 560px) {
-  .container .innerContainer {
-    grid-template-columns: 1fr;
-  }
+.emailContainer {
+  position: relative;
+}
+
+button.handle {
+  cursor: pointer;
+  padding: 0;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: max-content;
+  max-width: calc(100vw - 6rem);
+  padding: 0.75rem;
+  border: 1px solid #d6e0e8;
+  border-radius: 12px;
+  background: var(--surface-raised);
+  box-shadow: 0 8px 24px rgba(16, 35, 61, 0.14);
+  font-size: 0.85rem;
+}
+
+.emailRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.emailRow button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font: inherit;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+}
+
+.popover [role="status"]:not(:empty) {
+  display: block;
+  margin-top: 0.5rem;
+  max-width: 15rem;
+}
+
+.emailRow button:hover {
+  background: #e1edf5;
+}
+
+.emailRow button:focus-visible {
+  outline: 2px solid var(--blue-emphasis);
+  outline-offset: 2px;
+}
+
+.emailRow button:active {
+  transform: scale(0.95);
 }

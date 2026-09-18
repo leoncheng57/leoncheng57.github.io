@@ -1,11 +1,9 @@
 import classNames from "classnames";
 import type { NextPage } from "next";
-import { getGreeting } from "./greeting";
+import Social from "../social/social";
 import styles from "./headline.module.css";
 
 const Headline: NextPage = () => {
-  const greeting = getGreeting(new Date().getHours());
-
   return (
     <div className={classNames(styles.container, "GLOBALS-section")}>
       <div className={styles.imageWrapper}>
@@ -22,9 +20,7 @@ const Headline: NextPage = () => {
         .
       </p>
 
-      <div className={styles.welcomeTab}>
-        {greeting.label} <span aria-hidden="true">{greeting.emoji}</span>
-      </div>
+      <Social />
     </div>
   );
 };
