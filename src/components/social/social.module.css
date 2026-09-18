@@ -48,9 +48,10 @@ button.handle {
   width: max-content;
   max-width: calc(100vw - 6rem);
   padding: 0.75rem;
-  border: 2px solid var(--text-primary);
+  border: 1px solid #d6e0e8;
+  border-radius: 12px;
   background: var(--surface-raised);
-  box-shadow: 5px 5px 0 var(--text-primary);
+  box-shadow: 0 8px 24px rgba(16, 35, 61, 0.14);
   font-size: 0.85rem;
 }
 
@@ -62,7 +63,13 @@ button.handle {
 }
 
 .emailRow button {
-  border: 1px solid var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
   background: var(--surface);
   color: var(--text-primary);
   font: inherit;
@@ -74,4 +81,17 @@ button.handle {
   display: block;
   margin-top: 0.5rem;
   max-width: 15rem;
+}
+
+.emailRow button:hover {
+  background: #e1edf5;
+}
+
+.emailRow button:focus-visible {
+  outline: 2px solid var(--blue-emphasis);
+  outline-offset: 2px;
+}
+
+.emailRow button:active {
+  transform: scale(0.95);
 }
