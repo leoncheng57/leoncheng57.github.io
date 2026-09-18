@@ -138,7 +138,7 @@ export default function BlogIndexRoute(): ReactElement {
           {visiblePosts.map((post) => (
             <article key={post.href} className={`${styles.postCard} ${post.kind === 'Guide' ? `${guideStyles.guideCard} ${styles.feedGuide}` : ''}`}>
               <h2>
-                <Link to={post.href}>{post.title}</Link>
+                {post.href.startsWith('https://') ? <a href={post.href}>{post.title}</a> : <Link to={post.href}>{post.title}</Link>}
               </h2>
               {post.guide ? (
                 <div className={styles.feedRepo}>
@@ -160,9 +160,6 @@ export default function BlogIndexRoute(): ReactElement {
           ))}
           {visiblePosts.length === 0 ? <p className={styles.emptyState}>No posts match those tags.</p> : null}
         </div>
-        <p className={styles.backLink}>
-          More resources: <a href="https://leoncheng.dev/agent-skills/">Agent Skills</a>
-        </p>
       </main>
       <SiteFooter />
     </div>

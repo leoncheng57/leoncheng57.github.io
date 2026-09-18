@@ -16,6 +16,10 @@ describe('blog routes', () => {
     expect(dates).toEqual([...dates].sort().reverse())
     const kinds = cards.map(card => card.querySelector('h2 a')!.getAttribute('href')!.startsWith('/guides/'))
     expect(kinds.filter(Boolean)).toHaveLength(5)
+    const skills = screen.getByRole('link', { name: 'Agent Skills' }).closest('article')!
+    expect(skills.querySelector('time')).toHaveAttribute('datetime', '2026-08-21')
+    expect(skills.querySelector('h2 a')).toHaveAttribute('href', 'https://leoncheng.dev/agent-skills/')
+    expect(cards.indexOf(skills)).toBeLessThan(cards.indexOf(screen.getByRole('link', { name: 'Building a Custom Coding-Agent IDE with OpenHands' }).closest('article')!))
     expect(kinds.some((isGuide, i) => isGuide && kinds.slice(0, i).includes(false) && kinds.slice(i + 1).includes(false))).toBe(true)
     fireEvent.click(screen.getByRole('button', { name: 'Filter tags' }))
     fireEvent.click(screen.getByRole('checkbox', { name: 'opencode' }))

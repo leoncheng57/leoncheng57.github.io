@@ -36,6 +36,16 @@ export function getBlogFeed(): FeedEntry[] {
       guide,
     })),
     {
+      href: 'https://leoncheng.dev/agent-skills/',
+      title: 'Agent Skills',
+      description: 'A catalogue of portable agent skills: reusable workflow instructions with copy-paste install commands for coding agents.',
+      // Date the catalogue was added to this site's guide index, not a review date.
+      date: '2026-08-21',
+      kind: 'Guide',
+      tags: ['agents', 'opencode', 'workflow'],
+      guide: { repoUrl: 'https://github.com/leoncheng57/agent-skills', repoAccess: 'public', repoScope: 'standalone' },
+    },
+    {
       href: '/guides/opencode-remote-control',
       title: 'OpenCode Remote Control',
       description: 'Control local OpenCode sessions from your phone over a private tailnet. Interactive setup, daily commands, notifications, and troubleshooting.',
