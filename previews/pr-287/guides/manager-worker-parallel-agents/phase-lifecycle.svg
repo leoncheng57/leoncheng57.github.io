@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" role="img" aria-labelledby="phase-title phase-description">
+  <title id="phase-title">Worker phase lifecycle</title>
+  <desc id="phase-description">Six normal phases connect from assigned through working, verifying, pushed, pull request open, and done. A blocked side state connects bidirectionally to a shared line beneath all six phases, showing that a worker can become blocked from any phase and return to any phase.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0l10 5-10 5z" fill="var(--gd-accent)"/>
+    </marker>
+    <style>
+      :root {
+        --gd-surface: #ffffff;
+        --gd-surface-raised: #f3f5f4;
+        --gd-ink: #0f1210;
+        --gd-muted: #6b7370;
+        --gd-accent: #16825a;
+        --gd-accent-soft: #e3f7ec;
+        --gd-line-strong: rgba(15, 18, 16, 0.28);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --gd-surface: #121415;
+          --gd-surface-raised: #1a1d1e;
+          --gd-ink: #edeef0;
+          --gd-muted: #7c8286;
+          --gd-accent: #3ecf8e;
+          --gd-accent-soft: #103b28;
+          --gd-line-strong: rgba(237, 238, 240, 0.24);
+        }
+      }
+      text { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .background { fill: var(--gd-surface); }
+      .node { fill: var(--gd-surface-raised); stroke: var(--gd-line-strong); stroke-width: 2; }
+      .blocked { fill: var(--gd-accent-soft); stroke: var(--gd-accent); stroke-width: 2; }
+      .label { fill: var(--gd-ink); font-size: 17px; font-weight: 650; text-anchor: middle; }
+      .hint { fill: var(--gd-muted); font-size: 14px; text-anchor: middle; }
+      .flow { fill: none; stroke: var(--gd-accent); stroke-width: 3; marker-end: url(#arrow); }
+      .branch { fill: none; stroke: var(--gd-line-strong); stroke-width: 2; }
+      .blocked-flow { fill: none; stroke: var(--gd-accent); stroke-width: 3; marker-start: url(#arrow); marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="background" width="1200" height="340" rx="12"/>
+
+  <path class="flow" d="M185 91H224"/>
+  <path class="flow" d="M375 91H414"/>
+  <path class="flow" d="M565 91H604"/>
+  <path class="flow" d="M755 91H794"/>
+  <path class="flow" d="M945 91H984"/>
+
+  <rect class="node" x="35" y="58" width="150" height="66" rx="12"/>
+  <rect class="node" x="225" y="58" width="150" height="66" rx="12"/>
+  <rect class="node" x="415" y="58" width="150" height="66" rx="12"/>
+  <rect class="node" x="605" y="58" width="150" height="66" rx="12"/>
+  <rect class="node" x="795" y="58" width="150" height="66" rx="12"/>
+  <rect class="node" x="985" y="58" width="150" height="66" rx="12"/>
+
+  <text class="label" x="110" y="97">assigned</text>
+  <text class="label" x="300" y="97">working</text>
+  <text class="label" x="490" y="97">verifying</text>
+  <text class="label" x="680" y="97">pushed</text>
+  <text class="label" x="870" y="97">pr-open</text>
+  <text class="label" x="1060" y="97">done</text>
+
+  <path class="branch" d="M110 124V178M300 124V178M490 124V178M680 124V178M870 124V178M1060 124V178M110 178H1060"/>
+  <text class="hint" x="275" y="203">from any phase</text>
+  <text class="hint" x="925" y="203">back to any phase</text>
+  <path class="blocked-flow" d="M600 184V236"/>
+
+  <rect class="blocked" x="525" y="239" width="150" height="66" rx="12"/>
+  <text class="label" x="600" y="278">blocked</text>
+</svg>
