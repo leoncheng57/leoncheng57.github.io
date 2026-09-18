@@ -2,7 +2,6 @@ import type { ReactElement } from 'react'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 import Headline from '../components/headline/headline'
-import Social from '../components/social/social'
 import SiteFooter from '../components/site-footer/SiteFooter'
 import TopNav from '../components/top-nav/TopNav'
 import styles from '../App.module.css'
@@ -32,7 +31,6 @@ export default function HomeRoute(): ReactElement {
       <TopNav />
       <main className={classNames(styles.main, styles.homeMain)}>
         <Headline />
-        <Social />
         <section className={styles.recentWriting} aria-labelledby="recent-blogs-title">
           <div className={styles.recentHeading}>
             <h2 id="recent-blogs-title">Blogs</h2>

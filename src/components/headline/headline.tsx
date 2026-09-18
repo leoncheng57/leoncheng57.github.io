@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import type { NextPage } from "next";
+import Social from "../social/social";
 import styles from "./headline.module.css";
 
 const Headline: NextPage = () => {
@@ -19,6 +20,7 @@ const Headline: NextPage = () => {
         .
       </p>
 
+      <Social />
     </div>
   );
 };

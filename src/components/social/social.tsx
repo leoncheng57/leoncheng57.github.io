@@ -1,10 +1,9 @@
-import classNames from "classnames";
 import type { NextPage } from "next";
 import styles from "./social.module.css";
 
 const Social: NextPage = () => {
   return (
-    <div className={classNames(styles.container, "GLOBALS-section")}>
+    <div className={styles.container}>
       <div className={styles.innerContainer}>
         <a
           className={styles.handle}
