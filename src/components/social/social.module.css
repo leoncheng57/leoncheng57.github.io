@@ -29,3 +29,49 @@
   height: 1.5rem;
   filter: invert(12%) sepia(23%) saturate(1776%) hue-rotate(173deg) brightness(92%);
 }
+
+.emailContainer {
+  position: relative;
+}
+
+button.handle {
+  cursor: pointer;
+  padding: 0;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: max-content;
+  max-width: calc(100vw - 6rem);
+  padding: 0.75rem;
+  border: 2px solid var(--text-primary);
+  background: var(--surface-raised);
+  box-shadow: 5px 5px 0 var(--text-primary);
+  font-size: 0.85rem;
+}
+
+.emailRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.emailRow button {
+  border: 1px solid var(--text-primary);
+  background: var(--surface);
+  color: var(--text-primary);
+  font: inherit;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+}
+
+.popover [role="status"]:not(:empty) {
+  display: block;
+  margin-top: 0.5rem;
+  max-width: 15rem;
+}
