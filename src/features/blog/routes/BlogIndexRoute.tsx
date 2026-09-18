@@ -140,12 +140,16 @@ export default function BlogIndexRoute(): ReactElement {
               <h2>
                 <Link to={post.href}>{post.title}</Link>
               </h2>
+              {post.guide ? (
+                <div className={styles.feedRepo}>
+                  <GuideRepoReference repoUrl={post.guide.repoUrl} repoAccess={post.guide.repoAccess} repoScope={post.guide.repoScope} />
+                </div>
+              ) : null}
               <p>{post.description}</p>
               <div className={styles.indexMeta}>
-                <p>{post.kind === 'Guide' ? 'Guide · Updated ' : ''}<time dateTime={post.date}>{post.date}</time></p>
+                <p><time dateTime={post.date}>{post.date}</time></p>
                 {post.readingTimeMinutes ? <p>{post.readingTimeMinutes} min read</p> : null}
               </div>
-              {post.guide ? <GuideRepoReference repoUrl={post.guide.repoUrl} repoAccess={post.guide.repoAccess} repoScope={post.guide.repoScope} /> : null}
               <TagList
                 tags={post.tags}
                 selectedTags={selectedTags}
