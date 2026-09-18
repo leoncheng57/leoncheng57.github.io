@@ -49,6 +49,7 @@ export default function HomeRoute(): ReactElement {
           <div className={styles.recentHeading}>
             <h2 id="recent-apps-title">Apps</h2>
           </div>
+          <p><Link to="/apps">See all apps →</Link></p>
           <div className={styles.recentGrid}>
             {apps.map(item => (
               <article className={appStyles.appCard} key={item.href}>
@@ -64,7 +65,6 @@ export default function HomeRoute(): ReactElement {
               </article>
             ))}
           </div>
-          <p><Link to="/apps">See all apps →</Link></p>
         </section>
       </main>
       <SiteFooter />
