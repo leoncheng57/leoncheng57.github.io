@@ -11,7 +11,7 @@ const SITE_TITLE = "Leon's Website"
 const STATIC_TITLES: Record<string, string> = {
   '/': SITE_TITLE,
   '/apps': `Apps | ${SITE_TITLE}`,
-  '/apps/nyc-weather-extension': `NYC Weather Chrome Extension | ${SITE_TITLE}`,
+  '/apps/nyc-weather-extension': `NYC Weather - Chromium Extension | ${SITE_TITLE}`,
   '/apps/whoops-hoops/privacy': 'Privacy Policy | Whoops Hoops',
   '/apps/whoops-hoops/support': 'Support | Whoops Hoops',
   '/blog': `Blog | ${SITE_TITLE}`,

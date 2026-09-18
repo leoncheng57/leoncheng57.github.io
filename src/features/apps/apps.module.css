@@ -112,7 +112,7 @@
 
 .extensionLayout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
   align-items: start;
 }
@@ -137,7 +137,7 @@
 }
 
 .extensionPreview {
-  margin: 0;
+  margin: 0 0 2rem;
 }
 
 .extensionPreview img {
@@ -160,7 +160,7 @@
   }
 
   .extensionPreview {
-    width: min(100%, 24rem);
-    margin: 0 auto;
+    width: 100%;
+    margin: 0 0 2rem;
   }
 }

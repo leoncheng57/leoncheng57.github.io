@@ -66,10 +66,10 @@ describe('apps index route', () => {
       screen.getByRole('heading', { level: 2, name: 'Workout Lab BETA' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Sub-Wait BETA' })
+      screen.getByRole('heading', { level: 2, name: 'Sub-Wait', exact: true })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { level: 2, name: 'NYC Weather BETA' })
+      screen.getByRole('heading', { level: 2, name: 'NYC Weather', exact: true })
     ).toBeInTheDocument()
   })
 
@@ -89,9 +89,9 @@ describe('apps index route', () => {
     ).map((heading) => heading.textContent)
 
     expect(headings).toEqual([
-      'Sub-WaitBETA',
-      'NYC WeatherBETA',
-      'NYC Weather for Chrome',
+      'Sub-Wait',
+      'NYC Weather',
+      'NYC Weather - Chromium Extension',
       "Georgie's Game Nights",
       'Whoops Hoops',
       'House Party Photo Hunt',

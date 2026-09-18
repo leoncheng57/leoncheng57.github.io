@@ -41,7 +41,7 @@ describe('getRouteTitle', () => {
       "opencode personal config | Guides | Leon's Website",
     ],
     ['/apps', "Apps | Leon's Website"],
-    ['/apps/nyc-weather-extension', "NYC Weather Chrome Extension | Leon's Website"],
+    ['/apps/nyc-weather-extension', "NYC Weather - Chromium Extension | Leon's Website"],
     ['/apps/whoops-hoops/privacy', 'Privacy Policy | Whoops Hoops'],
     ['/repo/alpha-projs', "Alpha Projects | Repo | Leon's Website"],
     [

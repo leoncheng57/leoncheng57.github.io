@@ -16,11 +16,15 @@ export default function WeatherExtensionRoute(): ReactElement {
           <div className={styles.appCardHeader}>
             <img className={styles.appIcon} src={`${import.meta.env.BASE_URL}app-icons/weather.svg`} alt="" width={64} height={64} />
             <div>
-              <h1>NYC Weather for Chrome</h1>
+              <h1>NYC Weather - Chromium Extension</h1>
               <p className={styles.subtitle}>A little New York weather, always within reach.</p>
             </div>
           </div>
         </header>
+        <figure className={styles.extensionPreview}>
+          <img src={`${import.meta.env.BASE_URL}app-previews/nyc-weather-browser.svg`} alt="Browser illustration showing the NYC temperature icon pinned in the toolbar and the hourly weather popup open over a new tab." width={1200} height={800} />
+          <figcaption>Pin the temperature to your toolbar. Click to open the hourly forecast. Browser illustration with example readings.</figcaption>
+        </figure>
         <div className={styles.extensionLayout}>
           <div className={styles.extensionCopy}>
             <section aria-labelledby="extension-overview">
@@ -54,10 +58,7 @@ export default function WeatherExtensionRoute(): ReactElement {
               </p>
             </section>
           </div>
-          <figure className={styles.extensionPreview}>
-            <img src={`${import.meta.env.BASE_URL}app-previews/nyc-weather-extension.png`} alt="NYC Weather popup with current temperature, air quality, and interactive temperature and precipitation charts in the light theme." width={384} height={780} />
-            <figcaption>Hourly weather at a glance. Example readings shown.</figcaption>
-          </figure>
+
         </div>
       </main>
       <SiteFooter />

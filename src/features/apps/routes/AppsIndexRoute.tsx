@@ -32,7 +32,6 @@ export default function AppsIndexRoute(): ReactElement {
               <div className={styles.appCardHeading}>
                 <h2>
                   <Link to="/sub-wait">Sub-Wait</Link>
-                  <span className={styles.betaBadge}>BETA</span>
                 </h2>
                 <p className={styles.subtitle}>
                   How long until your subway train?
@@ -61,7 +60,6 @@ export default function AppsIndexRoute(): ReactElement {
               <div className={styles.appCardHeading}>
                 <h2>
                   <Link to="/weather">NYC Weather</Link>
-                  <span className={styles.betaBadge}>BETA</span>
                 </h2>
                 <p className={styles.subtitle}>
                   Temperature, rain, and air quality for NYC
@@ -82,7 +80,7 @@ export default function AppsIndexRoute(): ReactElement {
             <div className={styles.appCardHeader}>
               <img className={styles.appIcon} src={weatherIconUrl} alt="" width={64} height={64} decoding="async" />
               <div className={styles.appCardHeading}>
-                <h2><Link to="/apps/nyc-weather-extension">NYC Weather for Chrome</Link></h2>
+                <h2><Link to="/apps/nyc-weather-extension">NYC Weather - Chromium Extension</Link></h2>
                 <p className={styles.subtitle}>NYC temperature, right in your toolbar</p>
               </div>
             </div>
