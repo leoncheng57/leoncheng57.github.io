@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import styles from '../apps.module.css'
+import AlphaProjectsSection from '../components/AlphaProjectsSection'
 
 export default function AppsIndexRoute(): ReactElement {
   const subWaitIconUrl = `${import.meta.env.BASE_URL}app-icons/sub-wait-v2.svg`
@@ -225,6 +226,7 @@ export default function AppsIndexRoute(): ReactElement {
             </p>
           </article>
         </div>
+        <AlphaProjectsSection />
       </main>
       <SiteFooter />
     </div>

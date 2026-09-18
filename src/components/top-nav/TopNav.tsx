@@ -2,15 +2,20 @@ import type { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './top-nav.module.css'
 
-const REPO_PAGES = [
-  { to: '/repo/ci', label: 'CI checks' },
-  { to: '/repo/production', label: 'Production deploys' },
-  { to: '/repo/previews', label: 'Pull request previews' },
-  { to: '/repo/planning', label: 'Project planning' },
-  { to: '/repo/google-analytics', label: 'Google Analytics' },
-  { to: '/repo/design-components', label: 'Design Components' },
-  { to: '/repo/animations', label: 'Animations' },
-  { to: '/repo/alpha-projs', label: 'Alpha Projs' },
+const REPO_GROUPS = [
+  { label: 'Contributing', pages: [
+    { to: '/repo/ci', label: 'CI checks' },
+    { to: '/repo/production', label: 'Production deploys' },
+    { to: '/repo/previews', label: 'Pull request previews' },
+    { to: '/repo/planning', label: 'Project planning' },
+  ] },
+  { label: 'Data', pages: [
+    { to: '/repo/google-analytics', label: 'Google Analytics' },
+  ] },
+  { label: 'Design', pages: [
+    { to: '/repo/design-components', label: 'Design Components' },
+    { to: '/repo/animations', label: 'Animations' },
+  ] },
 ]
 
 export default function TopNav(): ReactElement {
@@ -45,10 +50,13 @@ export default function TopNav(): ReactElement {
             role="group"
             aria-label="Repo page links"
           >
-            {REPO_PAGES.map((page) => (
-              <Link key={page.to} to={page.to}>
-                {page.label}
-              </Link>
+            {REPO_GROUPS.map((group) => (
+              <div key={group.label} className={styles.repoGroup} role="group" aria-label={group.label}>
+                <p className={styles.groupHeading}>{group.label}</p>
+                {group.pages.map((page) => (
+                  <Link key={page.to} to={page.to}>{page.label}</Link>
+                ))}
+              </div>
             ))}
           </div>
         </div>

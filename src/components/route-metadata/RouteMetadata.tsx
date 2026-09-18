@@ -54,6 +54,7 @@ const STATIC_TITLES: Record<string, string> = {
 }
 
 const REDIRECT_PATHS = new Set([
+  '/repo/alpha-projs',
   '/development',
   '/development/previews',
   '/game-nights',
