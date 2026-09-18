@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import TagList from '../../../components/markdown/TagList'
 import GuideRepoReference from '../../guides/components/GuideRepoReference'
@@ -11,9 +12,10 @@ interface Props {
   onTagClick?: (_tag: string) => void
   headingLevel?: 2 | 3
   titleOnly?: boolean
+  footer?: ReactNode
 }
 
-export default function BlogFeedCard({ post, selectedTags, onTagClick, headingLevel = 2, titleOnly = false }: Props) {
+export default function BlogFeedCard({ post, selectedTags, onTagClick, headingLevel = 2, titleOnly = false, footer }: Props) {
   const Heading = headingLevel === 3 ? 'h3' : 'h2'
   return (
             <article className={`${styles.postCard} ${post.kind === 'Guide' ? `${guideStyles.guideCard} ${styles.feedGuide}` : ''}`}>
@@ -38,6 +40,7 @@ export default function BlogFeedCard({ post, selectedTags, onTagClick, headingLe
                 styles={styles}
               />
               </>}
+              {footer}
             </article>
   )
 }

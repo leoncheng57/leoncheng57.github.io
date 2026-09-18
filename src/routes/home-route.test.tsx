@@ -26,8 +26,9 @@ describe('home route recent work', () => {
     const articles = recentWork.querySelectorAll('article')
     expect(articles).toHaveLength(6)
     articles.forEach(card => {
-      expect(card.children).toHaveLength(1)
+      expect(card.children).toHaveLength(2)
       expect(card.firstElementChild?.tagName).toBe('H3')
+      expect(card.querySelector('time')).not.toBeNull()
     })
   })
 })

@@ -97,3 +97,9 @@
     margin-top: 3rem;
   }
 }
+
+.recentDate {
+  margin: 0.65rem 0 0;
+  color: var(--term-accent-alt, var(--text-muted));
+  font-size: 0.8rem;
+}

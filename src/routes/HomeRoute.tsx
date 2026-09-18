@@ -10,6 +10,7 @@ import { getAllGuides } from '../features/guides/content'
 import styles from '../App.module.css'
 import BlogFeedCard from '../features/blog/components/BlogFeedCard'
 import { getBlogFeed } from '../features/blog/feed'
+import RelativeDate from '../components/relative-date/RelativeDate'
 import appStyles from '../features/apps/apps.module.css'
 
 type RecentItem = {
@@ -127,13 +128,14 @@ export default function HomeRoute(): ReactElement {
           <div className={styles.recentGrid}>
             {recentItems.map((item) => {
               const post = feed.find((entry) => entry.href === item.href)
-              if (post) return <BlogFeedCard key={item.key} post={post} headingLevel={3} titleOnly />
+              if (post) return <BlogFeedCard key={item.key} post={post} headingLevel={3} titleOnly footer={<p className={styles.recentDate}><RelativeDate date={item.date} /></p>} />
 
               return (
                 <article className={appStyles.appCard} key={item.key}>
                   <h3>
                     {item.external ? <a href={item.href}>{item.title}</a> : <Link to={item.href}>{item.title}</Link>}
                   </h3>
+                  <p className={styles.recentDate}><RelativeDate date={item.date} /></p>
                 </article>
               )
             })}
