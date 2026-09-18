@@ -142,8 +142,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+  text-align: center;
 }
 
 .repoDropdown a:hover,
