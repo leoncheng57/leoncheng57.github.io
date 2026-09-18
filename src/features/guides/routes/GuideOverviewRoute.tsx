@@ -84,7 +84,7 @@ export default function GuideOverviewRoute(): ReactElement {
   return (
     <main className={styles.main} style={articleStyle}>
       <p className={styles.backLink}>
-        <Link to="/guides">&larr; All guides</Link>
+        <Link to="/blog">&larr; Back to blog</Link>
       </p>
 
       <header className={styles.hero}>

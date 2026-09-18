@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom'
 import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import TagList from '../../../components/markdown/TagList'
-import { getAllBlogPosts } from '../content'
+import { getBlogFeed } from '../feed'
+import GuideRepoReference from '../../guides/components/GuideRepoReference'
 import styles from '../blog.module.css'
+import guideStyles from '../../guides/guides-index.module.css'
 
 export default function BlogIndexRoute(): ReactElement {
-  const posts = getAllBlogPosts()
+  const posts = getBlogFeed()
   const allTags = Array.from(new Set(posts.flatMap((post) => post.tags))).sort((left, right) =>
     left.localeCompare(right)
   )
@@ -68,7 +70,7 @@ export default function BlogIndexRoute(): ReactElement {
         </p>
         <header className={styles.pageHeader}>
           <h1>Blog</h1>
-          <p>Thoughts, notes, and experiments.</p>
+          <p>Thoughts, notes, and practical guides. Newest first.</p>
         </header>
         <div ref={filterAreaRef} className={styles.filterArea}>
           <div className={styles.filterControls}>
@@ -134,14 +136,19 @@ export default function BlogIndexRoute(): ReactElement {
         ) : null}
         <div className={styles.postList}>
           {visiblePosts.map((post) => (
-            <article key={post.slug} className={styles.postCard}>
+            <article key={post.href} className={`${styles.postCard} ${post.kind === 'Guide' ? `${guideStyles.guideCard} ${styles.feedGuide}` : ''}`}>
               <h2>
-                <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+                {post.href.startsWith('https://') ? <a href={post.href}>{post.title}</a> : <Link to={post.href}>{post.title}</Link>}
               </h2>
+              {post.guide ? (
+                <div className={styles.feedRepo}>
+                  <GuideRepoReference repoUrl={post.guide.repoUrl} repoAccess={post.guide.repoAccess} repoScope={post.guide.repoScope} />
+                </div>
+              ) : null}
               <p>{post.description}</p>
               <div className={styles.indexMeta}>
-                <p>{post.publishedAt}</p>
-                <p>{post.readingTimeMinutes} min read</p>
+                <p><time dateTime={post.date}>{post.date}</time></p>
+                {post.readingTimeMinutes ? <p>{post.readingTimeMinutes} min read</p> : null}
               </div>
               <TagList
                 tags={post.tags}

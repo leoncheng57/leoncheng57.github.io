@@ -20,192 +20,23 @@ const CHAPTER_TITLES = [
   'Reference: contract template and checklists',
 ]
 
-describe('guides index route', () => {
-  it('lists published guides as cards with chapter previews', () => {
-    render(
-      <MemoryRouter initialEntries={['/guides']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    expect(screen.getByRole('heading', { level: 1, name: 'Guides' })).toBeInTheDocument()
-
-    expect(screen.getByRole('link', { name: GUIDE_TITLE })).toHaveAttribute('href', GUIDE_PATH)
-    expect(screen.getByText(/8 chapters/)).toBeInTheDocument()
-    expect(screen.getAllByText(/updated 2026-/).length).toBeGreaterThan(0)
-    expect(screen.getAllByRole('link', { name: /read guide/ })[0]).toHaveAttribute(
-      'href',
-      expect.stringMatching(/^\/guides\//)
-    )
-
-    // The card previews the first chapters without listing all of them.
-    expect(screen.getByText('Plan the work and set up workers')).toBeInTheDocument()
-    expect(screen.getByText(/\+5 more/)).toBeInTheDocument()
-  })
-
-  it('lists the custom OpenHands IDE guide with its chapter preview', () => {
-    render(
-      <MemoryRouter initialEntries={['/guides']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const guideLink = screen.getByRole('link', { name: OPENHANDS_GUIDE_TITLE })
-    expect(guideLink).toHaveAttribute('href', OPENHANDS_GUIDE_PATH)
-    // This guide is out of beta; the pill must not come back by accident.
-    expect(within(guideLink.closest('article')!).queryByText('BETA')).toBeNull()
-    expect(screen.getByText('Why not just use Claude Code or OpenCode?')).toBeInTheDocument()
-    expect(screen.getByText('Why build a control plane?')).toBeInTheDocument()
-    expect(screen.getByText('How it was built, layer by layer')).toBeInTheDocument()
-  })
-
-  it('lists the bespoke personal config setup guides', () => {
-    render(
-      <MemoryRouter initialEntries={['/guides']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const cmuxLink = screen.getByRole('link', { name: 'cmux personal config' })
-    expect(cmuxLink).toHaveAttribute('href', '/guides/cmux-personal-config')
-    expect(within(cmuxLink.closest('article')!).getByText('PRIVATE ACCESS')).toBeInTheDocument()
-
-    const opencodeLink = screen.getByRole('link', { name: 'opencode personal config' })
-    expect(opencodeLink).toHaveAttribute('href', '/guides/opencode-personal-config')
-    expect(within(opencodeLink.closest('article')!).getByText('PRIVATE ACCESS')).toBeInTheDocument()
-  })
-
-  it('redirects the retired agent-dashboard guide to the one-pager watch-the-run anchor', () => {
-    render(
-      <MemoryRouter initialEntries={['/guides/agent-dashboard']}>
-        <App />
-      </MemoryRouter>
-    )
-
+describe('legacy guides index', () => {
+  it('preserves the retired agent-dashboard redirect', () => {
+    render(<MemoryRouter initialEntries={['/guides/agent-dashboard']}><App /></MemoryRouter>)
     expect(screen.getByRole('heading', { level: 1, name: GUIDE_TITLE })).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: /Watch the run: a status protocol and a live board/,
-      })
-    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /Watch the run: a status protocol and a live board/ })).toBeInTheDocument()
   })
 
-  it('stays on the main site chrome, like the apps index', () => {
-    render(
-      <MemoryRouter initialEntries={['/guides']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    expect(screen.getByRole('button', { name: 'Repo pages' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Back home' })).toHaveAttribute('href', '/')
-    expect(screen.queryByRole('navigation', { name: 'Guides navigation' })).not.toBeInTheDocument()
-  })
-
-  it('marks the guides section as beta', () => {
-    render(
-      <MemoryRouter initialEntries={['/guides']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    // Section badge plus the OpenCode Remote Control card badge.
-    expect(screen.getAllByText('BETA').length).toBeGreaterThanOrEqual(1)
-  })
-
-  it('lists the OpenCode Remote Control interactive guide', () => {
-    render(
-      <MemoryRouter initialEntries={['/guides']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const guideLink = screen.getByRole('link', { name: 'OpenCode Remote Control' })
-    expect(guideLink).toHaveAttribute('href', '/guides/opencode-remote-control')
-
-    const card = within(guideLink.closest('article')!)
-    expect(card.getByRole('link', {
-      name: 'GitHub repository leoncheng57/opencode-remote-control-and-notifications',
-    })).toHaveAttribute(
-      'href',
-      'https://github.com/leoncheng57/opencode-remote-control-and-notifications'
-    )
-  })
-
-  it('links out to the externally hosted agent skills catalogue', () => {
-    render(
-      <MemoryRouter initialEntries={['/guides']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const titleLink = screen.getByRole('link', { name: 'Agent Skills' })
-    expect(titleLink).toHaveAttribute('href', 'https://leoncheng.dev/agent-skills/')
-
-    // A plain anchor, not a router Link: the catalogue is a separate Pages
-    // site, so following it is a full page navigation out of the SPA.
-    const card = within(titleLink.closest('article')!)
-    expect(card.getByRole('link', { name: 'browse skills ↗' })).toHaveAttribute(
-      'href',
-      'https://leoncheng.dev/agent-skills/'
-    )
-    expect(card.getByRole('link', {
-      name: 'GitHub repository leoncheng57/agent-skills',
-    })).toHaveAttribute(
-      'href',
-      'https://github.com/leoncheng57/agent-skills'
-    )
-
-    // No invented review date or reading time for a site this repo does not own.
-    expect(card.getByText('external site')).toBeInTheDocument()
-    expect(card.queryByText(/updated 20/)).not.toBeInTheDocument()
-    expect(card.queryByText(/min read/)).not.toBeInTheDocument()
-  })
-
-  it('leads the index with the agent skills card, ahead of the date-sorted guides', () => {
-    render(
-      <MemoryRouter initialEntries={['/guides']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const skillsCard = screen.getByRole('link', { name: 'Agent Skills' }).closest('article')!
-    const cards = Array.from(skillsCard.parentElement!.querySelectorAll(':scope > article'))
-
-    // Deliberate placement, not a sorting bug: the catalogue outranks the
-    // markdown guides even though those are sorted by updatedAt descending.
-    // Pinned here so a future refactor cannot quietly re-sort it back down.
-    expect(cards.length).toBeGreaterThan(1)
-    expect(cards[0]).toBe(skillsCard)
-    expect(cards.indexOf(screen.getByRole('link', { name: GUIDE_TITLE }).closest('article')!)).toBeGreaterThan(0)
-  })
-
-  it('shows exactly one repository reference on every guide card', () => {
-    render(
-      <MemoryRouter initialEntries={['/guides']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const repoLinks = screen.getAllByRole('link', { name: /^GitHub repository / })
-    const cards = Array.from(document.querySelectorAll('main article'))
-
-    expect(cards).toHaveLength(6)
-    expect(repoLinks).toHaveLength(cards.length)
-    for (const card of cards) {
-      expect(within(card).getAllByRole('link', { name: /^GitHub repository / })).toHaveLength(1)
-      expect(within(card).getByText('AUTHOR-OWNED')).toBeInTheDocument()
-    }
-
-    const managerCard = screen.getByRole('link', { name: GUIDE_TITLE }).closest('article')!
-    expect(within(managerCard).getByText('SOURCE IN THIS REPO')).toBeInTheDocument()
-    expect(within(managerCard).getByRole('link', {
-      name: 'GitHub repository leoncheng57/leoncheng57.github.io',
-    })).toHaveAttribute(
-      'href',
-      'https://github.com/leoncheng57/leoncheng57.github.io/tree/main/alpha-projs/agent-dashboard'
-    )
+  it('redirects to the combined blog while retaining guide destinations', () => {
+    render(<MemoryRouter initialEntries={['/guides']}><App /></MemoryRouter>)
+    expect(screen.getByRole('heading', { level: 1, name: 'Blog' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: GUIDE_TITLE })).toHaveAttribute('href', GUIDE_PATH)
+    expect(screen.getByRole('link', { name: OPENHANDS_GUIDE_TITLE })).toHaveAttribute('href', OPENHANDS_GUIDE_PATH)
+    expect(screen.getByRole('link', { name: 'cmux personal config' })).toHaveAttribute('href', '/guides/cmux-personal-config')
+    expect(screen.getByRole('link', { name: 'opencode personal config' })).toHaveAttribute('href', '/guides/opencode-personal-config')
+    expect(screen.getByRole('link', { name: 'OpenCode Remote Control' })).toHaveAttribute('href', '/guides/opencode-remote-control')
+    expect(screen.getByRole('link', { name: 'Agent Skills' })).toHaveAttribute('href', 'https://leoncheng.dev/agent-skills/')
+    expect(screen.queryByRole('link', { name: 'Guides' })).not.toBeInTheDocument()
   })
 })
 
