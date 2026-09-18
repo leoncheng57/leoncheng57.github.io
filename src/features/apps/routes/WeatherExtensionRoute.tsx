@@ -27,7 +27,7 @@ export default function WeatherExtensionRoute(): ReactElement {
         </figure>
         <div className={styles.extensionCopy}>
           <p>NYC temperature in your toolbar. Hourly forecasts and air quality in one click. Works in Chrome and Brave.</p>
-          <p><strong>Chrome Web Store release coming soon.</strong></p>
+          <p><strong><a href="https://chromewebstore.google.com/detail/nyc-weather/kjhkbglenmalmfbjlhjfmdnghckpojib">Install from Chrome Web Store</a></strong></p>
           <p className={styles.links}>
             <Link to="/weather/">Try the web app instead</Link>{' · '}
             <a href={sourceUrl}>Install the Chrome extension locally</a>{' · '}
