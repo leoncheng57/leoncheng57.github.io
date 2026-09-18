@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 780" width="700" height="780" style="background:#1a1b26">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a9b1d6" />
+    </marker>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap');
+      text { font-family: 'Inter', system-ui, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Rotated pentagon: Ship Fast & Release now at top
+       1. Ship Fast & Release         - top center   (350, 145)
+       2. User Adoption & Growth      - top right    (580, 315)
+       3. Bugs and Requests           - bottom right (510, 550)
+       4. Deep Dive Analysis          - bottom left  (190, 550)
+       5. Implementations & Quality   - top left     (120, 315)
+  -->
+
+  <!-- Arrow: 1 (top) -> 2 (top-right) -->
+  <path d="M 440,170 C 500,190 545,235 565,285" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#arrow)" />
+  <!-- Arrow: 2 (top-right) -> 3 (bottom-right) -->
+  <path d="M 580,350 C 575,420 555,480 525,520" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#arrow)" />
+  <!-- Arrow: 3 (bottom-right) -> 4 (bottom-left) -->
+  <path d="M 420,570 C 370,590 310,590 280,570" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#arrow)" />
+  <!-- Arrow: 4 (bottom-left) -> 5 (top-left) -->
+  <path d="M 145,520 C 125,480 115,420 120,350" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#arrow)" />
+  <!-- Arrow: 5 (top-left) -> 1 (top) -->
+  <path d="M 215,285 C 240,235 285,190 330,170" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- Initial Idea node (above, pointing down to Ship Fast & Release) -->
+  <rect x="260" y="15" width="180" height="54" rx="10" fill="#bfdbfe" stroke="#60a5fa" stroke-width="2" stroke-dasharray="6 3" />
+  <text x="350" y="48" text-anchor="middle" font-size="14" font-weight="600" fill="#1e293b">Initial Idea</text>
+  <!-- Arrow: Initial Idea -> Ship Fast & Release -->
+  <path d="M 350,69 C 350,85 350,100 350,113" fill="none" stroke="#a9b1d6" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- 1. Top: Ship Fast & Release -->
+  <rect x="260" y="113" width="180" height="64" rx="10" fill="#854d0e" stroke="#fbbf24" stroke-width="2" />
+  <text x="350" y="139" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">Ship Fast</text>
+  <text x="350" y="159" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">&amp; Release</text>
+
+  <!-- 2. Top-right: User Adoption & Growth -->
+  <rect x="490" y="283" width="180" height="64" rx="10" fill="#166534" stroke="#4ade80" stroke-width="2" />
+  <text x="580" y="309" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">User Adoption</text>
+  <text x="580" y="329" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">&amp; Growth</text>
+
+  <!-- 3. Bottom-right: Bugs and Requests -->
+  <rect x="420" y="520" width="180" height="64" rx="10" fill="#92400e" stroke="#fbbf24" stroke-width="2" />
+  <text x="510" y="546" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">Bugs and</text>
+  <text x="510" y="566" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">Requests</text>
+
+  <!-- 4. Bottom-left: Deep Dive Analysis -->
+  <rect x="100" y="520" width="180" height="64" rx="10" fill="#1e3a5f" stroke="#60a5fa" stroke-width="2" />
+  <text x="190" y="546" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">Deep Dive</text>
+  <text x="190" y="566" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">Analysis</text>
+
+  <!-- 5. Top-left: Implementations & Quality -->
+  <rect x="25" y="283" width="190" height="64" rx="10" fill="#4c1d95" stroke="#c084fc" stroke-width="2" />
+  <text x="120" y="309" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">Implementations</text>
+  <text x="120" y="329" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">&amp; Quality</text>
+
+  <!-- Center label -->
+  <text x="350" y="390" text-anchor="middle" font-size="13" font-weight="400" fill="#565f89">Leon's Tech</text>
+  <text x="350" y="408" text-anchor="middle" font-size="13" font-weight="400" fill="#565f89">Flywheel</text>
+</svg>
