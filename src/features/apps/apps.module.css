@@ -164,3 +164,34 @@
     margin: 0 0 2rem;
   }
 }
+
+.alphaProjects {
+  margin-top: 2rem;
+  border: 3px solid var(--hr-color);
+  background: var(--surface);
+  box-shadow: 7px 7px 0 var(--text-primary);
+  scroll-margin-top: 1rem;
+}
+
+.alphaProjects summary {
+  padding: 1.25rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.alphaProjects summary span {
+  display: inline-block;
+  margin-left: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.alphaProjects summary:focus-visible {
+  outline: 3px solid var(--link-color);
+  outline-offset: 4px;
+}
+
+.alphaContent {
+  padding: 0 1.25rem 1.25rem;
+}

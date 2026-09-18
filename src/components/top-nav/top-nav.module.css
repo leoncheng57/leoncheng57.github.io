@@ -117,8 +117,8 @@
 }
 
 .repoDropdown a {
-  padding: 0.85rem 1rem;
-  border-bottom: 2px solid var(--text-primary);
+  display: block;
+  padding: 0.55rem 1rem;
   color: var(--link-color);
   font-size: 0.72rem;
   font-weight: 900;
@@ -126,8 +126,22 @@
   text-transform: uppercase;
 }
 
-.repoDropdown a:last-child {
-  border-bottom: 0;
+.repoGroup + .repoGroup {
+  border-top: 2px solid var(--text-primary);
+}
+
+.repoGroup {
+  padding-bottom: 0.4rem;
+}
+
+.groupHeading {
+  margin: 0;
+  padding: 0.65rem 1rem 0.3rem;
+  color: var(--text-muted);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .repoDropdown a:hover,

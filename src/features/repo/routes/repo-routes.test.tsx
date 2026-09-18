@@ -48,9 +48,10 @@ describe('repo navigation', () => {
     expect(
       within(repoPages).getByText('Animations').closest('a')
     ).toHaveAttribute('href', '/repo/animations')
-    expect(
-      within(repoPages).getByText('Alpha Projs').closest('a')
-    ).toHaveAttribute('href', '/repo/alpha-projs')
+    expect(within(repoPages).queryByText('Alpha Projs')).not.toBeInTheDocument()
+    expect(within(repoPages).getByLabelText('Contributing')).toHaveTextContent('CI checks')
+    expect(within(repoPages).getByLabelText('Data')).toHaveTextContent('Google Analytics')
+    expect(within(repoPages).getByLabelText('Design')).toHaveTextContent('Animations')
 
     fireEvent.click(repoButton)
     expect(screen.getByText("Hi, I'm Leon")).toBeInTheDocument()
@@ -205,7 +206,7 @@ describe('repo subpages', () => {
     ).toHaveAttribute('href', '/')
   })
 
-  it('renders Alpha Projs at /repo/alpha-projs', () => {
+  it('redirects the old Alpha Projs URL to the expanded Apps section', () => {
     render(
       <MemoryRouter initialEntries={['/repo/alpha-projs']}>
         <App />
@@ -213,11 +214,12 @@ describe('repo subpages', () => {
     )
 
     expect(
-      screen.getByRole('heading', { level: 1, name: 'Alpha Projs' })
+      screen.getByRole('heading', { level: 1, name: 'Apps' })
     ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 3, name: 'Tuzi' })
     ).toBeInTheDocument()
+    expect(screen.getByText('Early experiments').closest('details')).toHaveAttribute('open')
     expect(screen.getAllByText('Alpha')).toHaveLength(3)
     expect(screen.getAllByText('local-only')).toHaveLength(2)
     expect(screen.getByRole('link', { name: 'Tuzi' })).toHaveAttribute(
@@ -266,8 +268,8 @@ describe('repo subpages', () => {
       screen.getByRole('heading', { level: 1, name: 'GA Traffic Dashboard' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('link', { name: 'Back to alpha projs' })
-    ).toHaveAttribute('href', '/repo/alpha-projs')
+      screen.getByRole('link', { name: 'Back to alpha projects' })
+    ).toHaveAttribute('href', '/apps#alpha-projects')
     expect(
       screen.getByRole('link', { name: 'Source code on GitHub' })
     ).toHaveAttribute(
@@ -300,8 +302,8 @@ describe('repo subpages', () => {
       screen.getByRole('heading', { level: 1, name: 'Gmail Reader' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('link', { name: 'Back to alpha projs' })
-    ).toHaveAttribute('href', '/repo/alpha-projs')
+      screen.getByRole('link', { name: 'Back to alpha projects' })
+    ).toHaveAttribute('href', '/apps#alpha-projects')
     expect(
       screen.getByRole('heading', { name: 'How it works' })
     ).toBeInTheDocument()

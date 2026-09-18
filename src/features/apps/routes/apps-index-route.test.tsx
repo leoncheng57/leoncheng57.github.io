@@ -14,10 +14,18 @@ function renderAppsIndex(): HTMLElement {
 }
 
 describe('apps index route', () => {
+  it('keeps alpha projects collapsed below the main app cards', () => {
+    const container = renderAppsIndex()
+    const section = container.querySelector('details#alpha-projects')
+    expect(section).not.toHaveAttribute('open')
+    expect(section?.querySelectorAll('article')).toHaveLength(3)
+    expect(section).toBe(container.querySelector('main')?.lastElementChild)
+  })
+
   it('renders an icon for every app card', () => {
     const container = renderAppsIndex()
 
-    const cards = container.querySelectorAll('article')
+    const cards = container.querySelectorAll('article:not(details article)')
     expect(cards).toHaveLength(7)
 
     cards.forEach((card) => {
@@ -32,7 +40,7 @@ describe('apps index route', () => {
     const container = renderAppsIndex()
 
     const iconSources = Array.from(
-      container.querySelectorAll('article img')
+      container.querySelectorAll('article:not(details article) img')
     ).map((icon) => icon.getAttribute('src'))
 
     expect(iconSources).toEqual([
@@ -49,7 +57,7 @@ describe('apps index route', () => {
   it('marks the icons as decorative because each card already names the app', () => {
     const container = renderAppsIndex()
 
-    Array.from(container.querySelectorAll('article img')).forEach((icon) => {
+    Array.from(container.querySelectorAll('article:not(details article) img')).forEach((icon) => {
       expect(icon).toHaveAttribute('alt', '')
     })
 
@@ -66,10 +74,10 @@ describe('apps index route', () => {
       screen.getByRole('heading', { level: 2, name: 'Workout Lab BETA' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Sub-Wait', exact: true })
+      screen.getByRole('heading', { level: 2, name: 'Sub-Wait' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { level: 2, name: 'NYC Weather', exact: true })
+      screen.getByRole('heading', { level: 2, name: 'NYC Weather' })
     ).toBeInTheDocument()
   })
 

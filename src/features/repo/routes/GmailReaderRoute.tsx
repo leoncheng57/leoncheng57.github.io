@@ -28,7 +28,7 @@ export default function GmailReaderRoute(): ReactElement {
       <TopNav />
       <main className={styles.content}>
         <p className={styles.backLink}>
-          <Link to="/repo/alpha-projs">Back to alpha projs</Link>
+          <Link to="/apps#alpha-projects">Back to alpha projects</Link>
         </p>
 
         <header className={styles.pageHeader}>
