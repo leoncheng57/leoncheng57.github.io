@@ -2,33 +2,27 @@ import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import App from '../App'
+import { getBlogFeed } from '../features/blog/feed'
 
-describe('home route recent work', () => {
-  it('shows the six newest items across guides, apps, and blogs', () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <App />
-      </MemoryRouter>
-    )
-
-    const recentWork = screen.getByRole('region', { name: 'Recent work' })
-    const cards = within(recentWork).getAllByRole('heading', { level: 3 }).map(heading => within(heading).getByRole('link'))
-
-    expect(cards).toHaveLength(6)
-    expect(cards.map((card) => card.getAttribute('href'))).toEqual([
-      '/blog/early-learnings-while-building-my-own-desktop-coding-agent-dca',
-      '/blog/the-cost-of-waiting-on-agents',
-      '/blog/building-hedwig-ai-tooling-hub',
-      '/guides/custom-coding-agent-ide-with-openhands',
-      '/blog/how-openhands-was-integrated',
-      '/blog/building-house-party-photo-hunt',
-    ])
-    const articles = recentWork.querySelectorAll('article')
-    expect(articles).toHaveLength(6)
-    articles.forEach(card => {
-      expect(card.children).toHaveLength(2)
-      expect(card.firstElementChild?.tagName).toBe('H3')
-      expect(card.querySelector('time')).not.toBeNull()
-    })
+describe('home sections', () => {
+  it('separates the latest blogs and guides from apps with dates on every card', () => {
+    render(<MemoryRouter initialEntries={['/']}><App /></MemoryRouter>)
+    const blogs = screen.getByRole('region', { name: 'Blogs' })
+    const apps = screen.getByRole('region', { name: 'Apps' })
+    const blogLinks = within(blogs).getAllByRole('heading', { level: 3 }).map(h => within(h).getByRole('link'))
+    expect(blogLinks.map(link => link.getAttribute('href'))).toEqual(getBlogFeed().slice(0, 6).map(post => post.href))
+    expect(within(apps).getByRole('link', { name: 'NYC Weather' })).toHaveAttribute('href', '/weather')
+    expect(within(apps).getByRole('link', { name: 'NYC Weather - Chromium Extension' })).toHaveAttribute('href', '/apps/nyc-weather-extension')
+    expect(within(blogs).queryByRole('link', { name: 'Sub-Wait' })).not.toBeInTheDocument()
+    expect(apps.querySelectorAll('article')).toHaveLength(7)
+    for (const region of [blogs, apps]) {
+      const dates = Array.from(region.querySelectorAll('article time')).map(time => time.getAttribute('datetime'))
+      expect(dates).toEqual([...dates].sort().reverse())
+      region.querySelectorAll('article').forEach(card => {
+        expect(card.querySelector('h3')).not.toBeNull()
+        if (region === apps) expect(card.querySelector('img')).toHaveAttribute('alt', '')
+        expect(card.querySelector('time')).not.toBeNull()
+      })
+    }
   })
 })
