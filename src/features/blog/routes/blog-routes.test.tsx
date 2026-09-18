@@ -54,9 +54,9 @@ describe('blog routes', () => {
     ).toHaveAttribute('href', '/blog/building-hedwig-ai-tooling-hub')
     expect(
       screen.getByRole('link', {
-        name: /Building House Party Photo Hunt/i,
+        name: /Agent Skills/i,
       })
-    ).toHaveAttribute('href', '/blog/building-house-party-photo-hunt')
+    ).toHaveAttribute('href', 'https://leoncheng.dev/agent-skills/')
   })
 
   it('renders the blog index route', () => {

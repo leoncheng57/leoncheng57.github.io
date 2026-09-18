@@ -229,7 +229,8 @@
   box-shadow: 7px 7px 0 var(--text-primary);
 }
 
-.postCard h2 {
+.postCard h2,
+.postCard h3 {
   margin-top: 0;
 }
 
@@ -544,7 +545,8 @@
   line-height: 1.6;
 }
 
-.feedGuide h2 {
+.feedGuide h2,
+.feedGuide h3 {
   margin-bottom: 0.6rem;
 }
 
