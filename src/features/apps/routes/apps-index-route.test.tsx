@@ -18,7 +18,7 @@ describe('apps index route', () => {
     const container = renderAppsIndex()
 
     const cards = container.querySelectorAll('article')
-    expect(cards).toHaveLength(6)
+    expect(cards).toHaveLength(7)
 
     cards.forEach((card) => {
       const icon = card.querySelector('img')
@@ -37,6 +37,7 @@ describe('apps index route', () => {
 
     expect(iconSources).toEqual([
       '/app-icons/sub-wait-v2.svg',
+      '/app-icons/weather.svg',
       '/app-icons/weather.svg',
       '/app-icons/game-nights.svg',
       '/app-icons/whoops-hoops.png',
@@ -65,10 +66,10 @@ describe('apps index route', () => {
       screen.getByRole('heading', { level: 2, name: 'Workout Lab BETA' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Sub-Wait BETA' })
+      screen.getByRole('heading', { level: 2, name: 'Sub-Wait', exact: true })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { level: 2, name: 'NYC Weather BETA' })
+      screen.getByRole('heading', { level: 2, name: 'NYC Weather', exact: true })
     ).toBeInTheDocument()
   })
 
@@ -88,8 +89,9 @@ describe('apps index route', () => {
     ).map((heading) => heading.textContent)
 
     expect(headings).toEqual([
-      'Sub-WaitBETA',
-      'NYC WeatherBETA',
+      'Sub-Wait',
+      'NYC Weather',
+      'NYC Weather - Chromium Extension',
       "Georgie's Game Nights",
       'Whoops Hoops',
       'House Party Photo Hunt',

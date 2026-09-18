@@ -32,7 +32,6 @@ export default function AppsIndexRoute(): ReactElement {
               <div className={styles.appCardHeading}>
                 <h2>
                   <Link to="/sub-wait">Sub-Wait</Link>
-                  <span className={styles.betaBadge}>BETA</span>
                 </h2>
                 <p className={styles.subtitle}>
                   How long until your subway train?
@@ -61,7 +60,6 @@ export default function AppsIndexRoute(): ReactElement {
               <div className={styles.appCardHeading}>
                 <h2>
                   <Link to="/weather">NYC Weather</Link>
-                  <span className={styles.betaBadge}>BETA</span>
                 </h2>
                 <p className={styles.subtitle}>
                   Temperature, rain, and air quality for NYC
@@ -76,6 +74,23 @@ export default function AppsIndexRoute(): ReactElement {
             </p>
             <p className={styles.links}>
               <Link to="/weather">Check the forecast</Link>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img className={styles.appIcon} src={weatherIconUrl} alt="" width={64} height={64} decoding="async" />
+              <div className={styles.appCardHeading}>
+                <h2><Link to="/apps/nyc-weather-extension">NYC Weather - Chromium Extension</Link></h2>
+                <p className={styles.subtitle}>NYC temperature, right in your toolbar</p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              See the current temperature without opening a tab. Click for
+              hourly temperature and rain charts, current conditions, and air
+              quality in a compact popup.
+            </p>
+            <p className={styles.links}>
+              <Link to="/apps/nyc-weather-extension">About the extension</Link>
             </p>
           </article>
           <article className={styles.appCard}>
