@@ -2,7 +2,7 @@
 
 A Chrome/Brave extension that watches Google Calendar and fires a desktop notification shortly before a meeting starts, with one click to join the call. No backend.
 
-This is **Phase 0**: a loadable Manifest V3 skeleton with a pinned extension ID. It does nothing yet beyond logging its own lifecycle. The build plan below tracks the rest.
+This is **Phase 2**: the extension loads, pins its ID, and can sign in to Google and hold a Calendar access token. It does not read the calendar yet. The build plan below tracks the rest.
 
 ## Install and test
 
@@ -12,8 +12,11 @@ This is **Phase 0**: a loadable Manifest V3 skeleton with a pinned extension ID.
 4. Confirm the listed ID is `dikdmdfmpjcemjbohhocmfdpmglnoppj`. A different ID means `manifest.json`'s `key` was changed or dropped.
 5. Click **service worker** on the extension card to open its console. It should log `[t-minus] service worker booted` with that same ID.
 6. Reload the extension and confirm the boot line appears again. Chrome evicts an idle worker, so this line is expected to reappear on its own during normal use.
+7. Click the extension's toolbar icon, then **Sign in with Google**. A Google window opens; approve the Calendar access request. The popup should then read `Signed in.`
+8. Close and reopen the popup. It should still read `Signed in.` — the token is cached in `chrome.storage.local` and survives the popup closing and the worker being evicted.
+9. Click **Sign out**, reopen the popup, and confirm it reads `Not signed in.`
 
-There is no build step. Unlike the NYC Weather extension next door, there is no bundled popup source yet; `background.js` runs directly.
+There is no build step. Unlike the NYC Weather extension next door, the popup is plain hand-written HTML/CSS/JS with no bundler; `background.js` and `popup.js` run directly as ES modules.
 
 ## Why the extension ID is pinned
 
@@ -51,8 +54,8 @@ Two reasons. Google's branding guidelines discourage third-party products leadin
 | Phase | Adds |
 | ----- | ---- |
 | 0 | Skeleton + pinned extension ID — **done** |
-| 1 | Cloud project, Calendar API enabled, OAuth client — **manual, Leon only** |
-| 2 | Sign-in and token handling |
+| 1 | Cloud project, Calendar API enabled, OAuth client — **done, manual** |
+| 2 | Sign-in and token handling — **done** |
 | 3 | Fetch upcoming events from Calendar |
 | 4 | Filter to joinable, undeclined, non-all-day meetings |
 | 5 | `chrome.alarms` polling + persisted notified-event-ID set so nothing double-fires |
@@ -82,25 +85,45 @@ That choice decides the rest of the setup:
 | Manifest `oauth2` block | required | **not used** — the client ID lives in code |
 | Brave | unsupported | supported |
 
-A Web application client is issued a client secret. It must never be committed
-or shipped in the extension bundle, where anyone who installs it can read it.
-Phase 2 uses a flow that does not need one.
+A Web application client is issued a client secret. It is not in this bundle
+and must never be: anyone who installs an extension can read every file in it.
+The flow below does not need one.
+
+## How sign-in works
+
+`auth.js` runs the OAuth **implicit** flow: it opens Google's authorization
+endpoint with `response_type=token`, and Google returns the access token in
+the fragment of the `chromiumapp.org` redirect. The alternative — an
+authorization code exchanged at the token endpoint — is what needs the client
+secret for a Web application client, which is exactly the thing that cannot
+ship here. If Google ever refuses `response_type=token` for this client, the
+fallback is auth code plus PKCE, contained entirely within `auth.js`.
+
+The client ID lives in `config.js` rather than a manifest `oauth2` block,
+because `launchWebAuthFlow` does not read that block. It is not a secret; it
+travels in the authorization URL on every sign-in.
+
+Tokens last about an hour and the implicit flow issues no refresh token, so
+`getAccessToken()` defaults to non-interactive: it returns the cached token,
+or silently re-authorizes against the existing Google session with
+`prompt=none`, and only opens a window when a caller passes
+`interactive: true`. That default is what keeps the Phase 5 alarm from opening
+a sign-in window behind the user's back.
 
 ## Phase 1 is manual
 
-Phase 1 is Google Cloud Console work no agent can do. It runs against a Cloud
-project owned by the `hebbia.ai` Workspace organization, which is what makes
-the **Internal** consent screen in step 3 available.
+Phase 1 was Google Cloud Console work no agent can do — recorded here because
+it has to be repeatable. It ran against a Cloud project owned by the
+`hebbia.ai` Workspace organization, which is what makes the **Internal**
+consent screen in step 3 available.
 
 1. Create a Cloud project with **Organization set to `hebbia.ai`**. The organization is fixed at creation, so changing it later means a new project rather than an edit.
 2. Enable the **Google Calendar API**. This is a separate step from creating the OAuth client — skipping it produces a 403 `accessNotConfigured` that reads like an auth failure but is not.
 3. Configure the consent screen as user type **Internal**, with app name `T-minus` and scope `https://www.googleapis.com/auth/calendar.events.readonly`. Internal means no test-user list, no verification review, and no "Google hasn't verified this app" interstitial, even though that scope is classed as sensitive. The app name is what the consent screen shows.
 4. Create an OAuth client of type **Web application**, with the authorized redirect URI `https://dikdmdfmpjcemjbohhocmfdpmglnoppj.chromiumapp.org/` (trailing slash included). Leave authorized JavaScript origins empty.
 
-Phase 2 is unblocked once the client ID exists. It adds the `identity`
-permission and a `https://www.googleapis.com/*` host permission to the
-manifest, stores the client ID as a constant, and adds a temporary popup with
-a sign-in button to trigger the flow on demand.
+Phase 2 consumed the resulting client ID. Nothing from Phase 1 other than that
+one string reaches the code.
 
 Two consequences of the Internal choice worth knowing. An Internal app can
 only be authorized by accounts inside the organization, so signing in with a
@@ -137,6 +160,6 @@ No existing extension in this repository uses `chrome.identity`, so there is no 
 
 ## Data and privacy
 
-Nothing is collected or transmitted in Phase 0. From Phase 2 the extension will read the signed-in user's Calendar events read-only, over `chrome.identity`, and keep event data in `chrome.storage.local` on the device. There is no backend and no analytics.
+There is no backend and no analytics. As of Phase 2 the only thing stored is the Google access token, in `chrome.storage.local` on the device, and the only network traffic is the sign-in itself. From Phase 3 the extension reads the signed-in user's Calendar events read-only and caches them the same way. Signing out deletes the stored token and asks Google to revoke it.
 
 API references: [Chrome alarms](https://developer.chrome.com/docs/extensions/reference/api/alarms), [notifications](https://developer.chrome.com/docs/extensions/reference/api/notifications), [identity](https://developer.chrome.com/docs/extensions/reference/api/identity), [Calendar API `events.list`](https://developers.google.com/calendar/api/v3/reference/events/list).
