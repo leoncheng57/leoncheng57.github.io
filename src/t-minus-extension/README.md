@@ -88,17 +88,47 @@ Phase 2 uses a flow that does not need one.
 
 ## Phase 1 is manual
 
-Phase 1 is Google Cloud Console work no agent can do:
+Phase 1 is Google Cloud Console work no agent can do. It runs against a
+personal Cloud project first; see "Porting to a Workspace org" below for why,
+and for what moving costs later.
 
-1. Create a Cloud project **under the `hebbia.ai` organization** — set the Location/Organization field at creation time, as it cannot be changed afterward. This is what makes the Internal consent screen in step 3 available.
+1. Create a Cloud project with **Organization set to "No organization"**. The organization cannot be changed after creation, so a later move means a new project rather than an edit.
 2. Enable the **Google Calendar API**. This is a separate step from creating the OAuth client — skipping it produces a 403 `accessNotConfigured` that reads like an auth failure but is not.
-3. Configure the consent screen as user type **Internal**, with app name `T-minus` and scope `https://www.googleapis.com/auth/calendar.events.readonly`. Internal means no test-user list and no verification, even though that scope is classed as sensitive. The app name is what the consent screen shows.
+3. Configure the consent screen as user type **External**, publishing status **Testing**, with app name `T-minus` and scope `https://www.googleapis.com/auth/calendar.events.readonly`. Add yourself as a test user. Testing mode caps at 100 test users and needs no verification review; consent shows a "Google hasn't verified this app" interstitial, which is expected rather than a misconfiguration.
 4. Create an OAuth client of type **Web application**, with the authorized redirect URI `https://dikdmdfmpjcemjbohhocmfdpmglnoppj.chromiumapp.org/` (trailing slash included). Leave authorized JavaScript origins empty.
 
 Phase 2 is unblocked once the client ID exists. It adds the `identity`
 permission and a `https://www.googleapis.com/*` host permission to the
 manifest, stores the client ID as a constant, and adds a temporary popup with
 a sign-in button to trigger the flow on demand.
+
+## Porting to a Workspace org
+
+A Workspace-owned project would let the consent screen be **Internal** — no
+test-user cap, no unverified-app interstitial. It is deliberately not the
+starting point, for two reasons: creating a project in an organization needs
+`resourcemanager.projects.create`, which most companies revoke from ordinary
+users; and a personal side project owned by a corporate Cloud org is a
+governance question separate from whether the permission exists.
+
+Moving later is cheap, because almost nothing about the extension is tied to
+the project:
+
+| | Changes when porting? |
+| --- | --- |
+| Extension ID | No — derived from `key.pem` |
+| Redirect URI | No — derived from the extension ID |
+| Auth code and flow | No — the Web application client type is used either way |
+| Manifest permissions | No |
+| Client ID constant | Yes, one line |
+| Consent screen | External/Testing becomes Internal |
+
+The one thing a port *does* fix, and nothing else can: a Workspace
+administrator may restrict third-party API access (Admin console → Security →
+API controls), in which case an External app is refused at the consent screen
+when authorizing a Workspace account, whatever the extension does. Adding a
+Workspace address as a test user in step 3 and running the flow is the
+cheapest way to find out, and needs no administrator.
 
 No existing extension in this repository uses `chrome.identity`, so there is no in-repo auth pattern to copy. The website's `GmailReaderRoute` references Google's native-app OAuth flow, which is a different flow and not a useful template here.
 
