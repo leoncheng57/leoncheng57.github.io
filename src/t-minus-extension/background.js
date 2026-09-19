@@ -1,4 +1,4 @@
-const EXTENSION_LIFECYCLE_LOG_PREFIX = '[meet-ahead]';
+const EXTENSION_LIFECYCLE_LOG_PREFIX = '[t-minus]';
 
 chrome.runtime.onInstalled.addListener((installDetails) => {
   console.log(`${EXTENSION_LIFECYCLE_LOG_PREFIX} installed`, {

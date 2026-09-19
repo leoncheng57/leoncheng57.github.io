@@ -1,6 +1,6 @@
-# Meet Ahead
+# T-minus
 
-A Chrome/Brave extension that watches Google Calendar and fires a desktop notification shortly before a meeting starts, with one click to join the Meet call. No backend.
+A Chrome/Brave extension that watches Google Calendar and fires a desktop notification shortly before a meeting starts, with one click to join the call. No backend.
 
 This is **Phase 0**: a loadable Manifest V3 skeleton with a pinned extension ID. It does nothing yet beyond logging its own lifecycle. The build plan below tracks the rest.
 
@@ -8,9 +8,9 @@ This is **Phase 0**: a loadable Manifest V3 skeleton with a pinned extension ID.
 
 1. Open `chrome://extensions` (or `brave://extensions`).
 2. Enable **Developer mode**.
-3. Click **Load unpacked** and select this `src/meet-ahead-extension` folder. If already installed, click **Reload** instead.
+3. Click **Load unpacked** and select this `src/t-minus-extension` folder. If already installed, click **Reload** instead.
 4. Confirm the listed ID is `dikdmdfmpjcemjbohhocmfdpmglnoppj`. A different ID means `manifest.json`'s `key` was changed or dropped.
-5. Click **service worker** on the extension card to open its console. It should log `[meet-ahead] service worker booted` with that same ID.
+5. Click **service worker** on the extension card to open its console. It should log `[t-minus] service worker booted` with that same ID.
 6. Reload the extension and confirm the boot line appears again. Chrome evicts an idle worker, so this line is expected to reappear on its own during normal use.
 
 There is no build step. Unlike the NYC Weather extension next door, there is no bundled popup source yet; `background.js` runs directly.
@@ -24,7 +24,7 @@ The matching private key is `key.pem` in this folder. It is covered by the repos
 To regenerate (only if the key is lost before Phase 1):
 
 ```bash
-cd src/meet-ahead-extension
+cd src/t-minus-extension
 openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt -out key.pem
 openssl rsa -in key.pem -pubout -outform DER | base64 -w 0          # -> manifest.json "key"
 openssl rsa -in key.pem -pubout -outform DER \
@@ -36,9 +36,15 @@ openssl rsa -in key.pem -pubout -outform DER \
 
 There is no Meet API a browser extension can use for this. The Meet REST API (`meet.googleapis.com/v2`) is post-hoc: conference records are readable after a call, and `meetings.space.created` only grants access to spaces your own token created. The real-time signals (`google.workspace.meet.conference.v2.started`) come from the Workspace Events API, which delivers exclusively through Cloud Pub/Sub and so needs a server — and reports fully only on spaces the subscribing user *owns*, so a typical attendee sees almost nothing.
 
-Calendar already knows the start time and already carries the Meet URL in `conferenceData` / `hangoutLink`. Calendar's `watch` push channels also need an HTTPS receiver, so the extension polls on a `chrome.alarms` timer instead of subscribing. That keeps the project backend-free.
+Calendar already knows the start time and already carries the join URL in `conferenceData` / `hangoutLink`. Calendar's `watch` push channels also need an HTTPS receiver, so the extension polls on a `chrome.alarms` timer instead of subscribing. That keeps the project backend-free.
 
 Calendar Ringer, Checker Plus for Google Calendar, and Meeting Timer already ship this feature and none of them use the Meet API, which independently confirms the approach.
+
+## Why the name avoids "Meet"
+
+Two reasons. Google's branding guidelines discourage third-party products leading with "Meet" or "Google", which is a Chrome Web Store rejection risk if this is ever published. And the extension is Calendar-driven rather than Meet-driven — it keys off whatever join link an event carries, so a Meet-specific name would misdescribe it and box in the Zoom/Teams support listed below as a possible v2.
+
+"T-minus" names the actual mechanic: the notification fires a set number of minutes before zero.
 
 ## Build plan
 
@@ -65,7 +71,7 @@ Phase 1 is Google Cloud Console work no agent can do:
 
 1. Create a Cloud project.
 2. Enable the **Google Calendar API**. This is a separate step from creating the OAuth client — skipping it produces a 403 `accessNotConfigured` that reads like an auth failure but is not.
-3. Configure the consent screen with scope `https://www.googleapis.com/auth/calendar.events.readonly`, and add Leon as a test user.
+3. Configure the consent screen with scope `https://www.googleapis.com/auth/calendar.events.readonly`, and add Leon as a test user. The product name set here is what the consent screen shows, so it should read `T-minus`.
 4. Create an OAuth client of type **Chrome Extension** using the extension ID above.
 
 Phase 2 is unblocked once that client ID exists. It adds an `oauth2` block (`client_id` plus `scopes`) to the manifest along with the `identity` permission, and a temporary popup with a sign-in button to trigger the flow on demand.

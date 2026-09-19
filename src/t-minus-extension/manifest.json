@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Meet Ahead",
+  "name": "T-minus",
   "description": "Desktop notifications before your Google Calendar meetings, with one-click join.",
   "version": "0.0.1",
   "minimum_chrome_version": "116",
