@@ -65,16 +65,40 @@ Out of scope for v1: a `meet.google.com` content script, Zoom/Teams support, Web
 
 A content script was excluded deliberately. Every open-source project doing in-call detection scrapes the Meet DOM with `aria-label` selectors plus a `MutationObserver`, keying off the "You left the call" screen. It works, but Meet's DOM changes without warning and most such repos are abandoned. Nothing on the Calendar path depends on it.
 
+## Auth approach: launchWebAuthFlow, not getAuthToken
+
+The extension targets Chrome and Brave. Brave removes Chrome's Google account
+integration, so `chrome.identity.getAuthToken()` — the simpler API — does not
+work there. Both browsers are served instead by
+`chrome.identity.launchWebAuthFlow()`, which drives the OAuth flow in a popup
+window and redirects to a virtual URL derived from the extension ID.
+
+That choice decides the rest of the setup:
+
+| | getAuthToken (not used) | launchWebAuthFlow (used) |
+| --- | --- | --- |
+| OAuth client type | Chrome Extension | **Web application** |
+| Redirect URI | none | `https://dikdmdfmpjcemjbohhocmfdpmglnoppj.chromiumapp.org/` |
+| Manifest `oauth2` block | required | **not used** — the client ID lives in code |
+| Brave | unsupported | supported |
+
+A Web application client is issued a client secret. It must never be committed
+or shipped in the extension bundle, where anyone who installs it can read it.
+Phase 2 uses a flow that does not need one.
+
 ## Phase 1 is manual
 
 Phase 1 is Google Cloud Console work no agent can do:
 
-1. Create a Cloud project.
+1. Create a Cloud project **under the `hebbia.ai` organization** — set the Location/Organization field at creation time, as it cannot be changed afterward. This is what makes the Internal consent screen in step 3 available.
 2. Enable the **Google Calendar API**. This is a separate step from creating the OAuth client — skipping it produces a 403 `accessNotConfigured` that reads like an auth failure but is not.
-3. Configure the consent screen with scope `https://www.googleapis.com/auth/calendar.events.readonly`, and add Leon as a test user. The product name set here is what the consent screen shows, so it should read `T-minus`.
-4. Create an OAuth client of type **Chrome Extension** using the extension ID above.
+3. Configure the consent screen as user type **Internal**, with app name `T-minus` and scope `https://www.googleapis.com/auth/calendar.events.readonly`. Internal means no test-user list and no verification, even though that scope is classed as sensitive. The app name is what the consent screen shows.
+4. Create an OAuth client of type **Web application**, with the authorized redirect URI `https://dikdmdfmpjcemjbohhocmfdpmglnoppj.chromiumapp.org/` (trailing slash included). Leave authorized JavaScript origins empty.
 
-Phase 2 is unblocked once that client ID exists. It adds an `oauth2` block (`client_id` plus `scopes`) to the manifest along with the `identity` permission, and a temporary popup with a sign-in button to trigger the flow on demand.
+Phase 2 is unblocked once the client ID exists. It adds the `identity`
+permission and a `https://www.googleapis.com/*` host permission to the
+manifest, stores the client ID as a constant, and adds a temporary popup with
+a sign-in button to trigger the flow on demand.
 
 No existing extension in this repository uses `chrome.identity`, so there is no in-repo auth pattern to copy. The website's `GmailReaderRoute` references Google's native-app OAuth flow, which is a different flow and not a useful template here.
 
