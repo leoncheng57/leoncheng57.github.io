@@ -2,7 +2,7 @@
 
 A Chrome/Brave extension that watches Google Calendar and fires a desktop notification shortly before a meeting starts, with one click to join the call. No backend.
 
-This is **Phase 2**: the extension loads, pins its ID, and can sign in to Google and hold a Calendar access token. It does not read the calendar yet. The build plan below tracks the rest.
+This is **Phase 5**: the extension signs in, reads the calendar, picks out the meetings worth warning about, and polls on a one-minute alarm. It does not raise a notification yet — Phase 6 adds that. The build plan below tracks the rest.
 
 ## Install and test
 
@@ -56,9 +56,9 @@ Two reasons. Google's branding guidelines discourage third-party products leadin
 | 0 | Skeleton + pinned extension ID — **done** |
 | 1 | Cloud project, Calendar API enabled, OAuth client — **done, manual** |
 | 2 | Sign-in and token handling — **done** |
-| 3 | Fetch upcoming events from Calendar |
-| 4 | Filter to joinable, undeclined, non-all-day meetings |
-| 5 | `chrome.alarms` polling + persisted notified-event-ID set so nothing double-fires |
+| 3 | Fetch upcoming events from Calendar — **done** |
+| 4 | Filter to joinable, undeclined, non-all-day meetings — **done** |
+| 5 | `chrome.alarms` polling + persisted notified-event-ID set so nothing double-fires — **done** |
 | 6 | `chrome.notifications` with click-to-join — first shippable build |
 | 7 | Popup showing the next meeting |
 | 8 | Configurable lead time + snooze |
@@ -67,6 +67,68 @@ Two reasons. Google's branding guidelines discourage third-party products leadin
 Out of scope for v1: a `meet.google.com` content script, Zoom/Teams support, Web Store publication, and OAuth verification.
 
 A content script was excluded deliberately. Every open-source project doing in-call detection scrapes the Meet DOM with `aria-label` selectors plus a `MutationObserver`, keying off the "You left the call" screen. It works, but Meet's DOM changes without warning and most such repos are abandoned. Nothing on the Calendar path depends on it.
+
+## What the filter drops, and why
+
+`selectNotifiableEvents` keeps an event only when it is timed, carries a video
+conference URL, and has not been declined. Three of those rules are obvious; the
+fourth is the one that bites.
+
+**An unanswered invite counts as attending.** Google omits the `attendees` array
+entirely on an event with no other guests, so `selfResponseStatus` is `null` for
+every solo block — a lunch hold, a reminder, a focus block. Filtering on
+`=== 'accepted'` would therefore drop not just those but every invitation not yet
+responded to, including a company all-hands sitting at `needsAction`. The rule is
+`!== 'declined'`: say nothing only when the user has actually said no.
+
+Checked against a real calendar, 11 of 25 events over four days came back
+notifiable. Declined meetings dropped even when they carried a Meet link;
+`needsAction` ones were kept.
+
+**In-person meetings drop as a side effect.** No conference URL means no
+one-click join, which is the whole premise, so an office-hours block with
+attendees and no link is filtered out the same as a solo reminder. That is
+intended for v1 and worth revisiting only if the notification stops being a join
+button.
+
+## Polling, and what happens when the worker dies
+
+Chrome evicts an idle service worker, so nothing may live in a `setTimeout`.
+`chrome.alarms` is the only timer that survives, and its period is clamped to one
+minute — which also sets the worst case: a meeting can be up to a minute further
+along than the lead time suggests.
+
+Two consequences shaped `selectDueEvents`:
+
+- **A meeting that started while the worker slept still fires.** The due window
+  extends backwards, not just forwards. A worker asleep through the lead window
+  would otherwise drop the notification silently, which is the exact failure the
+  extension exists to prevent.
+- **The dedupe set is keyed by event instance ID.** `events.list` with
+  `singleEvents=true` expands a recurring series into per-instance IDs
+  (`..._20260922T140000Z`), so tomorrow's standup is a different key from
+  today's and is never swallowed as a duplicate. Entries are pruned an hour
+  after the meeting starts, which bounds the set and stops a restart re-firing
+  something already announced.
+
+Event IDs are marked notified **before** the notification is raised. A display
+failure therefore costs one missed alert; the alternative — marking afterwards —
+costs the same meeting re-firing every sixty seconds until it ends.
+
+## Debugging from the service worker console
+
+Module scope is not global in an MV3 worker, so `background.js` hangs the useful
+entry points off `globalThis.tminus`:
+
+```js
+await tminus.logEventSummary(4)   // table of 4 days of events + the filter verdict per row
+await tminus.fetchUpcomingEvents({ lookaheadMs: 4 * 24 * 60 * 60 * 1000 })
+await tminus.findDueEvents()      // what the next alarm tick would act on
+```
+
+`logEventSummary` prints a `console.table` rather than objects deliberately:
+console object previews truncate after a few fields, and the truncated ones are
+exactly `conferenceUrl` and `selfResponseStatus` — the two the filter turns on.
 
 ## Auth approach: launchWebAuthFlow, not getAuthToken
 

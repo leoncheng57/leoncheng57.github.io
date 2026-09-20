@@ -95,6 +95,13 @@ export async function getAccessToken({ interactive = false } = {}) {
   return token.accessToken;
 }
 
+// Forget the token locally without revoking it. Used when Google has already
+// rejected it, where a revoke call would be a round trip to retire something
+// that is dead anyway.
+export async function forgetStoredToken() {
+  await chrome.storage.local.remove(TOKEN_STORAGE_KEY);
+}
+
 /** Drop the stored token and revoke it with Google, best effort. */
 export async function signOut() {
   const stored = await chrome.storage.local.get(TOKEN_STORAGE_KEY);

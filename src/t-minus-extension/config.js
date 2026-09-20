@@ -14,3 +14,20 @@ export const TOKEN_STORAGE_KEY = 'tminus.token';
 // Treat a token as expired slightly early so a fetch started just under the
 // wire does not land after real expiry.
 export const TOKEN_EXPIRY_SKEW_MS = 60_000;
+
+// Chrome clamps alarm periods to one minute, which also sets the worst-case
+// lateness of a notification: a meeting can be up to a minute further along
+// than the lead time suggests.
+export const POLL_PERIOD_MINUTES = 1;
+export const POLL_ALARM_NAME = 'tminus.poll';
+
+// Phase 8 makes this user-configurable; until then it is the one number that
+// decides how early the warning lands.
+export const DEFAULT_LEAD_TIME_MS = 2 * 60_000;
+
+export const NOTIFIED_STORAGE_KEY = 'tminus.notified';
+
+// How long a fired event ID stays in the dedupe set after the meeting started.
+// Long enough that a worker restart cannot re-fire it, short enough that the
+// set does not grow without bound.
+export const NOTIFIED_RETENTION_MS = 60 * 60_000;
