@@ -10,15 +10,15 @@ import { getBlogFeed } from '../features/blog/feed'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import appStyles from '../features/apps/apps.module.css'
 
-type AppItem = { title: string; date: string; href: string; icon: string }
+type AppItem = { title: string; date: string; href: string; icon: string; beta?: boolean }
 
 const APP_ITEMS: AppItem[] = [
-  { title: 'T-minus - Chromium Extension', icon: '/app-icons/t-minus.svg', date: '2026-09-19', href: '/apps/t-minus-extension' },
+  { title: 'T-minus - Chromium Extension', icon: '/app-icons/t-minus.svg', date: '2026-09-19', href: '/apps/t-minus-extension', beta: true },
   { title: 'NYC Weather - Chromium Extension', icon: '/app-icons/weather.svg', date: '2026-09-17', href: '/apps/nyc-weather-extension' },
   { title: 'NYC Weather', icon: '/app-icons/weather.svg', date: '2026-08-20', href: '/weather' },
   { title: 'Sub-Wait', icon: '/app-icons/sub-wait-v2.svg', date: '2026-08-10', href: '/sub-wait' },
   { title: "Georgie's Game Nights", icon: '/app-icons/game-nights.svg', date: '2026-08-10', href: '/georgies-board-game-nights' },
-  { title: 'Workout Lab', icon: '/app-icons/workout-lab.svg', date: '2026-08-09', href: '/workout-lab' },
+  { title: 'Workout Lab', icon: '/app-icons/workout-lab.svg', date: '2026-08-09', href: '/workout-lab', beta: true },
   { title: 'House Party Photo Hunt', icon: '/app-icons/house-party-photo-hunt.svg', date: '2026-08-01', href: 'https://leoncheng.dev/vibe-photo-voting-house-game/' },
   { title: 'Whoops Hoops', icon: '/app-icons/whoops-hoops.png', date: '2026-05-12', href: 'https://apps.apple.com/us/app/whoops-hoops/id6763969713' },
 ]
@@ -57,6 +57,7 @@ export default function HomeRoute(): ReactElement {
                   <div className={appStyles.appCardHeading}>
                     <h3>
                       {item.href.startsWith('https://') ? <a href={item.href}>{item.title}</a> : <Link to={item.href}>{item.title}</Link>}
+                      {item.beta ? <span className={appStyles.betaBadge}>BETA</span> : null}
                     </h3>
                     <p className={styles.recentDate}><RelativeDate date={item.date} /></p>
                   </div>
