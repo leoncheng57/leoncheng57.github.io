@@ -83,13 +83,14 @@
   margin-bottom: 0;
 }
 
+/* Scales with its heading, never smaller than the app-card size. */
 .betaBadge {
   display: inline-flex;
-  padding: 0.2rem 0.45rem;
+  padding: 0.32em 0.73em;
   border: 1px solid currentColor;
   border-radius: 999px;
   color: var(--link-color);
-  font-size: 0.62rem;
+  font-size: max(0.62rem, 0.41em);
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0.08em;
