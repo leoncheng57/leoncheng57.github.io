@@ -1,73 +1,56 @@
 import {
   DEFAULT_LEAD_TIME_MS,
-  NOTIFIED_RETENTION_MS,
-  NOTIFIED_STORAGE_KEY,
+  NEXT_MEETING_STORAGE_KEY,
   POLL_ALARM_NAME,
   POLL_PERIOD_MINUTES,
 } from './config.js';
 import { fetchUpcomingEvents, selectNotifiableEvents } from './calendar.js';
 
-// ----- the fired-already set -----
+// A meeting stays interesting for a while after it starts -- someone joining
+// late still wants the button. Past this it is no longer "next".
+const STARTED_GRACE_MS = 10 * 60_000;
 
-// Keyed by event ID mapped to the meeting's start. Recurring series arrive from
-// events.list already expanded into per-instance IDs, so tomorrow's standup is a
-// different key from today's and dedupe never swallows it.
-async function readNotifiedEvents() {
-  const stored = await chrome.storage.local.get(NOTIFIED_STORAGE_KEY);
-  return stored[NOTIFIED_STORAGE_KEY] ?? {};
+export function selectNextMeeting(events, now, leadTimeMs = DEFAULT_LEAD_TIME_MS) {
+  const candidates = events
+    .filter((event) => event.startsAt - now > -STARTED_GRACE_MS)
+    .sort((a, b) => a.startsAt - b.startsAt);
+
+  const next = candidates[0];
+  if (!next) return null;
+
+  return {
+    id: next.id,
+    summary: next.summary,
+    startsAt: next.startsAt,
+    startIso: next.startIso,
+    conferenceUrl: next.conferenceUrl,
+    isDue: next.startsAt - now <= leadTimeMs,
+  };
 }
 
-function withoutStaleEntries(notifiedEvents, now) {
-  return Object.fromEntries(
-    Object.entries(notifiedEvents).filter(
-      ([, startedAt]) => now - startedAt < NOTIFIED_RETENTION_MS,
-    ),
-  );
+// ----- cache -----
+
+// The popup reads this to paint instantly instead of waiting on a round trip to
+// Google, then refreshes itself. Stale by at most one poll period.
+export async function readCachedNextMeeting() {
+  const stored = await chrome.storage.local.get(NEXT_MEETING_STORAGE_KEY);
+  return stored[NEXT_MEETING_STORAGE_KEY] ?? null;
 }
 
-async function markEventsNotified(events, now) {
-  const notifiedEvents = withoutStaleEntries(await readNotifiedEvents(), now);
-  for (const event of events) {
-    notifiedEvents[event.id] = event.startsAt;
-  }
-  await chrome.storage.local.set({ [NOTIFIED_STORAGE_KEY]: notifiedEvents });
-}
-
-// ----- due-event selection -----
-
-export function selectDueEvents(events, notifiedEvents, now, leadTimeMs) {
-  return events.filter((event) => {
-    if (notifiedEvents[event.id] !== undefined) return false;
-    const msUntilStart = event.startsAt - now;
-    // Already started is still worth firing: a worker asleep through the lead
-    // window would otherwise drop the notification entirely. The retention
-    // window is what stops it firing over and over afterwards.
-    return msUntilStart <= leadTimeMs && msUntilStart > -NOTIFIED_RETENTION_MS;
-  });
+async function cacheNextMeeting(nextMeeting) {
+  await chrome.storage.local.set({ [NEXT_MEETING_STORAGE_KEY]: nextMeeting });
 }
 
 // ----- polling -----
 
-export async function findDueEvents({ leadTimeMs = DEFAULT_LEAD_TIME_MS } = {}) {
+export async function refreshNextMeeting({
+  leadTimeMs = DEFAULT_LEAD_TIME_MS,
+} = {}) {
   const now = Date.now();
-  const upcomingEvents = await fetchUpcomingEvents();
-  const notifiableEvents = selectNotifiableEvents(upcomingEvents);
-  const notifiedEvents = await readNotifiedEvents();
-
-  const dueEvents = selectDueEvents(
-    notifiableEvents,
-    notifiedEvents,
-    now,
-    leadTimeMs,
-  );
-
-  if (dueEvents.length > 0) {
-    // Recorded before any notification is raised, so a failure to display
-    // cannot turn into the same meeting firing on every tick afterwards.
-    await markEventsNotified(dueEvents, now);
-  }
-
-  return dueEvents;
+  const notifiable = selectNotifiableEvents(await fetchUpcomingEvents());
+  const nextMeeting = selectNextMeeting(notifiable, now, leadTimeMs);
+  await cacheNextMeeting(nextMeeting);
+  return nextMeeting;
 }
 
 export function installPollingAlarm() {

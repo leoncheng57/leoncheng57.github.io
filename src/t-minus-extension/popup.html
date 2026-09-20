@@ -8,9 +8,29 @@
     <script src="popup.js" type="module"></script>
   </head>
   <body>
-    <h1>T-minus</h1>
-    <p id="status">Checking sign-in...</p>
-    <button id="action" type="button" disabled>Sign in with Google</button>
-    <p id="detail" class="detail"></p>
+    <main id="meeting" hidden>
+      <p id="countdown" class="countdown"></p>
+      <h1 id="summary"></h1>
+      <p id="start" class="start"></p>
+      <button id="join" type="button">Join</button>
+    </main>
+
+    <main id="empty" hidden>
+      <h1>Nothing coming up</h1>
+      <p class="muted">No joinable meeting in the next 24 hours.</p>
+    </main>
+
+    <main id="signin" hidden>
+      <h1>T-minus</h1>
+      <p class="muted">Sign in to watch your calendar.</p>
+      <button id="action" type="button">Sign in with Google</button>
+      <p id="detail" class="detail"></p>
+    </main>
+
+    <p id="loading" class="muted">Checking your calendar...</p>
+
+    <footer>
+      <button id="signout" type="button" class="link" hidden>Sign out</button>
+    </footer>
   </body>
 </html>

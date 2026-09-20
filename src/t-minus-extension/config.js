@@ -25,9 +25,13 @@ export const POLL_ALARM_NAME = 'tminus.poll';
 // decides how early the warning lands.
 export const DEFAULT_LEAD_TIME_MS = 2 * 60_000;
 
-export const NOTIFIED_STORAGE_KEY = 'tminus.notified';
+export const NEXT_MEETING_STORAGE_KEY = 'tminus.nextMeeting';
 
-// How long a fired event ID stays in the dedupe set after the meeting started.
-// Long enough that a worker restart cannot re-fire it, short enough that the
-// set does not grow without bound.
-export const NOTIFIED_RETENTION_MS = 60 * 60_000;
+// Badge colors. Amber once a meeting is inside the lead window, muted grey
+// while one is merely approaching, so a glance separates 'now' from 'soon'.
+export const BADGE_DUE_COLOR = '#c2410c';
+export const BADGE_SOON_COLOR = '#64748b';
+
+// Beyond this the badge stays empty -- a number counting down all afternoon is
+// noise, not information.
+export const BADGE_VISIBLE_WITHIN_MS = 60 * 60_000;
