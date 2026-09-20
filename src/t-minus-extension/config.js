@@ -34,7 +34,12 @@ export const SETTINGS_STORAGE_KEY = 'tminus.settings';
 export const DISMISSED_STORAGE_KEY = 'tminus.dismissed';
 export const DISMISSED_RETENTION_MS = 60 * 60_000;
 
-export const NEXT_MEETING_STORAGE_KEY = 'tminus.nextMeeting';
+export const AGENDA_STORAGE_KEY = 'tminus.agenda';
+export const ACCOUNT_STORAGE_KEY = 'tminus.account';
+
+// How many meetings the popup can list when expanded. Five covers a packed
+// day without turning a glance into a scroll.
+export const AGENDA_LIMIT = 5;
 
 // Badge colors. Amber once a meeting is inside the lead window, muted grey
 // while one is merely approaching, so a glance separates 'now' from 'soon'.
@@ -44,3 +49,13 @@ export const BADGE_SOON_COLOR = '#64748b';
 // Beyond this the badge stays empty -- a number counting down all afternoon is
 // noise, not information.
 export const BADGE_VISIBLE_WITHIN_MS = 60 * 60_000;
+
+// Failed polls back off exponentially from one minute to roughly half an hour,
+// so a Google outage or a rate limit is not met with a request every minute for
+// as long as the browser stays open.
+export const POLL_BACKOFF_BASE_MS = 60_000;
+export const POLL_BACKOFF_MAX_MS = 32 * 60_000;
+export const POLL_FAILURE_STORAGE_KEY = 'tminus.pollFailures';
+
+// A cached meeting is only worth repainting for so long after it starts.
+export const CACHE_USABLE_AFTER_START_MS = 10 * 60_000;

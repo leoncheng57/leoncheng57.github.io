@@ -5,6 +5,11 @@ import {
   TOKEN_STORAGE_KEY,
 } from './config.js';
 
+// Distinguishes the one failure the user can fix from every transient one.
+// A poll that cannot reach Google should keep its badge and back off; a poll
+// that has no credentials should clear it and ask for sign-in.
+export class SignInRequiredError extends Error {}
+
 const AUTH_ENDPOINT = 'https://accounts.google.com/o/oauth2/v2/auth';
 const REVOKE_ENDPOINT = 'https://oauth2.googleapis.com/revoke';
 
@@ -64,7 +69,7 @@ async function authorize({ interactive }) {
 
   // Chrome resolves with undefined when a non-interactive flow needs a prompt.
   if (!redirectUrl) {
-    throw new Error('sign-in required');
+    throw new SignInRequiredError('sign-in required');
   }
 
   const token = parseAuthRedirect(redirectUrl);
@@ -88,7 +93,9 @@ export async function getAccessToken({ interactive = false } = {}) {
     const token = await authorize({ interactive: false });
     return token.accessToken;
   } catch (silentError) {
-    if (!interactive) throw silentError;
+    // A silent flow only fails because Google will not issue a token without
+    // asking the user, whatever the underlying message says.
+    if (!interactive) throw new SignInRequiredError(String(silentError?.message ?? silentError));
   }
 
   const token = await authorize({ interactive: true });

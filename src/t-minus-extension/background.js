@@ -1,9 +1,14 @@
 import { fetchUpcomingEvents, isNotifiableEvent } from './calendar.js';
+import { SignInRequiredError } from './auth.js';
 import { POLL_ALARM_NAME } from './config.js';
 import {
+  clearPollFailures,
   installPollingAlarm,
   readCachedNextMeeting,
+  readPollFailures,
+  recordPollFailure,
   refreshNextMeeting,
+  shouldSkipPoll,
 } from './schedule.js';
 import { paintBadge } from './badge.js';
 
@@ -29,18 +34,35 @@ console.log(`${EXTENSION_LIFECYCLE_LOG_PREFIX} service worker booted`, {
 // ----- polling -----
 
 async function pollAndPaint() {
+  // Repaint from cache before anything else, so a countdown stays live through
+  // an outage instead of freezing on whatever minute the last poll saw.
+  const cached = await readCachedNextMeeting();
+  if (cached) await paintBadge(cached);
+
+  if (await shouldSkipPoll()) return cached;
+
   try {
     const nextMeeting = await refreshNextMeeting();
     await paintBadge(nextMeeting);
+    await clearPollFailures();
     return nextMeeting;
   } catch (error) {
-    // Not signed in is the ordinary case on a fresh install. Leave whatever the
-    // badge already shows rather than blanking it on one failed poll.
-    console.log(
-      `${EXTENSION_LIFECYCLE_LOG_PREFIX} poll failed`,
-      String(error?.message ?? error),
-    );
-    return null;
+    if (error instanceof SignInRequiredError) {
+      // Nothing to wait out: the badge is asserting a calendar the extension
+      // can no longer read, so clear it and let the popup ask for sign-in.
+      await paintBadge(null);
+      await clearPollFailures();
+      console.log(`${EXTENSION_LIFECYCLE_LOG_PREFIX} signed out`);
+      return null;
+    }
+
+    const { count, nextAttemptAt } = await recordPollFailure();
+    console.log(`${EXTENSION_LIFECYCLE_LOG_PREFIX} poll failed`, {
+      attempt: count,
+      retryAt: new Date(nextAttemptAt).toISOString(),
+      error: String(error?.message ?? error),
+    });
+    return cached;
   }
 }
 
@@ -60,8 +82,14 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 // A cold start between ticks would otherwise leave the badge blank until the
-// next alarm; the cached meeting repaints it immediately, without a fetch.
-readCachedNextMeeting().then((nextMeeting) => paintBadge(nextMeeting));
+// next alarm. Repaint from cache immediately, and make sure the alarm still
+// exists: neither onInstalled nor onStartup fires when Chrome revives a worker,
+// so an alarm lost to a crash would otherwise never come back.
+(async () => {
+  const existing = await chrome.alarms.get(POLL_ALARM_NAME);
+  if (!existing) installPollingAlarm();
+  await paintBadge(await readCachedNextMeeting());
+})();
 
 // ----- console helpers -----
 
@@ -94,4 +122,6 @@ globalThis.tminus = {
   readCachedNextMeeting,
   pollAndPaint,
   paintBadge,
+  readPollFailures,
+  clearPollFailures,
 };

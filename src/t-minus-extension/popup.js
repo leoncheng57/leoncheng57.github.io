@@ -1,12 +1,18 @@
 import { getAccessToken, hasValidToken, signOut } from './auth.js';
-import { readCachedNextMeeting, refreshNextMeeting } from './schedule.js';
+import {
+  readAccountEmail,
+  readCachedAgenda,
+  refreshAgenda,
+} from './schedule.js';
 import { describeCountdown, paintBadge } from './badge.js';
 import { LEAD_TIME_CHOICES_MS } from './config.js';
 import {
   dismissMeeting,
   readLeadTimeMs,
+  readShowAgenda,
   restoreMeeting,
   writeLeadTimeMs,
+  writeShowAgenda,
 } from './settings.js';
 
 const panels = {
@@ -27,6 +33,9 @@ const dismissedEl = document.getElementById('dismissed');
 const restoreEl = document.getElementById('restore');
 const leadEl = document.getElementById('lead');
 const footerEl = document.getElementById('footer');
+const agendaEl = document.getElementById('agenda');
+const toggleEl = document.getElementById('toggle');
+const accountEl = document.getElementById('account');
 
 const startTimeFormat = new Intl.DateTimeFormat(undefined, {
   weekday: 'short',
@@ -39,9 +48,60 @@ function showPanel(name) {
     element.hidden = panelName !== name;
   }
   footerEl.hidden = name === 'signin' || name === 'loading';
+  if (name === 'signin') accountEl.hidden = true;
 }
 
-function renderMeeting(nextMeeting) {
+const listTimeFormat = new Intl.DateTimeFormat(undefined, {
+  hour: 'numeric',
+  minute: '2-digit',
+});
+
+function renderRestOfAgenda(rest, showAgenda) {
+  toggleEl.hidden = rest.length === 0;
+  toggleEl.textContent = showAgenda
+    ? 'Show next only'
+    : `Show next ${rest.length + 1}`;
+
+  if (!showAgenda || rest.length === 0) {
+    agendaEl.hidden = true;
+    return;
+  }
+
+  agendaEl.replaceChildren(
+    ...rest.map((meeting) => {
+      const row = document.createElement('li');
+
+      const title = document.createElement('span');
+      title.className = 'title';
+      title.textContent = meeting.summary;
+      title.title = meeting.summary;
+
+      const when = document.createElement('span');
+      when.className = 'when';
+      when.textContent = listTimeFormat.format(new Date(meeting.startsAt));
+
+      row.append(title, when);
+
+      if (meeting.conferenceUrl) {
+        const open = document.createElement('button');
+        open.type = 'button';
+        open.className = 'link open';
+        open.textContent = 'Join';
+        open.addEventListener('click', async () => {
+          await chrome.tabs.create({ url: meeting.conferenceUrl });
+          window.close();
+        });
+        row.append(open);
+      }
+
+      return row;
+    }),
+  );
+  agendaEl.hidden = false;
+}
+
+function renderAgenda(agenda, showAgenda) {
+  const [nextMeeting, ...rest] = agenda;
   if (!nextMeeting) {
     showPanel('empty');
     return;
@@ -70,12 +130,20 @@ function renderMeeting(nextMeeting) {
     window.close();
   };
 
+  renderRestOfAgenda(rest, showAgenda);
   showPanel('meeting');
 }
 
 function describeLeadChoice(leadTimeMs) {
   const minutes = leadTimeMs / 60_000;
   return minutes === 1 ? '1 minute' : `${minutes} minutes`;
+}
+
+async function renderAccount() {
+  const accountEmail = await readAccountEmail();
+  accountEl.textContent = accountEmail ?? '';
+  accountEl.title = accountEmail ?? '';
+  accountEl.hidden = !accountEmail;
 }
 
 async function renderLeadTimePicker() {
@@ -97,13 +165,24 @@ leadEl.addEventListener('change', async () => {
 });
 
 async function reload() {
-  const nextMeeting = await refreshNextMeeting();
-  await paintBadge(nextMeeting);
-  renderMeeting(nextMeeting);
+  const [agenda, showAgenda] = await Promise.all([
+    refreshAgenda(),
+    readShowAgenda(),
+  ]);
+  await paintBadge(agenda[0] ?? null);
+  renderAgenda(agenda, showAgenda);
+  await renderAccount();
 }
+
+toggleEl.addEventListener('click', async () => {
+  const showAgenda = !(await readShowAgenda());
+  await writeShowAgenda(showAgenda);
+  renderAgenda(await readCachedAgenda(), showAgenda);
+});
 
 async function load() {
   await renderLeadTimePicker();
+  await renderAccount();
 
   if (!(await hasValidToken())) {
     showPanel('signin');
@@ -112,15 +191,15 @@ async function load() {
 
   // Paint the cached meeting first so the popup never opens on a spinner, then
   // refresh -- the cache is at most one poll period stale.
-  const cached = await readCachedNextMeeting();
-  if (cached) renderMeeting(cached);
+  const cached = await readCachedAgenda();
+  if (cached.length > 0) renderAgenda(cached, await readShowAgenda());
 
   try {
     await reload();
   } catch (error) {
     // A refresh failure with a cached meeting on screen is not worth reporting;
     // with nothing on screen it is the only thing to say.
-    if (!cached) {
+    if (cached.length === 0) {
       showPanel('signin');
       detailEl.textContent = String(error?.message ?? error);
     }
@@ -143,6 +222,7 @@ actionEl.addEventListener('click', async () => {
 signOutEl.addEventListener('click', async () => {
   await signOut();
   await paintBadge(null);
+  accountEl.hidden = true;
   showPanel('signin');
 });
 

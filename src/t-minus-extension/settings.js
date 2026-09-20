@@ -14,8 +14,9 @@ export async function readLeadTimeMs() {
 }
 
 export async function writeLeadTimeMs(leadTimeMs) {
+  const stored = await chrome.storage.local.get(SETTINGS_STORAGE_KEY);
   await chrome.storage.local.set({
-    [SETTINGS_STORAGE_KEY]: { leadTimeMs },
+    [SETTINGS_STORAGE_KEY]: { ...stored[SETTINGS_STORAGE_KEY], leadTimeMs },
   });
 }
 
@@ -44,4 +45,18 @@ export async function restoreMeeting(eventId) {
   const dismissals = await readDismissals();
   delete dismissals[eventId];
   await chrome.storage.local.set({ [DISMISSED_STORAGE_KEY]: dismissals });
+}
+
+// ----- popup view -----
+
+export async function readShowAgenda() {
+  const stored = await chrome.storage.local.get(SETTINGS_STORAGE_KEY);
+  return Boolean(stored[SETTINGS_STORAGE_KEY]?.showAgenda);
+}
+
+export async function writeShowAgenda(showAgenda) {
+  const stored = await chrome.storage.local.get(SETTINGS_STORAGE_KEY);
+  await chrome.storage.local.set({
+    [SETTINGS_STORAGE_KEY]: { ...stored[SETTINGS_STORAGE_KEY], showAgenda },
+  });
 }

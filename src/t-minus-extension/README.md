@@ -2,7 +2,7 @@
 
 A Chrome/Brave extension that watches Google Calendar and fires a desktop notification shortly before a meeting starts, with one click to join the call. No backend.
 
-This is **Phase 8**: the extension signs in, reads the calendar, picks out the meetings worth warning about, polls on a one-minute alarm, counts down on the toolbar badge, and opens a popup with a Join button, a configurable lead time and a per-meeting dismiss. Phase 9 hardening is what remains.
+This is **v1**: the extension signs in, reads the calendar, picks out the meetings worth warning about, polls on a one-minute alarm, counts down on the toolbar badge, and opens a popup with a Join button, a configurable lead time, a per-meeting dismiss and an optional five-meeting agenda. All nine phases are done.
 
 ## Install and test
 
@@ -62,7 +62,7 @@ Two reasons. Google's branding guidelines discourage third-party products leadin
 | 6 | Toolbar badge countdown, click-to-join from the popup — first shippable build — **done** |
 | 7 | Popup showing the next meeting — **done** |
 | 8 | Configurable lead time + dismiss — **done** |
-| 9 | Hardening: token expiry, backoff, timezones, worker cold starts |
+| 9 | Hardening: token expiry, backoff, timezones, worker cold starts — **done** |
 
 Out of scope for v1: a `meet.google.com` content script, Zoom/Teams support, Web Store publication, and OAuth verification.
 
@@ -159,6 +159,42 @@ nothing about tomorrow's, and are pruned an hour after the meeting starts. This
 is the one place a persisted set survived the move away from notifications — not
 to stop a double-fire, which the badge cannot do, but because a user action has
 to outlive the worker that handled it.
+
+## Hardening
+
+**Failures back off.** A poll that cannot reach Google waits one minute, then
+two, four, and so on to a ceiling of about half an hour, rather than retrying
+every minute for as long as the browser stays open. The state lives in session
+storage, so a fresh browser session gets a fresh attempt and a backoff can never
+outlive the outage that caused it.
+
+**Not every failure is the same.** `SignInRequiredError` separates the one
+failure the user can fix from every transient one. A network fault keeps the
+badge and backs off; a missing credential clears the badge and lets the popup
+ask for sign-in, because a countdown drawn from a calendar the extension can no
+longer read is a lie.
+
+**The countdown survives an outage.** Every tick repaints from cache before
+attempting the network, so the number keeps falling during a failure instead of
+freezing on whatever minute the last successful poll saw. Cached meetings are
+discarded ten minutes after they start.
+
+**All-day events parse in the local timezone.** `new Date("2026-09-21")` is UTC
+midnight, which is the previous day for anyone west of Greenwich. All-day events
+are filtered out anyway, so nothing visible depended on it — which is exactly
+the kind of latent wrongness that surfaces later as an off-by-one-day bug.
+
+**The alarm re-arms itself.** Neither `onInstalled` nor `onStartup` fires when
+Chrome revives an evicted worker, so every cold start checks the alarm still
+exists and recreates it if not. Without this, an alarm lost to a crash would
+never come back and the extension would go quietly dead.
+
+## Showing the account
+
+The popup names the signed-in account. No extra scope was added for it: for the
+primary calendar, `events.list` returns the account's own address as the
+response's `summary`, so the identity arrives with the events — no second
+request, and nothing for the user to re-consent to.
 
 ## Debugging from the service worker console
 

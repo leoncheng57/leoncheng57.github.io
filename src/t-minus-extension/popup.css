@@ -143,3 +143,55 @@ select {
   background: var(--control);
   color: var(--ink);
 }
+
+/* ----- agenda list ----- */
+
+.agenda {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--control-edge);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.agenda li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.agenda .title {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agenda .when {
+  font-size: 11px;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.agenda .open {
+  grid-column: 2;
+  font-size: 11px;
+}
+
+.toggle {
+  display: block;
+  margin-top: 10px;
+}
+
+/* ----- account ----- */
+
+.account {
+  margin-top: 8px;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

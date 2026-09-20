@@ -45,15 +45,25 @@ function findVideoConferenceUrl(rawEvent) {
   return videoEntryPoint?.uri ?? null;
 }
 
+// "2026-09-21" parsed by Date is UTC midnight, which lands on the wrong day for
+// anyone west of Greenwich. An all-day event means midnight where the user is.
+function parseAllDayStart(dateText) {
+  const [year, month, day] = dateText.split('-').map(Number);
+  return new Date(year, month - 1, day).getTime();
+}
+
 function toCalendarEvent(rawEvent) {
   // An all-day event carries start.date; a timed one carries start.dateTime.
   const isAllDay = Boolean(rawEvent.start?.date);
   const startIso = rawEvent.start?.dateTime ?? rawEvent.start?.date ?? null;
+  const startsAt = isAllDay
+    ? parseAllDayStart(rawEvent.start.date)
+    : startIso && new Date(startIso).getTime();
 
   return {
     id: rawEvent.id,
     summary: rawEvent.summary ?? '(no title)',
-    startsAt: startIso ? new Date(startIso).getTime() : null,
+    startsAt: startsAt || null,
     startIso,
     isAllDay,
     conferenceUrl: findVideoConferenceUrl(rawEvent),
@@ -64,7 +74,7 @@ function toCalendarEvent(rawEvent) {
 
 // ----- public api -----
 
-export async function fetchUpcomingEvents({
+export async function fetchCalendarSnapshot({
   lookaheadMs = DEFAULT_LOOKAHEAD_MS,
   interactive = false,
 } = {}) {
@@ -84,13 +94,27 @@ export async function fetchUpcomingEvents({
 
   if (!response.ok) {
     const errorBody = await response.text();
-    throw new Error(
+    const failure = new Error(
       `calendar events.list failed: ${response.status} ${errorBody}`,
     );
+    // Rate limiting and server faults are worth waiting out; a 400 will fail
+    // identically no matter how long the caller waits.
+    failure.isTransient = response.status === 429 || response.status >= 500;
+    throw failure;
   }
 
   const payload = await response.json();
-  return (payload.items ?? []).map(toCalendarEvent);
+  return {
+    // For the primary calendar Google returns the account's own address here,
+    // so the signed-in identity comes free with the events -- no extra scope,
+    // no second request, and nothing for the user to re-consent to.
+    accountEmail: payload.summary ?? null,
+    events: (payload.items ?? []).map(toCalendarEvent),
+  };
+}
+
+export async function fetchUpcomingEvents(options) {
+  return (await fetchCalendarSnapshot(options)).events;
 }
 
 // ----- selection -----
