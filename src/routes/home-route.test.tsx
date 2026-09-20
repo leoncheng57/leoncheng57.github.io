@@ -26,4 +26,13 @@ describe('home sections', () => {
       })
     }
   })
+
+  it('marks the beta apps with a badge in the apps list', () => {
+    render(<MemoryRouter initialEntries={['/']}><App /></MemoryRouter>)
+    const apps = screen.getByRole('region', { name: 'Apps' })
+    const betaHeadings = within(apps).getAllByRole('heading', { level: 3 })
+      .filter(heading => within(heading).queryByText('BETA') !== null)
+      .map(heading => within(heading).getByRole('link').textContent)
+    expect(betaHeadings).toEqual(['T-minus - Chromium Extension', 'Workout Lab'])
+  })
 })
