@@ -16,7 +16,7 @@ export default function TMinusExtensionRoute(): ReactElement {
           <div className={styles.appCardHeader}>
             <img className={styles.appIcon} src={`${import.meta.env.BASE_URL}app-icons/t-minus.svg`} alt="" width={64} height={64} />
             <div>
-              <h1>T-minus - Chromium Extension</h1>
+              <h1>T-minus - Chromium Extension<span className={styles.betaBadge}>BETA</span></h1>
               <p className={styles.subtitle}>Your next meeting, counting down in the toolbar.</p>
             </div>
           </div>
