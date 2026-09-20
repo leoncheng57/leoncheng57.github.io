@@ -5,17 +5,33 @@
   "version": "0.0.1",
   "minimum_chrome_version": "116",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnE9WwDea9Sa2xWmTHlRpyQli9GbroxQ8cXBxwtAuCUzygg7kpC5mOi/Gukb32RlqowVpn65AYgZOivv+llRDwRoCOE6Ge0dszlCrnB4uT6WrOwCJEG/2oFFYRH3zksWEII0CmtfpCbv3hVx/1n8N+ANyICVJ4VFfSgFPSbHIujeK2JXT2Zt+IW9NVtl2bg90z94pVjWIKxwE/Lsd3w/DP3a3i8uq58H80LZwASF3CN/1qcPJs454TSWjExxxRuT/FXdJQvLgHOUG312aofpkNQabWyQGClFDTIm6WLjSphnw1o6x1uOyLQO5ufRSNn9Jvlj3JoHH84lD+6gSzdhCrQIDAQAB",
-  "permissions": ["identity", "storage"],
+  "permissions": [
+    "alarms",
+    "identity",
+    "storage"
+  ],
   "host_permissions": [
     "https://www.googleapis.com/*",
     "https://oauth2.googleapis.com/*"
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "T-minus"
+    "default_title": "T-minus",
+    "default_icon": {
+      "16": "icon-16.png",
+      "32": "icon-32.png",
+      "48": "icon-48.png",
+      "128": "icon-128.png"
+    }
   },
   "background": {
     "service_worker": "background.js",
     "type": "module"
+  },
+  "icons": {
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
   }
 }

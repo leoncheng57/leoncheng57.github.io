@@ -8,9 +8,42 @@
     <script src="popup.js" type="module"></script>
   </head>
   <body>
-    <h1>T-minus</h1>
-    <p id="status">Checking sign-in...</p>
-    <button id="action" type="button" disabled>Sign in with Google</button>
-    <p id="detail" class="detail"></p>
+    <main id="meeting" hidden>
+      <p id="countdown" class="countdown"></p>
+      <h1 id="summary"></h1>
+      <p id="start" class="start"></p>
+      <button id="join" type="button">Join</button>
+      <button id="dismiss" type="button" class="link">Dismiss badge</button>
+      <p id="dismissed" class="muted note" hidden>
+        Badge silenced. <button id="restore" type="button" class="link">Undo</button>
+      </p>
+      <ul id="agenda" class="agenda" hidden></ul>
+      <button id="toggle" type="button" class="link toggle"></button>
+    </main>
+
+    <main id="empty" hidden>
+      <h1>Nothing coming up</h1>
+      <p class="muted">No joinable meeting in the next 24 hours.</p>
+    </main>
+
+    <main id="signin" hidden>
+      <h1>T-minus</h1>
+      <p class="muted">Sign in to watch your calendar.</p>
+      <button id="action" type="button">Sign in with Google</button>
+      <p id="detail" class="detail"></p>
+    </main>
+
+    <p id="loading" class="muted">Checking your calendar...</p>
+
+    <footer id="footer" hidden>
+      <label class="lead" for="lead">
+        Warn me
+        <select id="lead"></select>
+        before
+      </label>
+      <button id="signout" type="button" class="link">Sign out</button>
+    </footer>
+
+    <p id="account" class="account muted" hidden></p>
   </body>
 </html>

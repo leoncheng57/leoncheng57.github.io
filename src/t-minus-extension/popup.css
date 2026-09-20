@@ -1,56 +1,197 @@
+:root {
+  --ground: #ffffff;
+  --ink: #0f2a43;
+  --ink-muted: #6b7f93;
+  --due: #c2410c;
+  --due-wash: #fdf1e9;
+  --control: #f4f7fb;
+  --control-edge: rgba(15, 42, 67, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #0b1420;
+    --ink: #eaf1f8;
+    --ink-muted: #8ba0b5;
+    --due: #f08b4c;
+    --due-wash: #2c1b10;
+    --control: #1c2e44;
+    --control-edge: rgba(234, 241, 248, 0.24);
+  }
+}
+
 body {
-  width: 280px;
+  width: 260px;
   margin: 0;
-  padding: 1rem;
+  padding: 14px;
   font: 13px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #0f2a43;
-  background: #ffffff;
+  color: var(--ink);
+  background: var(--ground);
 }
 
 h1 {
-  margin: 0 0 0.5rem;
-  font-size: 1rem;
+  margin: 0 0 2px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
-p {
-  margin: 0 0 0.75rem;
+p { margin: 0; }
+
+.muted { color: var(--ink-muted); }
+
+.countdown {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+
+/* The one moment the popup shouts: a meeting inside the lead window. */
+.countdown.is-due {
+  color: var(--due);
+  background: var(--due-wash);
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.start {
+  color: var(--ink-muted);
+  font-size: 12px;
+  margin-bottom: 12px;
 }
 
 .detail {
-  margin: 0.75rem 0 0;
-  font-size: 0.75rem;
-  color: #6b7f93;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--ink-muted);
   word-break: break-word;
 }
 
 button {
   font: inherit;
   font-weight: 600;
-  padding: 0.4rem 0.7rem;
-  border: 1px solid rgba(15, 42, 67, 0.2);
-  border-radius: 0.4rem;
-  background: #f4f7fb;
+  padding: 6px 11px;
+  border: 1px solid var(--control-edge);
+  border-radius: 6px;
+  background: var(--control);
   color: inherit;
   cursor: pointer;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: default;
+button:disabled { opacity: 0.5; cursor: default; }
+
+#join {
+  width: 100%;
+  border-color: transparent;
+  background: var(--due);
+  color: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    color: #eaf1f8;
-    background: #0b1420;
-  }
+#join:disabled { background: var(--control); color: var(--ink-muted); }
 
-  .detail {
-    color: #8ba0b5;
-  }
+footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--control-edge);
+}
 
-  button {
-    border-color: rgba(234, 241, 248, 0.24);
-    background: #1c2e44;
-  }
+
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--ink-muted);
+  text-decoration: underline;
+}
+
+/* ----- settings + dismissal ----- */
+
+.note {
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+#dismiss {
+  display: block;
+  margin: 8px auto 0;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.lead {
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+select {
+  font: inherit;
+  font-size: 11px;
+  padding: 1px 3px;
+  border: 1px solid var(--control-edge);
+  border-radius: 4px;
+  background: var(--control);
+  color: var(--ink);
+}
+
+/* ----- agenda list ----- */
+
+.agenda {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--control-edge);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.agenda li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.agenda .title {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agenda .when {
+  font-size: 11px;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.agenda .open {
+  grid-column: 2;
+  font-size: 11px;
+}
+
+.toggle {
+  display: block;
+  margin-top: 10px;
+}
+
+/* ----- account ----- */
+
+.account {
+  margin-top: 8px;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
