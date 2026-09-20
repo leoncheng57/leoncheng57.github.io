@@ -8,6 +8,7 @@ import AlphaProjectsSection from '../components/AlphaProjectsSection'
 export default function AppsIndexRoute(): ReactElement {
   const subWaitIconUrl = `${import.meta.env.BASE_URL}app-icons/sub-wait-v2.svg`
   const weatherIconUrl = `${import.meta.env.BASE_URL}app-icons/weather.svg`
+  const tMinusIconUrl = `${import.meta.env.BASE_URL}app-icons/t-minus.svg`
 
   return (
     <div className={styles.page}>
@@ -92,6 +93,23 @@ export default function AppsIndexRoute(): ReactElement {
             </p>
             <p className={styles.links}>
               <Link to="/apps/nyc-weather-extension">About the extension</Link>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img className={styles.appIcon} src={tMinusIconUrl} alt="" width={64} height={64} decoding="async" />
+              <div className={styles.appCardHeading}>
+                <h2><Link to="/apps/t-minus-extension">T-minus - Chromium Extension</Link></h2>
+                <p className={styles.subtitle}>Your next meeting, counting down in the toolbar</p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              A countdown to your next Google Calendar meeting on the toolbar
+              badge, with a one-click Join button, a configurable lead time, and
+              a per-meeting dismiss. Read-only calendar access, no backend.
+            </p>
+            <p className={styles.links}>
+              <Link to="/apps/t-minus-extension">About the extension</Link>
             </p>
           </article>
           <article className={styles.appCard}>

@@ -8,7 +8,7 @@ This is **v1**: the extension signs in, reads the calendar, picks out the meetin
 
 1. Open `chrome://extensions` (or `brave://extensions`).
 2. Enable **Developer mode**.
-3. Click **Load unpacked** and select this `src/t-minus-extension` folder. If already installed, click **Reload** instead.
+3. Click **Load unpacked** and select this `src/chromium-extensions/t-minus-extension` folder. If already installed, click **Reload** instead.
 4. Confirm the listed ID is `dikdmdfmpjcemjbohhocmfdpmglnoppj`. A different ID means `manifest.json`'s `key` was changed or dropped.
 5. Click **service worker** on the extension card to open its console. It should log `[t-minus] service worker booted` with that same ID.
 6. Reload the extension and confirm the boot line appears again. Chrome evicts an idle worker, so this line is expected to reappear on its own during normal use.
@@ -27,7 +27,7 @@ The matching private key is `key.pem` in this folder. It is covered by the repos
 To regenerate (only if the key is lost before Phase 1):
 
 ```bash
-cd src/t-minus-extension
+cd src/chromium-extensions/t-minus-extension
 openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt -out key.pem
 openssl rsa -in key.pem -pubout -outform DER | base64 -w 0          # -> manifest.json "key"
 openssl rsa -in key.pem -pubout -outform DER \
