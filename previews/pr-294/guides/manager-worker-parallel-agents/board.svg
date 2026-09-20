@@ -1,0 +1,39 @@
+<svg viewBox="0 0 1320 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="board-title">
+  <title id="board-title">The agent dashboard CLI rendering a live board in a terminal: one stale working child and three Child: workspaces that never reported.</title>
+  <style>
+    text { font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace; font-size: 13px; white-space: pre; }
+    .bg { fill: #101216; }
+    .chrome { fill: #1a1d23; }
+    .fg { fill: #d6d8dd; }
+    .dim { fill: #6b7280; }
+    .bold { font-weight: 700; }
+    .red { fill: #f0555d; }
+    .yellow { fill: #d9a441; }
+    .green { fill: #4cbb6c; }
+    .cyan { fill: #4db8c4; }
+    .blue { fill: #5c8ef0; }
+  </style>
+
+  <rect class="bg" x="0" y="0" width="1320" height="330" rx="10" />
+  <rect class="chrome" x="0" y="0" width="1320" height="34" rx="10" />
+  <rect class="chrome" x="0" y="20" width="1320" height="14" />
+  <circle cx="22" cy="17" r="6" fill="#f0555d" />
+  <circle cx="42" cy="17" r="6" fill="#d9a441" />
+  <circle cx="62" cy="17" r="6" fill="#4cbb6c" />
+  <text class="dim" x="88" y="21">agent-dashboard — node cli.mjs --watch</text>
+
+  <text x="24" y="66"><tspan class="fg bold">leoncheng57.github.io</tspan><tspan class="dim">  base main</tspan></text>
+  <text x="24" y="88"><tspan class="fg">4 children  0 blocked  </tspan><tspan class="red bold">1 stale</tspan><tspan class="fg">  0 done</tspan><tspan class="dim">  5:10:49 PM</tspan></text>
+
+  <text class="dim bold" x="24" y="126">CHILD               PHASE      AGE  BRANCH                              CI    PR     WORKSPACE     NOTES</text>
+
+  <text x="24" y="152"><tspan class="fg">gr-screenshot       </tspan><tspan class="cyan">working    </tspan><tspan class="red bold">8h </tspan><tspan class="fg"> alpha-projs/gmail-reader-sc… </tspan><tspan class="green">+1</tspan><tspan class="fg">/</tspan><tspan class="yellow">-2</tspan><tspan class="fg">  </tspan><tspan class="green">pass</tspan><tspan class="fg">  </tspan><tspan class="blue">#191</tspan><tspan class="dim">   -             </tspan><tspan class="dim">Installing deps and studying GA…</tspan></text>
+
+  <text x="24" y="178"><tspan class="fg">Notif CLI           </tspan><tspan class="yellow bold">no-report  </tspan><tspan class="dim">-    -                                   -     -      </tspan><tspan class="fg">workspace:45  </tspan><tspan class="yellow">no .agent-status.json found for this workspace</tspan></text>
+
+  <text x="24" y="204"><tspan class="fg">Notif Plugin Core   </tspan><tspan class="yellow bold">no-report  </tspan><tspan class="dim">-    -                                   -     -      </tspan><tspan class="fg">workspace:44  </tspan><tspan class="yellow">no .agent-status.json found for this workspace</tspan></text>
+
+  <text x="24" y="230"><tspan class="fg">Selfhost Pilot      </tspan><tspan class="yellow bold">no-report  </tspan><tspan class="dim">-    -                                   -     -      </tspan><tspan class="fg">workspace:46  </tspan><tspan class="yellow">no .agent-status.json found for this workspace</tspan></text>
+
+  <text class="dim" x="24" y="282">refreshing every 5s - ctrl-c to exit</text>
+</svg>
