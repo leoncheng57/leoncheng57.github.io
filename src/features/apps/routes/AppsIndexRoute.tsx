@@ -99,7 +99,7 @@ export default function AppsIndexRoute(): ReactElement {
             <div className={styles.appCardHeader}>
               <img className={styles.appIcon} src={tMinusIconUrl} alt="" width={64} height={64} decoding="async" />
               <div className={styles.appCardHeading}>
-                <h2><Link to="/apps/t-minus-extension">T-minus - Chromium Extension</Link></h2>
+                <h2><Link to="/apps/t-minus-extension">T-minus - Chromium Extension</Link><span className={styles.betaBadge}>BETA</span></h2>
                 <p className={styles.subtitle}>Your next meeting, counting down in the toolbar</p>
               </div>
             </div>

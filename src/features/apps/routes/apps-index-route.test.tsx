@@ -101,7 +101,7 @@ describe('apps index route', () => {
       'Sub-Wait',
       'NYC Weather',
       'NYC Weather - Chromium Extension',
-      'T-minus - Chromium Extension',
+      'T-minus - Chromium ExtensionBETA',
       "Georgie's Game Nights",
       'Whoops Hoops',
       'House Party Photo Hunt',
