@@ -99,7 +99,6 @@ footer {
   border-top: 1px solid var(--control-edge);
 }
 
-footer:has(#signout[hidden]) { display: none; }
 
 .link {
   padding: 0;
@@ -109,4 +108,38 @@ footer:has(#signout[hidden]) { display: none; }
   font-size: 11px;
   color: var(--ink-muted);
   text-decoration: underline;
+}
+
+/* ----- settings + dismissal ----- */
+
+.note {
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+#dismiss {
+  display: block;
+  margin: 8px auto 0;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.lead {
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+select {
+  font: inherit;
+  font-size: 11px;
+  padding: 1px 3px;
+  border: 1px solid var(--control-edge);
+  border-radius: 4px;
+  background: var(--control);
+  color: var(--ink);
 }

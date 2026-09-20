@@ -5,12 +5,18 @@ import {
   POLL_PERIOD_MINUTES,
 } from './config.js';
 import { fetchUpcomingEvents, selectNotifiableEvents } from './calendar.js';
+import { readDismissals, readLeadTimeMs } from './settings.js';
 
 // A meeting stays interesting for a while after it starts -- someone joining
 // late still wants the button. Past this it is no longer "next".
 const STARTED_GRACE_MS = 10 * 60_000;
 
-export function selectNextMeeting(events, now, leadTimeMs = DEFAULT_LEAD_TIME_MS) {
+export function selectNextMeeting(
+  events,
+  now,
+  leadTimeMs = DEFAULT_LEAD_TIME_MS,
+  dismissals = {},
+) {
   const candidates = events
     .filter((event) => event.startsAt - now > -STARTED_GRACE_MS)
     .sort((a, b) => a.startsAt - b.startsAt);
@@ -25,6 +31,7 @@ export function selectNextMeeting(events, now, leadTimeMs = DEFAULT_LEAD_TIME_MS
     startIso: next.startIso,
     conferenceUrl: next.conferenceUrl,
     isDue: next.startsAt - now <= leadTimeMs,
+    isDismissed: dismissals[next.id] !== undefined,
   };
 }
 
@@ -43,12 +50,14 @@ async function cacheNextMeeting(nextMeeting) {
 
 // ----- polling -----
 
-export async function refreshNextMeeting({
-  leadTimeMs = DEFAULT_LEAD_TIME_MS,
-} = {}) {
+export async function refreshNextMeeting() {
   const now = Date.now();
-  const notifiable = selectNotifiableEvents(await fetchUpcomingEvents());
-  const nextMeeting = selectNextMeeting(notifiable, now, leadTimeMs);
+  const [notifiable, leadTimeMs, dismissals] = await Promise.all([
+    fetchUpcomingEvents().then(selectNotifiableEvents),
+    readLeadTimeMs(),
+    readDismissals(),
+  ]);
+  const nextMeeting = selectNextMeeting(notifiable, now, leadTimeMs, dismissals);
   await cacheNextMeeting(nextMeeting);
   return nextMeeting;
 }

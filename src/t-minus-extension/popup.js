@@ -1,6 +1,13 @@
 import { getAccessToken, hasValidToken, signOut } from './auth.js';
 import { readCachedNextMeeting, refreshNextMeeting } from './schedule.js';
 import { describeCountdown, paintBadge } from './badge.js';
+import { LEAD_TIME_CHOICES_MS } from './config.js';
+import {
+  dismissMeeting,
+  readLeadTimeMs,
+  restoreMeeting,
+  writeLeadTimeMs,
+} from './settings.js';
 
 const panels = {
   meeting: document.getElementById('meeting'),
@@ -15,6 +22,11 @@ const joinEl = document.getElementById('join');
 const actionEl = document.getElementById('action');
 const detailEl = document.getElementById('detail');
 const signOutEl = document.getElementById('signout');
+const dismissEl = document.getElementById('dismiss');
+const dismissedEl = document.getElementById('dismissed');
+const restoreEl = document.getElementById('restore');
+const leadEl = document.getElementById('lead');
+const footerEl = document.getElementById('footer');
 
 const startTimeFormat = new Intl.DateTimeFormat(undefined, {
   weekday: 'short',
@@ -26,7 +38,7 @@ function showPanel(name) {
   for (const [panelName, element] of Object.entries(panels)) {
     element.hidden = panelName !== name;
   }
-  signOutEl.hidden = name === 'signin';
+  footerEl.hidden = name === 'signin' || name === 'loading';
 }
 
 function renderMeeting(nextMeeting) {
@@ -40,6 +52,17 @@ function renderMeeting(nextMeeting) {
   countdownEl.classList.toggle('is-due', Boolean(nextMeeting.isDue));
   summaryEl.textContent = nextMeeting.summary;
   startEl.textContent = startTimeFormat.format(new Date(nextMeeting.startsAt));
+  dismissedEl.hidden = !nextMeeting.isDismissed;
+  dismissEl.hidden = Boolean(nextMeeting.isDismissed);
+  dismissEl.onclick = async () => {
+    await dismissMeeting(nextMeeting.id, nextMeeting.startsAt);
+    await reload();
+  };
+  restoreEl.onclick = async () => {
+    await restoreMeeting(nextMeeting.id);
+    await reload();
+  };
+
   joinEl.disabled = !nextMeeting.conferenceUrl;
   joinEl.onclick = async () => {
     if (!nextMeeting.conferenceUrl) return;
@@ -50,7 +73,38 @@ function renderMeeting(nextMeeting) {
   showPanel('meeting');
 }
 
+function describeLeadChoice(leadTimeMs) {
+  const minutes = leadTimeMs / 60_000;
+  return minutes === 1 ? '1 minute' : `${minutes} minutes`;
+}
+
+async function renderLeadTimePicker() {
+  const current = await readLeadTimeMs();
+  leadEl.replaceChildren(
+    ...LEAD_TIME_CHOICES_MS.map((leadTimeMs) => {
+      const option = document.createElement('option');
+      option.value = String(leadTimeMs);
+      option.textContent = describeLeadChoice(leadTimeMs);
+      option.selected = leadTimeMs === current;
+      return option;
+    }),
+  );
+}
+
+leadEl.addEventListener('change', async () => {
+  await writeLeadTimeMs(Number(leadEl.value));
+  await reload();
+});
+
+async function reload() {
+  const nextMeeting = await refreshNextMeeting();
+  await paintBadge(nextMeeting);
+  renderMeeting(nextMeeting);
+}
+
 async function load() {
+  await renderLeadTimePicker();
+
   if (!(await hasValidToken())) {
     showPanel('signin');
     return;
@@ -62,9 +116,7 @@ async function load() {
   if (cached) renderMeeting(cached);
 
   try {
-    const nextMeeting = await refreshNextMeeting();
-    await paintBadge(nextMeeting);
-    renderMeeting(nextMeeting);
+    await reload();
   } catch (error) {
     // A refresh failure with a cached meeting on screen is not worth reporting;
     // with nothing on screen it is the only thing to say.

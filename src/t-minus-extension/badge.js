@@ -22,10 +22,12 @@ export function describeCountdown(startsAt, now) {
 // the coarsest unit that still reads honestly.
 export function badgeTextFor(nextMeeting, now) {
   if (!nextMeeting) return '';
+  // Dismissing silences the icon, not the popup -- the meeting is still next.
+  if (nextMeeting.isDismissed) return '';
   const msUntilStart = nextMeeting.startsAt - now;
   if (msUntilStart <= 0) return 'now';
   if (msUntilStart > BADGE_VISIBLE_WITHIN_MS) return '';
-  return String(minutesUntil(nextMeeting.startsAt, now));
+  return `${minutesUntil(nextMeeting.startsAt, now)}m`;
 }
 
 export async function paintBadge(nextMeeting, now = Date.now()) {

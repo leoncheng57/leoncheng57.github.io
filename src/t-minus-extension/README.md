@@ -2,7 +2,7 @@
 
 A Chrome/Brave extension that watches Google Calendar and fires a desktop notification shortly before a meeting starts, with one click to join the call. No backend.
 
-This is **Phase 6/7**, the first shippable build: the extension signs in, reads the calendar, picks out the meetings worth warning about, polls on a one-minute alarm, counts down on the toolbar badge, and opens a popup with a Join button. The build plan below tracks the rest.
+This is **Phase 8**: the extension signs in, reads the calendar, picks out the meetings worth warning about, polls on a one-minute alarm, counts down on the toolbar badge, and opens a popup with a Join button, a configurable lead time and a per-meeting dismiss. Phase 9 hardening is what remains.
 
 ## Install and test
 
@@ -61,7 +61,7 @@ Two reasons. Google's branding guidelines discourage third-party products leadin
 | 5 | `chrome.alarms` polling + persisted notified-event-ID set so nothing double-fires — **done** |
 | 6 | Toolbar badge countdown, click-to-join from the popup — first shippable build — **done** |
 | 7 | Popup showing the next meeting — **done** |
-| 8 | Configurable lead time + snooze |
+| 8 | Configurable lead time + dismiss — **done** |
 | 9 | Hardening: token expiry, backoff, timezones, worker cold starts |
 
 Out of scope for v1: a `meet.google.com` content script, Zoom/Teams support, Web Store publication, and OAuth verification.
@@ -133,13 +133,32 @@ What the badge shows:
 
 - blank when the next meeting is over an hour out — a number counting down all
   afternoon is noise, not information
-- the minute count inside that hour, grey
+- the minute count inside that hour, grey, carrying its unit (`45m`, `2m`) so the
+  number is never mistaken for an unread count
 - amber once inside the lead window, then `now` once it has started
 
 The popup paints from a cached next-meeting record first so it never opens on a
 spinner, then refreshes and repaints; the cache is at most one poll period
 stale. A meeting stays "next" for ten minutes after it starts, because someone
 joining late still wants the button.
+
+## Lead time and dismissing
+
+The lead time — how early the badge turns amber — is chosen in the popup from
+one, two, five, ten or fifteen minutes and kept in `chrome.storage.local`. It is
+read on every poll rather than cached in the worker, so a change takes effect on
+the next tick without a reload.
+
+**Dismiss silences the icon, not the meeting.** The badge clears, but the popup
+still shows the meeting and its Join button, with an Undo. A meeting the user
+has waved away is still the next meeting; pretending otherwise would mean
+opening the popup and being told nothing is coming up while a call is starting.
+
+Dismissals are keyed by event instance ID, so waving away today's standup says
+nothing about tomorrow's, and are pruned an hour after the meeting starts. This
+is the one place a persisted set survived the move away from notifications — not
+to stop a double-fire, which the badge cannot do, but because a user action has
+to outlive the worker that handled it.
 
 ## Debugging from the service worker console
 

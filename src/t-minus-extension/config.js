@@ -21,9 +21,18 @@ export const TOKEN_EXPIRY_SKEW_MS = 60_000;
 export const POLL_PERIOD_MINUTES = 1;
 export const POLL_ALARM_NAME = 'tminus.poll';
 
-// Phase 8 makes this user-configurable; until then it is the one number that
-// decides how early the warning lands.
+// How early the badge turns amber. Overridable from the popup; this is the
+// fallback before anyone has chosen.
 export const DEFAULT_LEAD_TIME_MS = 2 * 60_000;
+
+export const LEAD_TIME_CHOICES_MS = [60_000, 2 * 60_000, 5 * 60_000, 10 * 60_000, 15 * 60_000];
+
+export const SETTINGS_STORAGE_KEY = 'tminus.settings';
+
+// Meetings the user has silenced, kept as id -> start so the record can be
+// pruned once the meeting is over rather than growing forever.
+export const DISMISSED_STORAGE_KEY = 'tminus.dismissed';
+export const DISMISSED_RETENTION_MS = 60 * 60_000;
 
 export const NEXT_MEETING_STORAGE_KEY = 'tminus.nextMeeting';
 

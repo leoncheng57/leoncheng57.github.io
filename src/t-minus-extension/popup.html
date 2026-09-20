@@ -13,6 +13,10 @@
       <h1 id="summary"></h1>
       <p id="start" class="start"></p>
       <button id="join" type="button">Join</button>
+      <button id="dismiss" type="button" class="link">Dismiss badge</button>
+      <p id="dismissed" class="muted note" hidden>
+        Badge silenced. <button id="restore" type="button" class="link">Undo</button>
+      </p>
     </main>
 
     <main id="empty" hidden>
@@ -29,8 +33,13 @@
 
     <p id="loading" class="muted">Checking your calendar...</p>
 
-    <footer>
-      <button id="signout" type="button" class="link" hidden>Sign out</button>
+    <footer id="footer" hidden>
+      <label class="lead" for="lead">
+        Warn me
+        <select id="lead"></select>
+        before
+      </label>
+      <button id="signout" type="button" class="link">Sign out</button>
     </footer>
   </body>
 </html>
