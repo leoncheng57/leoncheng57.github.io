@@ -2,7 +2,7 @@
 
 A Chrome/Brave extension that watches Google Calendar and fires a desktop notification shortly before a meeting starts, with one click to join the call. No backend.
 
-This is **Phase 5**: the extension signs in, reads the calendar, picks out the meetings worth warning about, and polls on a one-minute alarm. It does not raise a notification yet — Phase 6 adds that. The build plan below tracks the rest.
+This is **Phase 6**, the first shippable build: the extension signs in, reads the calendar, picks out the meetings worth warning about, polls on a one-minute alarm, and raises a desktop notification with a Join button. The build plan below tracks the rest.
 
 ## Install and test
 
@@ -59,7 +59,7 @@ Two reasons. Google's branding guidelines discourage third-party products leadin
 | 3 | Fetch upcoming events from Calendar — **done** |
 | 4 | Filter to joinable, undeclined, non-all-day meetings — **done** |
 | 5 | `chrome.alarms` polling + persisted notified-event-ID set so nothing double-fires — **done** |
-| 6 | `chrome.notifications` with click-to-join — first shippable build |
+| 6 | `chrome.notifications` with click-to-join — first shippable build — **done** |
 | 7 | Popup showing the next meeting |
 | 8 | Configurable lead time + snooze |
 | 9 | Hardening: token expiry, backoff, timezones, worker cold starts |
@@ -115,6 +115,28 @@ Event IDs are marked notified **before** the notification is raised. A display
 failure therefore costs one missed alert; the alternative — marking afterwards —
 costs the same meeting re-firing every sixty seconds until it ends.
 
+## Notifications: where the join URL lives
+
+`chrome.notifications` passes the click callback nothing but the notification
+id. The join URL therefore has to be parked somewhere the callback can read it
+back, and a module-level `Map` is the wrong place: Chrome evicts the service
+worker while the notification is still on screen, so the click arrives in a
+fresh worker with empty memory and the Join button does nothing. The URL goes in
+`chrome.storage.session`, which survives worker eviction and is cleared when the
+browser closes — the same lifetime a pending notification has.
+
+It is written *before* `notifications.create`, so a click can never arrive ahead
+of the URL it needs.
+
+`requireInteraction: true` keeps the notification up until dismissed. A meeting
+warning that auto-hides after a few seconds is one the user misses while looking
+at another window, which is the case the extension exists for.
+
+The icons are generated, not drawn: `icon-{16,32,48,128}.png` are a supersampled
+clock face rendered by a throwaway script. `notifications.create` refuses to
+fire without a valid `iconUrl`, so they are a hard dependency of Phase 6 rather
+than decoration.
+
 ## Debugging from the service worker console
 
 Module scope is not global in an MV3 worker, so `background.js` hangs the useful
@@ -124,6 +146,7 @@ entry points off `globalThis.tminus`:
 await tminus.logEventSummary(4)   // table of 4 days of events + the filter verdict per row
 await tminus.fetchUpcomingEvents({ lookaheadMs: 4 * 24 * 60 * 60 * 1000 })
 await tminus.findDueEvents()      // what the next alarm tick would act on
+await tminus.testNotification()   // raise the real notification now, ignoring the due window
 ```
 
 `logEventSummary` prints a `console.table` rather than objects deliberately:

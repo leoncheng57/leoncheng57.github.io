@@ -1,6 +1,10 @@
 import { fetchUpcomingEvents, isNotifiableEvent } from './calendar.js';
 import { POLL_ALARM_NAME } from './config.js';
 import { findDueEvents, installPollingAlarm } from './schedule.js';
+import {
+  installNotificationClickHandlers,
+  raiseMeetingNotification,
+} from './notify.js';
 
 const EXTENSION_LIFECYCLE_LOG_PREFIX = '[t-minus]';
 
@@ -45,14 +49,31 @@ async function logEventSummary(lookaheadDays = 4) {
   return `${events.filter(isNotifiableEvent).length} notifiable of ${events.length}`;
 }
 
+// Fires the real notification path against the next genuinely notifiable
+// meeting, ignoring the due window and the dedupe set, so the display and the
+// join click can be checked without waiting for a meeting to come round.
+async function testNotification() {
+  const upcoming = await fetchUpcomingEvents({
+    lookaheadMs: 7 * 24 * 60 * 60 * 1000,
+  });
+  const candidate = upcoming.filter(isNotifiableEvent)[0];
+  if (!candidate) return 'no notifiable meeting in the next week';
+  await raiseMeetingNotification(candidate);
+  return `raised for "${candidate.summary}" (${candidate.startIso})`;
+}
+
 globalThis.tminus = {
   fetchUpcomingEvents,
   isNotifiableEvent,
   logEventSummary,
   findDueEvents,
+  raiseMeetingNotification,
+  testNotification,
 };
 
 // ----- polling -----
+
+installNotificationClickHandlers();
 
 chrome.runtime.onInstalled.addListener(installPollingAlarm);
 chrome.runtime.onStartup.addListener(installPollingAlarm);
@@ -63,14 +84,12 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   try {
     const dueEvents = await findDueEvents();
     if (dueEvents.length === 0) return;
-    // Phase 6 turns these into real notifications; until then the tick proves
-    // the alarm survives worker eviction and the dedupe set holds.
     for (const event of dueEvents) {
-      console.log(`${EXTENSION_LIFECYCLE_LOG_PREFIX} due`, {
+      console.log(`${EXTENSION_LIFECYCLE_LOG_PREFIX} notifying`, {
         summary: event.summary,
         startIso: event.startIso,
-        conferenceUrl: event.conferenceUrl,
       });
+      await raiseMeetingNotification(event);
     }
   } catch (error) {
     console.log(
