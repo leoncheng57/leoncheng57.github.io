@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import RouteMetadata from './components/route-metadata/RouteMetadata'
 import ScrollToTop from './components/scroll-to-top/ScrollToTop'
 import AppsIndexRoute from './features/apps/routes/AppsIndexRoute'
+import TMinusExtensionRoute from './features/apps/routes/TMinusExtensionRoute'
 import WeatherExtensionRoute from './features/apps/routes/WeatherExtensionRoute'
 import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
 import SupportRoute from './features/apps/whoops-hoops/routes/SupportRoute'
@@ -91,6 +92,7 @@ export default function App(): ReactElement {
         />
         <Route path="/apps" element={<AppsIndexRoute />} />
         <Route path="/apps/nyc-weather-extension" element={<WeatherExtensionRoute />} />
+        <Route path="/apps/t-minus-extension" element={<TMinusExtensionRoute />} />
         {/* The page shipped briefly at /opencode-remote-control; keep old links working. */}
         <Route
           path="/opencode-remote-control"

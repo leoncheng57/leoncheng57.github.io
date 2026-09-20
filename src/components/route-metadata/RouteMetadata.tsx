@@ -12,6 +12,7 @@ const STATIC_TITLES: Record<string, string> = {
   '/': SITE_TITLE,
   '/apps': `Apps | ${SITE_TITLE}`,
   '/apps/nyc-weather-extension': `NYC Weather - Chromium Extension | ${SITE_TITLE}`,
+  '/apps/t-minus-extension': `T-minus - Chromium Extension | ${SITE_TITLE}`,
   '/apps/whoops-hoops/privacy': 'Privacy Policy | Whoops Hoops',
   '/apps/whoops-hoops/support': 'Support | Whoops Hoops',
   '/blog': `Blog | ${SITE_TITLE}`,
@@ -69,6 +70,7 @@ const REDIRECT_PATHS = new Set([
  */
 const CONTENT_GROUP_PREFIXES: [string, string][] = [
   ['/apps/nyc-weather-extension', 'weather-extension'],
+  ['/apps/t-minus-extension', 't-minus-extension'],
   ['/apps/whoops-hoops', 'whoops-hoops'],
   ['/apps', 'apps-index'],
   ['/blog', 'blog'],

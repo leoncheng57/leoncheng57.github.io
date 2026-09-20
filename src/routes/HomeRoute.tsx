@@ -13,6 +13,7 @@ import appStyles from '../features/apps/apps.module.css'
 type AppItem = { title: string; date: string; href: string; icon: string }
 
 const APP_ITEMS: AppItem[] = [
+  { title: 'T-minus - Chromium Extension', icon: '/app-icons/t-minus.svg', date: '2026-09-19', href: '/apps/t-minus-extension' },
   { title: 'NYC Weather - Chromium Extension', icon: '/app-icons/weather.svg', date: '2026-09-17', href: '/apps/nyc-weather-extension' },
   { title: 'NYC Weather', icon: '/app-icons/weather.svg', date: '2026-08-20', href: '/weather' },
   { title: 'Sub-Wait', icon: '/app-icons/sub-wait-v2.svg', date: '2026-08-10', href: '/sub-wait' },

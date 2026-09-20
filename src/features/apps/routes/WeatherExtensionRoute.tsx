@@ -4,7 +4,7 @@ import SiteFooter from '../../../components/site-footer/SiteFooter'
 import TopNav from '../../../components/top-nav/TopNav'
 import styles from '../apps.module.css'
 
-const sourceUrl = 'https://github.com/leoncheng57/leoncheng57.github.io/tree/main/src/weather-extension'
+const sourceUrl = 'https://github.com/leoncheng57/leoncheng57.github.io/tree/main/src/chromium-extensions/weather-extension'
 
 export default function WeatherExtensionRoute(): ReactElement {
   return (
@@ -31,7 +31,7 @@ export default function WeatherExtensionRoute(): ReactElement {
           <p className={styles.links}>
             <Link to="/weather/">Try the web app instead</Link>{' · '}
             <a href={sourceUrl}>Install the Chrome extension locally</a>{' · '}
-            <a href="https://github.com/leoncheng57/leoncheng57.github.io/blob/main/src/weather-extension/PRIVACY.md">Privacy</a>{' · '}
+            <a href="https://github.com/leoncheng57/leoncheng57.github.io/blob/main/src/chromium-extensions/weather-extension/PRIVACY.md">Privacy</a>{' · '}
             <a href="mailto:leonc@alum.mit.edu">Support</a>
           </p>
         </div>

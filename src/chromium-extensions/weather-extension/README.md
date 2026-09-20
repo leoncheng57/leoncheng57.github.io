@@ -6,13 +6,13 @@ A Chrome/Brave extension matching the NYC Weather PWA's hourly homepage: Classic
 
 1. Open `chrome://extensions` (or `brave://extensions`).
 2. Enable **Developer mode**.
-3. Click **Load unpacked** and select this `src/weather-extension` folder. If already installed, click **Reload** instead.
+3. Click **Load unpacked** and select this `src/chromium-extensions/weather-extension` folder. If already installed, click **Reload** instead.
 4. Pin **NYC Weather**. The toolbar icon displays the current temperature, without needing to open the popup.
 5. Open the popup. Check the hourly charts; drag or use the arrow keys on either chart to scrub through hours.
 6. Toggle °F/°C and confirm the popup and toolbar agree. Close and reopen to check persistence. Switch light/dark mode to check the alternate appearance.
 7. Hover the toolbar icon for units and the update time. The worker refreshes approximately every 15 minutes while the browser runs; sleep can delay updates.
 
-The bundled popup is checked in, so installation needs no build. After editing `ui/`, run `node src/weather-extension/build.mjs` from the repository root (after `npm install`), then reload the extension. `popup.js` and `popup.css` are generated; edit `ui/` instead. `background.js` runs directly without bundling.
+The bundled popup is checked in, so installation needs no build. After editing `ui/`, run `node src/chromium-extensions/weather-extension/build.mjs` from the repository root (after `npm install`), then reload the extension. `popup.js` and `popup.css` are generated; edit `ui/` instead. `background.js` runs directly without bundling.
 
 ## Source and scope
 

@@ -14,7 +14,8 @@ describe('home sections', () => {
     expect(within(apps).getByRole('link', { name: 'NYC Weather' })).toHaveAttribute('href', '/weather')
     expect(within(apps).getByRole('link', { name: 'NYC Weather - Chromium Extension' })).toHaveAttribute('href', '/apps/nyc-weather-extension')
     expect(within(blogs).queryByRole('link', { name: 'Sub-Wait' })).not.toBeInTheDocument()
-    expect(apps.querySelectorAll('article')).toHaveLength(7)
+    expect(within(apps).getByRole('link', { name: 'T-minus - Chromium Extension' })).toHaveAttribute('href', '/apps/t-minus-extension')
+    expect(apps.querySelectorAll('article')).toHaveLength(8)
     for (const region of [blogs, apps]) {
       const dates = Array.from(region.querySelectorAll('article time')).map(time => time.getAttribute('datetime'))
       expect(dates).toEqual([...dates].sort().reverse())

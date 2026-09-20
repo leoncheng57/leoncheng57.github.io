@@ -42,6 +42,7 @@ describe('getRouteTitle', () => {
     ],
     ['/apps', "Apps | Leon's Website"],
     ['/apps/nyc-weather-extension', "NYC Weather - Chromium Extension | Leon's Website"],
+    ['/apps/t-minus-extension', "T-minus - Chromium Extension | Leon's Website"],
     ['/apps/whoops-hoops/privacy', 'Privacy Policy | Whoops Hoops'],
     ['/repo/alpha-projs', "Alpha Projects | Repo | Leon's Website"],
     [
@@ -90,6 +91,7 @@ describe('getRouteContentGroup', () => {
     ['/guides/opencode-personal-config', 'guides'],
     ['/apps', 'apps-index'],
     ['/apps/nyc-weather-extension', 'weather-extension'],
+    ['/apps/t-minus-extension', 't-minus-extension'],
     ['/apps/whoops-hoops/privacy', 'whoops-hoops'],
     ['/apps/whoops-hoops/support', 'whoops-hoops'],
     ['/repo', 'repo'],
