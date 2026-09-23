@@ -26,8 +26,6 @@ Fable does a lot per turn, and it takes its time doing it. By the time it's fini
 
 A smarter model doesn't help if my understanding can't keep up with it.
 
-## Where Fable earns its keep
-
 To be fair, Fable is great at complicated one-shots I'll never need to understand again: a gnarly script, a one-off migration, a proof of concept. For work I'll keep living with, I go back to Opus or Astra.
 
 ## Just a prediction
