@@ -18,7 +18,7 @@ Which makes Fable (Mythos, whatever we're calling it this week) a funny release.
 
 Opus and Astra are smart enough to handle nearly everything I throw at them. They're fast enough that I stay in flow. They also work in chunks small enough that I can follow along.
 
-That last part matters more than it sounds. When a model codes in small steps, I read each diff, push back on the odd choices, and understand the result. At the end, **I can still maintain my own code.**
+That last part matters more than it sounds. When a model codes in small steps, I read most (not all) diffs, push back on the odd choices, and understand the result. At the end, **I can still maintain my own code.**
 
 ## The Fable problem
 
