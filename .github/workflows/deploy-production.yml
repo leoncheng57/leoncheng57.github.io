@@ -9,8 +9,13 @@ on:
 permissions:
   contents: write
 
+# Production has its own concurrency group. GitHub keeps only one pending run
+# per group, so sharing a group with PR runs let a PR's close cleanup replace
+# (cancel) the queued production deploy for the merge commit. Non-force pushes
+# with retries keep concurrent gh-pages writes from overwriting each other,
+# and the clean step below preserves previews/.
 concurrency:
-  group: gh-pages-deploy
+  group: gh-pages-production
   cancel-in-progress: false
 
 jobs:

@@ -205,6 +205,6 @@ GitHub Actions publishes that generated directory to the `gh-pages` branch:
 - `.github/workflows/deploy-production.yml` publishes production at the branch root and preserves `previews/`.
 - `.github/workflows/pr-preview.yml` publishes each pull request under `previews/pr-<number>/` and removes it when the pull request closes.
 - `.github/workflows/pr-screenshots.yml` publishes PR screenshots under `previews/pr-<number>/screenshots/`; the preview deploy excludes that folder from its clean step, and the preview cleanup removes it on close.
-- All three workflows must keep the shared `gh-pages-deploy` concurrency group and non-force pushes because they write to the same branch.
+- All three workflows must use non-force pushes because they write to the same branch. Production uses its own `gh-pages-production` concurrency group; the preview and screenshots workflows share a per-PR `gh-pages-pr-<number>` group. Do not put production back in a group with PR runs: GitHub keeps only one pending run per group, so a PR run can cancel a queued production deploy.
 
 GitHub Pages must publish from the `gh-pages` branch root. During the initial cutover, seed and verify the branch with the manual production workflow before changing the Pages source from `main:/docs`.
