@@ -12,10 +12,10 @@ permissions:
   contents: write
   pull-requests: write
 
-# Writes to the same gh-pages branch as the production and preview deploys,
-# so it must share their concurrency group and never force-push.
+# Writes into the same previews/pr-<number>/ folder as the PR preview deploy,
+# so it must share that PR's concurrency group and never force-push.
 concurrency:
-  group: gh-pages-deploy
+  group: gh-pages-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
 jobs:

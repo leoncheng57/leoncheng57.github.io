@@ -42,12 +42,12 @@ const BRANCH_LAYOUT = `gh-pages/
     +-- pr-87/
         +-- ...`
 
-const WRITE_QUEUE = `main deploy    --+
-PR #86 deploy  --+--> one queue:
-PR #87 deploy  --+    gh-pages-deploy
-                       |
-                       v
-              push -> rebase -> push
+const WRITE_QUEUE = `main deploy     --> queue: gh-pages-production
+PR #86 deploys  --> queue: gh-pages-pr-86
+PR #87 deploys  --> queue: gh-pages-pr-87
+                         |
+                         v
+               push -> rebase -> push
     every deployment lands, none clobbered`
 
 export default function PreviewsRoute(): ReactElement {
@@ -122,9 +122,12 @@ export default function PreviewsRoute(): ReactElement {
           <h2 id="queue-heading">Avoiding write races</h2>
           <p>
             Several workflows can target <code>gh-pages</code> at the same
-            time. They share a single concurrency queue and push without force,
-            rebasing onto whatever landed first — so a release and multiple
-            preview deploys can interleave safely.
+            time. Production has its own concurrency queue, and each pull
+            request&apos;s preview and screenshot runs share a queue of their
+            own. GitHub keeps only one waiting run per queue, so separate
+            queues stop a preview from cancelling a waiting release. Every
+            workflow pushes without force, rebasing onto whatever landed first —
+            so a release and multiple preview deploys can interleave safely.
           </p>
           <pre className={styles.pipeline} aria-label="Serialized write queue">
             <code>{WRITE_QUEUE}</code>

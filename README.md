@@ -54,9 +54,11 @@ directory is deployment input; source changes belong in `src/` and `public/`.
 - Production deploys preserve the entire `previews/` subtree.
 
 GitHub Pages must use **Deploy from a branch**, with `gh-pages` and `/(root)`
-as its publishing source. Production and preview workflows share one
-`gh-pages-deploy` concurrency group and use non-force pushes so their commits
-cannot overwrite one another.
+as its publishing source. All gh-pages workflows use non-force pushes so their
+commits cannot overwrite one another. Production deploys use their own
+`gh-pages-production` concurrency group, so PR runs can never cancel a queued
+production deploy; each PR's preview and screenshot runs share a
+`gh-pages-pr-<number>` group.
 
 For the initial migration from `main:/docs`, run the production deployment
 manually and verify `index.html`, `CNAME`, `.nojekyll`, and `assets/` exist on

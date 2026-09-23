@@ -12,8 +12,11 @@ permissions:
   contents: write
   pull-requests: write
 
+# Shares a per-PR group with the PR screenshots workflow, since both write to
+# previews/pr-<number>/. Production and other PRs use separate groups and rely
+# on non-force pushes with retries.
 concurrency:
-  group: gh-pages-deploy
+  group: gh-pages-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
 jobs:

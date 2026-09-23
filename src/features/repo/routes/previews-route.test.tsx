@@ -25,7 +25,7 @@ describe('repo previews route', () => {
     ).toHaveTextContent('previews/')
     expect(
       screen.getByLabelText('Serialized write queue')
-    ).toHaveTextContent('gh-pages-deploy')
+    ).toHaveTextContent('gh-pages-production')
   })
 
   it('links back home', () => {
