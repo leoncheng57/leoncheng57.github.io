@@ -1,7 +1,7 @@
 # Automatic Food Logger Design
 
-**Date:** 2026-10-04
-**Topic:** Log meals to Apple Health from a PWA, with Claude estimating macros
+**Date:** 2026-10-04\
+**Topic:** Log meals to Apple Health from a PWA, with Claude estimating macros\
 **Status:** Implemented in PR #299, pending on-device testing
 
 [written by AI] A free PWA at `leoncheng.dev/automatic-food-logger` logs each meal to Apple Health in one tap. An Apple Shortcut writes to Health and asks the already-logged-in Claude app for macros, so there's no subscription and no API key.
@@ -39,7 +39,8 @@
 ## Architecture
 
 ```mermaid
-flowchart LR
+%% title: Food Logger architecture
+flowchart TD
   pwa["Food Logger PWA<br/>form, totals, history<br/>saves meal locally first"]
   shortcut["Log Food Shortcut<br/>parses the meal JSON<br/>fills in missing macros"]
   claude["Claude app<br/>Ask Claude action"]
@@ -73,7 +74,7 @@ The PWA never touches HealthKit. It hands the meal to the Log Food Shortcut, whi
 
 | Piece | Where |
 | --- | --- |
-| React feature: form, totals, history, setup guide | `src/features/automatic-food-logger/` |
+| React feature: form, totals, history, setup guide, and this design page at `/design` | `src/features/automatic-food-logger/` |
 | Manifest, service worker, icons | `public/automatic-food-logger/` |
 | Route plus Beta listing on the home and apps pages | `App.tsx`, `HomeRoute.tsx`, `AppsIndexRoute.tsx`, `RouteMetadata.tsx` |
 | Log Food Shortcut | Built once by hand, following the `/setup` page |

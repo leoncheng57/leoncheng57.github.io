@@ -120,6 +120,14 @@ describe('Food Logger route', () => {
     expect(openExternalUrlMock).not.toHaveBeenCalled()
   })
 
+  it('renders this feature\'s DESIGN.md on the design page', async () => {
+    renderFoodLogger('/automatic-food-logger/design')
+
+    expect(screen.getByRole('heading', { level: 1, name: /Automatic Food Logger Design/ })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /Why it's shaped this way/ })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Design' })).toHaveAttribute('aria-current', 'page')
+  })
+
   it('renders the Shortcut setup guide with the Claude prompt', () => {
     renderFoodLogger('/automatic-food-logger/setup')
 

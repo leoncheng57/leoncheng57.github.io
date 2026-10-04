@@ -37,6 +37,7 @@ const STATIC_TITLES: Record<string, string> = {
   '/automatic-food-logger': 'Food Logger',
   '/automatic-food-logger/': 'Food Logger',
   '/automatic-food-logger/setup': 'Setup | Food Logger',
+  '/automatic-food-logger/design': 'Design | Food Logger',
   '/sub-wait': 'Sub-Wait',
   '/sub-wait/': 'Sub-Wait',
   '/sub-wait/architecture': 'Architecture | Sub-Wait',

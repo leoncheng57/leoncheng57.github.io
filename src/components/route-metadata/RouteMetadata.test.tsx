@@ -60,6 +60,7 @@ describe('getRouteTitle', () => {
     ],
     ['/automatic-food-logger/', 'Food Logger'],
     ['/automatic-food-logger/setup', 'Setup | Food Logger'],
+    ['/automatic-food-logger/design', 'Design | Food Logger'],
     ['/automatic-food-logger/unknown', 'Page Not Found | Food Logger'],
     ['/workout-lab/', 'Workout Lab'],
     ['/workout-lab/exercises', 'Exercises | Workout Lab'],

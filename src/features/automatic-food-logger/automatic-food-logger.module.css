@@ -399,3 +399,107 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+
+/* ----- design page (styles contract for MarkdownArticle) ----- */
+
+.designArticle {
+  min-width: 0;
+  line-height: 1.6;
+}
+
+.articleBody {
+  overflow-wrap: anywhere;
+}
+
+.articleBody a {
+  color: var(--food-accent);
+}
+
+.articleBody ul,
+.articleBody ol {
+  padding-left: 1.25rem;
+}
+
+.articleBody li {
+  margin-bottom: 0.3rem;
+}
+
+.articleBody code {
+  padding: 0.05em 0.3em;
+  border-radius: 0.3em;
+  background: var(--food-accent-soft);
+  font-size: 0.88em;
+}
+
+.articleBody pre {
+  overflow-x: auto;
+  padding: 0.75rem;
+  border: 1px solid var(--food-border);
+  border-radius: 0.6rem;
+  background: var(--food-surface);
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.articleBody pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+  overflow-wrap: normal;
+}
+
+.articleBody table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.articleBody th,
+.articleBody td {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--food-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.articleBody th {
+  background: var(--food-accent-soft);
+}
+
+.headingRow {
+  margin: 1.5rem 0 0.5rem;
+}
+
+.heading {
+  margin: 0;
+}
+
+.headingAnchor {
+  display: none;
+}
+
+.figureBlock,
+.figure {
+  margin: 1rem 0;
+}
+
+.calloutRow {
+  margin: 1rem 0;
+}
+
+.calloutBox {
+  padding: 0.5rem 1rem;
+  border-left: 3px solid var(--food-accent);
+  background: var(--food-accent-soft);
+}
+
+.imageButton,
+.articleImage,
+.figureCaption,
+.imageOverlay,
+.imageOverlayInner,
+.imageClose,
+.zoomedImage {
+  max-width: 100%;
+}
