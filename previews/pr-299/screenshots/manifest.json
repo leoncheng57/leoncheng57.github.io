@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/automatic-food-logger",
+    "file": "automatic-food-logger.png",
+    "fullFile": null,
+    "title": "Log page (empty state)"
+  },
+  {
+    "path": "/automatic-food-logger/setup",
+    "file": "automatic-food-logger--setup.png",
+    "fullFile": "automatic-food-logger--setup--full.png",
+    "title": "Shortcut setup guide"
+  },
+  {
+    "path": "/apps",
+    "file": "apps.png",
+    "fullFile": null,
+    "title": "Apps index with the Food Logger card"
+  }
+]
