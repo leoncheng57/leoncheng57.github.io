@@ -34,6 +34,9 @@ const STATIC_TITLES: Record<string, string> = {
   '/repo/planning': `Project Planning | Repo | ${SITE_TITLE}`,
   '/repo/previews': `Pull Request Previews | Repo | ${SITE_TITLE}`,
   '/repo/production': `Production Deploys | Repo | ${SITE_TITLE}`,
+  '/automatic-food-logger': 'Food Logger',
+  '/automatic-food-logger/': 'Food Logger',
+  '/automatic-food-logger/setup': 'Setup | Food Logger',
   '/sub-wait': 'Sub-Wait',
   '/sub-wait/': 'Sub-Wait',
   '/sub-wait/architecture': 'Architecture | Sub-Wait',
@@ -73,6 +76,7 @@ const CONTENT_GROUP_PREFIXES: [string, string][] = [
   ['/apps/t-minus-extension', 't-minus-extension'],
   ['/apps/whoops-hoops', 'whoops-hoops'],
   ['/apps', 'apps-index'],
+  ['/automatic-food-logger', 'automatic-food-logger'],
   ['/blog', 'blog'],
   ['/guides', 'guides'],
   ['/georgies-board-game-nights', 'game-nights'],
@@ -161,6 +165,7 @@ export function getRouteTitle(pathname: string): string {
       : 'Page Not Found | NYC Weather'
   }
 
+  if (pathname.startsWith('/automatic-food-logger/')) return 'Page Not Found | Food Logger'
   if (pathname.startsWith('/sub-wait/')) return 'Page Not Found | Sub-Wait'
   if (pathname.startsWith('/tuzi/')) return 'Page Not Found | Tuzi'
   if (pathname.startsWith('/weather/')) return 'Page Not Found | NYC Weather'

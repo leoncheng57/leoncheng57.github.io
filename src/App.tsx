@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import RouteMetadata from './components/route-metadata/RouteMetadata'
 import ScrollToTop from './components/scroll-to-top/ScrollToTop'
 import AppsIndexRoute from './features/apps/routes/AppsIndexRoute'
+import AutomaticFoodLoggerRoute from './features/automatic-food-logger/routes/AutomaticFoodLoggerRoute'
 import TMinusExtensionRoute from './features/apps/routes/TMinusExtensionRoute'
 import WeatherExtensionRoute from './features/apps/routes/WeatherExtensionRoute'
 import PrivacyRoute from './features/apps/whoops-hoops/routes/PrivacyRoute'
@@ -124,6 +125,7 @@ export default function App(): ReactElement {
         <Route path="/apps/whoops-hoops/privacy" element={<PrivacyRoute />} />
         <Route path="/apps/whoops-hoops/support" element={<SupportRoute />} />
         <Route path="/workout-lab/*" element={<WorkoutLabRoute />} />
+        <Route path="/automatic-food-logger/*" element={<AutomaticFoodLoggerRoute />} />
         <Route path="/sub-wait/*" element={<SubWaitRoute />} />
         <Route path="/tuzi/*" element={<TuziRoute />} />
         <Route path="/weather/*" element={<WeatherRoute />} />

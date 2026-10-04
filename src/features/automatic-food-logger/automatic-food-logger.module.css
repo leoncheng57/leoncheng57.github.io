@@ -1,0 +1,401 @@
+/* ----- palette ----- */
+
+.page {
+  --food-bg: #f3f1ea;
+  --food-surface: #ffffff;
+  --food-border: #dcd8cc;
+  --food-text: #1d2a24;
+  --food-muted: #5c6b63;
+  --food-accent: #1f5f4a;
+  --food-accent-soft: #e2efe9;
+  --food-warning: #8a5a00;
+  --food-error: #b42318;
+
+  min-height: 100vh;
+  background: var(--food-bg);
+  color: var(--food-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    --food-bg: #121815;
+    --food-surface: #1b2420;
+    --food-border: #2f3b35;
+    --food-text: #e8efeb;
+    --food-muted: #a3b2aa;
+    --food-accent: #6cc3a1;
+    --food-accent-soft: #1f3a30;
+    --food-warning: #f0c36b;
+    --food-error: #ff8a80;
+  }
+}
+
+/* ----- layout ----- */
+
+.frame {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: max(1rem, env(safe-area-inset-top)) 1rem 2rem;
+}
+
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--food-text);
+  text-decoration: none;
+}
+
+.wordmark {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.betaBadge {
+  padding: 0.2em 0.6em;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: var(--food-accent);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.mastheadNav {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.mastheadLink {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  color: var(--food-muted);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mastheadLink[aria-current='page'] {
+  background: var(--food-accent-soft);
+  color: var(--food-accent);
+}
+
+.content {
+  display: grid;
+  gap: 1rem;
+}
+
+/* ----- cards and text ----- */
+
+.card {
+  padding: 1rem;
+  border: 1px solid var(--food-border);
+  border-radius: 1rem;
+  background: var(--food-surface);
+}
+
+.cardTitle {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+}
+
+.hintText {
+  margin: 0.5rem 0 0;
+  color: var(--food-muted);
+  font-size: 0.875rem;
+}
+
+.errorText {
+  margin: 0.5rem 0 0;
+  color: var(--food-error);
+  font-size: 0.875rem;
+}
+
+.awaitingText {
+  margin: 0.25rem 0 0;
+  color: var(--food-warning);
+  font-size: 0.875rem;
+}
+
+.setupCallout {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--food-accent-soft);
+}
+
+.setupCallout a,
+.setupArticle a {
+  color: var(--food-accent);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ----- buttons ----- */
+
+.primaryButton,
+.secondaryButton,
+.installButton,
+.chipButton,
+.textButton {
+  font: inherit;
+  cursor: pointer;
+}
+
+.primaryButton {
+  width: 100%;
+  min-height: 3rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--food-accent);
+  color: var(--food-surface);
+  font-weight: 700;
+}
+
+.primaryButton:disabled,
+.chipButton:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.secondaryButton,
+.installButton {
+  min-height: 2.25rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--food-accent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--food-accent);
+  font-weight: 600;
+}
+
+.textButton {
+  justify-self: start;
+  padding: 0.25rem 0;
+  border: 0;
+  background: none;
+  color: var(--food-accent);
+  font-weight: 600;
+}
+
+/* ----- meal form ----- */
+
+.mealForm {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.descriptionInput,
+.macroField input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--food-border);
+  border-radius: 0.6rem;
+  background: var(--food-bg);
+  color: var(--food-text);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.descriptionInput {
+  resize: vertical;
+}
+
+.macroFields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.macroLegend {
+  margin-bottom: 0.5rem;
+  color: var(--food-muted);
+  font-size: 0.875rem;
+}
+
+.macroField {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.recentMeals {
+  margin-top: 1rem;
+}
+
+.recentMealsTitle {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--food-muted);
+}
+
+.recentMealChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chipButton {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--food-border);
+  border-radius: 999px;
+  background: var(--food-bg);
+  color: var(--food-text);
+  text-align: left;
+}
+
+.chipKcal {
+  color: var(--food-muted);
+  font-size: 0.8rem;
+}
+
+/* ----- totals ----- */
+
+.totalsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.totalTile {
+  padding: 0.6rem 0.25rem;
+  border-radius: 0.75rem;
+  background: var(--food-accent-soft);
+  text-align: center;
+}
+
+.totalTile dt {
+  color: var(--food-muted);
+  font-size: 0.75rem;
+}
+
+.totalTile dd {
+  margin: 0.2rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----- history ----- */
+
+.historyList {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.historyItem {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--food-border);
+}
+
+.historyItem:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.historyItemHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.historyDescription {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.historyTime {
+  flex-shrink: 0;
+  color: var(--food-muted);
+  font-size: 0.8rem;
+}
+
+.historyMacros {
+  margin: 0.25rem 0 0;
+  color: var(--food-muted);
+  font-size: 0.875rem;
+}
+
+.historyActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* ----- setup page ----- */
+
+.setupArticle {
+  display: grid;
+  gap: 1rem;
+  line-height: 1.55;
+}
+
+.setupArticle p {
+  margin: 0;
+}
+
+.setupTitle {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.setupList {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.setupSubList {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.4rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.setupArticle code {
+  padding: 0.05em 0.3em;
+  border-radius: 0.3em;
+  background: var(--food-accent-soft);
+  font-size: 0.9em;
+}
+
+.promptBlock {
+  margin: 0 0 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.6rem;
+  background: var(--food-bg);
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

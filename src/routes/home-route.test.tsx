@@ -15,7 +15,7 @@ describe('home sections', () => {
     expect(within(apps).getByRole('link', { name: 'NYC Weather - Chromium Extension' })).toHaveAttribute('href', '/apps/nyc-weather-extension')
     expect(within(blogs).queryByRole('link', { name: 'Sub-Wait' })).not.toBeInTheDocument()
     expect(within(apps).getByRole('link', { name: 'T-minus - Chromium Extension' })).toHaveAttribute('href', '/apps/t-minus-extension')
-    expect(apps.querySelectorAll('article')).toHaveLength(8)
+    expect(apps.querySelectorAll('article')).toHaveLength(9)
     for (const region of [blogs, apps]) {
       const dates = Array.from(region.querySelectorAll('article time')).map(time => time.getAttribute('datetime'))
       expect(dates).toEqual([...dates].sort().reverse())
@@ -33,6 +33,6 @@ describe('home sections', () => {
     const betaHeadings = within(apps).getAllByRole('heading', { level: 3 })
       .filter(heading => within(heading).queryByText('BETA') !== null)
       .map(heading => within(heading).getByRole('link').textContent)
-    expect(betaHeadings).toEqual(['T-minus - Chromium Extension', 'Workout Lab'])
+    expect(betaHeadings).toEqual(['Food Logger', 'T-minus - Chromium Extension', 'Workout Lab'])
   })
 })
