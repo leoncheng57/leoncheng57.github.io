@@ -12,6 +12,12 @@
     "title": "Shortcut setup guide"
   },
   {
+    "path": "/automatic-food-logger/design",
+    "file": "automatic-food-logger--design.png",
+    "fullFile": "automatic-food-logger--design--full.png",
+    "title": "Design doc rendered from DESIGN.md"
+  },
+  {
     "path": "/apps",
     "file": "apps.png",
     "fullFile": null,
