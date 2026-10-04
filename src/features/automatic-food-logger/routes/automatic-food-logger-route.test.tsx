@@ -132,7 +132,10 @@ describe('Food Logger route', () => {
     renderFoodLogger('/automatic-food-logger/setup')
 
     expect(screen.getByRole('heading', { level: 1, name: 'Set up Food Logger' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: '2. Build the Log Food Shortcut' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '2. Get the Log Food Shortcut' })).toBeInTheDocument()
+    const downloadLink = screen.getByRole('link', { name: 'Download the Log Food Shortcut' })
+    expect(downloadLink).toHaveAttribute('href', '/automatic-food-logger/log-food.shortcut')
+    expect(downloadLink).toHaveAttribute('download', 'Log Food.shortcut')
     expect(screen.getByText(/Reply with only a JSON object/)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Copy prompt' })).toBeInTheDocument()
   })

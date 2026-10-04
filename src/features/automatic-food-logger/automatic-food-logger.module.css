@@ -183,6 +183,24 @@
   font-weight: 600;
 }
 
+.downloadButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  border-radius: 0.75rem;
+  background: var(--food-accent);
+  color: var(--food-surface);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.manualBuild > summary {
+  cursor: pointer;
+  color: var(--food-accent);
+  font-weight: 600;
+}
+
 .textButton {
   justify-self: start;
   padding: 0.25rem 0;
