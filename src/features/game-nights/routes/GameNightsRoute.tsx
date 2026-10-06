@@ -46,7 +46,13 @@ export default function GameNightsRoute(): ReactElement {
           <a href="#details">Details</a>
           <a href="#games">Games</a>
           <a href="#join">Join</a>
-          <Link to="/georgies-board-game-nights/hosting">Hosting</Link>
+          <Link className={styles.navHosting} to="/georgies-board-game-nights/hosting">
+            <svg className={styles.navLockIcon} aria-hidden="true" viewBox="0 0 24 24">
+              <rect x="5" y="11" width="14" height="10" rx="2" />
+              <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+            </svg>
+            Hosting
+          </Link>
         </nav>
       </header>
 
