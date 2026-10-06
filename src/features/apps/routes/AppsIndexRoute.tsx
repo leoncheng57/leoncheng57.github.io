@@ -9,6 +9,7 @@ export default function AppsIndexRoute(): ReactElement {
   const subWaitIconUrl = `${import.meta.env.BASE_URL}app-icons/sub-wait-v2.svg`
   const weatherIconUrl = `${import.meta.env.BASE_URL}app-icons/weather.svg`
   const tMinusIconUrl = `${import.meta.env.BASE_URL}app-icons/t-minus.svg`
+  const foodLoggerIconUrl = `${import.meta.env.BASE_URL}app-icons/automatic-food-logger.svg`
 
   return (
     <div className={styles.page}>
@@ -110,6 +111,24 @@ export default function AppsIndexRoute(): ReactElement {
             </p>
             <p className={styles.links}>
               <Link to="/apps/t-minus-extension">About the extension</Link>
+            </p>
+          </article>
+          <article className={styles.appCard}>
+            <div className={styles.appCardHeader}>
+              <img className={styles.appIcon} src={foodLoggerIconUrl} alt="" width={64} height={64} decoding="async" />
+              <div className={styles.appCardHeading}>
+                <h2><Link to="/automatic-food-logger">Food Logger</Link><span className={styles.betaBadge}>BETA</span></h2>
+                <p className={styles.subtitle}>Log meals to Apple Health in one tap</p>
+              </div>
+            </div>
+            <p className={styles.description}>
+              Describe a meal and it lands in Apple Health. An Apple Shortcut
+              writes the nutrition samples and asks the Claude app for the
+              macros when you leave them blank. No subscription, no API key,
+              and your meals stay on your phone.
+            </p>
+            <p className={styles.links}>
+              <Link to="/automatic-food-logger">Log a meal</Link>
             </p>
           </article>
           <article className={styles.appCard}>
