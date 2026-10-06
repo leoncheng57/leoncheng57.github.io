@@ -5,7 +5,10 @@ import HostingGate from '../components/HostingGate'
 import styles from '../hosting.module.css'
 
 const tenets = [
-  { name: 'Build community', note: 'Turn newcomers into regulars.' },
+  {
+    name: 'Build community',
+    note: "Everyone values community A LOT, but folks often don't know how to find it. Let's help a tiny bit.",
+  },
   { name: 'Keep it light', note: 'Friendly, casual, never too competitive.' },
   { name: 'Play board games', note: 'Keep games moving.' },
 ]
