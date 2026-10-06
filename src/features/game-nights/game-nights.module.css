@@ -571,6 +571,147 @@
   color: inherit;
 }
 
+.gate {
+  display: grid;
+  min-height: 60vh;
+  place-items: center;
+  padding: 80px 24px;
+}
+
+.gateForm {
+  display: grid;
+  width: min(100%, 380px);
+  gap: 14px;
+  padding: 36px;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+.gateForm h1 {
+  margin: 0 0 8px;
+  font-size: 2.4rem;
+  letter-spacing: -0.05em;
+}
+
+.gateForm label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.gateForm input {
+  padding: 12px 14px;
+  border: 2px solid var(--ink);
+  background: var(--cream);
+  color: var(--ink);
+  font: inherit;
+}
+
+.gateForm button {
+  margin-top: 8px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.gateError {
+  margin: 0;
+  color: #9b2c1f;
+  font-weight: 700;
+}
+
+.hostingHero {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 70px 0 60px;
+}
+
+.hostingHero h1 {
+  margin: 0;
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
+}
+
+.hostingHero h1 span {
+  color: var(--orange);
+}
+
+.detailCard .tenetTitle {
+  margin-bottom: 18px;
+  color: var(--paper);
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+.detailCard .tenetTitle + p {
+  font-size: 1.1rem;
+}
+
+.hostingChecklist {
+  padding: 100px max(24px, calc((100vw - 1180px) / 2));
+}
+
+.hostingIntro {
+  max-width: 560px;
+  margin: -24px 0 40px;
+  font-size: 1.1rem;
+  line-height: 1.65;
+}
+
+.checklistGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.checklistCard {
+  padding: 28px;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+}
+
+.checklistCard h3 {
+  margin: 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.checklistCard .checkList li {
+  align-items: flex-start;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.toolkitHeading {
+  margin: 0 0 10px;
+  color: var(--yellow);
+  font-size: 1.25rem;
+}
+
+.toolkitHeading:not(:first-child) {
+  margin-top: 36px;
+}
+
+.closeOutMessage {
+  max-width: 560px;
+  margin: 0 0 8px;
+  padding: 18px 20px;
+  border-left: 4px solid var(--yellow);
+  background: rgb(255 253 245 / 10%);
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+.closeOutMessage + button {
+  cursor: pointer;
+}
+
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
@@ -583,6 +724,7 @@
   }
 
   .detailGrid,
+  .checklistGrid,
   .games {
     grid-template-columns: 1fr;
   }
@@ -674,6 +816,7 @@
 
   .details,
   .games,
+  .hostingChecklist,
   .join {
     padding-top: 70px;
     padding-bottom: 70px;

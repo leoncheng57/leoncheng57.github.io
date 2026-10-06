@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { Link } from 'react-router-dom'
 import FeedbackTrigger from '../../../components/feedback/FeedbackTrigger'
 import styles from '../game-nights.module.css'
 
@@ -45,6 +46,7 @@ export default function GameNightsRoute(): ReactElement {
           <a href="#details">Details</a>
           <a href="#games">Games</a>
           <a href="#join">Join</a>
+          <Link to="/georgies-board-game-nights/hosting">Hosting</Link>
         </nav>
       </header>
 

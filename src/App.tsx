@@ -11,6 +11,7 @@ import BlogIndexRoute from './features/blog/routes/BlogIndexRoute'
 import BlogPostRoute from './features/blog/routes/BlogPostRoute'
 import CmuxPersonalConfigRoute from './features/cmux-personal-config/routes/CmuxPersonalConfigRoute'
 import GameNightsRoute from './features/game-nights/routes/GameNightsRoute'
+import HostingRoute from './features/game-nights/routes/HostingRoute'
 import GuidesIndexRoute from './features/guides/routes/GuidesIndexRoute'
 import GuidesRoute from './features/guides/routes/GuidesRoute'
 import OpencodePersonalConfigRoute from './features/opencode-personal-config/routes/OpencodePersonalConfigRoute'
@@ -84,6 +85,10 @@ export default function App(): ReactElement {
         <Route
           path="/georgies-board-game-nights"
           element={<GameNightsRoute />}
+        />
+        <Route
+          path="/georgies-board-game-nights/hosting"
+          element={<HostingRoute />}
         />
         {/* The page shipped briefly at /game-nights; keep old links working. */}
         <Route
