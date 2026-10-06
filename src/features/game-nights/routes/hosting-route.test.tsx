@@ -25,6 +25,7 @@ describe('hosting route', () => {
     renderAt('/georgies-board-game-nights/hosting')
 
     expect(screen.getByRole('heading', { name: 'Hosts only' })).toBeInTheDocument()
+    expect(screen.getByText(/want to become a host\? let a current host know!/i)).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: /Our tenets/ })).not.toBeInTheDocument()
   })
 
