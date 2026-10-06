@@ -1,5 +1,5 @@
 import { useState, type FormEvent, type ReactElement, type ReactNode } from 'react'
-import styles from '../game-nights.module.css'
+import styles from '../hosting.module.css'
 
 // Deterrence only: the password and the gated content both ship in the public
 // bundle. The gate keeps casual visitors out; it is not access control.
@@ -61,7 +61,7 @@ export default function HostingGate({ children }: HostingGateProps): ReactElemen
             That&apos;s not it. Try again.
           </p>
         )}
-        <button className={styles.primaryButton} type="submit">
+        <button className={styles.button} type="submit">
           Unlock <span aria-hidden="true">→</span>
         </button>
       </form>

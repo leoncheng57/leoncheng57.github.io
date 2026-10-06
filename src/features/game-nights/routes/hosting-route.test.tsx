@@ -25,7 +25,7 @@ describe('hosting route', () => {
     renderAt('/georgies-board-game-nights/hosting')
 
     expect(screen.getByRole('heading', { name: 'Hosts only' })).toBeInTheDocument()
-    expect(screen.queryByRole('heading', { name: 'Our tenets' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: /Our tenets/ })).not.toBeInTheDocument()
   })
 
   it('shows an error for a wrong password', () => {
@@ -34,7 +34,7 @@ describe('hosting route', () => {
     unlock('nope')
 
     expect(screen.getByRole('alert')).toHaveTextContent(/not it/i)
-    expect(screen.queryByRole('heading', { name: 'Our tenets' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: /Our tenets/ })).not.toBeInTheDocument()
   })
 
   it('unlocks with the password and leads with the tenets', () => {
@@ -45,11 +45,11 @@ describe('hosting route', () => {
     const sectionHeadings = screen.getAllByRole('heading', { level: 2 })
     expect(sectionHeadings[0]).toHaveTextContent('Our tenets')
     expect(screen.getByRole('heading', { name: 'Build community' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Fun and friendly' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Keep it light' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Play board games' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Before' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'During' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Closing' })).toBeInTheDocument()
+    expect(screen.getByText('Before')).toBeInTheDocument()
+    expect(screen.getByText('During')).toBeInTheDocument()
+    expect(screen.getByText('Closing')).toBeInTheDocument()
     expect(screen.getByText('Invite folks to the WhatsApp chat')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Copy message' })).toBeInTheDocument()
   })
@@ -61,7 +61,7 @@ describe('hosting route', () => {
 
     renderAt('/georgies-board-game-nights/hosting')
 
-    expect(screen.getByRole('heading', { name: 'Our tenets' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Our tenets/ })).toBeInTheDocument()
   })
 
   it('is linked from the main page header', () => {
