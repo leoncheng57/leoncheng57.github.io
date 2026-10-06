@@ -1,0 +1,349 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap');
+
+/* Host briefing: same palette as the public page, but a plain, dense
+   reference-sheet layout instead of the welcoming marketing style. */
+.page {
+  --ink: #1e3b2c;
+  --rule: rgb(30 59 44 / 22%);
+  --muted: rgb(30 59 44 / 65%);
+  --sheet: #fbfaf6;
+  --accent: #3f6b4c;
+  min-height: 100vh;
+  background: #e9e6df;
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+}
+
+.page a {
+  color: inherit;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px max(20px, calc((100vw - 860px) / 2));
+  background: var(--ink);
+  color: var(--sheet);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bar a {
+  text-decoration: none;
+}
+
+.bar a:hover,
+.bar a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.barNav {
+  display: flex;
+  gap: 18px;
+}
+
+.barNav a::after {
+  margin-left: 4px;
+  opacity: 0.6;
+  content: '↓' / '';
+}
+
+.sheet {
+  width: min(860px, calc(100% - 32px));
+  margin: 28px auto 40px;
+  border: 1px solid var(--rule);
+  background: var(--sheet);
+}
+
+.sheetHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 28px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.sheetHeader h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.stamp {
+  flex: 0 0 auto;
+  padding: 3px 8px;
+  border: 1px solid var(--ink);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section {
+  padding: 22px 28px 26px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.section:last-child {
+  border-bottom: 0;
+}
+
+.sectionTitle {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sectionTenets {
+  background: var(--accent);
+}
+
+.sectionTenets .sectionTitle {
+  color: rgb(251 250 246 / 85%);
+}
+
+.tenets {
+  margin: 0;
+  padding: 0;
+  border: 2px solid var(--ink);
+  background: var(--sheet);
+  list-style: none;
+}
+
+.tenets li {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 18px;
+}
+
+.tenets li + li {
+  border-top: 1px solid var(--rule);
+}
+
+.tenetName {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.tenets p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.dutyGroup {
+  display: contents;
+}
+
+.duties {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  margin: 0;
+}
+
+.duties dt {
+  padding: 10px 0;
+  border-top: 1px solid var(--rule);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.9;
+  text-transform: uppercase;
+}
+
+.duties dd {
+  margin: 0;
+  padding: 10px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.duties ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.duties li {
+  display: flex;
+  gap: 10px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.duties li::before {
+  width: 11px;
+  height: 11px;
+  flex: 0 0 auto;
+  margin-top: 5px;
+  border: 1.5px solid var(--ink);
+  content: '';
+}
+
+.tools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.tools h3 {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.tools p,
+.tools ol {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.tools ol {
+  padding-left: 18px;
+}
+
+.tools .message {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--accent);
+  background: rgb(30 59 44 / 6%);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.button {
+  padding: 8px 12px;
+  border: 1.5px solid var(--ink);
+  background: var(--ink);
+  color: var(--sheet);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--accent);
+}
+
+.gate {
+  display: grid;
+  min-height: 70vh;
+  place-items: center;
+  padding: 40px 16px;
+}
+
+.gateForm {
+  display: grid;
+  width: min(100%, 320px);
+  gap: 10px;
+  padding: 24px;
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--ink);
+  background: var(--sheet);
+}
+
+.gateForm h1 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.gateForm label {
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.gateForm input {
+  padding: 9px 10px;
+  border: 1.5px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+
+.gateError {
+  margin: 0;
+  color: #9b2c1f;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(860px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 0 0 32px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.footer p {
+  margin: 0;
+}
+
+@media (max-width: 680px) {
+  .barNav {
+    gap: 12px;
+  }
+
+  .sheetHeader,
+  .section {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .tools {
+    grid-template-columns: 1fr;
+  }
+
+  .tenets li {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .duties {
+    grid-template-columns: 1fr;
+  }
+
+  .duties dt {
+    padding-bottom: 0;
+  }
+
+  .duties dd {
+    padding-top: 6px;
+    border-top: 0;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+}
