@@ -64,6 +64,7 @@ export default function HostingGate({ children }: HostingGateProps): ReactElemen
         <button className={styles.button} type="submit">
           Unlock <span aria-hidden="true">→</span>
         </button>
+        <p className={styles.gateNote}>Want to become a host? Let a current host know!</p>
       </form>
     </section>
   )
