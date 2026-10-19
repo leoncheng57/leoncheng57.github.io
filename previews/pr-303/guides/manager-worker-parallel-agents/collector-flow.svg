@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" role="img" aria-labelledby="title description">
+  <title id="title">Status reporting and collection for parallel agent workers</title>
+  <desc id="description">Three worker sessions each write an agent status JSON file at the root of their own Git worktree on every phase change. A local collector polls those files, merges them into one list, and serves both a board with one row per worker and a JSON feed at slash api slash state. The collector only reads; it never writes back to the workers.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101827"/>
+      <stop offset="1" stop-color="#080d16"/>
+    </linearGradient>
+    <linearGradient id="worker" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#284d69"/>
+      <stop offset="1" stop-color="#1b334b"/>
+    </linearGradient>
+    <linearGradient id="collector" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f5d4a"/>
+      <stop offset="1" stop-color="#1d3b30"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0l10 5-10 5z" fill="#8ea6ba"/>
+    </marker>
+    <style>
+      .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .eyebrow { fill: #7dd3b0; font-size: 15px; font-weight: 750; letter-spacing: 2px; }
+      .heading { fill: #f4f0e8; font-size: 30px; font-weight: 760; }
+      .label { fill: #f4f0e8; font-size: 19px; font-weight: 720; }
+      .copy { fill: #afbdca; font-size: 14px; }
+      .tiny { fill: #899aab; font-size: 12px; }
+      .code { fill: #9fd8c4; font-size: 13px; }
+      .flow { fill: none; stroke: #8ea6ba; stroke-width: 2.5; marker-end: url(#arrow); }
+      .serve { fill: none; stroke: #7dd3b0; stroke-width: 2.5; stroke-dasharray: 7 6; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1000" height="600" rx="28" fill="url(#background)"/>
+  <text x="42" y="48" class="sans eyebrow">PARALLEL AGENT VISIBILITY</text>
+  <text x="42" y="87" class="sans heading">Workers report; the collector only reads</text>
+
+  <!-- Worker column headings -->
+  <text x="42" y="132" class="sans tiny">ONE WORKTREE PER WORKER</text>
+
+  <!-- Worker 1 -->
+  <rect x="42" y="148" width="280" height="104" rx="16" fill="url(#worker)" stroke="#3c6a8c" stroke-width="1.5"/>
+  <text x="62" y="180" class="sans label">worker A</text>
+  <text x="62" y="204" class="sans copy">phase: working</text>
+  <text x="62" y="232" class="mono code">.agent-status.json</text>
+
+  <!-- Worker 2 -->
+  <rect x="42" y="266" width="280" height="104" rx="16" fill="url(#worker)" stroke="#3c6a8c" stroke-width="1.5"/>
+  <text x="62" y="298" class="sans label">worker B</text>
+  <text x="62" y="322" class="sans copy">phase: blocked</text>
+  <text x="62" y="350" class="mono code">.agent-status.json</text>
+
+  <!-- Worker 3 -->
+  <rect x="42" y="384" width="280" height="104" rx="16" fill="url(#worker)" stroke="#3c6a8c" stroke-width="1.5"/>
+  <text x="62" y="416" class="sans label">worker C</text>
+  <text x="62" y="440" class="sans copy">phase: pr-open</text>
+  <text x="62" y="468" class="mono code">.agent-status.json</text>
+
+  <text x="42" y="520" class="sans tiny">Rewritten on every phase change, with updated_at.</text>
+  <text x="42" y="542" class="sans tiny">Gitignored: it describes a run, not the branch.</text>
+
+  <!-- Arrows from workers to collector -->
+  <path class="flow" d="M330 200 L 420 280"/>
+  <path class="flow" d="M330 318 L 420 318"/>
+  <path class="flow" d="M330 436 L 420 356"/>
+  <text x="352" y="258" class="sans tiny">poll</text>
+
+  <!-- Collector -->
+  <rect x="428" y="248" width="212" height="140" rx="16" fill="url(#collector)" stroke="#3f7a63" stroke-width="1.5"/>
+  <text x="452" y="288" class="sans label">collector</text>
+  <text x="452" y="314" class="sans copy">scan roots</text>
+  <text x="452" y="336" class="sans copy">merge + sort</text>
+  <text x="452" y="358" class="sans copy">flag stale rows</text>
+  <text x="452" y="380" class="sans tiny">read-only</text>
+
+  <!-- Arrows from collector to outputs -->
+  <path class="serve" d="M648 296 L 726 232"/>
+  <path class="serve" d="M648 340 L 726 404"/>
+
+  <!-- Board output -->
+  <rect x="734" y="160" width="224" height="140" rx="16" fill="#111827" stroke="#1f2a3c" stroke-width="1.5"/>
+  <text x="756" y="196" class="sans label">board</text>
+  <text x="756" y="222" class="sans copy">one row per worker</text>
+  <rect x="756" y="238" width="180" height="10" rx="5" fill="#f87171"/>
+  <rect x="756" y="256" width="180" height="10" rx="5" fill="#334155"/>
+  <rect x="756" y="274" width="180" height="10" rx="5" fill="#334155"/>
+
+  <!-- API output -->
+  <rect x="734" y="336" width="224" height="132" rx="16" fill="#111827" stroke="#1f2a3c" stroke-width="1.5"/>
+  <text x="756" y="372" class="sans label">JSON feed</text>
+  <text x="756" y="398" class="mono code">/api/state</text>
+  <text x="756" y="424" class="sans copy">counts + workers[]</text>
+  <text x="756" y="448" class="sans tiny">for scripts and waits</text>
+
+  <text x="734" y="520" class="sans tiny">Nothing is written back to a worker,</text>
+  <text x="734" y="542" class="sans tiny">so the board is always safe to run.</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#111111"/>
+  <!-- Deliberately incorrect bullet colors: purple S and gold W. -->
+  <circle cx="24" cy="27" r="13" fill="#6d28d9"/>
+  <text x="24" y="32.5" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle">S</text>
+  <circle cx="44" cy="27" r="13" fill="#d9a514"/>
+  <text x="44" y="32.5" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#111111" text-anchor="middle">W</text>
+  <rect x="12" y="46" width="26" height="6" rx="3" fill="#f5f5f5"/>
+  <rect x="42" y="46" width="10" height="6" rx="3" fill="#f5f5f5" opacity="0.4"/>
+</svg>

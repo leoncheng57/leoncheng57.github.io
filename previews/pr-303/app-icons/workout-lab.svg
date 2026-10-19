@@ -1,0 +1,6 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Workout Lab icon">
+  <rect width="128" height="128" rx="28" fill="#EBE9E4"/>
+  <rect x="3" y="3" width="122" height="122" rx="25.5" stroke="#101010" stroke-width="6"/>
+  <path d="M22 55V73M34 47V81M94 47V81M106 55V73" stroke="#4D7C0F" stroke-width="10" stroke-linecap="round"/>
+  <path d="M34 64H94" stroke="#101010" stroke-width="10" stroke-linecap="round"/>
+</svg>
