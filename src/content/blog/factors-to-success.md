@@ -16,7 +16,7 @@ draft: true
 
 ## The three factors
 
-The picture is built on three factors: **hard work**, a **splash of luck**, and the **right path**, meaning the direction your effort points. I'm not saying this is fully correct, and it's not every factor behind success in every situation. It's just one way of thinking about a common pattern in life, one paradigm among many. I still find it a strong one that comes up often: plenty of effort pointed the wrong way never arrives, while effort pointed the right way usually does, sometimes with a little luck carrying it the rest of the way.
+The picture is built on three factors: **hard work**, a **splash of luck**, and the **right path**, meaning the direction your effort points. I'm not saying this is fully correct, and it's not every factor behind success in every situation. It's just one way of thinking about a common pattern in life, one paradigm among many. I still find it a strong one that comes up often: plenty of effort pointed the wrong way never arrives, while effort pointed the right way usually does. Sometimes a little luck helps you along a path. Sometimes someone gets a lot of luck, and it pushes them much closer, or even starts them at success. But luck can't be controlled.
 
 ## Another analogous way of thinking about it: a little boat
 
