@@ -20,4 +20,4 @@ The picture is built on three factors: **hard work**, a **splash of luck**, and 
 
 ## Another analogous way of thinking about it: a little boat
 
-Picture a little rowing boat on a river. **Hard work is the rowing**: every stroke moves you a little. **The right path is pointing the boat downstream**: row upstream and you can work hard all day and end up where you started. **Luck is a gust of wind**: nice when it comes, but you can't steer by it. Rowing hard in the right direction gets you there, rowing hard in the wrong direction just makes you tired, and sometimes the wind helps someone who barely rowed, and that's fine too.
+Picture a little rowing boat on a river. **Hard work is the rowing**: every stroke moves you a little. **The right path is pointing the boat downstream**: row upstream and you can work hard all day and end up where you started. **Luck is a gust of wind**: it comes when it comes, and you can't steer by it. Rowing hard in the right direction gets you there, and rowing hard in the wrong direction just makes you tired. And sometimes a gust carries someone all the way to the end with barely any rowing. It's rare, but it happens too.
