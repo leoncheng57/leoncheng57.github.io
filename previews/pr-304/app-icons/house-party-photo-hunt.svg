@@ -1,0 +1,9 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="House Party Photo Hunt icon">
+  <rect width="128" height="128" rx="28" fill="#8FD7F3"/>
+  <rect x="3" y="3" width="122" height="122" rx="25.5" stroke="#10233D" stroke-width="6"/>
+  <rect x="44" y="34" width="28" height="16" rx="5" fill="#10233D"/>
+  <rect x="22" y="46" width="84" height="56" rx="12" fill="#10233D"/>
+  <circle cx="64" cy="74" r="19" fill="#F5F8F7"/>
+  <circle cx="64" cy="74" r="9.5" fill="#8FD7F3"/>
+  <circle cx="92" cy="58" r="4" fill="#8FD7F3"/>
+</svg>
