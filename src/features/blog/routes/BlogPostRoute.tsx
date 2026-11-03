@@ -11,6 +11,7 @@ import HedwigToolsSimulation from '../components/HedwigToolsSimulation'
 import type { HedwigToolId } from '../components/HedwigToolsSimulation'
 import WaitingModesSimulator from '../components/WaitingModesSimulator'
 import MobileScreenshotPair from '../components/MobileScreenshotPair'
+import PathsToSuccessAnimation from '../components/PathsToSuccessAnimation'
 import FontSizeControls from '../../../components/markdown/FontSizeControls'
 import MarkdownArticle from '../../../components/markdown/MarkdownArticle'
 import { getBlogPostBySlug } from '../content'
@@ -34,6 +35,7 @@ const BLOG_EMBEDS = {
   'hedwig-historical-timeline': () => <HedwigHistoricalTimeline />,
   'waiting-modes-simulator': (alt: string) => <WaitingModesSimulator ariaLabel={alt} />,
   'mobile-screenshot-pair': (alt: string) => <MobileScreenshotPair ariaLabel={alt} />,
+  'paths-to-success-animation': (alt: string) => <PathsToSuccessAnimation ariaLabel={alt} />,
   ...Object.fromEntries(
     Object.entries(HEDWIG_COMPACT_EMBEDS).map(([name, toolId]) => [
       name,

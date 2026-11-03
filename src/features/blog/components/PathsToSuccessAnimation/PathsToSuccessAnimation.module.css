@@ -1,0 +1,145 @@
+/*
+ * Styles for the animated "paths to success" figure. Self-contained with
+ * literal colors, like the other embedded blog widgets.
+ */
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 12px;
+  background-color: #f7f9fb;
+  background-image:
+    linear-gradient(#e6ebf1 1px, transparent 1px),
+    linear-gradient(90deg, #e6ebf1 1px, transparent 1px);
+  background-size: 24px 24px;
+  padding: 1rem;
+  font-family: system-ui, sans-serif;
+  color: #1d2a3a;
+}
+
+.stage {
+  overflow-x: auto;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  min-width: 520px;
+  height: auto;
+}
+
+.route {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity 0.3s ease;
+}
+
+.label {
+  font-size: 22px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.subLabel {
+  font-size: 17px;
+  fill: #5d6b7c;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.15s;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.dimmed .route,
+.dimmed .label,
+.dimmed .subLabel {
+  opacity: 0.14;
+}
+
+.start {
+  fill: #1d2a3a;
+}
+
+.goal rect {
+  fill: #ffffff;
+  stroke: #2f8a4a;
+  stroke-width: 2.5;
+  transition: filter 0.4s ease;
+}
+
+.goal text {
+  fill: #2f8a4a;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.goalLit rect {
+  filter: drop-shadow(0 0 10px #2f8a4a);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.replay,
+.pathButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1.5px solid #c9d3de;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1d2a3a;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+}
+
+.replay {
+  background: #24283b;
+  border-color: #24283b;
+  color: #ffffff;
+}
+
+.pathButton:hover {
+  border-color: #1d2a3a;
+}
+
+.pathButton[aria-pressed='true'] {
+  border-color: #1d2a3a;
+}
+
+.replay:focus-visible,
+.pathButton:focus-visible {
+  outline: 3px solid #2f6fd6;
+  outline-offset: 2px;
+}
+
+.swatch {
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.swatchDotted {
+  background: repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 7px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route,
+  .label,
+  .subLabel,
+  .goal rect {
+    transition: none;
+  }
+}

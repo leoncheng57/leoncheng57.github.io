@@ -455,6 +455,11 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
 }
 
+.halfImage {
+  width: 50%;
+  margin-inline: auto;
+}
+
 .figureCaption {
   margin-top: 0.75rem;
   color: var(--text-muted);
