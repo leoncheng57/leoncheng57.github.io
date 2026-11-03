@@ -1,0 +1,32 @@
+{
+  "name": "Food Logger",
+  "short_name": "Food Logger",
+  "description": "Log meals to Apple Health in one tap, with Claude estimating the macros through an Apple Shortcut.",
+  "id": "/automatic-food-logger/",
+  "start_url": "/automatic-food-logger/",
+  "scope": "/automatic-food-logger/",
+  "display": "standalone",
+  "background_color": "#f3f1ea",
+  "theme_color": "#1f5f4a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

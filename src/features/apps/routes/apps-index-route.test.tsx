@@ -26,7 +26,7 @@ describe('apps index route', () => {
     const container = renderAppsIndex()
 
     const cards = container.querySelectorAll('article:not(details article)')
-    expect(cards).toHaveLength(8)
+    expect(cards).toHaveLength(9)
 
     cards.forEach((card) => {
       const icon = card.querySelector('img')
@@ -48,6 +48,7 @@ describe('apps index route', () => {
       '/app-icons/weather.svg',
       '/app-icons/weather.svg',
       '/app-icons/t-minus.svg',
+      '/app-icons/automatic-food-logger.svg',
       '/app-icons/game-nights.svg',
       '/app-icons/whoops-hoops.png',
       '/app-icons/house-party-photo-hunt.svg',
@@ -102,6 +103,7 @@ describe('apps index route', () => {
       'NYC Weather',
       'NYC Weather - Chromium Extension',
       'T-minus - Chromium ExtensionBETA',
+      'Food LoggerBETA',
       "Georgie's Game Nights",
       'Whoops Hoops',
       'House Party Photo Hunt',
