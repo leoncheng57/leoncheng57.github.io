@@ -1,12 +1,12 @@
 ---
-title: "Thoughts on Life: Three Factors to Success"
+title: "Thoughts on Life: Hard Work and Luck and Rowing the Right Way"
 description: "A doodle from my notebook: hard work, a splash of luck, and the right direction."
 publishedAt: "2026-11-03"
 tags:
   - mental-models
 ---
 
-# Thoughts on Life: Three Factors to Success
+# Thoughts on Life: Hard Work and Luck and Rowing the Right Way
 
 ![An animated redraw of the sketch: five paths draw themselves from one starting dot toward lasting success.](component:paths-to-success-animation)
 
