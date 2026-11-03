@@ -12,7 +12,14 @@ interface ArticleImageProps {
 
 export default function ArticleImage({ alt, src, title, styles }: ArticleImageProps): ReactElement {
   const [isOpen, setIsOpen] = useState(false)
-  const resolvedSrc = publicAssetUrl(src)
+  // A `#half` fragment on the markdown src shows the image at half width (and
+  // so half height) in the article; the zoom view still shows it full size.
+  const [path, sizeHint] = src.split('#')
+  const resolvedSrc = publicAssetUrl(path)
+  const inlineImageClass =
+    sizeHint === 'half' && styles.halfImage
+      ? `${styles.articleImage} ${styles.halfImage}`
+      : styles.articleImage
 
   useEffect(() => {
     if (!isOpen) {
@@ -40,7 +47,7 @@ export default function ArticleImage({ alt, src, title, styles }: ArticleImagePr
           aria-label={`Zoom image: ${alt}`}
           onClick={() => setIsOpen(true)}
         >
-          <img src={resolvedSrc} alt={alt} title={title} className={styles.articleImage} />
+          <img src={resolvedSrc} alt={alt} title={title} className={inlineImageClass} />
         </button>
         {alt ? <figcaption className={styles.figureCaption}>{alt}</figcaption> : null}
       </figure>

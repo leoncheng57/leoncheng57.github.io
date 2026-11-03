@@ -10,9 +10,9 @@ draft: true
 
 # Thoughts on Life: Three Factors to Success
 
-![A notebook page titled "Thoughts on Life": from one dot, paths head toward "Lasting Success and Habits and Resources", with "Luck and chance" dotted underneath.](/blog/factors-to-success/hand-drawn-sketch.jpg "The original sketch from my notebook.")
-
 ![An animated redraw of the sketch: five paths draw themselves from one starting dot toward lasting success.](component:paths-to-success-animation)
+
+![The raw version: my original notebook doodle. Click to zoom in.](/blog/factors-to-success/hand-drawn-sketch.jpg#half)
 
 ## The three factors
 
