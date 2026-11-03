@@ -3,9 +3,7 @@ title: "Thoughts on Life: Three Factors to Success"
 description: "A doodle from my notebook: hard work, a splash of luck, and the right direction."
 publishedAt: "2026-11-03"
 tags:
-  - life
-  - thoughts
-draft: true
+  - mental-models
 ---
 
 # Thoughts on Life: Three Factors to Success
